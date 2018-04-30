@@ -23,6 +23,7 @@ public class KontaktMapper {
 		return kontaktMapper;
 	}	
 	
+	//Kontakt anhand der Id finden
 	
 	public Kontakt findKontaktByID(int id){
 		
@@ -60,6 +61,7 @@ public class KontaktMapper {
 	
 	}
 	
+	// einen neuen Kontakt in die Db einfügen
 	
 	public Kontakt insertKontakt(Kontakt k) {
 		
@@ -91,9 +93,25 @@ public class KontaktMapper {
 		return k;
 	}
 	
+	// einen Kontakt anhand des Objekt-namen finden
 	
 	public Kontakt findByProjekt(Kontakt k){
 		return this.findKontaktByID(k.getId());
+	
+	
+	}
+	
+	public void deleteKontakt(Kontakt k){
+		Connection con = DBConnection.connection();
+		
+		try{
+			Statement stmt = con.createStatement();
+			stmt.executeUpdate("DELETE FROM kontakt" + "WHERE id= " + k.getId());
+			
+		} catch (SQLException e){
+			e.printStackTrace();
+		}
+		
 	}
 
 }
