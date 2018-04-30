@@ -61,6 +61,38 @@ public class KontaktMapper {
 	
 	}
 	
+	
+	public Kontakt insertKontakt(Kontakt k) {
+		
+		Connection con = DBConnection.connection(); 
+		
+		try{
+			
+			Statement stmt = con.createStatement();
+			
+			ResultSet rs = stmt.executeQuery("SELECT MAX(ID) AS maxID " + " FROM kontakt ");
+			
+			if (rs.next()) {
+				
+				k.setID(rs.getInt("maxID") +1);
+				
+				stmt = con.createStatement();
+				
+				stmt.executeUpdate(
+						" INSERT INTO kontakt (ID, nutzerID, kontaktID, eigenschaftID, name, erzeugungsdatum, modifikationsdatum, status)"
+						+ " VALUES (" + k.getID() + " ,'" + k.getNutzerID() + "' ,'" + k.getKontaktID() + "' ,'" + k.getEigenschaftID() + "' ,'" + k.getName() + "','"
+						+  format.format(k.getErzeugungsdatum()) + "', '" + format.format(k.getModifikationsdatum()) +  "' ,'"  + k.isStatus() + "')");
+						
+			}
+		}catch (SQLException e) {
+			e.printStackTrace();
+
+		}
+		
+		return k;
+	}
+	
+	
 	public Kontakt findByProjekt(Kontakt k){
 		return this.findKontaktByID(k.getID());
 	}

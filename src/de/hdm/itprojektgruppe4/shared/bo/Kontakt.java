@@ -82,6 +82,8 @@ public class Kontakt {
 		return status;
 	}
 
+
+	
 	public void setStatus(boolean status) {
 		this.status = status;
 	}
