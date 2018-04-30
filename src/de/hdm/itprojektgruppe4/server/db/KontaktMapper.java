@@ -24,7 +24,7 @@ public class KontaktMapper {
 	}	
 	
 	
-	public Kontakt findKontaktByID(int ID){
+	public Kontakt findKontaktByID(int id){
 		
 		Connection con = DBConnection.connection();
 
@@ -34,19 +34,18 @@ public class KontaktMapper {
 		Statement stmt = con.createStatement();
 		
 		ResultSet rs = stmt.executeQuery(
-				"SELECT ID, nutzerID, kontaktID, eigenschaftID, name, erzeugungsdatum, modifikationsdatum, status FROM kontakt " + " WHERE ID= " + ID );
+				"SELECT id, nutzer_id, eigenschaft_id, name, erzeugungsdatum, modifikationsdatum, status FROM kontakt " + " WHERE id= " + id );
 				 
 		
 		if (rs.next()) {
 			Kontakt k = new Kontakt();
-			k.setID(rs.getInt("ID"));
-			k.setNutzerID(rs.getInt("nutzerID"));
-			k.setKontaktID(rs.getInt("kontaktID"));
-			k.setEigenschaftID(rs.getInt("eigenschaftID"));
+			k.setId(rs.getInt("id"));
+			k.setNutzer_id(rs.getInt("nutzer_id"));
+			k.setEigenschaft_id(rs.getInt("eigenschaft_id"));
 			k.setName(rs.getString("name"));
 			k.setErzeugungsdatum(rs.getDate("erzeugungsdatum"));
 			k.setModifikationsdatum(rs.getDate("modifikationsdatum"));
-			k.setStatus(rs.getBoolean("status"));
+			k.setStatus(rs.getInt("status"));
 			
 			return k;
 		}
@@ -74,14 +73,14 @@ public class KontaktMapper {
 			
 			if (rs.next()) {
 				
-				k.setID(rs.getInt("maxID") +1);
+				k.setId(rs.getInt("maxID") +1);
 				
 				stmt = con.createStatement();
 				
 				stmt.executeUpdate(
-						" INSERT INTO kontakt (ID, nutzerID, kontaktID, eigenschaftID, name, erzeugungsdatum, modifikationsdatum, status)"
-						+ " VALUES (" + k.getID() + " ,'" + k.getNutzerID() + "' ,'" + k.getKontaktID() + "' ,'" + k.getEigenschaftID() + "' ,'" + k.getName() + "','"
-						+  format.format(k.getErzeugungsdatum()) + "', '" + format.format(k.getModifikationsdatum()) +  "' ,'"  + k.isStatus() + "')");
+						" INSERT INTO kontakt (id, nutzer_id, eigenschaft_id, name, erzeugungsdatum, modifikationsdatum, status)"
+						+ " VALUES (" + k.getId() + " ,'" + k.getNutzer_id() +  "' ,'" + k.getEigenschaft_id() + "' ,'" + k.getName() + "','"
+						+  format.format(k.getErzeugungsdatum()) + "', '" + format.format(k.getModifikationsdatum()) +  "' ,'"  + k.getStatus() + "')");
 						
 			}
 		}catch (SQLException e) {
@@ -94,7 +93,7 @@ public class KontaktMapper {
 	
 	
 	public Kontakt findByProjekt(Kontakt k){
-		return this.findKontaktByID(k.getID());
+		return this.findKontaktByID(k.getId());
 	}
 
 }

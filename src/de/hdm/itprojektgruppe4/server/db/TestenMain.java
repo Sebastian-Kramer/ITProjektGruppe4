@@ -30,17 +30,15 @@ public class TestenMain {
 		
 		
 		
-		
-		
-		
-		k.setID(10);
-		k.setNutzerID(1);
-		k.setKontaktID(1);
-		k.setEigenschaftID(1);
-		k.setName("DAWWG");
+		k.setId(1);
+		k.setNutzer_id(1);
+		k.setEigenschaft_id(1);
+		k.setName("Person1");
 		k.setErzeugungsdatum(date);
 		k.setModifikationsdatum(date);
-		k.setStatus(true);
+		k.setStatus(0);
+		
+		
 		
 		
 		 KontaktMapper.kontaktMapper().insertKontakt(k);

@@ -6,13 +6,11 @@ public class Kontakt {
 
 	private static final long serialVersionUID = 1L;
 	
-	private int ID;
+	private int id;
 	
-	private int nutzerID;
+	private int nutzer_id;
 	
-	private int kontaktID;
-	
-	private int eigenschaftID;
+	private int eigenschaft_id;
 	
 	private String name;
 	
@@ -20,76 +18,96 @@ public class Kontakt {
 	
 	private Date modifikationsdatum;
 	
-	private boolean status;
-
-	public int getID() {
-		return ID;
+	private int status;
+	
+	
+	public int getId() {
+		return id;
 	}
 
-	public void setID(int ID) {
-		ID = ID;
+
+
+	public void setId(int id) {
+		this.id = id;
 	}
 
-	public int getNutzerID() {
-		return nutzerID;
+
+
+	public int getNutzer_id() {
+		return nutzer_id;
 	}
 
-	public void setNutzerID(int nutzerID) {
-		this.nutzerID = nutzerID;
+
+
+	public void setNutzer_id(int nutzer_id) {
+		this.nutzer_id = nutzer_id;
 	}
 
-	public int getKontaktID() {
-		return kontaktID;
+
+
+	public int getEigenschaft_id() {
+		return eigenschaft_id;
 	}
 
-	public void setKontaktID(int kontaktID) {
-		this.kontaktID = kontaktID;
+
+
+	public void setEigenschaft_id(int eigenschaft_id) {
+		this.eigenschaft_id = eigenschaft_id;
 	}
 
-	public int getEigenschaftID() {
-		return eigenschaftID;
-	}
 
-	public void setEigenschaftID(int eigenschaftID) {
-		this.eigenschaftID = eigenschaftID;
-	}
 
 	public String getName() {
 		return name;
 	}
 
+
+
 	public void setName(String name) {
 		this.name = name;
 	}
+
+
 
 	public Date getErzeugungsdatum() {
 		return erzeugungsdatum;
 	}
 
+
+
 	public void setErzeugungsdatum(Date erzeugungsdatum) {
 		this.erzeugungsdatum = erzeugungsdatum;
 	}
+
+
 
 	public Date getModifikationsdatum() {
 		return modifikationsdatum;
 	}
 
+
+
 	public void setModifikationsdatum(Date modifikationsdatum) {
 		this.modifikationsdatum = modifikationsdatum;
 	}
 
-	public boolean isStatus() {
+
+	
+	
+	public int getStatus() {
 		return status;
 	}
 
 
-	
-	public void setStatus(boolean status) {
+
+	public void setStatus(int status) {
 		this.status = status;
 	}
-	
+
+
+
 	public String toString(){
-		return  "Kontakt [name=" + name + " "+ ID + " " + eigenschaftID +  "]";
+		return  "Kontakt [name=" + name + " "+ id + " " + eigenschaft_id +  "]";
 	}
 }
 
