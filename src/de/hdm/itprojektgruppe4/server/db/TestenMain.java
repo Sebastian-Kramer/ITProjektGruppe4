@@ -32,6 +32,7 @@ public class TestenMain {
 		
 		
 		
+		
 		k.setID(10);
 		k.setNutzerID(1);
 		k.setKontaktID(1);
