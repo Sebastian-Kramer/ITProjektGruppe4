@@ -1,6 +1,15 @@
 package de.hdm.itprojektgruppe4.shared;
 
+import java.sql.Date;
+import java.util.Vector;
+
 import com.google.gwt.user.client.rpc.RemoteService;
+
+import de.hdm.itprojektgruppe4.shared.bo.Eigenschaft;
+import de.hdm.itprojektgruppe4.shared.bo.Eigenschaftsauspraegung;
+import de.hdm.itprojektgruppe4.shared.bo.Kontakt;
+import de.hdm.itprojektgruppe4.shared.bo.Kontaktliste;
+import de.hdm.itprojektgruppe4.shared.bo.Teilhaberschaft;
 
 public interface KontaktAdministration extends RemoteService {
 
@@ -66,37 +75,37 @@ public interface KontaktAdministration extends RemoteService {
      * @param id 
      * @return
      */
-    public Kontakt findById(int id);
+    public Kontakt findKontaktById(int id);
 
     /**
      * @param id 
      * @return
      */
-    public Eigenschaft findById(int id);
+    public Eigenschaft findEigenschaftById(int id);
 
     /**
      * @param id 
      * @return
      */
-    public Kontaktliste findById(int id);
+    public Kontaktliste findKontaktlisteById(int id);
 
     /**
      * @param id 
      * @return
      */
-    public Eigenschaftsauspraegung findById(int id);
+    public Eigenschaftsauspraegung findEigenschaftsauspraegungById(int id);
 
     /**
      * @param id 
      * @return
      */
-    public Teilhaberschaft findById(int id);
+    public Teilhaberschaft findTeilhaberschaftById(int id);
 
     /**
      * @param id 
      * @return
      */
-    public Nutzer findById(int id);
+    public Kontakt findNutzerById(int id);
 
     /**
      * @param kontakt 
@@ -161,29 +170,29 @@ public interface KontaktAdministration extends RemoteService {
     /**
      * @return
      */
-    public Vektor<Kontaktliste> getAllKontaktlisten();
+    public Vector<Kontaktliste> getAllKontaktlisten();
 
     /**
      * @return
      */
-    public Vektor<Kontakt> getAllKontakte();
-
-    /**
-     * @param k 
-     * @return
-     */
-    public Vektor<Eigenschaft> getAllEigenschaftFromKontakt(Kontakt k);
+    public Vector<Kontakt> getAllKontakte();
 
     /**
      * @param k 
      * @return
      */
-    public Vektor<Kontakt> getAllKontakteVonKontaktliste(Kontaktliste k);
+    public Vector<Eigenschaft> getAllEigenschaftFromKontakt(Kontakt k);
+
+    /**
+     * @param k 
+     * @return
+     */
+    public Vector<Kontakt> getAllKontakteVonKontaktliste(Kontaktliste k);
 
     /**
      * @param n 
      * @return
      */
-    public Vektor<Kontakt> getAllKontaktefromNutzer(Nutzer n);
+    public Vector<Kontakt> getAllKontaktefromNutzer(Kontakt k);
 
 }
