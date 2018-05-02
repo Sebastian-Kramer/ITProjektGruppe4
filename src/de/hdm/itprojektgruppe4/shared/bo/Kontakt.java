@@ -1,6 +1,6 @@
 package de.hdm.itprojektgruppe4.shared.bo;
 import java.util.Date;
-public class Kontakt {
+public class Kontakt extends BusinessObject{
 
 	
 
