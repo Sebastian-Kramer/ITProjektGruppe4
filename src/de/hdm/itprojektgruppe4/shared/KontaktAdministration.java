@@ -16,7 +16,7 @@ public interface KontaktAdministration extends RemoteService {
     /**
      * @return
      */
-    public void init() throws IllegalArgumentException;
+    //public void init() throws IllegalArgumentException;
     
     
     /**
@@ -26,16 +26,16 @@ public interface KontaktAdministration extends RemoteService {
      * @param status 
      * @return
      */
-    public Kontakt createKontakt(String name, Date erzeugungsdatum, Date modifikationsdatum, boolean status)
-    	throws IllegalArgumentException;
+    //public Kontakt createKontakt(String name, Date erzeugungsdatum, Date modifikationsdatum, boolean status)
+    //	throws IllegalArgumentException;
 
     /**
      * @param bezeichnung 
      * @param status 
      * @return
      */
-    public Eigenschaft createEigenschaft(String bezeichnung, boolean status)
-    		throws IllegalArgumentException;
+    //public Eigenschaft createEigenschaft(String bezeichnung, boolean status)
+    //		throws IllegalArgumentException;
 
     /**
      * @param bezeichnung 
@@ -49,8 +49,8 @@ public interface KontaktAdministration extends RemoteService {
      * @param bezeichnung 
      * @return
      */
-    public Eigenschaftsauspraegung createEigenschaftsauspraegung(String bezeichnung)
-    		throws IllegalArgumentException;
+    //public Eigenschaftsauspraegung createEigenschaftsauspraegung(String bezeichnung)
+    //		throws IllegalArgumentException;
 
     /**
      * @param KontaktlisteID 
@@ -75,37 +75,37 @@ public interface KontaktAdministration extends RemoteService {
      * @param id 
      * @return
      */
-    public Kontakt findKontaktById(int id);
+    //public Kontakt findKontaktById(int id);
 
     /**
      * @param id 
      * @return
      */
-    public Eigenschaft findEigenschaftById(int id);
+    //public Eigenschaft findEigenschaftById(int id);
 
     /**
      * @param id 
      * @return
      */
-    public Kontaktliste findKontaktlisteById(int id);
+    //public Kontaktliste findKontaktlisteById(int id);
 
     /**
      * @param id 
      * @return
      */
-    public Eigenschaftsauspraegung findEigenschaftsauspraegungById(int id);
+    //public Eigenschaftsauspraegung findEigenschaftsauspraegungById(int id);
 
     /**
      * @param id 
      * @return
      */
-    public Teilhaberschaft findTeilhaberschaftById(int id);
+    //public Teilhaberschaft findTeilhaberschaftById(int id);
 
     /**
      * @param id 
      * @return
      */
-    public Kontakt findNutzerById(int id);
+    //public Kontakt findNutzerById(int id);
 
     /**
      * @param kontakt 
@@ -170,12 +170,12 @@ public interface KontaktAdministration extends RemoteService {
     /**
      * @return
      */
-    public Vector<Kontaktliste> getAllKontaktlisten();
+    //public Vector<Kontaktliste> getAllKontaktlisten();
 
     /**
      * @return
      */
-    public Vector<Kontakt> getAllKontakte();
+    //public Vector<Kontakt> getAllKontakte();
 
     /**
      * @param k 
@@ -187,7 +187,7 @@ public interface KontaktAdministration extends RemoteService {
      * @param k 
      * @return
      */
-    public Vector<Kontakt> getAllKontakteVonKontaktliste(Kontaktliste k);
+    //public Vector<Kontakt> getAllKontakteVonKontaktliste(Kontaktliste k);
 
     /**
      * @param n 

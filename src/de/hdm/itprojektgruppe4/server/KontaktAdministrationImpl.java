@@ -49,7 +49,7 @@ public class KontaktAdministrationImpl extends RemoteServiceServlet
     
     /*
 	   * ***************************************************************************
-	   * ABSCHNITT, Anfang: Methoden für Projektmarktplatz-Objekte
+	   * ABSCHNITT, Beginn: Initialisierung
 	   * ***************************************************************************
 	   */
 
