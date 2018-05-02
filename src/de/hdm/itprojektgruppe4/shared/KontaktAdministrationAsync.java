@@ -21,15 +21,15 @@ public interface KontaktAdministrationAsync {
 
 	void createKontakt(String name, Date erzeugungsdatum, Date modifikationsdatum, boolean status,
 			AsyncCallback<Kontakt> callback);
-
+	/*
 	void createKontaktliste(String bezeichnung, boolean status, AsyncCallback<Kontaktliste> callback);
-
+	
 	void createTeilhaberschaftKlist(int KontaktlisteID, int KontaktID, int NutzerID, int Eigenschaftsauspraegung,
 			AsyncCallback<Teilhaberschaft> callback);
 
 	void createTeilhaberschaftKontakt(int KontaktID, int NutzerID, int Eigenschaftsauspraegung,
 			AsyncCallback<Teilhaberschaft> callback);
-
+	
 	void deleteEigenschaft(Eigenschaft eigenschaft, AsyncCallback<Void> callback);
 
 	void deleteKontakt(Kontakt kontakt, AsyncCallback<Void> callback);
@@ -39,7 +39,7 @@ public interface KontaktAdministrationAsync {
 	void deleteKontaktliste(Kontaktliste kontaktliste, AsyncCallback<Void> callback);
 
 	void deleteTeilhaberschaft(Teilhaberschaft teilhaberschaft, AsyncCallback<Void> callback);
-
+	*/
 	void findEigenschaftById(int id, AsyncCallback<Eigenschaft> callback);
 
 	void findEigenschaftsauspraegungById(int id, AsyncCallback<Eigenschaftsauspraegung> callback);
@@ -52,16 +52,16 @@ public interface KontaktAdministrationAsync {
 
 	void findTeilhaberschaftById(int id, AsyncCallback<Teilhaberschaft> callback);
 
-	void getAllEigenschaftFromKontakt(Kontakt k, AsyncCallback<Vector<Eigenschaft>> callback);
+	//void getAllEigenschaftFromKontakt(Kontakt k, AsyncCallback<Vector<Eigenschaft>> callback);
 
 	void getAllKontakte(AsyncCallback<Vector<Kontakt>> callback);
 
-	void getAllKontaktefromNutzer(Kontakt k, AsyncCallback<Vector<Kontakt>> callback);
+	//void getAllKontaktefromNutzer(Kontakt k, AsyncCallback<Vector<Kontakt>> callback);
 
 	void getAllKontakteVonKontaktliste(Kontaktliste k, AsyncCallback<Vector<Kontakt>> callback);
 
 	void getAllKontaktlisten(AsyncCallback<Vector<Kontaktliste>> callback);
-
+	/*
 	void updateEigenschaft(Eigenschaft eigenschaft, AsyncCallback<Void> callback);
 
 	void updateEigenschaftsauspraegung(Eigenschaftsauspraegung eigenschaftsauspraegung, AsyncCallback<Void> callback);
@@ -71,5 +71,5 @@ public interface KontaktAdministrationAsync {
 	void updateKontaktliste(Kontaktliste kontaktliste, AsyncCallback<Void> callback);
 
 	void updateTeilhaberschaft(Teilhaberschaft teilhaberschaft, AsyncCallback<Void> callback);
-
+	*/
 }

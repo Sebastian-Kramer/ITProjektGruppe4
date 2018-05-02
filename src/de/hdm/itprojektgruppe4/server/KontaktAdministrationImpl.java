@@ -1,12 +1,20 @@
 package de.hdm.itprojektgruppe4.server;
 
+import java.sql.Date;
+import java.util.Vector;
+
 import com.google.gwt.user.server.rpc.RemoteServiceServlet;
 
 import de.hdm.itprojektgruppe4.server.db.KontaktMapper;
 import de.hdm.itprojektgruppe4.shared.KontaktAdministration;
+import de.hdm.itprojektgruppe4.shared.bo.Eigenschaft;
+import de.hdm.itprojektgruppe4.shared.bo.Eigenschaftsauspraegung;
+import de.hdm.itprojektgruppe4.shared.bo.Kontakt;
+import de.hdm.itprojektgruppe4.shared.bo.Kontaktliste;
+import de.hdm.itprojektgruppe4.shared.bo.Teilhaberschaft;
 
 public class KontaktAdministrationImpl extends RemoteServiceServlet 
-	implements KontaktAdiministration{
+	implements KontaktAdministration{
 
 	/**
      * Default constructor
@@ -17,41 +25,45 @@ public class KontaktAdministrationImpl extends RemoteServiceServlet
     /**
      * 
      */
-    private KontaktMapper kontaktMapper;
+    private KontaktMapper kontaktMapper = null;
 
     /**
      * 
      */
-    private KontaktlisteMapper kontaktlisteMapper;
+    //private KontaktlisteMapper kontaktlisteMapper;
 
     /**
      * 
      */
-    private EigenschaftMapper eigenschaftMapper;
+    //private EigenschaftMapper eigenschaftMapper;
 
     /**
      * 
      */
-    private EigenschaftausprägungMapper eigenschaftsauspraegungMapper;
+    //private EigenschaftauspraegungMapper eigenschaftsauspraegungMapper;
 
     /**
      * 
      */
-    private TeilhaberschaftMapper teilhaberschaftMapper;
+    //private TeilhaberschaftMapper teilhaberschaftMapper;
+    
+    /*
+	   * ***************************************************************************
+	   * ABSCHNITT, Anfang: Methoden für Projektmarktplatz-Objekte
+	   * ***************************************************************************
+	   */
 
+    /**
+     * No-Argument-Constructor
+     */
+    public void KontaktAdministrationImpl() throws IllegalArgumentException {
+    }
+    
     /**
      * @return
      */
     public void init() {
-        // TODO implement here
-        return null;
-    }
-
-    /**
-     * 
-     */
-    public void KontaktAdministrationImpl() {
-        // TODO implement here
+        this.kontaktMapper = KontaktMapper.kontaktMapper();
     }
 
     /**
@@ -92,7 +104,7 @@ public class KontaktAdministrationImpl extends RemoteServiceServlet
      * @param bezeichnung 
      * @return
      */
-    public Eigenschaftsausprägung createEigenschaftsauspraegung(String bezeichnung) {
+    public Eigenschaftsauspraegung createEigenschaftsauspraegung(String bezeichnung) {
         // TODO implement here
         return null;
     }
@@ -109,7 +121,7 @@ public class KontaktAdministrationImpl extends RemoteServiceServlet
      * @param id 
      * @return
      */
-    public Kontakt findById(int id) {
+    public Kontakt findKontaktById(int id) {
         // TODO implement here
         return null;
     }
@@ -118,7 +130,7 @@ public class KontaktAdministrationImpl extends RemoteServiceServlet
      * @param id 
      * @return
      */
-    public Eigenschaft findById(int id) {
+    public Eigenschaft findEigenschaftById(int id) {
         // TODO implement here
         return null;
     }
@@ -127,7 +139,7 @@ public class KontaktAdministrationImpl extends RemoteServiceServlet
      * @param id 
      * @return
      */
-    public Kontaktliste findById(int id) {
+    public Kontaktliste findKontaktlisteById(int id) {
         // TODO implement here
         return null;
     }
@@ -136,7 +148,7 @@ public class KontaktAdministrationImpl extends RemoteServiceServlet
      * @param id 
      * @return
      */
-    public Eigenschaftsauspraegung findById(int id) {
+    public Eigenschaftsauspraegung findEigenschaftsauspraegungById(int id) {
         // TODO implement here
         return null;
     }
@@ -145,7 +157,7 @@ public class KontaktAdministrationImpl extends RemoteServiceServlet
      * @param id 
      * @return
      */
-    public Teilhaberschaft findById(int id) {
+    public Teilhaberschaft findTeilhaberschaftById(int id) {
         // TODO implement here
         return null;
     }
@@ -154,97 +166,7 @@ public class KontaktAdministrationImpl extends RemoteServiceServlet
      * @param id 
      * @return
      */
-    public Nutzer findById(int id) {
-        // TODO implement here
-        return null;
-    }
-
-    /**
-     * @param kontakt 
-     * @return
-     */
-    public void deleteKontakt(Kontakt kontakt) {
-        // TODO implement here
-        return null;
-    }
-
-    /**
-     * @param eigenschaft 
-     * @return
-     */
-    public void deleteEigenschaft(Eigenschaft eigenschaft) {
-        // TODO implement here
-        return null;
-    }
-
-    /**
-     * @param kontaktliste 
-     * @return
-     */
-    public void deleteKontaktliste(Kontaktliste kontaktliste) {
-        // TODO implement here
-        return null;
-    }
-
-    /**
-     * @param eigenschaftsauspraegung 
-     * @return
-     */
-    public void deleteEigenschaftsauspraegung(Eigenschaftsauspraegung eigenschaftsauspraegung) {
-        // TODO implement here
-        return null;
-    }
-
-    /**
-     * @param teilhaberschaft 
-     * @return
-     */
-    public void deleteTeilhaberschaft(Teilhaberschaft teilhaberschaft) {
-        // TODO implement here
-        return null;
-    }
-
-    /**
-     * @param kontakt 
-     * @return
-     */
-    public Kontakt updateKontakt(Kontakt kontakt) {
-        // TODO implement here
-        return null;
-    }
-
-    /**
-     * @param eigenschaft 
-     * @return
-     */
-    public Eigenschaft updateEigenschaft(Eigenschaft eigenschaft) {
-        // TODO implement here
-        return null;
-    }
-
-    /**
-     * @param kontaktliste 
-     * @return
-     */
-    public Kontaktliste updateKontaktliste(Kontaktliste kontaktliste) {
-        // TODO implement here
-        return null;
-    }
-
-    /**
-     * @param eigenschaftsauspraegung 
-     * @return
-     */
-    public Eigenschaftsauspraegung updateEigenschaftsauspraegung(Eigenschaftsauspraegung eigenschaftsauspraegung) {
-        // TODO implement here
-        return null;
-    }
-
-    /**
-     * @param teilhaberschaft 
-     * @return
-     */
-    public Teilhaberschaft updateTeilhaberschaft(Teilhaberschaft teilhaberschaft) {
+    public Kontakt findNutzerById(int id) {
         // TODO implement here
         return null;
     }
@@ -252,7 +174,7 @@ public class KontaktAdministrationImpl extends RemoteServiceServlet
     /**
      * @return
      */
-    public Vektor<Kontaktliste> getAllKontaktlisten() {
+    public Vector<Kontaktliste> getAllKontaktlisten() {
         // TODO implement here
         return null;
     }
@@ -260,7 +182,7 @@ public class KontaktAdministrationImpl extends RemoteServiceServlet
     /**
      * @return
      */
-    public Vektor<Kontakt> getAllKontakte() {
+    public Vector<Kontakt> getAllKontakte() {
         // TODO implement here
         return null;
     }
@@ -268,7 +190,7 @@ public class KontaktAdministrationImpl extends RemoteServiceServlet
     /**
      * @return
      */
-    public Vektor<Eigenschaft> getAllEigenschaften() {
+    public Vector<Eigenschaft> getAllEigenschaften() {
         // TODO implement here
         return null;
     }
@@ -277,7 +199,7 @@ public class KontaktAdministrationImpl extends RemoteServiceServlet
      * @param k 
      * @return
      */
-    public Vektor<Eigenschaft> getAllEigenschaftVonKontakt(Kontakt k) {
+    public Vector<Eigenschaft> getAllEigenschaftVonKontakt(Kontakt k) {
         // TODO implement here
         return null;
     }
@@ -286,10 +208,9 @@ public class KontaktAdministrationImpl extends RemoteServiceServlet
      * @param k 
      * @return
      */
-    public Vektor<Kontakt> getAllKontakteVonKontaktliste(Kontaktliste k) {
+    public Vector<Kontakt> getAllKontakteVonKontaktliste(Kontaktliste k) {
         // TODO implement here
         return null;
     }
 
-}
 }

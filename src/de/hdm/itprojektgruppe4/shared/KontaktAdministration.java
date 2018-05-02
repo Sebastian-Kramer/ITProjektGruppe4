@@ -42,8 +42,8 @@ public interface KontaktAdministration extends RemoteService {
      * @param status 
      * @return
      */
-    public Kontaktliste createKontaktliste(String bezeichnung, boolean status)
-    		throws IllegalArgumentException;
+    //public Kontaktliste createKontaktliste(String bezeichnung, boolean status)
+    //		throws IllegalArgumentException;
 
     /**
      * @param bezeichnung 
@@ -59,8 +59,8 @@ public interface KontaktAdministration extends RemoteService {
      * @param Eigenschaftsauspraegung 
      * @return
      */
-    public Teilhaberschaft createTeilhaberschaftKlist(int KontaktlisteID, int KontaktID, int NutzerID, int Eigenschaftsauspraegung)
-    		throws IllegalArgumentException;
+    //public Teilhaberschaft createTeilhaberschaftKlist(int KontaktlisteID, int KontaktID, int NutzerID, int Eigenschaftsauspraegung)
+    //		throws IllegalArgumentException;
 
     /**
      * @param KontaktID 
@@ -68,8 +68,8 @@ public interface KontaktAdministration extends RemoteService {
      * @param Eigenschaftsauspraegung 
      * @return
      */
-    public Teilhaberschaft createTeilhaberschaftKontakt(int KontaktID, int NutzerID, int Eigenschaftsauspraegung)
-    		throws IllegalArgumentException;
+    //public Teilhaberschaft createTeilhaberschaftKontakt(int KontaktID, int NutzerID, int Eigenschaftsauspraegung)
+    //		throws IllegalArgumentException;
 
     /**
      * @param id 
@@ -111,61 +111,61 @@ public interface KontaktAdministration extends RemoteService {
      * @param kontakt 
      * @return
      */
-    public void deleteKontakt(Kontakt kontakt);
+    //public void deleteKontakt(Kontakt kontakt);
 
     /**
      * @param eigenschaft 
      * @return
      */
-    public void deleteEigenschaft(Eigenschaft eigenschaft);
+    //public void deleteEigenschaft(Eigenschaft eigenschaft);
 
     /**
      * @param kontaktliste 
      * @return
      */
-    public void deleteKontaktliste(Kontaktliste kontaktliste);
+    //public void deleteKontaktliste(Kontaktliste kontaktliste);
 
     /**
      * @param eigenschaftsauspraegung 
      * @return
      */
-    public void deleteEigenschaftsauspraegung(Eigenschaftsauspraegung eigenschaftsauspraegung);
+    //public void deleteEigenschaftsauspraegung(Eigenschaftsauspraegung eigenschaftsauspraegung);
 
     /**
      * @param teilhaberschaft 
      * @return
      */
-    public void deleteTeilhaberschaft(Teilhaberschaft teilhaberschaft);
+    //public void deleteTeilhaberschaft(Teilhaberschaft teilhaberschaft);
 
     /**
      * @param kontakt 
      * @return
      */
-    public void updateKontakt(Kontakt kontakt);
+    //public void updateKontakt(Kontakt kontakt);
 
     /**
      * @param eigenschaft 
      * @return
      */
-    public void updateEigenschaft(Eigenschaft eigenschaft);
+    //public void updateEigenschaft(Eigenschaft eigenschaft);
 
     /**
      * @param kontaktliste 
      * @return
      */
-    public void updateKontaktliste(Kontaktliste kontaktliste);
+    //public void updateKontaktliste(Kontaktliste kontaktliste);
 
     /**
      * @param eigenschaftsauspraegung 
      * @return
      */
-    public void updateEigenschaftsauspraegung(Eigenschaftsauspraegung eigenschaftsauspraegung);
+    //public void updateEigenschaftsauspraegung(Eigenschaftsauspraegung eigenschaftsauspraegung);
 
     /**
      * @param teilhaberschaft 
      * @return
      */
-    public void updateTeilhaberschaft(Teilhaberschaft teilhaberschaft);
+    //public void updateTeilhaberschaft(Teilhaberschaft teilhaberschaft);
 
     /**
      * @return
@@ -181,7 +181,7 @@ public interface KontaktAdministration extends RemoteService {
      * @param k 
      * @return
      */
-    public Vector<Eigenschaft> getAllEigenschaftFromKontakt(Kontakt k);
+    //public Vector<Eigenschaft> getAllEigenschaftFromKontakt(Kontakt k);
 
     /**
      * @param k 
@@ -193,6 +193,6 @@ public interface KontaktAdministration extends RemoteService {
      * @param n 
      * @return
      */
-    public Vector<Kontakt> getAllKontaktefromNutzer(Kontakt k);
+    //public Vector<Kontakt> getAllKontaktefromNutzer(Kontakt k);
 
 }
