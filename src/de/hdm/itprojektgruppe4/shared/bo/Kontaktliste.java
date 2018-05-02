@@ -104,5 +104,9 @@ public class Kontaktliste extends BusinessObject {
     public void setStatus(boolean status) {
         this.status = status;
     }
+    
+    public String toString(){
+    	return this.bezeichnung;
+    }
 
 }

@@ -61,7 +61,7 @@ public class KontaktMapper {
 	
 	}
 	
-	// einen neuen Kontakt in die Db einfügen
+	// einen neuen Kontakt in die Db einfï¿½gen
 	
 	public Kontakt insertKontakt(Kontakt k) {
 		
@@ -93,14 +93,20 @@ public class KontaktMapper {
 		return k;
 	}
 	
-	// einen Kontakt anhand des Objekt-namen finden
+	/** 
+	 * einen Kontakt anhand des Objekt-namen finden
+	 * @param k
+	 * @return
+	 */
 	
 	public Kontakt findByProjekt(Kontakt k){
 		return this.findKontaktByID(k.getId());
+		}
 	
-	
-	}
-	
+	/**
+	 * 
+	 * @param k
+	 */
 	public void deleteKontakt(Kontakt k){
 		Connection con = DBConnection.connection();
 		
@@ -113,5 +119,6 @@ public class KontaktMapper {
 		}
 		
 	}
+	
 
 }
