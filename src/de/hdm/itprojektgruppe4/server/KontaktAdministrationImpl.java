@@ -8,7 +8,7 @@ import com.google.gwt.user.server.rpc.RemoteServiceServlet;
 import de.hdm.itprojektgruppe4.server.db.KontaktMapper;
 import de.hdm.itprojektgruppe4.shared.KontaktAdministration;
 import de.hdm.itprojektgruppe4.shared.bo.Eigenschaft;
-import de.hdm.itprojektgruppe4.shared.bo.Eigenschaftsauspraegung;
+import de.hdm.itprojektgruppe4.shared.bo.Eigenschaftauspraegung;
 import de.hdm.itprojektgruppe4.shared.bo.Kontakt;
 import de.hdm.itprojektgruppe4.shared.bo.Kontaktliste;
 import de.hdm.itprojektgruppe4.shared.bo.Teilhaberschaft;
@@ -104,7 +104,7 @@ public class KontaktAdministrationImpl extends RemoteServiceServlet
      * @param bezeichnung 
      * @return
      */
-    public Eigenschaftsauspraegung createEigenschaftsauspraegung(String bezeichnung) {
+    public Eigenschaftauspraegung createEigenschaftsauspraegung(String bezeichnung) {
         // TODO implement here
         return null;
     }
@@ -148,7 +148,7 @@ public class KontaktAdministrationImpl extends RemoteServiceServlet
      * @param id 
      * @return
      */
-    public Eigenschaftsauspraegung findEigenschaftsauspraegungById(int id) {
+    public Eigenschaftauspraegung findEigenschaftsauspraegungById(int id) {
         // TODO implement here
         return null;
     }

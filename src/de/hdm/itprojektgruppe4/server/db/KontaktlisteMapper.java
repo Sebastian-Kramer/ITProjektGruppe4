@@ -8,18 +8,29 @@ import de.hdm.itprojektgruppe4.shared.bo.Kontaktliste;
 public class KontaktlisteMapper {
 	
 	
+	/**
+	 * 
+	 */
 	private static KontaktlisteMapper kontaktlisteMapper = null;
 	
-		protected KontaktlisteMapper(){
-		
-		};
 	
-		public static KontaktlisteMapper kontaktlisteMapper(){
-			if(kontaktlisteMapper == null){
-				kontaktlisteMapper = new KontaktlisteMapper();
-			}
-			return kontaktlisteMapper;
+	/**
+	 * 
+	 */
+	protected KontaktlisteMapper(){
+		
+	};
+	
+	/**
+	 * 
+	 */
+	public static KontaktlisteMapper kontaktlisteMapper(){
+		if(kontaktlisteMapper == null){
+			kontaktlisteMapper = new KontaktlisteMapper();
 		}
+		
+		return kontaktlisteMapper;
+	}
 		
 		public Kontaktliste findbyid(int id){
 			Connection con = DBConnection.connection();

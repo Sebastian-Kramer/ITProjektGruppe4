@@ -6,12 +6,6 @@ public class Kontakt extends BusinessObject{
 
 	private static final long serialVersionUID = 1L;
 	
-	private int id;
-	
-	private int nutzer_id;
-	
-	private int eigenschaft_id;
-	
 	private String name;
 	
 	private Date erzeugungsdatum;
@@ -20,18 +14,11 @@ public class Kontakt extends BusinessObject{
 	
 	private int status;
 	
+	private String googleMail;
 	
-	public int getId() {
-		return id;
-	}
-
-
-
-	public void setId(int id) {
-		this.id = id;
-	}
-
-
+	private int kontaktliste_id;
+	
+	private int nutzer_id;
 
 	public int getNutzer_id() {
 		return nutzer_id;
@@ -42,19 +29,6 @@ public class Kontakt extends BusinessObject{
 	public void setNutzer_id(int nutzer_id) {
 		this.nutzer_id = nutzer_id;
 	}
-
-
-
-	public int getEigenschaft_id() {
-		return eigenschaft_id;
-	}
-
-
-
-	public void setEigenschaft_id(int eigenschaft_id) {
-		this.eigenschaft_id = eigenschaft_id;
-	}
-
 
 
 	public String getName() {
@@ -103,11 +77,34 @@ public class Kontakt extends BusinessObject{
 	public void setStatus(int status) {
 		this.status = status;
 	}
+	
+	
+	public String getGoogleMail() {
+		return googleMail;
+	}
+
+
+
+	public void setGoogleMail(String googleMail) {
+		this.googleMail = googleMail;
+	}
+
+
+
+	public int getKontaktliste_id() {
+		return kontaktliste_id;
+	}
+
+
+
+	public void setKontaktliste_id(int kontaktliste_id) {
+		this.kontaktliste_id = kontaktliste_id;
+	}
 
 
 
 	public String toString(){
-		return  "Kontakt [name=" + name + " "+ id + " " + eigenschaft_id +  "]";
+		return  "Kontakt [name=" + name + " "+ super.getID()  + "]";
 	}
 }
 

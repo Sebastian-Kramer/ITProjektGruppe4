@@ -6,7 +6,7 @@ import java.util.Vector;
 import com.google.gwt.user.client.rpc.RemoteService;
 
 import de.hdm.itprojektgruppe4.shared.bo.Eigenschaft;
-import de.hdm.itprojektgruppe4.shared.bo.Eigenschaftsauspraegung;
+import de.hdm.itprojektgruppe4.shared.bo.Eigenschaftauspraegung;
 import de.hdm.itprojektgruppe4.shared.bo.Kontakt;
 import de.hdm.itprojektgruppe4.shared.bo.Kontaktliste;
 import de.hdm.itprojektgruppe4.shared.bo.Teilhaberschaft;

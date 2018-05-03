@@ -35,18 +35,17 @@ public class KontaktMapper {
 		Statement stmt = con.createStatement();
 		
 		ResultSet rs = stmt.executeQuery(
-				"SELECT id, nutzer_id, eigenschaft_id, name, erzeugungsdatum, modifikationsdatum, status FROM kontakt " + " WHERE id= " + id );
+				"SELECT ID, Nutzer_ID, Name, Erzeugungsdatum, Modifikationsdatum, Status FROM Kontakt " + " WHERE ID= " + id );
 				 
 		
 		if (rs.next()) {
 			Kontakt k = new Kontakt();
-			k.setId(rs.getInt("id"));
-			k.setNutzer_id(rs.getInt("nutzer_id"));
-			k.setEigenschaft_id(rs.getInt("eigenschaft_id"));
-			k.setName(rs.getString("name"));
-			k.setErzeugungsdatum(rs.getDate("erzeugungsdatum"));
-			k.setModifikationsdatum(rs.getDate("modifikationsdatum"));
-			k.setStatus(rs.getInt("status"));
+			k.setID(rs.getInt("id"));
+			k.setNutzer_id(rs.getInt("Nutzer_ID"));
+			k.setName(rs.getString("Name"));
+			k.setErzeugungsdatum(rs.getDate("Erzeugungsdatum"));
+			k.setModifikationsdatum(rs.getDate("Modifikationsdatum"));
+			k.setStatus(rs.getInt("Status"));
 			
 			return k;
 		}
@@ -75,13 +74,13 @@ public class KontaktMapper {
 			
 			if (rs.next()) {
 				
-				k.setId(rs.getInt("maxID") +1);
+				k.setID(rs.getInt("maxID") +1);
 				
 				stmt = con.createStatement();
 				
 				stmt.executeUpdate(
-						" INSERT INTO kontakt (id, nutzer_id, eigenschaft_id, name, erzeugungsdatum, modifikationsdatum, status)"
-						+ " VALUES (" + k.getId() + " ,'" + k.getNutzer_id() +  "' ,'" + k.getEigenschaft_id() + "' ,'" + k.getName() + "','"
+						" INSERT INTO Kontakt (id, nutzer_id, eigenschaft_id, name, erzeugungsdatum, modifikationsdatum, status)"
+						+ " VALUES (" + k.getID() + " ,'" + k.getNutzer_id() +  "' ,'" + "' ,'" + k.getName() + "','"
 						+  format.format(k.getErzeugungsdatum()) + "', '" + format.format(k.getModifikationsdatum()) +  "' ,'"  + k.getStatus() + "')");
 						
 			}
@@ -100,7 +99,7 @@ public class KontaktMapper {
 	 */
 	
 	public Kontakt findByProjekt(Kontakt k){
-		return this.findKontaktByID(k.getId());
+		return this.findKontaktByID(k.getID());
 		}
 	
 	/**
@@ -112,7 +111,7 @@ public class KontaktMapper {
 		
 		try{
 			Statement stmt = con.createStatement();
-			stmt.executeUpdate("DELETE FROM kontakt" + "WHERE id= " + k.getId());
+			stmt.executeUpdate("DELETE FROM Kontakt" + " WHERE id= " + k.getID());
 			
 		} catch (SQLException e){
 			e.printStackTrace();

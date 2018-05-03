@@ -21,8 +21,7 @@ public class Eigenschaft extends BusinessObject {
     /**
      * 
      */
-    public Kontakt Kontakt;
-
+    private boolean status;
 
     /**
      * @return
@@ -40,5 +39,15 @@ public class Eigenschaft extends BusinessObject {
         // TODO implement here
         this.bezeichnung = bez;
     }
+
+	public boolean isStatus() {
+		return status;
+	}
+
+	public void setStatus(boolean status) {
+		this.status = status;
+	}
+    
+    
 
 }
