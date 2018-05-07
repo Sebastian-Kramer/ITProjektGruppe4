@@ -51,5 +51,32 @@ public class EigenschaftMapper {
 	return null;
 	
 	}
+
+	
+	public Eigenschaft insertEigenschaft (Eigenschaft e){
+		
+		Connection con = DBConnection.connection();
+		
+		try{
+			
+			Statement stmt = con.createStatement();
+			
+			ResultSet rs = stmt.executeQuery("SELECT MAX(ID) AS maxID " + "FROM eigenschaft");
+			
+			if(rs.next()){
+				e.setID(rs.getInt("maxID") +1);
+				
+				stmt = con.createStatement();
+				
+				stmt.executeUpdate(" INSERT INTO eigenschaft (id, Bez, Status)"
+						+ " VALUES (" + e.getID() + "' ,'" + e.getBezeichnung() + "' ,'" + e.getStatus() + "')");
+			}
+			
+			
+		}catch (SQLException k){
+			k.printStackTrace();
+		}
+		return e;
+	}
 	
 }
