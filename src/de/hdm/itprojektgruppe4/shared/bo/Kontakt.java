@@ -104,7 +104,7 @@ public class Kontakt extends BusinessObject{
 
 
 	public String toString(){
-		return  "Kontakt [name=" + name + " "+ super.getID()  + "]";
+		return  " Kontakt name = " + name + " "+ super.getID() + " " + status + " "  + "\n" ;
 	}
 }
 
