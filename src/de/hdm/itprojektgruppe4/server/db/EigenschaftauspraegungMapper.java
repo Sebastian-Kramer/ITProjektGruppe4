@@ -23,7 +23,7 @@ public class EigenschaftauspraegungMapper {
 		return eigenschaftauspraegungMapper;
 	}	
 	
-	public Eigenschaftauspraegung getEigenchaftauspraegungByID(int id){
+	public Eigenschaftauspraegung getAuspraegungByID(int id){
 		
 		Connection con = DBConnection.connection();
 
@@ -132,5 +132,36 @@ public void deleteAuspraegung(Eigenschaftauspraegung ea){
 		e.printStackTrace();
 	}
 }
+
+public Eigenschaftauspraegung getAuspraegungByWert(String wert){
+	
+	Connection con = DBConnection.connection();
+
+	try {
+		
+	
+	Statement stmt = con.createStatement();
+	
+	ResultSet rs = stmt.executeQuery(
+			"SELECT ID, Wert, Eigentuemer_ID FROM Eigenschaftsauspraegung " + " WHERE Wert= " + wert );
+			 
+	
+	if (rs.next()) {
+		Eigenschaftauspraegung ea = new Eigenschaftauspraegung();
+		ea.setID(rs.getInt("ID"));
+		ea.setWert(rs.getString("Wert"));
+		ea.setEigentuemer_id(rs.getInt("Eigentuemer_ID"));
+		
+		return ea;
+	}
+	
+}catch (SQLException e) {
+	e.printStackTrace();
+	return null;
+}
+return null;
+
+}
+
 
 }
