@@ -32,3 +32,221 @@ h1 {
 #closeButton {
   margin: 15px 6px 6px;
 }
+/* Stylesheet für Selfhtml Design 02 
+  responsives Layout mit Flexbox ab Z. 248   */
+
+/* ====================================================   GLOBAL DEFINITION   ==================================================== */
+
+/* alternatives Boxmodell */
+
+html {
+  box-sizing: border-box;
+}
+
+*,
+::before,
+::after {
+  box-sizing: inherit;
+}
+
+body {
+  margin: 0;
+  height:100%;
+  font: normal 1em Arial, sans-serif;
+  /* Keine Mindestschriftgröße! Dies wird dem Browser, bzw. dem Nutzer überlassen! */
+  color: #333;
+}
+
+
+/* ====================================================   HEADER   ==================================================== */
+
+[role="banner"] {
+  background: url("http://ducktalk.org/wp-content/uploads/2017/02/people-icons-80620.png") no-repeat right,
+  #000 repeating-linear-gradient(-45deg, LightSkyBlue, DodgerBlue, DeepSkyBlue, LightSkyBlue, DodgerBlue, DeepSkyBlue);
+  background-size: contain, auto;
+  padding: 0 0 0.5em;
+}
+
+@media screen and (max-width: 40em) {
+  /* Normalerweise werden solche responsiven Layout-Einstellungen gesondert am Schluss notiert. Hier sollen die mulitple backgrounds aber gleich anfangs gezeigt werden. Auf zu kleinen Bildschirmen wird das Bild jedoch ausgeblendet.  */
+  [role="banner"] {
+    background-image: none;
+  }
+}
+
+[role="banner"] h1,
+[role="banner"] p {
+  max-width: 60em;
+  margin: 0 auto;
+  padding-left: 10%;
+  font-family: 'Roboto', sans-serif;
+  font-variant: small-caps;
+  font-weight: lighter;
+  font-size: 2em;
+  color: #eee;
+}
+
+[role="banner"] p {
+  padding: 1em 10%;
+  color: white;
+}
+
+[role="banner"] img {
+  float: right;
+  height: 15em;
+}
+
+
+/* ====================================================  NAV   ==================================================== */
+
+nav {
+  max-width: 30em;
+  margin: 0 auto;
+}
+
+nav ul {
+  text-align: center;
+  margin: 0;
+  padding: 0;
+  list-style-type: none;
+}
+
+nav a {
+  background: #28729a;
+  color: white;
+  text-decoration: none;
+  display: inline-block;
+  padding: 1em 0 1em 1em;
+}
+
+nav a:hover,
+nav a:focus {
+  background: #28729a;
+  color: white;
+}
+
+nav a:hover::after,
+nav a:focus::after {
+  color: transparent;
+}
+
+/* ==================================== content ===========================  */
+
+div#Navigationsseite {
+	background: aliceblue;
+	width: 1150px;
+}
+
+div#Navigator{
+	border: 1px solid LightSkyBlue;
+}
+
+a,
+.akzentfarbe1 {
+  color: #28729a;
+}
+
+.akzentfarbe2 {
+  color: #ccc;
+}
+
+h1{
+  color: #28729a;
+  font-size: 1.50em;
+  font-weight: normal;
+  font-family: 'Tauri', serif;
+  text-transform: uppercase;
+}
+
+/* ==================================== footer ===========================  */
+
+footer {
+  background: #666 repeating-linear-gradient(-45deg, LightSkyBlue, DodgerBlue, DeepSkyBlue, LightSkyBlue, DodgerBlue, DeepSkyBlue);
+  padding: 0.5em 1em 0;
+  margin-top: 1em;
+  color: white;
+}
+
+footer > * {
+  flex:  1 1 20em;
+}
+
+footer .branding {
+  text-align: right;
+}
+
+/* ====================================================   LAYOUT   ==================================================== */
+
+/* Navigationselemente werden untereinander angezeigt */
+
+nav ul {
+  display: flex;
+  flex-direction: column;
+}
+
+nav li {
+  margin: .3em 0;
+  flex: 1 1 100%;
+}
+
+nav a {
+  width: 95%;
+  margin: 0 5%;
+  border-radius: .5em;
+}
+
+[aria-current=page] {
+  color: black;
+  font-weight: bold;
+}
+
+[aria-current=page]:hover,
+[aria-current=page]:focus {
+  color: black;
+}
+
+/* 2-Spaltenlayout mit breiterem aside */
+@media screen and (min-width: 40em) {	
+
+body {
+  padding: 0;
+  height:100%;
+}
+
+/* Navigation wird nebeneinander ausgerichtet. */
+
+nav ul {
+  flex-direction: row;
+  background: transparent;
+}
+
+nav li {
+  margin: 0;
+  flex: 1 1 0%;
+}
+
+nav a {
+  background: transparent;
+}
+
+[aria-current=page] {
+  color: #28729a;
+}
+
+/* Main wird zum Flex-Container */
+
+main,
+footer {
+  display: flex;
+  flex-flow: row wrap;
+}
+
+main > * {
+  flex: 1 1 18em;
+  margin: 1em;
+}
+
+.bigteaser {
+  flex: 1 1 18em;
+}
+
