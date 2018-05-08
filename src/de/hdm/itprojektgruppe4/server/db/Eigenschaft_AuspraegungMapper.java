@@ -29,8 +29,11 @@ private static Eigenschaft_AuspraegungMapper eigenschaft_auspraegungMapper = nul
 
 		try {
 			
-		
+	/**
+	 * Leeres SQL-Statement anlegen
+	 */
 		Statement stmt = con.createStatement();
+		
 		
 		ResultSet rs = stmt.executeQuery(
 				"SELECT ID, Eigenschaft_ID, Eigenschaftauspraegung_ID, Kontakt_ID FROM Eigenschaft_Auspraegung " + " WHERE ID= " + id );
@@ -53,5 +56,7 @@ private static Eigenschaft_AuspraegungMapper eigenschaft_auspraegungMapper = nul
 	return null;
 	
 	}
+	
+	
 
 }
