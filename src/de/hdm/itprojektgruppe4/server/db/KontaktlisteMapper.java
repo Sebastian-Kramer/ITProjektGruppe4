@@ -32,7 +32,14 @@ public class KontaktlisteMapper {
 		
 		return kontaktlisteMapper;
 	}
-		
+	/**
+	 * 	Suchen einer Kontakliste mit vorgegebener Listennummer.
+	 * Da diese Nummer eindeutig ist, wird genau ein Objekt zurueck gegeben.
+	 * @param id
+	 * 
+	 * @return Kontaktlistenobjekt, das dem uebergebenen Schluessel entspricht, null bei nicht vorhandenem DB-Tulpel.
+	 */
+	
 		public Kontaktliste findbyid(int id){
 			Connection con = DBConnection.connection();
 			
@@ -55,6 +62,12 @@ public class KontaktlisteMapper {
 			return null;
 			
 		}
+		
+		/**
+		 * 
+		 * @param bezeichnung
+		 * @return Kontaktlistenobjekt, das dem uebergebenen Schluessel entspricht, null bei nicht vorhandenem DB-Tulpel.
+		 */
 	public Kontaktliste findbyBezeichnung(String bezeichnung){
 		Connection con = DBConnection.connection();
 		
@@ -81,7 +94,12 @@ public class KontaktlisteMapper {
 		return null;
 	}
 	
-	
+	/**
+	 * Hinzufuegen eines neuen Objektes vom Typ Kontaktliste in die Datenbank.
+	 * Der Primaerschluessel wird ueberprueft und korrigiert -> maxID +1
+	 * @param k
+	 * @return k
+	 */
 		public Kontaktliste createKontaktliste(Kontaktliste k) {
 		
 		Connection con = DBConnection.connection(); 
@@ -111,6 +129,13 @@ public class KontaktlisteMapper {
 		
 		return k;
 }
+		
+		/**
+		 * Ein Objekt vom Typ Kontaktliste wird in der Datenbank ueberschrieben
+		 * @param k
+		 * @return K
+		 */
+		
 		public Kontaktliste updateKontaktliste(Kontaktliste k) {
 			Connection con = DBConnection.connection();
 			
@@ -132,6 +157,11 @@ public class KontaktlisteMapper {
 			return k;
 		}
 		
+		/**
+		 * Ein Objekt vom Typ Kontaktliste wird aus der Datenbank geloescht
+		 * @param k
+		 * 
+		 */
 		
 		public void deleteKontaktliste(Kontaktliste k){
 			Connection con = DBConnection.connection();
