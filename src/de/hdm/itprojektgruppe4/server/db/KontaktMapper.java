@@ -169,7 +169,7 @@ public class KontaktMapper {
 			stmt.executeUpdate("UPDATE Kontakt " + "SET Name=\"" 
 			+ k.getName() +"\", " 
 			+ "Modifikationsdatum=\"" 
-			+ k.getModifikationsdatum() + "\", " 
+			+ format.format(k.getErzeugungsdatum()) + "\", " 
 			+ "Status=\"" 
 			+ k.getStatus() + "\", " 
 			+ "GoogleMail=\"" 
@@ -179,6 +179,8 @@ public class KontaktMapper {
 			+ "Nutzer_ID=\"" 
 			+k.getNutzer_id() + "\" " 
 			+ "WHERE ID=" + k.getID());
+			
+			
 			
 			
 			
