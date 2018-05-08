@@ -22,6 +22,11 @@ public class Eigenschaftauspraegung extends BusinessObject{
 		this.eigentuemer_id = eigentuemer_id;
 	}
 
+	@Override
+	public String toString() {
+		return "Eigenschaftauspraegung [wert=" + wert + ", eigentuemer_id=" + eigentuemer_id + "]";
+	}
+
 	
 	
 }
