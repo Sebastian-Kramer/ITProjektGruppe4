@@ -7,7 +7,7 @@ import de.hdm.itprojektgruppe4.shared.bo.*;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-public class KontaktMapper {
+public class KontaktMapper extends PersonMapper {
 
 	SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
 	
@@ -71,6 +71,47 @@ public class KontaktMapper {
 	}
 	
 	/**
+	 * 	Ein Kontakt anhand des Attributs Name finden. 
+	 * @param name der Name als String
+	 * @return der Kontakt bei dem der Name übereinstimmte 
+	 */
+	
+	
+	public Kontakt findKontaktByName(String name){
+		
+		Connection con = DBConnection.connection();
+
+		try {
+			
+		
+		Statement stmt = con.createStatement();
+		
+		ResultSet rs = stmt.executeQuery(
+				"SELECT ID, Nutzer_ID, Name, Erzeugungsdatum, Modifikationsdatum, Status FROM Kontakt " + " WHERE Name= " + name);
+		
+
+		if (rs.next()) {
+			Kontakt k = new Kontakt();
+			k.setID(rs.getInt("id"));
+			k.setNutzer_id(rs.getInt("Nutzer_ID"));
+			k.setName(rs.getString("Name"));
+			k.setErzeugungsdatum(rs.getDate("Erzeugungsdatum"));
+			k.setModifikationsdatum(rs.getDate("Modifikationsdatum"));
+			k.setStatus(rs.getInt("Status"));
+			
+			return k;
+		}
+		
+	}catch (SQLException e) {
+		e.printStackTrace();
+		return null;
+	}
+	return null;
+						
+	}
+	
+	
+	/**
 	 *  Ausgabe aller Kontakte sortiert nach ID 
 	 * @return Ein Vektor mit allen Kontakt-Objektenn
 	 * 			Im falle keiner Kontakte auf der DB wird eine Exception oder ein leerer Vektor zurückgegeben
@@ -127,20 +168,20 @@ public class KontaktMapper {
 			
 			Statement stmt = con.createStatement();
 			
-			ResultSet rs = stmt.executeQuery("SELECT MAX(ID) AS maxID " + " FROM kontakt ");
+			k.setID(super.insertPerson(k));
+			
+			ResultSet rs = stmt.executeQuery("SELECT MAX(ID) AS maxID " + " FROM person");
 			
 			if (rs.next()) {
-				
-				k.setID(rs.getInt("maxID") +1);
 				
 				stmt = con.createStatement();
 				
 				stmt.executeUpdate(
-						" INSERT INTO Kontakt (ID, Name, Erzeugungsdatum, Modifikationsdatum, Status, GoogleMail, Kontaktliste_ID, Nutzer_ID)"
+					
+						" INSERT INTO Kontakt (ID, Name, Erzeugungsdatum, Modifikationsdatum, Status, Nutzer_ID)"
 						+ " VALUES (" + k.getID() + " ,'" + k.getName() + "' ,'"
 						+ format.format(k.getErzeugungsdatum()) + "','" + format.format(k.getModifikationsdatum()) +  "' ,'"  
-						+ k.getStatus() + "','"  + k.getGoogleMail() + "','" 
-						+ k.getKontaktliste_id() + "','"  + k.getNutzer_id() + "')");
+						+ k.getStatus() + "','"  + k.getNutzer_id() + "')");
 						
 			}
 		}catch (SQLException e) {
@@ -153,10 +194,10 @@ public class KontaktMapper {
 	
 	
 	
-	/**
+	/** Ein Objekt vom Typ Kontakt wird geupdated.
 	 * 
-	 * @param k
-	 * @return
+	 * @param k der zu bearbeitende Kontakt
+	 * @return der bearbeitete Kontakt
 	 */
 	
 	public Kontakt updateKontakt(Kontakt k) {
