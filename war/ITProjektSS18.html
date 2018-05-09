@@ -16,7 +16,7 @@
     <!--                                           -->
     <!-- Any title is fine                         -->
     <!--                                           -->
-    <title>Web Application Starter Project</title>
+    <title>ITProjektSS18</title>
     
     <!--                                           -->
     <!-- This script loads your compiled module.   -->
@@ -31,7 +31,11 @@
   <!-- you can leave the body empty if you want  -->
   <!-- to create a completely dynamic UI.        -->
   <!--                                           -->
-  <body>
+  
+  
+   <!--                               BODY                                                      -->
+   
+  <body class= "Startseite">
 
     <!-- RECOMMENDED if your web app will not function without JavaScript enabled -->
     <noscript>
@@ -40,20 +44,54 @@
         in order for this application to display correctly.
       </div>
     </noscript>
+    
+    <!--                               HEADER                                                   -->
 
-    <h1>Web Application Starter Project</h1>
+	<header role="banner">
+		<nav>
+			<ul>
+				<li><a aria-current="page">Startseite</a></li>
+				<li><a href="1-unterseite.html">Inhalt</a></li>
+				<li><a href="1-unterseite.html">Termine</a></li>
+				<li><a href="2-kontakt.html">Kontakt</a></li>
+			</ul>
+		</nav>
+    	<h1>Kontaktverwaltung</h1>
+    	<p><span class="akzentfarbe2">Meine Kontakte    </span> <br>
+        	anlegen  
+    	<span class="akzentfarbe2">  verwalten    </span> 
+    	<span class="akzentfarbe1">    teilen    </span>
+    	</p>
+	</header>
 
-    <table align="center">
-      <tr>
-        <td colspan="2" style="font-weight:bold;">Please enter your name:</td>        
-      </tr>
-      <tr>
-        <td id="nameFieldContainer"></td>
-        <td id="sendButtonContainer"></td>
-      </tr>
-      <tr>
-        <td colspan="2" style="color:red;" id="errorLabelContainer"></td>
-      </tr>
-    </table>
-  </body>
+	<!--                               MAIN                                                   -->
+	  
+<main id = "Navigationsseite">
+  <div id="Navigator">
+    <p class="banner"><span class="akzentfarbe2">Hauptmenü</span></p>  
+  </div>
+
+  <div id="Details">
+    Design: Duit, <a href="https://designenlassen.de/">designenlassen.de</a><br/>
+       technische Umsetzung: <a href="https://selfhtml.org">selfhtml.org</a><br/>
+       (zur weiteren Verwendung freigegeben)
+    </div>
+	
+</main>
+
+	<!--                               FOOTER                                                   -->
+
+<footer role="contentinfo">
+  <div>
+    <p class="banner"><span class="akzentfarbe2">Meine</span> Kontaktverwaltung <span class="akzentfarbe2"></span></p>  
+    <p class="banner"><span class="akzentfarbe2">@ </span> <span class="akzentfarbe1">Gruppe 4</span></p>  
+  </div>
+
+  <div>
+    Entwickler: <br/> <br/>
+    Sebastian Kramer, Raphael Pantzakis, Nino Döring<br/><br/> 
+    Marcus Reiß, Clirim Shahini, Georg Erich
+    </div>
+</footer>
+</body>
 </html>

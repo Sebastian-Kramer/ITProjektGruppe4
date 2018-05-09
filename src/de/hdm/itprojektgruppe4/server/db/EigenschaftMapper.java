@@ -8,6 +8,12 @@ import java.sql.Statement;
 import de.hdm.itprojektgruppe4.shared.bo.Eigenschaft;
 import de.hdm.itprojektgruppe4.shared.bo.Kontakt;
 
+/**
+ * Mapper Klassen, die <code>Eigenschaft</code>-Objekte auf einer relationalen Datenbank abbildet.
+ * @author Raphael
+ *
+ */
+
 public class EigenschaftMapper {
 	
 	private static EigenschaftMapper eigenschaftMapper = null;
@@ -23,15 +29,22 @@ public class EigenschaftMapper {
 		return eigenschaftMapper;
 	}	
 	
+	/**
+	 * Suchen einer Eigenschaft mit vorgegebener ID.
+	 * @param id der Eigenschaft
+	 * @return die gesuchte Eigenschaft
+	 */
 	public Eigenschaft getEigenchaftByID(int id){
 		
+	// Verbindung zur Datenbank aufbauen
 		Connection con = DBConnection.connection();
 
 		try {
 			
-		
+	// Leeres SQL-Statement erzeugen
 		Statement stmt = con.createStatement();
 		
+	// Statement befüllen und als Query an die Datenbank schicken	
 		ResultSet rs = stmt.executeQuery(
 				"SELECT ID, Bez FROM Eigenschaft " + " WHERE ID= " + id );
 				 
@@ -51,6 +64,13 @@ public class EigenschaftMapper {
 	return null;
 	
 	}
+	
+	/**
+	 * Speichern eines <code>Eigenschaft</code>-Objekts in der Datenbank.
+	 * Der Primärschlüssel des Objekts
+	 * @param e das zu übergebende Objekt
+	 * @return das bereits übergebene Objekt mit korrigierter ID
+	 */
 
 	
 	public Eigenschaft insertEigenschaft (Eigenschaft e){
@@ -77,6 +97,42 @@ public class EigenschaftMapper {
 			k.printStackTrace();
 		}
 		return e;
+	}
+	
+	public Eigenschaft updateEigenschaft(Eigenschaft e){
+		
+		Connection con = DBConnection.connection();
+		
+		try{
+			
+			Statement stmt = con.createStatement();
+			
+			stmt.executeUpdate(" UPDATE eigenschaft " 
+			+ "SET Bez=\""
+			+ e.getBezeichnung() + "\", "
+			+ "Status\""
+			+ e.getStatus() + "\", "
+			+ "WHERE ID=" + e.getID());
+			
+		}catch (SQLException k){
+			k.printStackTrace();
+		}
+		return e;
+	}
+	
+	public Eigenschaft deleteEigenschaft(Eigenschaft e){
+		Connection con = DBConnection.connection();
+		
+		try{
+			
+			Statement stmt = con.createStatement();
+			
+			stmt.executeUpdate("DELETE from eigenschaft" + "WHERE ID= " + e.getID());
+			
+		}catch (SQLException k){
+			k.printStackTrace();
+			
+		}return e;
 	}
 	
 }
