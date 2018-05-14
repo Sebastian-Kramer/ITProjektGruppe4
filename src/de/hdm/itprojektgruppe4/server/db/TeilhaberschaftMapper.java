@@ -25,6 +25,7 @@ public class TeilhaberschaftMapper {
 		return teilhaberschaftMapper;
 	}
 	
+	
 	public Teilhaberschaft findByID(int id) {
 		
 		Connection con = DBConnection.connection();
@@ -35,19 +36,18 @@ public class TeilhaberschaftMapper {
 
 			ResultSet rs = stmt.executeQuery(
 					
-					"SELECT `ID`, `Kontaktliste_ID`, `Kontakt_ID`, `Eigenschaft_ID`,"
-					+ " `Eigenschaftsauspraegung_ID`, `Teilhaber_ID` FROM `teilhaberschaft` WHERE ID=" + id);
+					"SELECT `ID`, `kontaktlisteID`, `kontaktID`, `eigenschaftsauspraegungID`,"
+					+ " `teilhaberID` FROM"	+ " `teilhaberschaft` WHERE ID=" + id);
 
 			if (rs.next()) {
 				
 				Teilhaberschaft t = new Teilhaberschaft();
 				
-				t.setID(rs.getInt("id"));
-				t.setKontaktListeID(rs.getInt("id"));
-				t.setKontaktID(rs.getInt("id"));
-				t.setEigenschaftsID(rs.getInt("id"));
-				t.setEigenschaftsAuspraegungID(rs.getInt("id"));
-				t.setTeilhaberID(rs.getInt("id"));
+				t.setID(rs.getInt("ID"));
+				t.setKontaktListeID(rs.getInt("kontaktlisteID"));
+				t.setKontaktID(rs.getInt("kontaktID"));
+				t.setEigenschaftsauspraegungID(rs.getInt("eigenschaftsauspraegungID"));
+				t.setTeilhaberID(rs.getInt("teilhaberID"));
 
 				return t;
 			}
@@ -77,11 +77,17 @@ public class TeilhaberschaftMapper {
 
 		        stmt = con.createStatement();
 
-		        stmt.executeUpdate("INSERT INTO teilhaberschaft (`ID`, `Kontaktliste_ID`, `Kontakt_ID`, "
-		        		+ "`Eigenschaft_ID`, `Eigenschaftsauspraegung_ID`, `Teilhaber_ID`) " + 
-		        		"VALUES ("+ t.getID() + "," + t.getKontaktListeID() + 
-		        		"," + t.getKontaktID() + "," + t.getEigenschaftsID() + 
-		        		"," + t.getEigenschaftsAuspraegungID() + "," + t.getTeilhaberID() +")");
+		        stmt.executeUpdate("INSERT INTO `teilhaberschaft`(`ID`, `kontaktlisteID`, `kontaktID`,"
+		        		+ " `eigenschaftsauspraegungID`, `teilhaberID`) "
+		        		+ "VALUES ('"+t.getID()+"', '"+t.getKontaktListeID()+"', '"
+		        				+ ""+t.getKontaktID()+"', '"+t.getEigenschaftsauspraegungID()+"', '"
+		        						+ ""+t.getTeilhaberID()+"')");
+		        
+//		        stmt.executeUpdate("INSERT INTO `teilhaberschaft`(`ID`, `kontaktlisteID`, `kontaktID`, "
+//		        		+ "`eigenschaftsauspraegungID`, `teilhaberID`) " + 
+//		        		"VALUES ("+ t.getID() + "," + t.getKontaktListeID() + 
+//		        		"," + t.getKontaktID() + "," + t.getEigenschaftsAuspraegungID() +
+//		        		"," + t.getTeilhaberID() +")");
 		      }
 		    }
 		    catch (SQLException e2) {
@@ -120,8 +126,10 @@ public class TeilhaberschaftMapper {
 		    	
 		      Statement stmt = con.createStatement();
 
-		      stmt.executeUpdate("DELETE FROM teilhaberschaft " + 
-		      "WHERE Kontakt_ID=" + t.getKontaktID());
+		      stmt.executeUpdate(
+		    		  
+		    	"DELETE FROM `teilhaberschaft` WHERE `kontaktID`=" + t.getKontaktID() 
+		    	+" " + "AND `teilhaberID` =" + t.getTeilhaberID());
 
 		    }
 		    catch (SQLException e2) {
@@ -140,8 +148,10 @@ public class TeilhaberschaftMapper {
 		    	
 		      Statement stmt = con.createStatement();
 
-		      stmt.executeUpdate("DELETE FROM teilhaberschaft " + 
-		      "WHERE Kontaktliste_ID=" + t.getKontaktListeID());
+		      stmt.executeUpdate
+		      
+		      ("DELETE FROM `teilhaberschaft` WHERE `kontaktlisteID`=" + t.getKontaktListeID() 
+		    	+" " + "AND `teilhaberID` =" + t.getTeilhaberID());
 
 		    }
 		    catch (SQLException e2) {
@@ -151,8 +161,8 @@ public class TeilhaberschaftMapper {
 		    }
 		    
 		  }
-	  
-	  public void deleteEigenschaftFromTeilhaberschaft(Teilhaberschaft t) {
+
+	  public void deleteEigenschaftsauspraegungFromTeilhaberschaft(Teilhaberschaft t) {
 		  
 		    Connection con = DBConnection.connection();
 
@@ -160,28 +170,10 @@ public class TeilhaberschaftMapper {
 		    	
 		      Statement stmt = con.createStatement();
 
-		      stmt.executeUpdate("DELETE FROM teilhaberschaft " + 
-		      "WHERE Eigenschaft_ID=" + t.getEigenschaftsID());
-
-		    }
-		    catch (SQLException e2) {
-		    	
-		      e2.printStackTrace();
+		      stmt.executeUpdate
 		      
-		    }
-		    
-		  }
-	  
-	  public void deleteEigenschaftsAuspraegungFromTeilhaberschaft(Teilhaberschaft t) {
-		  
-		    Connection con = DBConnection.connection();
-
-		    try {
-		    	
-		      Statement stmt = con.createStatement();
-
-		      stmt.executeUpdate("DELETE FROM teilhaberschaft " + 
-		      "WHERE Eigenschaftsauspraegung_ID=" + t.getEigenschaftsAuspraegungID());
+		      ("DELETE FROM `teilhaberschaft` WHERE `eigenschaftsauspraegungID`=" + t.getEigenschaftsauspraegungID() 
+		    	+" " + "AND `teilhaberID` =" + t.getTeilhaberID());
 
 		    }
 		    catch (SQLException e2) {

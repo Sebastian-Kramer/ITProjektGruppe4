@@ -5,65 +5,55 @@ public class Teilhaberschaft extends BusinessObject{
 	private static final long serialVersionUID = 1L;
 
 	
-	int NutzerID; 
+	private int kontaktID;
 	
-	int KontaktID;
+	private int kontaktListeID;
 	
-	int KontaktListeID;
+	private int eigenschaftsauspraegungID;
 	
-	int EigenschaftsID;
+	private int teilhaberID;
 	
-	int TeilhaberID;
-	
-	public int getTeilhaberID() {
-		return TeilhaberID;
-	}
-
-	public void setTeilhaberID(int teilhaberID) {
-		TeilhaberID = teilhaberID;
-	}
-
-	public int getEigenschaftsID() {
-		return EigenschaftsID;
-	}
-
-	public void setEigenschaftsID(int eigenschaftsID) {
-		EigenschaftsID = eigenschaftsID;
-	}
-
-	int EigenschaftsAuspraegungID;
-	
-
-	public int getNutzerID() {
-		return NutzerID;
-	}
-
-	public void setNutzerID(int nutzerID) {
-		NutzerID = nutzerID;
-	}
 
 	public int getKontaktID() {
-		return KontaktID;
+		return kontaktID;
 	}
 
 	public void setKontaktID(int kontaktID) {
-		KontaktID = kontaktID;
+		this.kontaktID = kontaktID;
 	}
 
 	public int getKontaktListeID() {
-		return KontaktListeID;
+		return kontaktListeID;
 	}
 
 	public void setKontaktListeID(int kontaktListeID) {
-		KontaktListeID = kontaktListeID;
+		this.kontaktListeID = kontaktListeID;
 	}
 
-	public int getEigenschaftsAuspraegungID() {
-		return EigenschaftsAuspraegungID;
+	public int getEigenschaftsauspraegungID() {
+		return eigenschaftsauspraegungID;
 	}
 
-	public void setEigenschaftsAuspraegungID(int eigenschaftsAuspraegungID) {
-		EigenschaftsAuspraegungID = eigenschaftsAuspraegungID;
+	public void setEigenschaftsauspraegungID(int eigenschaftsauspraegungID) {
+		this.eigenschaftsauspraegungID = eigenschaftsauspraegungID;
 	}
+
+	public int getTeilhaberID() {
+		return teilhaberID;
+	}
+
+	public void setTeilhaberID(int teilhaberID) {
+		this.teilhaberID = teilhaberID;
+	}
+
+	@Override
+	public String toString() {
+		return "Teilhaberschaft [kontaktID=" + kontaktID + ", kontaktListeID=" + kontaktListeID
+				+ ", eigenschaftsauspraegungID=" + eigenschaftsauspraegungID + ", teilhaberID=" + teilhaberID + "]";
+	} 
+	
+	
+	
 	
 }
+	
