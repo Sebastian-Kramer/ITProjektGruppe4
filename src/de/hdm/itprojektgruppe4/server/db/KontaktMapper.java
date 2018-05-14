@@ -1,6 +1,10 @@
 package de.hdm.itprojektgruppe4.server.db;
 
-import java.sql.*;
+import java.sql.Connection;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
+//import java.sql.*;
 import java.text.SimpleDateFormat;
 import java.util.Vector;
 import de.hdm.itprojektgruppe4.shared.bo.*;

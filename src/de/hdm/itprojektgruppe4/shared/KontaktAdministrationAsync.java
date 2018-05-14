@@ -1,6 +1,6 @@
 package de.hdm.itprojektgruppe4.shared;
 
-import java.sql.Date;
+import java.util.Date;
 import java.util.ArrayList;
 import java.util.Vector;
 
@@ -10,9 +10,12 @@ import de.hdm.itprojektgruppe4.shared.bo.Eigenschaft;
 import de.hdm.itprojektgruppe4.shared.bo.Eigenschaftauspraegung;
 import de.hdm.itprojektgruppe4.shared.bo.Kontakt;
 import de.hdm.itprojektgruppe4.shared.bo.Kontaktliste;
+import de.hdm.itprojektgruppe4.shared.bo.Nutzer;
 import de.hdm.itprojektgruppe4.shared.bo.Teilhaberschaft;
 
 public interface KontaktAdministrationAsync {
+
+	void init(AsyncCallback<Void> callback);
 	/*
 	void createEigenschaft(String bezeichnung, boolean status, AsyncCallback<Eigenschaft> callback);
 
@@ -73,4 +76,9 @@ public interface KontaktAdministrationAsync {
 
 	void updateTeilhaberschaft(Teilhaberschaft teilhaberschaft, AsyncCallback<Void> callback);
 	*/
+
+	void insertKontakt(String name, Date erzeugungsdatum, Date modifikationsdatum, int status, int nutzerID,
+			AsyncCallback<Kontakt> callback);
+
+	void insertNutzer(String mail, AsyncCallback<Nutzer> callback);
 }
