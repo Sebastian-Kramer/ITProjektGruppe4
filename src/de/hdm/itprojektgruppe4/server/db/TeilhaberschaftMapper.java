@@ -68,8 +68,9 @@ public class TeilhaberschaftMapper {
 		    try {
 		      Statement stmt = con.createStatement();
 
-		      ResultSet rs = stmt.executeQuery("SELECT MAX(id) AS maxid "
-		          + "FROM teilhaberschaft ");
+		      ResultSet rs = stmt.executeQuery(
+		    		  
+		    "SELECT MAX(id) AS maxid " + "FROM teilhaberschaft ");
 
 		      if (rs.next()) {
 		
@@ -77,17 +78,12 @@ public class TeilhaberschaftMapper {
 
 		        stmt = con.createStatement();
 
-		        stmt.executeUpdate("INSERT INTO `teilhaberschaft`(`ID`, `kontaktlisteID`, `kontaktID`,"
+		        stmt.executeUpdate(
+		        		
+		        		"INSERT INTO `teilhaberschaft`(`ID`, `kontaktlisteID`, `kontaktID`,"
 		        		+ " `eigenschaftsauspraegungID`, `teilhaberID`) "
 		        		+ "VALUES ('"+t.getID()+"', '"+t.getKontaktListeID()+"', '"
-		        				+ ""+t.getKontaktID()+"', '"+t.getEigenschaftsauspraegungID()+"', '"
-		        						+ ""+t.getTeilhaberID()+"')");
-		        
-//		        stmt.executeUpdate("INSERT INTO `teilhaberschaft`(`ID`, `kontaktlisteID`, `kontaktID`, "
-//		        		+ "`eigenschaftsauspraegungID`, `teilhaberID`) " + 
-//		        		"VALUES ("+ t.getID() + "," + t.getKontaktListeID() + 
-//		        		"," + t.getKontaktID() + "," + t.getEigenschaftsAuspraegungID() +
-//		        		"," + t.getTeilhaberID() +")");
+		        		+ ""+t.getKontaktID()+"', '"+t.getEigenschaftsauspraegungID()+"', '"+ ""+t.getTeilhaberID()+"')");
 		      }
 		    }
 		    catch (SQLException e2) {
@@ -107,7 +103,9 @@ public class TeilhaberschaftMapper {
 		    	
 		      Statement stmt = con.createStatement();
 
-		      stmt.executeUpdate("DELETE FROM teilhaberschaft " + "WHERE id=" + t.getID());
+		      stmt.executeUpdate(
+		    		  
+		      "DELETE FROM teilhaberschaft " + "WHERE id=" + t.getID());
 
 		    }
 		    catch (SQLException e2) {
@@ -150,7 +148,9 @@ public class TeilhaberschaftMapper {
 
 		      stmt.executeUpdate
 		      
-		      ("DELETE FROM `teilhaberschaft` WHERE `kontaktlisteID`=" + t.getKontaktListeID() 
+		      (
+		    		  
+		        "DELETE FROM `teilhaberschaft` WHERE `kontaktlisteID`=" + t.getKontaktListeID() 
 		    	+" " + "AND `teilhaberID` =" + t.getTeilhaberID());
 
 		    }
@@ -172,7 +172,9 @@ public class TeilhaberschaftMapper {
 
 		      stmt.executeUpdate
 		      
-		      ("DELETE FROM `teilhaberschaft` WHERE `eigenschaftsauspraegungID`=" + t.getEigenschaftsauspraegungID() 
+		      (
+		    		  
+		       "DELETE FROM `teilhaberschaft` WHERE `eigenschaftsauspraegungID`=" + t.getEigenschaftsauspraegungID() 
 		    	+" " + "AND `teilhaberID` =" + t.getTeilhaberID());
 
 		    }
