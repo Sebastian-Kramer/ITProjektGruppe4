@@ -2,6 +2,16 @@ package de.hdm.itprojektgruppe4.shared.bo;
 
 public class Nutzer extends BusinessObject{
 	
-	private String googleMail;
+	private String email;
 
+	public String getEmail() {
+		return email;
+	}
+
+	public void setEmail(String email) {
+		this.email = email;
+	}
+
+	
+	
 }

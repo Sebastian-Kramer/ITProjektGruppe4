@@ -14,8 +14,6 @@ public class Kontakt extends Person{
 	
 	private int status;
 	
-	private String googleMail;
-	
 	private int kontaktliste_id;
 	
 	private int nutzer_id;
@@ -79,16 +77,6 @@ public class Kontakt extends Person{
 	}
 	
 	
-	public String getGoogleMail() {
-		return googleMail;
-	}
-
-
-
-	public void setGoogleMail(String googleMail) {
-		this.googleMail = googleMail;
-	}
-
 
 
 	public int getKontaktliste_id() {

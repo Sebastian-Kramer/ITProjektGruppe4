@@ -45,17 +45,17 @@ public class KontaktMapper extends PersonMapper {
 		Statement stmt = con.createStatement();
 		
 		ResultSet rs = stmt.executeQuery(
-				"SELECT ID, Nutzer_ID, Name, Erzeugungsdatum, Modifikationsdatum, Status FROM Kontakt " + " WHERE ID= " + id );
+				"SELECT ID, name, erzeugungsdatum, modifikationsdatum, status, nutzerID FROM kontakt " + " WHERE ID= " + id );
 				 
 		
 		if (rs.next()) {
 			Kontakt k = new Kontakt();
-			k.setID(rs.getInt("id"));
-			k.setNutzer_id(rs.getInt("Nutzer_ID"));
-			k.setName(rs.getString("Name"));
-			k.setErzeugungsdatum(rs.getDate("Erzeugungsdatum"));
-			k.setModifikationsdatum(rs.getDate("Modifikationsdatum"));
-			k.setStatus(rs.getInt("Status"));
+			k.setID(rs.getInt("ID"));
+			k.setName(rs.getString("name"));
+			k.setErzeugungsdatum(rs.getDate("erzeugungsdatum"));
+			k.setModifikationsdatum(rs.getDate("modifikationsdatum"));
+			k.setStatus(rs.getInt("status"));
+			k.setNutzer_id(rs.getInt("nutzerID"));
 			
 			return k;
 		}
@@ -87,17 +87,17 @@ public class KontaktMapper extends PersonMapper {
 		Statement stmt = con.createStatement();
 		
 		ResultSet rs = stmt.executeQuery(
-				"SELECT ID, Nutzer_ID, Name, Erzeugungsdatum, Modifikationsdatum, Status FROM Kontakt " + " WHERE Name= " + name);
+				"SELECT ID, name, erzeugungsdatum, modifikationsdatum, status, nutzerID FROM kontakt " + " WHERE name= " + name);
 		
 
 		if (rs.next()) {
 			Kontakt k = new Kontakt();
-			k.setID(rs.getInt("id"));
-			k.setNutzer_id(rs.getInt("Nutzer_ID"));
-			k.setName(rs.getString("Name"));
-			k.setErzeugungsdatum(rs.getDate("Erzeugungsdatum"));
-			k.setModifikationsdatum(rs.getDate("Modifikationsdatum"));
-			k.setStatus(rs.getInt("Status"));
+			k.setID(rs.getInt("ID"));
+			k.setName(rs.getString("name"));
+			k.setErzeugungsdatum(rs.getDate("erzeugungsdatum"));
+			k.setModifikationsdatum(rs.getDate("modifikationsdatum"));
+			k.setStatus(rs.getInt("status"));
+			k.setNutzer_id(rs.getInt("nutzerID"));
 			
 			return k;
 		}
@@ -124,20 +124,18 @@ public class KontaktMapper extends PersonMapper {
 		try{
 			Statement stmt = con.createStatement();
 			
-			ResultSet rs = stmt.executeQuery("SELECT ID, Name, Erzeugungsdatum, Modifikationsdatum, Status, GoogleMail, Kontaktliste_ID, Nutzer_ID "
-					+ "FROM Kontakt " + "ORDER by ID");
+			ResultSet rs = stmt.executeQuery("SELECT ID, name, erzeugungsdatum, modifikationsdatum, status, nutzerID FROM kontakt "
+					 + "ORDER by ID");
 			
 					
 		while (rs.next()){
 			Kontakt k = new Kontakt();
 			k.setID(rs.getInt("ID"));
-			k.setName(rs.getString("Name"));
-			k.setErzeugungsdatum(rs.getDate("Erzeugungsdatum"));
-			k.setModifikationsdatum(rs.getDate("Modifikationsdatum"));
-			k.setStatus(rs.getInt("Status"));
-			k.setGoogleMail(rs.getString("GoogleMail"));
-			k.setKontaktliste_id(rs.getInt("Kontaktliste_ID"));
-			k.setNutzer_id(rs.getInt("Nutzer_ID"));
+			k.setName(rs.getString("name"));
+			k.setErzeugungsdatum(rs.getDate("erzeugungsdatum"));
+			k.setModifikationsdatum(rs.getDate("modifikationsdatum"));
+			k.setStatus(rs.getInt("status"));
+			k.setNutzer_id(rs.getInt("nutzerID"));
 			
 			result.addElement(k);
 		}			
@@ -178,7 +176,7 @@ public class KontaktMapper extends PersonMapper {
 				
 				stmt.executeUpdate(
 					
-						" INSERT INTO Kontakt (ID, Name, Erzeugungsdatum, Modifikationsdatum, Status, Nutzer_ID)"
+						" INSERT INTO kontakt (ID, name, erzeugungsdatum, modifikationsdatum, status, nutzerID)"
 						+ " VALUES (" + k.getID() + " ,'" + k.getName() + "' ,'"
 						+ format.format(k.getErzeugungsdatum()) + "','" + format.format(k.getModifikationsdatum()) +  "' ,'"  
 						+ k.getStatus() + "','"  + k.getNutzer_id() + "')");
@@ -207,19 +205,15 @@ public class KontaktMapper extends PersonMapper {
 			
 			Statement stmt = con.createStatement();
 			
-			stmt.executeUpdate("UPDATE Kontakt " + "SET Name=\"" 
+			stmt.executeUpdate("UPDATE kontakt " + "SET name=\"" 
 			+ k.getName() +"\", " 
-			+ "Modifikationsdatum=\"" 
-			+ format.format(k.getErzeugungsdatum()) + "\", " 
-			+ "Status=\"" 
+			+ "modifikationsdatum=\"" 
+			+ format.format(k.getModifikationsdatum() + "\", " 
+			+ "status=\"" 
 			+ k.getStatus() + "\", " 
-			+ "GoogleMail=\"" 
-			+ k.getGoogleMail() + "\", " 
-			+ "Kontaktliste_ID=\"" 
-			+ k.getKontaktliste_id() + "\", " 
-			+ "Nutzer_ID=\"" 
+			+ "nutzerID=\"" 
 			+k.getNutzer_id() + "\" " 
-			+ "WHERE ID=" + k.getID());
+			+ "WHERE ID=" + k.getID()));
 			
 			
 			
@@ -248,7 +242,7 @@ public class KontaktMapper extends PersonMapper {
 			
 			Statement stmt = con.createStatement();
 			
-			stmt.executeUpdate("DELETE FROM Kontakt " + "WHERE id=" + k.getID());
+			stmt.executeUpdate("DELETE FROM kontakt " + "WHERE ID=" + k.getID());
 		}catch (SQLException e){
 			e.printStackTrace();
 		}
