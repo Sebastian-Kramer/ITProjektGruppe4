@@ -55,7 +55,7 @@ public class KontaktMapper extends PersonMapper {
 			k.setErzeugungsdatum(rs.getDate("erzeugungsdatum"));
 			k.setModifikationsdatum(rs.getDate("modifikationsdatum"));
 			k.setStatus(rs.getInt("status"));
-			k.setNutzer_id(rs.getInt("nutzerID"));
+			k.setNutzerID(rs.getInt("nutzerID"));
 			
 			return k;
 		}
@@ -97,7 +97,7 @@ public class KontaktMapper extends PersonMapper {
 			k.setErzeugungsdatum(rs.getDate("erzeugungsdatum"));
 			k.setModifikationsdatum(rs.getDate("modifikationsdatum"));
 			k.setStatus(rs.getInt("status"));
-			k.setNutzer_id(rs.getInt("nutzerID"));
+			k.setNutzerID(rs.getInt("nutzerID"));
 			
 			return k;
 		}
@@ -135,7 +135,7 @@ public class KontaktMapper extends PersonMapper {
 			k.setErzeugungsdatum(rs.getDate("erzeugungsdatum"));
 			k.setModifikationsdatum(rs.getDate("modifikationsdatum"));
 			k.setStatus(rs.getInt("status"));
-			k.setNutzer_id(rs.getInt("nutzerID"));
+			k.setNutzerID(rs.getInt("nutzerID"));
 			
 			result.addElement(k);
 		}			
@@ -179,7 +179,7 @@ public class KontaktMapper extends PersonMapper {
 						" INSERT INTO kontakt (ID, name, erzeugungsdatum, modifikationsdatum, status, nutzerID)"
 						+ " VALUES (" + k.getID() + " ,'" + k.getName() + "' ,'"
 						+ format.format(k.getErzeugungsdatum()) + "','" + format.format(k.getModifikationsdatum()) +  "' ,'"  
-						+ k.getStatus() + "','"  + k.getNutzer_id() + "')");
+						+ k.getStatus() + "','"  + k.getNutzerID() + "')");
 						
 			}
 		}catch (SQLException e) {
@@ -212,7 +212,7 @@ public class KontaktMapper extends PersonMapper {
 			+ "status=\"" 
 			+ k.getStatus() + "\", " 
 			+ "nutzerID=\"" 
-			+k.getNutzer_id() + "\" " 
+			+k.getNutzerID() + "\" " 
 			+ "WHERE ID=" + k.getID()));
 			
 			

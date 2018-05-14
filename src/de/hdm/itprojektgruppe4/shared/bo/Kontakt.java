@@ -14,20 +14,11 @@ public class Kontakt extends Person{
 	
 	private int status;
 	
-	private int kontaktliste_id;
+	private int kontaktlisteID;
 	
-	private int nutzer_id;
+	private int nutzerID;
 
-	public int getNutzer_id() {
-		return nutzer_id;
-	}
-
-
-
-	public void setNutzer_id(int nutzer_id) {
-		this.nutzer_id = nutzer_id;
-	}
-
+	
 
 	public String getName() {
 		return name;
@@ -64,8 +55,7 @@ public class Kontakt extends Person{
 	}
 
 
-	
-	
+
 	public int getStatus() {
 		return status;
 	}
@@ -75,18 +65,29 @@ public class Kontakt extends Person{
 	public void setStatus(int status) {
 		this.status = status;
 	}
-	
-	
 
 
-	public int getKontaktliste_id() {
-		return kontaktliste_id;
+
+	public int getKontaktlisteID() {
+		return kontaktlisteID;
 	}
 
 
 
-	public void setKontaktliste_id(int kontaktliste_id) {
-		this.kontaktliste_id = kontaktliste_id;
+	public void setKontaktlisteID(int kontaktlisteID) {
+		this.kontaktlisteID = kontaktlisteID;
+	}
+
+
+
+	public int getNutzerID() {
+		return nutzerID;
+	}
+
+
+
+	public void setNutzerID(int nutzerID) {
+		this.nutzerID = nutzerID;
 	}
 
 

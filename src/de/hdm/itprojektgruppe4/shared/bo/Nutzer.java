@@ -1,6 +1,8 @@
 package de.hdm.itprojektgruppe4.shared.bo;
 
-public class Nutzer extends BusinessObject{
+public class Nutzer extends Person{
+	
+	private static final long serialVersionUID = 1L;
 	
 	private String email;
 
@@ -12,6 +14,12 @@ public class Nutzer extends BusinessObject{
 		this.email = email;
 	}
 
+	@Override
+	public String toString() {
+		return "Nutzer [email=" + email + "]";
+	}
+
+	
 	
 	
 }

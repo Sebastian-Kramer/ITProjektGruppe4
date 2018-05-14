@@ -40,19 +40,20 @@ public class KontaktlisteMapper {
 	 * @return Kontaktlistenobjekt, das dem uebergebenen Schluessel entspricht, null bei nicht vorhandenem DB-Tulpel.
 	 */
 	
-		public Kontaktliste findbyid(int id){
+		public Kontaktliste findbyID(int id){
 			Connection con = DBConnection.connection();
 			
 			try{
 				Statement stmt = con.createStatement();
-				ResultSet rs = stmt.executeQuery("SELECT ID, Bez FROM Kontaktliste "
+				ResultSet rs = stmt.executeQuery("SELECT ID, bez, status FROM kontaktliste "
 	          + "WHERE ID=" + id);
 				
 				if(rs.next()){
-					Kontaktliste k = new Kontaktliste();
-					k.setID(rs.getInt("ID"));
-					k.setBezeichnung(rs.getString("Bez"));
-					return k;
+					Kontaktliste kl = new Kontaktliste();
+					kl.setID(rs.getInt("ID"));
+					kl.setBez(rs.getString("bez"));
+					kl.setStatus(rs.getInt("status"));
+					return kl;
 				}
 			}
 			catch(SQLException e2){
@@ -73,15 +74,15 @@ public class KontaktlisteMapper {
 		
 		try{
 			Statement stmt = con.createStatement();
-		ResultSet rs = stmt.executeQuery("SELECT ID, Bez, Eigentuemer_ID FROM Kontaktliste " + "WHERE Bez="
+		ResultSet rs = stmt.executeQuery("SELECT ID, bez, status FROM kontaktliste " + "WHERE bez ="
 			+ bezeichnung);
 		
 		if(rs.next()){
-			Kontaktliste k = new Kontaktliste();
-			k.setID(rs.getInt("ID"));
-			k.setBezeichnung(rs.getString("Bez"));
-			k.setNutzerID(rs.getInt("Eigentuemer_ID"));
-			return k ;
+			Kontaktliste kl = new Kontaktliste();
+			kl.setID(rs.getInt("ID"));
+			kl.setBez(rs.getString("bez"));
+
+			return kl ;
 		
 		
 	
@@ -100,7 +101,7 @@ public class KontaktlisteMapper {
 	 * @param k
 	 * @return k
 	 */
-		public Kontaktliste createKontaktliste(Kontaktliste k) {
+		public Kontaktliste insertKontaktliste(Kontaktliste kl) {
 		
 		Connection con = DBConnection.connection(); 
 		
@@ -112,13 +113,12 @@ public class KontaktlisteMapper {
 			
 			if (rs.next()) {
 				
-				k.setID(rs.getInt("maxID") +1);
+				kl.setID(rs.getInt("maxID") +1);
 				
 				stmt = con.createStatement();
 				
 				stmt.executeUpdate(
-						"INSERT INTO Kontaktliste (ID, Bez, Eigentuemer_ID)" + " VALUES (" + k.getID() + "x ,'" + k.getBezeichnung() 
-						+ "' ,'" + k.getNutzerID() + "')");
+						"INSERT INTO Kontaktliste (ID, bez, status)" + " VALUES (" + kl.getID() + " ,'" + kl.getBez() + "' ,'" + kl.getStatus() + "')");
 					
 						
 			}
@@ -127,7 +127,7 @@ public class KontaktlisteMapper {
 
 		}	
 		
-		return k;
+		return kl;
 }
 		
 		/**
@@ -143,10 +143,10 @@ public class KontaktlisteMapper {
 				
 				Statement stmt = con.createStatement();
 				
-				stmt.executeUpdate("UPDATE Kontaktliste " + "SET Bez=\"" 
-				+ k.getBezeichnung() +"\", " 
-				+ "Eigentuemer_ID=\"" 
-				+ k.getNutzerID() + "\" " 
+				stmt.executeUpdate("UPDATE kontaktliste " + "SET bez=\"" 
+				+ k.getBez() +"\", " 
+				+ "status=\"" 
+				+ k.getStatus() + "\" " 
 				+ "WHERE ID=" + k.getID());
 				
 				
@@ -170,9 +170,37 @@ public class KontaktlisteMapper {
 				
 				Statement stmt = con.createStatement();
 				
-				stmt.executeUpdate("DELETE FROM Kontaktliste " + "WHERE ID= " + k.getID());
+				stmt.executeUpdate("DELETE FROM kontaktliste " + "WHERE ID= " + k.getID());
 			}catch (SQLException e){
 				e.printStackTrace();
 			}
 		}
+		
+		
+		public Vector<Kontaktliste> findAll(){
+			Vector<Kontaktliste> result = new Vector<Kontaktliste>();
+			
+			Connection con = DBConnection.connection();
+			
+			try{
+				
+				Statement stmt = con.createStatement();
+				
+				ResultSet rs = stmt.executeQuery("SELECT ID, bez, status FROM kontaktliste" + " ORDER by ID");
+			
+			while (rs.next()){
+				Kontaktliste kl = new Kontaktliste();
+				kl.setID(rs.getInt("ID"));
+				kl.setBez(rs.getString("bez"));
+				kl.setStatus(rs.getInt("status"));
+				
+				result.addElement(kl);
+			}
+			}catch (SQLException e){
+				e.printStackTrace();
+			}
+			
+			return result;
+		}
+		
 }

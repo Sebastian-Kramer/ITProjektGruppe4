@@ -57,4 +57,60 @@ private static NutzerMapper nutzerMapper = null;
 	}
 	
 	
+	public Vector<Nutzer> findAll(){
+		Vector<Nutzer> result = new Vector<Nutzer>();
+		
+		Connection con = DBConnection.connection();
+		
+		try{
+			Statement stmt = con.createStatement();
+			
+			ResultSet rs = stmt.executeQuery("SELECT ID, email FROM nutzer " + "ORDER by ID");
+			
+			while (rs.next()){
+				Nutzer n = new Nutzer();
+				n.setID(rs.getInt("ID"));
+				n.setEmail(rs.getString("email"));
+				
+				result.addElement(n);
+			}
+		}catch (SQLException e){
+			e.printStackTrace();
+		}
+		
+		return result;
+	}
+	
+	public Nutzer insertNutzer(Nutzer n) {
+		
+		Connection con = DBConnection.connection();
+		
+		try{
+			
+			Statement stmt = con.createStatement();
+			
+			n.setID(super.insertPerson(n));
+			
+			ResultSet rs = stmt.executeQuery("SELECT MAX(ID) AS maxID " + " FROM person");
+		
+			if (rs.next()) {
+				
+				stmt = con.createStatement();
+				
+				stmt.executeUpdate(
+						
+						"INSERT INTO nutzer (ID, email)"
+						+ " VALUES (" + n.getID() + " ,'" + n.getEmail() + "')");
+						
+						
+						
+			}
+		
+		}catch (SQLException e){
+			e.printStackTrace();
+		}
+		
+		return n;
+	}
+	
 }

@@ -13,100 +13,30 @@ public class Kontaktliste extends BusinessObject {
      */
 	private static final long serialVersionUID = 1L;
 
-    /**
-     * 
-     */
-    private int KontaktID;
-
-    /**
-     * 
-     */
-    private int NutzerID;
-
-    /**
-     * 
-     */
-    private String bezeichnung;
-
-    /**
-     * 
-     */
-    private boolean status;
-
-    /**
-     * 
-     */
-    public Set<Kontakt> Kontakt;
-
-
-    /**
-     * 
-     */
-    public Kontakt Nutzer;
-
-
-    /**
-     * @return
-     */
-    public int getKontaktID() {
-        return this.KontaktID;
-    }
-
-    /**
-     * @param id 
-     * @return
-     */
-    public void setKontaktID(int id) {
-        this.KontaktID = id; ;
-    }
-
-    /**
-     * @return
-     */
-    public int getNutzerID() {
-        return this.NutzerID;
-    }
-
-    /**
-     * @param id 
-     * @return
-     */
-    public void setNutzerID(int id) {
-        this.NutzerID = id;;
-    }
+    private String bez;
     
-    /**
-     * @return
-     */
-    public String getBezeichnung() {
-        return this.bezeichnung;
-    }
+    private int status;
 
-    /**
-     * @param bez 
-     * @return
-     */
-    public void setBezeichnung(String bez) {
-        this.bezeichnung = bez;
-    }
+	public String getBez() {
+		return bez;
+	}
 
-    /**
-     * @return
-     */
-    public boolean getStatus() {
-        return this.status;
-    }
+	public void setBez(String bez) {
+		this.bez = bez;
+	}
 
-    /**
-     * @param status 
-     * @return
-     */
-    public void setStatus(boolean status) {
-        this.status = status;
-    }
+	public int getStatus() {
+		return status;
+	}
+
+	public void setStatus(int status) {
+		this.status = status;
+	}
+
+	@Override
+	public String toString() {
+		return "Kontaktliste [bez=" + bez + ", status=" + status + "]";
+	}
     
-    public String toString(){
-    	return this.bezeichnung;
-    }
-
+    
 }
