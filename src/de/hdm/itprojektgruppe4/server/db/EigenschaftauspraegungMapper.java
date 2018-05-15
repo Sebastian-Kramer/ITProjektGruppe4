@@ -33,13 +33,13 @@ public class EigenschaftauspraegungMapper {
 		Statement stmt = con.createStatement();
 		
 		ResultSet rs = stmt.executeQuery(
-				"SELECT ID, Wert FROM Eigenschaftsauspraegung " + " WHERE ID= " + id );
+				"SELECT ID, Wert FROM eigenschaftsauspraegung " + " WHERE ID= " + id );
 				 
 		
 		if (rs.next()) {
 			Eigenschaftauspraegung e = new Eigenschaftauspraegung();
 			e.setID(rs.getInt("ID"));
-			e.setWert(rs.getString("Wert"));
+			e.setWert(rs.getString("wert"));
 			
 			return e;
 		}
@@ -77,9 +77,11 @@ public Eigenschaftauspraegung insertAuspraegung(Eigenschaftauspraegung ea) {
 				stmt = con.createStatement();
 				
 				stmt.executeUpdate(
-						" INSERT INTO Eigenschaftsauspraegung (ID, Wert, Eigentuemer_ID)"
-						+ " VALUES (" + ea.getID() + " ,'" + ea.getWert() + "' ,'"
-						+ ea.getEigentuemer_id() + "')");
+						
+						"INSERT INTO `eigenschaftsauspraegung`(`ID`, `wert`, `status`,"
+				        		+ " `eigenschaftID`, `kontaktID`) "
+				        		+ "VALUES ('"+ea.getID()+"', '"+ea.getWert()+"', '"
+				        		+ ""+ea.getStatus()+"', '"+ea.getEigenschaftsID()+"', '"+ ""+ea.getKontaktID()+"')");
 						
 			}
 		}catch (SQLException e) {
@@ -102,11 +104,15 @@ public Eigenschaftauspraegung updateAuspraegung(Eigenschaftauspraegung ea) {
 		
 		Statement stmt = con.createStatement();
 		
-		stmt.executeUpdate("UPDATE Eigenschaftsauspraegung " + "SET Wert=\"" 
-		+ ea.getWert() +"\", " 
-		+ "Eigentuemer_ID=\"" 
-		+ ea.getEigentuemer_id() + "\" " 
-		+ "WHERE ID=" + ea.getID());
+		stmt.executeUpdate(
+				
+				"UPDATE eigenschaftsauspraegung " + "SET ID=\"" + ea.getID() + "\", " 
+						+ "wert=\""+ ea.getWert() + "\", " + "status=\""
+						+ ea.getStatus() + "\", " +  "eigenschaftID=\""
+						+ ea.getEigenschaftsID() + "\", " + "kontaktID=\""
+								+ ea.getKontaktID() + "\" " + "WHERE ID=" + ea.getID());
+		
+	
 	
 	}catch (SQLException e){
 		e.printStackTrace();
@@ -127,13 +133,13 @@ public void deleteAuspraegung(Eigenschaftauspraegung ea){
 		
 		Statement stmt = con.createStatement();
 		
-		stmt.executeUpdate("DELETE FROM Eigenschaftsauspraegung " + "WHERE ID=" + ea.getID());
+		stmt.executeUpdate("DELETE FROM eigenschaftsauspraegung " + "WHERE ID=" + ea.getID());
 	}catch (SQLException e){
 		e.printStackTrace();
 	}
 }
 
-public Eigenschaftauspraegung getAuspraegungByWert(String wert){
+public Eigenschaftauspraegung getAuspraegungByWert(Eigenschaftauspraegung ea){
 	
 	Connection con = DBConnection.connection();
 
@@ -143,14 +149,14 @@ public Eigenschaftauspraegung getAuspraegungByWert(String wert){
 	Statement stmt = con.createStatement();
 	
 	ResultSet rs = stmt.executeQuery(
-			"SELECT ID, Wert, Eigentuemer_ID FROM Eigenschaftsauspraegung " + " WHERE Wert= " + wert );
-			 
-	
+			
+	"SELECT ID, wert, kontaktID FROM `eigenschaftsauspraegung` WHERE `wert`=" + ea.getWert() 
+	+" " + "AND `kontaktID` =" + ea.getKontaktID());
+
 	if (rs.next()) {
-		Eigenschaftauspraegung ea = new Eigenschaftauspraegung();
 		ea.setID(rs.getInt("ID"));
-		ea.setWert(rs.getString("Wert"));
-		ea.setEigentuemer_id(rs.getInt("Eigentuemer_ID"));
+		ea.setWert(rs.getString("wert"));
+		ea.setKontaktID(rs.getInt("kontaktID"));
 		
 		return ea;
 	}

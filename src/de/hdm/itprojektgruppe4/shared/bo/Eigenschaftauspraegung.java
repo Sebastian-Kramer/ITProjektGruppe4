@@ -2,9 +2,18 @@ package de.hdm.itprojektgruppe4.shared.bo;
 
 public class Eigenschaftauspraegung extends BusinessObject{
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
 	private String wert;
 	
-	private int eigentuemer_id;
+	private int status; 
+	
+	private int eigenschaftsID; 
+	
+	private int kontaktID;
 
 	public String getWert() {
 		return wert;
@@ -14,18 +23,39 @@ public class Eigenschaftauspraegung extends BusinessObject{
 		this.wert = wert;
 	}
 
-	public int getEigentuemer_id() {
-		return eigentuemer_id;
+	public int getStatus() {
+		return status;
 	}
 
-	public void setEigentuemer_id(int eigentuemer_id) {
-		this.eigentuemer_id = eigentuemer_id;
+	public void setStatus(int status) {
+		this.status = status;
+	}
+
+	public int getEigenschaftsID() {
+		return eigenschaftsID;
+	}
+
+	public void setEigenschaftsID(int eigenschaftsID) {
+		this.eigenschaftsID = eigenschaftsID;
+	}
+
+	public int getKontaktID() {
+		return kontaktID;
+	}
+
+	public void setKontaktID(int kontaktID) {
+		this.kontaktID = kontaktID;
 	}
 
 	@Override
 	public String toString() {
-		return "Eigenschaftauspraegung [wert=" + wert + ", eigentuemer_id=" + eigentuemer_id + "]";
-	}
+		return "Eigenschaftauspraegung [wert=" + wert + ", status=" + status + ", eigenschaftsID=" + eigenschaftsID
+				+ ", kontaktID=" + kontaktID + "]";
+	} 
+	
+	
+	
+
 
 	
 	

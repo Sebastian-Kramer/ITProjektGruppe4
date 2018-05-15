@@ -16,19 +16,19 @@ public class Eigenschaft extends BusinessObject {
     /**
      * 
      */
-    private String bezeichnung;
+    private String bez;
 
     /**
      * 
      */
-    private boolean status;
+    private int status;
 
     /**
      * @return
      */
     public String getBezeichnung() {
         // TODO implement here
-        return this.bezeichnung;
+        return this.bez;
     }
 
     /**
@@ -37,19 +37,24 @@ public class Eigenschaft extends BusinessObject {
      */
     public void setBezeichnung(String bez) {
         // TODO implement here
-        this.bezeichnung = bez;
+        this.bez = bez;
     }
 
-	public boolean isStatus() {
+	public int isStatus() {
 		return status;
 	}
 
-	public void setStatus(boolean status) {
+	public void setStatus(int status) {
 		this.status = status;
 	}
 	
-	public boolean getStatus(){
+	public int getStatus(){
 		return this.status;
+	}
+
+	@Override
+	public String toString() {
+		return "Eigenschaft [bezeichnung=" + bez + ", status=" + status + "]";
 	}
     
     

@@ -46,13 +46,13 @@ public class EigenschaftMapper {
 		
 	// Statement befüllen und als Query an die Datenbank schicken	
 		ResultSet rs = stmt.executeQuery(
-				"SELECT ID, Bez FROM Eigenschaft " + " WHERE ID= " + id );
+				"SELECT ID, bez FROM eigenschaft " + " WHERE ID= " + id );
 				 
 		
 		if (rs.next()) {
 			Eigenschaft e = new Eigenschaft();
-			e.setID(rs.getInt("id"));
-			e.setBezeichnung(rs.getString("Bez"));
+			e.setID(rs.getInt("ID"));
+			e.setBezeichnung(rs.getString("bez"));
 			
 			return e;
 		}
@@ -88,8 +88,11 @@ public class EigenschaftMapper {
 				
 				stmt = con.createStatement();
 				
-				stmt.executeUpdate(" INSERT INTO eigenschaft (id, Bez, Status)"
-						+ " VALUES (" + e.getID() + "' ,'" + e.getBezeichnung() + "' ,'" + e.getStatus() + "')");
+				stmt.executeUpdate(
+						
+						"INSERT INTO `eigenschaft`(`ID`, `bez`, `status`) "
+				        + "VALUES ('"+e.getID()+"', '"+e.getBezeichnung()+"', '"
+				        + ""+e.getStatus()+"')");
 			}
 			
 			
@@ -107,12 +110,11 @@ public class EigenschaftMapper {
 			
 			Statement stmt = con.createStatement();
 			
-			stmt.executeUpdate(" UPDATE eigenschaft " 
-			+ "SET Bez=\""
-			+ e.getBezeichnung() + "\", "
-			+ "Status\""
-			+ e.getStatus() + "\", "
-			+ "WHERE ID=" + e.getID());
+			stmt.executeUpdate(
+					
+					"UPDATE eigenschaft " + "SET ID=\"" + e.getID() + "\", " 
+					+ "bez=\""+ e.getBezeichnung() + "\", " + "status=\""
+					+ e.getStatus() + "\" " + "WHERE id=" + e.getID());
 			
 		}catch (SQLException k){
 			k.printStackTrace();
@@ -127,7 +129,9 @@ public class EigenschaftMapper {
 			
 			Statement stmt = con.createStatement();
 			
-			stmt.executeUpdate("DELETE from eigenschaft" + "WHERE ID= " + e.getID());
+			stmt.executeUpdate(
+					
+				      "DELETE FROM eigenschaft " + "WHERE id=" + e.getID());
 			
 		}catch (SQLException k){
 			k.printStackTrace();
