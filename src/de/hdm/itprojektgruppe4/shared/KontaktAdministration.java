@@ -22,7 +22,7 @@ public interface KontaktAdministration extends RemoteService {
 	
     /**
      * @return
-     */
+     */ 
     public void init() throws IllegalArgumentException;
     
     public Kontakt insertKontakt(String name, Date erzeugungsdatum, Date modifikationsdatum, int status, int nutzerID) throws IllegalArgumentException;

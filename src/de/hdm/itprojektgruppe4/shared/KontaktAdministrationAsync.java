@@ -42,7 +42,7 @@ public interface KontaktAdministrationAsync {
 
 
 	void deletePerson(Person p, AsyncCallback<Person> callback);
-
+ 
 
 	void findPersonByID(int ID, AsyncCallback<Person> callback);
 	

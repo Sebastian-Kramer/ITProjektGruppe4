@@ -17,7 +17,7 @@ public class KontaktAdministrationImpl extends RemoteServiceServlet
 
 	/**
      * Default constructor
-     */
+     */ 
     public KontaktAdministrationImpl() {
     }
 

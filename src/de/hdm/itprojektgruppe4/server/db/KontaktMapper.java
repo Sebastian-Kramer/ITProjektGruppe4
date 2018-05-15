@@ -173,7 +173,7 @@ public class KontaktMapper extends PersonMapper {
 			k.setID(super.insertPerson(k));
 			
 			ResultSet rs = stmt.executeQuery("SELECT MAX(ID) AS maxID " + " FROM person");
-			
+			 
 			if (rs.next()) {
 				
 				stmt = con.createStatement();
