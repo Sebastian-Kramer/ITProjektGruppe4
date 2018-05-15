@@ -249,6 +249,29 @@ public class KontaktAdministrationImpl extends RemoteServiceServlet
 		return null;
 	}
 
+	@Override
+	public Kontakt findKontaktByID(int id) throws IllegalArgumentException {
+		return this.konMapper.findKontaktByID(id);
+		
+		
+	}
+
+	@Override
+	public Kontakt findKontaktByName(String name) throws IllegalArgumentException {
+		return this.konMapper.findKontaktByName(name);
+	}
+
+	@Override
+	public Vector<Kontakt> findAll() throws IllegalArgumentException {
+		return this.konMapper.findAll();
+	}
+
+	@Override
+	public Kontakt updateKontakt(Kontakt k) throws IllegalArgumentException {
+		
+		return this.konMapper.updateKontakt(k);
+	}
+
 	
 
     

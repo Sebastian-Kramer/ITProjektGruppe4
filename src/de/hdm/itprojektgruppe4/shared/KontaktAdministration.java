@@ -30,6 +30,15 @@ public interface KontaktAdministration extends RemoteService {
     
     public Kontakt deleteKontakt(Kontakt k) throws IllegalArgumentException;
     
+    public Kontakt findKontaktByID(int id) throws IllegalArgumentException;
+    
+    public Kontakt findKontaktByName(String name) throws IllegalArgumentException;
+    
+    public Vector<Kontakt> findAll() throws IllegalArgumentException;
+    
+    public Kontakt updateKontakt(Kontakt k) throws IllegalArgumentException;
+    
+    
     /**
      * @param name 
      * @param erzeugungsdatum 

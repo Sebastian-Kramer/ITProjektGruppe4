@@ -24,6 +24,18 @@ public interface KontaktAdministrationAsync {
 	void insertNutzer(String mail, AsyncCallback<Nutzer> callback);
 
 	void deleteKontakt(Kontakt k, AsyncCallback<Kontakt> callback);
+
+
+	void findKontaktByID(int id, AsyncCallback<Kontakt> callback);
+
+
+	void findKontaktByName(String name, AsyncCallback<Kontakt> callback);
+
+
+	void findAll(AsyncCallback<Vector<Kontakt>> callback);
+
+
+	void updateKontakt(Kontakt k, AsyncCallback<Kontakt> callback);
 	
 	
 	
