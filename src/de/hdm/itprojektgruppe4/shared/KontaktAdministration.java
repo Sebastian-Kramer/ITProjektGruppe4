@@ -65,6 +65,47 @@ public interface KontaktAdministration extends RemoteService {
     
     public Vector<Kontaktliste> findKontaktlisteAll() throws IllegalArgumentException;
     
+    public Eigenschaft getEigenschaftByID(int id) throws IllegalArgumentException;
+    
+    public Eigenschaft insterEigenschaft(Eigenschaft e) throws IllegalArgumentException;
+    
+    public Eigenschaft updateEigenschaft(Eigenschaft e) throws IllegalArgumentException;
+    
+    public Eigenschaft deleteEigenschaft(Eigenschaft e) throws IllegalArgumentException;
+    
+    public Eigenschaftauspraegung insertAuspraegung(Eigenschaftauspraegung ea) throws IllegalArgumentException;
+    
+    public Eigenschaftauspraegung updateAuspraegung(Eigenschaftauspraegung ea) throws IllegalArgumentException;
+    
+    public Eigenschaftauspraegung deleteAuspraegung(Eigenschaftauspraegung ea) throws IllegalArgumentException;
+    
+    public Eigenschaftauspraegung getAuspraegungByWert(Eigenschaftauspraegung ea) throws IllegalArgumentException;
+    
+    public Eigenschaftauspraegung getAuspraegungByID(int id) throws IllegalArgumentException;
+    
+    public Teilhaberschaft findByID(int id) throws IllegalArgumentException;
+    
+    public Teilhaberschaft insertTeilhaberschaft(Teilhaberschaft t) throws IllegalArgumentException;
+    
+    public Teilhaberschaft deleteTeilhaberschaft(Teilhaberschaft t) throws IllegalArgumentException;
+    
+    public Teilhaberschaft deleteKontaktFromTeilhaberschaft(Teilhaberschaft t) throws IllegalArgumentException; 
+    
+    public Teilhaberschaft deleteKontaktlisteFromTeilhaberschaft(Teilhaberschaft t) throws IllegalArgumentException;
+    
+    public Teilhaberschaft deleteEigenschaftsauspraegungFromTeilhaberschaft(Teilhaberschaft t) throws IllegalArgumentException;
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
     
     
     /**

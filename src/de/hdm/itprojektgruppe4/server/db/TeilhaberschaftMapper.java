@@ -62,7 +62,7 @@ public class TeilhaberschaftMapper {
 	}
 	
 	
-	  public Teilhaberschaft insert(Teilhaberschaft t) {
+	  public Teilhaberschaft insertTeilhaberschaft(Teilhaberschaft t) {
 		    Connection con = DBConnection.connection();
 
 		    try {
@@ -95,7 +95,7 @@ public class TeilhaberschaftMapper {
 	  
 	
 	  
-	  public void delete(Teilhaberschaft t) {
+	  public void deleteTeilhaberschaft(Teilhaberschaft t) {
 		  
 		    Connection con = DBConnection.connection();
 
@@ -138,7 +138,7 @@ public class TeilhaberschaftMapper {
 		    
 		  }
 	  
-	  public void deleteKontaktkisteFromTeilhaberschaft(Teilhaberschaft t) {
+	  public void deleteKontaktlisteFromTeilhaberschaft(Teilhaberschaft t) {
 		  
 		    Connection con = DBConnection.connection();
 

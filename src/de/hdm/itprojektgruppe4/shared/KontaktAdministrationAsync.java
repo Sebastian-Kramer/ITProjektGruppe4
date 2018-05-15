@@ -78,6 +78,51 @@ public interface KontaktAdministrationAsync {
 
 
 	void findKontaktlisteAll(AsyncCallback<Vector<Kontaktliste>> callback);
+
+
+	void getEigenschaftByID(int id, AsyncCallback<Eigenschaft> callback);
+
+
+	void insterEigenschaft(Eigenschaft e, AsyncCallback<Eigenschaft> callback);
+
+
+	void updateEigenschaft(Eigenschaft e, AsyncCallback<Eigenschaft> callback);
+
+
+	void deleteEigenschaft(Eigenschaft e, AsyncCallback<Eigenschaft> callback);
+
+
+	void insertAuspraegung(Eigenschaftauspraegung ea, AsyncCallback<Eigenschaftauspraegung> callback);
+
+
+	void updateAuspraegung(Eigenschaftauspraegung ea, AsyncCallback<Eigenschaftauspraegung> callback);
+
+
+	void deleteAuspraegung(Eigenschaftauspraegung ea, AsyncCallback<Eigenschaftauspraegung> callback);
+
+
+	void getAuspraegungByWert(Eigenschaftauspraegung ea, AsyncCallback<Eigenschaftauspraegung> callback);
+
+
+	void getAuspraegungByID(int id, AsyncCallback<Eigenschaftauspraegung> callback);
+
+
+	void findByID(int id, AsyncCallback<Teilhaberschaft> callback);
+
+
+	void insertTeilhaberschaft(Teilhaberschaft t, AsyncCallback<Teilhaberschaft> callback);
+
+
+	void deleteTeilhaberschaft(Teilhaberschaft t, AsyncCallback<Teilhaberschaft> callback);
+
+
+	void deleteKontaktFromTeilhaberschaft(Teilhaberschaft t, AsyncCallback<Teilhaberschaft> callback);
+
+
+	void deleteKontaktlisteFromTeilhaberschaft(Teilhaberschaft t, AsyncCallback<Teilhaberschaft> callback);
+
+
+	void deleteEigenschaftsauspraegungFromTeilhaberschaft(Teilhaberschaft t, AsyncCallback<Teilhaberschaft> callback);
 	
 	/*
 	void createEigenschaft(String bezeichnung, boolean status, AsyncCallback<Eigenschaft> callback);

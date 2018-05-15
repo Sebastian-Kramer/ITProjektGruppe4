@@ -41,6 +41,8 @@ public class KontaktAdministrationImpl extends RemoteServiceServlet
     //private EigenschaftMapper eigenschaftMapper;
     private EigenschaftMapper eigMapper = null;
     
+    private EigenschaftauspraegungMapper eigenschaftauspraegungMapper = null;
+    
     /**
      * 
      */
@@ -49,7 +51,7 @@ public class KontaktAdministrationImpl extends RemoteServiceServlet
     /**
      * 
      */
-    //private TeilhaberschaftMapper teilhaberschaftMapper;
+    private TeilhaberschaftMapper teilhaberschaftMapper = null;
     
     /*
 	   * ***************************************************************************
@@ -350,13 +352,105 @@ public class KontaktAdministrationImpl extends RemoteServiceServlet
 	@Override
 	public Kontaktliste deleteKontaktliste(Kontaktliste k) throws IllegalArgumentException {
 		this.konlistMapper.deleteKontaktliste(k);
-		return k;
+		return null;
 	}
 
 	@Override
 	public Vector<Kontaktliste> findKontaktlisteAll() throws IllegalArgumentException {
 		// TODO Auto-generated method stub
 		return this.konlistMapper.findKontaktlisteAll();
+	}
+
+	@Override
+	public Eigenschaft getEigenschaftByID(int id) throws IllegalArgumentException {
+		// TODO Auto-generated method stub
+		return this.eigMapper.getEigenchaftByID(id);
+	}
+
+	@Override
+	public Eigenschaft insterEigenschaft(Eigenschaft e) throws IllegalArgumentException {
+		// TODO Auto-generated method stub
+		return this.eigMapper.insertEigenschaft(e);
+	}
+
+	@Override
+	public Eigenschaft updateEigenschaft(Eigenschaft e) throws IllegalArgumentException {
+		// TODO Auto-generated method stub
+		return this.eigMapper.updateEigenschaft(e);
+	}
+
+	@Override
+	public Eigenschaft deleteEigenschaft(Eigenschaft e) throws IllegalArgumentException {
+		this.eigMapper.deleteEigenschaft(e);
+		return null;
+	}
+
+	@Override
+	public Eigenschaftauspraegung insertAuspraegung(Eigenschaftauspraegung ea) throws IllegalArgumentException {
+		// TODO Auto-generated method stub
+		return this.eigenschaftauspraegungMapper.insertAuspraegung(ea);
+	}
+
+	@Override
+	public Eigenschaftauspraegung updateAuspraegung(Eigenschaftauspraegung ea) throws IllegalArgumentException {
+		// TODO Auto-generated method stub
+		return this.eigenschaftauspraegungMapper.updateAuspraegung(ea);
+	}
+
+	@Override
+	public Eigenschaftauspraegung deleteAuspraegung(Eigenschaftauspraegung ea) throws IllegalArgumentException {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public Eigenschaftauspraegung getAuspraegungByWert(Eigenschaftauspraegung ea) throws IllegalArgumentException {
+		// TODO Auto-generated method stub
+		return this.eigenschaftauspraegungMapper.getAuspraegungByWert(ea);
+	}
+
+	@Override
+	public Eigenschaftauspraegung getAuspraegungByID(int id) throws IllegalArgumentException {
+		// TODO Auto-generated method stub
+		return this.eigenschaftauspraegungMapper.getAuspraegungByID(id);
+	
+	}
+
+	@Override
+	public Teilhaberschaft findByID(int id) throws IllegalArgumentException {
+		// TODO Auto-generated method stub
+		return this.teilhaberschaftMapper.findByID(id);
+	}
+
+	@Override
+	public Teilhaberschaft insertTeilhaberschaft(Teilhaberschaft t) throws IllegalArgumentException {
+		// TODO Auto-generated method stub
+		return this.teilhaberschaftMapper.insertTeilhaberschaft(t);
+	}
+
+	@Override
+	public Teilhaberschaft deleteTeilhaberschaft(Teilhaberschaft t) throws IllegalArgumentException {
+		this.teilhaberschaftMapper.deleteTeilhaberschaft(t);
+		return null;
+	}
+
+	@Override
+	public Teilhaberschaft deleteKontaktFromTeilhaberschaft(Teilhaberschaft t) throws IllegalArgumentException {
+		this.teilhaberschaftMapper.deleteKontaktFromTeilhaberschaft(t);
+		return null;
+	}
+
+	@Override
+	public Teilhaberschaft deleteKontaktlisteFromTeilhaberschaft(Teilhaberschaft t) throws IllegalArgumentException {
+		this.teilhaberschaftMapper.deleteKontaktlisteFromTeilhaberschaft(t);
+		return null;
+	}
+
+	@Override
+	public Teilhaberschaft deleteEigenschaftsauspraegungFromTeilhaberschaft(Teilhaberschaft t)
+			throws IllegalArgumentException {
+		this.teilhaberschaftMapper.deleteEigenschaftsauspraegungFromTeilhaberschaft(t);
+		return null;
 	}
 
 	
