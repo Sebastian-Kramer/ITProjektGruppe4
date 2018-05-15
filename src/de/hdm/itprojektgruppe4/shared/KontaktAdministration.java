@@ -11,6 +11,7 @@ import de.hdm.itprojektgruppe4.shared.bo.Eigenschaftauspraegung;
 import de.hdm.itprojektgruppe4.shared.bo.Kontakt;
 import de.hdm.itprojektgruppe4.shared.bo.Kontaktliste;
 import de.hdm.itprojektgruppe4.shared.bo.Nutzer;
+import de.hdm.itprojektgruppe4.shared.bo.Person;
 import de.hdm.itprojektgruppe4.shared.bo.Teilhaberschaft;
 
 @RemoteServiceRelativePath("kontaktmanager")
@@ -37,6 +38,11 @@ public interface KontaktAdministration extends RemoteService {
     public Vector<Kontakt> findAll() throws IllegalArgumentException;
     
     public Kontakt updateKontakt(Kontakt k) throws IllegalArgumentException;
+    
+    public Person deletePerson(Person p) throws IllegalArgumentException;
+    
+    public Person findPersonByID(int ID) throws IllegalArgumentException;
+    
     
     
     /**
