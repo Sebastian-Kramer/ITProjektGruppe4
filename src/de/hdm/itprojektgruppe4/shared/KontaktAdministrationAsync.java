@@ -16,6 +16,19 @@ import de.hdm.itprojektgruppe4.shared.bo.Teilhaberschaft;
 public interface KontaktAdministrationAsync {
 
 	void init(AsyncCallback<Void> callback);
+	
+
+	void insertKontakt(String name, Date erzeugungsdatum, Date modifikationsdatum, int status, int nutzerID,
+			AsyncCallback<Kontakt> callback);
+
+	void insertNutzer(String mail, AsyncCallback<Nutzer> callback);
+
+	void deleteKontakt(Kontakt k, AsyncCallback<Kontakt> callback);
+	
+	
+	
+	
+	
 	/*
 	void createEigenschaft(String bezeichnung, boolean status, AsyncCallback<Eigenschaft> callback);
 
@@ -76,9 +89,5 @@ public interface KontaktAdministrationAsync {
 
 	void updateTeilhaberschaft(Teilhaberschaft teilhaberschaft, AsyncCallback<Void> callback);
 	*/
-
-	void insertKontakt(String name, Date erzeugungsdatum, Date modifikationsdatum, int status, int nutzerID,
-			AsyncCallback<Kontakt> callback);
-
-	void insertNutzer(String mail, AsyncCallback<Nutzer> callback);
+	
 }

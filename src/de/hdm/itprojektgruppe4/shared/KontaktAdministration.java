@@ -28,6 +28,8 @@ public interface KontaktAdministration extends RemoteService {
     
     public Nutzer insertNutzer(String mail) throws IllegalArgumentException;
     
+    public Kontakt deleteKontakt(Kontakt k) throws IllegalArgumentException;
+    
     /**
      * @param name 
      * @param erzeugungsdatum 

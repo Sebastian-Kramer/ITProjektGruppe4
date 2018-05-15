@@ -242,6 +242,13 @@ public class KontaktAdministrationImpl extends RemoteServiceServlet
 		return this.nutzerMapper.insertNutzer(nutzer);
 	}
 
+	@Override
+	public Kontakt deleteKontakt(Kontakt k) throws IllegalArgumentException {
+		
+		
+		return null;
+	}
+
 	
 
     
