@@ -1,23 +1,32 @@
 package de.hdm.itprojektgruppe4.shared;
 
-import java.sql.Date;
+import java.util.Date;
 import java.util.Vector;
 
 import com.google.gwt.user.client.rpc.RemoteService;
+import com.google.gwt.user.client.rpc.RemoteServiceRelativePath;
 
 import de.hdm.itprojektgruppe4.shared.bo.Eigenschaft;
 import de.hdm.itprojektgruppe4.shared.bo.Eigenschaftauspraegung;
 import de.hdm.itprojektgruppe4.shared.bo.Kontakt;
 import de.hdm.itprojektgruppe4.shared.bo.Kontaktliste;
+import de.hdm.itprojektgruppe4.shared.bo.Nutzer;
 import de.hdm.itprojektgruppe4.shared.bo.Teilhaberschaft;
 
+@RemoteServiceRelativePath("kontaktmanager")
 public interface KontaktAdministration extends RemoteService {
 
+	
+	
+	
     /**
      * @return
      */
-    //public void init() throws IllegalArgumentException;
+    public void init() throws IllegalArgumentException;
     
+    public Kontakt insertKontakt(String name, Date erzeugungsdatum, Date modifikationsdatum, int status, int nutzerID) throws IllegalArgumentException;
+    
+    public Nutzer insertNutzer(String mail) throws IllegalArgumentException;
     
     /**
      * @param name 

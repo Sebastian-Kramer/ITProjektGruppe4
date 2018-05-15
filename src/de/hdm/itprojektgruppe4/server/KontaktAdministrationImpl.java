@@ -1,17 +1,16 @@
 package de.hdm.itprojektgruppe4.server;
 
-import java.sql.Date;
+import java.util.Date;
 import java.util.Vector;
+import java.text.SimpleDateFormat;
+
 
 import com.google.gwt.user.server.rpc.RemoteServiceServlet;
 
-import de.hdm.itprojektgruppe4.server.db.KontaktMapper;
+import de.hdm.itprojektgruppe4.server.db.*;
+import de.hdm.itprojektgruppe4.server.db.KontaktlisteMapper;
 import de.hdm.itprojektgruppe4.shared.KontaktAdministration;
-import de.hdm.itprojektgruppe4.shared.bo.Eigenschaft;
-import de.hdm.itprojektgruppe4.shared.bo.Eigenschaftauspraegung;
-import de.hdm.itprojektgruppe4.shared.bo.Kontakt;
-import de.hdm.itprojektgruppe4.shared.bo.Kontaktliste;
-import de.hdm.itprojektgruppe4.shared.bo.Teilhaberschaft;
+import de.hdm.itprojektgruppe4.shared.bo.*;
 
 public class KontaktAdministrationImpl extends RemoteServiceServlet 
 	implements KontaktAdministration{
@@ -22,26 +21,29 @@ public class KontaktAdministrationImpl extends RemoteServiceServlet
     public KontaktAdministrationImpl() {
     }
 
+    private NutzerMapper nutzerMapper = null;
+    
     /**
      * 
      */
-    private KontaktMapper kontaktMapper = null;
+    private KontaktMapper konMapper = null;
 
     /**
      * 
      */
     //private KontaktlisteMapper kontaktlisteMapper;
-
+    private KontaktlisteMapper konlistMapper = null;
     /**
      * 
      */
     //private EigenschaftMapper eigenschaftMapper;
-
+    private EigenschaftMapper eigMapper = null;
+    
     /**
      * 
      */
     //private EigenschaftauspraegungMapper eigenschaftsauspraegungMapper;
-
+    
     /**
      * 
      */
@@ -53,17 +55,18 @@ public class KontaktAdministrationImpl extends RemoteServiceServlet
 	   * ***************************************************************************
 	   */
 
-    /**
-     * No-Argument-Constructor
-     */
-    public void KontaktAdministrationImpl() throws IllegalArgumentException {
-    }
+//    /**
+//     * No-Argument-Constructor
+//     */
+//    public void KontaktAdministrationImpl() throws IllegalArgumentException {
+//    }
     
     /**
      * @return
      */
     public void init() {
-        this.kontaktMapper = KontaktMapper.kontaktMapper();
+        this.konMapper = KontaktMapper.kontaktMapper();
+        this.nutzerMapper = NutzerMapper.nutzerMapper();
     }
 
     /**
@@ -73,9 +76,28 @@ public class KontaktAdministrationImpl extends RemoteServiceServlet
      * @param status 
      * @return
      */
-    public Kontakt createKontakt(String name, Date erzeugungsdatum, Date modifikationsdatum, boolean status) {
+    
+    /*##########################################################
+     * START Kontakt
+     #########################################################*/
+
+    
+    
+    public Kontakt insertKontakt(String name, Date erzeugungsdatum, Date modifikationsdatum, int status, int nutzerID)  	throws IllegalArgumentException {
         // TODO implement here
-        return null;
+ 
+    	Kontakt k = new Kontakt();
+    	
+    	k.setID(1);
+    	k.setName(name);
+    	k.setErzeugungsdatum(erzeugungsdatum);
+    	k.setModifikationsdatum(modifikationsdatum);
+    	k.setStatus(status);
+    	k.setNutzerID(nutzerID);
+    	
+    	
+    	
+        return this.konMapper.insertKontakt(k);
     }
 
     /**
@@ -213,4 +235,15 @@ public class KontaktAdministrationImpl extends RemoteServiceServlet
         return null;
     }
 
+	@Override
+	public Nutzer insertNutzer(String mail) throws IllegalArgumentException {
+		Nutzer nutzer = new Nutzer();
+		nutzer.setEmail(mail);
+		return this.nutzerMapper.insertNutzer(nutzer);
+	}
+
+	
+
+    
+    
 }

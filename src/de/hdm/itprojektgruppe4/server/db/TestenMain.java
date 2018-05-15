@@ -3,6 +3,10 @@ import java.sql.*;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
+
+import com.google.gwt.core.client.impl.Impl;
+
+import de.hdm.itprojektgruppe4.server.KontaktAdministrationImpl;
 import de.hdm.itprojektgruppe4.server.db.KontaktMapper;
 import de.hdm.itprojektgruppe4.shared.bo.Eigenschaft;
 import de.hdm.itprojektgruppe4.shared.bo.Eigenschaft_Auspraegung;
@@ -30,31 +34,31 @@ public class TestenMain {
 		
 		//System.out.println(KontaktMapper.kontaktMapper().findKontaktByID(3));
 	
-		Kontaktliste k1 = new Kontaktliste();
-		Kontakt k = new Kontakt();
-		Eigenschaft e = new Eigenschaft();
-		Eigenschaftauspraegung ea = new Eigenschaftauspraegung();
-		Eigenschaft_Auspraegung aa = new Eigenschaft_Auspraegung();
-		
-		k1.setID(1);
-		
-		System.out.println(KontaktlisteMapper.kontaktlisteMapper().findbyid(k1.getID()));
-		
-		k.setID(1);
-		
-		System.out.println(KontaktMapper.kontaktMapper().findKontaktByID(k.getID()));
-		
-		e.setID(11);
-		
-		aa.setID(1);
-		
-		Eigenschaft_Auspraegung aaa = Eigenschaft_AuspraegungMapper.eigenschaft_auspraegungMapper().getEigenchaftAuspraegungByID(1);
-		
-		System.out.println(Eigenschaft_AuspraegungMapper.eigenschaft_auspraegungMapper().getEigenchaftAuspraegungByID(aa.getID()));
-		
-		System.out.println(EigenschaftMapper.eigenschaftMapper().getEigenchaftByID(aaa.getEigenschaft_id()).getID());
-
-		
+//		Kontaktliste k1 = new Kontaktliste();
+//		Kontakt k = new Kontakt();
+//		Eigenschaft e = new Eigenschaft();
+//		Eigenschaftauspraegung ea = new Eigenschaftauspraegung();
+//		Eigenschaft_Auspraegung aa = new Eigenschaft_Auspraegung();
+//		
+//		k1.setID(1);
+//		
+//		System.out.println(KontaktlisteMapper.kontaktlisteMapper().findbyid(k1.getID()));
+//		
+//		k.setID(1);
+//		
+//		System.out.println(KontaktMapper.kontaktMapper().findKontaktByID(k.getID()));
+//		
+//		e.setID(11);
+//		
+//		aa.setID(1);
+//		
+//		Eigenschaft_Auspraegung aaa = Eigenschaft_AuspraegungMapper.eigenschaft_auspraegungMapper().getEigenchaftAuspraegungByID(1);
+//		
+//		System.out.println(Eigenschaft_AuspraegungMapper.eigenschaft_auspraegungMapper().getEigenchaftAuspraegungByID(aa.getID()));
+//		
+//		System.out.println(EigenschaftMapper.eigenschaftMapper().getEigenchaftByID(aaa.getEigenschaft_id()).getID());
+//
+//		
 		
 		
 		
@@ -71,9 +75,30 @@ public class TestenMain {
 		
 		
 		
-		 //KontaktMapper.kontaktMapper().insertKontakt(k);
+	//	 KontaktMapper.kontaktMapper().insertKontakt(k);
+		 
+		 Kontakt abc = new Kontakt();
+		 
+		 abc.setName("DAUUG");
+		abc.setErzeugungsdatum(date);
+		 abc.setModifikationsdatum(date);
+		 abc.setStatus(1);
+		 abc.setNutzerID(1);
+		 
+		// KontaktMapper.kontaktMapper().insertKontakt(abc);
 		 
 		 
+		 Kontakt implBOI = new Kontakt();
+		 
+		KontaktAdministrationImpl kcre = new KontaktAdministrationImpl();
+		
+		kcre.init();
+		
+		kcre.insertKontakt("IMPLBOI", date, date, 1, 1);
+		
+		
+		 
+		
 	}
 	
 
