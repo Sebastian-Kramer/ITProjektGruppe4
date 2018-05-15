@@ -17,7 +17,7 @@ public class KontaktAdministrationImpl extends RemoteServiceServlet
 
 	/**
      * Default constructor
-     */
+     */ 
     public KontaktAdministrationImpl() {
     }
 
@@ -27,6 +27,8 @@ public class KontaktAdministrationImpl extends RemoteServiceServlet
      * 
      */
     private KontaktMapper konMapper = null;
+    
+    private PersonMapper persMapper = null;
 
     /**
      * 
@@ -67,6 +69,7 @@ public class KontaktAdministrationImpl extends RemoteServiceServlet
     public void init() {
         this.konMapper = KontaktMapper.kontaktMapper();
         this.nutzerMapper = NutzerMapper.nutzerMapper();
+        this.persMapper = PersonMapper.personMapper();
     }
 
     /**
@@ -240,6 +243,52 @@ public class KontaktAdministrationImpl extends RemoteServiceServlet
 		Nutzer nutzer = new Nutzer();
 		nutzer.setEmail(mail);
 		return this.nutzerMapper.insertNutzer(nutzer);
+	}
+
+	
+
+	@Override
+	public Kontakt findKontaktByID(int id) throws IllegalArgumentException {
+		return this.konMapper.findKontaktByID(id);
+		
+		
+	}
+
+	@Override
+	public Kontakt findKontaktByName(String name) throws IllegalArgumentException {
+		return this.konMapper.findKontaktByName(name);
+	}
+
+	@Override
+	public Vector<Kontakt> findAll() throws IllegalArgumentException {
+		return this.konMapper.findAll();
+	}
+
+	@Override
+	public Kontakt updateKontakt(Kontakt k) throws IllegalArgumentException {
+		
+		return this.konMapper.updateKontakt(k);
+	}
+
+	
+	@Override
+	public Kontakt deleteKontakt(Kontakt k) throws IllegalArgumentException {
+		this.konMapper.deleteKontakt(k);
+		this.persMapper.deletePerson(this.persMapper.findPersonByID(k.getID()));
+		
+		return k;
+	}
+	@Override
+	public Person deletePerson(Person p) throws IllegalArgumentException {
+		
+		 this.persMapper.deletePerson(p);
+		 return p;
+	}
+
+	@Override
+	public Person findPersonByID(int ID) throws IllegalArgumentException {
+		// TODO Auto-generated method stub
+		return this.findPersonByID(ID);
 	}
 
 	

@@ -173,7 +173,7 @@ public class KontaktMapper extends PersonMapper {
 			k.setID(super.insertPerson(k));
 			
 			ResultSet rs = stmt.executeQuery("SELECT MAX(ID) AS maxID " + " FROM person");
-			
+			 
 			if (rs.next()) {
 				
 				stmt = con.createStatement();
@@ -205,6 +205,7 @@ public class KontaktMapper extends PersonMapper {
 	public Kontakt updateKontakt(Kontakt k) {
 		Connection con = DBConnection.connection();
 		
+		
 		try{
 			
 			Statement stmt = con.createStatement();
@@ -212,13 +213,12 @@ public class KontaktMapper extends PersonMapper {
 			stmt.executeUpdate("UPDATE kontakt " + "SET name=\"" 
 			+ k.getName() +"\", " 
 			+ "modifikationsdatum=\"" 
-			+ format.format(k.getModifikationsdatum() + "\", " 
+			+ format.format(k.getModifikationsdatum()) + "\", " 
 			+ "status=\"" 
 			+ k.getStatus() + "\", " 
 			+ "nutzerID=\"" 
 			+k.getNutzerID() + "\" " 
-			+ "WHERE ID=" + k.getID()));
-			
+			+ "WHERE ID=" + k.getID());
 			
 			
 			

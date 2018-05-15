@@ -5,6 +5,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 
+import de.hdm.itprojektgruppe4.shared.bo.Kontakt;
 import de.hdm.itprojektgruppe4.shared.bo.Person;
 
 public class PersonMapper {
@@ -26,6 +27,34 @@ public class PersonMapper {
 	}	
 	
 	
+public Person findPersonByID(int id){
+		
+		Connection con = DBConnection.connection();
+
+		try {
+			
+		
+		Statement stmt = con.createStatement();
+		
+		ResultSet rs = stmt.executeQuery(
+				"SELECT ID FROM person " + " WHERE ID= " + id );
+				 
+		
+		if (rs.next()) {
+			Person p = new Person();
+			p.setID(rs.getInt("ID"));
+			
+			return p;
+		}
+		
+	}catch (SQLException e) {
+		e.printStackTrace();
+		return null;
+	}
+	return null;
+	}
+	
+	
 	public int insertPerson (Person p){
 		
 Connection con = DBConnection.connection(); 
@@ -45,7 +74,7 @@ Connection con = DBConnection.connection();
 				stmt.executeUpdate(
 						" INSERT INTO Person (ID)"
 						+ " VALUES (" + p.getID()+ ")");
-						
+					 	
 			}
 		}catch (SQLException e) {
 			e.printStackTrace();
@@ -55,6 +84,19 @@ Connection con = DBConnection.connection();
 		return p.getID();
 	}
 		
+	public void deletePerson(Person p){
+		Connection con = DBConnection.connection();
+		
+		try {
+			
+			Statement stmt = con.createStatement();
+			
+			stmt.executeUpdate("DELETE FROM person " + "WHERE ID=" + p.getID());
+		}catch (SQLException e){
+			e.printStackTrace();
+		}
+	}
+	
 		
 	}
 	
