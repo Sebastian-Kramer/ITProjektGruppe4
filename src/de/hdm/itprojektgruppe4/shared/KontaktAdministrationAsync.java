@@ -11,6 +11,7 @@ import de.hdm.itprojektgruppe4.shared.bo.Eigenschaftauspraegung;
 import de.hdm.itprojektgruppe4.shared.bo.Kontakt;
 import de.hdm.itprojektgruppe4.shared.bo.Kontaktliste;
 import de.hdm.itprojektgruppe4.shared.bo.Nutzer;
+import de.hdm.itprojektgruppe4.shared.bo.Person;
 import de.hdm.itprojektgruppe4.shared.bo.Teilhaberschaft;
 
 public interface KontaktAdministrationAsync {
@@ -23,7 +24,6 @@ public interface KontaktAdministrationAsync {
 
 	void insertNutzer(String mail, AsyncCallback<Nutzer> callback);
 
-	void deleteKontakt(Kontakt k, AsyncCallback<Kontakt> callback);
 
 
 	void findKontaktByID(int id, AsyncCallback<Kontakt> callback);
@@ -37,9 +37,14 @@ public interface KontaktAdministrationAsync {
 
 	void updateKontakt(Kontakt k, AsyncCallback<Kontakt> callback);
 	
-	
-	
-	
+
+	void deleteKontakt(Kontakt k, AsyncCallback<Kontakt> callback);
+
+
+	void deletePerson(Person p, AsyncCallback<Person> callback);
+
+
+	void findPersonByID(int ID, AsyncCallback<Person> callback);
 	
 	/*
 	void createEigenschaft(String bezeichnung, boolean status, AsyncCallback<Eigenschaft> callback);
