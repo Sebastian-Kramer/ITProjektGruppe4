@@ -135,11 +135,17 @@ nav a:focus::after {
 div#Navigationsseite {
 	background: aliceblue;
 	width: 80px;
-	height: 100%;
+	height: 800px;
 }
 
 div#Navigator{
 	border: 1px solid LightSkyBlue;
+	height: 100%;
+}
+
+div#Details{
+	border: 1px solid LightSkyBlue;
+	height: 100%;
 }
 
 a,
