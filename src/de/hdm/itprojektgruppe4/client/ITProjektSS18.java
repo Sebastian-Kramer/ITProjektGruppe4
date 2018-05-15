@@ -53,10 +53,6 @@ public class ITProjektSS18 implements EntryPoint {
 	
 	@Override
 	public void onModuleLoad() {
-		RootPanel.get("Details").clear();
-		RootPanel.get("Details").add(new HTML(
-				"<h2>Kontaktverwaltung</h2>"
-				));
 		
 		vpanel.add(button);
 		vpanel.add(tb);
