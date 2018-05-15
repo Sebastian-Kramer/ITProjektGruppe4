@@ -1,5 +1,6 @@
 package de.hdm.itprojektgruppe4.client;
 
+import de.hdm.itprojektgrupp4.client.gui.Startseite;
 import de.hdm.itprojektgruppe4.shared.FieldVerifier;
 import de.hdm.itprojektgruppe4.shared.KontaktAdministrationAsync;
 import de.hdm.itprojektgruppe4.shared.bo.Kontakt;
@@ -20,6 +21,7 @@ import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.DialogBox;
+import com.google.gwt.user.client.ui.FlexTable;
 import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.RootPanel;
@@ -41,7 +43,9 @@ public class ITProjektSS18 implements EntryPoint {
 	Button myProfil = new Button("Mein Profil");
 	
 	TextArea textA = new TextArea();
-	CellTable<Kontakt> allK = new CellTable<Kontakt>();
+	//CellTable<Kontakt> allK = new CellTable<Kontakt>();
+	
+	FlexTable allK = new FlexTable();
 	
 	
 	
@@ -85,7 +89,7 @@ public class ITProjektSS18 implements EntryPoint {
 			@Override
 			public void onClick(ClickEvent event) {
 				// TODO Auto-generated method stub
-				verwaltung.findAll(new AsyncCallback<Vector<Kontakt>>() {
+				verwaltung.findAllKontakte(new AsyncCallback<Vector<Kontakt>>() {
 
 					@Override
 					public void onFailure(Throwable caught) {
@@ -97,7 +101,11 @@ public class ITProjektSS18 implements EntryPoint {
 					public void onSuccess(Vector<Kontakt> result) {
 						// TODO Auto-generated method stub
 						Window.alert("Funktioniert !!!");
-					allK.setRowData(0, result);
+						RootPanel.get("Details").clear();
+						//RootPanel.get("Details").add(new Startseite());
+						/**
+						allK.setText(0, 0, result.toString());
+						RootPanel.get("Details").add(allK);*/
 					}
 				});
 			}
