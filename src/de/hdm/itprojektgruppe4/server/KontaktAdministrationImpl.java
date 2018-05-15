@@ -70,6 +70,7 @@ public class KontaktAdministrationImpl extends RemoteServiceServlet
         this.konMapper = KontaktMapper.kontaktMapper();
         this.nutzerMapper = NutzerMapper.nutzerMapper();
         this.persMapper = PersonMapper.personMapper();
+        this.konlistMapper = KontaktlisteMapper.kontaktlisteMapper();
     }
 
     /**
@@ -260,8 +261,8 @@ public class KontaktAdministrationImpl extends RemoteServiceServlet
 	}
 
 	@Override
-	public Vector<Kontakt> findAll() throws IllegalArgumentException {
-		return this.konMapper.findAll();
+	public Vector<Kontakt> findAllKontakte() throws IllegalArgumentException {
+		return this.konMapper.findAllKontakte();
 	}
 
 	@Override
@@ -289,6 +290,73 @@ public class KontaktAdministrationImpl extends RemoteServiceServlet
 	public Person findPersonByID(int ID) throws IllegalArgumentException {
 		// TODO Auto-generated method stub
 		return this.findPersonByID(ID);
+	}
+
+	@Override
+	public Nutzer deleteNutzer(Nutzer n) throws IllegalArgumentException {
+		this.nutzerMapper.deleteNutzer(n);
+		this.persMapper.deletePerson(this.persMapper.findPersonByID(n.getID()));
+		
+		return n;
+	}
+
+	@Override
+	public Nutzer updateNutzer(Nutzer n) throws IllegalArgumentException {
+		// TODO Auto-generated method stub
+		return this.nutzerMapper.updateNutzer(n);
+	}
+
+	@Override
+	public Nutzer findNutzerByEmail(String email) throws IllegalArgumentException {
+		return this.nutzerMapper.findNutzerByEmail(email);
+	}
+
+	@Override
+	public Nutzer findNutzerByID(int id) throws IllegalArgumentException {
+		// TODO Auto-generated method stub
+		return this.nutzerMapper.findNutzerByID(id);
+	}
+
+	@Override
+	public Vector<Nutzer> findAllNutzer() throws IllegalArgumentException {
+		// TODO Auto-generated method stub
+		return this.nutzerMapper.findAllNutzer();
+	}
+
+	@Override
+	public Kontaktliste findKontaktlisteByID(int id) throws IllegalArgumentException {
+		// TODO Auto-generated method stub
+		return this.konlistMapper.findKontaktlisteByID(id);
+	}
+
+	@Override
+	public Kontaktliste findKontaktlisteByBezeichnung(String bezeichnung) throws IllegalArgumentException {
+		// TODO Auto-generated method stub
+		return this.konlistMapper.findKontaktlisteByBezeichnung(bezeichnung);
+	}
+
+	@Override
+	public Kontaktliste insertKontaktliste(Kontaktliste kl) throws IllegalArgumentException {
+		// TODO Auto-generated method stub
+		return this.konlistMapper.insertKontaktliste(kl);
+	}
+
+	@Override
+	public Kontaktliste updateKontaktliste(Kontaktliste k) throws IllegalArgumentException {
+		// TODO Auto-generated method stub
+		return this.konlistMapper.updateKontaktliste(k);
+	}
+
+	@Override
+	public Kontaktliste deleteKontaktliste(Kontaktliste k) throws IllegalArgumentException {
+		this.konlistMapper.deleteKontaktliste(k);
+		return k;
+	}
+
+	@Override
+	public Vector<Kontaktliste> findKontaktlisteAll() throws IllegalArgumentException {
+		// TODO Auto-generated method stub
+		return this.konlistMapper.findKontaktlisteAll();
 	}
 
 	

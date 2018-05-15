@@ -32,7 +32,7 @@ public interface KontaktAdministrationAsync {
 	void findKontaktByName(String name, AsyncCallback<Kontakt> callback);
 
 
-	void findAll(AsyncCallback<Vector<Kontakt>> callback);
+	void findAllKontakte(AsyncCallback<Vector<Kontakt>> callback);
 
 
 	void updateKontakt(Kontakt k, AsyncCallback<Kontakt> callback);
@@ -45,6 +45,39 @@ public interface KontaktAdministrationAsync {
  
 
 	void findPersonByID(int ID, AsyncCallback<Person> callback);
+
+
+	void deleteNutzer(Nutzer n, AsyncCallback<Nutzer> callback);
+
+
+	void updateNutzer(Nutzer n, AsyncCallback<Nutzer> callback);
+
+
+	void findNutzerByEmail(String email, AsyncCallback<Nutzer> callback);
+
+
+	void findNutzerByID(int id, AsyncCallback<Nutzer> callback);
+
+
+	void findAllNutzer(AsyncCallback<Vector<Nutzer>> callback);
+
+
+	void findKontaktlisteByID(int id, AsyncCallback<Kontaktliste> callback);
+
+
+	void findKontaktlisteByBezeichnung(String bezeichnung, AsyncCallback<Kontaktliste> callback);
+
+
+	void insertKontaktliste(Kontaktliste kl, AsyncCallback<Kontaktliste> callback);
+
+
+	void updateKontaktliste(Kontaktliste k, AsyncCallback<Kontaktliste> callback);
+
+
+	void deleteKontaktliste(Kontaktliste k, AsyncCallback<Kontaktliste> callback);
+
+
+	void findKontaktlisteAll(AsyncCallback<Vector<Kontaktliste>> callback);
 	
 	/*
 	void createEigenschaft(String bezeichnung, boolean status, AsyncCallback<Eigenschaft> callback);

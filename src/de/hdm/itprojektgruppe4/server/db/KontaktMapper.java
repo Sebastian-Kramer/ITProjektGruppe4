@@ -34,7 +34,7 @@ public class KontaktMapper extends PersonMapper {
 	 * 
 	 * 
 	 * @param id 
-	 * 	Primärschlüssel der DB
+	 * 	Primï¿½rschlï¿½ssel der DB
 	 * @return Kontakt-Objekt. welches dem PK entspricht, 
 	 * 			falls nicht vorhanden, dann null
 	 */
@@ -77,7 +77,7 @@ public class KontaktMapper extends PersonMapper {
 	/**
 	 * 	Ein Kontakt anhand des Attributs Name finden. 
 	 * @param name der Name als String
-	 * @return der Kontakt bei dem der Name übereinstimmte 
+	 * @return der Kontakt bei dem der Name ï¿½bereinstimmte 
 	 */
 	
 	
@@ -118,9 +118,9 @@ public class KontaktMapper extends PersonMapper {
 	/**
 	 *  Ausgabe aller Kontakte sortiert nach ID 
 	 * @return Ein Vektor mit allen Kontakt-Objektenn
-	 * 			Im falle keiner Kontakte auf der DB wird eine Exception oder ein leerer Vektor zurückgegeben
+	 * 			Im falle keiner Kontakte auf der DB wird eine Exception oder ein leerer Vektor zurï¿½ckgegeben
 	 */
-	public Vector<Kontakt> findAll(){
+	public Vector<Kontakt> findAllKontakte(){
 		Vector<Kontakt> result = new Vector<Kontakt>();
 		
 		Connection con = DBConnection.connection();
@@ -154,12 +154,12 @@ public class KontaktMapper extends PersonMapper {
 	}
 	
 	/**
-	 *  Einfügen eines neuen Objktes vom Typ Kontakt in die DB
-	 *  der PK wird überprüft und korrigiert -> maxID +1 
+	 *  Einfï¿½gen eines neuen Objktes vom Typ Kontakt in die DB
+	 *  der PK wird ï¿½berprï¿½ft und korrigiert -> maxID +1 
 	 * @param k 
 	 * der zu speichernde Kontakt 
 	 * @return
-	 * der bereits übergebene Kontakt
+	 * der bereits ï¿½bergebene Kontakt
 	 */
 	
 	public Kontakt insertKontakt(Kontakt k) {
@@ -233,9 +233,9 @@ public class KontaktMapper extends PersonMapper {
 	
 	
 	/**
-	 *  ein Objekt vom Typ Kontakt wird aus der DB gelöscht 
+	 *  ein Objekt vom Typ Kontakt wird aus der DB gelï¿½scht 
 	 * @param k
-	 * 	der zu löschende Kontakt
+	 * 	der zu lï¿½schende Kontakt
 	 * 
 	 */
 	

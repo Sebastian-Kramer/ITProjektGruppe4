@@ -35,13 +35,35 @@ public interface KontaktAdministration extends RemoteService {
     
     public Kontakt findKontaktByName(String name) throws IllegalArgumentException;
     
-    public Vector<Kontakt> findAll() throws IllegalArgumentException;
+    public Vector<Kontakt> findAllKontakte() throws IllegalArgumentException;
     
     public Kontakt updateKontakt(Kontakt k) throws IllegalArgumentException;
     
     public Person deletePerson(Person p) throws IllegalArgumentException;
     
     public Person findPersonByID(int ID) throws IllegalArgumentException;
+    
+    public Nutzer deleteNutzer(Nutzer n) throws IllegalArgumentException;
+    
+    public Nutzer updateNutzer(Nutzer n) throws IllegalArgumentException;
+    
+    public Nutzer findNutzerByEmail(String email) throws IllegalArgumentException;
+    
+    public Nutzer findNutzerByID(int id) throws IllegalArgumentException;
+    
+    public Vector<Nutzer> findAllNutzer() throws IllegalArgumentException;
+    
+    public Kontaktliste findKontaktlisteByID(int id) throws IllegalArgumentException;
+    
+    public Kontaktliste findKontaktlisteByBezeichnung(String bezeichnung) throws IllegalArgumentException;
+    
+    public Kontaktliste insertKontaktliste(Kontaktliste kl) throws IllegalArgumentException;
+    
+    public Kontaktliste updateKontaktliste(Kontaktliste k) throws IllegalArgumentException;
+    
+    public Kontaktliste deleteKontaktliste(Kontaktliste k) throws IllegalArgumentException;
+    
+    public Vector<Kontaktliste> findKontaktlisteAll() throws IllegalArgumentException;
     
     
     
