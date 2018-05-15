@@ -1,6 +1,6 @@
 package de.hdm.itprojektgruppe4.client;
 
-import de.hdm.itprojektgrupp4.client.gui.Startseite;
+import de.hdm.itprojektgruppe4.client.gui.Startseite;
 import de.hdm.itprojektgruppe4.shared.FieldVerifier;
 import de.hdm.itprojektgruppe4.shared.KontaktAdministrationAsync;
 import de.hdm.itprojektgruppe4.shared.bo.Kontakt;
