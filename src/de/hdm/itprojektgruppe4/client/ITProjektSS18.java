@@ -1,6 +1,6 @@
 package de.hdm.itprojektgruppe4.client;
 
-import de.hdm.itprojektgrupp4.client.gui.Startseite;
+import de.hdm.itprojektgruppe4.client.gui.Startseite;
 import de.hdm.itprojektgruppe4.shared.FieldVerifier;
 import de.hdm.itprojektgruppe4.shared.KontaktAdministrationAsync;
 import de.hdm.itprojektgruppe4.shared.bo.Kontakt;
@@ -46,12 +46,7 @@ public class ITProjektSS18 implements EntryPoint {
 	//CellTable<Kontakt> allK = new CellTable<Kontakt>();
 	
 	FlexTable allK = new FlexTable();
-	
-	
-	
-	
-	
-	
+
 	VerticalPanel vpanel2 = new VerticalPanel();
 	
 	private static KontaktAdministrationAsync verwaltung = ClientsideSettings.getKontaktVerwaltung();
@@ -59,9 +54,15 @@ public class ITProjektSS18 implements EntryPoint {
 	@Override
 	public void onModuleLoad() {
 		RootPanel.get("Details").clear();
+		RootPanel.get("Details").add(new HTML(
+				"<h2>Kontaktverwaltung</h2>"
+				));
+		
 		vpanel.add(button);
 		vpanel.add(tb);
 		RootPanel.get("Details").add(vpanel);
+		
+	
 		
 		button.addClickHandler(new ClickHandler(){
 
@@ -89,6 +90,10 @@ public class ITProjektSS18 implements EntryPoint {
 			@Override
 			public void onClick(ClickEvent event) {
 				// TODO Auto-generated method stub
+				Startseite start = new Startseite();
+				RootPanel.get("Details").clear();
+				RootPanel.get("Details").add(start);
+				/**
 				verwaltung.findAllKontakte(new AsyncCallback<Vector<Kontakt>>() {
 
 					@Override
@@ -99,19 +104,19 @@ public class ITProjektSS18 implements EntryPoint {
 
 					@Override
 					public void onSuccess(Vector<Kontakt> result) {
-						// TODO Auto-generated method stub
 						Window.alert("Funktioniert !!!");
-						RootPanel.get("Details").clear();
-						//RootPanel.get("Details").add(new Startseite());
-						/**
+						RootPanel.get("Details").add(start);
+				
+						/
 						allK.setText(0, 0, result.toString());
-						RootPanel.get("Details").add(allK);*/
+						RootPanel.get("Details").add(allK);
 					}
 				});
+				 */
 			}
 		});
 		
-		
+
 		
 		RootPanel.get("Navigator").clear();
 		vpanel2.add(myContacts);
@@ -119,6 +124,8 @@ public class ITProjektSS18 implements EntryPoint {
 		vpanel2.add(myContacLists);
 		vpanel2.add(myProfil);
 		RootPanel.get("Navigator").add(vpanel2);
+		
+		
 		
 	}
 	
