@@ -6,6 +6,7 @@ import de.hdm.itprojektgruppe4.shared.bo.Kontakt;
 import de.hdm.itprojektgruppe4.shared.bo.Nutzer;
 
 import java.util.Date;
+import java.util.Vector;
 
 import com.google.gwt.core.client.EntryPoint;
 import com.google.gwt.core.client.GWT;
@@ -14,6 +15,7 @@ import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.dom.client.KeyCodes;
 import com.google.gwt.event.dom.client.KeyUpEvent;
 import com.google.gwt.event.dom.client.KeyUpHandler;
+import com.google.gwt.user.cellview.client.CellTable;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Button;
@@ -21,6 +23,7 @@ import com.google.gwt.user.client.ui.DialogBox;
 import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.RootPanel;
+import com.google.gwt.user.client.ui.TextArea;
 import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.client.ui.VerticalPanel;
 
@@ -32,6 +35,21 @@ public class ITProjektSS18 implements EntryPoint {
 	VerticalPanel vpanel = new VerticalPanel();
 	Button button = new Button("Hallo Nino");
 	TextBox tb = new TextBox();
+	
+	Button myContacts = new Button("Meine Kontakte");
+	Button myContacLists = new Button("Meine Kontaktliste");
+	Button myProfil = new Button("Mein Profil");
+	
+	TextArea textA = new TextArea();
+	CellTable<Kontakt> allK = new CellTable<Kontakt>();
+	
+	
+	
+	
+	
+	
+	VerticalPanel vpanel2 = new VerticalPanel();
+	
 	private static KontaktAdministrationAsync verwaltung = ClientsideSettings.getKontaktVerwaltung();
 	
 	@Override
@@ -60,6 +78,39 @@ public class ITProjektSS18 implements EntryPoint {
 			}
 			
 		});
+		
+		
+		myContacts.addClickHandler(new ClickHandler() {
+			
+			@Override
+			public void onClick(ClickEvent event) {
+				// TODO Auto-generated method stub
+				verwaltung.findAll(new AsyncCallback<Vector<Kontakt>>() {
+
+					@Override
+					public void onFailure(Throwable caught) {
+						// TODO Auto-generated method stub
+						Window.alert("Funktioniert nicht");
+					}
+
+					@Override
+					public void onSuccess(Vector<Kontakt> result) {
+						// TODO Auto-generated method stub
+						Window.alert("Funktioniert !!!");
+					allK.setRowData(0, result);
+					}
+				});
+			}
+		});
+		
+		
+		
+		RootPanel.get("Navigator").clear();
+		vpanel2.add(myContacts);
+		vpanel2.add(allK);
+		vpanel2.add(myContacLists);
+		vpanel2.add(myProfil);
+		RootPanel.get("Navigator").add(vpanel2);
 		
 	}
 	
