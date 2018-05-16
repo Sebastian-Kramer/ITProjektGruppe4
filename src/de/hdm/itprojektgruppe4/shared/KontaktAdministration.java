@@ -96,9 +96,16 @@ public interface KontaktAdministration extends RemoteService {
     
     public Teilhaberschaft deleteEigenschaftsauspraegungFromTeilhaberschaft(Teilhaberschaft t) throws IllegalArgumentException;
     
+
     public KontaktKontaktliste insertKontaktKontaktliste(KontaktKontaktliste k) throws IllegalArgumentException;
     
     public KontaktKontaktliste deleteKontaktKontaktliste(KontaktKontaktliste k) throws IllegalArgumentException;
+
+    public Vector<Kontakt> findKontaktByNutzerID(int nutzerID) throws IllegalArgumentException;
+    
+    public Vector<Kontaktliste> findKontaktlisteByNutzerID(int nutzerID) throws IllegalArgumentException;
+    
+
     
     
     

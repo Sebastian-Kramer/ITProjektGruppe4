@@ -460,6 +460,7 @@ public class KontaktAdministrationImpl extends RemoteServiceServlet
 	}
 
 	@Override
+
 	public KontaktKontaktliste insertKontaktKontaktliste(KontaktKontaktliste k) 
 			throws IllegalArgumentException {
 		this.kontaktKontaktlisteMapper.insertKontaktKontaktliste(k);
@@ -474,6 +475,18 @@ public class KontaktAdministrationImpl extends RemoteServiceServlet
 	}
 		
 	
+
+	public Vector<Kontakt> findKontaktByNutzerID(int nutzerID) throws IllegalArgumentException {
+		// TODO Auto-generated method stub
+		return this.konMapper.findKontaktByNutzerID(nutzerID);
+	}
+
+	@Override
+	public Vector<Kontaktliste> findKontaktlisteByNutzerID(int nutzerID) throws IllegalArgumentException {
+		// TODO Auto-generated method stub
+		return this.konlistMapper.findKontaktlisteByNutzerID(nutzerID);
+	}
+
 
 	
 

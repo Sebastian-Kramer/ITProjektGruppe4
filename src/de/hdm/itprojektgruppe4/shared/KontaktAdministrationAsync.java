@@ -126,10 +126,19 @@ public interface KontaktAdministrationAsync {
 	void deleteEigenschaftsauspraegungFromTeilhaberschaft(Teilhaberschaft t, AsyncCallback<Teilhaberschaft> callback);
 
 
+
 	void insertKontaktKontaktliste(KontaktKontaktliste k, AsyncCallback<KontaktKontaktliste> callback);
 
 
 	void deleteKontaktKontaktliste(KontaktKontaktliste k, AsyncCallback<KontaktKontaktliste> callback);
+
+	void findKontaktByNutzerID(int nutzerID,AsyncCallback<Vector<Kontakt>> callback);
+
+
+	void findKontaktlisteByNutzerID(int nutzerID, AsyncCallback<Vector<Kontaktliste>> callback);
+
+
+
 	
 	/*
 	void createEigenschaft(String bezeichnung, boolean status, AsyncCallback<Eigenschaft> callback);
