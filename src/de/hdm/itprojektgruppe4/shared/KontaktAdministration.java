@@ -13,6 +13,7 @@ import de.hdm.itprojektgruppe4.shared.bo.Kontaktliste;
 import de.hdm.itprojektgruppe4.shared.bo.Nutzer;
 import de.hdm.itprojektgruppe4.shared.bo.Person;
 import de.hdm.itprojektgruppe4.shared.bo.Teilhaberschaft;
+import de.hdm.itprojektgruppe4.shared.bo.KontaktKontaktliste;
 
 @RemoteServiceRelativePath("kontaktmanager")
 public interface KontaktAdministration extends RemoteService {
@@ -95,6 +96,9 @@ public interface KontaktAdministration extends RemoteService {
     
     public Teilhaberschaft deleteEigenschaftsauspraegungFromTeilhaberschaft(Teilhaberschaft t) throws IllegalArgumentException;
     
+    public KontaktKontaktliste insertKontaktKontaktliste(KontaktKontaktliste k) throws IllegalArgumentException;
+    
+    public KontaktKontaktliste deleteKontaktKontaktliste(KontaktKontaktliste k) throws IllegalArgumentException;
     
     
     

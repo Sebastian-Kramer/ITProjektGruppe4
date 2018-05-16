@@ -53,6 +53,12 @@ public class KontaktAdministrationImpl extends RemoteServiceServlet
      */
     private TeilhaberschaftMapper teilhaberschaftMapper = null;
     
+    /**
+     * 
+     */
+    
+    private KontaktKontaktlisteMapper kontaktKontaktlisteMapper = null;
+    
     /*
 	   * ***************************************************************************
 	   * ABSCHNITT, Beginn: Initialisierung
@@ -452,6 +458,22 @@ public class KontaktAdministrationImpl extends RemoteServiceServlet
 		this.teilhaberschaftMapper.deleteEigenschaftsauspraegungFromTeilhaberschaft(t);
 		return null;
 	}
+
+	@Override
+	public KontaktKontaktliste insertKontaktKontaktliste(KontaktKontaktliste k) 
+			throws IllegalArgumentException {
+		this.kontaktKontaktlisteMapper.insertKontaktKontaktliste(k);
+		return null;
+		}
+
+	@Override
+	public KontaktKontaktliste deleteKontaktKontaktliste(KontaktKontaktliste k) 
+			throws IllegalArgumentException {
+		this.kontaktKontaktlisteMapper.deleteKontaktKontaktliste(k);
+		return null;
+	}
+		
+	
 
 	
 

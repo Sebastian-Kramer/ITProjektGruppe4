@@ -9,6 +9,7 @@ import com.google.gwt.user.client.rpc.AsyncCallback;
 import de.hdm.itprojektgruppe4.shared.bo.Eigenschaft;
 import de.hdm.itprojektgruppe4.shared.bo.Eigenschaftauspraegung;
 import de.hdm.itprojektgruppe4.shared.bo.Kontakt;
+import de.hdm.itprojektgruppe4.shared.bo.KontaktKontaktliste;
 import de.hdm.itprojektgruppe4.shared.bo.Kontaktliste;
 import de.hdm.itprojektgruppe4.shared.bo.Nutzer;
 import de.hdm.itprojektgruppe4.shared.bo.Person;
@@ -123,6 +124,12 @@ public interface KontaktAdministrationAsync {
 
 
 	void deleteEigenschaftsauspraegungFromTeilhaberschaft(Teilhaberschaft t, AsyncCallback<Teilhaberschaft> callback);
+
+
+	void insertKontaktKontaktliste(KontaktKontaktliste k, AsyncCallback<KontaktKontaktliste> callback);
+
+
+	void deleteKontaktKontaktliste(KontaktKontaktliste k, AsyncCallback<KontaktKontaktliste> callback);
 	
 	/*
 	void createEigenschaft(String bezeichnung, boolean status, AsyncCallback<Eigenschaft> callback);
