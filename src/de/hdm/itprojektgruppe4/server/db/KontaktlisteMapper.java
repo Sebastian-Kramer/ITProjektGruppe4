@@ -71,7 +71,7 @@ public class KontaktlisteMapper {
 		 */
 	public Kontaktliste findKontaktlisteByBezeichnung(String bezeichnung){
 		Connection con = DBConnection.connection();
-		
+		 
 		try{
 			Statement stmt = con.createStatement();
 		ResultSet rs = stmt.executeQuery("SELECT ID, bez, status FROM kontaktliste " + "WHERE bez ="
