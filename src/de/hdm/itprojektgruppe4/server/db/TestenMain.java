@@ -79,7 +79,8 @@ public class TestenMain {
 		 
 		 Kontakt abc = new Kontakt();
 		 
-		 abc.setName("DAUUG");
+		 abc.setID(1);
+		 abc.setName("IMPLBOI");
 		abc.setErzeugungsdatum(date);
 		 abc.setModifikationsdatum(date);
 		 abc.setStatus(1);
@@ -88,17 +89,23 @@ public class TestenMain {
 		// KontaktMapper.kontaktMapper().insertKontakt(abc);
 		 
 		 
-		 Kontakt implBOI = new Kontakt();
-		 
-		KontaktAdministrationImpl kcre = new KontaktAdministrationImpl();
-		
+//	Kontakt implBOI = new Kontakt();
+//		 
+	     KontaktAdministrationImpl kcre = new KontaktAdministrationImpl();
+//		
 		kcre.init();
 		
-		kcre.insertKontakt("IMPLBOI", date, date, 1, 1);
+		//System.out.println(kcre.findKontaktByID(5));
+//		
+		//
 		
+		//System.out.println(kcre.findKontaktByName("'IMPLBOI'"));
 		
+		//kcre.insertKontakt("IMPLBOI", date, date, 1, 1);
+		
+		//KontaktMapper.kontaktMapper().findKontaktByName(abc.getName());
 		 
-		
+		//System.out.println(KontaktMapper.kontaktMapper().findKontaktByID(5));
 	}
 	
 

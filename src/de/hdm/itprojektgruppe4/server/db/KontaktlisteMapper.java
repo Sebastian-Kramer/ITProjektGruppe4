@@ -40,7 +40,7 @@ public class KontaktlisteMapper {
 	 * @return Kontaktlistenobjekt, das dem uebergebenen Schluessel entspricht, null bei nicht vorhandenem DB-Tulpel.
 	 */
 	
-		public Kontaktliste findKontaktlisteByID(int id){
+		public Kontaktliste findbyID(int id){
 			Connection con = DBConnection.connection();
 			
 			try{
@@ -69,7 +69,7 @@ public class KontaktlisteMapper {
 		 * @param bezeichnung
 		 * @return Kontaktlistenobjekt, das dem uebergebenen Schluessel entspricht, null bei nicht vorhandenem DB-Tulpel.
 		 */
-	public Kontaktliste findKontaktlisteByBezeichnung(String bezeichnung){
+	public Kontaktliste findbyBezeichnung(String bezeichnung){
 		Connection con = DBConnection.connection();
 		 
 		try{
@@ -118,7 +118,7 @@ public class KontaktlisteMapper {
 				stmt = con.createStatement();
 				
 				stmt.executeUpdate(
-						"INSERT INTO Kontaktliste (ID, bez, status)" + " VALUES (" + kl.getID() + " ,'" + kl.getBez() + "' ,'" + kl.getStatus() + "')");
+						"INSERT INTO kontaktliste (ID, bez, status)" + " VALUES (" + kl.getID() + " ,'" + kl.getBez() + "' ,'" + kl.getStatus() + "')");
 					
 						
 			}
@@ -177,7 +177,7 @@ public class KontaktlisteMapper {
 		}
 		
 		
-		public Vector<Kontaktliste> findKontaktlisteAll(){
+		public Vector<Kontaktliste> findAll(){
 			Vector<Kontaktliste> result = new Vector<Kontaktliste>();
 			
 			Connection con = DBConnection.connection();
