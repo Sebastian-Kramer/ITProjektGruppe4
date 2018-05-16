@@ -16,6 +16,16 @@ public class Kontaktliste extends BusinessObject {
     private String bez;
     
     private int status;
+    
+    private int nutzerID;
+
+	public int getNutzerID() {
+		return nutzerID;
+	}
+
+	public void setNutzerID(int nutzerID) {
+		this.nutzerID = nutzerID;
+	}
 
 	public String getBez() {
 		return bez;
