@@ -91,7 +91,7 @@ public class KontaktMapper extends PersonMapper {
 		Statement stmt = con.createStatement();
 		
 		ResultSet rs = stmt.executeQuery(
-				"SELECT ID, name, erzeugungsdatum, modifikationsdatum, status, nutzerID FROM kontakt " + " WHERE name= " + name);
+				"SELECT ID, name, erzeugungsdatum, modifikationsdatum, status, nutzerID FROM kontakt " + " WHERE name= "+ "' "+ name +" '");
 		
 
 		if (rs.next()) {
