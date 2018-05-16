@@ -328,13 +328,13 @@ public class KontaktAdministrationImpl extends RemoteServiceServlet
 	@Override
 	public Kontaktliste findKontaktlisteByID(int id) throws IllegalArgumentException {
 		// TODO Auto-generated method stub
-		return this.konlistMapper.findKontaktlisteByID(id);
+		return this.konlistMapper.findKontaktlistebyID(id);
 	}
 
 	@Override
 	public Kontaktliste findKontaktlisteByBezeichnung(String bezeichnung) throws IllegalArgumentException {
 		// TODO Auto-generated method stub
-		return this.konlistMapper.findKontaktlisteByBezeichnung(bezeichnung);
+		return this.konlistMapper.findKontaktlistebyBezeichnung(bezeichnung);
 	}
 
 	@Override
