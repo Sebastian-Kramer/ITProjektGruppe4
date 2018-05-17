@@ -54,6 +54,12 @@ public class KontaktAdministrationImpl extends RemoteServiceServlet
      */
     private TeilhaberschaftMapper teilhaberschaftMapper = null;
     
+    /**
+     * 
+     */
+    
+    private KontaktKontaktlisteMapper kontaktKontaktlisteMapper = null;
+    
     /*
 	   * ***************************************************************************
 	   * ABSCHNITT, Beginn: Initialisierung
@@ -329,13 +335,13 @@ public class KontaktAdministrationImpl extends RemoteServiceServlet
 	@Override
 	public Kontaktliste findKontaktlisteByID(int id) throws IllegalArgumentException {
 		// TODO Auto-generated method stub
-		return this.konlistMapper.findKontaktlisteByID(id);
+		return this.konlistMapper.findKontaktlistebyID(id);
 	}
 
 	@Override
 	public Kontaktliste findKontaktlisteByBezeichnung(String bezeichnung) throws IllegalArgumentException {
 		// TODO Auto-generated method stub
-		return this.konlistMapper.findKontaktlisteByBezeichnung(bezeichnung);
+		return this.konlistMapper.findKontaktlistebyBezeichnung(bezeichnung);
 	}
 
 	@Override
@@ -458,6 +464,35 @@ public class KontaktAdministrationImpl extends RemoteServiceServlet
 	public List<Kontakt> findAllKontaktNames() throws IllegalArgumentException {
 		return this.konMapper.findAllKontakte();
 	}
+
+	@Override
+
+	public KontaktKontaktliste insertKontaktKontaktliste(KontaktKontaktliste k) 
+			throws IllegalArgumentException {
+		this.kontaktKontaktlisteMapper.insertKontaktKontaktliste(k);
+		return null;
+		}
+
+	@Override
+	public KontaktKontaktliste deleteKontaktKontaktliste(KontaktKontaktliste k) 
+			throws IllegalArgumentException {
+		this.kontaktKontaktlisteMapper.deleteKontaktKontaktliste(k);
+		return null;
+	}
+		
+	
+
+	public Vector<Kontakt> findKontaktByNutzerID(int nutzerID) throws IllegalArgumentException {
+		// TODO Auto-generated method stub
+		return this.konMapper.findKontaktByNutzerID(nutzerID);
+	}
+
+	@Override
+	public Vector<Kontaktliste> findKontaktlisteByNutzerID(int nutzerID) throws IllegalArgumentException {
+		// TODO Auto-generated method stub
+		return this.konlistMapper.findKontaktlisteByNutzerID(nutzerID);
+	}
+
 
 	
 

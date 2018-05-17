@@ -301,6 +301,32 @@ public class KontaktMapper extends PersonMapper {
 	 * @param k
 	 */
 
+	public Vector<Kontakt> findKontaktByNutzerID(int nutzerID){
+		Vector<Kontakt> result = new Vector<Kontakt>();
+		
+		Connection con = DBConnection.connection();
+		
+		try{
+			Statement stmt = con.createStatement();
+			
+			ResultSet rs = stmt.executeQuery("SELECT ID, name FROM kontakt "+ "WHERE nutzerID= " + nutzerID
+					 + " ORDER by ID");
+			
+					
+		while (rs.next()){
+			Kontakt k = new Kontakt();
+			k.setID(rs.getInt("ID"));
+			k.setName(rs.getString("name"));
+		
+			result.addElement(k);
+		}			
+		}catch (SQLException e){
+			e.printStackTrace();
+		}
+		
+		return result;
+	
+	}
 	
 
 }
