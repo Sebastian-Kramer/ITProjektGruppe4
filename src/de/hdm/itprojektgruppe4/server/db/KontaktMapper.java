@@ -9,7 +9,9 @@ import java.text.SimpleDateFormat;
 import java.util.Vector;
 import de.hdm.itprojektgruppe4.shared.bo.*;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 public class KontaktMapper extends PersonMapper {
 
@@ -151,6 +153,37 @@ public class KontaktMapper extends PersonMapper {
 				
 		
 		
+	}
+	
+	/**
+	 * 
+	 * @return
+	 */
+	
+	public List<String> findAllKontaktNames(){
+		
+		List<String> result = new ArrayList<>();
+		
+		Connection con = DBConnection.connection();
+		
+		try{
+			Statement stmt = con.createStatement();
+			
+			ResultSet rs = stmt.executeQuery("SELECT name FROM kontakt");
+						
+		while (rs.next()){
+			Kontakt k = new Kontakt();
+
+			k.setName(rs.getString("name"));
+			
+			result.add(k.getName());
+		}			
+		}catch (SQLException e){
+			e.printStackTrace();
+		}
+		
+		return result;
+					
 	}
 	
 	/**

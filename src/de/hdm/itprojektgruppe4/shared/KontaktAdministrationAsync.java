@@ -1,6 +1,7 @@
 package de.hdm.itprojektgruppe4.shared;
 
 import java.util.Date;
+import java.util.List;
 import java.util.ArrayList;
 import java.util.Vector;
 
@@ -34,6 +35,9 @@ public interface KontaktAdministrationAsync {
 
 
 	void findAllKontakte(AsyncCallback<Vector<Kontakt>> callback);
+	
+	
+	void findAllKontaktNames(AsyncCallback<List<Kontakt>> callback);
 
 
 	void updateKontakt(Kontakt k, AsyncCallback<Kontakt> callback);

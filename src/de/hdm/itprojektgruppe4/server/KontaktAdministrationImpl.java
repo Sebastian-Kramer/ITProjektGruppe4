@@ -1,6 +1,7 @@
 package de.hdm.itprojektgruppe4.server;
 
 import java.util.Date;
+import java.util.List;
 import java.util.Vector;
 import java.text.SimpleDateFormat;
 
@@ -468,6 +469,11 @@ public class KontaktAdministrationImpl extends RemoteServiceServlet
 			throws IllegalArgumentException {
 		this.teilhaberschaftMapper.deleteEigenschaftsauspraegungFromTeilhaberschaft(t);
 		return null;
+	}
+
+	@Override
+	public List<Kontakt> findAllKontaktNames() throws IllegalArgumentException {
+		return this.konMapper.findAllKontakte();
 	}
 
 	@Override
