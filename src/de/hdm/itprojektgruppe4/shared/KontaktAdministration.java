@@ -1,6 +1,7 @@
 package de.hdm.itprojektgruppe4.shared;
 
 import java.util.Date;
+import java.util.List;
 import java.util.Vector;
 
 import com.google.gwt.user.client.rpc.RemoteService;
@@ -94,6 +95,8 @@ public interface KontaktAdministration extends RemoteService {
     public Teilhaberschaft deleteKontaktlisteFromTeilhaberschaft(Teilhaberschaft t) throws IllegalArgumentException;
     
     public Teilhaberschaft deleteEigenschaftsauspraegungFromTeilhaberschaft(Teilhaberschaft t) throws IllegalArgumentException;
+
+	public List<Kontakt> findAllKontaktNames() throws IllegalArgumentException;
     
     
     
@@ -103,9 +106,7 @@ public interface KontaktAdministration extends RemoteService {
     
     
     
-    
-    
-    
+  
     
     
     /**

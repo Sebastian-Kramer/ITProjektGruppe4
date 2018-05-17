@@ -23,7 +23,7 @@ public class Startseite extends VerticalPanel{
 	private FlexTable ft1 = new FlexTable();
 	private CellTable<Kontakt> ct = new CellTable<Kontakt>();
 	private Button b1 = new Button("Test");
-	private HTML html1 = new HTML("<h2>Kontaktverwaltung Hallo bitten  </h2>");
+	private HTML html1 = new HTML("<h2>Kontaktverwaltungsseite hat geladen</h2>");
 	
 	private static KontaktAdministrationAsync verwaltung = ClientsideSettings.getKontaktVerwaltung();
 	

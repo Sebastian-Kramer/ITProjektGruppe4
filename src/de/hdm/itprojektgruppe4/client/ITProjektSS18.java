@@ -1,5 +1,6 @@
 package de.hdm.itprojektgruppe4.client;
 
+import de.hdm.itprojektgruppe4.client.gui.MainForm;
 import de.hdm.itprojektgruppe4.client.gui.Startseite;
 import de.hdm.itprojektgruppe4.shared.FieldVerifier;
 import de.hdm.itprojektgruppe4.shared.KontaktAdministrationAsync;
@@ -58,7 +59,7 @@ public class ITProjektSS18 implements EntryPoint {
 		vpanel.add(tb);
 		RootPanel.get("Details").add(vpanel);
 		
-	
+		//RootPanel.get("Navigator").add(new MainForm());
 		
 		button.addClickHandler(new ClickHandler(){
 
@@ -86,9 +87,10 @@ public class ITProjektSS18 implements EntryPoint {
 			@Override
 			public void onClick(ClickEvent event) {
 				// TODO Auto-generated method stub
-				Startseite start = new Startseite();
+				MainForm mv = new MainForm();
+//				Startseite s = new Startseite();
 				RootPanel.get("Details").clear();
-				RootPanel.get("Details").add(start);
+				RootPanel.get("Details").add(mv);
 				/**
 				verwaltung.findAllKontakte(new AsyncCallback<Vector<Kontakt>>() {
 
@@ -111,18 +113,24 @@ public class ITProjektSS18 implements EntryPoint {
 				 */
 			}
 		});
-		
-
+	
 		
 		RootPanel.get("Navigator").clear();
 		vpanel2.add(myContacts);
-		vpanel2.add(allK);
-		vpanel2.add(myContacLists);
-		vpanel2.add(myProfil);
+//		vpanel2.add(allK);
+//		vpanel2.add(myContacLists);
+//		vpanel2.add(myProfil);
 		RootPanel.get("Navigator").add(vpanel2);
-		
+
 		
 		
 	}
+	
+//	void init(){
+//		
+//		RootPanel.get("Navigator").clear();
+//		RootPanel.get("Navigator").add(new MainForm());
+//		
+//	}
 	
 }
