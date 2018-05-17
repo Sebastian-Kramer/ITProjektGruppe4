@@ -18,7 +18,7 @@ public class KontaktKontaktlisteMapper {
 		
 	};
 	
-	public KontaktKontaktlisteMapper kontaktkontaktlistemapper(){
+	public static KontaktKontaktlisteMapper kontaktkontaktlistemapper(){
 		if(kontaktkontaktlisteMapper == null){
 			kontaktkontaktlisteMapper = new KontaktKontaktlisteMapper();
 		}

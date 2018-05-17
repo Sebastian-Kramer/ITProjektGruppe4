@@ -74,11 +74,14 @@ public class KontaktAdministrationImpl extends RemoteServiceServlet
     /**
      * @return
      */
-    public void init() {
+    public void init() throws IllegalArgumentException {
         this.konMapper = KontaktMapper.kontaktMapper();
         this.nutzerMapper = NutzerMapper.nutzerMapper();
         this.persMapper = PersonMapper.personMapper();
         this.konlistMapper = KontaktlisteMapper.kontaktlisteMapper();
+        this.eigenschaftauspraegungMapper = EigenschaftauspraegungMapper.eigenschaftauspraegungMapper();
+        this.eigMapper = EigenschaftMapper.eigenschaftMapper();
+        this.kontaktKontaktlisteMapper = KontaktKontaktlisteMapper.kontaktkontaktlistemapper();
     }
 
     /**
@@ -95,7 +98,8 @@ public class KontaktAdministrationImpl extends RemoteServiceServlet
 
     
     
-    public Kontakt insertKontakt(String name, Date erzeugungsdatum, Date modifikationsdatum, int status, int nutzerID)  	throws IllegalArgumentException {
+    public Kontakt insertKontakt(String name, Date erzeugungsdatum, Date modifikationsdatum, int status, int nutzerID)  	
+    		throws IllegalArgumentException {
         // TODO implement here
  
     	Kontakt k = new Kontakt();
@@ -117,9 +121,16 @@ public class KontaktAdministrationImpl extends RemoteServiceServlet
      * @param status 
      * @return
      */
-    public Eigenschaft createEigenschaft(String bezeichnung, boolean status) {
-        // TODO implement here
-        return null;
+    public Eigenschaft createEigenschaft(String bezeichnung, boolean status) 
+    throws IllegalArgumentException {
+    	
+    	Eigenschaft e = new Eigenschaft();
+    	
+    	e.setID(1);
+    	e.setBezeichnung(bezeichnung);
+    	
+    	
+    	return this.eigMapper.insertEigenschaft(e);
     }
 
     /**
