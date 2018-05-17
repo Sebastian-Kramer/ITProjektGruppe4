@@ -55,9 +55,12 @@ public class ITProjektSS18 implements EntryPoint {
 	@Override
 	public void onModuleLoad() {
 		
-		vpanel.add(button);
-		vpanel.add(tb);
-		RootPanel.get("Details").add(vpanel);
+//		vpanel.add(button);
+//		vpanel.add(tb);
+//		RootPanel.get("Details").add(vpanel);
+		MainForm mv = new MainForm();
+		RootPanel.get("Details").clear();
+		RootPanel.get("Details").add(mv);
 		
 		//RootPanel.get("Navigator").add(new MainForm());
 		
@@ -115,12 +118,12 @@ public class ITProjektSS18 implements EntryPoint {
 		});
 	
 		
-		RootPanel.get("Navigator").clear();
-		vpanel2.add(myContacts);
+//		RootPanel.get("Navigator").clear();
+//		vpanel2.add(myContacts);
 //		vpanel2.add(allK);
 //		vpanel2.add(myContacLists);
 //		vpanel2.add(myProfil);
-		RootPanel.get("Navigator").add(vpanel2);
+//		RootPanel.get("Navigator").add(vpanel2);
 
 		
 		
