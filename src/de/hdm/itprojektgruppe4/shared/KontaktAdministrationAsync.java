@@ -43,16 +43,16 @@ public interface KontaktAdministrationAsync {
 	void updateKontakt(Kontakt k, AsyncCallback<Kontakt> callback);
 	
 
-	void deleteKontakt(Kontakt k, AsyncCallback<Kontakt> callback);
+	void deleteKontakt(Kontakt k, AsyncCallback<Void> callback);
 
 
-	void deletePerson(Person p, AsyncCallback<Person> callback);
+	void deletePerson(Person p, AsyncCallback<Void> callback);
  
 
 	void findPersonByID(int ID, AsyncCallback<Person> callback);
 
 
-	void deleteNutzer(Nutzer n, AsyncCallback<Nutzer> callback);
+	void deleteNutzer(Nutzer n, AsyncCallback<Void> callback);
 
 
 	void updateNutzer(Nutzer n, AsyncCallback<Nutzer> callback);
@@ -73,13 +73,13 @@ public interface KontaktAdministrationAsync {
 	void findKontaktlisteByBezeichnung(String bezeichnung, AsyncCallback<Kontaktliste> callback);
 
 
-	void insertKontaktliste(Kontaktliste kl, AsyncCallback<Kontaktliste> callback);
+	void insertKontaktliste(String bez, int status, int nutzerID, AsyncCallback<Kontaktliste> callback);
 
 
 	void updateKontaktliste(Kontaktliste k, AsyncCallback<Kontaktliste> callback);
 
 
-	void deleteKontaktliste(Kontaktliste k, AsyncCallback<Kontaktliste> callback);
+	void deleteKontaktliste(Kontaktliste k, AsyncCallback<Void> callback);
 
 
 	void findKontaktlisteAll(AsyncCallback<Vector<Kontaktliste>> callback);
@@ -88,25 +88,23 @@ public interface KontaktAdministrationAsync {
 	void getEigenschaftByID(int id, AsyncCallback<Eigenschaft> callback);
 
 
-	void insterEigenschaft(Eigenschaft e, AsyncCallback<Eigenschaft> callback);
-
-
 	void updateEigenschaft(Eigenschaft e, AsyncCallback<Eigenschaft> callback);
 
 
-	void deleteEigenschaft(Eigenschaft e, AsyncCallback<Eigenschaft> callback);
+	void deleteEigenschaft(Eigenschaft e, AsyncCallback<Void> callback);
 
 
-	void insertAuspraegung(Eigenschaftauspraegung ea, AsyncCallback<Eigenschaftauspraegung> callback);
+	void insertAuspraegung(String wert, int status, int eigenschaftsID, int kontaktID,
+			AsyncCallback<Eigenschaftauspraegung> callback);
 
 
 	void updateAuspraegung(Eigenschaftauspraegung ea, AsyncCallback<Eigenschaftauspraegung> callback);
 
 
-	void deleteAuspraegung(Eigenschaftauspraegung ea, AsyncCallback<Eigenschaftauspraegung> callback);
+	void deleteAuspraegung(Eigenschaftauspraegung ea, AsyncCallback<Void> callback);
 
 
-	void getAuspraegungByWert(Eigenschaftauspraegung ea, AsyncCallback<Eigenschaftauspraegung> callback);
+	void getAuspraegungByWert(String wert, AsyncCallback<Eigenschaftauspraegung> callback);
 
 
 	void getAuspraegungByID(int id, AsyncCallback<Eigenschaftauspraegung> callback);
@@ -115,31 +113,35 @@ public interface KontaktAdministrationAsync {
 	void findByID(int id, AsyncCallback<Teilhaberschaft> callback);
 
 
-	void insertTeilhaberschaft(Teilhaberschaft t, AsyncCallback<Teilhaberschaft> callback);
+	void insertTeilhaberschaft(int kontaktID, int kontaktListeID, int eigenschaftsauspraegungID, int teilhaberID,
+			AsyncCallback<Teilhaberschaft> callback);
 
 
-	void deleteTeilhaberschaft(Teilhaberschaft t, AsyncCallback<Teilhaberschaft> callback);
+	void deleteTeilhaberschaft(Teilhaberschaft t, AsyncCallback<Void> callback);
 
 
-	void deleteKontaktFromTeilhaberschaft(Teilhaberschaft t, AsyncCallback<Teilhaberschaft> callback);
+	void deleteKontaktFromTeilhaberschaft(Teilhaberschaft t, AsyncCallback<Void> callback);
 
 
-	void deleteKontaktlisteFromTeilhaberschaft(Teilhaberschaft t, AsyncCallback<Teilhaberschaft> callback);
+	void deleteKontaktlisteFromTeilhaberschaft(Teilhaberschaft t, AsyncCallback<Void> callback);
 
 
-	void deleteEigenschaftsauspraegungFromTeilhaberschaft(Teilhaberschaft t, AsyncCallback<Teilhaberschaft> callback);
+	void deleteEigenschaftsauspraegungFromTeilhaberschaft(Teilhaberschaft t, AsyncCallback<Void> callback);
 
 
 
-	void insertKontaktKontaktliste(KontaktKontaktliste k, AsyncCallback<KontaktKontaktliste> callback);
+	void insertKontaktKontaktliste(int kontaktID, int kontaktlisteID, AsyncCallback<KontaktKontaktliste> callback);
 
 
-	void deleteKontaktKontaktliste(KontaktKontaktliste k, AsyncCallback<KontaktKontaktliste> callback);
+	void deleteKontaktKontaktliste(KontaktKontaktliste k, AsyncCallback<Void> callback);
 
 	void findKontaktByNutzerID(int nutzerID,AsyncCallback<Vector<Kontakt>> callback);
 
 
 	void findKontaktlisteByNutzerID(int nutzerID, AsyncCallback<Vector<Kontaktliste>> callback);
+
+
+	void insertEigenschaft(String bez, int status, AsyncCallback<Eigenschaft> callback);
 
 
 

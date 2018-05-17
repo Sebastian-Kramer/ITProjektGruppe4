@@ -139,6 +139,8 @@ public void deleteAuspraegung(Eigenschaftauspraegung ea){
 	}
 }
 
+
+//prüfen
 public Eigenschaftauspraegung getAuspraegungByWert(Eigenschaftauspraegung ea){
 	
 	Connection con = DBConnection.connection();
