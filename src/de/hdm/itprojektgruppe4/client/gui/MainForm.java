@@ -5,6 +5,9 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Vector;
 
+import javax.swing.event.TreeSelectionListener;
+
+import com.gargoylesoftware.htmlunit.javascript.host.EventHandler;
 import com.google.gwt.cell.client.ClickableTextCell;
 import com.google.gwt.cell.client.TextCell;
 import com.google.gwt.thirdparty.javascript.jscomp.Result;
@@ -18,12 +21,15 @@ import com.google.gwt.user.client.ui.CheckBox;
 import com.google.gwt.user.client.ui.FlexTable;
 import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.HorizontalPanel;
+import com.google.gwt.user.client.ui.MouseListener;
 import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwt.user.client.ui.Tree;
 import com.google.gwt.user.client.ui.TreeItem;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.view.client.SelectionChangeEvent;
+import com.google.gwt.view.client.SelectionChangeEvent.HasSelectionChangedHandlers;
 import com.google.gwt.view.client.SingleSelectionModel;
+import com.google.gwt.event.logical.shared.*;
 
 import de.hdm.itprojektgruppe4.client.ClientsideSettings;
 import de.hdm.itprojektgruppe4.shared.KontaktAdministrationAsync;
@@ -44,7 +50,8 @@ public class MainForm extends VerticalPanel{
 	
 	private HorizontalPanel hpanel = new HorizontalPanel();
 
-	private Button z = new Button("Zurück");
+	private Button profil = new Button("Mein Profil");
+	private Button newKontakt = new Button("Neuer Kontakt");
 	private HTML html1 = new HTML("<h2>Meine Kontakte</h2>");
 	private HTML html2 = new HTML("<h2>Menü</h2>");
 	
@@ -53,10 +60,15 @@ public class MainForm extends VerticalPanel{
 	private CellList<String> cellList = new CellList<String>(tCell);
 	
 	private List<String> kList = new ArrayList<>();
-
+	
+	private List<String> kList2 = new ArrayList<>();
+	
 	private Tree kontaktListTree = new Tree();
 	
     private TreeItem kontaktListTreeItem = new TreeItem();
+    
+    final SingleSelectionModel<String> selectionModel = new SingleSelectionModel<String>();
+	final SingleSelectionModel<TreeItem> selectionTreeItem = new SingleSelectionModel<TreeItem>();
 	
 	public MainForm(){				
 
@@ -65,33 +77,51 @@ public class MainForm extends VerticalPanel{
 		verwaltung.findKontaktlisteAll(new KontaktlistCallBack());
 
 		
-		final SingleSelectionModel<String> selectionModel = new SingleSelectionModel<String>();
+		
 		cellList.setSelectionModel(selectionModel);
 		selectionModel.addSelectionChangeHandler(new SelectionChangeEvent.Handler() {
-		public void onSelectionChange(SelectionChangeEvent event) {
-			String selected = selectionModel.getSelectedObject();
-	        if (selected != null) {
-	        	Window.alert("Sie haben folgenden Kontakt ausgewählt: " + selected);
-	        }
-	      }
+			
+			@Override	
+			public void onSelectionChange(SelectionChangeEvent event) {
+				String selected = selectionModel.getSelectedObject();
+				if (selected != null) {
+					Window.alert("Sie haben folgenden Kontakt ausgewählt: " + selected);
+				}
+			}
 	    });	
+		
+
+		kontaktListTree.addSelectionHandler(new SelectionHandler<TreeItem>(){
+
+			@Override
+			public void onSelection(SelectionEvent<TreeItem> event) {
+				TreeItem it = event.getSelectedItem();
+				RootPanel.get("Details").clear();
+				verwaltung.findKontaktlisteByBezeichnung(it.getText(), new KontaktlisteKontaktCallBack());
+				verwaltung.findAllKontakteFromKontaktliste(konList.getID(), new AllKontakteFromListCallBack());
+			}
+			
+		});
+		
+		kontaktListTree.addOpenHandler(new OpenHandler<TreeItem>(){
+
+			@Override
+			public void onOpen(OpenEvent<TreeItem> event) {
+				Window.alert(kontaktListTreeItem.getText() + " wird geladen");
 				
-		// Create a tree with a few items in it.
-
+			}
+			
+		});
+		
+				
 		kontaktListTreeItem.setText("Meine Kontaktlisten");
-//		kontaktListTreeItem.addTextItem("item0");
-//		kontaktListTreeItem.addTextItem("item1");
-//		kontaktListTreeItem.addTextItem("item2");
-
-	    // Add a CheckBox to the tree
-//	    TreeItem item = new TreeItem(new CheckBox("item3"));
-//	    kontaktListTreeItem.addItem(item);
 
 		kontaktListTree.addItem(kontaktListTreeItem);
 		
 		vpanelNavigator.add(html2);
+		vpanelNavigator.add(newKontakt);
 		vpanelNavigator.add(kontaktListTree);
-		vpanelNavigator.add(z);
+		vpanelNavigator.add(profil);
 	    RootPanel.get("Navigator").add(vpanelNavigator);
 		
 		
@@ -99,13 +129,9 @@ public class MainForm extends VerticalPanel{
 		vpanelDetails.add(cellList);
 		this.add(vpanelDetails);
 		
-
-//		vpanelNavigator.add(html2);
-//		vpanelNavigator.add(kontaktListTree);
-//		vpanelNavigator.add(z);
-//		RootPanel.get("Navigator").add(vpanelNavigator);
 		
 	}
+
 	
 	class KontaktCallBack implements AsyncCallback<List<Kontakt>>{
 
@@ -118,7 +144,7 @@ public class MainForm extends VerticalPanel{
 		@Override
 		public void onSuccess(List<Kontakt> result) {
 			
-			Window.alert("Geht" + result.size());
+			Window.alert("Es wurden " + result.size() + " Kontakte geladen");
 			
 			for (Kontakt kon : result){
 				kList.add(kon.getName());
@@ -143,6 +169,7 @@ public class MainForm extends VerticalPanel{
 			
 			Window.alert("Alle Kontaktlsiten wurden gefunden");
 			
+			
 			for (Kontaktliste kList: result){
 				kontaktListTreeItem.addTextItem(kList.getBez());
 			}
@@ -150,5 +177,66 @@ public class MainForm extends VerticalPanel{
 		}
 		
 	}
+	
+	class KontaktlisteKontaktCallBack implements AsyncCallback<Kontaktliste>{
+
+		@Override
+		public void onFailure(Throwable caught) {
+			Window.alert("Beim Laden der Kontakte ist ein Fehler aufgetreten");
+			
+		}
+
+		@Override
+		public void onSuccess(Kontaktliste result) {
+
+			konList = result;
+			Window.alert(" Bezeichnung der Liste: " + konList.getBez() + " und ID der Liste: " +  konList.getID());
+			
+			
+			
+		}
+		
+	}
+
+	class AllKontakteFromListCallBack implements AsyncCallback<Vector<Integer>>{
+
+		@Override
+		public void onFailure(Throwable caught) {
+			Window.alert("Beim Laden der Kontakte ist ein Fehler aufgetreten");
+			
+		}
+
+		@Override
+		public void onSuccess(Vector<Integer> result) {
+			for (int i : result){
+				verwaltung.findKontaktByID(i, new AsyncCallback<Kontakt>(){
+
+					@Override
+					public void onFailure(Throwable caught) {
+						// TODO Auto-generated method stub
+						
+					}
+
+					@Override
+					public void onSuccess(Kontakt result) {
+						Window.alert(result.getName());
+						kList2.add(result.getName());	
+						
+					}
+					
+				});
+
+			}
+			cellList.setRowCount(kList2.size(), true);
+			cellList.setRowData(0, kList2);
+			vpanelDetails.add(html1);
+			vpanelDetails.add(cellList);
+			RootPanel.get("Details").add(vpanelDetails);
+			
+		}
+		
+	}
+	
+	
 
 }

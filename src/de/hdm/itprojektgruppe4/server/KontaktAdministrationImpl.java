@@ -5,7 +5,7 @@ import java.util.List;
 import java.util.Vector;
 import java.text.SimpleDateFormat;
 
-
+import com.google.gwt.user.client.Window;
 import com.google.gwt.user.server.rpc.RemoteServiceServlet;
 
 import de.hdm.itprojektgruppe4.server.db.*;
@@ -84,7 +84,7 @@ public class KontaktAdministrationImpl extends RemoteServiceServlet
     
     
     /*##########################################################
-     * START Methoden für Kontakt-Objekte
+     * START Methoden fï¿½r Kontakt-Objekte
      #########################################################*/
 
     
@@ -107,7 +107,7 @@ public class KontaktAdministrationImpl extends RemoteServiceServlet
         return this.konMapper.insertKontakt(k);
     }
     
-    //prüfen
+    //prï¿½fen
     public Kontakt findKontaktById(int id) {
         return this.konMapper.findKontaktByID(id);
     }
@@ -116,7 +116,7 @@ public class KontaktAdministrationImpl extends RemoteServiceServlet
         return this.konMapper.findAllKontakte();
     }
 
-    //prüfeb
+    //prï¿½feb
 	@Override
 	public Kontakt findKontaktByID(int id) throws IllegalArgumentException {
 		return this.konMapper.findKontaktByID(id);
@@ -125,12 +125,12 @@ public class KontaktAdministrationImpl extends RemoteServiceServlet
 	}
     
 	
-	//prüfen
+	//prï¿½fen
     public Kontakt findNutzerById(int id) {
         // TODO implement here
         return null;
     }
-    //prüfen    
+    //prï¿½fen    
     public Vector<Kontakt> getAllKontakteVonKontaktliste(Kontaktliste k) {
         
         return null;
@@ -171,13 +171,18 @@ public class KontaktAdministrationImpl extends RemoteServiceServlet
 		return this.konMapper.findAllKontakte();
 	}
 
+	@Override
+	public Vector<Integer> findAllKontakteFromKontaktliste(int i) throws IllegalArgumentException {
+		return konMapper.findAllKontakteFromKontaktliste(i);
+	}
+
 	
     /*##########################################################
-     * ENDE Methoden für Kontakt-Objekte
+     * ENDE Methoden fï¿½r Kontakt-Objekte
      #########################################################*/
 
     /*##########################################################
-     * START Methoden für Nutzer-Objekte
+     * START Methoden fï¿½r Nutzer-Objekte
      #########################################################*/
 	
 	@Override
@@ -214,11 +219,11 @@ public class KontaktAdministrationImpl extends RemoteServiceServlet
 	}
 	
     /*##########################################################
-     * ENDE Methoden für Nutzer-Objekte
+     * ENDE Methoden fï¿½r Nutzer-Objekte
      #########################################################*/
 	
     /*##########################################################
-     * START Methoden für Person-Objekte
+     * START Methoden fï¿½r Person-Objekte
      #########################################################*/
 	
 	@Override
@@ -234,11 +239,11 @@ public class KontaktAdministrationImpl extends RemoteServiceServlet
 	}
 	
     /*##########################################################
-     * ENDE Methoden für Person-Objekte
+     * ENDE Methoden fï¿½r Person-Objekte
      #########################################################*/
 	
     /*##########################################################
-     * START Methoden für Eigenschaft-Objekte
+     * START Methoden fï¿½r Eigenschaft-Objekte
      #########################################################*/
 	
 	@Override
@@ -255,13 +260,13 @@ public class KontaktAdministrationImpl extends RemoteServiceServlet
         return this.eigMapper.getEigenchaftByID(id);
     }
     
-    //prüfen
+    //prï¿½fen
     public Vector<Eigenschaft> getAllEigenschaften() {
         // TODO implement here
         return null;
     }
 
-    //prüfen
+    //prï¿½fen
     public Vector<Eigenschaft> getAllEigenschaftVonKontakt(Kontakt k) {
         // TODO implement here
         return null;
@@ -286,11 +291,11 @@ public class KontaktAdministrationImpl extends RemoteServiceServlet
 	}
 	
     /*##########################################################
-     * ENDE Methoden für Eigenschaft-Objekte
+     * ENDE Methoden fï¿½r Eigenschaft-Objekte
      #########################################################*/
 	
     /*##########################################################
-     * START Methoden für Eigenschaftauspragung-Objekte
+     * START Methoden fï¿½r Eigenschaftauspragung-Objekte
      #########################################################*/
 	
 	@Override
@@ -306,7 +311,7 @@ public class KontaktAdministrationImpl extends RemoteServiceServlet
 		return null;
 	}
 	
-	//prüfen
+	//prï¿½fen
 	public Eigenschaftauspraegung findEigenschaftsauspraegungById(int id) {
 	        
 	        return this.eigenschaftauspraegungMapper.getAuspraegungByID(id);
@@ -323,7 +328,7 @@ public class KontaktAdministrationImpl extends RemoteServiceServlet
 		
 		}
 	
-	//prüfen
+	//prï¿½fen
 	@Override
 	public Eigenschaftauspraegung getAuspraegungByID(int id) throws IllegalArgumentException {
 			return this.eigenschaftauspraegungMapper.getAuspraegungByID(id);
@@ -337,7 +342,7 @@ public class KontaktAdministrationImpl extends RemoteServiceServlet
 			
 		}
 	
-	//prüfen
+	//prï¿½fen
 	@Override
 	public Eigenschaftauspraegung getAuspraegungByWert(String wert) throws IllegalArgumentException {
 			
@@ -345,11 +350,11 @@ public class KontaktAdministrationImpl extends RemoteServiceServlet
 		}
 		
 		/*##########################################################
-	     * ENDE Methoden für Eigenschaftauspragung-Objekte
+	     * ENDE Methoden fï¿½r Eigenschaftauspragung-Objekte
 	     #########################################################*/
 
 		/*##########################################################
-	     * START Methoden für Kontaktliste-Objekte
+	     * START Methoden fï¿½r Kontaktliste-Objekte
 	     #########################################################*/
 		
 	@Override
@@ -367,7 +372,7 @@ public class KontaktAdministrationImpl extends RemoteServiceServlet
         
         return this.konlistMapper.findKontaktlistebyID(id);
 		}
-//prüfen
+//prï¿½fen
 	public Vector<Kontaktliste> getAllKontaktlisten() {
         
         return null;
@@ -416,11 +421,11 @@ public class KontaktAdministrationImpl extends RemoteServiceServlet
 	}
 	
 	/*##########################################################
-     * ENDE Methoden für Kontaktliste-Objekte
+     * ENDE Methoden fï¿½r Kontaktliste-Objekte
      #########################################################*/
 	
 	/*##########################################################
-     * START Methoden für KontaktKontaktliste-Objekte
+     * START Methoden fï¿½r KontaktKontaktliste-Objekte
      #########################################################*/
 	
 	@Override
@@ -435,11 +440,11 @@ public class KontaktAdministrationImpl extends RemoteServiceServlet
 	}
 	
 	/*##########################################################
-     * ENDE Methoden für KontaktKontaktliste-Objekte
+     * ENDE Methoden fï¿½r KontaktKontaktliste-Objekte
      #########################################################*/
 	
 	/*##########################################################
-     * START Methoden für Teilhaberschaft-Objekte
+     * START Methoden fï¿½r Teilhaberschaft-Objekte
      #########################################################*/
 
 
@@ -484,6 +489,9 @@ public class KontaktAdministrationImpl extends RemoteServiceServlet
 		this.teilhaberschaftMapper.deleteKontaktlisteFromTeilhaberschaft(t);
 	
 	}
+
+
+
 
 
 	
