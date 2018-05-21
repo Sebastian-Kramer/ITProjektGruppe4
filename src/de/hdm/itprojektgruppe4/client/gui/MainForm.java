@@ -7,6 +7,8 @@ import java.util.Vector;
 
 import com.google.gwt.cell.client.ClickableTextCell;
 import com.google.gwt.cell.client.TextCell;
+import com.google.gwt.event.dom.client.ClickEvent;
+import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.thirdparty.javascript.jscomp.Result;
 import com.google.gwt.user.cellview.client.CellList;
 import com.google.gwt.user.cellview.client.CellTable;
@@ -41,12 +43,15 @@ public class MainForm extends VerticalPanel{
 	
 	private VerticalPanel vpanelDetails = new VerticalPanel();	
 	private VerticalPanel vpanelNavigator = new VerticalPanel();
+	private HorizontalPanel hpanelDetails = new HorizontalPanel();
 	
 	private HorizontalPanel hpanel = new HorizontalPanel();
 
 	private Button z = new Button("Zurück");
 	private HTML html1 = new HTML("<h2>Meine Kontakte</h2>");
 	private HTML html2 = new HTML("<h2>Menü</h2>");
+	private Button newKontakt = new Button ("Neuen Kontakt anlegen");
+	private Button updateKontakt = new Button("Kontakt bearbeiten");
 	
 	private TextCell tCell = new TextCell();
 	
@@ -89,13 +94,33 @@ public class MainForm extends VerticalPanel{
 
 		kontaktListTree.addItem(kontaktListTreeItem);
 		
+		// Navigator Panels & Widgets
+		
 		vpanelNavigator.add(html2);
 		vpanelNavigator.add(kontaktListTree);
 		vpanelNavigator.add(z);
 	    RootPanel.get("Navigator").add(vpanelNavigator);
 		
+	    
+	    // Details Panels & Widgets
+	    
+	    newKontakt.addClickHandler(new ClickHandler() {
+			
+			@Override
+			public void onClick(ClickEvent event) {
+				// TODO Auto-generated method stub
+				KontaktForm kf = new KontaktForm();
+				RootPanel.get("Details").clear();
+				RootPanel.get("Details").add(kf);
+			}
+		});
+	    
+	    updateKontakt.setVisible(false);
+		hpanelDetails.add(newKontakt);
+		hpanelDetails.add(updateKontakt);
 		
 		vpanelDetails.add(html1);
+		vpanelDetails.add(hpanelDetails);
 		vpanelDetails.add(cellList);
 		this.add(vpanelDetails);
 		

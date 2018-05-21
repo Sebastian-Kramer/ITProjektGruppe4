@@ -242,6 +242,15 @@ public interface KontaktAdministration extends RemoteService {
      */
     public void deleteEigenschaft(Eigenschaft e) throws IllegalArgumentException;
     
+    /**
+     *  Alle Objekte vom Typ Eigenschaft ausgeben
+     * @return
+     * @throws IllegalArgumentException
+     */
+    
+    public Vector<Eigenschaft> findAllEigenschaft() throws IllegalArgumentException;
+   
+    
 /**
  * 
  * @param wert, die Auspraegung der Eigenschaft

@@ -144,6 +144,9 @@ public interface KontaktAdministrationAsync {
 	void insertEigenschaft(String bez, int status, AsyncCallback<Eigenschaft> callback);
 
 
+	void findAllEigenschaft(AsyncCallback<Vector<Eigenschaft>> callback);
+
+
 
 	
 	/*

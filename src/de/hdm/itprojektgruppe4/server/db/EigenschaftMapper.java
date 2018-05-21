@@ -4,6 +4,7 @@ import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.Vector;
 
 import de.hdm.itprojektgruppe4.shared.bo.Eigenschaft;
 import de.hdm.itprojektgruppe4.shared.bo.Kontakt;
@@ -137,6 +138,36 @@ public class EigenschaftMapper {
 			k.printStackTrace();
 			
 		}return e;
+	}
+	
+	public Vector<Eigenschaft> findAllEigenschaft(){
+		
+		Vector<Eigenschaft> result = new Vector<Eigenschaft>();
+		
+		Connection con = DBConnection.connection();
+		
+		try{
+			Statement stmt = con.createStatement();
+			
+			ResultSet rs = stmt.executeQuery("SELECT ID, bez, status FROM eigenschaft "
+					 + "ORDER by ID");
+			
+			while (rs.next()){
+				Eigenschaft e = new Eigenschaft();
+				e.setID(rs.getInt("ID"));
+				e.setBezeichnung(rs.getString("bez"));
+				e.setStatus(rs.getInt("status"));
+				
+				result.addElement(e);
+			}			
+			}catch (SQLException e){
+				e.printStackTrace();
+			}
+			
+			return result;
+					
+			
+			
 	}
 	
 }

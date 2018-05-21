@@ -486,6 +486,14 @@ public class KontaktAdministrationImpl extends RemoteServiceServlet
 	}
 
 
+
+	@Override
+	public Vector<Eigenschaft> findAllEigenschaft() throws IllegalArgumentException {
+		// TODO Auto-generated method stub
+		return this.eigMapper.findAllEigenschaft();
+	}
+
+
 	
 
 	
