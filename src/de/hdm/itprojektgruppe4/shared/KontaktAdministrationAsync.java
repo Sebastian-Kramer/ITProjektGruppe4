@@ -148,6 +148,9 @@ public interface KontaktAdministrationAsync {
 	void findAllKontakteFromKontaktliste(int i, AsyncCallback<Vector<Integer>> callback);
 
 
+	void findAllEigenschaft(AsyncCallback<Vector<Eigenschaft>> callback);
+
+
 
 	
 	/*
