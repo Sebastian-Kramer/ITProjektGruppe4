@@ -4,6 +4,7 @@ import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.Vector;
 
 import de.hdm.itprojektgruppe4.shared.bo.Eigenschaftauspraegung;
 import de.hdm.itprojektgruppe4.shared.bo.Kontakt;
@@ -44,13 +45,15 @@ public class EigenschaftauspraegungMapper {
 		Statement stmt = con.createStatement();
 		
 		ResultSet rs = stmt.executeQuery(
-				"SELECT ID, Wert FROM eigenschaftsauspraegung " + " WHERE ID= " + id );
+				"SELECT ID, wert, status FROM eigenschaftsauspraegung " + " WHERE ID= " + id );
 				 
 		
 		if (rs.next()) {
 			Eigenschaftauspraegung e = new Eigenschaftauspraegung();
 			e.setID(rs.getInt("ID"));
 			e.setWert(rs.getString("wert"));
+			e.setStatus(rs.getInt("status"));
+		
 			
 			return e;
 		}
@@ -62,6 +65,43 @@ public class EigenschaftauspraegungMapper {
 	return null;
 	
 	}
+	
+public Vector<Eigenschaftauspraegung> getAuspraegungByKontaktID(int id){
+	Vector<Eigenschaftauspraegung> result = new Vector<Eigenschaftauspraegung>();
+	
+		Connection con = DBConnection.connection();
+
+		try {
+			
+		
+		Statement stmt = con.createStatement();
+		
+		ResultSet rs = stmt.executeQuery(
+				"SELECT ID, wert, status, eigenschaftID, kontaktID FROM eigenschaftsauspraegung WHERE kontaktID= " + id );
+				 
+		
+		while (rs.next()) {
+			Eigenschaftauspraegung e = new Eigenschaftauspraegung();
+			e.setID(rs.getInt("ID"));
+			e.setWert(rs.getString("wert"));
+			e.setStatus(rs.getInt("status"));
+			e.setEigenschaftsID(rs.getInt("eigenschaftID"));
+			e.setKontaktID(rs.getInt("kontaktID"));
+			
+			result.addElement(e);
+			
+		}
+		
+	}catch (SQLException e) {
+		e.printStackTrace();
+		return null;
+	}
+	return result;
+	
+	}
+	
+	
+	
 	
 	/**
 	 *  Einf�gen eines neuen Objktes vom Typ Eigenschaftauspraegung in die DB

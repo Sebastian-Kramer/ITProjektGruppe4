@@ -780,6 +780,42 @@ public class KontaktAdministrationImpl extends RemoteServiceServlet
 
 
 
+	@Override
+	public Vector<Eigenschaftauspraegung> getAuspraegungByKontaktID(int id) throws IllegalArgumentException {
+		
+		return this.eigenschaftauspraegungMapper.getAuspraegungByKontaktID(id);
+	}
+
+
+
+	@Override
+	public Vector<EigenschaftAuspraegungHybrid> findHybrid(Person pers) throws IllegalArgumentException {
+		
+		Vector<Eigenschaftauspraegung> eigaus = getAuspraegungByKontaktID(pers.getID());
+		
+		Vector<Eigenschaft> eig = new Vector<Eigenschaft>();
+		
+		for(Eigenschaftauspraegung eigenschaftauspraegung : eigaus){
+			eig.add(getEigenschaftByID(eigenschaftauspraegung.getEigenschaftsID()));
+		}
+		
+		Vector<EigenschaftAuspraegungHybrid> hybrid = new Vector<EigenschaftAuspraegungHybrid>();
+		
+		for (int i = 0; i < eigaus.size(); i++){
+			
+			for (int z = 0; z < eigaus.size(); z++){
+				if (eigaus.elementAt(i).getEigenschaftsID() == eig.elementAt(z).getID()){
+					
+					hybrid.add(new EigenschaftAuspraegungHybrid(eig.elementAt(z), eigaus.elementAt(i)));	
+				}
+				
+		}
+		}
+		return hybrid;
+	}
+
+
+
 
 
 
