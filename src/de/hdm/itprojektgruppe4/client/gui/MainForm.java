@@ -89,6 +89,7 @@ public class MainForm extends VerticalPanel{
 			public void onSelectionChange(SelectionChangeEvent event) {
 				String selected = selectionModel.getSelectedObject();
 				if (selected != null) {
+					  updateKontakt.setVisible(true);
 					Window.alert("Sie haben folgenden Kontakt ausgewählt: " + selected);
 				}
 			}
@@ -138,9 +139,9 @@ public class MainForm extends VerticalPanel{
 			@Override
 			public void onClick(ClickEvent event) {
 				// TODO Auto-generated method stub
-				KontaktForm kf = new KontaktForm();
+				NewKontaktForm nkf = new NewKontaktForm();
 				RootPanel.get("Details").clear();
-				RootPanel.get("Details").add(kf);
+				RootPanel.get("Details").add(nkf);
 			}
 		});
 	    

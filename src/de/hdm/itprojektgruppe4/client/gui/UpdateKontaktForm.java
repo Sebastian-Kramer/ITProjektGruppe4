@@ -33,5 +33,6 @@ FlexTable ft_KontaktBearbeiten = new FlexTable();
 	TextBox txt_KontaktName = new TextBox();
 	Label lbl_Eigenschaft = new Label("Eigenschaft: ");
 	TextArea txt_Eigenschaft = new TextArea();
+
 	
 }

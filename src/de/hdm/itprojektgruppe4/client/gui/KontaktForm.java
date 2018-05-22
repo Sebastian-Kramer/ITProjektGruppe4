@@ -42,9 +42,7 @@ public class KontaktForm extends VerticalPanel {
 	
 	
 	
-	private Label msg = new Label("Ein neuen Kontakt anlegen");
-	private Label auspraegung = new Label("");
-	private Label pfusch = new Label();
+	
 	
 	
 	private Button bearbeitenButton = new Button("Kontakt bearbeiten");
@@ -57,54 +55,16 @@ public class KontaktForm extends VerticalPanel {
 		 final Grid kontaktGrid = new Grid(5,2);
 		this.add(kontaktGrid);
 		
-		kontaktGrid.setWidget(0, 0, msg);
-		kontaktGrid.setWidget(0, 1, save);
+		
+		
 		kontaktGrid.setWidget(1, 0, name);
 		kontaktGrid.setWidget(1, 1, tbName);
 		
 		//Nutzer ID muss Hier noch vom Login übergeben werden 
 		
-		verwaltung.findAllEigenschaft(new AsyncCallback<Vector<Eigenschaft>>() {
-
-			@Override
-			public void onFailure(Throwable caught) {
-				// TODO Auto-generated method stub
-				
-			}
-
-			@Override
-			public void onSuccess(Vector<Eigenschaft> result) {
-				// TODO Auto-generated method stub
-				Window.alert("Alle Eigenschaften müssten gedfudnen sein");
-				
-				for(Eigenschaft eig: result){
-					
-				}
-			}
-		});
 		
-		save.addClickHandler(new ClickHandler() {
-			
-			@Override
-			public void onClick(ClickEvent event) {
-				// TODO Auto-generated method stub
-				verwaltung.insertKontakt(tbName.getValue(), new Date(), new Date(), 0, 1, new AsyncCallback<Kontakt>() {
-
-					@Override
-					public void onFailure(Throwable caught) {
-						// TODO Auto-generated method stub
-						Window.alert("Funktioniert nicht");
-					}
-
-					@Override
-					public void onSuccess(Kontakt result) {
-						// TODO Auto-generated method stub
-						
-						Window.alert("Funktioniert");
-					}
-				});
-			}
-		});
+		
+		
 		
 	
 		}
