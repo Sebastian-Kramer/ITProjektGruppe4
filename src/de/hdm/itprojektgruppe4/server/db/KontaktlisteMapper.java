@@ -6,25 +6,22 @@ import java.util.Vector;
 import de.hdm.itprojektgruppe4.shared.bo.Kontakt;
 import de.hdm.itprojektgruppe4.shared.bo.Kontaktliste;
 
+/**
+ * Mapper Klassen, die <code>Kontaktliste</code>-Objekte auf einer relationalen Datenbank abbildet.
+ *
+ */
+
 public class KontaktlisteMapper {
 	
 	
-	/**
-	 * 
-	 */
+	
 	private static KontaktlisteMapper kontaktlisteMapper = null;
 	
-	
-	/**
-	 * 
-	 */
 	protected KontaktlisteMapper(){
 		
 	};
 	
-	/**
-	 * 
-	 */
+	
 	public static KontaktlisteMapper kontaktlisteMapper(){
 		if(kontaktlisteMapper == null){
 			kontaktlisteMapper = new KontaktlisteMapper();
@@ -37,7 +34,7 @@ public class KontaktlisteMapper {
 	 * Da diese Nummer eindeutig ist, wird genau ein Objekt zurueck gegeben.
 	 * @param id
 	 * 
-	 * @return Kontaktlistenobjekt, das dem uebergebenen Schluessel entspricht, null bei nicht vorhandenem DB-Tulpel.
+	 * @return Kontaktlistenobjekt, das dem uebergebenen Schluessel entspricht
 	 */
 	
 		public Kontaktliste findKontaktlistebyID(int id){
@@ -66,9 +63,9 @@ public class KontaktlisteMapper {
 		}
 		
 		/**
-		 * 
+		 * Eine Kontaktliste anhand der bezichnung auslesen
 		 * @param bezeichnung
-		 * @return Kontaktlistenobjekt, das dem uebergebenen Schluessel entspricht, null bei nicht vorhandenem DB-Tulpel.
+		 * @return Kontaktlistenobjekt, das dem uebergebenen Schluessel entspricht
 		 */
 	public Kontaktliste findKontaktlistebyBezeichnung(String bezeichnung){
 		Connection con = DBConnection.connection();
@@ -177,6 +174,10 @@ public class KontaktlisteMapper {
 			}
 		}
 		
+		/**
+		 * alle Objekte vom Typ Kontaktliste auslesen
+		 * @return Vektor sämtlicher Eigenschaften
+		 */
 		
 		public Vector<Kontaktliste> findKontaktlisteAll(){
 			Vector<Kontaktliste> result = new Vector<Kontaktliste>();
@@ -204,6 +205,12 @@ public class KontaktlisteMapper {
 			
 			return result;
 		}
+		
+		/**
+	     * Alle Kontaktlisten auslesen
+	     * @param int nutzer ID
+	     * @return Vector s�mtlicher Kontaktlisten
+	     */
 		
 		public Vector<Kontaktliste> findKontaktlisteByNutzerID(int nutzerID){
 			Vector<Kontaktliste> result = new Vector<Kontaktliste>();

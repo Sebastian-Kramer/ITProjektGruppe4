@@ -7,7 +7,10 @@ import de.hdm.itprojektgruppe4.shared.bo.*;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-
+/**
+ * Mapper Klassen, die <code>Kontakt</code>-Objekte auf einer relationalen Datenbank abbildet.
+ *
+ */
 
 
 public class NutzerMapper extends PersonMapper {
@@ -30,6 +33,14 @@ private static NutzerMapper nutzerMapper = null;
 		return nutzerMapper;
 	}	
 	
+	
+	/**
+	 * 
+	 * @param id 
+	 * 	Prim�rschl�ssel der DB
+	 * @return Nutzer-Objekt. welches dem PK entspricht, 
+	 * 			falls nicht vorhanden
+	 */
 	public Nutzer findNutzerByID(int id){
 		
 		Connection con = DBConnection.connection();
@@ -56,6 +67,11 @@ private static NutzerMapper nutzerMapper = null;
 		return null;
 	}
 	
+	 /**
+		 * alle Objekte vom Typ Nutzer auslesen
+		 * @return Vektor sämtlicher Nutzer-Objekte
+		 *
+		 */
 	
 	public Vector<Nutzer> findAllNutzer(){
 		Vector<Nutzer> result = new Vector<Nutzer>();
@@ -80,6 +96,13 @@ private static NutzerMapper nutzerMapper = null;
 		
 		return result;
 	}
+	
+	/**
+     * Einen Nutzer anlegen
+     * 
+     * @param n
+     * @return n
+     */
 	
 	public Nutzer insertNutzer(Nutzer n) {
 		
@@ -113,6 +136,12 @@ private static NutzerMapper nutzerMapper = null;
 		return n;
 	}
 	
+	/** Ein Objekt vom Typ Nutzer wird überschrieben.
+	 * 
+	 * @param n der zu bearbeitende Nutzer
+	 * @return n der bearbeitete Kontakt
+	 */
+	
 	public Nutzer updateNutzer(Nutzer n) {
 		Connection con = DBConnection.connection();
 		
@@ -134,6 +163,12 @@ private static NutzerMapper nutzerMapper = null;
 		return n;
 	}
 	
+	/**
+	 *  ein Objekt vom Typ Nutzer wird aus der DB gel�scht 
+	 * @param n
+	 * 	der zu l�schende Nutzer
+	 * 
+	 */
 	
 	public void deleteNutzer(Nutzer n){
 		Connection con = DBConnection.connection();
@@ -147,6 +182,14 @@ private static NutzerMapper nutzerMapper = null;
 			e.printStackTrace();
 		}
 	}
+	
+	
+	/**
+     * Einen Nutzer anhand seiner E-Mail auslesen.
+     * 
+     * @param email
+     * @return n
+     */
 	
 	public Nutzer findNutzerByEmail(String email){
 		
