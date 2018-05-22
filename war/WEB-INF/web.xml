@@ -16,6 +16,16 @@
     <url-pattern>/itprojektss18/kontaktmanager</url-pattern>
   </servlet-mapping>
   
+ <servlet>
+<servlet-name>loginService</servlet-name>
+<servlet-class>de.hdm.itprojektgruppe4.server.LoginServiceImpl</servlet-class>
+</servlet>
+
+<servlet-mapping>
+<servlet-name>loginService</servlet-name>
+<url-pattern>/itprojektss18/login</url-pattern>
+</servlet-mapping>
+  
   <!-- Default page to serve -->
   <welcome-file-list>
     <welcome-file>ITProjektSS18.html</welcome-file>
