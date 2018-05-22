@@ -394,8 +394,8 @@ public interface KontaktAdministration extends RemoteService {
 
 	/**
 	 * 
-	 * @param bez
-	 * @return Vector mit sämtlichen KontaktID's einer ausgewählten Kontaktliste
+	 * @param i
+	 * @return Vector mit sämtlichen Kontakten einer ausgewählten Kontaktliste
 	 * @throws IllegalArgumentException
 	 */
     
