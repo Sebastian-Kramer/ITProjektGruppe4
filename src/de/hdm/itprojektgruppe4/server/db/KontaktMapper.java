@@ -328,5 +328,39 @@ public class KontaktMapper extends PersonMapper {
 	
 	}
 	
+	/**
+	 *  Ausgabe aller Kontakte sortiert nach ID 
+	 * @return Ein Vektor mit allen Kontakt-Objektenn
+	 * 			Im falle keiner Kontakte auf der DB wird eine Exception oder ein leerer Vektor zur�ckgegeben
+	 */
+	public Vector<Integer> findAllKontakteFromKontaktliste(int i){
+		
+		Vector<Integer> result = new Vector<Integer>();
+		
+		Connection con = DBConnection.connection();
+		
+		try{
+			Statement stmt = con.createStatement();
+			
+			ResultSet rs = stmt.executeQuery("SELECT kontaktID FROM kontaktkontaktliste "
+					 + "WHERE kontaktlisteID = " + i);
+			
+					
+		while (rs.next()){
+			Kontakt k = new Kontakt();
+			k.setID(rs.getInt("kontaktID"));
+			result.add(k.getID());
+
+		}			
+		}catch (SQLException e){
+			e.printStackTrace();
+		}
+		
+		return result;
+				
+		
+		
+	}
+	
 
 }

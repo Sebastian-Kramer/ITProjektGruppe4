@@ -116,8 +116,10 @@ div#Navigator{
 }
 
 div#Details{
-	height: 500px;
-	widht: 100%;
+	border: 1px solid LightSkyBlue;
+    background: rgba(230, 230, 250, 0.14);
+    width: 100%;
+    height: 500px;
 }
 
 a,

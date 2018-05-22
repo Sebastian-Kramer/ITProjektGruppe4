@@ -45,7 +45,7 @@ public class KontaktlisteMapper {
 			
 			try{
 				Statement stmt = con.createStatement();
-				ResultSet rs = stmt.executeQuery("SELECT ID, bez, nutzerIDs status FROM kontaktliste "
+				ResultSet rs = stmt.executeQuery("SELECT ID, bez, status, nutzerID status FROM kontaktliste "
 	          + "WHERE ID=" + id);
 				
 				if(rs.next()){
@@ -75,8 +75,8 @@ public class KontaktlisteMapper {
 		 
 		try{
 			Statement stmt = con.createStatement();
-		ResultSet rs = stmt.executeQuery("SELECT ID, bez, status, nutzerID FROM kontaktliste " + "WHERE bez ="
-			+ bezeichnung);
+		ResultSet rs = stmt.executeQuery("SELECT ID, bez, status, nutzerID FROM kontaktliste " + "WHERE bez = "
+			+ "'" + bezeichnung + "'");
 		
 		if(rs.next()){
 			Kontaktliste kl = new Kontaktliste();

@@ -33,9 +33,9 @@ public interface KontaktAdministration extends RemoteService {
      * 
      * @param name, der Name des Kontakts
      * @param erzeugungsdatum, das Erzeugungsdatum des Kontakts
-     * @param modifikationsdatum, das Datum an dem Eigenschaften oder Auspraegungen des Kontaktes geändert wurden
+     * @param modifikationsdatum, das Datum an dem Eigenschaften oder Auspraegungen des Kontaktes geï¿½ndert wurden
      * @param status, der Status ob der Kontakt geteilt wurde oder nicht
-     * @param nutzerID, Fremdschlüsselbeziehung zum Ersteller des Kontakes
+     * @param nutzerID, Fremdschlï¿½sselbeziehung zum Ersteller des Kontakes
      * @return Kontakt-Objekt
      * @throws IllegalArgumentException
      */
@@ -51,18 +51,18 @@ public interface KontaktAdministration extends RemoteService {
     public Nutzer insertNutzer(String mail) throws IllegalArgumentException;
     
     /**
-     * Einen Kontakt löschen
+     * Einen Kontakt lï¿½schen
      * 
-     * @param k das zu löschende Kontakt-Objekt
+     * @param k das zu lï¿½schende Kontakt-Objekt
      * @throws IllegalArgumentException
      */
     public void deleteKontakt(Kontakt k) throws IllegalArgumentException;
     
     /**
-     * Einen Kontakt anhand seines Primärschlüssel anzeigen lassen.
+     * Einen Kontakt anhand seines Primï¿½rschlï¿½ssel anzeigen lassen.
      * 
-     * @param id der Primärschlüssel des Objekts
-     * @return Kontakt-Objekt mit dem übergebenen Primärschlüssel
+     * @param id der Primï¿½rschlï¿½ssel des Objekts
+     * @return Kontakt-Objekt mit dem ï¿½bergebenen Primï¿½rschlï¿½ssel
      * @throws IllegalArgumentException
      */
     public Kontakt findKontaktByID(int id) throws IllegalArgumentException;
@@ -71,7 +71,7 @@ public interface KontaktAdministration extends RemoteService {
      * Einen Kontakt anhand seines Namens anzeigen lassen.
      * 
      * @param name, der Name des Kontakts
-     * @return Kontakt-Objekt mit dem übergebenen Namen
+     * @return Kontakt-Objekt mit dem ï¿½bergebenen Namen
      * @throws IllegalArgumentException
      */
     public Kontakt findKontaktByName(String name) throws IllegalArgumentException;
@@ -85,7 +85,7 @@ public interface KontaktAdministration extends RemoteService {
     public Vector<Kontakt> findAllKontakte() throws IllegalArgumentException;
     
     /**
-     * Überschreiben eines <code>Kontakt</code>-Objekts.
+     * ï¿½berschreiben eines <code>Kontakt</code>-Objekts.
      * 
      * @param k das zu bearbeitende Kontakt-Objekt
      * @return das bearbeitete Kontakt-Objekt
@@ -94,9 +94,9 @@ public interface KontaktAdministration extends RemoteService {
     public Kontakt updateKontakt(Kontakt k) throws IllegalArgumentException;
     
     /**
-     * Löschen einer Person.
+     * Lï¿½schen einer Person.
      * 
-     * @param p das zu löschende Personen-Objekt
+     * @param p das zu lï¿½schende Personen-Objekt
      * @throws IllegalArgumentException
      */
     public void deletePerson(Person p) throws IllegalArgumentException;
@@ -104,21 +104,21 @@ public interface KontaktAdministration extends RemoteService {
     /**
      * Eine Person anhand der ID auslesen.
      * 
-     * @param ID, der Primärschlüssel
+     * @param ID, der Primï¿½rschlï¿½ssel
      * @throws IllegalArgumentException
      */
     public Person findPersonByID(int ID) throws IllegalArgumentException;
     
     /**
-     * Löschen eines Nutzers.
+     * Lï¿½schen eines Nutzers.
      * 
-     * @param n das zu löschende Nutzer-Objekt
+     * @param n das zu lï¿½schende Nutzer-Objekt
      * @throws IllegalArgumentException
      */
     public void deleteNutzer(Nutzer n) throws IllegalArgumentException;
     
     /**
-     * Überschreiben eines Nutzer-Objekts.
+     * ï¿½berschreiben eines Nutzer-Objekts.
      * 
      * @param n das zu bearbeitende Nutzer-Objekt
      * @return n das bearbeitete Nutzer Objekt
@@ -138,7 +138,7 @@ public interface KontaktAdministration extends RemoteService {
     /**
      * Einen Nutzer anhand seiner ID auslesen.
      * 
-     * @param id der Primärschlüssel des Nutzer-Objekts
+     * @param id der Primï¿½rschlï¿½ssel des Nutzer-Objekts
      * @return Nutzer-Objekt
      * @throws IllegalArgumentException
      */
@@ -147,7 +147,7 @@ public interface KontaktAdministration extends RemoteService {
     /**
      * Alle Nutzer auslesen.
      * 
-     * @return Vector sämtlicher Nutzer
+     * @return Vector sï¿½mtlicher Nutzer
      * @throws IllegalArgumentException
      */
     public Vector<Nutzer> findAllNutzer() throws IllegalArgumentException;
@@ -155,7 +155,7 @@ public interface KontaktAdministration extends RemoteService {
     /**
      * Eine Kontaktliste anhand der ID auslesen.
      * 
-     * @param id der Primärschlüssel des Kontaktlisten-Objekts
+     * @param id der Primï¿½rschlï¿½ssel des Kontaktlisten-Objekts
      * @return Kontaktlisten-Objekt
      * @throws IllegalArgumentException
      */
@@ -174,14 +174,14 @@ public interface KontaktAdministration extends RemoteService {
     * 
     * @param bez, die Bezeichnung der Kontaktliste
     * @param status, der Status, der anzeigt ob die Kontaktliste geteilt wurde oder nicht
-    * @param nutzerID, der Fremdschlüssel stellt die Beziehung zum Ersteller dar
+    * @param nutzerID, der Fremdschlï¿½ssel stellt die Beziehung zum Ersteller dar
     * @return Kontaktlisten-Objekt
     * @throws IllegalArgumentException
     */
     public Kontaktliste insertKontaktliste(String bez, int status, int nutzerID ) throws IllegalArgumentException;
     
     /**
-     * Eine Kontaktliste überschreiben.
+     * Eine Kontaktliste ï¿½berschreiben.
      * 
      * @param k das zu bearbeitende Kontaktlisten-Objekt
      * @return 
@@ -190,9 +190,9 @@ public interface KontaktAdministration extends RemoteService {
     public Kontaktliste updateKontaktliste(Kontaktliste k) throws IllegalArgumentException;
     
     /**
-     * Eine Kontaktliste  löschen.
+     * Eine Kontaktliste  lï¿½schen.
      * 
-     * @param k das zu löschende Kontaktlisten-Objekt
+     * @param k das zu lï¿½schende Kontaktlisten-Objekt
      * @throws IllegalArgumentException
      */
     public void deleteKontaktliste(Kontaktliste k) throws IllegalArgumentException;
@@ -200,7 +200,7 @@ public interface KontaktAdministration extends RemoteService {
     /**
      * Alle Kontaktlisten auslesen.
      * 
-     * @return Vector sämtlicher Kontaktlisten
+     * @return Vector sï¿½mtlicher Kontaktlisten
      * @throws IllegalArgumentException
      */
     public Vector<Kontaktliste> findKontaktlisteAll() throws IllegalArgumentException;
@@ -208,7 +208,7 @@ public interface KontaktAdministration extends RemoteService {
     /**
      * Eine Eigenschaft anhand der ID auslesen.
      * 
-     * @param id, Primärschlüssel der Eigenschaft
+     * @param id, Primï¿½rschlï¿½ssel der Eigenschaft
      * @return Eigenschaft-Objekt
      * @throws IllegalArgumentException
      */
@@ -226,7 +226,7 @@ public interface KontaktAdministration extends RemoteService {
     public Eigenschaft insertEigenschaft(String bez, int status) throws IllegalArgumentException;
     
     /**
-     * Eine Eigenschaft überschreiben.
+     * Eine Eigenschaft ï¿½berschreiben.
      * 
      * @param e das Eigenschaft-Objekt
      * @return
@@ -235,9 +235,9 @@ public interface KontaktAdministration extends RemoteService {
     public Eigenschaft updateEigenschaft(Eigenschaft e) throws IllegalArgumentException;
     
     /**
-     * Eine Eigenschaft löschen.
+     * Eine Eigenschaft lï¿½schen.
      * 
-     * @param e das zu löschende Eigenschaft-Objekt
+     * @param e das zu lï¿½schende Eigenschaft-Objekt
      * @throws IllegalArgumentException
      */
     public void deleteEigenschaft(Eigenschaft e) throws IllegalArgumentException;
@@ -255,15 +255,15 @@ public interface KontaktAdministration extends RemoteService {
  * 
  * @param wert, die Auspraegung der Eigenschaft
  * @param status, zeigt an ob die Auspraegung geteilt wurde oder nicht
- * @param eigenschaftsID, Fremschlüsselbeziehung zur Eigenschaft
- * @param kontaktID, Fremdschlüsselbeziehung zum Kontakt auf den sich die Eigenschaft bezieht
+ * @param eigenschaftsID, Fremschlï¿½sselbeziehung zur Eigenschaft
+ * @param kontaktID, Fremdschlï¿½sselbeziehung zum Kontakt auf den sich die Eigenschaft bezieht
  * @return Eigenschaft-Objekt
  * @throws IllegalArgumentException
  */
     public Eigenschaftauspraegung insertAuspraegung(String wert, int status, int eigenschaftsID, int kontaktID) throws IllegalArgumentException;
     
     /**
-     * Eine Eigenschaftsauspraegung überschreiben.
+     * Eine Eigenschaftsauspraegung ï¿½berschreiben.
      * 
      * @param ea
      * @return 
@@ -272,7 +272,7 @@ public interface KontaktAdministration extends RemoteService {
     public Eigenschaftauspraegung updateAuspraegung(Eigenschaftauspraegung ea) throws IllegalArgumentException;
     
     /**
-     * Eine Eigenschaftsauspraegung löschen.
+     * Eine Eigenschaftsauspraegung lï¿½schen.
      * 
      * @param ea das Eigenschaftsauspraegung-Objekt
      * @throws IllegalArgumentException
@@ -291,7 +291,7 @@ public interface KontaktAdministration extends RemoteService {
     /**
      * Eine Eigenschaftsauspraegung anhand der ID auslesen.
      * 
-     * @param id der Primärschlüssel der Auspraegung
+     * @param id der Primï¿½rschlï¿½ssel der Auspraegung
      * @return Eigenschaftsauspraegung-Objekt
      * @throws IllegalArgumentException
      */
@@ -300,7 +300,7 @@ public interface KontaktAdministration extends RemoteService {
     /**
      * Eine Teilhaberschaft anhand der ID auslesen.
      * 
-     * @param id der Primärschlüssel der Teilhaberschaft
+     * @param id der Primï¿½rschlï¿½ssel der Teilhaberschaft
      * @return Teilhaberschaft-Objekt
      * @throws IllegalArgumentException
      */
@@ -309,43 +309,43 @@ public interface KontaktAdministration extends RemoteService {
     /**
      * Eine Teilhaberschaft anlegen
      * 
-     * @param kontaktID, Fremdschlüsselbeziehung zum Kontakt
-     * @param kontaktListeID, Fremdschlüsselbeziehung zur Kontaktliste
-     * @param eigenschaftsauspraegungID, Fremdschlüsselbeziehung zur Eingenschaftsauspraegung
-     * @param teilhaberID, Fremdschlüsselbeziehung zum Teilhaber
+     * @param kontaktID, Fremdschlï¿½sselbeziehung zum Kontakt
+     * @param kontaktListeID, Fremdschlï¿½sselbeziehung zur Kontaktliste
+     * @param eigenschaftsauspraegungID, Fremdschlï¿½sselbeziehung zur Eingenschaftsauspraegung
+     * @param teilhaberID, Fremdschlï¿½sselbeziehung zum Teilhaber
      * @return Teilhaberschaft-Objekt
      * @throws IllegalArgumentException
      */
     public Teilhaberschaft insertTeilhaberschaft(int kontaktID, int kontaktListeID, int eigenschaftsauspraegungID, int teilhaberID) throws IllegalArgumentException;
     
     /**
-     * Eine Teilhaberschaft löschen.
+     * Eine Teilhaberschaft lï¿½schen.
      * 
-     * @param t das zu löschende Teilhaberschaft-Objekt
+     * @param t das zu lï¿½schende Teilhaberschaft-Objekt
      * @throws IllegalArgumentException
      */
     public void deleteTeilhaberschaft(Teilhaberschaft t) throws IllegalArgumentException;
     
     /**
-     * Eine Teilhaberschaft an einem Kontakt löschen.
+     * Eine Teilhaberschaft an einem Kontakt lï¿½schen.
      * 
-     * @param t das zur löschende Teilhaber-Objekt
+     * @param t das zur lï¿½schende Teilhaber-Objekt
      * @throws IllegalArgumentException
      */
     public void deleteKontaktFromTeilhaberschaft(Teilhaberschaft t) throws IllegalArgumentException; 
     
     /**
-     * Eine Teilhaberschaft an einer Kontaktliste löschen.
+     * Eine Teilhaberschaft an einer Kontaktliste lï¿½schen.
      * 
-     * @param t das zu löschende Teilhaberschaft-Objekt
+     * @param t das zu lï¿½schende Teilhaberschaft-Objekt
      * @throws IllegalArgumentException
      */
     public void deleteKontaktlisteFromTeilhaberschaft(Teilhaberschaft t) throws IllegalArgumentException;
     
     /**
-     * Eine Teilhaberschaft an einer Eigenschaftsauspraegung löschen.
+     * Eine Teilhaberschaft an einer Eigenschaftsauspraegung lï¿½schen.
      * 
-     * @param t das zu löschende Teilhaberschaftobjekt
+     * @param t das zu lï¿½schende Teilhaberschaftobjekt
      * @throws IllegalArgumentException
      */
     public void deleteEigenschaftsauspraegungFromTeilhaberschaft(Teilhaberschaft t) throws IllegalArgumentException;
@@ -369,7 +369,7 @@ public interface KontaktAdministration extends RemoteService {
     /**
      * Aufhebung der Beziehung zwischen Kontakt und Kontaktliste.
      * 
-     * @param k das zu löschende KontaktKontaktliste-Objekt
+     * @param k das zu lï¿½schende KontaktKontaktliste-Objekt
      * @throws IllegalArgumentException
      */
     public void deleteKontaktKontaktliste(KontaktKontaktliste k) throws IllegalArgumentException;
@@ -378,7 +378,7 @@ public interface KontaktAdministration extends RemoteService {
      * Auslesen von Kontakten anhand der ID des Kontakterstellers.
      * 
      * @param nutzerID
-     * @return Vector mit sämtlichen Kontakten mit der übergebenen NutzerID
+     * @return Vector mit sï¿½mtlichen Kontakten mit der ï¿½bergebenen NutzerID
      * @throws IllegalArgumentException
      */
     public Vector<Kontakt> findKontaktByNutzerID(int nutzerID) throws IllegalArgumentException;
@@ -387,10 +387,19 @@ public interface KontaktAdministration extends RemoteService {
      * Auslesen der Kontaktlisten anhand der ID des Kontaktlistenerstellers
      * 
      * @param nutzerID
-     * @return Vector mit sämtlichen Kontaktlisten mit der übergebenen NutzerID
+     * @return Vector mit sï¿½mtlichen Kontaktlisten mit der ï¿½bergebenen NutzerID
      * @throws IllegalArgumentException
      */
     public Vector<Kontaktliste> findKontaktlisteByNutzerID(int nutzerID) throws IllegalArgumentException;
+
+	/**
+	 * 
+	 * @param i
+	 * @return Vector mit sÃ¤mtlichen Kontakten einer ausgewÃ¤hlten Kontaktliste
+	 * @throws IllegalArgumentException
+	 */
+    
+    public Vector<Integer> findAllKontakteFromKontaktliste(int i) throws IllegalArgumentException;
     
 
     

@@ -5,7 +5,7 @@ import java.util.List;
 import java.util.Vector;
 import java.text.SimpleDateFormat;
 
-
+import com.google.gwt.user.client.Window;
 import com.google.gwt.user.server.rpc.RemoteServiceServlet;
 
 import de.hdm.itprojektgruppe4.server.db.*;
@@ -23,7 +23,7 @@ public class KontaktAdministrationImpl extends RemoteServiceServlet
     public KontaktAdministrationImpl() {
     }
     /**
-     * Referenz auf de NutzerMapper, der Nutzer-Objekte mit der Datenbank abgleicht.
+     * Referenz auf den NutzerMapper, der Nutzer-Objekte mit der Datenbank abgleicht.
      */
     private NutzerMapper nutzerMapper = null;
     
@@ -84,10 +84,20 @@ public class KontaktAdministrationImpl extends RemoteServiceServlet
     
     
     /*##########################################################
-     * START Methoden für Kontakt-Objekte
+     * START Methoden fï¿½r Kontakt-Objekte
      #########################################################*/
 
-    
+    /**
+     * Einen Kontakt anlegen
+     * 
+     * @param name, der Name des Kontakts
+     * @param erzeugungsdatum, das Erzeugungsdatum des Kontakts
+     * @param modifikationsdatum, das Datum an dem Eigenschaften oder Auspraegungen des Kontaktes geï¿½ndert wurden
+     * @param status, der Status ob der Kontakt geteilt wurde oder nicht
+     * @param nutzerID, Fremdschlï¿½sselbeziehung zum Ersteller des Kontakes
+     * @return Kontakt-Objekt
+     * @throws IllegalArgumentException
+     */
     
     public Kontakt insertKontakt(String name, Date erzeugungsdatum, Date modifikationsdatum, int status, int nutzerID)  	
     		throws IllegalArgumentException {
@@ -107,16 +117,17 @@ public class KontaktAdministrationImpl extends RemoteServiceServlet
         return this.konMapper.insertKontakt(k);
     }
     
-    //prüfen
-    public Kontakt findKontaktById(int id) {
-        return this.konMapper.findKontaktByID(id);
-    }
+   
     
-    public Vector<Kontakt> getAllKontakte() {
-        return this.konMapper.findAllKontakte();
-    }
+    /**
+     * Einen Kontakt anhand seines Primï¿½rschlï¿½ssel anzeigen lassen.
+     * 
+     * @param id der Primï¿½rschlï¿½ssel des Objekts
+     * @return Kontakt-Objekt mit dem ï¿½bergebenen Primï¿½rschlï¿½ssel
+     * @throws IllegalArgumentException
+     */
 
-    //prüfeb
+    //prï¿½feb
 	@Override
 	public Kontakt findKontaktByID(int id) throws IllegalArgumentException {
 		return this.konMapper.findKontaktByID(id);
@@ -124,34 +135,53 @@ public class KontaktAdministrationImpl extends RemoteServiceServlet
 		
 	}
     
-	
-	//prüfen
-    public Kontakt findNutzerById(int id) {
-        // TODO implement here
-        return null;
-    }
-    //prüfen    
-    public Vector<Kontakt> getAllKontakteVonKontaktliste(Kontaktliste k) {
-        
-        return null;
-    }
+
+    
+    /**
+     * Alle Kontakte auslesen und in einem Vector ausgeben lassen.
+     * 
+     * @return Vector aller Kontakte
+     * @throws IllegalArgumentException
+     */
     
 	@Override
 	public Vector<Kontakt> findAllKontakte() throws IllegalArgumentException {
 		return this.konMapper.findAllKontakte();
 	}
 	
+	/**
+     * Einen Kontakt anhand seines Namens anzeigen lassen.
+     * 
+     * @param name, der Name des Kontakts
+     * @return Kontakt-Objekt mit dem ï¿½bergebenen Namen
+     * @throws IllegalArgumentException
+     */
+
 	@Override
 	public Kontakt findKontaktByName(String name) throws IllegalArgumentException {
 		return this.konMapper.findKontaktByName(name);
 	}
 	
+	
+	/**
+     * ï¿½berschreiben eines <code>Kontakt</code>-Objekts.
+     * 
+     * @param k das zu bearbeitende Kontakt-Objekt
+     * @return das bearbeitete Kontakt-Objekt
+     * @throws IllegalArgumentException
+     */
 	@Override
 	public Kontakt updateKontakt(Kontakt k) throws IllegalArgumentException {
 		
 		return this.konMapper.updateKontakt(k);
 	}
 
+	/**
+     * Einen Kontakt lï¿½schen
+     * 
+     * @param k das zu lï¿½schende Kontakt-Objekt
+     * @throws IllegalArgumentException
+     */
 	
 	@Override
 	public void deleteKontakt(Kontakt k) throws IllegalArgumentException {
@@ -161,24 +191,57 @@ public class KontaktAdministrationImpl extends RemoteServiceServlet
 		
 	}
 	
+	/**
+     * Auslesen von Kontakten anhand der ID des Kontakterstellers.
+     * 
+     * @param nutzerID
+     * @return Vector mit sï¿½mtlichen Kontakten mit der ï¿½bergebenen NutzerID
+     * @throws IllegalArgumentException
+     */
+	
 	public Vector<Kontakt> findKontaktByNutzerID(int nutzerID) throws IllegalArgumentException {
 		return this.konMapper.findKontaktByNutzerID(nutzerID);
 	}
 	
-
+	/**
+     * 
+     * 
+     * @return
+     * @throws IllegalArgumentException
+     */
+	
 	@Override
 	public List<Kontakt> findAllKontaktNames() throws IllegalArgumentException {
 		return this.konMapper.findAllKontakte();
 	}
 
+	/**
+	 * 
+	 * @param i
+	 * @return Vector mit sÃ¤mtlichen Kontakten einer ausgewÃ¤hlten Kontaktliste
+	 * @throws IllegalArgumentException
+	 */
+	
+	@Override
+	public Vector<Integer> findAllKontakteFromKontaktliste(int i) throws IllegalArgumentException {
+		return konMapper.findAllKontakteFromKontaktliste(i);
+	}
+
 	
     /*##########################################################
-     * ENDE Methoden für Kontakt-Objekte
+     * ENDE Methoden fï¿½r Kontakt-Objekte
      #########################################################*/
 
     /*##########################################################
-     * START Methoden für Nutzer-Objekte
+     * START Methoden fï¿½r Nutzer-Objekte
      #########################################################*/
+	/**
+     * Einen Nutzer anlegen
+     * 
+     * @param mail
+     * @return Nutzer-Objekt
+     * @throws IllegalArgumentException
+     */
 	
 	@Override
 	public Nutzer insertNutzer(String mail) throws IllegalArgumentException {
@@ -187,26 +250,65 @@ public class KontaktAdministrationImpl extends RemoteServiceServlet
 		return this.nutzerMapper.insertNutzer(nutzer);
 	}
 	
+	 /**
+     * Lï¿½schen eines Nutzers.
+     * 
+     * @param n das zu lï¿½schende Nutzer-Objekt
+     * @throws IllegalArgumentException
+     */
+	
 	@Override
 	public void deleteNutzer(Nutzer n) throws IllegalArgumentException {
 		this.nutzerMapper.deleteNutzer(n);
 		this.persMapper.deletePerson(this.persMapper.findPersonByID(n.getID()));
 	}
 
+	/**
+     * ï¿½berschreiben eines Nutzer-Objekts.
+     * 
+     * @param n das zu bearbeitende Nutzer-Objekt
+     * @return n das bearbeitete Nutzer Objekt
+     * @throws IllegalArgumentException
+     */
+	
 	@Override
 	public Nutzer updateNutzer(Nutzer n) throws IllegalArgumentException {
 		return this.nutzerMapper.updateNutzer(n);
 	}
-
+		
+	/**
+     * Einen Nutzer anhand seiner E-Mail auslesen.
+     * 
+     * @param email
+     * @return Nutzer-Objekt
+     * @throws IllegalArgumentException
+     */
+	
 	@Override
 	public Nutzer findNutzerByEmail(String email) throws IllegalArgumentException {
 		return this.nutzerMapper.findNutzerByEmail(email);
 	}
 
+	
+	   /**
+     * Einen Nutzer anhand seiner ID auslesen.
+     * 
+     * @param id der Primï¿½rschlï¿½ssel des Nutzer-Objekts
+     * @return Nutzer-Objekt
+     * @throws IllegalArgumentException
+     */
+	
 	@Override
 	public Nutzer findNutzerByID(int id) throws IllegalArgumentException {
 		return this.nutzerMapper.findNutzerByID(id);
 	}
+	
+	/**
+     * Alle Nutzer auslesen.
+     * 
+     * @return Vector sï¿½mtlicher Nutzer
+     * @throws IllegalArgumentException
+     */
 
 	@Override
 	public Vector<Nutzer> findAllNutzer() throws IllegalArgumentException {
@@ -214,17 +316,33 @@ public class KontaktAdministrationImpl extends RemoteServiceServlet
 	}
 	
     /*##########################################################
-     * ENDE Methoden für Nutzer-Objekte
+     * ENDE Methoden fï¿½r Nutzer-Objekte
      #########################################################*/
 	
     /*##########################################################
-     * START Methoden für Person-Objekte
+     * START Methoden fï¿½r Person-Objekte
      #########################################################*/
+	
+	
+	/**
+     * Eine Person anhand der ID auslesen.
+     * 
+     * @param ID, der Primï¿½rschlï¿½ssel
+     * @throws IllegalArgumentException
+     */
 	
 	@Override
 	public Person findPersonByID(int ID) throws IllegalArgumentException {
 		return this.findPersonByID(ID);
 	}
+	
+	
+	 /**
+     * Lï¿½schen einer Person.
+     * 
+     * @param p das zu lï¿½schende Personen-Objekt
+     * @throws IllegalArgumentException
+     */
 	
 	@Override
 	public void deletePerson(Person p) throws IllegalArgumentException {
@@ -234,12 +352,21 @@ public class KontaktAdministrationImpl extends RemoteServiceServlet
 	}
 	
     /*##########################################################
-     * ENDE Methoden für Person-Objekte
+     * ENDE Methoden fï¿½r Person-Objekte
      #########################################################*/
 	
     /*##########################################################
-     * START Methoden für Eigenschaft-Objekte
+     * START Methoden fï¿½r Eigenschaft-Objekte
      #########################################################*/
+	
+	  /**
+     * Eine Eigenschaft anlegen.
+     * 
+     * @param bez, die Bezeichnung der Eigenschaft
+     * @param status, Status der anzeigt, ob die Eigenschaft geteilt wurde oder nicht
+     * @return Eigenschaft Objekt
+     * @throws IllegalArgumentException
+     */
 	
 	@Override
 	public Eigenschaft insertEigenschaft(String bez, int status) throws IllegalArgumentException {
@@ -251,33 +378,56 @@ public class KontaktAdministrationImpl extends RemoteServiceServlet
 		return this.eigMapper.insertEigenschaft(e);
 	}
     
-    public Eigenschaft findEigenschaftById(int id) {
-        return this.eigMapper.getEigenchaftByID(id);
-    }
+	/**
+     *  Alle Objekte vom Typ Eigenschaft ausgeben
+     * @return
+     * @throws IllegalArgumentException
+     */
     
-    //prüfen
-    public Vector<Eigenschaft> getAllEigenschaften() {
-        // TODO implement here
-        return null;
+	@Override
+	public Vector<Eigenschaft> findAllEigenschaft() throws IllegalArgumentException {
+		// TODO Auto-generated method stub
+		return this.eigMapper.findAllEigenschaft();
+	
     }
 
-    //prüfen
+    //prï¿½fen
     public Vector<Eigenschaft> getAllEigenschaftVonKontakt(Kontakt k) {
         // TODO implement here
         return null;
     }
+    /**
+     * Eine Eigenschaft anhand der ID auslesen.
+     * 
+     * @param id, Primï¿½rschlï¿½ssel der Eigenschaft
+     * @return Eigenschaft-Objekt
+     * @throws IllegalArgumentException
+     */
     
 	@Override
 	public Eigenschaft getEigenschaftByID(int id) throws IllegalArgumentException {
 		// TODO Auto-generated method stub
 		return this.eigMapper.getEigenchaftByID(id);
 	}
-
+	   /**
+     * Eine Eigenschaft ï¿½berschreiben.
+     * 
+     * @param e das Eigenschaft-Objekt
+     * @return
+     * @throws IllegalArgumentException
+     */
+	
 	@Override
 	public Eigenschaft updateEigenschaft(Eigenschaft e) throws IllegalArgumentException {
 		// TODO Auto-generated method stub
 		return this.eigMapper.updateEigenschaft(e);
 	}
+	 /**
+     * Eine Eigenschaft lï¿½schen.
+     * 
+     * @param e das zu lï¿½schende Eigenschaft-Objekt
+     * @throws IllegalArgumentException
+     */
 
 	@Override
 	public void deleteEigenschaft(Eigenschaft e) throws IllegalArgumentException {
@@ -286,12 +436,22 @@ public class KontaktAdministrationImpl extends RemoteServiceServlet
 	}
 	
     /*##########################################################
-     * ENDE Methoden für Eigenschaft-Objekte
+     * ENDE Methoden fï¿½r Eigenschaft-Objekte
      #########################################################*/
 	
     /*##########################################################
-     * START Methoden für Eigenschaftauspragung-Objekte
+     * START Methoden fï¿½r Eigenschaftauspragung-Objekte
      #########################################################*/
+	
+	/**
+	 * 
+	 * @param wert, die Auspraegung der Eigenschaft
+	 * @param status, zeigt an ob die Auspraegung geteilt wurde oder nicht
+	 * @param eigenschaftsID, Fremschlï¿½sselbeziehung zur Eigenschaft
+	 * @param kontaktID, Fremdschlï¿½sselbeziehung zum Kontakt auf den sich die Eigenschaft bezieht
+	 * @return Eigenschaft-Objekt
+	 * @throws IllegalArgumentException
+	 */
 	
 	@Override
 	public Eigenschaftauspraegung insertAuspraegung(String wert, int status, int eigenschaftsID, int kontaktID)
@@ -306,29 +466,54 @@ public class KontaktAdministrationImpl extends RemoteServiceServlet
 		return null;
 	}
 	
-	//prüfen
-	public Eigenschaftauspraegung findEigenschaftsauspraegungById(int id) {
-	        
-	        return this.eigenschaftauspraegungMapper.getAuspraegungByID(id);
-	    }
-	 
+	
+	  /**
+     * Eine Eigenschaftsauspraegung ï¿½berschreiben.
+     * 
+     * @param ea
+     * @return 
+     * @throws IllegalArgumentException
+     */
+	
 	@Override
 	public Eigenschaftauspraegung updateAuspraegung(Eigenschaftauspraegung ea) throws IllegalArgumentException {
 			return this.eigenschaftauspraegungMapper.updateAuspraegung(ea);
 		}
 
+	/**
+     * Eine Eigenschaftsauspraegung lï¿½schen.
+     * 
+     * @param ea das Eigenschaftsauspraegung-Objekt
+     * @throws IllegalArgumentException
+     */
+	
 	@Override
 	public void deleteAuspraegung(Eigenschaftauspraegung ea) throws IllegalArgumentException {
 			this.eigenschaftauspraegungMapper.deleteAuspraegung(ea);
 		
 		}
 	
-	//prüfen
+	  /**
+     * Eine Eigenschaftsauspraegung anhand der ID auslesen.
+     * 
+     * @param id der Primï¿½rschlï¿½ssel der Auspraegung
+     * @return Eigenschaftsauspraegung-Objekt
+     * @throws IllegalArgumentException
+     */
+	
+	//prï¿½fen
 	@Override
 	public Eigenschaftauspraegung getAuspraegungByID(int id) throws IllegalArgumentException {
 			return this.eigenschaftauspraegungMapper.getAuspraegungByID(id);
 		
 		}
+	
+	/**
+     * Eine Teilhaberschaft an einer Eigenschaftsauspraegung lï¿½schen.
+     * 
+     * @param t das zu lï¿½schende Teilhaberschaftobjekt
+     * @throws IllegalArgumentException
+     */
 		
 	@Override
 	public void deleteEigenschaftsauspraegungFromTeilhaberschaft(Teilhaberschaft t)
@@ -337,7 +522,15 @@ public class KontaktAdministrationImpl extends RemoteServiceServlet
 			
 		}
 	
-	//prüfen
+	/**
+     * Eine Eigenschaftsauspraegung anhand des Wertes auslesen.
+     * 
+     * @param wert, der die Auspraegung beschreibt
+     * @return Eigenschafts-Objekt mit gesuchtem Wert
+     * @throws IllegalArgumentException
+     */
+	
+	//prï¿½fen
 	@Override
 	public Eigenschaftauspraegung getAuspraegungByWert(String wert) throws IllegalArgumentException {
 			
@@ -345,13 +538,22 @@ public class KontaktAdministrationImpl extends RemoteServiceServlet
 		}
 		
 		/*##########################################################
-	     * ENDE Methoden für Eigenschaftauspragung-Objekte
+	     * ENDE Methoden fï¿½r Eigenschaftauspragung-Objekte
 	     #########################################################*/
 
 		/*##########################################################
-	     * START Methoden für Kontaktliste-Objekte
+	     * START Methoden fï¿½r Kontaktliste-Objekte
 	     #########################################################*/
-		
+	
+	   /**
+	    * 
+	    * @param bez, die Bezeichnung der Kontaktliste
+	    * @param status, der Status, der anzeigt ob die Kontaktliste geteilt wurde oder nicht
+	    * @param nutzerID, der Fremdschlï¿½ssel stellt die Beziehung zum Ersteller dar
+	    * @return Kontaktlisten-Objekt
+	    * @throws IllegalArgumentException
+	    */
+	
 	@Override
 	public Kontaktliste insertKontaktliste(String bez, int status, int nutzerID) throws IllegalArgumentException {
 			Kontaktliste k = new Kontaktliste();
@@ -363,26 +565,47 @@ public class KontaktAdministrationImpl extends RemoteServiceServlet
 			return this.konlistMapper.insertKontaktliste(k);
 		}
 	
-	public Kontaktliste findKontaktlisteById(int id) {
-        
-        return this.konlistMapper.findKontaktlistebyID(id);
-		}
-//prüfen
+
+	
+	
 	public Vector<Kontaktliste> getAllKontaktlisten() {
         
         return null;
 		}
+	
+	/**
+     * Eine Kontaktliste anhand der ID auslesen.
+     * 
+     * @param id der Primï¿½rschlï¿½ssel des Kontaktlisten-Objekts
+     * @return Kontaktlisten-Objekt
+     * @throws IllegalArgumentException
+     */
     
 	@Override
 	public Kontaktliste findKontaktlisteByID(int id) throws IllegalArgumentException {
 		return this.konlistMapper.findKontaktlistebyID(id);
 		}
 	
+	 /**
+     * Eine Kontaktliste anhand der Bezeichnung auslesen.
+     * 
+     * @param bezeichnung, die Bezeichnung der Kontaktliste
+     * @return Kontaktlisten-Objekt
+     * @throws IllegalArgumentException
+     */
+	
 	@Override
 	public Kontaktliste findKontaktlisteByBezeichnung(String bezeichnung) throws IllegalArgumentException {
 		return this.konlistMapper.findKontaktlistebyBezeichnung(bezeichnung);
 		}
 
+	 /**
+     * Eine Kontaktliste ï¿½berschreiben.
+     * 
+     * @param k das zu bearbeitende Kontaktlisten-Objekt
+     * @return 
+     * @throws IllegalArgumentException
+     */
 
 	@Override
 	public Kontaktliste updateKontaktliste(Kontaktliste k) throws IllegalArgumentException {
@@ -390,17 +613,38 @@ public class KontaktAdministrationImpl extends RemoteServiceServlet
 		return this.konlistMapper.updateKontaktliste(k);
 		}
 
+	/**
+     * Eine Kontaktliste  lï¿½schen.
+     * 
+     * @param k das zu lï¿½schende Kontaktlisten-Objekt
+     * @throws IllegalArgumentException
+     */
+	
 	@Override
 	public void deleteKontaktliste(Kontaktliste k) throws IllegalArgumentException {
 		this.konlistMapper.deleteKontaktliste(k);
 	
 	}
+	
+	/**
+     * Alle Kontaktlisten auslesen.
+     * 
+     * @return Vector sï¿½mtlicher Kontaktlisten
+     * @throws IllegalArgumentException
+     */
 
 	@Override
 	public Vector<Kontaktliste> findKontaktlisteAll() throws IllegalArgumentException {
 		// TODO Auto-generated method stub
 		return this.konlistMapper.findKontaktlisteAll();
 	}
+	
+	 /**
+     * Aufhebung der Beziehung zwischen Kontakt und Kontaktliste.
+     * 
+     * @param k das zu lï¿½schende KontaktKontaktliste-Objekt
+     * @throws IllegalArgumentException
+     */
 	
 	@Override
 	public void deleteKontaktKontaktliste(KontaktKontaktliste k) 
@@ -409,6 +653,14 @@ public class KontaktAdministrationImpl extends RemoteServiceServlet
 		
 	}
 		
+	 /**
+     * Auslesen der Kontaktlisten anhand der ID des Kontaktlistenerstellers
+     * 
+     * @param nutzerID
+     * @return Vector mit sï¿½mtlichen Kontaktlisten mit der ï¿½bergebenen NutzerID
+     * @throws IllegalArgumentException
+     */
+	
 	@Override
 	public Vector<Kontaktliste> findKontaktlisteByNutzerID(int nutzerID) throws IllegalArgumentException {
 		// TODO Auto-generated method stub
@@ -416,12 +668,19 @@ public class KontaktAdministrationImpl extends RemoteServiceServlet
 	}
 	
 	/*##########################################################
-     * ENDE Methoden für Kontaktliste-Objekte
+     * ENDE Methoden fï¿½r Kontaktliste-Objekte
      #########################################################*/
 	
 	/*##########################################################
-     * START Methoden für KontaktKontaktliste-Objekte
+     * START Methoden fï¿½r KontaktKontaktliste-Objekte
      #########################################################*/
+	
+	/**
+	 * Anlegen eines Objekts der Klasse KontaktKontaktliste um eine Beziehung zwischen Kontakt und Kontaktliste in der Datenbank herzustellen.
+	 * 
+	 * @param k
+	 * @return KontaktKontaktliste-Objekt
+	 */
 	
 	@Override
 	public KontaktKontaktliste insertKontaktKontaktliste(int kontaktID, int kontaktlisteID)
@@ -435,14 +694,24 @@ public class KontaktAdministrationImpl extends RemoteServiceServlet
 	}
 	
 	/*##########################################################
-     * ENDE Methoden für KontaktKontaktliste-Objekte
+     * ENDE Methoden fï¿½r KontaktKontaktliste-Objekte
      #########################################################*/
 	
 	/*##########################################################
-     * START Methoden für Teilhaberschaft-Objekte
+     * START Methoden fï¿½r Teilhaberschaft-Objekte
      #########################################################*/
 
-
+	/**
+     * Eine Teilhaberschaft anlegen
+     * 
+     * @param kontaktID, Fremdschlï¿½sselbeziehung zum Kontakt
+     * @param kontaktListeID, Fremdschlï¿½sselbeziehung zur Kontaktliste
+     * @param eigenschaftsauspraegungID, Fremdschlï¿½sselbeziehung zur Eingenschaftsauspraegung
+     * @param teilhaberID, Fremdschlï¿½sselbeziehung zum Teilhaber
+     * @return Teilhaberschaft-Objekt
+     * @throws IllegalArgumentException
+     */
+	
 	@Override
 	public Teilhaberschaft insertTeilhaberschaft(int kontaktID, int kontaktListeID, int eigenschaftsauspraegungID,
 			int teilhaberID) throws IllegalArgumentException {
@@ -454,31 +723,55 @@ public class KontaktAdministrationImpl extends RemoteServiceServlet
 		t.setTeilhaberID(teilhaberID);
 		
 		return this.teilhaberschaftMapper.insertTeilhaberschaft(t);
-	}
-
-    public Teilhaberschaft findTeilhaberschaftById(int id) {
-        // TODO implement here
-        return this.teilhaberschaftMapper.findByID(id);
     }
 
+    /**
+     * Eine Teilhaberschaft anhand der ID auslesen.
+     * 
+     * @param id der Primï¿½rschlï¿½ssel der Teilhaberschaft
+     * @return Teilhaberschaft-Objekt
+     * @throws IllegalArgumentException
+     */
+    
 	@Override
 	public Teilhaberschaft findByID(int id) throws IllegalArgumentException {
 		// TODO Auto-generated method stub
 		return this.teilhaberschaftMapper.findByID(id);
 	}
-
+	
+	/**
+     * Eine Teilhaberschaft lï¿½schen.
+     * 
+     * @param t das zu lï¿½schende Teilhaberschaft-Objekt
+     * @throws IllegalArgumentException
+     */
+	
 	@Override
 	public void deleteTeilhaberschaft(Teilhaberschaft t) throws IllegalArgumentException {
 		this.teilhaberschaftMapper.deleteTeilhaberschaft(t);
 		
 	}
 
+	/**
+     * Eine Teilhaberschaft an einem Kontakt lï¿½schen.
+     * 
+     * @param t das zur lï¿½schende Teilhaber-Objekt
+     * @throws IllegalArgumentException
+     */
+	
 	@Override
 	public void deleteKontaktFromTeilhaberschaft(Teilhaberschaft t) throws IllegalArgumentException {
 		this.teilhaberschaftMapper.deleteKontaktFromTeilhaberschaft(t);
 		
 	}
 
+	/**
+     * Eine Teilhaberschaft an einer Kontaktliste lï¿½schen.
+     * 
+     * @param t das zu lï¿½schende Teilhaberschaft-Objekt
+     * @throws IllegalArgumentException
+     */
+	
 	@Override
 	public void deleteKontaktlisteFromTeilhaberschaft(Teilhaberschaft t) throws IllegalArgumentException {
 		this.teilhaberschaftMapper.deleteKontaktlisteFromTeilhaberschaft(t);
@@ -487,11 +780,10 @@ public class KontaktAdministrationImpl extends RemoteServiceServlet
 
 
 
-	@Override
-	public Vector<Eigenschaft> findAllEigenschaft() throws IllegalArgumentException {
-		// TODO Auto-generated method stub
-		return this.eigMapper.findAllEigenschaft();
-	}
+
+
+
+
 
 
 	

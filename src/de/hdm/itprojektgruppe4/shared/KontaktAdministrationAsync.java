@@ -135,6 +135,7 @@ public interface KontaktAdministrationAsync {
 
 	void deleteKontaktKontaktliste(KontaktKontaktliste k, AsyncCallback<Void> callback);
 
+	
 	void findKontaktByNutzerID(int nutzerID,AsyncCallback<Vector<Kontakt>> callback);
 
 
@@ -142,6 +143,9 @@ public interface KontaktAdministrationAsync {
 
 
 	void insertEigenschaft(String bez, int status, AsyncCallback<Eigenschaft> callback);
+	
+	
+	void findAllKontakteFromKontaktliste(int i, AsyncCallback<Vector<Integer>> callback);
 
 
 	void findAllEigenschaft(AsyncCallback<Vector<Eigenschaft>> callback);
