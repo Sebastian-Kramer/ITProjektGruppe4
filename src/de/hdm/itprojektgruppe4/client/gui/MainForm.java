@@ -17,6 +17,7 @@ import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.CheckBox;
+import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.FlexTable;
 import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.HorizontalPanel;
@@ -32,7 +33,7 @@ import de.hdm.itprojektgruppe4.shared.KontaktAdministrationAsync;
 import de.hdm.itprojektgruppe4.shared.bo.Kontakt;
 import de.hdm.itprojektgruppe4.shared.bo.Kontaktliste;
 
-public class MainForm extends VerticalPanel{
+public class MainForm extends Composite{
 	
 	private static KontaktAdministrationAsync verwaltung = ClientsideSettings.getKontaktVerwaltung();
 	
@@ -63,8 +64,11 @@ public class MainForm extends VerticalPanel{
 	
     private TreeItem kontaktListTreeItem = new TreeItem();
 	
-	public MainForm(){				
+	public MainForm(){	
+		
+		initWidget(this.vpanelDetails);
 
+		
 		
 		verwaltung.findAllKontaktNames(new KontaktCallBack());
 		verwaltung.findKontaktlisteAll(new KontaktlistCallBack());
@@ -122,7 +126,7 @@ public class MainForm extends VerticalPanel{
 		vpanelDetails.add(html1);
 		vpanelDetails.add(hpanelDetails);
 		vpanelDetails.add(cellList);
-		this.add(vpanelDetails);
+	//	this.add(vpanelDetails);
 		
 
 //		vpanelNavigator.add(html2);

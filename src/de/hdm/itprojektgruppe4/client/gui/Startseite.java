@@ -29,6 +29,7 @@ public class Startseite extends VerticalPanel{
 	
 	public Startseite(){
 		
+		
 			TextColumn<Kontakt> nameColumn = new TextColumn<Kontakt>() {
 				@Override
 				public String getValue(Kontakt k) {
