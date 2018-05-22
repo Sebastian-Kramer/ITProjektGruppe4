@@ -8,6 +8,11 @@ import java.sql.Statement;
 import de.hdm.itprojektgruppe4.shared.bo.Eigenschaftauspraegung;
 import de.hdm.itprojektgruppe4.shared.bo.Kontakt;
 
+/**
+ * Mapper Klassen, die <code>Eigenschaftauspraegung</code>-Objekte auf einer relationalen Datenbank abbildet.
+ *
+ */
+
 public class EigenschaftauspraegungMapper {
 	
 	private static EigenschaftauspraegungMapper eigenschaftauspraegungMapper = null;
@@ -22,6 +27,12 @@ public class EigenschaftauspraegungMapper {
 		}
 		return eigenschaftauspraegungMapper;
 	}	
+	
+	/**
+	 * Suchen einer Eigenschaftauspraegung mit vorgegebener ID.
+	 * @param id der Eigenschaftauspraegung
+	 * @return die gesuchte Eigenschaftauspraegung
+	 */
 	
 	public Eigenschaftauspraegung getAuspraegungByID(int id){
 		
@@ -53,13 +64,14 @@ public class EigenschaftauspraegungMapper {
 	}
 	
 	/**
-	 *  Einfügen eines neuen Objktes vom Typ Eigenschaftauspraegung in die DB
-	 *  der PK wird überprüft und korrigiert -> maxID +1 
+	 *  Einfï¿½gen eines neuen Objktes vom Typ Eigenschaftauspraegung in die DB
+	 *  der PK wird ï¿½berprï¿½ft und korrigiert -> maxID +1 
 	 * @param ea 
 	 * die zu speichernde Eigenschaftauspraegung 
 	 * @return
-	 * die bereits übergebene Eigenschaftauspraegung
+	 * die bereits ï¿½bergebene Eigenschaftauspraegung
 	 */
+	
 public Eigenschaftauspraegung insertAuspraegung(Eigenschaftauspraegung ea) {
 		
 		Connection con = DBConnection.connection(); 
@@ -92,9 +104,9 @@ public Eigenschaftauspraegung insertAuspraegung(Eigenschaftauspraegung ea) {
 		return ea;
 	}
 /**
- * 
+ * ï¿½berschreiben eines <code>Eigenschaftauspraegung</code>-Objekts.
  * @param ea
- * @return
+ * @return ea 
  */
 
 public Eigenschaftauspraegung updateAuspraegung(Eigenschaftauspraegung ea) {
@@ -121,9 +133,9 @@ public Eigenschaftauspraegung updateAuspraegung(Eigenschaftauspraegung ea) {
 }
 
 /**
- *  ein Objekt vom Typ Eigenschaftauspraegung wird aus der DB gelöscht 
+ *  ein Objekt vom Typ Eigenschaftauspraegung wird aus der DB gelï¿½scht 
  * @param ea
- * 	die zu löschende Eigenschaftauspraegung
+ * 	die zu lï¿½schende Eigenschaftauspraegung
  * 
  */
 public void deleteAuspraegung(Eigenschaftauspraegung ea){
@@ -139,8 +151,14 @@ public void deleteAuspraegung(Eigenschaftauspraegung ea){
 	}
 }
 
+/**
+ * Eine Eigenschaftsauspraegung anhand des Wertes auslesen.
+ * 
+ * @param wert, der die Auspraegung beschreibt
+ * @return Eigenschafts-Objekt mit gesuchtem Wert, null bei nicht vorhandenem DB-Tulpel
+ */
 
-//prüfen
+//prï¿½fen
 public Eigenschaftauspraegung getAuspraegungByWert(Eigenschaftauspraegung ea){
 	
 	Connection con = DBConnection.connection();

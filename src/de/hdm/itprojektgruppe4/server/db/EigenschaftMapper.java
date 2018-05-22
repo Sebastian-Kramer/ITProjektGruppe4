@@ -45,7 +45,7 @@ public class EigenschaftMapper {
 	// Leeres SQL-Statement erzeugen
 		Statement stmt = con.createStatement();
 		
-	// Statement befüllen und als Query an die Datenbank schicken	
+	// Statement befï¿½llen und als Query an die Datenbank schicken	
 		ResultSet rs = stmt.executeQuery(
 				"SELECT ID, bez FROM eigenschaft " + " WHERE ID= " + id );
 				 
@@ -68,9 +68,9 @@ public class EigenschaftMapper {
 	
 	/**
 	 * Speichern eines <code>Eigenschaft</code>-Objekts in der Datenbank.
-	 * Der Primärschlüssel des Objekts
-	 * @param e das zu übergebende Objekt
-	 * @return das bereits übergebene Objekt mit korrigierter ID
+	 * Der Primï¿½rschlï¿½ssel des Objekts
+	 * @param e das zu ï¿½bergebende Objekt
+	 * @return das bereits ï¿½bergebene Objekt mit korrigierter ID
 	 */
 
 	
@@ -103,6 +103,12 @@ public class EigenschaftMapper {
 		return e;
 	}
 	
+	/**
+	 * Ãœberschreiben eines Eigenschaft-Objekts
+	 * @param e
+	 * @return e
+	 */
+	
 	public Eigenschaft updateEigenschaft(Eigenschaft e){
 		
 		Connection con = DBConnection.connection();
@@ -123,6 +129,12 @@ public class EigenschaftMapper {
 		return e;
 	}
 	
+	/**
+	 * Ein Objekt des Typ Eigenschaft wird aus der Datenbank gelÃ¶scht
+	 * @param e
+	 * @return
+	 */
+	
 	public Eigenschaft deleteEigenschaft(Eigenschaft e){
 		Connection con = DBConnection.connection();
 		
@@ -139,6 +151,11 @@ public class EigenschaftMapper {
 			
 		}return e;
 	}
+	
+	/**
+	 * alle Objekte vom Typ Eigenschaft auslesen
+	 * @return Vektor sÃ¤mtlicher Eigenschaften
+	 */
 	
 	public Vector<Eigenschaft> findAllEigenschaft(){
 		

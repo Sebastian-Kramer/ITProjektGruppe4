@@ -8,6 +8,11 @@ import java.sql.Statement;
 import de.hdm.itprojektgruppe4.shared.bo.Kontakt;
 import de.hdm.itprojektgruppe4.shared.bo.Person;
 
+/**
+ * Mapper Klassen, die <code>Person</code>-Objekte auf einer relationalen Datenbank abbildet.
+ *
+ */
+
 public class PersonMapper {
 
 	
@@ -26,6 +31,11 @@ public class PersonMapper {
 		return personMapper;
 	}	
 	
+	/**
+	 * Suchen einer Person mit vorgegebener ID.
+	 * @param id der Person
+	 * @return die gesuchte Person
+	 */		
 	
 public Person findPersonByID(int id){
 		
@@ -54,6 +64,14 @@ public Person findPersonByID(int id){
 	return null;
 	}
 	
+/**
+ *  Einf�gen eines neuen Objktes vom Typ Person in die DB
+ *  der PK wird �berpr�ft und korrigiert -> maxID +1 
+ * @param p 
+ * die zu speichernde Person
+ * @return
+ * die bereits �bergebene Person
+ */
 	
 	public int insertPerson (Person p){
 		
@@ -83,6 +101,12 @@ Connection con = DBConnection.connection();
 		
 		return p.getID();
 	}
+	
+	/**
+	 *  ein Objekt vom Typ Person wird aus der DB gel�scht 
+	 * @param p
+	 * 	die zu l�schende Person
+	 */
 		
 	public void deletePerson(Person p){
 		Connection con = DBConnection.connection();
