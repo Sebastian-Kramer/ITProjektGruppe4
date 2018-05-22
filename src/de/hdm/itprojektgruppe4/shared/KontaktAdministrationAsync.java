@@ -151,6 +151,9 @@ public interface KontaktAdministrationAsync {
 	void findAllEigenschaft(AsyncCallback<Vector<Eigenschaft>> callback);
 
 
+	void findEigenschaftauspraegungByKontaktID(int kontaktID, AsyncCallback<Vector<Eigenschaftauspraegung>> callback);
+
+
 
 	
 	/*

@@ -55,6 +55,7 @@ public class MainForm extends VerticalPanel{
 
 	private Button profil = new Button("Mein Profil");
 	private Button newKontakt = new Button("Neuer Kontakt");
+	private Button showKontakt = new Button("Kontakt anzeigen");
 	private HTML html1 = new HTML("<h2>Meine Kontakte</h2>");
 	private HTML html2 = new HTML("<h2>Menü</h2>");
 	private Button updateKontakt = new Button("Kontakt bearbeiten");
@@ -129,6 +130,7 @@ public class MainForm extends VerticalPanel{
 		vpanelNavigator.add(newKontakt);
 		vpanelNavigator.add(kontaktListTree);
 		vpanelNavigator.add(profil);
+		vpanelNavigator.add(showKontakt);
 	    RootPanel.get("Navigator").add(vpanelNavigator);
 		
 	    
@@ -145,9 +147,25 @@ public class MainForm extends VerticalPanel{
 			}
 		});
 	    
+	    showKontakt.addClickHandler(new ClickHandler(){
+
+			@Override
+			public void onClick(ClickEvent event) {
+				KontaktForm kf = new KontaktForm();
+				RootPanel.get("Details").clear();
+				RootPanel.get("Details").add(kf);
+				
+			}
+	    	
+	    	
+	    });
+	    
+	    
+	    
 	    updateKontakt.setVisible(false);
 		hpanelDetails.add(newKontakt);
 		hpanelDetails.add(updateKontakt);
+		hpanelDetails.add(showKontakt);
 		
 		vpanelDetails.add(html1);
 		vpanelDetails.add(hpanelDetails);

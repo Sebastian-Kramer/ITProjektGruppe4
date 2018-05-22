@@ -297,6 +297,16 @@ public interface KontaktAdministration extends RemoteService {
      */
     public Eigenschaftauspraegung getAuspraegungByID(int id) throws IllegalArgumentException;
     
+    
+    /**
+     * Alle Eigenschaftsauspraegungen eines Kontaktes auslesen
+     * 
+     * @param kontaktID
+     * @return Vector mit sämtlichen Eigenschaftsauspraegungen mit der uebergebenen KontaktID
+     * @throws IllegalArgumentException
+     */
+    public Vector<Eigenschaftauspraegung> findEigenschaftauspraegungByKontaktID(int kontaktID ) throws IllegalArgumentException;
+    
     /**
      * Eine Teilhaberschaft anhand der ID auslesen.
      * 

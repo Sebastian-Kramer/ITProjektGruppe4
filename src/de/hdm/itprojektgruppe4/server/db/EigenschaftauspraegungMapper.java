@@ -4,6 +4,7 @@ import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.Vector;
 
 import de.hdm.itprojektgruppe4.shared.bo.Eigenschaftauspraegung;
 import de.hdm.itprojektgruppe4.shared.bo.Kontakt;
@@ -169,6 +170,34 @@ public Eigenschaftauspraegung getAuspraegungByWert(Eigenschaftauspraegung ea){
 }
 return null;
 
+}
+
+public Vector<Eigenschaftauspraegung> findAuspraegungByKontaktID(int kontaktID){
+	
+	Vector<Eigenschaftauspraegung> result = new Vector<Eigenschaftauspraegung>();
+	
+	Connection con = DBConnection.connection();
+	
+	try{
+		Statement stmt = con.createStatement();
+		
+		ResultSet rs = stmt.executeQuery("SELECT ID, wert, status, eigenschaftID, kontaktID from eigenschaftsauspraegung " + "WHERE kontaktID= " + kontaktID +
+				" ORDER by ID");
+		
+		while (rs.next()){
+			Eigenschaftauspraegung ea = new Eigenschaftauspraegung();
+			ea.setID(rs.getInt("ID"));
+			ea.setWert(rs.getString("wert"));
+			ea.setStatus(rs.getInt("status"));
+			ea.setEigenschaftsID(rs.getInt("eigenschaftID"));
+			ea.setKontaktID(rs.getInt("kontaktID"));
+			
+			result.addElement(ea);
+		}
+	}catch (SQLException e){
+		e.printStackTrace();
+	}
+	return result;
 }
 
 

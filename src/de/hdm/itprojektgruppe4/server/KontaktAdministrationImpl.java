@@ -243,7 +243,7 @@ public class KontaktAdministrationImpl extends RemoteServiceServlet
      #########################################################*/
 	
     /*##########################################################
-     * START Methoden f�r Eigenschaft-Objekte
+     * START Methoden fuer Eigenschaft-Objekte
      #########################################################*/
 	
 	@Override
@@ -348,6 +348,14 @@ public class KontaktAdministrationImpl extends RemoteServiceServlet
 			
 			return null;
 		}
+	
+
+	@Override
+	public Vector<Eigenschaftauspraegung> findEigenschaftauspraegungByKontaktID(int kontaktID)
+			throws IllegalArgumentException {
+		
+		return this.eigenschaftauspraegungMapper.findAuspraegungByKontaktID(kontaktID);
+	}
 		
 		/*##########################################################
 	     * ENDE Methoden f�r Eigenschaftauspragung-Objekte
@@ -500,6 +508,9 @@ public class KontaktAdministrationImpl extends RemoteServiceServlet
 		// TODO Auto-generated method stub
 		return this.eigMapper.findAllEigenschaft();
 	}
+
+
+
 
 
 	
