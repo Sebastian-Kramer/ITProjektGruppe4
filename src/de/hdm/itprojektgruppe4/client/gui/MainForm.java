@@ -1,6 +1,7 @@
 package de.hdm.itprojektgruppe4.client.gui;
 
 import java.util.ArrayList;
+
 import java.util.Arrays;
 import java.util.List;
 import java.util.Vector;
@@ -39,6 +40,12 @@ import de.hdm.itprojektgruppe4.shared.KontaktAdministrationAsync;
 import de.hdm.itprojektgruppe4.shared.bo.Kontakt;
 import de.hdm.itprojektgruppe4.shared.bo.Kontaktliste;
 
+/**
+ * 
+ * @author Sebi_
+ *
+ */
+
 public class MainForm extends Composite{
 	
 	private static KontaktAdministrationAsync verwaltung = ClientsideSettings.getKontaktVerwaltung();
@@ -57,17 +64,17 @@ public class MainForm extends Composite{
 	private HTML html2 = new HTML("<h2>Menü</h2>");
 	private Button updateKontakt = new Button("Kontakt bearbeiten");
 	
-	private TextCell tCell = new TextCell();
+	private KontaktCell kontaktCell = new KontaktCell();
 	
-	private CellList<String> cellList = new CellList<String>(tCell);
+	private CellList<Kontakt> cellList = new CellList<Kontakt>(kontaktCell);
 	
-	private List<String> kList = new ArrayList<>();
+	private List<Kontakt> kList = new ArrayList<>();
 	
 	private Tree kontaktListTree = new Tree();
 	
     private TreeItem kontaktListTreeItem = new TreeItem();
     
-    final SingleSelectionModel<String> selectionModel = new SingleSelectionModel<String>();
+    final SingleSelectionModel<Kontakt> selectionModel = new SingleSelectionModel<Kontakt>();
 	final SingleSelectionModel<TreeItem> selectionTreeItem = new SingleSelectionModel<TreeItem>();
 	
 	public MainForm(){	
@@ -84,11 +91,15 @@ public class MainForm extends Composite{
 			
 			@Override	
 			public void onSelectionChange(SelectionChangeEvent event) {
-				String selected = selectionModel.getSelectedObject();
-				if (selected != null) {
-					updateKontakt.setVisible(true);
-					Window.alert("Sie haben folgenden Kontakt ausgewählt: " + selected);
-				}
+				Kontakt selected = selectionModel.getSelectedObject();
+				Window.alert("Sie haben folgenden Kontakt ausgewählt: " + selected.getName());
+				KontaktForm kf = new KontaktForm(selected);
+				RootPanel.get("Details").clear();
+				RootPanel.get("Details").add(kf);
+//				if (selected != null) {
+//					updateKontakt.setVisible(true);
+					
+//				}
 			}
 	    });	
 		
@@ -131,18 +142,18 @@ public class MainForm extends Composite{
 			}
 		});
 	    
-	    showKontakt.addClickHandler(new ClickHandler(){
-
-			@Override
-			public void onClick(ClickEvent event) {
-				KontaktForm kf = new KontaktForm();
-				RootPanel.get("Details").clear();
-				RootPanel.get("Details").add(kf);
-				
-			}
-	    	
-	    	
-	    });
+//	    showKontakt.addClickHandler(new ClickHandler(){
+//
+//			@Override
+//			public void onClick(ClickEvent event) {
+//				KontaktForm kf = new KontaktForm();
+//				RootPanel.get("Details").clear();
+//				RootPanel.get("Details").add(kf);
+//				
+//			}
+//	    	
+//	    	
+//	    });
 	    
 	    
 	    
@@ -175,7 +186,7 @@ public class MainForm extends Composite{
 			Window.alert("Es wurden " + result.size() + " Kontakte geladen");
 			
 			for (Kontakt kon : result){
-				kList.add(kon.getName());
+				kList.add(kon);
 			}	
 			
 			cellList.setRowCount(kList.size(), true);
@@ -223,9 +234,7 @@ public class MainForm extends Composite{
 			AllKontakteForm allKontakts = new AllKontakteForm(konList);
 			RootPanel.get("Details").clear();
 			RootPanel.get("Details").add(allKontakts);
-			
-			
-			
+				
 		}
 		
 	}

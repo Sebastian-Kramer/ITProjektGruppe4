@@ -15,6 +15,9 @@ h2{
 	margin-top: 3px;
 }
 
+h2#Kontakt{
+	text-align: left;
+}
 .sendButton {
   display: block;
   font-size: 16pt;
@@ -113,13 +116,22 @@ div#Navigator{
 	background: rgba(230, 230, 250, 0.14);
     width: 250px;
     height: 500px;
+    margin-top: 5px;
 }
 
 div#Details{
 	border: 1px solid LightSkyBlue;
     background: rgba(230, 230, 250, 0.14);
     width: 100%;
-    height: 500px;
+    height: 450px;
+}
+
+div#Buttonbar{
+	border: 1px solid LightSkyBlue;
+    background: rgba(230, 230, 250, 0.14);
+    width: 100%;
+    height: 50px;
+    margin-top: 5px;
 }
 
 a,
@@ -139,18 +151,27 @@ h1{
   text-transform: uppercase;
 }
 
+tr{
+	height: inherit;
+}
+
 table{
 	width: 100%;
-	height: 90%
+	height: 100%;
+}
+
+td{
+	height: 30px;
 }
 
 td#links{
 	width:200px;
-	height: 90%;
+	height: 100%;
 }
 
 td#rechts{
-	width: 100%
+	width: 100%;
+	height: 500px;
 }
 
 /* ==================================== footer ===========================  */
