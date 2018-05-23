@@ -104,7 +104,20 @@ public class KontaktForm extends VerticalPanel {
 
 		this.add(vpanel);
 		
-		
+		bearbeitenButton.addClickHandler(new ClickHandler(){
+
+				@Override
+				
+					public void onClick(ClickEvent event) {
+						Kontakt testk = new Kontakt();
+						testk.setID(2);
+						UpdateKontaktForm ukf = new UpdateKontaktForm(testk);
+						RootPanel.get("Details").clear();
+						RootPanel.get("Details").add(ukf);
+						bearbeitenButton.setVisible(false);
+				}
+		    	
+		    });
 		
 		
 		
