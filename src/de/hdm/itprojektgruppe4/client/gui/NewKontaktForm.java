@@ -50,19 +50,19 @@ KontaktAdministrationAsync verwaltung = ClientsideSettings.getKontaktVerwaltung(
 	
 	private HorizontalPanel hpanelEig1 = new HorizontalPanel();
 	private TextBox tboxEig1 = new TextBox();
-	private TextBox eigneschaft1 = new TextBox();
+	private TextBox eigenschaft1 = new TextBox();
 	
 	private HorizontalPanel hpanelEig2 = new HorizontalPanel();
 	private TextBox tboxEig2 = new TextBox();
-	private TextBox eigneschaft2 = new TextBox();
+	private TextBox eigenschaft2 = new TextBox();
 	
 	private HorizontalPanel hpanelEig3 = new HorizontalPanel();
 	private TextBox tboxEig3 = new TextBox();
-	private TextBox eigneschaft3 = new TextBox();
+	private TextBox eigenschaft3 = new TextBox();
 	
 	private HorizontalPanel hpanelEig4 = new HorizontalPanel();
 	private TextBox tboxEig4 = new TextBox();
-	private TextBox eigneschaft4 = new TextBox();
+	private TextBox eigenschaft4 = new TextBox();
 	
 	
 	private TextBox eigenschaftEingeben = new TextBox();
@@ -70,6 +70,8 @@ KontaktAdministrationAsync verwaltung = ClientsideSettings.getKontaktVerwaltung(
 	private HorizontalPanel hpanel2 = new HorizontalPanel();
 	
 	private Eigenschaft eig1 = new Eigenschaft();
+	
+	
 	
 	public void onLoad(){
 		
@@ -93,18 +95,31 @@ KontaktAdministrationAsync verwaltung = ClientsideSettings.getKontaktVerwaltung(
 		hpanel.add(name);
 		hpanel.add(tbName);
 		
+		
+		eigenschaft1.setValue("Vorname");
+		eigenschaft1.setReadOnly(true);
+		
+		eigenschaft2.setValue("Nachname");
+		eigenschaft2.setReadOnly(true);
+		
+		eigenschaft3.setValue("Geburtsdatum");
+		eigenschaft3.setReadOnly(true);
+		
+		eigenschaft4.setValue("Adresse");
+		eigenschaft4.setReadOnly(true);
+		
 		// Konzept in Bearbeitung 
 		
-		hpanelEig1.add(eigneschaft1);
+		hpanelEig1.add(eigenschaft1);
 		hpanelEig1.add(tboxEig1);
 		
-		hpanelEig2.add(eigneschaft2);
+		hpanelEig2.add(eigenschaft2);
 		hpanelEig2.add(tboxEig2);
 		
-		hpanelEig3.add(eigneschaft3);
+		hpanelEig3.add(eigenschaft3);
 		hpanelEig3.add(tboxEig3);
 		
-		hpanelEig4.add(eigneschaft4);
+		hpanelEig4.add(eigenschaft4);
 		hpanelEig4.add(tboxEig4);
 		
 		hpanel2.add(eigenschaftEingeben);
@@ -122,9 +137,9 @@ KontaktAdministrationAsync verwaltung = ClientsideSettings.getKontaktVerwaltung(
 		this.add(hpanelEig4);
 		// CellTable auskommentiert (ausgeblendet)
 		
-		//this.add(ctf);
-		this.add(hpanel2);
 		
+		this.add(hpanel2);
+		this.add(ctf);
 		
 		eigenschaftEingeben.setVisible(true);
 		auspraegungEingeben.setVisible(true);
@@ -147,7 +162,7 @@ KontaktAdministrationAsync verwaltung = ClientsideSettings.getKontaktVerwaltung(
 		});
 		
 		// Konzept
-		eigneschaft1.setText(eig1.getBezeichnung());
+		
 		
 		//Nutzer ID muss Hier noch vom Login übergeben werden 
 		
