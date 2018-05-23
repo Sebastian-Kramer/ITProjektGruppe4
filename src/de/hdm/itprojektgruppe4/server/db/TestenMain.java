@@ -77,14 +77,14 @@ public class TestenMain {
 		
 	//	 KontaktMapper.kontaktMapper().insertKontakt(k);
 		 
-		 Kontakt abc = new Kontakt();
-		 
-		 abc.setID(1);
-		 abc.setName("IMPLBOI");
-		abc.setErzeugungsdatum(date);
-		 abc.setModifikationsdatum(date);
-		 abc.setStatus(1);
-		 abc.setNutzerID(1);
+//		 Kontakt abc = new Kontakt();
+//		 
+//		 abc.setID(1);
+//		 abc.setName("IMPLBOI");
+//		abc.setErzeugungsdatum(date);
+//		 abc.setModifikationsdatum(date);
+//		 abc.setStatus(1);
+//		 abc.setNutzerID(1);
 		 
 		// KontaktMapper.kontaktMapper().insertKontakt(abc);
 		 
@@ -94,6 +94,16 @@ public class TestenMain {
 	     KontaktAdministrationImpl kcre = new KontaktAdministrationImpl();
 //		
 		kcre.init();
+		
+		/**
+		Kontakt i = new  Kontakt();
+		
+		i.setID(2);
+		
+		System.out.println(EigenschaftauspraegungMapper.eigenschaftauspraegungMapper().findAuspraegungByKontaktID(2));
+		
+		System.out.println(kcre.findEigenschaftauspraegungByKontaktID(2));
+		*/
 		
 		//System.out.println(kcre.findKontaktByID(5));
 //		

@@ -8,6 +8,7 @@ import java.util.Vector;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 
 import de.hdm.itprojektgruppe4.shared.bo.Eigenschaft;
+import de.hdm.itprojektgruppe4.shared.bo.EigenschaftAuspraegungHybrid;
 import de.hdm.itprojektgruppe4.shared.bo.Eigenschaftauspraegung;
 import de.hdm.itprojektgruppe4.shared.bo.Kontakt;
 import de.hdm.itprojektgruppe4.shared.bo.KontaktKontaktliste;
@@ -149,6 +150,16 @@ public interface KontaktAdministrationAsync {
 
 
 	void findAllEigenschaft(AsyncCallback<Vector<Eigenschaft>> callback);
+
+
+
+	void findEigenschaftauspraegungByKontaktID(int kontaktID, AsyncCallback<Vector<Eigenschaftauspraegung>> callback);
+	
+	void getAuspraegungByKontaktID(int id, AsyncCallback<Vector<Eigenschaftauspraegung>> callback);
+
+
+	void findHybrid(Person pers, AsyncCallback<Vector<EigenschaftAuspraegungHybrid>> callback);
+
 
 
 

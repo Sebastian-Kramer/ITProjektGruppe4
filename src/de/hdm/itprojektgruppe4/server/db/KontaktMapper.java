@@ -13,6 +13,10 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+/**
+ * Mapper Klassen, die <code>Kontakt</code>-Objekte auf einer relationalen Datenbank abbildet.
+ *
+ */
 public class KontaktMapper extends PersonMapper {
 
 	SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
@@ -32,13 +36,9 @@ public class KontaktMapper extends PersonMapper {
 	}	
 	
 	/**
-	 * 
-	 * 
-	 * 
-	 * @param id 
-	 * 	Prim�rschl�ssel der DB
-	 * @return Kontakt-Objekt. welches dem PK entspricht, 
-	 * 			falls nicht vorhanden, dann null
+	 * Suchen eines Kontakts mit vorgegebener ID.
+	 * @param id des Kontakts
+	 * @return der gesuchte Kontakt
 	 */
 	
 	public Kontakt findKontaktByID(int id){
@@ -119,8 +119,7 @@ public class KontaktMapper extends PersonMapper {
 	
 	/**
 	 *  Ausgabe aller Kontakte sortiert nach ID 
-	 * @return Ein Vektor mit allen Kontakt-Objektenn
-	 * 			Im falle keiner Kontakte auf der DB wird eine Exception oder ein leerer Vektor zur�ckgegeben
+	 * @return Ein Vektor mit allen Kontakt-Objekten
 	 */
 	public Vector<Kontakt> findAllKontakte(){
 		Vector<Kontakt> result = new Vector<Kontakt>();
@@ -155,9 +154,10 @@ public class KontaktMapper extends PersonMapper {
 		
 	}
 	
-	/**
-	 * 
-	 * @return
+   /**
+	 * alle Objekte vom Typ Kontakt auslesen
+	 * @return Vektor sämtlicher Kontakt-Objekte
+	 *
 	 */
 	
 	public List<String> findAllKontaktNames(){
@@ -289,7 +289,7 @@ public class KontaktMapper extends PersonMapper {
 	/** 
 	 * einen Kontakt anhand des Objekt-namen finden
 	 * @param k
-	 * @return
+	 * @return k
 	 */
 	
 	public Kontakt findKontaktByName(Kontakt k){
@@ -297,9 +297,11 @@ public class KontaktMapper extends PersonMapper {
 		}
 	
 	/**
-	 * 
-	 * @param k
-	 */
+     * Auslesen von Kontakten anhand der ID des Kontakterstellers.
+     * 
+     * @param nutzerID
+     * @return Vector mit s�mtlichen Kontakten mit der �bergebenen NutzerID
+     */
 
 	public Vector<Kontakt> findKontaktByNutzerID(int nutzerID){
 		Vector<Kontakt> result = new Vector<Kontakt>();
@@ -330,8 +332,7 @@ public class KontaktMapper extends PersonMapper {
 	
 	/**
 	 *  Ausgabe aller Kontakte sortiert nach ID 
-	 * @return Ein Vektor mit allen Kontakt-Objektenn
-	 * 			Im falle keiner Kontakte auf der DB wird eine Exception oder ein leerer Vektor zur�ckgegeben
+	 * @return Ein Vektor mit allen Kontakt-Objekten
 	 */
 	public Vector<Integer> findAllKontakteFromKontaktliste(int i){
 		

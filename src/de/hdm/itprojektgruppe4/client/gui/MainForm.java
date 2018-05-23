@@ -20,6 +20,7 @@ import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.CheckBox;
+import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.FlexTable;
 import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.HorizontalPanel;
@@ -38,7 +39,7 @@ import de.hdm.itprojektgruppe4.shared.KontaktAdministrationAsync;
 import de.hdm.itprojektgruppe4.shared.bo.Kontakt;
 import de.hdm.itprojektgruppe4.shared.bo.Kontaktliste;
 
-public class MainForm extends VerticalPanel{
+public class MainForm extends Composite{
 	
 	private static KontaktAdministrationAsync verwaltung = ClientsideSettings.getKontaktVerwaltung();
 	
@@ -51,6 +52,7 @@ public class MainForm extends VerticalPanel{
 
 	private Button profil = new Button("Mein Profil");
 	private Button newKontakt = new Button("Neuer Kontakt");
+	private Button showKontakt = new Button("Kontakt anzeigen");
 	private HTML html1 = new HTML("<h2>Meine Kontakte</h2>");
 	private HTML html2 = new HTML("<h2>Menü</h2>");
 	private Button updateKontakt = new Button("Kontakt bearbeiten");
@@ -68,8 +70,11 @@ public class MainForm extends VerticalPanel{
     final SingleSelectionModel<String> selectionModel = new SingleSelectionModel<String>();
 	final SingleSelectionModel<TreeItem> selectionTreeItem = new SingleSelectionModel<TreeItem>();
 	
-	public MainForm(){				
+	public MainForm(){	
+		
+		initWidget(this.vpanelDetails);
 
+		
 		
 		verwaltung.findAllKontaktNames(new KontaktCallBack());
 		verwaltung.findKontaktlisteAll(new KontaktlistCallBack());
@@ -110,6 +115,7 @@ public class MainForm extends VerticalPanel{
 		vpanelNavigator.add(html2);
 		vpanelNavigator.add(kontaktListTree);
 		vpanelNavigator.add(profil);
+		vpanelNavigator.add(showKontakt);
 	    RootPanel.get("Navigator").add(vpanelNavigator);
 		
 	    
@@ -125,15 +131,31 @@ public class MainForm extends VerticalPanel{
 			}
 		});
 	    
+	    showKontakt.addClickHandler(new ClickHandler(){
+
+			@Override
+			public void onClick(ClickEvent event) {
+				KontaktForm kf = new KontaktForm();
+				RootPanel.get("Details").clear();
+				RootPanel.get("Details").add(kf);
+				
+			}
+	    	
+	    	
+	    });
+	    
+	    
+	    
 	    updateKontakt.setVisible(false);
 //		hpanelDetails.add(newKontakt);
 		hpanelDetails.add(updateKontakt);
+		hpanelDetails.add(showKontakt);
 		
 		vpanelDetails.add(newKontakt);
 		vpanelDetails.add(html1);
 		vpanelDetails.add(hpanelDetails);
 		vpanelDetails.add(cellList);
-		this.add(vpanelDetails);
+	//	this.add(vpanelDetails);
 		
 		
 	}

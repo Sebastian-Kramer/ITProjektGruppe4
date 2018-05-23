@@ -6,6 +6,10 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import de.hdm.itprojektgruppe4.shared.bo.Teilhaberschaft;
 
+/**
+ * Mapper Klassen, die <code>Teilhaberschaft</code>-Objekte auf einer relationalen Datenbank abbildet.
+ *
+ */
 
 public class TeilhaberschaftMapper {
 	
@@ -25,6 +29,11 @@ public class TeilhaberschaftMapper {
 		return teilhaberschaftMapper;
 	}
 	
+	/**
+	 * Suchen einer Teilhaberschaft mit vorgegebener ID.
+	 * @param id der Teilhaberschaft
+	 * @return die gesuchte Teilhaberschaft
+	 */	
 	
 	public Teilhaberschaft findByID(int id) {
 		
@@ -61,6 +70,14 @@ public class TeilhaberschaftMapper {
 		return null;
 	}
 	
+	/**
+	 *  Einf�gen eines neuen Objktes vom Typ Teilhaberschaft in die DB
+	 *  der PK wird �berpr�ft und korrigiert -> maxID +1 
+	 * @param t 
+	 * die zu speichernde Teilhaberschaft
+	 * @return
+	 * die bereits �bergebene Teilhaberschaft
+	 */
 	
 	  public Teilhaberschaft insertTeilhaberschaft(Teilhaberschaft t) {
 		    Connection con = DBConnection.connection();
@@ -93,7 +110,11 @@ public class TeilhaberschaftMapper {
 		    return t;
 		  }
 	  
-	
+		/**
+		 *  ein Objekt vom Typ Teilhaberschaft wird aus der DB gel�scht 
+		 * @param t
+		 * 	die zu l�schende Person
+		 */
 	  
 	  public void deleteTeilhaberschaft(Teilhaberschaft t) {
 		  
@@ -116,6 +137,12 @@ public class TeilhaberschaftMapper {
 		    
 		  }
 	  
+	  /**
+	     * Eine Teilhaberschaft an einem Kontakt l�schen.
+	     * 
+	     * @param t das zur l�schende Teilhaber-Objekt
+	     */
+	  
 	  public void deleteKontaktFromTeilhaberschaft(Teilhaberschaft t) {
 		  
 		    Connection con = DBConnection.connection();
@@ -137,6 +164,13 @@ public class TeilhaberschaftMapper {
 		    }
 		    
 		  }
+	  
+	  /**
+	     * Eine Teilhaberschaft an einer Kontaktliste l�schen.
+	     * 
+	     * @param t das zu l�schende Teilhaberschaft-Objekt
+	     * @throws IllegalArgumentException
+	     */
 	  
 	  public void deleteKontaktlisteFromTeilhaberschaft(Teilhaberschaft t) {
 		  
@@ -161,6 +195,13 @@ public class TeilhaberschaftMapper {
 		    }
 		    
 		  }
+	  
+	    /**
+	     * Eine Teilhaberschaft an einer Eigenschftausprägung l�schen.
+	     * 
+	     * @param t das zu l�schende Teilhaberschaft-Objekt
+	     * @throws IllegalArgumentException
+	     */
 
 	  public void deleteEigenschaftsauspraegungFromTeilhaberschaft(Teilhaberschaft t) {
 		  

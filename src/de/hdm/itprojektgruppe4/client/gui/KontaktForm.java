@@ -15,11 +15,11 @@ import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.client.ui.VerticalPanel;
+import com.google.gwt.user.cellview.client.CellTable;
 
 import de.hdm.itprojektgruppe4.client.ClientsideSettings;
 import de.hdm.itprojektgruppe4.shared.KontaktAdministrationAsync;
-import de.hdm.itprojektgruppe4.shared.bo.Eigenschaft;
-import de.hdm.itprojektgruppe4.shared.bo.Kontakt;
+import de.hdm.itprojektgruppe4.shared.bo.*;
 
 /**
  * Die Klasse <code>KontaktView</code> dient zur Darstellung des selektierten Kontaktes
@@ -34,33 +34,50 @@ public class KontaktForm extends VerticalPanel {
 	private HorizontalPanel hpanel = new HorizontalPanel();
 	private VerticalPanel vpanel = new VerticalPanel();
 	
-	
-	private Label name = new Label("Name: ");
-	private TextBox tbName = new TextBox();
-	private Button save = new Button("Speichern");
-	private Button cancel = new Button("Cancel");
-	
-	
-	
-	
-	
-	
+	private CellTable<Eigenschaftauspraegung> table = new CellTable<Eigenschaftauspraegung>();
+	private Label eigenschaft = new Label("Eigenschaft");
+	private Label auspraegung = new Label("Auspraegung");
+
 	private Button bearbeitenButton = new Button("Kontakt bearbeiten");
 	
 	public void onLoad(){
 		
 		super.onLoad();
 		
-		
-		 final Grid kontaktGrid = new Grid(5,2);
-		this.add(kontaktGrid);
+		this.add(table);
 		
 		
 		
-		kontaktGrid.setWidget(1, 0, name);
-		kontaktGrid.setWidget(1, 1, tbName);
+//		verwaltung.findEigenschaftauspraegungByKontaktID(2, new AsyncCallback<Vector<Eigenschaftauspraegung>>(){
+//
+//			@Override
+//			public void onFailure(Throwable caught) {
+//				Window.alert("Auspraegungen laden hat nicht geklappt");
+//				
+//			}
+//
+//			@Override
+//			public void onSuccess(Vector<Eigenschaftauspraegung> result) {
+//				Window.alert("LÄUFT");
+//				kontaktGrid.resizeRows(result.size());
+//				for (int row = 1; row < result.size(); ++row){
+//						for(Eigenschaftauspraegung e : result){
+//							kontaktGrid.setWidget(row, 0, tbEig);
+//							kontaktGrid.setWidget(row, 1, tbAuspraegung);
+//							tbAuspraegung.setValue(e.getWert());
+//						
+//						}
+//						
+//					
+//				}
+//				}
+//				
+//			
+//			
+//		});
+//				
+				
 		
-		//Nutzer ID muss Hier noch vom Login übergeben werden 
 		
 		
 		
@@ -69,7 +86,7 @@ public class KontaktForm extends VerticalPanel {
 	
 		}
 	
-	
+
 	
 		
 	
