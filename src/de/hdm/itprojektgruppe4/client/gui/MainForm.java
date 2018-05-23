@@ -44,14 +44,10 @@ public class MainForm extends VerticalPanel{
 	
 	Kontakt kon = new Kontakt();
 	Kontaktliste konList = new Kontaktliste();
-
-	List<Kontakt> list2 = new ArrayList<>();
 	
 	private VerticalPanel vpanelDetails = new VerticalPanel();	
 	private VerticalPanel vpanelNavigator = new VerticalPanel();
 	private HorizontalPanel hpanelDetails = new HorizontalPanel();
-	
-	private HorizontalPanel hpanel = new HorizontalPanel();
 
 	private Button profil = new Button("Mein Profil");
 	private Button newKontakt = new Button("Neuer Kontakt");
@@ -65,8 +61,6 @@ public class MainForm extends VerticalPanel{
 	
 	private List<String> kList = new ArrayList<>();
 	
-	private List<String> kList2 = new ArrayList<>();
-	
 	private Tree kontaktListTree = new Tree();
 	
     private TreeItem kontaktListTreeItem = new TreeItem();
@@ -79,8 +73,6 @@ public class MainForm extends VerticalPanel{
 		
 		verwaltung.findAllKontaktNames(new KontaktCallBack());
 		verwaltung.findKontaktlisteAll(new KontaktlistCallBack());
-
-		
 		
 		cellList.setSelectionModel(selectionModel);
 		selectionModel.addSelectionChangeHandler(new SelectionChangeEvent.Handler() {
@@ -89,7 +81,7 @@ public class MainForm extends VerticalPanel{
 			public void onSelectionChange(SelectionChangeEvent event) {
 				String selected = selectionModel.getSelectedObject();
 				if (selected != null) {
-					  updateKontakt.setVisible(true);
+					updateKontakt.setVisible(true);
 					Window.alert("Sie haben folgenden Kontakt ausgewählt: " + selected);
 				}
 			}
@@ -100,24 +92,14 @@ public class MainForm extends VerticalPanel{
 
 			@Override
 			public void onSelection(SelectionEvent<TreeItem> event) {
-				TreeItem it = event.getSelectedItem();
-				RootPanel.get("Details").clear();
-				verwaltung.findKontaktlisteByBezeichnung(it.getText(), new KontaktlisteKontaktCallBack());
-				verwaltung.findAllKontakteFromKontaktliste(konList.getID(), new AllKontakteFromListCallBack());
-			}
-			
-		});
-		
-		kontaktListTree.addOpenHandler(new OpenHandler<TreeItem>(){
-
-			@Override
-			public void onOpen(OpenEvent<TreeItem> event) {
-				Window.alert(kontaktListTreeItem.getText() + " wird geladen");
 				
+				TreeItem it = event.getSelectedItem();
+				verwaltung.findKontaktlisteByBezeichnung(it.getText(), new KontaktlisteKontaktCallBack());
+							
 			}
 			
 		});
-		
+			
 				
 		kontaktListTreeItem.setText("Meine Kontaktlisten");
 
@@ -126,7 +108,6 @@ public class MainForm extends VerticalPanel{
 		// Navigator Panels & Widgets
 		
 		vpanelNavigator.add(html2);
-		vpanelNavigator.add(newKontakt);
 		vpanelNavigator.add(kontaktListTree);
 		vpanelNavigator.add(profil);
 	    RootPanel.get("Navigator").add(vpanelNavigator);
@@ -138,7 +119,6 @@ public class MainForm extends VerticalPanel{
 			
 			@Override
 			public void onClick(ClickEvent event) {
-				// TODO Auto-generated method stub
 				NewKontaktForm nkf = new NewKontaktForm();
 				RootPanel.get("Details").clear();
 				RootPanel.get("Details").add(nkf);
@@ -146,9 +126,10 @@ public class MainForm extends VerticalPanel{
 		});
 	    
 	    updateKontakt.setVisible(false);
-		hpanelDetails.add(newKontakt);
+//		hpanelDetails.add(newKontakt);
 		hpanelDetails.add(updateKontakt);
 		
+		vpanelDetails.add(newKontakt);
 		vpanelDetails.add(html1);
 		vpanelDetails.add(hpanelDetails);
 		vpanelDetails.add(cellList);
@@ -215,53 +196,17 @@ public class MainForm extends VerticalPanel{
 		public void onSuccess(Kontaktliste result) {
 
 			konList = result;
-			Window.alert(" Bezeichnung der Liste: " + konList.getBez() + " und ID der Liste: " +  konList.getID());
+			Window.alert(" Bezeichnung der Liste: " + konList.getBez() + "\n"  + " und ID der Liste: " +  konList.getID());
+			
+			AllKontakteForm allKontakts = new AllKontakteForm(konList);
+			RootPanel.get("Details").clear();
+			RootPanel.get("Details").add(allKontakts);
 			
 			
 			
 		}
 		
 	}
-
-	class AllKontakteFromListCallBack implements AsyncCallback<Vector<Integer>>{
-
-		@Override
-		public void onFailure(Throwable caught) {
-			Window.alert("Beim Laden der Kontakte ist ein Fehler aufgetreten");
-			
-		}
-
-		@Override
-		public void onSuccess(Vector<Integer> result) {
-			for (int i : result){
-				verwaltung.findKontaktByID(i, new AsyncCallback<Kontakt>(){
-
-					@Override
-					public void onFailure(Throwable caught) {
-						// TODO Auto-generated method stub
-						
-					}
-
-					@Override
-					public void onSuccess(Kontakt result) {
-						Window.alert(result.getName());
-						kList2.add(result.getName());	
-						
-					}
-					
-				});
-
-			}
-			cellList.setRowCount(kList2.size(), true);
-			cellList.setRowData(0, kList2);
-			vpanelDetails.add(html1);
-			vpanelDetails.add(cellList);
-			RootPanel.get("Details").add(vpanelDetails);
-			
-		}
-		
-	}
-	
 	
 
 }
