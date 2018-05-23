@@ -60,7 +60,7 @@ KontaktAdministrationAsync verwaltung = ClientsideSettings.getKontaktVerwaltung(
 		super.onLoad();
 		
 		
-		html2.setVisible(false);
+			html2.setVisible(true);
 		 final Kontakt k = new Kontakt();
 		 //k.setID(2);
 		 
