@@ -14,6 +14,7 @@ import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.Grid;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Label;
+import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.client.ui.VerticalPanel;
 
@@ -29,7 +30,7 @@ KontaktAdministrationAsync verwaltung = ClientsideSettings.getKontaktVerwaltung(
 	private HorizontalPanel hpanel = new HorizontalPanel();
 	private VerticalPanel vpanel = new VerticalPanel();
 	
-
+	
 	private Label name = new Label("Name: ");
 	private TextBox tbName = new TextBox();
 	private Button save = new Button("Speichern");
@@ -56,7 +57,7 @@ KontaktAdministrationAsync verwaltung = ClientsideSettings.getKontaktVerwaltung(
 		
 		final Grid kontaktGrid = new Grid(5,3);
 	
-		this.add(ctAll);
+		this.add(kontaktGrid);
 		
 		TextColumn<Eigenschaft> eigColumn = new TextColumn<Eigenschaft>() {
 
@@ -131,6 +132,23 @@ KontaktAdministrationAsync verwaltung = ClientsideSettings.getKontaktVerwaltung(
 						Window.alert("Funktioniert");
 					}
 				});
+			}
+		});
+		
+		cancel.addClickHandler(new ClickHandler() {
+			
+			@Override
+			public void onClick(ClickEvent event) {
+				Kontakt k = new Kontakt();
+				k.setID(2);
+				
+				CellTableForm ctf = new CellTableForm(k);
+				vpanel.add(kontaktGrid);
+				vpanel.add(ctf);
+				
+				RootPanel.get("Details").clear();
+				RootPanel.get("Details").add(vpanel);
+				
 			}
 		});
 		
