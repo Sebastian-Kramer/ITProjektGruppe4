@@ -31,11 +31,11 @@ KontaktAdministrationAsync verwaltung = ClientsideSettings.getKontaktVerwaltung(
 	
 	private HorizontalPanel hpanel = new HorizontalPanel();
 	private VerticalPanel vpanel = new VerticalPanel();
-	
+	private HorizontalPanel hpanelButtonBar = new HorizontalPanel();
 	
 	private Label name = new Label("Name: ");
 	private TextBox tbName = new TextBox();
-	private Button save1 = new Button("Kontakt speichern");
+	private Button save1 = new Button("Speichern");
 	private Button save2 = new Button("Eigenschaft speichern");
 	private Button cancel = new Button("Cancel");
 	private HTML html1 = new HTML("Bitte geben Sie hier die <b> Namen </b> zu ihrem neuen "
@@ -47,50 +47,107 @@ KontaktAdministrationAsync verwaltung = ClientsideSettings.getKontaktVerwaltung(
 	        + "<span style='font-family:fixed'></span>", true);
 	
 	
-	private Label msg = new Label("Ein neuen Kontakt anlegen");
-	private Label auspraegung = new Label("");
-
+	
+	private HorizontalPanel hpanelEig1 = new HorizontalPanel();
+	private TextBox tboxEig1 = new TextBox();
+	private TextBox eigneschaft1 = new TextBox();
+	
+	private HorizontalPanel hpanelEig2 = new HorizontalPanel();
+	private TextBox tboxEig2 = new TextBox();
+	private TextBox eigneschaft2 = new TextBox();
+	
+	private HorizontalPanel hpanelEig3 = new HorizontalPanel();
+	private TextBox tboxEig3 = new TextBox();
+	private TextBox eigneschaft3 = new TextBox();
+	
+	private HorizontalPanel hpanelEig4 = new HorizontalPanel();
+	private TextBox tboxEig4 = new TextBox();
+	private TextBox eigneschaft4 = new TextBox();
+	
 	
 	private TextBox eigenschaftEingeben = new TextBox();
 	private TextBox auspraegungEingeben = new TextBox();
 	private HorizontalPanel hpanel2 = new HorizontalPanel();
+	
+	private Eigenschaft eig1 = new Eigenschaft();
 	
 	public void onLoad(){
 		
 		super.onLoad();
 		
 		
-			html2.setVisible(true);
-		 final Kontakt k = new Kontakt();
-		 //k.setID(2);
+		html2.setVisible(true);
+		final Kontakt k = new Kontakt();
+	
 		 
-		 final Eigenschaft e = new Eigenschaft();
+		final Eigenschaft e = new Eigenschaft();
 		 
-		 final CellTableForm ctf = new CellTableForm(k);
+		final CellTableForm ctf = new CellTableForm(k);
 		 
+		hpanelButtonBar.add(save1);
+		hpanelButtonBar.add(cancel);
 		
-		 	hpanel.add(name);
-			hpanel.add(tbName);
-			hpanel.add(save1);
-			hpanel.add(cancel);
+		RootPanel.get("Buttonbar").clear();
+		RootPanel.get("Buttonbar").add(hpanelButtonBar);
 		
-			hpanel2.add(eigenschaftEingeben);
-			hpanel2.add(auspraegungEingeben);
-			hpanel2.add(save2);
+		hpanel.add(name);
+		hpanel.add(tbName);
+		
+		// Konzept in Bearbeitung 
+		
+		hpanelEig1.add(eigneschaft1);
+		hpanelEig1.add(tboxEig1);
+		
+		hpanelEig2.add(eigneschaft2);
+		hpanelEig2.add(tboxEig2);
+		
+		hpanelEig3.add(eigneschaft3);
+		hpanelEig3.add(tboxEig3);
+		
+		hpanelEig4.add(eigneschaft4);
+		hpanelEig4.add(tboxEig4);
+		
+		hpanel2.add(eigenschaftEingeben);
+		hpanel2.add(auspraegungEingeben);
+	
+		
+		//hpanel2.add(save2);
 			
 		this.add(html1);
 		this.add(hpanel);
 		this.add(html2);
-		this.add(ctf);
+		this.add(hpanelEig1);
+		this.add(hpanelEig2);
+		this.add(hpanelEig3);
+		this.add(hpanelEig4);
+		// CellTable auskommentiert (ausgeblendet)
+		
+		//this.add(ctf);
 		this.add(hpanel2);
 		
 		
 		eigenschaftEingeben.setVisible(true);
 		auspraegungEingeben.setVisible(true);
 		
+		verwaltung.getEigenschaftByID(4, new AsyncCallback<Eigenschaft>() {
+
+			@Override
+			public void onFailure(Throwable caught) {
+				// TODO Auto-generated method stub
+				
+			}
+
+			@Override
+			public void onSuccess(Eigenschaft result) {
+				// TODO Auto-generated method stub
+				eig1.setID(result.getID());
+				eig1.setBezeichnung(result.getBezeichnung());
+				Window.alert("OLA" + result.getBezeichnung());
+			}
+		});
 		
-		
-		
+		// Konzept
+		eigneschaft1.setText(eig1.getBezeichnung());
 		
 		//Nutzer ID muss Hier noch vom Login übergeben werden 
 		
