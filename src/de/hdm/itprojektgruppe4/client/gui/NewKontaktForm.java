@@ -12,6 +12,7 @@ import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.Grid;
+import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.RootPanel;
@@ -21,6 +22,7 @@ import com.google.gwt.user.client.ui.VerticalPanel;
 import de.hdm.itprojektgruppe4.client.ClientsideSettings;
 import de.hdm.itprojektgruppe4.shared.KontaktAdministrationAsync;
 import de.hdm.itprojektgruppe4.shared.bo.Eigenschaft;
+import de.hdm.itprojektgruppe4.shared.bo.Eigenschaftauspraegung;
 import de.hdm.itprojektgruppe4.shared.bo.Kontakt;
 
 public class NewKontaktForm extends VerticalPanel {
@@ -33,90 +35,73 @@ KontaktAdministrationAsync verwaltung = ClientsideSettings.getKontaktVerwaltung(
 	
 	private Label name = new Label("Name: ");
 	private TextBox tbName = new TextBox();
-	private Button save = new Button("Speichern");
+	private Button save1 = new Button("Kontakt speichern");
+	private Button save2 = new Button("Eigenschaft speichern");
 	private Button cancel = new Button("Cancel");
-	private TextBox tb = new TextBox();
-	private TextBox austb = new TextBox();
+	private HTML html1 = new HTML("Bitte geben Sie hier die <b> Namen </b> zu ihrem neuen "
+			+ " <b>Kontakt</b>  an."		
+	        + "<span style='font-family:fixed'></span>", true);
 	
+	private HTML html2 = new HTML("Bitte geben Sie hier die <b> Eigenschaften </b> und die dazugehörigen"
+			+ " <b>Auspärgungen</b>  zu Ihrem Kontakt an."		
+	        + "<span style='font-family:fixed'></span>", true);
 	
 	
 	private Label msg = new Label("Ein neuen Kontakt anlegen");
 	private Label auspraegung = new Label("");
 
 	
-	
-	
- 	
-	 
+	private TextBox eigenschaftEingeben = new TextBox();
+	private TextBox auspraegungEingeben = new TextBox();
+	private HorizontalPanel hpanel2 = new HorizontalPanel();
 	
 	public void onLoad(){
 		
 		super.onLoad();
 		
-		 CellTable ctAll = new CellTable();
 		
-		final Grid kontaktGrid = new Grid(5,3);
-	
-		this.add(kontaktGrid);
+		html2.setVisible(false);
+		 final Kontakt k = new Kontakt();
+		 //k.setID(2);
+		 
+		 final Eigenschaft e = new Eigenschaft();
+		 
+		 final CellTableForm ctf = new CellTableForm(k);
+		 
 		
-		TextColumn<Eigenschaft> eigColumn = new TextColumn<Eigenschaft>() {
-
-			@Override
-			public String getValue(Eigenschaft object) {
-				// TODO Auto-generated method stub
-				return null;
-			}
+		 	hpanel.add(name);
+			hpanel.add(tbName);
+			hpanel.add(save1);
+			hpanel.add(cancel);
+		
+			hpanel2.add(eigenschaftEingeben);
+			hpanel2.add(auspraegungEingeben);
+			hpanel2.add(save2);
 			
-			
-		};
+		this.add(html1);
+		this.add(hpanel);
+		this.add(html2);
+		this.add(ctf);
+		this.add(hpanel2);
 		
-		ctAll.addColumn(eigColumn, "Eigenschaft");
 		
-		kontaktGrid.setWidget(0, 0, msg);
+		eigenschaftEingeben.setVisible(true);
+		auspraegungEingeben.setVisible(true);
 		
-		kontaktGrid.setWidget(0, 1, save);
-		kontaktGrid.setWidget(0, 2, cancel);
-		kontaktGrid.setWidget(1, 0, name);
-		kontaktGrid.setWidget(1, 1, tbName);
+		
 		
 		
 		
 		//Nutzer ID muss Hier noch vom Login übergeben werden 
 		
-		verwaltung.findAllEigenschaft(new AsyncCallback<Vector<Eigenschaft>>() {
-
-			@Override
-			public void onFailure(Throwable caught) {
-				// TODO Auto-generated method stub
-				
-			}
-
-			@Override
-			public void onSuccess(Vector<Eigenschaft> result) {
-				// TODO Auto-generated method stub
-				Window.alert("Alle Eigenschaften müssten gedfudnen sein  " + result.size());
-				
-					
-				
-					
-				for(Eigenschaft eig : result){
-
-					tb.setValue(eig.getBezeichnung());
-					austb.setValue("Ausprägung eingeben");
-					kontaktGrid.setWidget(2, 0, tb);
-					kontaktGrid.setWidget(2, 1, austb);
-					
-				//	jvzzp68tj6111
-				
-				}
-			}
-		});
 		
-		save.addClickHandler(new ClickHandler() {
+		
+		save1.addClickHandler(new ClickHandler() {
 			
 			@Override
 			public void onClick(ClickEvent event) {
 				// TODO Auto-generated method stub
+				
 				verwaltung.insertKontakt(tbName.getValue(), new Date(), new Date(), 0, 1, new AsyncCallback<Kontakt>() {
 
 					@Override
@@ -129,28 +114,124 @@ KontaktAdministrationAsync verwaltung = ClientsideSettings.getKontaktVerwaltung(
 					public void onSuccess(Kontakt result) {
 						// TODO Auto-generated method stub
 						
-						Window.alert("Funktioniert");
+						Window.alert("Funktioniert" + result.getID() + result.getName());
+						html2.setVisible(true);
+						eigenschaftEingeben.setVisible(true);
+						auspraegungEingeben.setVisible(true);
+						Kontakt kontaktNeu = new Kontakt();
+						kontaktNeu.setID(result.getID());
+						k.setID(kontaktNeu.getID());
+						
+						
+						
+						verwaltung.insertEigenschaft(eigenschaftEingeben.getValue(), 0, new AsyncCallback<Eigenschaft>() {
+
+							@Override
+							public void onFailure(Throwable caught) {
+								// TODO Auto-generated method stub
+								Window.alert("Funktioniert nicht");
+							}
+
+							@Override
+							public void onSuccess(Eigenschaft result) {
+								// TODO Auto-generated method stub
+								Window.alert("Funktioniert ");
+								Eigenschaft eig = new Eigenschaft();
+								eig.setID(result.getID());
+								e.setID(eig.getID());
+								
+								
+								verwaltung.insertAuspraegung(auspraegungEingeben.getValue(), 0, e.getID(), k.getID(),
+										new AsyncCallback<Eigenschaftauspraegung>() {
+
+									@Override
+									public void onFailure(Throwable caught) {
+										// TODO Auto-generated method stub
+										Window.alert("Funktioniert nicht Ausprägung");
+									}
+
+									@Override
+									public void onSuccess(Eigenschaftauspraegung result) {
+										// TODO Auto-generated method stub
+										Window.alert("Funktioniert  Ausprägung" + result.getID() + result.getEigenschaftsID() + 
+												result.getKontaktID() + result.getWert());
+									}
+								});
+							}
+						});
+						
+						
 					}
 				});
 			}
 		});
 		
+		
+	// Im Falle mit 2 Buttons ...	
+//		save2.addClickHandler(new ClickHandler() {
+//			
+//			@Override
+//			public void onClick(ClickEvent event) {
+//				// TODO Auto-generated method stub
+//				
+//				
+//				
+//				verwaltung.insertEigenschaft(eigenschaftEingeben.getValue(), 0, new AsyncCallback<Eigenschaft>() {
+//
+//					@Override
+//					public void onFailure(Throwable caught) {
+//						// TODO Auto-generated method stub
+//						Window.alert("Funktioniert nicht");
+//					}
+//
+//					@Override
+//					public void onSuccess(Eigenschaft result) {
+//						// TODO Auto-generated method stub
+//						Window.alert("Funktioniert ");
+//						Eigenschaft eig = new Eigenschaft();
+//						eig.setID(result.getID());
+//						e.setID(eig.getID());
+//						
+//						
+//						verwaltung.insertAuspraegung(auspraegungEingeben.getValue(), 0, e.getID(), k.getID(),
+//								new AsyncCallback<Eigenschaftauspraegung>() {
+//
+//							@Override
+//							public void onFailure(Throwable caught) {
+//								// TODO Auto-generated method stub
+//								Window.alert("Funktioniert nicht Ausprägung");
+//							}
+//
+//							@Override
+//							public void onSuccess(Eigenschaftauspraegung result) {
+//								// TODO Auto-generated method stub
+//								Window.alert("Funktioniert  Ausprägung" + result.getID() + result.getEigenschaftsID() + 
+//										result.getKontaktID() + result.getWert());
+//							}
+//						});
+//					}
+//				});
+//				
+//				
+//				
+//			}
+//		});
+			
+		
 		cancel.addClickHandler(new ClickHandler() {
 			
 			@Override
 			public void onClick(ClickEvent event) {
-				Kontakt k = new Kontakt();
-				k.setID(2);
 				
-				CellTableForm ctf = new CellTableForm(k);
-				vpanel.add(kontaktGrid);
-				vpanel.add(ctf);
-				
+
+				MainForm getBack = new MainForm();
 				RootPanel.get("Details").clear();
-				RootPanel.get("Details").add(vpanel);
+				RootPanel.get("Details").add(getBack);
 				
 			}
 		});
+		
+		
 		
 	
 		}
