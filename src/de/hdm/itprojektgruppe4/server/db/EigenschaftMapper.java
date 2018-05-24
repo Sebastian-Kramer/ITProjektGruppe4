@@ -187,4 +187,51 @@ public class EigenschaftMapper {
 			
 	}
 	
+	public Vector<Eigenschaft> findGivenEigenschaft(){
+		
+Vector<Eigenschaft> result = new Vector<Eigenschaft>();
+		
+		Connection con = DBConnection.connection();
+		
+		try{
+			Statement stmt = con.createStatement();
+			
+			ResultSet rs = stmt.executeQuery(
+			
+					 "SELECT ID, bez, status FROM eigenschaft WHERE ID= ('1')  " +
+		                "UNION " +
+		               "SELECT ID, bez, status FROM eigenschaft WHERE ID= ('2')  " +
+		                "UNION " +
+		                
+					 "SELECT ID, bez, status FROM eigenschaft WHERE ID= ('3')  " +
+					 "UNION " +
+		                
+		              "SELECT ID, bez, status FROM eigenschaft  WHERE ID= ('4')");
+
+			
+//			SELECT * FROM `eigenschaft` WHERE ID = 1  UNION SELECT * FROM `eigenschaft` WHERE ID = 2 
+//					
+//					
+//					UNION SELECT * FROM `eigenschaft` WHERE ID = 3 UNION
+//					SELECT * FROM `eigenschaft` WHERE ID = 4 
+//			
+//			"SELECT ID, bez FROM eigenschaft " + " WHERE ID= " + id );
+			
+			while (rs.next()){
+				Eigenschaft e = new Eigenschaft();
+				e.setID(rs.getInt("ID"));
+				e.setBezeichnung(rs.getString("bez"));
+				e.setStatus(rs.getInt("status"));
+				
+				result.addElement(e);
+			}			
+			}catch (SQLException e){
+				e.printStackTrace();
+			}
+			
+			return result;
+		
+	}
+	
+	
 }

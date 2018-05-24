@@ -476,8 +476,10 @@ public class KontaktAdministrationImpl extends RemoteServiceServlet
 		e.setKontaktID(kontaktID);
 		e.setEigenschaftsID(eigenschaftsID);
 		
-		return null;
+		return this.eigenschaftauspraegungMapper.insertAuspraegung(e);
 	}
+	
+	
 	
 	
 	  /**
