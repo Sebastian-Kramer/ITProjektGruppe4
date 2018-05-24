@@ -37,6 +37,8 @@ public class KontaktForm extends VerticalPanel {
 	KontaktAdministrationAsync verwaltung = ClientsideSettings.getKontaktVerwaltung();
 	
 	Kontakt k = new Kontakt();
+	Kontakt kon = null;
+	
 	
 	private HorizontalPanel hpanel = new HorizontalPanel();
 	
@@ -193,5 +195,9 @@ public class KontaktForm extends VerticalPanel {
 		}
 		
 	}
+	void setSelected(Kontakt k){
+		kon = k;
+	}
+
 		
 }

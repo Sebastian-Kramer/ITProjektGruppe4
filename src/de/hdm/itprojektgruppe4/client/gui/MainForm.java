@@ -52,6 +52,8 @@ public class MainForm extends Composite{
 	
 	Kontakt kon = new Kontakt();
 	Kontaktliste konList = new Kontaktliste();
+	Kontaktliste kontlist = null;
+	
 	
 	private VerticalPanel vpanelDetails = new VerticalPanel();	
 	private VerticalPanel vpanelNavigator = new VerticalPanel();
@@ -242,6 +244,9 @@ public class MainForm extends Composite{
 				
 		}
 		
+	}
+	void setSelected(Kontaktliste kl){
+		kontlist = kl;
 	}
 	
 
