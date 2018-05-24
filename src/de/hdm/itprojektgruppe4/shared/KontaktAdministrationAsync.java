@@ -161,6 +161,12 @@ public interface KontaktAdministrationAsync {
 	void findHybrid(Person pers, AsyncCallback<Vector<EigenschaftAuspraegungHybrid>> callback);
 
 
+	void getAllKontakteFromKontaktliste(int kontaktlisteID, AsyncCallback<Vector<Kontakt>> callback);
+
+
+	void getAllKontakteFromKontaktliste(Kontaktliste kl, AsyncCallback<Vector<Kontakt>> callback);
+
+
 
 
 	

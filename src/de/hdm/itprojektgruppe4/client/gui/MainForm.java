@@ -44,7 +44,9 @@ public class MainForm extends Composite{
 	private static KontaktAdministrationAsync verwaltung = ClientsideSettings.getKontaktVerwaltung();
 	
 	Kontakt kon = new Kontakt();
-	Kontaktliste konList = new Kontaktliste();
+	Kontaktliste konList = null;
+	
+	KontaktlisteKontaktTreeViewModel kktvm = null;
 
 	List<Kontakt> list2 = new ArrayList<>();
 	
@@ -284,6 +286,13 @@ public class MainForm extends Composite{
 		
 	}
 	
+	void setSelected(Kontaktliste kl) {
+		if (kl != null){
+			konList = kl;
+		} else {
+			
+		}
+	}
 	
 
 }

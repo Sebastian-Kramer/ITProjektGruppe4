@@ -418,10 +418,22 @@ public interface KontaktAdministration extends RemoteService {
     
     public Vector<Integer> findAllKontakteFromKontaktliste(int i) throws IllegalArgumentException;
     
+   /**
+    * 
+    * @param kontaktlisteID die ID der Kontaktliste
+    * @return Vector mit sämtlichen Kontakten einer Kontaktliste
+    * @throws IllegalArgumentException
+    */
+    public Vector<Kontakt> getAllKontakteFromKontaktliste(int kontaktlisteID) throws IllegalArgumentException;
 
     
-    
-    
+    /**
+     * 
+     * @param kl das KontaktlistenObjekt
+     * @return Vector mit sämtlichen Kontakten einer Kontaktliste
+     * @throws IllegalArgumentException
+     */
+    public Vector<Kontakt> getAllKontakteFromKontaktliste(Kontaktliste kl) throws IllegalArgumentException;
     
     
     

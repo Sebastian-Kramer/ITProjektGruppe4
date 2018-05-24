@@ -226,6 +226,19 @@ public class KontaktAdministrationImpl extends RemoteServiceServlet
 	public Vector<Integer> findAllKontakteFromKontaktliste(int i) throws IllegalArgumentException {
 		return konMapper.findAllKontakteFromKontaktliste(i);
 	}
+	
+	 /**
+	    * 
+	    * @param kontaktlisteID
+	    * @return Vector mit sämtlichen Kontakten einer Kontaktliste
+	    * @throws IllegalArgumentException
+	    */
+	@Override
+	public Vector<Kontakt> getAllKontakteFromKontaktliste(int kontaktlisteID) throws IllegalArgumentException {
+		
+		return konMapper.getAllKontakteFromKontaktliste(kontaktlisteID);
+	}
+
 
 	
     /*##########################################################
@@ -821,6 +834,17 @@ public class KontaktAdministrationImpl extends RemoteServiceServlet
 		}
 		return hybrid;
 	}
+
+
+
+	@Override
+	public Vector<Kontakt> getAllKontakteFromKontaktliste(Kontaktliste kl) throws IllegalArgumentException {
+		// TODO Auto-generated method stub
+		return this.konMapper.getAllKontakteFromKontaktliste(kl);
+	}
+
+
+
 
 
 

@@ -364,4 +364,42 @@ public class KontaktMapper extends PersonMapper {
 	}
 	
 
+public Vector<Kontakt> getAllKontakteFromKontaktliste(int kontaktlisteID){
+	
+	Vector<Kontakt> result = new Vector<Kontakt>();
+	
+	Connection con = DBConnection.connection();
+	
+	try{
+		Statement stmt = con.createStatement();
+		
+		ResultSet rs = stmt.executeQuery("SELECT kontakt.name, kontakt.erzeugungsdatum, kontakt.modifikationsdatum, kontakt.status, kontaktliste.ID "
+				+ "FROM kontaktliste"
+				+ " LEFT JOIN kontaktkontaktliste"
+				+ " ON kontaktkontaktliste.kontaktlisteID = kontaktliste.ID "
+				+ "LEFT JOIN kontakt"
+				+ " ON kontaktkontaktliste.kontaktID = kontakt.ID "
+				+ "WHERE kontaktliste.ID = " + kontaktlisteID );
+		
+		while (rs.next()){
+			Kontakt k = new Kontakt();
+			k.setID(rs.getInt("ID"));
+			k.setName(rs.getString("name"));
+			k.setErzeugungsdatum(rs.getDate("erzeugungsdatum"));
+			k.setModifikationsdatum(rs.getDate("modifikationsdatum"));
+			k.setStatus(rs.getInt("status"));
+			result.addElement(k);
+		}
+	}
+	catch(SQLException e){
+		e.printStackTrace();
+	}
+	return result;
+}
+
+public Vector<Kontakt> getAllKontakteFromKontaktliste(Kontaktliste kl){
+	return this.getAllKontakteFromKontaktliste(kl.getID());
+}
+
+
 }

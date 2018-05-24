@@ -34,6 +34,8 @@ public class KontaktForm extends VerticalPanel {
 	private HorizontalPanel hpanel = new HorizontalPanel();
 	private VerticalPanel vpanel = new VerticalPanel();
 	
+	private Kontakt kontakt = null;
+	
 	private CellTable<Eigenschaftauspraegung> table = new CellTable<Eigenschaftauspraegung>();
 	private Label eigenschaft = new Label("Eigenschaft");
 	private Label auspraegung = new Label("Auspraegung");
@@ -76,6 +78,11 @@ public class KontaktForm extends VerticalPanel {
 //			
 //		});
 //				
+	}
+		
+	void setSelected(Kontakt k){
+		kontakt = k;
+	}
 				
 		
 		
@@ -93,4 +100,4 @@ public class KontaktForm extends VerticalPanel {
 	
 	
 	
-}
+
