@@ -34,11 +34,6 @@ public class CellTableForm extends CellTable<EigenschaftAuspraegungHybrid> {
 	
 	public CellTableForm(final Kontakt k){
 		
-	
-		
-		final CellTable ct = new CellTable();
-		
-		
 		Column<EigenschaftAuspraegungHybrid, String> bezEigenschaft = new Column<EigenschaftAuspraegungHybrid, String>(
 				new ClickableTextCell()){
 		
@@ -73,38 +68,8 @@ public class CellTableForm extends CellTable<EigenschaftAuspraegungHybrid> {
 
 	this.addColumn(bezEigenschaft, "Eigenschaft");
 	this.addColumn(wertAuspraegung, "Auspraegung");
-	
-	
-	
-
-
-		Column<EigenschaftAuspraegungHybrid, String> deleteBtn = new Column<EigenschaftAuspraegungHybrid, String>(
-				new ButtonCell()) {
-			
-
-			@Override
-			public String getValue(EigenschaftAuspraegungHybrid x) {
-				// TODO Auto-generated method stub
-				return "x";
-			}
-			};
-				
-			this.addColumn(deleteBtn, "");
-			
-			deleteBtn.setFieldUpdater(new FieldUpdater<EigenschaftAuspraegungHybrid, String>() {
-				
-				@Override
-				public void update(int index, EigenschaftAuspraegungHybrid object, String value) {
-					model.getList().remove(object);
-				    model.refresh();
-				    ct.redraw();
-					
-				}
-			});
-			
-			
+		
 	}
-
 
 
 class AllAuspraegungToEigenschaftCallback implements AsyncCallback<Vector<EigenschaftAuspraegungHybrid>>{
