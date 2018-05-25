@@ -16,6 +16,7 @@ import com.google.gwt.user.cellview.client.DataGrid;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.view.client.ListDataProvider;
 import com.google.gwt.view.client.NoSelectionModel;
+import com.google.gwt.view.client.SingleSelectionModel;
 
 import de.hdm.itprojektgruppe4.client.ClientsideSettings;
 import de.hdm.itprojektgruppe4.shared.KontaktAdministrationAsync;
@@ -37,10 +38,14 @@ public class CellTableForm extends CellTable<EigenschaftAuspraegungHybrid> {
 	final ListDataProvider<EigenschaftAuspraegungHybrid> model = new ListDataProvider<EigenschaftAuspraegungHybrid>(
 			getUserList());
 	
-	NoSelectionModel<EigenschaftAuspraegungHybrid> sm = new NoSelectionModel<EigenschaftAuspraegungHybrid>();
+	private SingleSelectionModel<EigenschaftAuspraegungHybrid> sm = new SingleSelectionModel<EigenschaftAuspraegungHybrid>();
 	
 	
 	
+	public SingleSelectionModel<EigenschaftAuspraegungHybrid> getSm() {
+		return sm;
+	}
+
 	public CellTableForm(final Kontakt k){
 		
 		
