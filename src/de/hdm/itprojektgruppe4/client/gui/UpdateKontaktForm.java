@@ -23,6 +23,8 @@ import com.google.gwt.user.client.ui.VerticalPanel;
 import de.hdm.itprojektgruppe4.client.ClientsideSettings;
 import de.hdm.itprojektgruppe4.shared.KontaktAdministrationAsync;
 import de.hdm.itprojektgruppe4.shared.bo.Eigenschaft;
+import de.hdm.itprojektgruppe4.shared.bo.EigenschaftAuspraegungHybrid;
+import de.hdm.itprojektgruppe4.shared.bo.Eigenschaftauspraegung;
 import de.hdm.itprojektgruppe4.shared.bo.Kontakt;
 
 
@@ -39,21 +41,30 @@ private HorizontalPanel hpanelDetails = new HorizontalPanel();
 	
 	private Label lbl_KontaktName = new Label("Kontaktname: ");
 	private TextBox txt_KontaktName = new TextBox();
+	private TextBox txt_Eigenschaft = new TextBox();
+	private TextBox txt_Auspraegung = new TextBox();
 	private Button save = new Button("Speichern");
 	private Button cancel = new Button("Cancel");
 	private Button addRow = new Button("Add");
-	private Button deleteRow = new Button("Delete last row");
-	
+	private Button saveRow = new Button("Save Changes");
+		
+	private EigenschaftAuspraegungHybrid ea = new EigenschaftAuspraegungHybrid();
+		
+	private Eigenschaft eig1 = new Eigenschaft();
+		
 	public UpdateKontaktForm(Kontakt kon) {
 		
 		
 		
 		this.kon = kon;
-	}
-	
+	}	
+		
      public void onLoad(){
  		
  		super.onLoad();
+ 		
+ 		
+ 		
      Window.alert("die id ist: " + kon.getID() + "name: " + kon.getName());
  		verwaltung.findKontaktByID(kon.getID(), new AsyncCallback<Kontakt>(){
 
@@ -67,7 +78,6 @@ private HorizontalPanel hpanelDetails = new HorizontalPanel();
 
 			@Override
 			public void onSuccess(Kontakt result) {
-				Window.alert("funktioniert");
 				txt_KontaktName.setText(result.getName());
 			
 				
@@ -75,7 +85,7 @@ private HorizontalPanel hpanelDetails = new HorizontalPanel();
  			
  		});
  		
- 		CellTableForm ctf = new CellTableForm(kon);
+ 		final CellTableForm ctf = new CellTableForm(kon);
  		
  		
 
@@ -96,16 +106,90 @@ private HorizontalPanel hpanelDetails = new HorizontalPanel();
  		vpanelDetails.add(hpanelDetails);
  		vpanelDetails.add(ctf);
  		vpanelDetails.add(addRow);
+ 		vpanelDetails.add(saveRow);
+ 		vpanelDetails.add(txt_Auspraegung);
+ 		vpanelDetails.add(txt_Eigenschaft);
  		
 
 		this.add(vpanelDetails);
+ 		
+ 		ea.setAuspraegung(txt_Auspraegung.getText());
+ 		ea.setEigenschaft(txt_Eigenschaft.getText());
+ 		
+ 		
+ 		final Eigenschaftauspraegung eigaus = new Eigenschaftauspraegung();
+ 		eigaus.setEigenschaftsID(ctf.sm.getLastSelectedObject().getEigenschaftID());
+ 		eigaus.setWert(ctf.sm.getLastSelectedObject().getAuspraegung());
+// 		ctf.sm.getLastSelectedObject().getAuspraegung();
+ 		
+ 		saveRow.addClickHandler(new ClickHandler() {
+			
+			@Override
+			public void onClick(ClickEvent event) {
+				verwaltung.updateAuspraegung(eigaus, new AsyncCallback<Eigenschaftauspraegung>() {
+
+					@Override
+					public void onFailure(Throwable caught) {
+						Window.alert("nix da");
+						
+					}
+
+					@Override
+					public void onSuccess(Eigenschaftauspraegung result) {
+					Window.alert("funkt");
+						
+					}
+				});
+				
+			}
+		});
  		
  		
 		addRow.addClickHandler(new ClickHandler(){
 
 			@Override
 			public void onClick(ClickEvent event) {
-//				ctf
+				ctf.addRow(txt_Eigenschaft.getValue(), txt_Auspraegung.getValue());
+				
+				
+				verwaltung.insertEigenschaft(txt_Eigenschaft.getText(), 0, new AsyncCallback<Eigenschaft>() {
+
+					@Override
+					public void onFailure(Throwable caught) {
+						// TODO Auto-generated method stub
+						
+					}
+
+					@Override
+					public void onSuccess(Eigenschaft result) {
+						// TODO Auto-generated method stub
+						
+						eig1.setID(result.getID());
+						
+						verwaltung.insertAuspraegung(txt_Auspraegung.getText(), 0, eig1.getID(), kon.getID(), new AsyncCallback<Eigenschaftauspraegung>() {
+
+							@Override
+							public void onFailure(Throwable caught) {
+								// TODO Auto-generated method stub
+								
+							}
+
+							@Override
+							public void onSuccess(Eigenschaftauspraegung result) {
+								// TODO Auto-generated method stub
+							}
+						});
+					}
+				});
+				
+				
+				
+				
+				
+				
+				
+				
+				
 				
 			}
 			
