@@ -167,6 +167,13 @@ public interface KontaktAdministrationAsync {
 	void getAllKontakteFromKontaktliste(Kontaktliste kl, AsyncCallback<Vector<Kontakt>> callback);
 
 
+	void insertBasicAuspraegung(String wert, int status, int kontaktID,
+			AsyncCallback<Vector<Eigenschaftauspraegung>> callback);
+
+
+	
+
+
 
 
 	

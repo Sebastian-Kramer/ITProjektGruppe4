@@ -304,7 +304,7 @@ public interface KontaktAdministration extends RemoteService {
      * Alle Eigenschaftsauspraegungen eines Kontaktes auslesen
      * 
      * @param kontaktID
-     * @return Vector mit sämtlichen Eigenschaftsauspraegungen mit der uebergebenen KontaktID
+     * @return Vector mit sï¿½mtlichen Eigenschaftsauspraegungen mit der uebergebenen KontaktID
      * @throws IllegalArgumentException
      */
     public Vector<Eigenschaftauspraegung> findEigenschaftauspraegungByKontaktID(int kontaktID ) throws IllegalArgumentException;
@@ -421,7 +421,7 @@ public interface KontaktAdministration extends RemoteService {
    /**
     * 
     * @param kontaktlisteID die ID der Kontaktliste
-    * @return Vector mit sämtlichen Kontakten einer Kontaktliste
+    * @return Vector mit sï¿½mtlichen Kontakten einer Kontaktliste
     * @throws IllegalArgumentException
     */
     public Vector<Kontakt> getAllKontakteFromKontaktliste(int kontaktlisteID) throws IllegalArgumentException;
@@ -430,14 +430,14 @@ public interface KontaktAdministration extends RemoteService {
     /**
      * 
      * @param kl das KontaktlistenObjekt
-     * @return Vector mit sämtlichen Kontakten einer Kontaktliste
+     * @return Vector mit sï¿½mtlichen Kontakten einer Kontaktliste
      * @throws IllegalArgumentException
      */
     public Vector<Kontakt> getAllKontakteFromKontaktliste(Kontaktliste kl) throws IllegalArgumentException;
     
     
     
-    
+    public Vector<Eigenschaftauspraegung> insertBasicAuspraegung(String wert, int status, int kontaktID) throws IllegalArgumentException;
     
   
     
