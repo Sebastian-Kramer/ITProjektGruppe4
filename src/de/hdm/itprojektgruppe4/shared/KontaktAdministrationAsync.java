@@ -9,6 +9,7 @@ import com.google.gwt.user.client.rpc.AsyncCallback;
 
 import de.hdm.itprojektgruppe4.shared.bo.Eigenschaft;
 import de.hdm.itprojektgruppe4.shared.bo.EigenschaftAuspraegungHybrid;
+import de.hdm.itprojektgruppe4.shared.bo.Eigenschaft_Auspraegung;
 import de.hdm.itprojektgruppe4.shared.bo.Eigenschaftauspraegung;
 import de.hdm.itprojektgruppe4.shared.bo.Kontakt;
 import de.hdm.itprojektgruppe4.shared.bo.KontaktKontaktliste;
@@ -160,11 +161,13 @@ public interface KontaktAdministrationAsync {
 
 	void findHybrid(Person pers, AsyncCallback<Vector<EigenschaftAuspraegungHybrid>> callback);
 
-
 	void getAllKontakteFromKontaktliste(int kontaktlisteID, AsyncCallback<Vector<Kontakt>> callback);
 
 
 	void getAllKontakteFromKontaktliste(Kontaktliste kl, AsyncCallback<Vector<Kontakt>> callback);
+
+	void deleteEigenschaftUndAuspraegung(EigenschaftAuspraegungHybrid ea, AsyncCallback<Void> callback);
+
 
 
 	void insertBasicAuspraegung(String wert, int status, int kontaktID,
