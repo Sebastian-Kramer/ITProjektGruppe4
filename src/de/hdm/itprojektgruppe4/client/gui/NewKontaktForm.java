@@ -46,19 +46,24 @@ KontaktAdministrationAsync verwaltung = ClientsideSettings.getKontaktVerwaltung(
 			+ " <b>Auspärgungen</b>  zu Ihrem Kontakt an."		
 	        + "<span style='font-family:fixed'></span>", true);
 	
+	private Button addRow = new Button("Eigenschaft hinzufügen");
 	
+	private TextBox txt_Eigenschaft = new TextBox();
+	private TextBox txt_Auspraegung = new TextBox();
 	
+	private CellTableForm ctf = null;
+	
+	private Eigenschaft eig1 = new Eigenschaft();
 	
 	public void onLoad(){
 		
 		super.onLoad();
 		
-		
+	
 		html2.setVisible(true);
 		final Kontakt kon = new Kontakt();
 		 
 		
-
 		 
 		hpanelButtonBar.add(save1);
 		hpanelButtonBar.add(cancel);
@@ -66,29 +71,20 @@ KontaktAdministrationAsync verwaltung = ClientsideSettings.getKontaktVerwaltung(
 		RootPanel.get("Buttonbar").clear();
 		RootPanel.get("Buttonbar").add(hpanelButtonBar);
 		
+		
+		
 		hpanel.add(name);
 		hpanel.add(tbName);
 		
+		vpanel.add(html1);
+		vpanel.add(hpanel);
+		vpanel.add(html2);
+		vpanel.add(txt_Eigenschaft);
+		vpanel.add(txt_Auspraegung);
+		vpanel.add(addRow);
+		this.add(vpanel);
 		
 
-		
-		verwaltung.getEigenschaftByID(4, new AsyncCallback<Eigenschaft>() {
-
-			@Override
-			public void onFailure(Throwable caught) {
-				// TODO Auto-generated method stub
-				
-			}
-
-			@Override
-			public void onSuccess(Eigenschaft result) {
-				// TODO Auto-generated method stub
-				
-				Window.alert("OLA" + result.getBezeichnung());
-			}
-		});
-		
-		
 		
 		
 		//Nutzer ID muss Hier noch vom Login übergeben werden 
@@ -117,6 +113,7 @@ KontaktAdministrationAsync verwaltung = ClientsideSettings.getKontaktVerwaltung(
 						
 						Window.alert(result.getName() + result.getID());
 						
+					
 						
 						verwaltung.insertBasicAuspraegung("", 0, kon.getID(), new AsyncCallback<Vector<Eigenschaftauspraegung>>() {
 
@@ -130,10 +127,10 @@ KontaktAdministrationAsync verwaltung = ClientsideSettings.getKontaktVerwaltung(
 							public void onSuccess(Vector<Eigenschaftauspraegung> result) {
 								// TODO Auto-generated method stub
 								Window.alert("Funktioniert QQQQ");
-								final CellTableForm ctf = new CellTableForm(kon);
+//								final CellTableForm ctf = new CellTableForm(kon);
+								ctf = new CellTableForm(kon);
 								add(ctf);
 								
-							
 								
 								
 							}
@@ -147,6 +144,60 @@ KontaktAdministrationAsync verwaltung = ClientsideSettings.getKontaktVerwaltung(
 				
 			
 		}
+		});
+		
+		
+
+
+		
+		addRow.addClickHandler(new ClickHandler(){
+
+			@Override
+			public void onClick(ClickEvent event) {
+				ctf.addRow(txt_Eigenschaft.getValue(), txt_Auspraegung.getValue());
+				
+				
+				verwaltung.insertEigenschaft(txt_Eigenschaft.getText(), 0, new AsyncCallback<Eigenschaft>() {
+
+					@Override
+					public void onFailure(Throwable caught) {
+						// TODO Auto-generated method stub
+						
+					}
+
+					@Override
+					public void onSuccess(Eigenschaft result) {
+						// TODO Auto-generated method stub
+						
+						eig1.setID(result.getID());
+						
+						verwaltung.insertAuspraegung(txt_Auspraegung.getText(), 0, eig1.getID(), kon.getID(), new AsyncCallback<Eigenschaftauspraegung>() {
+
+							@Override
+							public void onFailure(Throwable caught) {
+								// TODO Auto-generated method stub
+								
+							}
+
+							@Override
+							public void onSuccess(Eigenschaftauspraegung result) {
+								// TODO Auto-generated method stub
+							}
+						});
+					}
+				});
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+			}
+			
 		});
 		
 		
