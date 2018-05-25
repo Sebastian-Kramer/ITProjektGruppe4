@@ -51,6 +51,7 @@ private HorizontalPanel hpanelDetails = new HorizontalPanel();
 	private EigenschaftAuspraegungHybrid ea = new EigenschaftAuspraegungHybrid();
 		
 	private Eigenschaft eig1 = new Eigenschaft();
+	private Eigenschaftauspraegung eigaus = new Eigenschaftauspraegung();
 		
 	public UpdateKontaktForm(Kontakt kon) {
 		
@@ -117,33 +118,18 @@ private HorizontalPanel hpanelDetails = new HorizontalPanel();
  		ea.setEigenschaft(txt_Eigenschaft.getText());
  		
  		
- 		final Eigenschaftauspraegung eigaus = new Eigenschaftauspraegung();
- 		eigaus.setEigenschaftsID(ctf.sm.getLastSelectedObject().getEigenschaftID());
- 		eigaus.setWert(ctf.sm.getLastSelectedObject().getAuspraegung());
 // 		ctf.sm.getLastSelectedObject().getAuspraegung();
  		
- 		saveRow.addClickHandler(new ClickHandler() {
-			
-			@Override
-			public void onClick(ClickEvent event) {
-				verwaltung.updateAuspraegung(eigaus, new AsyncCallback<Eigenschaftauspraegung>() {
-
-					@Override
-					public void onFailure(Throwable caught) {
-						Window.alert("nix da");
-						
-					}
-
-					@Override
-					public void onSuccess(Eigenschaftauspraegung result) {
-					Window.alert("funkt");
-						
-					}
-				});
-				
-			}
-		});
- 		
+// 		eigaus.setEigenschaftsID(ctf.getSm().getSelectedObject().getEigenschaftID());
+// 		eigaus.setWert(ctf.getSm().getSelectedObject().getAuspraegung());
+// 		
+// 		saveRow.addClickHandler(new ClickHandler() {
+// 			
+// 			@Override
+// 			public void onClick(ClickEvent event) {
+// 				Window.alert("hallo clirim");
+// 			}
+// 		});
  		
 		addRow.addClickHandler(new ClickHandler(){
 
