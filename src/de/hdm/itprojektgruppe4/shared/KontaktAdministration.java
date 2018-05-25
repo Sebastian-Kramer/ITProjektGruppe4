@@ -9,6 +9,7 @@ import com.google.gwt.user.client.rpc.RemoteServiceRelativePath;
 
 import de.hdm.itprojektgruppe4.shared.bo.Eigenschaft;
 import de.hdm.itprojektgruppe4.shared.bo.EigenschaftAuspraegungHybrid;
+import de.hdm.itprojektgruppe4.shared.bo.Eigenschaft_Auspraegung;
 import de.hdm.itprojektgruppe4.shared.bo.Eigenschaftauspraegung;
 import de.hdm.itprojektgruppe4.shared.bo.Kontakt;
 import de.hdm.itprojektgruppe4.shared.bo.Kontaktliste;
@@ -304,7 +305,7 @@ public interface KontaktAdministration extends RemoteService {
      * Alle Eigenschaftsauspraegungen eines Kontaktes auslesen
      * 
      * @param kontaktID
-     * @return Vector mit sämtlichen Eigenschaftsauspraegungen mit der uebergebenen KontaktID
+     * @return Vector mit sï¿½mtlichen Eigenschaftsauspraegungen mit der uebergebenen KontaktID
      * @throws IllegalArgumentException
      */
     public Vector<Eigenschaftauspraegung> findEigenschaftauspraegungByKontaktID(int kontaktID ) throws IllegalArgumentException;
@@ -312,6 +313,8 @@ public interface KontaktAdministration extends RemoteService {
     public Vector<Eigenschaftauspraegung> getAuspraegungByKontaktID(int id) throws IllegalArgumentException;
     
     public Vector<EigenschaftAuspraegungHybrid> findHybrid(Person pers) throws IllegalArgumentException;
+    
+    public void deleteEigenschaftUndAuspraegung(EigenschaftAuspraegungHybrid ea) throws IllegalArgumentException;
 
     
     /**
