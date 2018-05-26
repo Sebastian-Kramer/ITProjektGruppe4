@@ -5,6 +5,9 @@ import java.util.Vector;
 
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.event.dom.client.KeyCodes;
+import com.google.gwt.event.dom.client.KeyDownEvent;
+import com.google.gwt.event.dom.client.KeyDownHandler;
 import com.google.gwt.user.cellview.client.CellList;
 import com.google.gwt.user.cellview.client.CellTable;
 import com.google.gwt.user.cellview.client.TextColumn;
@@ -87,64 +90,131 @@ KontaktAdministrationAsync verwaltung = ClientsideSettings.getKontaktVerwaltung(
 
 		
 		
+		KeyDownHandler returnKeyHandler = new KeyDownHandler() {
+			
+			 
+	        @Override
+	        public void onKeyDown(KeyDownEvent event) {
+	            if (event.getNativeKeyCode() == KeyCodes.KEY_ENTER) {
+	                Window.alert("Enter key pressed!!");
+	             
+	                
+	            	verwaltung.insertKontakt(tbName.getValue(), new Date(), new Date(), 0, 1, new AsyncCallback<Kontakt>() {
+
+						@Override
+						public void onFailure(Throwable caught) {
+							// TODO Auto-generated method stub
+							Window.alert("Funktioniert nicht");
+						}
+
+						@Override
+						public void onSuccess(Kontakt result) {
+							// TODO Auto-generated method stub
+							Window.alert("Funktioniert 12");
+							
+							kon.setID(result.getID());
+							
+							Window.alert(result.getName() + result.getID());
+							
+						
+							
+							verwaltung.insertBasicAuspraegung("", 0, kon.getID(), new AsyncCallback<Vector<Eigenschaftauspraegung>>() {
+
+								@Override
+								public void onFailure(Throwable caught) {
+									// TODO Auto-generated method stub
+									Window.alert("Funktioniert nicht");
+								}
+
+								@Override
+								public void onSuccess(Vector<Eigenschaftauspraegung> result) {
+									// TODO Auto-generated method stub
+									Window.alert("Funktioniert QQQQ");
+//									final CellTableForm ctf = new CellTableForm(kon);
+									ctf = new CellTableForm(kon);
+									add(ctf);
+									
+									
+									
+								}
+							});
+						
+					    	
+						}
+					
+						
+					}); 
+	                
+	                
+	            }
+	        }
+	    };
+
+	   
+	   
+
+	  
+	    tbName.addKeyDownHandler(returnKeyHandler);
+		
+		
 		//Nutzer ID muss Hier noch vom Login übergeben werden 
 		
 		
 		
-		save1.addClickHandler(new ClickHandler() {
-			
-			@Override
-			public void onClick(ClickEvent event) {
-				// TODO Auto-generated method stub
-				verwaltung.insertKontakt(tbName.getValue(), new Date(), new Date(), 0, 1, new AsyncCallback<Kontakt>() {
-
-					@Override
-					public void onFailure(Throwable caught) {
-						// TODO Auto-generated method stub
-						Window.alert("Funktioniert nicht");
-					}
-
-					@Override
-					public void onSuccess(Kontakt result) {
-						// TODO Auto-generated method stub
-						Window.alert("Funktioniert 12");
-						
-						kon.setID(result.getID());
-						
-						Window.alert(result.getName() + result.getID());
-						
-					
-						
-						verwaltung.insertBasicAuspraegung("", 0, kon.getID(), new AsyncCallback<Vector<Eigenschaftauspraegung>>() {
-
-							@Override
-							public void onFailure(Throwable caught) {
-								// TODO Auto-generated method stub
-								Window.alert("Funktioniert nicht");
-							}
-
-							@Override
-							public void onSuccess(Vector<Eigenschaftauspraegung> result) {
-								// TODO Auto-generated method stub
-								Window.alert("Funktioniert QQQQ");
-//								final CellTableForm ctf = new CellTableForm(kon);
-								ctf = new CellTableForm(kon);
-								add(ctf);
-								
-								
-								
-							}
-						});
-					
-				    	
-					}
-				
-					
-				});
-				
-			
-		}
-		});
+//		save1.addClickHandler(new ClickHandler() {
+//			
+//			@Override
+//			public void onClick(ClickEvent event) {
+//				// TODO Auto-generated method stub
+//				verwaltung.insertKontakt(tbName.getValue(), new Date(), new Date(), 0, 1, new AsyncCallback<Kontakt>() {
+//
+//					@Override
+//					public void onFailure(Throwable caught) {
+//						// TODO Auto-generated method stub
+//						Window.alert("Funktioniert nicht");
+//					}
+//
+//					@Override
+//					public void onSuccess(Kontakt result) {
+//						// TODO Auto-generated method stub
+//						Window.alert("Funktioniert 12");
+//						
+//						kon.setID(result.getID());
+//						
+//						Window.alert(result.getName() + result.getID());
+//						
+//					
+//						
+//						verwaltung.insertBasicAuspraegung("", 0, kon.getID(), new AsyncCallback<Vector<Eigenschaftauspraegung>>() {
+//
+//							@Override
+//							public void onFailure(Throwable caught) {
+//								// TODO Auto-generated method stub
+//								Window.alert("Funktioniert nicht");
+//							}
+//
+//							@Override
+//							public void onSuccess(Vector<Eigenschaftauspraegung> result) {
+//								// TODO Auto-generated method stub
+//								Window.alert("Funktioniert QQQQ");
+//
+//								ctf = new CellTableForm(kon);
+//								add(ctf);
+//								
+//								
+//								
+//							}
+//						});
+//					
+//				    	
+//					}
+//				
+//					
+//				});
+//				
+//			
+//		}
+//		});
 		
 		
 
@@ -188,14 +258,6 @@ KontaktAdministrationAsync verwaltung = ClientsideSettings.getKontaktVerwaltung(
 				});
 				
 				
-				
-				
-				
-				
-				
-				
-				
-				
 			}
 			
 		});
@@ -228,8 +290,9 @@ KontaktAdministrationAsync verwaltung = ClientsideSettings.getKontaktVerwaltung(
 		});
 		
 		
-		
 	
+		
+		
 		}
 	
 	
