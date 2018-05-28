@@ -17,6 +17,7 @@ import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.RootPanel;
+import com.google.gwt.user.client.ui.TextArea;
 import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.cellview.client.CellTable;
@@ -49,7 +50,9 @@ public class KontaktForm extends VerticalPanel {
 	CellTable<Eigenschaftauspraegung> table = new CellTable<Eigenschaftauspraegung>();
 	CellTable<Eigenschaft> eTable = new CellTable<Eigenschaft>();
 	
-	private Label eigenschaft = new Label("Eigenschaft");
+	TextArea ta = new TextArea();
+	
+	private Label hinweis = new Label("Hinweis zum Kontakt");
 	private Label auspraegung = new Label("Auspraegung");
 
 	private Button bearbeitenButton = new Button("Kontakt bearbeiten");
@@ -62,6 +65,7 @@ public class KontaktForm extends VerticalPanel {
 	public void onLoad(){
 		
 		HTML html1 = new HTML("<h2>Meine Kontakt " +  k.getName()   + "</h2>"); 
+//		HTML html2 = new HTML("<div id = 'Linie'>_________________________________________________________________________________________________________________________________________________________________________________________________________</div>");
 		
 		super.onLoad();
 		
@@ -93,10 +97,19 @@ public class KontaktForm extends VerticalPanel {
 		table.addColumn(bez, "Wert");
 		eTable.addColumn(name, "Bezeichnung");
 		
-		hpanel.add(eTable);
-		hpanel.add(table);
+	    ta.setCharacterWidth(30);
+	    ta.setVisibleLines(20);
+		
+	    vpanelDetails1.add(hinweis);
+	    vpanelDetails1.add(ta);
+		
+	    hpanel.add(eTable);
+		hpanel.add(vpanelDetails1);
+		
 		vpanelDetails.add(html1);
 		vpanelDetails.add(hpanel);
+		
+		
 		
 		vpanel.add(vpanelDetails);
 		
@@ -154,7 +167,6 @@ public class KontaktForm extends VerticalPanel {
 				table.setRowCount(result.size(), true); 	
 				
 				for (Eigenschaftauspraegung ea : result){
-					Window.alert(ea.getWert());
 					verwaltung.getEigenschaftByID(ea.getEigenschaftsID(), new AsyncCallback<Eigenschaft>(){
 
 						@Override
@@ -165,8 +177,6 @@ public class KontaktForm extends VerticalPanel {
 
 						@Override
 						public void onSuccess(Eigenschaft result) {
-							Window.alert(result.getBezeichnung());
-//							eList.add(result);
 							
 						}
 						

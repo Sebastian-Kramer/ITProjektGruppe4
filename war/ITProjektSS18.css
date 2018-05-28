@@ -164,8 +164,14 @@ td{
 	height: 30px;
 }
 
+div#Linie {
+	width: 100%;
+	text-align: middle;
+
+}
+
 td#links{
-	width:200px;
+	width: 200px;
 	height: 100%;
 }
 
