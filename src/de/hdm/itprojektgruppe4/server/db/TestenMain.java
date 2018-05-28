@@ -105,6 +105,12 @@ public class TestenMain {
 		System.out.println(kcre.findEigenschaftauspraegungByKontaktID(2));
 		*/
 		
+		Kontaktliste kl = new Kontaktliste();
+		
+		kl.setID(1);
+		
+		System.out.println(KontaktMapper.kontaktMapper().getAllKontakteFromKontaktliste(kl.getID()));
+		
 		//System.out.println(kcre.findKontaktByID(5));
 //		
 		//

@@ -52,11 +52,14 @@ public class MainForm extends Composite{
 	
 	Kontakt kon = new Kontakt();
 	Kontaktliste konList = new Kontaktliste();
+	Kontaktliste kontlist = null;
+	
 	
 	private VerticalPanel vpanelDetails = new VerticalPanel();	
 	private VerticalPanel vpanelNavigator = new VerticalPanel();
 	private HorizontalPanel hpanelDetails = new HorizontalPanel();
-
+	private HorizontalPanel hpanelButtonBar = new HorizontalPanel();
+	
 	private Button profil = new Button("Mein Profil");
 	private Button newKontakt = new Button("Neuer Kontakt");
 	private Button showKontakt = new Button("Kontakt anzeigen");
@@ -156,13 +159,17 @@ public class MainForm extends Composite{
 //	    });
 	    
 	    
+	    hpanelButtonBar.add(newKontakt);
+	
+		RootPanel.get("Buttonbar").add(hpanelButtonBar);
+	    
 	    
 	    updateKontakt.setVisible(false);
-//		hpanelDetails.add(newKontakt);
+
 		hpanelDetails.add(updateKontakt);
 		hpanelDetails.add(showKontakt);
 		
-		vpanelDetails.add(newKontakt);
+		
 		vpanelDetails.add(html1);
 		vpanelDetails.add(hpanelDetails);
 		vpanelDetails.add(cellList);
@@ -237,6 +244,9 @@ public class MainForm extends Composite{
 				
 		}
 		
+	}
+	void setSelected(Kontaktliste kl){
+		kontlist = kl;
 	}
 	
 
