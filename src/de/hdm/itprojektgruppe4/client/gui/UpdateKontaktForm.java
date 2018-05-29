@@ -195,7 +195,9 @@ private HorizontalPanel hpanelDetails = new HorizontalPanel();
 			public void onSuccess(Vector<Eigenschaft> result) {
 				Window.alert("alle Eigenschaften m�ssten gefunden sein");
 				
-				for (Eigenschaft eig: result);
+				for (Eigenschaft eig: result){
+					
+				}
 				
 			}
  			
