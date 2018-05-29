@@ -119,7 +119,7 @@ private HorizontalPanel hpanelDetails = new HorizontalPanel();
  		
  		
 // 		ctf.sm.getLastSelectedObject().getAuspraegung();
- 		
+// 		
 // 		eigaus.setEigenschaftsID(ctf.getSm().getSelectedObject().getEigenschaftID());
 // 		eigaus.setWert(ctf.getSm().getSelectedObject().getAuspraegung());
 // 		
