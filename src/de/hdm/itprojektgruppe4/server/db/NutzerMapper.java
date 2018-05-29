@@ -7,30 +7,29 @@ import de.hdm.itprojektgruppe4.shared.bo.*;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
+
 /**
  * Mapper Klassen, die <code>Kontakt</code>-Objekte auf einer relationalen Datenbank abbildet.
  *
  */
 
 
+
 public class NutzerMapper extends PersonMapper {
 
-	
 	SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
-	
-	
-private static NutzerMapper nutzerMapper = null;
-	
-	
+
+	private static NutzerMapper nutzerMapper = null;
+
 	protected NutzerMapper() {
 	};
-	
-	
+
 	public static NutzerMapper nutzerMapper() {
 		if (nutzerMapper == null) {
 			nutzerMapper = new NutzerMapper();
 		}
 		return nutzerMapper;
+
 	}	
 	
 	
@@ -65,7 +64,9 @@ private static NutzerMapper nutzerMapper = null;
 		}
 		
 		return null;
+
 	}
+
 	
 	 /**
 		 * alle Objekte vom Typ Nutzer auslesen
@@ -170,18 +171,7 @@ private static NutzerMapper nutzerMapper = null;
 	 * 
 	 */
 	
-	public void deleteNutzer(Nutzer n){
-		Connection con = DBConnection.connection();
-		
-		try {
-			
-			Statement stmt = con.createStatement();
-			
-			stmt.executeUpdate("DELETE FROM nutzer " + "WHERE ID=" + n.getID());
-		}catch (SQLException e){
-			e.printStackTrace();
-		}
-	}
+	
 	
 	
 	/**
@@ -191,38 +181,55 @@ private static NutzerMapper nutzerMapper = null;
      * @return n
      */
 	
-	public Nutzer findNutzerByEmail(String email){
+
 		
+
+
+	
+
+	
+
+
+
+	
+
+	public void deleteNutzer(Nutzer n) {
 		Connection con = DBConnection.connection();
 
 		try {
-			
-		
-		Statement stmt = con.createStatement();
-		
-		ResultSet rs = stmt.executeQuery(
-				"SELECT ID, email FROM nutzer " + " WHERE email= " + email );
-				 
-		
-		if (rs.next()) {
-			Nutzer n = new Nutzer();
-			n.setID(rs.getInt("ID"));
-			n.setEmail(rs.getString("email"));
-			
-			return n;
+
+			Statement stmt = con.createStatement();
+
+			stmt.executeUpdate("DELETE FROM nutzer " + "WHERE ID=" + n.getID());
+		} catch (SQLException e) {
+			e.printStackTrace();
 		}
-		
-	}catch (SQLException e) {
-		e.printStackTrace();
-		return null;
 	}
-	return null;
-	
-	
-	
+
+	public Nutzer findNutzerByEmail(String email) {
+
+		Connection con = DBConnection.connection();
+		Nutzer nutzer = new Nutzer();
+		try {
+
+			Statement stmt = con.createStatement();
+
+			ResultSet rs = stmt.executeQuery("SELECT ID, email FROM nutzer " + " WHERE email='" + email + "'");
+
+			if (rs.next()) {
+				Nutzer n = new Nutzer();
+				n.setID(rs.getInt("ID"));
+				n.setEmail(rs.getString("email"));
+
+				return n;
+			}
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+			return null;
+		}
+		return nutzer;
+
 	}
-	
-	
-	
-	
+
 }

@@ -7,6 +7,7 @@ import java.util.Vector;
 
 import com.google.gwt.user.client.rpc.AsyncCallback;
 
+import de.hdm.itprojektgruppe4.client.LoginInfo;
 import de.hdm.itprojektgruppe4.shared.bo.Eigenschaft;
 import de.hdm.itprojektgruppe4.shared.bo.EigenschaftAuspraegungHybrid;
 import de.hdm.itprojektgruppe4.shared.bo.Eigenschaft_Auspraegung;
@@ -22,12 +23,14 @@ public interface KontaktAdministrationAsync {
 
 	void init(AsyncCallback<Void> callback);
 	
+//	void insertNutzer(LoginInfo login, String email, AsyncCallback<Nutzer> callback);
+
+	
 
 	void insertKontakt(String name, Date erzeugungsdatum, Date modifikationsdatum, int status, int nutzerID,
 			AsyncCallback<Kontakt> callback);
 
-	void insertNutzer(String mail, AsyncCallback<Nutzer> callback);
-
+	void insertNutzer(String emailAddress, AsyncCallback<Nutzer> callback);
 
 
 	void findKontaktByID(int id, AsyncCallback<Kontakt> callback);
@@ -63,7 +66,7 @@ public interface KontaktAdministrationAsync {
 	void findNutzerByEmail(String email, AsyncCallback<Nutzer> callback);
 
 
-	void findNutzerByID(int id, AsyncCallback<Nutzer> callback);
+	void findNutzerByID(String string, AsyncCallback<Nutzer> callback);
 
 
 	void findAllNutzer(AsyncCallback<Vector<Nutzer>> callback);
@@ -138,10 +141,12 @@ public interface KontaktAdministrationAsync {
 	void deleteKontaktKontaktliste(KontaktKontaktliste k, AsyncCallback<Void> callback);
 
 	
-	void findKontaktByNutzerID(int nutzerID,AsyncCallback<Vector<Kontakt>> callback);
+
+
 
 
 	void findKontaktlisteByNutzerID(int nutzerID, AsyncCallback<Vector<Kontaktliste>> callback);
+
 
 
 	void insertEigenschaft(String bez, int status, AsyncCallback<Eigenschaft> callback);
@@ -151,6 +156,17 @@ public interface KontaktAdministrationAsync {
 
 
 	void findAllEigenschaft(AsyncCallback<Vector<Eigenschaft>> callback);
+
+	
+	
+	
+	
+	void findKontaktByNutzerID(int nutzerID, AsyncCallback<List<Kontakt>> callback);
+
+
+
+
+
 
 
 
@@ -172,6 +188,8 @@ public interface KontaktAdministrationAsync {
 
 	void insertBasicAuspraegung(String wert, int status, int kontaktID,
 			AsyncCallback<Vector<Eigenschaftauspraegung>> callback);
+
+	void findNutzerByID(int id, AsyncCallback<Nutzer> callback);
 
 
 	
