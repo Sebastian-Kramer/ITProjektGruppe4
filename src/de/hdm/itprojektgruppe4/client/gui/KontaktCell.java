@@ -9,7 +9,7 @@ import de.hdm.itprojektgruppe4.shared.bo.Kontakt;
 public class KontaktCell extends AbstractCell<Kontakt>{
 
 	@Override
-	public void render(Context context, Kontakt value, SafeHtmlBuilder sb) {
+	public void render(com.google.gwt.cell.client.Cell.Context context, Kontakt value, SafeHtmlBuilder sb) {
 		// TODO Auto-generated method stub
 		if (value == null){
 			return;
