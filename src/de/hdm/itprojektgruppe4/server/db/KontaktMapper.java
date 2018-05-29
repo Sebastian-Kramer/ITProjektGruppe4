@@ -213,11 +213,17 @@ public class KontaktMapper extends PersonMapper {
 				
 				stmt.executeUpdate(
 					
-						" INSERT INTO kontakt (ID, name, erzeugungsdatum, modifikationsdatum, status, nutzerID)"
-						+ " VALUES (" + k.getID() + " ,'" + k.getName() + "' ,'"
-						+ format.format(k.getErzeugungsdatum()) + "','" + format.format(k.getModifikationsdatum()) +  "' ,'"  
-						+ k.getStatus() + "','"  + k.getNutzerID() + "')");
+						" INSERT INTO `kontakt` (`ID`, `name`, `erzeugungsdatum`, `modifikationsdatum`, `status`, `nutzerID`) "
+						+ " VALUES ('" + k.getID() + "' ,'" + k.getName() + "' ,'"
+						+ format.format(k.getErzeugungsdatum()) + "' ,'" + format.format(k.getModifikationsdatum()) +  "' ,'"  
+						+ k.getStatus() + "' ,'"  +  k.getNutzerID() + "')");
 						
+				
+
+						
+						
+				
+				
 			}
 		}catch (SQLException e) {
 			e.printStackTrace();
@@ -366,7 +372,7 @@ public class KontaktMapper extends PersonMapper {
 /**
  * Augabe aller Kontakt einer Kontaktliste
  * @param kontaktlisteID
- * @return Vector mit sämtlichen Kontakten einer Kontaktliste
+ * @return Vector mit sï¿½mtlichen Kontakten einer Kontaktliste
  */
 public Vector<Kontakt> getAllKontakteFromKontaktliste(int kontaktlisteID){
 	

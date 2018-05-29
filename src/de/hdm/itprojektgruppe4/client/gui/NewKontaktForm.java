@@ -27,6 +27,8 @@ import de.hdm.itprojektgruppe4.shared.KontaktAdministrationAsync;
 import de.hdm.itprojektgruppe4.shared.bo.Eigenschaft;
 import de.hdm.itprojektgruppe4.shared.bo.Eigenschaftauspraegung;
 import de.hdm.itprojektgruppe4.shared.bo.Kontakt;
+import de.hdm.itprojektgruppe4.shared.bo.Kontaktliste;
+import de.hdm.itprojektgruppe4.shared.bo.Nutzer;
 
 public class NewKontaktForm extends VerticalPanel {
 
@@ -39,7 +41,15 @@ KontaktAdministrationAsync verwaltung = ClientsideSettings.getKontaktVerwaltung(
 	private Label name = new Label("Name: ");
 	private TextBox tbName = new TextBox();
 	private Button save1 = new Button("Speichern");
-	private Button save2 = new Button("Eigenschaft speichern");
+	
+	private Button save2 = new Button("Kontakt TEST speichern");
+	private Button save3 = new Button("Nutzer TEST speichern");
+	private Button save4 = new Button("Person TEST speichern");
+	private Button save5 = new Button("Kontaktliste TEST speichern");
+	private Button save6 = new Button("Eigenschaft TEST speichern");
+	private Button save7 = new Button("Ausprägung TEST speichern");
+	
+	
 	private Button cancel = new Button("Cancel");
 	private HTML html1 = new HTML("Bitte geben Sie hier die <b> Namen </b> zu ihrem neuen "
 			+ " <b>Kontakt</b>  an."		
@@ -69,6 +79,13 @@ KontaktAdministrationAsync verwaltung = ClientsideSettings.getKontaktVerwaltung(
 		
 		 
 		hpanelButtonBar.add(save1);
+		hpanelButtonBar.add(save2);
+		hpanelButtonBar.add(save3);
+		hpanelButtonBar.add(save4);
+		hpanelButtonBar.add(save5);
+		hpanelButtonBar.add(save6);
+		hpanelButtonBar.add(save7);
+		
 		hpanelButtonBar.add(cancel);
 		
 		RootPanel.get("Buttonbar").clear();
@@ -263,19 +280,7 @@ KontaktAdministrationAsync verwaltung = ClientsideSettings.getKontaktVerwaltung(
 		});
 		
 		
-		save2.addClickHandler(new ClickHandler() {
-			
-			@Override
-			public void onClick(ClickEvent event) {
-				// TODO Auto-generated method stub
-				
-			}
-		});
-		
-		
 
-			
-		
 		cancel.addClickHandler(new ClickHandler() {
 			
 			@Override
@@ -288,6 +293,144 @@ KontaktAdministrationAsync verwaltung = ClientsideSettings.getKontaktVerwaltung(
 				
 			}
 		});
+		
+		
+		//========================TEST======================================
+		
+		//Kontakt
+		
+		save2.addClickHandler(new ClickHandler() {
+			
+			@Override
+			public void onClick(ClickEvent event) {
+				// TODO Auto-generated method stub
+				verwaltung.insertKontakt("TESTDIENSTAG 2", new Date(), new Date(), 1, 72, new AsyncCallback<Kontakt>() {
+
+					@Override
+					public void onFailure(Throwable caught) {
+						// TODO Auto-generated method stub
+						Window.alert("DEPLOY KONTAKT NEIN " + caught );
+					}
+
+					@Override
+					public void onSuccess(Kontakt result) {
+						// TODO Auto-generated method stub
+					Window.alert("DEPLOY KONTAKT JA " + result.getName() );
+					}
+				});
+			}
+		});
+		
+		
+		
+		//Test Nutzer
+		save3.addClickHandler(new ClickHandler() {
+					
+					@Override
+					public void onClick(ClickEvent event) {
+						// TODO Auto-generated method stub
+						verwaltung.insertNutzer("DIENSTAG@MAIL2", new AsyncCallback<Nutzer>() {
+		
+							@Override
+							public void onFailure(Throwable caught) {
+								// TODO Auto-generated method stub
+								
+							}
+		
+							@Override
+							public void onSuccess(Nutzer result) {
+								// TODO Auto-generated method stub
+								Window.alert("DEPLOY Nutzer JA " + result.getEmail() );
+							}
+						});
+					}
+				});
+
+			
+		
+		// TEest Person
+		save4.addClickHandler(new ClickHandler() {
+			
+			@Override
+			public void onClick(ClickEvent event) {
+				// TODO Auto-generated method stub
+				
+			}
+		});
+
+		//Test Kontaktliste
+		save5.addClickHandler(new ClickHandler() {
+			
+			@Override
+			public void onClick(ClickEvent event) {
+				// TODO Auto-generated method stub
+				verwaltung.insertKontaktliste("DIENSTAGKONTAKTLIsTE 2", 0, 72, new AsyncCallback<Kontaktliste>() {
+
+					@Override
+					public void onFailure(Throwable caught) {
+						// TODO Auto-generated method stub
+						
+					}
+
+					@Override
+					public void onSuccess(Kontaktliste result) {
+						// TODO Auto-generated method stub
+						Window.alert("DEPLOY Kontaktliste JA " + result.getBez() );
+					}
+				});
+			}
+		});
+		
+		
+		save6.addClickHandler(new ClickHandler() {
+			
+			@Override
+			public void onClick(ClickEvent event) {
+				// TODO Auto-generated method stub
+				verwaltung.insertEigenschaft("DIENSTAGEIGENSCHAFT 2", 0, new AsyncCallback<Eigenschaft>() {
+
+					@Override
+					public void onFailure(Throwable caught) {
+						// TODO Auto-generated method stub
+						
+					}
+
+					@Override
+					public void onSuccess(Eigenschaft result) {
+						// TODO Auto-generated method stub
+						Window.alert("DEPLOY Eigenschaft JA " + result.getBezeichnung() );
+					}
+				});
+			}
+		});
+		
+		
+		
+		save7.addClickHandler(new ClickHandler() {
+			
+			@Override
+			public void onClick(ClickEvent event) {
+				// TODO Auto-generated method stub
+				verwaltung.insertAuspraegung("DIENSTAGAUSPRÄGUNG 2", 0, 1, 70, new AsyncCallback<Eigenschaftauspraegung>() {
+
+					@Override
+					public void onFailure(Throwable caught) {
+						// TODO Auto-generated method stub
+						
+					}
+
+					@Override
+					public void onSuccess(Eigenschaftauspraegung result) {
+						// TODO Auto-generated method stub
+						Window.alert("DEPLOY Ausprägung JA " + result.getWert() );
+					}
+				});
+			}
+		});
+		
+		//========================TEST======================================		
+		
+		
 		
 		
 	
