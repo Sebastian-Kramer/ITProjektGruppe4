@@ -203,10 +203,10 @@ public class KontaktAdministrationImpl extends RemoteServiceServlet
 		return this.nutzerMapper.findNutzerByEmail(email);
 	}
 
-	@Override
-	public Nutzer findNutzerByID(int id) throws IllegalArgumentException {
-		return this.nutzerMapper.findNutzerByID(id);
-	}
+//	@Override
+//	public Nutzer findNutzerByID(int id) throws IllegalArgumentException {
+//		return this.nutzerMapper.findNutzerByID(id);
+//	}
 
 	@Override
 	public Vector<Nutzer> findAllNutzer() throws IllegalArgumentException {
@@ -409,11 +409,7 @@ public class KontaktAdministrationImpl extends RemoteServiceServlet
 		
 	}
 		
-	@Override
-	public Vector<Kontaktliste> findKontaktlisteByNutzerID(int nutzerID) throws IllegalArgumentException {
-		// TODO Auto-generated method stub
-		return this.konlistMapper.findKontaktlisteByNutzerID(nutzerID);
-	}
+	
 	
 	/*##########################################################
      * ENDE Methoden für Kontaktliste-Objekte
@@ -492,6 +488,18 @@ public class KontaktAdministrationImpl extends RemoteServiceServlet
 		// TODO Auto-generated method stub
 		return this.eigMapper.findAllEigenschaft();
 	}
+
+
+
+	@Override
+	public Nutzer findNutzerByID(String string) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+
+
+	
 
 
 	

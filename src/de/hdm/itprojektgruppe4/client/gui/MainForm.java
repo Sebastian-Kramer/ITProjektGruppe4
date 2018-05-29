@@ -5,6 +5,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Vector;
 
+import com.google.appengine.api.datastore.Email;
 import com.google.gwt.cell.client.ClickableTextCell;
 import com.google.gwt.cell.client.TextCell;
 import com.google.gwt.event.dom.client.ClickEvent;
@@ -13,6 +14,7 @@ import com.google.gwt.thirdparty.javascript.jscomp.Result;
 import com.google.gwt.user.cellview.client.CellList;
 import com.google.gwt.user.cellview.client.CellTable;
 import com.google.gwt.user.cellview.client.Column;
+import com.google.gwt.user.client.Cookies;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Button;
@@ -32,6 +34,7 @@ import de.hdm.itprojektgruppe4.client.ClientsideSettings;
 import de.hdm.itprojektgruppe4.shared.KontaktAdministrationAsync;
 import de.hdm.itprojektgruppe4.shared.bo.Kontakt;
 import de.hdm.itprojektgruppe4.shared.bo.Kontaktliste;
+import de.hdm.itprojektgruppe4.shared.bo.Nutzer;
 
 public class MainForm extends Composite{
 	
@@ -67,11 +70,19 @@ public class MainForm extends Composite{
 	public MainForm(){	
 		
 		initWidget(this.vpanelDetails);
+		Nutzer nutzer = new Nutzer ();
+		nutzer.setID(Integer.parseInt(Cookies.getCookie("id")));
+		nutzer.setEmail(Cookies.getCookie("email"));
+		
+		
+		
+		verwaltung.findKontaktByNutzerID(nutzer.getID(), new KontaktCallBack());
+		
+		
 
 		
 		
-		verwaltung.findAllKontaktNames(new KontaktCallBack());
-		verwaltung.findKontaktlisteAll(new KontaktlistCallBack());
+	//	verwaltung.findKontaktlisteByNutzerID(new KontaktlistCallBack());
 
 		
 		final SingleSelectionModel<String> selectionModel = new SingleSelectionModel<String>();
@@ -135,6 +146,9 @@ public class MainForm extends Composite{
 //		RootPanel.get("Navigator").add(vpanelNavigator);
 		
 	}
+	
+	
+	
 	
 	class KontaktCallBack implements AsyncCallback<List<Kontakt>>{
 
