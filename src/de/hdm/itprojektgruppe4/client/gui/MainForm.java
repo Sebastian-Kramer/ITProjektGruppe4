@@ -56,7 +56,7 @@ public class MainForm extends Composite{
 	
 	
 	private VerticalPanel vpanelDetails = new VerticalPanel();	
-	private VerticalPanel vpanelNavigator = new VerticalPanel();
+	//private VerticalPanel vpanelNavigator = new VerticalPanel();
 	private HorizontalPanel hpanelDetails = new HorizontalPanel();
 	private HorizontalPanel hpanelButtonBar = new HorizontalPanel();
 	
@@ -84,7 +84,7 @@ public class MainForm extends Composite{
 		
 		initWidget(this.vpanelDetails);
 
-		
+		//verwaltung.findKontaktlisteByID(kontlist.getID(), new );
 		
 		verwaltung.findAllKontaktNames(new KontaktCallBack());
 		verwaltung.findKontaktlisteAll(new KontaktlistCallBack());
@@ -126,12 +126,14 @@ public class MainForm extends Composite{
 		
 		// Navigator Panels & Widgets
 		
+		/**
+		 
 		vpanelNavigator.add(html2);
 		vpanelNavigator.add(kontaktListTree);
 		vpanelNavigator.add(profil);
 		vpanelNavigator.add(showKontakt);
 	    RootPanel.get("Navigator").add(vpanelNavigator);
-		
+		*/
 	    
 	    // Details Panels & Widgets
 	    
@@ -245,6 +247,25 @@ public class MainForm extends Composite{
 		}
 		
 	}
+	
+	class KontakteVonKontaktlisteAnzeigenCallBack implements AsyncCallback<Kontakt>{
+
+		@Override
+		public void onFailure(Throwable caught) {
+			// TODO Auto-generated method stub
+			
+		}
+
+		@Override
+		public void onSuccess(Kontakt result) {
+			// TODO Auto-generated method stub
+			
+		}
+		
+	}
+	
+	
+	
 	void setSelected(Kontaktliste kl){
 		kontlist = kl;
 	}

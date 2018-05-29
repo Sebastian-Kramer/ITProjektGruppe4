@@ -170,6 +170,13 @@ public interface KontaktAdministrationAsync {
 
 
 
+	void insertBasicAuspraegung(String wert, int status, int kontaktID,
+			AsyncCallback<Vector<Eigenschaftauspraegung>> callback);
+
+
+	
+
+
 
 
 	

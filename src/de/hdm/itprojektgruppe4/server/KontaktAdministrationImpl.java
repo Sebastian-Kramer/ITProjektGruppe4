@@ -99,13 +99,13 @@ public class KontaktAdministrationImpl extends RemoteServiceServlet
      * @throws IllegalArgumentException
      */
     
-    public Kontakt insertKontakt(String name, Date erzeugungsdatum, Date modifikationsdatum, int status, int nutzerID)  	
+    public Kontakt  insertKontakt(String name, Date erzeugungsdatum, Date modifikationsdatum, int status, int nutzerID)  	
     		throws IllegalArgumentException {
         // TODO implement here
  
     	Kontakt k = new Kontakt();
     	
-    	k.setID(1);
+    	//k.setID(1);
     	k.setName(name);
     	k.setErzeugungsdatum(erzeugungsdatum);
     	k.setModifikationsdatum(modifikationsdatum);
@@ -113,10 +113,54 @@ public class KontaktAdministrationImpl extends RemoteServiceServlet
     	k.setNutzerID(nutzerID);
     	
     	
+//    	for(int i = 1;  i<5; i++) {
+//    	
+//    		
+//    		
+//    	Eigenschaftauspraegung ea = new Eigenschaftauspraegung();
+//    	ea.setID(k.getID());
+//    	ea.setWert("");
+//    	ea.setStatus(ea.getStatus());
+//    	ea.setKontaktID(k.getID());
+//    	ea.setEigenschaftsID(i);
+//    	
+//    	eigenschaftauspraegungMapper.insertAuspraegung(ea);
+//    	
+//    	}
+    	
     	
         return this.konMapper.insertKontakt(k);
+        
+        
+        
     }
     
+    
+   
+    
+    
+    
+    public Vector<Eigenschaftauspraegung> insertBasicAuspraegung(String wert, int status, int kontaktID)
+    		throws IllegalArgumentException{
+    	
+    	
+    	Vector<Eigenschaftauspraegung> vector = new Vector<Eigenschaftauspraegung>();
+    	
+    	Eigenschaftauspraegung ea1 = insertAuspraegung("", 0, 1, kontaktID);
+    	Eigenschaftauspraegung ea2 = insertAuspraegung("", 0, 2, kontaktID);
+    	Eigenschaftauspraegung ea3 = insertAuspraegung("", 0, 3, kontaktID);
+    	Eigenschaftauspraegung ea4 = insertAuspraegung("", 0, 4, kontaktID);
+    	
+    	vector.add(ea1);
+    	vector.add(ea2);
+    	vector.add(ea3);
+    	vector.add(ea4);
+    	
+		
+		return vector;
+    	
+    	
+    } 
    
     
     /**
@@ -230,7 +274,7 @@ public class KontaktAdministrationImpl extends RemoteServiceServlet
 	 /**
 	    * 
 	    * @param kontaktlisteID
-	    * @return Vector mit sämtlichen Kontakten einer Kontaktliste
+	    * @return Vector mit sï¿½mtlichen Kontakten einer Kontaktliste
 	    * @throws IllegalArgumentException
 	    */
 	@Override
@@ -853,6 +897,10 @@ public class KontaktAdministrationImpl extends RemoteServiceServlet
 		// TODO Auto-generated method stub
 		return this.konMapper.getAllKontakteFromKontaktliste(kl);
 	}
+
+
+
+	
 
 
 

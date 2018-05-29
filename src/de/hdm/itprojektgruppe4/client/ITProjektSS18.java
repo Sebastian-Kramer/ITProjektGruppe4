@@ -8,6 +8,8 @@ import de.hdm.itprojektgruppe4.shared.LoginService;
 import de.hdm.itprojektgruppe4.shared.LoginServiceAsync;
 import de.hdm.itprojektgruppe4.shared.bo.Kontakt;
 import de.hdm.itprojektgruppe4.shared.bo.Nutzer;
+import de.hdm.itprojektgruppe4.client.gui.KontaktlisteKontaktTreeViewModel;
+import de.hdm.itprojektgruppe4.client.NavigationTree;
 
 import java.util.Date;
 import java.util.Vector;
@@ -93,8 +95,10 @@ public class ITProjektSS18 implements EntryPoint {
 	private void loadStartseite(){
 		
 		MainForm mainForm = new MainForm ();
+		NavigationTree navigationTree = new NavigationTree();
 		signOutLink.setHref(loginInfo.getLogoutUrl());
 		RootPanel.get("Details").add(mainForm);
+		RootPanel.get("Navigator").add(navigationTree);
 
 	}
 	
