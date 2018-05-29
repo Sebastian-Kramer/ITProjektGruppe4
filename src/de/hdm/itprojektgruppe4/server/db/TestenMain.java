@@ -32,7 +32,7 @@ public class TestenMain {
 
 		
 		
-		//System.out.println(KontaktMapper.kontaktMapper().findKontaktByID(3));
+		System.out.println(KontaktMapper.kontaktMapper().findKontaktByID(3));
 	
 //		Kontaktliste k1 = new Kontaktliste();
 //		Kontakt k = new Kontakt();

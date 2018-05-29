@@ -266,9 +266,9 @@ public class KontaktMapper extends PersonMapper {
 	
 	
 	/**
-	 *  ein Objekt vom Typ Kontakt wird aus der DB gelï¿½scht 
+	 *  ein Objekt vom Typ Kontakt wird aus der DB geloescht 
 	 * @param k
-	 * 	der zu lï¿½schende Kontakt
+	 * 	der zu loeschende Kontakt
 	 * 
 	 */
 	
@@ -287,7 +287,7 @@ public class KontaktMapper extends PersonMapper {
 	
 	
 	/** 
-	 * einen Kontakt anhand des Objekt-namen finden
+	 * einen Kontakt anhand des Objekt-Namen finden
 	 * @param k
 	 * @return k
 	 */
@@ -300,7 +300,7 @@ public class KontaktMapper extends PersonMapper {
      * Auslesen von Kontakten anhand der ID des Kontakterstellers.
      * 
      * @param nutzerID
-     * @return Vector mit sï¿½mtlichen Kontakten mit der ï¿½bergebenen NutzerID
+     * @return Vector mit saemtlichen Kontakten mit der uebergebenen NutzerID
      */
 
 	public Vector<Kontakt> findKontaktByNutzerID(int nutzerID){
@@ -363,7 +363,11 @@ public class KontaktMapper extends PersonMapper {
 		
 	}
 	
-
+/**
+ * Augabe aller Kontakt einer Kontaktliste
+ * @param kontaktlisteID
+ * @return Vector mit sämtlichen Kontakten einer Kontaktliste
+ */
 public Vector<Kontakt> getAllKontakteFromKontaktliste(int kontaktlisteID){
 	
 	Vector<Kontakt> result = new Vector<Kontakt>();
@@ -373,7 +377,7 @@ public Vector<Kontakt> getAllKontakteFromKontaktliste(int kontaktlisteID){
 	try{
 		Statement stmt = con.createStatement();
 		
-		ResultSet rs = stmt.executeQuery("SELECT kontakt.name, kontakt.erzeugungsdatum, kontakt.modifikationsdatum, kontakt.status, kontaktliste.ID "
+		ResultSet rs = stmt.executeQuery("SELECT kontakt.name, kontakt.erzeugungsdatum, kontakt.modifikationsdatum, kontakt.status, kontakt.nutzerID, kontaktliste.ID "
 				+ "FROM kontaktliste"
 				+ " LEFT JOIN kontaktkontaktliste"
 				+ " ON kontaktkontaktliste.kontaktlisteID = kontaktliste.ID "
@@ -388,6 +392,7 @@ public Vector<Kontakt> getAllKontakteFromKontaktliste(int kontaktlisteID){
 			k.setErzeugungsdatum(rs.getDate("erzeugungsdatum"));
 			k.setModifikationsdatum(rs.getDate("modifikationsdatum"));
 			k.setStatus(rs.getInt("status"));
+			k.setNutzerID(rs.getInt("nutzerID"));
 			result.addElement(k);
 		}
 	}
