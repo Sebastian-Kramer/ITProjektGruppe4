@@ -137,6 +137,7 @@ public interface KontaktAdministration extends RemoteService {
      */
     public Nutzer findNutzerByEmail(String email) throws IllegalArgumentException;
     
+
     /**
      * Einen Nutzer anhand seiner ID auslesen.
      * 
@@ -145,6 +146,9 @@ public interface KontaktAdministration extends RemoteService {
      * @throws IllegalArgumentException
      */
     public Nutzer findNutzerByID(int id) throws IllegalArgumentException;
+
+    Nutzer findNutzerByID(String string);
+
     
     /**
      * Alle Nutzer auslesen.
@@ -394,15 +398,9 @@ public interface KontaktAdministration extends RemoteService {
      */
     public void deleteKontaktKontaktliste(KontaktKontaktliste k) throws IllegalArgumentException;
     
-    /**
-     * Auslesen von Kontakten anhand der ID des Kontakterstellers.
-     * 
-     * @param nutzerID
-     * @return Vector mit s�mtlichen Kontakten mit der �bergebenen NutzerID
-     * @throws IllegalArgumentException
-     */
-    public Vector<Kontakt> findKontaktByNutzerID(int nutzerID) throws IllegalArgumentException;
-    
+
+    List<Kontakt> findKontaktByNutzerID(int nutzerID);
+
     /**
      * Auslesen der Kontaktlisten anhand der ID des Kontaktlistenerstellers
      * 
@@ -418,7 +416,7 @@ public interface KontaktAdministration extends RemoteService {
 	 * @return Vector mit sämtlichen Kontakten einer ausgewählten Kontaktliste
 	 * @throws IllegalArgumentException
 	 */
-    
+
     public Vector<Integer> findAllKontakteFromKontaktliste(int i) throws IllegalArgumentException;
     
    /**
@@ -428,6 +426,12 @@ public interface KontaktAdministration extends RemoteService {
     * @throws IllegalArgumentException
     */
     public Vector<Kontakt> getAllKontakteFromKontaktliste(int kontaktlisteID) throws IllegalArgumentException;
+
+    
+
+    
+
+
 
     
     /**
