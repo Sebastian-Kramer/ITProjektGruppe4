@@ -1,4 +1,5 @@
 package de.hdm.itprojektgruppe4.client.gui;
+
 import java.util.ArrayList;
 import java.util.Vector;
 
@@ -27,18 +28,17 @@ import de.hdm.itprojektgruppe4.shared.bo.EigenschaftAuspraegungHybrid;
 import de.hdm.itprojektgruppe4.shared.bo.Eigenschaftauspraegung;
 import de.hdm.itprojektgruppe4.shared.bo.Kontakt;
 
-
-public class UpdateKontaktForm extends VerticalPanel{
+public class UpdateKontaktForm extends VerticalPanel {
 
 	private static KontaktAdministrationAsync verwaltung = ClientsideSettings.getKontaktVerwaltung();
-	
-FlexTable ft_KontaktBearbeiten = new FlexTable();
-	
-private VerticalPanel vpanelDetails = new VerticalPanel();	
-private HorizontalPanel hpanelDetails = new HorizontalPanel();
+
+	FlexTable ft_KontaktBearbeiten = new FlexTable();
+
+	private VerticalPanel vpanelDetails = new VerticalPanel();
+	private HorizontalPanel hpanelDetails = new HorizontalPanel();
 
 	private Kontakt kon = new Kontakt();
-	
+
 	private Label lbl_KontaktName = new Label("Kontaktname: ");
 	private TextBox txt_KontaktName = new TextBox();
 	private TextBox txt_Eigenschaft = new TextBox();
@@ -47,165 +47,138 @@ private HorizontalPanel hpanelDetails = new HorizontalPanel();
 	private Button cancel = new Button("Cancel");
 	private Button addRow = new Button("Add");
 	private Button saveRow = new Button("Save Changes");
-		
+
 	private EigenschaftAuspraegungHybrid ea = new EigenschaftAuspraegungHybrid();
-		
+
 	private Eigenschaft eig1 = new Eigenschaft();
 	private Eigenschaftauspraegung eigaus = new Eigenschaftauspraegung();
-		
-	public UpdateKontaktForm(Kontakt kon) {
-		
-		
-		
-		this.kon = kon;
-	}	
-		
-     public void onLoad(){
- 		
- 		super.onLoad();
- 		
- 		
- 		
-     Window.alert("die id ist: " + kon.getID() + "name: " + kon.getName());
- 		verwaltung.findKontaktByID(kon.getID(), new AsyncCallback<Kontakt>(){
 
- 			
- 			
+	public UpdateKontaktForm(Kontakt kon) {
+
+		this.kon = kon;
+	}
+
+	public void onLoad() {
+
+		super.onLoad();
+
+		Window.alert("die id ist: " + kon.getID() + "name: " + kon.getName());
+		verwaltung.findKontaktByID(kon.getID(), new AsyncCallback<Kontakt>() {
+
 			@Override
 			public void onFailure(Throwable caught) {
 				// TODO Auto-generated method stub
-				
+
 			}
 
 			@Override
 			public void onSuccess(Kontakt result) {
 				txt_KontaktName.setText(result.getName());
-			
-				
-			}
- 			
- 		});
- 		
- 		final CellTableForm ctf = new CellTableForm(kon);
- 		
- 		
 
- 		txt_KontaktName.setText(kon.getName());
-// 		txt_Eigenschaft.setText(kon.ge);
- 		
-// 		hpanelDetails.add(lbl_Eigenschaft);
-// 		hpanelDetails.add(txt_Eigenschaft);
- 		
- 		
- 		
- 		hpanelDetails.add(lbl_KontaktName);
- 		hpanelDetails.add(txt_KontaktName);
- 		hpanelDetails.add(save);
- 		hpanelDetails.add(cancel);
- 		
- 		
- 		vpanelDetails.add(hpanelDetails);
- 		vpanelDetails.add(ctf);
- 		vpanelDetails.add(addRow);
- 		vpanelDetails.add(saveRow);
- 		vpanelDetails.add(txt_Auspraegung);
- 		vpanelDetails.add(txt_Eigenschaft);
- 		
+			}
+
+		});
+
+		final CellTableForm ctf = new CellTableForm(kon);
+
+		txt_KontaktName.setText(kon.getName());
+		// txt_Eigenschaft.setText(kon.ge);
+
+		// hpanelDetails.add(lbl_Eigenschaft);
+		// hpanelDetails.add(txt_Eigenschaft);
+
+		hpanelDetails.setHeight("35px");
+		hpanelDetails.add(lbl_KontaktName);
+		hpanelDetails.add(txt_KontaktName);
+		hpanelDetails.add(save);
+		hpanelDetails.add(cancel);
+
+		vpanelDetails.add(hpanelDetails);
+		vpanelDetails.add(ctf);
+		vpanelDetails.add(addRow);
+		vpanelDetails.add(saveRow);
+		vpanelDetails.add(txt_Auspraegung);
+		vpanelDetails.add(txt_Eigenschaft);
 
 		this.add(vpanelDetails);
- 		
- 		ea.setAuspraegung(txt_Auspraegung.getText());
- 		ea.setEigenschaft(txt_Eigenschaft.getText());
- 		
- 		
-// 		ctf.sm.getLastSelectedObject().getAuspraegung();
- 		
-// 		eigaus.setEigenschaftsID(ctf.getSm().getSelectedObject().getEigenschaftID());
-// 		eigaus.setWert(ctf.getSm().getSelectedObject().getAuspraegung());
-// 		
-// 		saveRow.addClickHandler(new ClickHandler() {
-// 			
-// 			@Override
-// 			public void onClick(ClickEvent event) {
-// 				Window.alert("hallo clirim");
-// 			}
-// 		});
- 		
-		addRow.addClickHandler(new ClickHandler(){
+
+		ea.setAuspraegung(txt_Auspraegung.getText());
+		ea.setEigenschaft(txt_Eigenschaft.getText());
+
+		// ctf.sm.getLastSelectedObject().getAuspraegung();
+
+		// eigaus.setEigenschaftsID(ctf.getSm().getSelectedObject().getEigenschaftID());
+		// eigaus.setWert(ctf.getSm().getSelectedObject().getAuspraegung());
+		//
+		// saveRow.addClickHandler(new ClickHandler() {
+		//
+		// @Override
+		// public void onClick(ClickEvent event) {
+		// Window.alert("hallo clirim");
+		// }
+		// });
+
+		addRow.addClickHandler(new ClickHandler() {
 
 			@Override
 			public void onClick(ClickEvent event) {
 				ctf.addRow(txt_Eigenschaft.getValue(), txt_Auspraegung.getValue());
-				
-				
+
 				verwaltung.insertEigenschaft(txt_Eigenschaft.getText(), 0, new AsyncCallback<Eigenschaft>() {
 
 					@Override
 					public void onFailure(Throwable caught) {
 						// TODO Auto-generated method stub
-						
+
 					}
 
 					@Override
 					public void onSuccess(Eigenschaft result) {
 						// TODO Auto-generated method stub
-						
+
 						eig1.setID(result.getID());
-						
-						verwaltung.insertAuspraegung(txt_Auspraegung.getText(), 0, eig1.getID(), kon.getID(), new AsyncCallback<Eigenschaftauspraegung>() {
 
-							@Override
-							public void onFailure(Throwable caught) {
-								// TODO Auto-generated method stub
-								
-							}
+						verwaltung.insertAuspraegung(txt_Auspraegung.getText(), 0, eig1.getID(), kon.getID(),
+								new AsyncCallback<Eigenschaftauspraegung>() {
 
-							@Override
-							public void onSuccess(Eigenschaftauspraegung result) {
-								// TODO Auto-generated method stub
-							}
-						});
+									@Override
+									public void onFailure(Throwable caught) {
+										// TODO Auto-generated method stub
+
+									}
+
+									@Override
+									public void onSuccess(Eigenschaftauspraegung result) {
+										// TODO Auto-generated method stub
+									}
+								});
 					}
 				});
-				
-				
-				
-				
-				
-				
-				
-				
-				
-				
+
 			}
-			
+
 		});
-		
-		
-		
- 		verwaltung.findAllEigenschaft(new AsyncCallback<Vector<Eigenschaft>>(){
+
+		verwaltung.findAllEigenschaft(new AsyncCallback<Vector<Eigenschaft>>() {
 
 			@Override
 			public void onFailure(Throwable caught) {
 				// TODO Auto-generated method stub
-				
+
 			}
 
 			@Override
 			public void onSuccess(Vector<Eigenschaft> result) {
 				Window.alert("alle Eigenschaften m�ssten gefunden sein");
-				
-				for (Eigenschaft eig: result){
-					
+
+				for (Eigenschaft eig : result) {
+
 				}
-				
+
 			}
- 			
- 		});
- 		
- 		
- 		
-}
+
+		});
 
 	}
 
+}

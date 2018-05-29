@@ -66,6 +66,8 @@ public class KontaktForm extends VerticalPanel {
 	
 	public void onLoad(){
 		
+		RootPanel.get("Buttonbar").clear();
+		
 		HTML html1 = new HTML("<h2>Meine Kontakt " +  k.getName()   + "</h2>"); 
 //		HTML html2 = new HTML("<div id = 'Linie'>_________________________________________________________________________________________________________________________________________________________________________________________________________</div>");
 		
