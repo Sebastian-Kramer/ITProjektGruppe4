@@ -401,7 +401,7 @@ public interface KontaktAdministration extends RemoteService {
      * @return Vector mit s�mtlichen Kontakten mit der �bergebenen NutzerID
      * @throws IllegalArgumentException
      */
-    public Vector<Kontakt> findKontaktByNutzerID(int nutzerID) throws IllegalArgumentException;
+    public List<Kontakt> findKontaktByNutzerID(int nutzerID) throws IllegalArgumentException;
     
     /**
      * Auslesen der Kontaktlisten anhand der ID des Kontaktlistenerstellers
@@ -422,6 +422,7 @@ public interface KontaktAdministration extends RemoteService {
     public Vector<Integer> findAllKontakteFromKontaktliste(int i) throws IllegalArgumentException;
     
    /**
+    *
     * 
     * @param kontaktlisteID die ID der Kontaktliste
     * @return Vector mit s�mtlichen Kontakten einer Kontaktliste
@@ -429,22 +430,41 @@ public interface KontaktAdministration extends RemoteService {
     */
     public Vector<Kontakt> getAllKontakteFromKontaktliste(int kontaktlisteID) throws IllegalArgumentException;
 
-    
     /**
      * 
      * @param kl das KontaktlistenObjekt
      * @return Vector mit s�mtlichen Kontakten einer Kontaktliste
      * @throws IllegalArgumentException
      */
-    public Vector<Kontakt> getAllKontakteFromKontaktliste(Kontaktliste kl) throws IllegalArgumentException;
     
-    
-    
+
     public Vector<Eigenschaftauspraegung> insertBasicAuspraegung(String wert, int status, int kontaktID) throws IllegalArgumentException;
     
+    
+    /**
+     * 
+     * @param nutzerID die ID des Nutzers
+     * @return Vector mit s�mtlichen erstellten und geteilten Kontaktlisten eines Users
+     * @throws IllegalArgumentException
+     */
+    public Vector<Kontaktliste> getAllKontaktlistenFromUser (int nutzerID) throws IllegalArgumentException;
+
+    /**
+     * Ausgabe aller Teilhaberschaften eines Nutzers
+     * 
+     * @param nutzerID
+     * @return Vector mit allen Teilhaberschaften eines Nutzers
+     */
+	public Vector<Teilhaberschaft> getAllTeilhaberschaftenFromUser(int nutzerID) throws IllegalArgumentException;
+    
+	/**
+	 * 
+	 * @param kontaktlisteID
+	 * @return Vector mit KontaktKontaktlisten-Objekten die �bergebene KontaktlisteID als Fremdschl�ssel besitzen
+	 * @throws IllegalArgumentException
+	 */
+	public Vector<KontaktKontaktliste> getKontaktKontaktlisteFromKontaktliste(int kontaktlisteID) throws IllegalArgumentException;
   
-    
-    
     /**
      * @param name 
      * @param erzeugungsdatum 
