@@ -4,6 +4,8 @@ import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.Vector;
+
 import de.hdm.itprojektgruppe4.shared.bo.Teilhaberschaft;
 
 /**
@@ -71,12 +73,50 @@ public class TeilhaberschaftMapper {
 	}
 	
 	/**
-	 *  Einf�gen eines neuen Objktes vom Typ Teilhaberschaft in die DB
-	 *  der PK wird �berpr�ft und korrigiert -> maxID +1 
+	 * Ausgabe von Teilhaberschaft-Objekten anhand der TeilhaberID
+	 * 
+	 * @param teilhaberID
+	 * @return Vector mit s�mtlichen Teilhaberschaften
+	 */
+	public Vector<Teilhaberschaft> findTeilhaberschaftByTeilhaberID(int teilhaberID){
+		Vector<Teilhaberschaft> result = new Vector<Teilhaberschaft>();
+		
+		Connection con = DBConnection.connection();
+		
+		
+		try{
+			Statement stmt = con.createStatement();
+			
+			ResultSet rs = stmt.executeQuery("SELECT * FROM teilhaberschaft WHERE teilhaberID = " + teilhaberID);
+		
+		while(rs.next()){
+			Teilhaberschaft teilhaberschaft = new Teilhaberschaft();
+			teilhaberschaft.setID(rs.getInt("ID"));
+			teilhaberschaft.setKontaktListeID(rs.getInt("kontaktlisteID"));
+			teilhaberschaft.setKontaktID(rs.getInt("kontaktID"));
+			teilhaberschaft.setEigenschaftsauspraegungID(rs.getInt("eigenschaftsauspraegungID"));
+			teilhaberschaft.setTeilhaberID(rs.getInt("teilhaberID"));
+			
+			result.addElement(teilhaberschaft);
+			
+		}
+		
+		}catch(SQLException e){
+			e.printStackTrace();
+		}
+		
+		return result;
+		
+	}
+	
+	 
+	/**
+	 *  Einfuegen eines neuen Objktes vom Typ Teilhaberschaft in die DB
+	 *  der PK wird ueberprueft und korrigiert -> maxID +1 
 	 * @param t 
 	 * die zu speichernde Teilhaberschaft
 	 * @return
-	 * die bereits �bergebene Teilhaberschaft
+	 * die bereits uebergebene Teilhaberschaft
 	 */
 	
 	  public Teilhaberschaft insertTeilhaberschaft(Teilhaberschaft t) {
@@ -111,9 +151,9 @@ public class TeilhaberschaftMapper {
 		  }
 	  
 		/**
-		 *  ein Objekt vom Typ Teilhaberschaft wird aus der DB gel�scht 
+		 *  ein Objekt vom Typ Teilhaberschaft wird aus der DB geloescht 
 		 * @param t
-		 * 	die zu l�schende Person
+		 * 	@return die zu loeschende Person
 		 */
 	  
 	  public void deleteTeilhaberschaft(Teilhaberschaft t) {
@@ -138,9 +178,9 @@ public class TeilhaberschaftMapper {
 		  }
 	  
 	  /**
-	     * Eine Teilhaberschaft an einem Kontakt l�schen.
+	     * Eine Teilhaberschaft an einem Kontakt loeschen.
 	     * 
-	     * @param t das zur l�schende Teilhaber-Objekt
+	     * @param t das zu loeschende Teilhaber-Objekt
 	     */
 	  
 	  public void deleteKontaktFromTeilhaberschaft(Teilhaberschaft t) {
@@ -197,9 +237,9 @@ public class TeilhaberschaftMapper {
 		  }
 	  
 	    /**
-	     * Eine Teilhaberschaft an einer Eigenschftausprägung l�schen.
+	     * Eine Teilhaberschaft an einer Eigenschftausprägung loeschen.
 	     * 
-	     * @param t das zu l�schende Teilhaberschaft-Objekt
+	     * @param t das zu loeschende Teilhaberschaft-Objekt
 	     * @throws IllegalArgumentException
 	     */
 
@@ -226,6 +266,8 @@ public class TeilhaberschaftMapper {
 		    }
 		    
 		  }
+	  
+	  
 
 }
 

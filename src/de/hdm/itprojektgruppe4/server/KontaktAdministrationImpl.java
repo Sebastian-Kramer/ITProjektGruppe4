@@ -3,6 +3,7 @@ package de.hdm.itprojektgruppe4.server;
 import java.util.Date;
 import java.util.List;
 import java.util.Vector;
+import java.util.Collections;
 import java.text.SimpleDateFormat;
 
 import com.google.gwt.user.client.Window;
@@ -79,6 +80,7 @@ public class KontaktAdministrationImpl extends RemoteServiceServlet
         this.eigenschaftauspraegungMapper = EigenschaftauspraegungMapper.eigenschaftauspraegungMapper();
         this.eigMapper = EigenschaftMapper.eigenschaftMapper();
         this.kontaktKontaktlisteMapper = KontaktKontaktlisteMapper.kontaktkontaktlistemapper();
+        this.teilhaberschaftMapper = TeilhaberschaftMapper.teilhaberschaftMapper();
     }
 
     
@@ -395,7 +397,7 @@ public class KontaktAdministrationImpl extends RemoteServiceServlet
 	
 	
 	 /**
-     * Lï¿½schen einer Person.
+     * Loeschen einer Person.
      * 
      * @param p das zu lï¿½schende Personen-Objekt
      * @throws IllegalArgumentException
@@ -456,7 +458,7 @@ public class KontaktAdministrationImpl extends RemoteServiceServlet
     /**
      * Eine Eigenschaft anhand der ID auslesen.
      * 
-     * @param id, Primï¿½rschlï¿½ssel der Eigenschaft
+     * @param id, Primaerrschluessel der Eigenschaft
      * @return Eigenschaft-Objekt
      * @throws IllegalArgumentException
      */
@@ -734,12 +736,40 @@ public class KontaktAdministrationImpl extends RemoteServiceServlet
 		return this.konlistMapper.findKontaktlisteByNutzerID(nutzerID);
 	}
 	
+	 /**
+     * Auslesen aller erstellten und geteilten Kontaktlisten eines Nutzers
+     * 
+     * @param nutzerID die ID des Nutzers
+     * @return Vector mit sämtlichen erstellten und geteilten Kontaktlisten eines Users
+     * @throws IllegalArgumentException
+     */
+	@Override
+	public Vector<Kontaktliste> getAllKontaktlistenFromUser(int nutzerID) throws IllegalArgumentException {
+	 //Instantiieren der benötigten Vectoren um Kontaktlisten und Teilhaberschaft Objekte abspeichern zu können 
+	Vector<Kontaktliste> kontlisten = findKontaktlisteByNutzerID(nutzerID);
+	  Vector<Teilhaberschaft> teilhabe = getAllTeilhaberschaftenFromUser(nutzerID);
+	  
+	  //Für jede Teilhaberschaft an einer Kontaktliste wird das entsprechende Kontaktlisten-Objekt in einem neuen Vector gespeichert
+	 if (teilhabe != null){
+		 Vector<Kontaktliste> kontlist = new Vector<Kontaktliste>();
+		 for (Teilhaberschaft teilhaberschaft : teilhabe) {
+	 	kontlist.add(findKontaktlisteByID(teilhaberschaft.getKontaktListeID()));
+	}
+		//Hinzufügen der Kontaktlisten an denen eine Teilhaberschaft besteht zum Vector mit den eigens erstellten Kontaktlisten
+		 kontlisten.addAll(kontlist);
+	 }
+	  
+	 //Rückgabe des Vectors mit den erstellten und geteilten Kontaktlisten
+	  return kontlisten;
+		
+	}
+	
 	/*##########################################################
-     * ENDE Methoden fï¿½r Kontaktliste-Objekte
+     * ENDE Methoden fuer Kontaktliste-Objekte
      #########################################################*/
 	
 	/*##########################################################
-     * START Methoden fï¿½r KontaktKontaktliste-Objekte
+     * START Methoden fuer KontaktKontaktliste-Objekte
      #########################################################*/
 	
 	/**
@@ -806,8 +836,11 @@ public class KontaktAdministrationImpl extends RemoteServiceServlet
 		return this.teilhaberschaftMapper.findByID(id);
 	}
 	
+
+
+	
 	/**
-     * Eine Teilhaberschaft lï¿½schen.
+     * Eine Teilhaberschaft loeschen.
      * 
      * @param t das zu lï¿½schende Teilhaberschaft-Objekt
      * @throws IllegalArgumentException
@@ -820,7 +853,7 @@ public class KontaktAdministrationImpl extends RemoteServiceServlet
 	}
 
 	/**
-     * Eine Teilhaberschaft an einem Kontakt lï¿½schen.
+     * Eine Teilhaberschaft an einem Kontakt loeschen.
      * 
      * @param t das zur lï¿½schende Teilhaber-Objekt
      * @throws IllegalArgumentException
@@ -833,7 +866,7 @@ public class KontaktAdministrationImpl extends RemoteServiceServlet
 	}
 
 	/**
-     * Eine Teilhaberschaft an einer Kontaktliste lï¿½schen.
+     * Eine Teilhaberschaft an einer Kontaktliste loeschen.
      * 
      * @param t das zu lï¿½schende Teilhaberschaft-Objekt
      * @throws IllegalArgumentException
@@ -894,9 +927,24 @@ public class KontaktAdministrationImpl extends RemoteServiceServlet
 
 	@Override
 	public Vector<Kontakt> getAllKontakteFromKontaktliste(Kontaktliste kl) throws IllegalArgumentException {
-		// TODO Auto-generated method stub
 		return this.konMapper.getAllKontakteFromKontaktliste(kl);
 	}
+
+
+
+	@Override
+	public Vector<Teilhaberschaft> getAllTeilhaberschaftenFromUser(int nutzerID) {
+		return this.teilhaberschaftMapper.findTeilhaberschaftByTeilhaberID(nutzerID);
+	}
+
+
+
+
+
+
+
+
+
 
 
 

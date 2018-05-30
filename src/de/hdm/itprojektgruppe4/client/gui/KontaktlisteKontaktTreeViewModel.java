@@ -138,6 +138,24 @@ public class KontaktlisteKontaktTreeViewModel implements TreeViewModel {
 		// TODO Auto-generated method stub
 		if (value == null) {
 			kontaktlisteDataProvider = new ListDataProvider<Kontaktliste>();
+			kontaktVerwaltung.getAllKontaktlistenFromUser(1, new AsyncCallback<Vector<Kontaktliste>>(){
+
+				@Override
+				public void onFailure(Throwable caught) {
+					// TODO Auto-generated method stub
+					
+				}
+
+				@Override
+				public void onSuccess(Vector<Kontaktliste> result) {
+					for(Kontaktliste kl: result){
+						kontaktlisteDataProvider.getList().add(kl);
+					}
+					
+				}
+				
+			});
+			/**
 			kontaktVerwaltung.findKontaktlisteByNutzerID(1, new AsyncCallback<Vector<Kontaktliste>>() {
 
 				@Override
@@ -155,7 +173,7 @@ public class KontaktlisteKontaktTreeViewModel implements TreeViewModel {
 				}
 
 			});
-
+			 */
 			return new DefaultNodeInfo<Kontaktliste>(kontaktlisteDataProvider, new KontaktlisteCell(), selectionModel,
 					null);
 		}

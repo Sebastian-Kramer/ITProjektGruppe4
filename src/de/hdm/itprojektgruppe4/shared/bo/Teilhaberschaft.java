@@ -46,11 +46,6 @@ public class Teilhaberschaft extends BusinessObject{
 		this.teilhaberID = teilhaberID;
 	}
 
-	@Override
-	public String toString() {
-		return "Teilhaberschaft [kontaktID=" + kontaktID + ", kontaktListeID=" + kontaktListeID
-				+ ", eigenschaftsauspraegungID=" + eigenschaftsauspraegungID + ", teilhaberID=" + teilhaberID + "]";
-	} 
 	
 	
 	

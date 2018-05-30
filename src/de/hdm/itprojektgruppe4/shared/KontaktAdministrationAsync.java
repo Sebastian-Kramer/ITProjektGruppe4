@@ -174,6 +174,15 @@ public interface KontaktAdministrationAsync {
 			AsyncCallback<Vector<Eigenschaftauspraegung>> callback);
 
 
+	void getAllKontaktlistenFromUser(int NutzerID, AsyncCallback<Vector<Kontaktliste>> callback);
+
+
+	void getAllTeilhaberschaftenFromUser(int nutzerID, AsyncCallback<Vector<Teilhaberschaft>> callback);
+
+
+	
+
+
 	
 
 

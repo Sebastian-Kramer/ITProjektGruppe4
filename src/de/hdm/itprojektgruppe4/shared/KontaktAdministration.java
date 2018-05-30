@@ -442,9 +442,18 @@ public interface KontaktAdministration extends RemoteService {
     
     public Vector<Eigenschaftauspraegung> insertBasicAuspraegung(String wert, int status, int kontaktID) throws IllegalArgumentException;
     
+    
+    /**
+     * 
+     * @param nutzerID die ID des Nutzers
+     * @return Vector mit sämtlichen erstellten und geteilten Kontaktlisten eines Users
+     * @throws IllegalArgumentException
+     */
+    public Vector<Kontaktliste> getAllKontaktlistenFromUser (int nutzerID) throws IllegalArgumentException;
+
+	public Vector<Teilhaberschaft> getAllTeilhaberschaftenFromUser(int nutzerID);
+    
   
-    
-    
     /**
      * @param name 
      * @param erzeugungsdatum 
