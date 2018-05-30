@@ -54,7 +54,9 @@ public class UpdateKontaktForm extends VerticalPanel {
 	private HorizontalPanel hpanelDetails = new HorizontalPanel();
 
 	private Kontakt kon = new Kontakt();
+
 	private CellTableForm ctf1 = new CellTableForm(kon);
+
 
 	private Label lbl_KontaktName = new Label("Kontaktname: ");
 	private TextBox txt_KontaktName = new TextBox();
@@ -70,7 +72,20 @@ public class UpdateKontaktForm extends VerticalPanel {
 	private Eigenschaft eig1 = new Eigenschaft();
 	private Eigenschaftauspraegung eigaus = new Eigenschaftauspraegung();
 
+
 	private SingleSelectionModel<EigenschaftAuspraegungHybrid> sm = new SingleSelectionModel<EigenschaftAuspraegungHybrid>();
+
+//	public UpdateKontaktForm(Kontakt kon) {
+//
+//		this.kon = kon;
+//	}
+//
+//	public void onLoad() {
+//
+//		super.onLoad();
+//
+//		// Window.alert("die id ist: " + kon.getID() + "name: " +
+//		// kon.getName());
 
 	public UpdateKontaktForm(Kontakt kon) {
 
@@ -81,8 +96,8 @@ public class UpdateKontaktForm extends VerticalPanel {
 
 		super.onLoad();
 
-		// Window.alert("die id ist: " + kon.getID() + "name: " +
-		// kon.getName());
+		Window.alert("die id ist: " + kon.getID() + "name: " + kon.getName());
+
 		verwaltung.findKontaktByID(kon.getID(), new AsyncCallback<Kontakt>() {
 
 			@Override
@@ -107,6 +122,8 @@ public class UpdateKontaktForm extends VerticalPanel {
 		// hpanelDetails.add(lbl_Eigenschaft);
 		// hpanelDetails.add(txt_Eigenschaft);
 
+
+		hpanelDetails.setHeight("35px");
 		hpanelDetails.add(lbl_KontaktName);
 		hpanelDetails.add(txt_KontaktName);
 		hpanelDetails.add(save);
@@ -123,6 +140,7 @@ public class UpdateKontaktForm extends VerticalPanel {
 
 		ea.setAuspraegung(txt_Auspraegung.getText());
 		ea.setEigenschaft(txt_Eigenschaft.getText());
+
 
 		// System.out.println(ctf.sm.getLastSelectedObject().getAuspraegung());
 		// Window.alert(""+ ctf.getSm().getSelectedObject().getAuspraegung());
@@ -190,6 +208,20 @@ public class UpdateKontaktForm extends VerticalPanel {
 			}
 		});
 
+		// ctf.sm.getLastSelectedObject().getAuspraegung();
+
+		// eigaus.setEigenschaftsID(ctf.getSm().getSelectedObject().getEigenschaftID());
+		// eigaus.setWert(ctf.getSm().getSelectedObject().getAuspraegung());
+		//
+		// saveRow.addClickHandler(new ClickHandler() {
+		//
+		// @Override
+		// public void onClick(ClickEvent event) {
+		// Window.alert("hallo clirim");
+		// }
+		// });
+
+
 		addRow.addClickHandler(new ClickHandler() {
 
 			@Override
@@ -246,11 +278,17 @@ public class UpdateKontaktForm extends VerticalPanel {
 				for (Eigenschaft eig : result)
 					;
 
+				for (Eigenschaft eig : result) {
+
+				}
+
+
 			}
 
 		});
 
 	}
+
 
 	class AuspraegungBearbeitenCallback implements AsyncCallback<Eigenschaftauspraegung> {
 
@@ -278,5 +316,6 @@ public class UpdateKontaktForm extends VerticalPanel {
 	// }
 	//
 	// }
+
 
 }

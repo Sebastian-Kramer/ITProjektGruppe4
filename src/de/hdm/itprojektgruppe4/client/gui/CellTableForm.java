@@ -74,7 +74,7 @@ public class CellTableForm extends CellTable<EigenschaftAuspraegungHybrid> {
 				return object.getEigenschaft();
 			}
 		};
-
+		bezEigenschaft.setCellStyleNames("bezEigenschaft");
 		this.addColumn(bezEigenschaft, "Eigenschaft");
 
 		wertAuspraegung = new Column<EigenschaftAuspraegungHybrid, String>(new EditTextCell()) {
@@ -94,9 +94,9 @@ public class CellTableForm extends CellTable<EigenschaftAuspraegungHybrid> {
 		// ListDataProvider<EigenschaftAuspraegungHybrid> model = new
 		// ListDataProvider<EigenschaftAuspraegungHybrid>();
 		// model.addDataDisplay(this);
-
+		bezEigenschaft.setCellStyleNames("add-scrollbar");
 		bezEigenschaft.setSortable(true);
-
+		this.setHeight("300px");
 		this.setRowCount(getUserList().size());
 		model.addDataDisplay(this);
 
