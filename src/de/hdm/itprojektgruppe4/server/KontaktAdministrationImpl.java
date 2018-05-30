@@ -348,6 +348,7 @@ public class KontaktAdministrationImpl extends RemoteServiceServlet
 		return this.nutzerMapper.findNutzerByEmail(email);
 	}
 
+
 	
 	   /**
      * Einen Nutzer anhand seiner ID auslesen.
@@ -368,6 +369,12 @@ public class KontaktAdministrationImpl extends RemoteServiceServlet
      * @return Vector s�mtlicher Nutzer
      * @throws IllegalArgumentException
      */
+
+//	@Override
+//	public Nutzer findNutzerByID(int id) throws IllegalArgumentException {
+//		return this.nutzerMapper.findNutzerByID(id);
+//	}
+
 
 	@Override
 	public Vector<Nutzer> findAllNutzer() throws IllegalArgumentException {
@@ -722,6 +729,7 @@ public class KontaktAdministrationImpl extends RemoteServiceServlet
 		
 	}
 		
+
 	 /**
      * Auslesen der Kontaktlisten anhand der ID des Kontaktlistenerstellers
      * 
@@ -735,7 +743,9 @@ public class KontaktAdministrationImpl extends RemoteServiceServlet
 		// TODO Auto-generated method stub
 		return this.konlistMapper.findKontaktlisteByNutzerID(nutzerID);
 	}
+
 	
+
 	 /**
      * Auslesen aller erstellten und geteilten Kontaktlisten eines Nutzers
      * 
@@ -764,6 +774,7 @@ public class KontaktAdministrationImpl extends RemoteServiceServlet
 		
 	}
 	
+
 	/*##########################################################
      * ENDE Methoden fuer Kontaktliste-Objekte
      #########################################################*/
@@ -898,6 +909,7 @@ public class KontaktAdministrationImpl extends RemoteServiceServlet
 
 
 	@Override
+
 	public Vector<EigenschaftAuspraegungHybrid> findHybrid(Person pers) throws IllegalArgumentException {
 		
 		Vector<Eigenschaftauspraegung> eigaus = getAuspraegungByKontaktID(pers.getID());
@@ -929,6 +941,15 @@ public class KontaktAdministrationImpl extends RemoteServiceServlet
 	public Vector<Kontakt> getAllKontakteFromKontaktliste(Kontaktliste kl) throws IllegalArgumentException {
 		return this.konMapper.getAllKontakteFromKontaktliste(kl);
 	}
+
+
+	public Nutzer findNutzerByID(String string) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+
+
 
 
 

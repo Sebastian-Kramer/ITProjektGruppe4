@@ -1,27 +1,30 @@
-/** Add css rules here for your application. */
-
-
-/** Example rules used by the template application (remove for your app) */
-h1 {
-  font-size: 2em;
-  font-weight: bold;
-  color: #777777;
-  margin: 40px 0px 70px;
-  text-align: center;
+html {
+	background: aliceblue;
 }
 
-h2{
+h1 {
+	font-size: 2em;
+	font-weight: bold;
+	color: #777777;
+	margin: 40px 0px 70px;
+	text-align: center;
+}
+
+h2 {
 	text-align: center;
 	margin-top: 3px;
 }
 
-h2#Kontakt{
+h2#Kontakt {
 	text-align: left;
 }
+
 .sendButton {
-  display: block;
-  font-size: 16pt;
+	display: block;
+	font-size: 16pt;
 }
+
+
 
 /** Most GWT widgets already have a style name defined */
 .gwt-DialogBox {
@@ -32,176 +35,191 @@ h2#Kontakt{
   margin: 5px;
 }
 
+.loginPanel {
+   margin-left: auto;
+   margin-right: auto;
+}
+
 .serverResponseLabelError {
   color: red;
 }
 
 /** Set ids using widget.getElement().setId("idOfElement") */
+
 #closeButton {
-  margin: 15px 6px 6px;
-}
-/* Stylesheet für Selfhtml Design 02 
-  responsives Layout mit Flexbox ab Z. 248   */
-
-/* ====================================================   GLOBAL DEFINITION   ==================================================== */
-
-/* alternatives Boxmodell */
-
-html {
-  box-sizing: border-box;
-}
-
-*,
-::before,
-::after {
-  box-sizing: inherit;
+	margin: 15px 6px 6px;
 }
 
 body {
-  margin: 0;
-  height:100%;
-  font: normal 1em Arial, sans-serif;
-  color: #333;
+	margin: 0;
+	height: 100%;
+	font: normal 1em Arial, sans-serif;
+	color: #333;
 }
 
 /* ====================================================   HEADER   ==================================================== */
+header {
+	
+}
 
 [role="banner"] {
-  background: url("http://ducktalk.org/wp-content/uploads/2017/02/people-icons-80620.png") no-repeat right,
-  #000 repeating-linear-gradient(-45deg, LightSkyBlue, DodgerBlue, DeepSkyBlue, LightSkyBlue, DodgerBlue, DeepSkyBlue);
-  background-size: contain, auto;
-  padding: 0 0 0.5em;
+	background:
+		url("http://ducktalk.org/wp-content/uploads/2017/02/people-icons-80620.png")
+		no-repeat right, #000
+		repeating-linear-gradient(-45deg, LightSkyBlue, DodgerBlue, DeepSkyBlue,
+		LightSkyBlue, DodgerBlue, DeepSkyBlue);
+	background-size: contain, auto;
+	padding: 0 0 0.5em;
 }
 
 @media screen and (max-width: 40em) {
-  /* Normalerweise werden solche responsiven Layout-Einstellungen gesondert am Schluss notiert. Hier sollen die mulitple backgrounds aber gleich anfangs gezeigt werden. Auf zu kleinen Bildschirmen wird das Bild jedoch ausgeblendet.  */
-  [role="banner"] {
-    background-image: none;
-  }
+	/* Normalerweise werden solche responsiven Layout-Einstellungen gesondert am Schluss notiert. Hier sollen die mulitple backgrounds aber gleich anfangs gezeigt werden. Auf zu kleinen Bildschirmen wird das Bild jedoch ausgeblendet.  */
+	[role="banner"] {
+		background-image: none;
+	}
 }
 
-[role="banner"] h1,
-[role="banner"] p {
-  max-width: 60em;
-  margin: 0 auto;
-  padding-left: 10%;
-  font-family: 'Roboto', sans-serif;
-  font-variant: small-caps;
-  font-weight: lighter;
-  font-size: 2em;
-  color: #eee;
+[role="banner"] h1, [role="banner"] p {
+	max-width: 60em;
+	margin: 0 auto;
+	padding-left: 10%;
+	font-family: 'Roboto', sans-serif;
+	font-variant: small-caps;
+	font-weight: lighter;
+	font-size: 2em;
+	color: #eee;
 }
 
 [role="banner"] p {
-  padding: 1em 10%;
-  color: white;
+	padding: 1em 10%;
+	color: white;
 }
 
 [role="banner"] img {
-  float: right;
-  height: 15em;
+	float: right;
+	height: 15em;
 }
-
 
 /* ==================================== content ===========================  */
-
 div#Navigationsseite {
-    background: white;
-    width: 100%;
-    height: 500px;
+	background: white;
+	width: 100%;
+	height: 100%;
 }
 
-div#Navigator{
+div#Navigator {
 	border: 1px solid LightSkyBlue;
 	background: rgba(230, 230, 250, 0.14);
-    width: 250px;
-    height: 500px;
-    margin-top: 5px;
+	width: 250px;
+	height: 100%;
+	min-height: 500px;
 }
 
-div#Details{
-	border: 1px solid LightSkyBlue;
-    background: rgba(230, 230, 250, 0.14);
-    width: 100%;
-    height: 450px;
+div#Details {
+	width: 100%;
+	height: 90%;
 }
 
-div#Buttonbar{
-	border: 1px solid LightSkyBlue;
-    background: rgba(230, 230, 250, 0.14);
-    width: 100%;
-    height: 50px;
-    margin-top: 5px;
+div#Buttonbar {
+	width: 100%;
+	height: 5%;
+	min-height: 45px;
+	max-height: 45px;
+	margin-bottom: 15px;
+	border-bottom: 1px solid LightSkyBlue;
 }
 
-a,
-.akzentfarbe1 {
-  color: #28729a;
+a, .akzentfarbe1 {
+	color: #28729a;
 }
 
 .akzentfarbe2 {
-  color: #ccc;
+	color: #ccc;
 }
 
-h1{
-  color: #28729a;
-  font-size: 1.50em;
-  font-weight: normal;
-  font-family: 'Tauri', serif;
-  text-transform: uppercase;
+h1 {
+	color: #28729a;
+	font-size: 1.50em;
+	font-weight: normal;
+	font-family: 'Tauri', serif;
+	text-transform: uppercase;
 }
 
-tr{
-	height: inherit;
+tr {
+	height: 15px;
 }
 
-table{
+table {
 	width: 100%;
+	height: 15px;
+}
+
+table#MainTable {
+	min-height: 500px;
 	height: 100%;
 }
 
-td{
+td {
 	height: 30px;
+	vertical-align: top;
 }
 
-td#links{
-	width:200px;
+div#Linie {
+	width: 100%;
+	text-align: middle;
+}
+
+td#links {
+	border: 1px solid LightSkyBlue;
+	background: rgba(230, 230, 250, 0.14);
+	width: 200px;
 	height: 100%;
 }
 
-td#rechts{
+td#rechts {
+	border: 1px solid LightSkyBlue;
+	background: rgba(230, 230, 250, 0.14);
 	width: 100%;
-	height: 500px;
+	height: 100%;
 }
 
+bezEigenschaft {
+	height: 15px;
+}
+
+.add-scrollbar {
+	display: block;
+	overflow: auto;
+}
 /* ==================================== footer ===========================  */
-
 footer {
-  background: #666 repeating-linear-gradient(-45deg, LightSkyBlue, DodgerBlue, DeepSkyBlue, LightSkyBlue, DodgerBlue, DeepSkyBlue);
-  padding: 0.5em 1em 0;
-  margin-top: 1em;
-  color: white;
+	background: #666
+		repeating-linear-gradient(-45deg, LightSkyBlue, DodgerBlue, DeepSkyBlue,
+		LightSkyBlue, DodgerBlue, DeepSkyBlue);
+	padding: 0.5em 1em 0;
+	color: white;
 }
 
-footer > * {
-  flex:  1 1 20em;
+footer>* {
+	flex: 1 1 20em;
 }
 
 footer .branding {
-  text-align: right;
+	text-align: right;
 }
 
 .gwt-Button {
-    margin: 10px;
-    padding: 5px 7px;
-    text-decoration: none;
-    cursor: pointer;
-    cursor: hand;
-    font-size: small;
-    background: url(images/hborder.png) repeat-x 0px -2077px;
-    border: 1px solid #bbb;
-    border-bottom: 1px solid #a0a0a0;
-    border-radius: 3px;
-    -moz-border-radius: 3px;
+	/*
+	margin: 10px;
+	padding: 5px 7px;
+	text-decoration: none;
+	cursor: pointer;
+	cursor: hand;
+	font-size: small;
+	background: url(images/hborder.png) repeat-x 0px -2077px;
+	border: 1px solid #bbb;
+	border-bottom: 1px solid #a0a0a0;
+	border-radius: 3px;
+	-moz-border-radius: 3px;
+	*/
 }
-

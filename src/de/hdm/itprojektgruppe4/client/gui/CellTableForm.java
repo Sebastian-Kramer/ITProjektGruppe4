@@ -63,6 +63,7 @@ public class CellTableForm extends CellTable<EigenschaftAuspraegungHybrid> {
 		}
 	};
 	
+	bezEigenschaft.setCellStyleNames("bezEigenschaft");
 	this.addColumn(bezEigenschaft, "Eigenschaft");
 	
 	
@@ -83,9 +84,10 @@ this.addColumn(wertAuspraegung, "Auspraegung");
 //	model.addDataDisplay(this);
 
 
-
+	bezEigenschaft.setCellStyleNames("add-scrollbar");
 	bezEigenschaft.setSortable(true);
 	
+	this.setHeight("300px");
 	this.setRowCount(getUserList().size());
 	model.addDataDisplay(this);
 	

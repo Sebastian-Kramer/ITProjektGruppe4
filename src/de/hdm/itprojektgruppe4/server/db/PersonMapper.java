@@ -90,7 +90,7 @@ Connection con = DBConnection.connection();
 				stmt = con.createStatement();
 				
 				stmt.executeUpdate(
-						" INSERT INTO Person (ID)"
+						" INSERT INTO person (ID)"
 						+ " VALUES (" + p.getID()+ ")");
 					 	
 			}
