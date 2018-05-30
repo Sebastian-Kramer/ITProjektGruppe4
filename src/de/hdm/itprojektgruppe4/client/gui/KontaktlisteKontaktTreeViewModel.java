@@ -69,11 +69,13 @@ public class KontaktlisteKontaktTreeViewModel implements TreeViewModel {
 		public void onSelectionChange(SelectionChangeEvent event) {
 			BusinessObject selection = selectionModel.getSelectedObject();
 			if (selection instanceof Kontaktliste) {
-				setSelectedKontaktliste((Kontaktliste) selection);
-				RootPanel.get("Details").clear();
+				//setSelectedKontaktliste((Kontaktliste) selection);
+				//RootPanel.get("Details").clear();
 				RootPanel.get("Details").add(new KontaktlisteForm((Kontaktliste) selection));
 			} else if (selection instanceof Kontakt) {
-				setSelectedKontakt((Kontakt) selection);
+				//setSelectedKontakt((Kontakt) selection);
+				RootPanel.get("Details").clear();
+				RootPanel.get("Details").add(kontaktForm);
 			}
 
 		}
@@ -146,12 +148,55 @@ public class KontaktlisteKontaktTreeViewModel implements TreeViewModel {
 			});
 		}
 	}
+	
 
 	void addKontaktliste(Kontaktliste kontaktliste) {
 		kontaktlisteDataProvider.getList().add(kontaktliste);
 		selectionModel.setSelected(kontaktliste, true);
 	}
-
+	
+	void updateKontaktliste(Kontaktliste kontaktliste){
+		List<Kontaktliste> kontaktlisteList = kontaktlisteDataProvider.getList();
+		int i = 0;
+		for(Kontaktliste kl : kontaktlisteList){
+			if(kl.getID() == kl.getID()){
+				kontaktlisteList.set(i, kontaktliste);
+				break;
+			}else {
+				i++;
+			}
+		}
+		kontaktlisteDataProvider.refresh();
+	}
+	
+	void removeKontaktliste(Kontaktliste kontaktliste){
+		kontaktlisteDataProvider.getList().remove(kontaktliste);
+		kontaktDataProvider.remove(kontaktliste);
+	}
+	
+	void addKontaktToKontaktliste(Kontakt kontakt, Kontaktliste kontaktliste){
+		if(!kontaktDataProvider.containsKey(kontaktliste)){
+			return;
+		}
+		ListDataProvider<Kontakt> kontaktProvider = kontaktDataProvider.get(kontaktliste);
+		if(!kontaktProvider.getList().contains(kontakt)){
+			kontaktProvider.getList().add(kontakt);
+		}
+		selectionModel.setSelected(kontakt, true);
+	}
+	
+	void removeKontaktFromKontaktliste(Kontakt kontakt, Kontaktliste kontaktliste){
+		if(!kontaktDataProvider.containsKey(kontaktliste)){
+			return;
+		}
+		kontaktDataProvider.get(kontaktliste).getList().remove(kontakt);
+		selectionModel.setSelected(kontaktliste, true);
+	}
+	/**
+	void updateKontakt(Kontakt k){
+		kontaktVerwaltung.findKontaktlisteByID(id, callback);
+	}
+*/
 	@Override
 	public <T> NodeInfo<?> getNodeInfo(T value) {
 		this.setNutzer(nutzer);
