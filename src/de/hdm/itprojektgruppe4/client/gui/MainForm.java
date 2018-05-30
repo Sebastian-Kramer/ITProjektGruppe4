@@ -41,7 +41,7 @@ public class MainForm extends VerticalPanel {
 
 	Kontakt kon = new Kontakt();
 	Kontaktliste konList = new Kontaktliste();
-	Kontaktliste kontlist = null;
+	Kontaktliste selectedKontaktlist = null;
 
 	private VerticalPanel vpanelDetails = new VerticalPanel();
 	// private VerticalPanel vpanelNavigator = new VerticalPanel();
@@ -70,25 +70,16 @@ public class MainForm extends VerticalPanel {
 
 	public MainForm() {
 
-		//initWidget(this.vpanelDetails);
-		Nutzer nutzer = new Nutzer ();
+		// initWidget(this.vpanelDetails);
+		Nutzer nutzer = new Nutzer();
 		nutzer.setID(Integer.parseInt(Cookies.getCookie("id")));
 		nutzer.setEmail(Cookies.getCookie("email"));
-		
+
 		Window.alert(nutzer.getEmail());
-		
+
 		verwaltung.findKontaktByNutzerID(nutzer.getID(), new KontaktCallBack());
 		
-		
-
-
-	// verwaltung.findKontaktlisteByID(kontlist.getID(), new );
-
-		//verwaltung.findAllKontaktNames(new KontaktCallBack());
-	//	verwaltung.findKontaktlisteAll(new KontaktlistCallBack());
-
-	//	verwaltung.findKontaktlisteByNutzerID(new KontaktlistCallBack());
-
+	
 		cellList.setSelectionModel(selectionModel);
 		selectionModel.addSelectionChangeHandler(new SelectionChangeEvent.Handler() {
 
@@ -173,13 +164,7 @@ public class MainForm extends VerticalPanel {
 
 	}
 
-
-
-	
-	
-	
-	class KontaktCallBack implements AsyncCallback<List<Kontakt>>{
-
+	class KontaktCallBack implements AsyncCallback<List<Kontakt>> {
 
 		@Override
 		public void onFailure(Throwable caught) {
@@ -202,6 +187,7 @@ public class MainForm extends VerticalPanel {
 
 	}
 
+	/**
 	class KontaktlistCallBack implements AsyncCallback<Vector<Kontaktliste>> {
 
 		@Override
@@ -222,7 +208,7 @@ public class MainForm extends VerticalPanel {
 		}
 
 	}
-
+*/
 	class KontaktlisteKontaktCallBack implements AsyncCallback<Kontaktliste> {
 
 		@Override
@@ -262,8 +248,6 @@ public class MainForm extends VerticalPanel {
 
 	}
 
-	void setSelected(Kontaktliste kl) {
-		kontlist = kl;
-	}
+	
 
 }

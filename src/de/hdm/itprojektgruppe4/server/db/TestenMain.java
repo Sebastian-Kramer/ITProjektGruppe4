@@ -114,21 +114,8 @@ public class TestenMain {
 		System.out.println(kcre.findEigenschaftauspraegungByKontaktID(2));
 		*/
 		
-		Kontaktliste kl = new Kontaktliste();
-		
-		Kontakt k = new Kontakt();
-		
-		k.setID(1);
-		
-		kl.setID(1);
-		
-		//System.out.println(TeilhaberschaftMapper.teilhaberschaftMapper().findTeilhaberschaftByTeilhaberID(1));
-		
-	//	System.out.println(kcre.getAllTeilhaberschaftenFromUser(1));
-		
-		System.out.println(KontaktlisteMapper.kontaktlisteMapper().findKontaktlistebyID(1));
-		//System.out.println(KontaktMapper.kontaktMapper().findAllKontakte());
-//		System.out.println(TeilhaberschaftMapper.teilhaberschaftMapper().findByID(2));
+		System.out.println(KontaktKontaktlisteMapper.kontaktkontaktlistemapper().getKontaktKontaktlisteByKontaktlisteID(1));
+
 		
 		
 		//System.out.println(kcre.findKontaktByID(5));

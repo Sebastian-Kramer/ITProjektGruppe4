@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Vector;
 
+import com.google.gwt.user.client.Cookies;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.HTML;
@@ -21,14 +22,22 @@ import de.hdm.itprojektgruppe4.client.ClientsideSettings;
 import de.hdm.itprojektgruppe4.shared.KontaktAdministrationAsync;
 import de.hdm.itprojektgruppe4.shared.bo.*;
 
+/**
+ * Die Klasse <code>KontaktlisteKontaktTreeViewModel</code> dient zur Verwaltung
+ * der Baumstruktur. Bei der Implementierung wurde sich an Professor Rathkes
+ * Implementierung einer Baumstruktur aus dem Bankprojekt orientiert.
+ * 
+ * @author Raphael
+ *
+ */
 public class KontaktlisteKontaktTreeViewModel implements TreeViewModel {
 
 	private KontaktForm kontaktForm;
-	private MainForm mainForm;
+	private KontaktlisteForm kontaktlisteForm;
 
 	private Kontakt selectedKontakt = null;
 	private Kontaktliste selectedKontaktliste = null;
-
+	private Nutzer nutzer = new Nutzer();
 	private KontaktAdministrationAsync kontaktVerwaltung = null;
 
 	private ListDataProvider<Kontaktliste> kontaktlisteDataProvider = null;
@@ -62,7 +71,7 @@ public class KontaktlisteKontaktTreeViewModel implements TreeViewModel {
 			if (selection instanceof Kontaktliste) {
 				setSelectedKontaktliste((Kontaktliste) selection);
 				RootPanel.get("Details").clear();
-				RootPanel.get("Details").add(mainForm);
+				RootPanel.get("Details").add(new KontaktlisteForm((Kontaktliste) selection));
 			} else if (selection instanceof Kontakt) {
 				setSelectedKontakt((Kontakt) selection);
 			}
@@ -77,10 +86,20 @@ public class KontaktlisteKontaktTreeViewModel implements TreeViewModel {
 		selectionModel = new SingleSelectionModel<BusinessObject>(boKeyProvider);
 		selectionModel.addSelectionChangeHandler(new SelectionChangeEventHandler());
 		kontaktDataProvider = new HashMap<Kontaktliste, ListDataProvider<Kontakt>>();
+
 	}
 
-	void setMainForm(MainForm mf) {
-		mainForm = mf;
+	void setNutzer(Nutzer nutzer) {
+		nutzer.setID(Integer.parseInt(Cookies.getCookie("id")));
+		nutzer.setEmail(Cookies.getCookie("email"));
+	}
+
+	Nutzer getNutzer() {
+		return nutzer;
+	}
+
+	void setKontaktlisteForm(KontaktlisteForm klf) {
+		kontaktlisteForm = klf;
 
 	}
 
@@ -94,7 +113,7 @@ public class KontaktlisteKontaktTreeViewModel implements TreeViewModel {
 
 	void setSelectedKontaktliste(Kontaktliste kl) {
 		selectedKontaktliste = kl;
-		mainForm.setSelected(kl);
+		kontaktlisteForm.setSelected(kl);
 		selectedKontakt = null;
 		kontaktForm.setSelected(null);
 
@@ -120,60 +139,44 @@ public class KontaktlisteKontaktTreeViewModel implements TreeViewModel {
 				@Override
 				public void onSuccess(Kontaktliste result) {
 					selectedKontaktliste = result;
-					mainForm.setSelected(result);
+					kontaktlisteForm.setSelected(result);
 
 				}
 
 			});
 		}
 	}
-	
-	void addKontaktliste(Kontaktliste kontaktliste){
+
+	void addKontaktliste(Kontaktliste kontaktliste) {
 		kontaktlisteDataProvider.getList().add(kontaktliste);
 		selectionModel.setSelected(kontaktliste, true);
 	}
-	
+
 	@Override
 	public <T> NodeInfo<?> getNodeInfo(T value) {
-		// TODO Auto-generated method stub
+		this.setNutzer(nutzer);
 		if (value == null) {
+
 			kontaktlisteDataProvider = new ListDataProvider<Kontaktliste>();
-			kontaktVerwaltung.getAllKontaktlistenFromUser(1, new AsyncCallback<Vector<Kontaktliste>>(){
+			kontaktVerwaltung.getAllKontaktlistenFromUser(this.getNutzer().getID(),
+					new AsyncCallback<Vector<Kontaktliste>>() {
 
-				@Override
-				public void onFailure(Throwable caught) {
-					// TODO Auto-generated method stub
-					
-				}
+						@Override
+						public void onFailure(Throwable caught) {
+							// TODO Auto-generated method stub
 
-				@Override
-				public void onSuccess(Vector<Kontaktliste> result) {
-					for(Kontaktliste kl: result){
-						kontaktlisteDataProvider.getList().add(kl);
-					}
-					
-				}
-				
-			});
-			/**
-			kontaktVerwaltung.findKontaktlisteByNutzerID(1, new AsyncCallback<Vector<Kontaktliste>>() {
+						}
 
-				@Override
-				public void onFailure(Throwable caught) {
+						@Override
+						public void onSuccess(Vector<Kontaktliste> result) {
+							for (Kontaktliste kl : result) {
+								kontaktlisteDataProvider.getList().add(kl);
+							}
 
-				}
+						}
 
-				@Override
-				public void onSuccess(Vector<Kontaktliste> result) {
+					});
 
-					for (Kontaktliste kl : result) {
-						kontaktlisteDataProvider.getList().add(kl);
-					}
-
-				}
-
-			});
-			 */
 			return new DefaultNodeInfo<Kontaktliste>(kontaktlisteDataProvider, new KontaktlisteCell(), selectionModel,
 					null);
 		}
@@ -182,44 +185,24 @@ public class KontaktlisteKontaktTreeViewModel implements TreeViewModel {
 
 			final ListDataProvider<Kontakt> kontaktProvider = new ListDataProvider<Kontakt>();
 			kontaktDataProvider.put((Kontaktliste) value, kontaktProvider);
-			
-			
-			kontaktVerwaltung.findAllKontakte(new AsyncCallback<Vector<Kontakt>>(){
+			int kontaktlisteID = ((Kontaktliste) value).getID();
+			kontaktVerwaltung.getAllKontakteFromKontaktliste(kontaktlisteID, new AsyncCallback<Vector<Kontakt>>() {
 
 				@Override
 				public void onFailure(Throwable caught) {
-					// TODO Auto-generated method stub
-					
+
 				}
 
 				@Override
 				public void onSuccess(Vector<Kontakt> result) {
-					for(Kontakt k:result){
+					for (Kontakt k : result) {
 						kontaktProvider.getList().add(k);
 					}
-					
+
 				}
-				
+
 			});
-			/**
-			kontaktVerwaltung.getAllKontakteFromKontaktliste((Kontaktliste) value,
-					new AsyncCallback<Vector<Kontakt>>() {
 
-						@Override
-						public void onFailure(Throwable caught) {
-
-						}
-
-						@Override
-						public void onSuccess(Vector<Kontakt> result) {
-							for (Kontakt k : result) {
-								kontaktProvider.getList().add(k);
-							}
-
-						}
-
-					});
-*/
 			return new DefaultNodeInfo<Kontakt>(kontaktProvider, new KontaktCell(), selectionModel, null);
 		}
 

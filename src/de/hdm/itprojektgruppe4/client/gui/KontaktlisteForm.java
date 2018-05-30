@@ -12,6 +12,17 @@ import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.client.ui.VerticalPanel;
 
-public class KontaktlisteForm {
+import de.hdm.itprojektgruppe4.shared.bo.*;
 
+public class KontaktlisteForm extends VerticalPanel {
+
+	Kontaktliste kl = null;
+	
+	void setSelected(Kontaktliste kl){
+		this.kl = kl;
+	}
+	
+	public KontaktlisteForm(Kontaktliste kontaktliste){
+		this.kl = kontaktliste;
+	}
 }

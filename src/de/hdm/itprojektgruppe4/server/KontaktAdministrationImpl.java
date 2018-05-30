@@ -166,10 +166,10 @@ public class KontaktAdministrationImpl extends RemoteServiceServlet
    
     
     /**
-     * Einen Kontakt anhand seines Primï¿½rschlï¿½ssel anzeigen lassen.
+     * Einen Kontakt anhand seines Primaerschluessel anzeigen lassen.
      * 
-     * @param id der Primï¿½rschlï¿½ssel des Objekts
-     * @return Kontakt-Objekt mit dem ï¿½bergebenen Primï¿½rschlï¿½ssel
+     * @param id der Primaerrschluessel des Objekts
+     * @return Kontakt-Objekt mit dem uebergebenen Primaerschluessel
      * @throws IllegalArgumentException
      */
 
@@ -264,7 +264,7 @@ public class KontaktAdministrationImpl extends RemoteServiceServlet
 	/**
 	 * 
 	 * @param i
-	 * @return Vector mit sÃ¤mtlichen Kontakten einer ausgewÃ¤hlten Kontaktliste
+	 * @return Vector mit saemtlichen Kontakten einer ausgewaehlten Kontaktliste
 	 * @throws IllegalArgumentException
 	 */
 	
@@ -274,15 +274,21 @@ public class KontaktAdministrationImpl extends RemoteServiceServlet
 	}
 	
 	 /**
+	    * Ausgabe aller Kontake einer Kontaktliste
 	    * 
 	    * @param kontaktlisteID
-	    * @return Vector mit sï¿½mtlichen Kontakten einer Kontaktliste
+	    * @return Vector mit saemtlichen Kontakten einer Kontaktliste
 	    * @throws IllegalArgumentException
 	    */
 	@Override
 	public Vector<Kontakt> getAllKontakteFromKontaktliste(int kontaktlisteID) throws IllegalArgumentException {
+		Vector<KontaktKontaktliste> kk = getKontaktKontaktlisteFromKontaktliste(kontaktlisteID);
+		Vector<Kontakt> kontakte = new Vector<Kontakt>();
 		
-		return konMapper.getAllKontakteFromKontaktliste(kontaktlisteID);
+		for (KontaktKontaktliste kontaktKontaktliste : kk) {
+			kontakte.add(findKontaktByID(kontaktKontaktliste.getKontaktID()));
+		}
+		return kontakte;
 	}
 
 
@@ -801,6 +807,19 @@ public class KontaktAdministrationImpl extends RemoteServiceServlet
 		return this.kontaktKontaktlisteMapper.insertKontaktKontaktliste(kk);
 	}
 	
+	/**
+	 * 
+	 * @param kontaktlisteID
+	 * @return Vector mit KontaktKontaktlisten-Objekten die übergebene KontaktlisteID als Fremdschlüssel besitzen
+	 * @throws IllegalArgumentException
+	 */
+	@Override
+	public Vector<KontaktKontaktliste> getKontaktKontaktlisteFromKontaktliste(int kontaktlisteID)
+			throws IllegalArgumentException {
+		return this.kontaktKontaktlisteMapper.getKontaktKontaktlisteByKontaktlisteID(kontaktlisteID);
+	}
+
+	
 	/*##########################################################
      * ENDE Methoden fï¿½r KontaktKontaktliste-Objekte
      #########################################################*/
@@ -847,6 +866,16 @@ public class KontaktAdministrationImpl extends RemoteServiceServlet
 		return this.teilhaberschaftMapper.findByID(id);
 	}
 	
+	 /**
+     * Ausgabe aller Teilhaberschaften eines Nutzers
+     * 
+     * @param nutzerID
+     * @return Vector mit allen Teilhaberschaften eines Nutzers
+     */
+	@Override
+	public Vector<Teilhaberschaft> getAllTeilhaberschaftenFromUser(int nutzerID) {
+		return this.teilhaberschaftMapper.findTeilhaberschaftByTeilhaberID(nutzerID);
+	}
 
 
 	
@@ -937,10 +966,7 @@ public class KontaktAdministrationImpl extends RemoteServiceServlet
 
 
 
-	@Override
-	public Vector<Kontakt> getAllKontakteFromKontaktliste(Kontaktliste kl) throws IllegalArgumentException {
-		return this.konMapper.getAllKontakteFromKontaktliste(kl);
-	}
+
 
 
 	public Nutzer findNutzerByID(String string) {
@@ -953,11 +979,7 @@ public class KontaktAdministrationImpl extends RemoteServiceServlet
 
 
 
-	@Override
-	public Vector<Teilhaberschaft> getAllTeilhaberschaftenFromUser(int nutzerID) {
-		return this.teilhaberschaftMapper.findTeilhaberschaftByTeilhaberID(nutzerID);
-	}
-
+	
 
 
 
