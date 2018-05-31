@@ -24,57 +24,30 @@ public class PlainTextReportWriter extends ReportWriter {
 	  }
 
 	@Override
-	public void process(AllKontakteVonAnderemNutzerReport c) {
-		this.resetReportText();
-		
-		StringBuffer result = new StringBuffer();
-		
-	}
-
-	@Override
-	public void process(AllEigeneKontakteReport c) {
-		this.resetReportText();
-		
-		StringBuffer result = new StringBuffer();
-		
-	}
-
-	@Override
-	public void process(AllNutzerReport c) {
-		this.resetReportText();
-		
-		StringBuffer result = new StringBuffer();
-		
-	}
-
-	@Override
 	public void process(KontakteMitBestimmtenEigenschaftenReport c) {
 		this.resetReportText();
 		
 		StringBuffer result = new StringBuffer();
-	}
-
-	@Override
-	public void process(KontakteMitBestimmtenEigenschaftsAuspraegungenReport c) {
-		this.resetReportText();
 		
-		StringBuffer result = new StringBuffer();
-	}
-
-
-	@Override
-	public void process(KontakteMitBestimmtenAuspraegungenReport c) {
-		this.resetReportText();
-		
-		StringBuffer result = new StringBuffer();
 	}
 
 	@Override
-	public void process(KontakteMitBestimmterTeilhaberschaftReport c) {
+	public void process(AllKontakteReport c) {
 		this.resetReportText();
 		
 		StringBuffer result = new StringBuffer();
 		
 	}
 
+	@Override
+	public void process(KontakteMitBestimmterTeilhaberschaft c) {
+		this.resetReportText();
+		
+		StringBuffer result = new StringBuffer();
+		
+	}
+
+	
+		
+	
 }
