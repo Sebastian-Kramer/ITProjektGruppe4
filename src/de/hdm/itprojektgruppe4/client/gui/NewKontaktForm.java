@@ -3,6 +3,7 @@ package de.hdm.itprojektgruppe4.client.gui;
 import java.util.Date;
 import java.util.Vector;
 
+import com.google.gwt.cell.client.FieldUpdater;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.dom.client.KeyCodes;
@@ -11,6 +12,7 @@ import com.google.gwt.event.dom.client.KeyDownHandler;
 import com.google.gwt.user.cellview.client.CellList;
 import com.google.gwt.user.cellview.client.CellTable;
 import com.google.gwt.user.cellview.client.TextColumn;
+import com.google.gwt.user.client.Cookies;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Button;
@@ -21,10 +23,13 @@ import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.client.ui.VerticalPanel;
+import com.google.gwt.view.client.SingleSelectionModel;
 
 import de.hdm.itprojektgruppe4.client.ClientsideSettings;
+import de.hdm.itprojektgruppe4.client.gui.UpdateKontaktForm.AuspraegungBearbeitenCallback;
 import de.hdm.itprojektgruppe4.shared.KontaktAdministrationAsync;
 import de.hdm.itprojektgruppe4.shared.bo.Eigenschaft;
+import de.hdm.itprojektgruppe4.shared.bo.EigenschaftAuspraegungHybrid;
 import de.hdm.itprojektgruppe4.shared.bo.Eigenschaftauspraegung;
 import de.hdm.itprojektgruppe4.shared.bo.Kontakt;
 import de.hdm.itprojektgruppe4.shared.bo.Kontaktliste;
@@ -37,17 +42,15 @@ KontaktAdministrationAsync verwaltung = ClientsideSettings.getKontaktVerwaltung(
 	private HorizontalPanel hpanel = new HorizontalPanel();
 	private VerticalPanel vpanel = new VerticalPanel();
 	private HorizontalPanel hpanelButtonBar = new HorizontalPanel();
+	private HorizontalPanel hpanel2 = new HorizontalPanel();
+	
+	
 	
 	private Label name = new Label("Name: ");
 	private TextBox tbName = new TextBox();
 	private Button save1 = new Button("Speichern");
-	
-	private Button save2 = new Button("Kontakt TEST speichern");
-	private Button save3 = new Button("Nutzer TEST speichern");
-	private Button save4 = new Button("Person TEST speichern");
-	private Button save5 = new Button("Kontaktliste TEST speichern");
-	private Button save6 = new Button("Eigenschaft TEST speichern");
-	private Button save7 = new Button("Ausprägung TEST speichern");
+	private Label eigenschaftName = new Label("Eigenschaft");
+	private Label auspraegungName = new Label("Ausprägung");
 	
 	
 	private Button cancel = new Button("Cancel");
@@ -68,44 +71,106 @@ KontaktAdministrationAsync verwaltung = ClientsideSettings.getKontaktVerwaltung(
 	
 	private Eigenschaft eig1 = new Eigenschaft();
 	
+	private Kontakt kontakt1 = new Kontakt();
+	
+	private Nutzer nutzer = new Nutzer();
+	
+	private Eigenschaftauspraegung eigaus = new Eigenschaftauspraegung();
+	
+	private SingleSelectionModel<EigenschaftAuspraegungHybrid> sm = new SingleSelectionModel<EigenschaftAuspraegungHybrid>();
+	
 	public void onLoad(){
 		
 		super.onLoad();
 		
-	
-		html2.setVisible(true);
-		final Kontakt kon = new Kontakt();
-		 
+		nutzer.setID(Integer.parseInt(Cookies.getCookie("id")));
+		nutzer.setEmail(Cookies.getCookie("email"));
 		
-		 
+		html2.setVisible(false);
+		txt_Eigenschaft.setVisible(false);
+		txt_Auspraegung.setVisible(false);
+		eigenschaftName.setVisible(false);
+		auspraegungName.setVisible(false);
+		addRow.setVisible(false);
+		
 		hpanelButtonBar.add(save1);
-		hpanelButtonBar.add(save2);
-		hpanelButtonBar.add(save3);
-		hpanelButtonBar.add(save4);
-		hpanelButtonBar.add(save5);
-		hpanelButtonBar.add(save6);
-		hpanelButtonBar.add(save7);
+		
 		
 		hpanelButtonBar.add(cancel);
 		
 		RootPanel.get("Buttonbar").clear();
 		RootPanel.get("Buttonbar").add(hpanelButtonBar);
 		
-		
+		hpanel2.add(eigenschaftName);
+		hpanel2.add(txt_Eigenschaft);
+		hpanel2.add(auspraegungName);
+		hpanel2.add(txt_Auspraegung);
+		hpanel2.add(addRow);
 		
 		hpanel.add(name);
 		hpanel.add(tbName);
 		
+
+		
 		vpanel.add(html1);
 		vpanel.add(hpanel);
 		vpanel.add(html2);
-		vpanel.add(txt_Eigenschaft);
-		vpanel.add(txt_Auspraegung);
-		vpanel.add(addRow);
+	
+		
 		this.add(vpanel);
 		
-
+//		ctf.setSelectionModel(sm);
+//		
+//		ctf.getWertAuspraegung().setFieldUpdater(new FieldUpdater<EigenschaftAuspraegungHybrid, String>() {
+//
+//			@Override
+//			public void update(int index, EigenschaftAuspraegungHybrid object, String value) {
+//				sm.getSelectedObject().setAuspraegung(value);
+//				sm.getSelectedObject().setAuspraegungID(object.getAuspraegungID());
+//			
+//				
+//				eigaus.setID(sm.getSelectedObject().getAuspraegungID());
+//				eigaus.setWert(sm.getSelectedObject().getAuspraegung());
+//				eigaus.setStatus(0);
+//				eigaus.setKontaktID(kontakt1.getID());
+//				eigaus.setEigenschaftsID(sm.getSelectedObject().getEigenschaftID());	
+//				
+//				
+//			}	
+//				
+//		});
+//		
+//		
+//		KeyDownHandler kdh = new KeyDownHandler(){
+//
+//
+//			@Override
+//			public void onKeyDown(KeyDownEvent event) {
+//				if (event.getNativeKeyCode() == KeyCodes.KEY_ENTER) {
+//
+//					verwaltung.updateAuspraegung(eigaus, new AuspraegungBearbeitenCallback());
+//					
+//				}
+//				
+//			}
+//			
+//		};	
+//		
+//		ctf.addKeyDownHandler(kdh);	
 		
+		
+		cancel.addClickHandler(new ClickHandler() {
+					
+					@Override
+					public void onClick(ClickEvent event) {
+						
+		
+						MainForm getBack = new MainForm();
+						RootPanel.get("Details").clear();
+						RootPanel.get("Details").add(getBack);
+						
+					}
+				});
 		
 		KeyDownHandler returnKeyHandler = new KeyDownHandler() {
 			
@@ -113,331 +178,170 @@ KontaktAdministrationAsync verwaltung = ClientsideSettings.getKontaktVerwaltung(
 	        @Override
 	        public void onKeyDown(KeyDownEvent event) {
 	            if (event.getNativeKeyCode() == KeyCodes.KEY_ENTER) {
-	                Window.alert("Enter key pressed!!");
+	               
 	             
-	                
-	            	verwaltung.insertKontakt(tbName.getValue(), new Date(), new Date(), 0, 1, new AsyncCallback<Kontakt>() {
-
-						@Override
-						public void onFailure(Throwable caught) {
-							// TODO Auto-generated method stub
-							Window.alert("Funktioniert nicht");
-						}
-
-						@Override
-						public void onSuccess(Kontakt result) {
-							// TODO Auto-generated method stub
-							Window.alert("Funktioniert 12");
-							
-							kon.setID(result.getID());
-							
-							Window.alert(result.getName() + result.getID());
-							
-						
-							
-							verwaltung.insertBasicAuspraegung("", 0, kon.getID(), new AsyncCallback<Vector<Eigenschaftauspraegung>>() {
-
-								@Override
-								public void onFailure(Throwable caught) {
-									// TODO Auto-generated method stub
-									Window.alert("Funktioniert nicht");
-								}
-
-								@Override
-								public void onSuccess(Vector<Eigenschaftauspraegung> result) {
-									// TODO Auto-generated method stub
-									Window.alert("Funktioniert QQQQ");
-//									final CellTableForm ctf = new CellTableForm(kon);
-									ctf = new CellTableForm(kon);
-									add(ctf);
-									
-									
-									
-								}
-							});
-						
-					    	
-						}
-					
-						
-					}); 
-	                
+	                verwaltung.insertKontakt(tbName.getValue(), new Date(), new Date(), 0, nutzer.getID(), new KontaktErstellenCallback());
+	                html2.setVisible(true);
 	                
 	            }
 	        }
 	    };
 
 	   
-	   
-
-	  
 	    tbName.addKeyDownHandler(returnKeyHandler);
 		
-		
-		//Nutzer ID muss Hier noch vom Login übergeben werden 
-		
-		
-		
-//		save1.addClickHandler(new ClickHandler() {
-//			
-//			@Override
-//			public void onClick(ClickEvent event) {
-//				// TODO Auto-generated method stub
-//				verwaltung.insertKontakt(tbName.getValue(), new Date(), new Date(), 0, 1, new AsyncCallback<Kontakt>() {
-//
-//					@Override
-//					public void onFailure(Throwable caught) {
-//						// TODO Auto-generated method stub
-//						Window.alert("Funktioniert nicht");
-//					}
-//
-//					@Override
-//					public void onSuccess(Kontakt result) {
-//						// TODO Auto-generated method stub
-//						Window.alert("Funktioniert 12");
-//						
-//						kon.setID(result.getID());
-//						
-//						Window.alert(result.getName() + result.getID());
-//						
-//					
-//						
-//						verwaltung.insertBasicAuspraegung("", 0, kon.getID(), new AsyncCallback<Vector<Eigenschaftauspraegung>>() {
-//
-//							@Override
-//							public void onFailure(Throwable caught) {
-//								// TODO Auto-generated method stub
-//								Window.alert("Funktioniert nicht");
-//							}
-//
-//							@Override
-//							public void onSuccess(Vector<Eigenschaftauspraegung> result) {
-//								// TODO Auto-generated method stub
-//								Window.alert("Funktioniert QQQQ");
-//
-//								ctf = new CellTableForm(kon);
-//								add(ctf);
-//								
-//								
-//								
-//							}
-//						});
-//					
-//				    	
-//					}
-//				
-//					
-//				});
-//				
-//			
-//		}
-//		});
-		
-		
-
-
-		
+	
 		addRow.addClickHandler(new ClickHandler(){
 
 			@Override
 			public void onClick(ClickEvent event) {
 				ctf.addRow(txt_Eigenschaft.getValue(), txt_Auspraegung.getValue());
 				
-				
-				verwaltung.insertEigenschaft(txt_Eigenschaft.getText(), 0, new AsyncCallback<Eigenschaft>() {
-
-					@Override
-					public void onFailure(Throwable caught) {
-						// TODO Auto-generated method stub
-						
-					}
-
-					@Override
-					public void onSuccess(Eigenschaft result) {
-						// TODO Auto-generated method stub
-						
-						eig1.setID(result.getID());
-						
-						verwaltung.insertAuspraegung(txt_Auspraegung.getText(), 0, eig1.getID(), kon.getID(), new AsyncCallback<Eigenschaftauspraegung>() {
-
-							@Override
-							public void onFailure(Throwable caught) {
-								// TODO Auto-generated method stub
-								
-							}
-
-							@Override
-							public void onSuccess(Eigenschaftauspraegung result) {
-								// TODO Auto-generated method stub
-							}
-						});
-					}
-				});
+				verwaltung.insertEigenschaft(txt_Eigenschaft.getText(), 0, new EigenschaftHinzufuegenCallback() );
 				
 				
 			}
 			
 		});
-		
-		
-
-		cancel.addClickHandler(new ClickHandler() {
-			
-			@Override
-			public void onClick(ClickEvent event) {
-				
-
-				MainForm getBack = new MainForm();
-				RootPanel.get("Details").clear();
-				RootPanel.get("Details").add(getBack);
-				
-			}
-		});
-		
-		
-		//========================TEST======================================
-		
-		//Kontakt
-		
-		save2.addClickHandler(new ClickHandler() {
-			
-			@Override
-			public void onClick(ClickEvent event) {
-				// TODO Auto-generated method stub
-				verwaltung.insertKontakt("TESTDIENSTAG 2", new Date(), new Date(), 1, 72, new AsyncCallback<Kontakt>() {
-
-					@Override
-					public void onFailure(Throwable caught) {
-						// TODO Auto-generated method stub
-						Window.alert("DEPLOY KONTAKT NEIN " + caught );
-					}
-
-					@Override
-					public void onSuccess(Kontakt result) {
-						// TODO Auto-generated method stub
-					Window.alert("DEPLOY KONTAKT JA " + result.getName() );
-					}
-				});
-			}
-		});
-		
-		
-		
-		//Test Nutzer
-		save3.addClickHandler(new ClickHandler() {
-					
-					@Override
-					public void onClick(ClickEvent event) {
-						// TODO Auto-generated method stub
-						verwaltung.insertNutzer("DIENSTAG@MAIL2", new AsyncCallback<Nutzer>() {
-		
-							@Override
-							public void onFailure(Throwable caught) {
-								// TODO Auto-generated method stub
-								
-							}
-		
-							@Override
-							public void onSuccess(Nutzer result) {
-								// TODO Auto-generated method stub
-								Window.alert("DEPLOY Nutzer JA " + result.getEmail() );
-							}
-						});
-					}
-				});
-
-			
-		
-		// TEest Person
-		save4.addClickHandler(new ClickHandler() {
-			
-			@Override
-			public void onClick(ClickEvent event) {
-				// TODO Auto-generated method stub
-				
-			}
-		});
-
-		//Test Kontaktliste
-		save5.addClickHandler(new ClickHandler() {
-			
-			@Override
-			public void onClick(ClickEvent event) {
-				// TODO Auto-generated method stub
-				verwaltung.insertKontaktliste("DIENSTAGKONTAKTLIsTE 2", 0, 72, new AsyncCallback<Kontaktliste>() {
-
-					@Override
-					public void onFailure(Throwable caught) {
-						// TODO Auto-generated method stub
-						
-					}
-
-					@Override
-					public void onSuccess(Kontaktliste result) {
-						// TODO Auto-generated method stub
-						Window.alert("DEPLOY Kontaktliste JA " + result.getBez() );
-					}
-				});
-			}
-		});
-		
-		
-		save6.addClickHandler(new ClickHandler() {
-			
-			@Override
-			public void onClick(ClickEvent event) {
-				// TODO Auto-generated method stub
-				verwaltung.insertEigenschaft("DIENSTAGEIGENSCHAFT 2", 0, new AsyncCallback<Eigenschaft>() {
-
-					@Override
-					public void onFailure(Throwable caught) {
-						// TODO Auto-generated method stub
-						
-					}
-
-					@Override
-					public void onSuccess(Eigenschaft result) {
-						// TODO Auto-generated method stub
-						Window.alert("DEPLOY Eigenschaft JA " + result.getBezeichnung() );
-					}
-				});
-			}
-		});
-		
-		
-		
-		save7.addClickHandler(new ClickHandler() {
-			
-			@Override
-			public void onClick(ClickEvent event) {
-				// TODO Auto-generated method stub
-				verwaltung.insertAuspraegung("DIENSTAGAUSPRÄGUNG 2", 0, 1, 70, new AsyncCallback<Eigenschaftauspraegung>() {
-
-					@Override
-					public void onFailure(Throwable caught) {
-						// TODO Auto-generated method stub
-						
-					}
-
-					@Override
-					public void onSuccess(Eigenschaftauspraegung result) {
-						// TODO Auto-generated method stub
-						Window.alert("DEPLOY Ausprägung JA " + result.getWert() );
-					}
-				});
-			}
-		});
-		
-		//========================TEST======================================		
-		
-		
-		
 		
 	
-		
-		
 		}
 	
+	class KontaktErstellenCallback implements AsyncCallback<Kontakt> {
+
+		@Override
+		public void onFailure(Throwable caught) {
+			// TODO Auto-generated method stub
+			Window.alert("Kontakt wurde nicht erstellt");
+		}
+
+		@Override
+		public void onSuccess(Kontakt result) {
+			// TODO Auto-generated method stub
+			kontakt1.setID(result.getID());
+			Window.alert("Kontakt " +result.getName() + " wurde  erstellt");
+			verwaltung.insertBasicAuspraegung("", 0, result.getID(), new BasicAuspraegungenCallback());
+		}
+		
+	}
 	
+	class BasicAuspraegungenCallback implements  AsyncCallback<Vector<Eigenschaftauspraegung>> {
+
+		@Override
+		public void onFailure(Throwable caught) {
+			// TODO Auto-generated method stub
+			Window.alert("die leeren ausprägungen wurden NICHT erstellt ");
+		}
+
+		@Override
+		public void onSuccess(Vector<Eigenschaftauspraegung> result) {
+			// TODO Auto-generated method stub
+			Window.alert("die leeren ausprägungen wurden erstellt ");
+			html2.setVisible(true);
+			eigenschaftName.setVisible(true);
+			auspraegungName.setVisible(true);
+			txt_Eigenschaft.setVisible(true);
+			txt_Auspraegung.setVisible(true);
+			addRow.setVisible(true);
+			
+			
+			
+			ctf = new CellTableForm(kontakt1);
+			add(ctf);			
+			add(hpanel2);
+			
+			ctf.setSelectionModel(sm);
+			
+			ctf.getWertAuspraegung().setFieldUpdater(new FieldUpdater<EigenschaftAuspraegungHybrid, String>() {
+
+				@Override
+				public void update(int index, EigenschaftAuspraegungHybrid object, String value) {
+					sm.getSelectedObject().setAuspraegung(value);
+					sm.getSelectedObject().setAuspraegungID(object.getAuspraegungID());
+				
+					
+					eigaus.setID(sm.getSelectedObject().getAuspraegungID());
+					eigaus.setWert(sm.getSelectedObject().getAuspraegung());
+					eigaus.setStatus(0);
+					eigaus.setKontaktID(kontakt1.getID());
+					eigaus.setEigenschaftsID(sm.getSelectedObject().getEigenschaftID());	
+					
+					
+				}	
+					
+			});
+			
+			
+			KeyDownHandler kdh = new KeyDownHandler(){
+
+
+				@Override
+				public void onKeyDown(KeyDownEvent event) {
+					if (event.getNativeKeyCode() == KeyCodes.KEY_ENTER) {
+
+						verwaltung.updateAuspraegung(eigaus, new AuspraegungBearbeitenCallback());
+						
+					}
+					
+				}
+				
+			};	
+			
+			ctf.addKeyDownHandler(kdh);	
+			
+		}
+
+	}
+	
+	class EigenschaftHinzufuegenCallback implements  AsyncCallback<Eigenschaft>{
+
+		@Override
+		public void onFailure(Throwable caught) {
+			// TODO Auto-generated method stub
+			Window.alert("Die Neue Eigenschaft wurde nicht hinzugefügt");
+		}
+
+		@Override
+		public void onSuccess(Eigenschaft result) {
+			// TODO Auto-generated method stub
+			Window.alert("Die Neue Eigenschaft: " + result.getBezeichnung() + " wurde  hinzugefügt");
+			verwaltung.insertAuspraegung(txt_Auspraegung.getText(), 0, result.getID(), kontakt1.getID(), new AuspraegungHinzufuegenCallback());
+		}
+
+	}
+	
+	class AuspraegungHinzufuegenCallback implements AsyncCallback<Eigenschaftauspraegung>{
+
+		@Override
+		public void onFailure(Throwable caught) {
+			// TODO Auto-generated method stub
+			Window.alert("Die Neue Ausprägung wurde  nicht hinzugefügt");
+		}
+
+		@Override
+		public void onSuccess(Eigenschaftauspraegung result) {
+			// TODO Auto-generated method stub
+			Window.alert("Die Neue Ausprägung wurde  hinzugefügt");
+		}
+		
+	}
+	
+	
+	class AuspraegungBearbeitenCallback implements AsyncCallback<Eigenschaftauspraegung>{
+
+		@Override
+		public void onFailure(Throwable caught) {
+			// TODO Auto-generated method stub
+			Window.alert(" Hat nicht funktioniert ");
+		}
+
+		@Override
+		public void onSuccess(Eigenschaftauspraegung result) {
+			// TODO Auto-generated method stub
+			eigaus.setWert(result.getWert());
+			Window.alert("Sie haben die Auspr�gung " + result.getWert() + " angepasst");
+		}
+		
+	}
 	
 }
