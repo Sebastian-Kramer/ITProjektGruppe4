@@ -92,7 +92,7 @@ public class UpdateKontaktForm extends VerticalPanel {
 		super.onLoad();
 
 		verwaltung.findAllEigenschaft(new AllEigenschaftCallback());
-		
+		RootPanel.get("Buttonbar").clear();
 		ctf = new CellTableForm(kon);
 
 		txt_KontaktName.setText(kon.getName());
@@ -100,7 +100,7 @@ public class UpdateKontaktForm extends VerticalPanel {
 		hpanelDetails.setHeight("35px");
 		hpanelDetails.add(lbl_KontaktName);
 		hpanelDetails.add(txt_KontaktName);
-		hpanelDetails.add(cancelBtn);
+//		hpanelDetails.add(cancelBtn);
 
 		vpanelDetails.add(hpanelDetails);
 		
@@ -112,6 +112,7 @@ public class UpdateKontaktForm extends VerticalPanel {
 		hpanelAdd.add(txt_Auspraegung);
 		hpanelAdd.add(addRow);
 		
+		RootPanel.get("Buttonbar").add(cancelBtn);
 		
 		this.add(vpanelDetails);
 
