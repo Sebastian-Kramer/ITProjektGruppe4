@@ -55,11 +55,11 @@ public class ITProjektSS18 implements EntryPoint {
 			
 		}
 		public void onSuccess(LoginInfo result) {
-			
+		ClientsideSettings.setCurrentUser(result);
+
 		loginInfo = result;
 		if(loginInfo.isLoggedIn()) {
 			checkNewNutzer(loginInfo);
-			
 			
 		} else {
 			loadLogin();
@@ -68,34 +68,6 @@ public class ITProjektSS18 implements EntryPoint {
 	});
 	}
 	
-//	private void loadStartseite(){
-//		
-//		MainForm mainForm = new MainForm ();
-//		NavigationTree navigationTree = new NavigationTree();
-//		signOutLink.setHref(loginInfo.getLogoutUrl());
-//		RootPanel.get("Details").add(mainForm);
-//		RootPanel.get("Navigator").add(navigationTree);
-//
-//			public void onFailure(Throwable error) {
-//
-//
-//			}
-//
-//			public void onSuccess(LoginInfo result) {
-//
-//				loginInfo = result;
-//				ClientsideSettings.setCurrentUser(result);
-//
-//				if (loginInfo.isLoggedIn()) {
-//					ClientsideSettings.setCurrentUser(result);
-//					loadStartseite();
-//					checkNewNutzer(loginInfo);
-//				} else {
-//					loadLogin();
-//				}
-//			}
-//		});
-//	}
 
 	private Nutzer checkNewNutzer(LoginInfo result) {
 		final LoginInfo finalLog = result;
@@ -112,13 +84,14 @@ public class ITProjektSS18 implements EntryPoint {
 
 			@Override
 			public void onSuccess(Nutzer result) {
-				if (result != null) {
+				if (!result.getEmail().equals(null)) {
 					Window.alert(
 							"Hallo " + result.getEmail() + " wir konnten dich erfolgreich aus der Datenbank lesen.");
-//					ClientsideSettings.setAktuellerNutzer(result);
+					ClientsideSettings.setAktuellerNutzer(result);
 					Cookies.setCookie("email", result.getEmail());
 					Cookies.setCookie("id", result.getID() + "");
 					loadStartseite();
+
 				} else {
 
 					verwaltung.insertNutzer(loginInfo.getEmailAddress(), new AsyncCallback<Nutzer>() {
@@ -133,6 +106,8 @@ public class ITProjektSS18 implements EntryPoint {
 							Window.alert("Nutzer" + finalLog.getEmailAddress() + " wurde erfolgreich angelegt.");
 							Cookies.setCookie("email", result.getEmail());
 							Cookies.setCookie("id", result.getID()+"");
+							loadStartseite();
+
 //							verwaltung.findNutzerByEmail(result.getEmail(), new AsyncCallback<Nutzer>() {
 //
 //								@Override
@@ -169,8 +144,8 @@ public class ITProjektSS18 implements EntryPoint {
 	}
 
 	private void loadStartseite() {
-		NavigationTree navigationTree = new NavigationTree();
 		MainForm mainForm = new MainForm();
+		NavigationTree navigationTree = new NavigationTree();
 		signOutLink.setHref(loginInfo.getLogoutUrl());
 		RootPanel.get("Details").add(signOutLink);
 		RootPanel.get("Details").add(mainForm);
