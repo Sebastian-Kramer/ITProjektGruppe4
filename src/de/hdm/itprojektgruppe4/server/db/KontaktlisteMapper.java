@@ -42,7 +42,7 @@ public class KontaktlisteMapper {
 			
 			try{
 				Statement stmt = con.createStatement();
-				ResultSet rs = stmt.executeQuery("SELECT ID, bez, status, nutzerID status FROM kontaktliste "
+				ResultSet rs = stmt.executeQuery("SELECT ID, bez, status, nutzerID FROM kontaktliste "
 	          + "WHERE ID=" + id);
 				
 				if(rs.next()){
@@ -207,9 +207,9 @@ public class KontaktlisteMapper {
 		}
 		
 		/**
-	     * Alle Kontaktlisten auslesen
+	     * Alle erstellten Kontaktlisten eines Nutzers auslesen
 	     * @param int nutzer ID
-	     * @return Vector s�mtlicher Kontaktlisten
+	     * @return Vector mit allen erstellten Kontaktlisten eines Nutzers
 	     */
 		
 		public Vector<Kontaktliste> findKontaktlisteByNutzerID(int nutzerID){

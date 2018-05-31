@@ -92,8 +92,6 @@ public class Kontakt extends Person{
 
 
 
-	public String toString(){
-		return  " Kontakt name = " + name + " "+ super.getID() + " " + status + " "  + "\n" ;
-	}
+
 }
 

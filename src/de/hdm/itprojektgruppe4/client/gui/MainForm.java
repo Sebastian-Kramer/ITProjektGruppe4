@@ -17,6 +17,7 @@ import com.google.gwt.thirdparty.javascript.jscomp.Result;
 import com.google.gwt.user.cellview.client.CellList;
 import com.google.gwt.user.cellview.client.CellTable;
 import com.google.gwt.user.cellview.client.Column;
+import com.google.gwt.user.client.Cookies;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Button;
@@ -39,6 +40,7 @@ import de.hdm.itprojektgruppe4.client.ClientsideSettings;
 import de.hdm.itprojektgruppe4.shared.KontaktAdministrationAsync;
 import de.hdm.itprojektgruppe4.shared.bo.Kontakt;
 import de.hdm.itprojektgruppe4.shared.bo.Kontaktliste;
+import de.hdm.itprojektgruppe4.shared.bo.Nutzer;
 
 /**
  * 
@@ -52,7 +54,7 @@ public class MainForm extends Composite {
 
 	Kontakt kon = new Kontakt();
 	Kontaktliste konList = new Kontaktliste();
-	Kontaktliste kontlist = null;
+	Kontaktliste selectedKontaktlist = null;
 
 	private VerticalPanel vpanelDetails = new VerticalPanel();
 	// private VerticalPanel vpanelNavigator = new VerticalPanel();
@@ -81,12 +83,25 @@ public class MainForm extends Composite {
 
 	public MainForm() {
 
+
 		initWidget(this.vpanelDetails);
 
 		// verwaltung.findKontaktlisteByID(kontlist.getID(), new );
 
 		verwaltung.findAllKontaktNames(new KontaktCallBack());
 		verwaltung.findKontaktlisteAll(new KontaktlistCallBack());
+
+
+		// initWidget(this.vpanelDetails);
+		Nutzer nutzer = new Nutzer();
+		nutzer.setID(Integer.parseInt(Cookies.getCookie("id")));
+		nutzer.setEmail(Cookies.getCookie("email"));
+
+		Window.alert(nutzer.getEmail());
+
+		verwaltung.findKontaktByNutzerID(nutzer.getID(), new KontaktCallBack());
+		
+	
 
 		cellList.setSelectionModel(selectionModel);
 		selectionModel.addSelectionChangeHandler(new SelectionChangeEvent.Handler() {
@@ -194,6 +209,7 @@ public class MainForm extends Composite {
 
 	}
 
+
 	class KontaktlistCallBack implements AsyncCallback<Vector<Kontaktliste>> {
 
 		@Override
@@ -254,8 +270,6 @@ public class MainForm extends Composite {
 
 	}
 
-	void setSelected(Kontaktliste kl) {
-		kontlist = kl;
-	}
+	
 
 }

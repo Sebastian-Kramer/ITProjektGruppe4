@@ -43,10 +43,7 @@ public class Kontaktliste extends BusinessObject {
 		this.status = status;
 	}
 
-	@Override
-	public String toString() {
-		return "Kontaktliste [bez=" + bez + ", status=" + status + "]";
-	}
+	
     
     
 }

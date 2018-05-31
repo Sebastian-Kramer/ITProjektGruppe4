@@ -3,16 +3,23 @@ import java.sql.*;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.Vector;
 
 import com.google.gwt.core.client.impl.Impl;
+import com.google.gwt.user.client.rpc.AsyncCallback;
 
 import de.hdm.itprojektgruppe4.server.KontaktAdministrationImpl;
 import de.hdm.itprojektgruppe4.server.db.KontaktMapper;
+import de.hdm.itprojektgruppe4.shared.KontaktAdministrationAsync;
 import de.hdm.itprojektgruppe4.shared.bo.Eigenschaft;
 import de.hdm.itprojektgruppe4.shared.bo.Eigenschaft_Auspraegung;
 import de.hdm.itprojektgruppe4.shared.bo.Eigenschaftauspraegung;
 import de.hdm.itprojektgruppe4.shared.bo.Kontakt;
 import de.hdm.itprojektgruppe4.shared.bo.Kontaktliste;
+import de.hdm.itprojektgruppe4.shared.KontaktAdministration;
+import de.hdm.itprojektgruppe4.server.db.TeilhaberschaftMapper;
+import de.hdm.itprojektgruppe4.server.db.*;
+import de.hdm.itprojektgruppe4.shared.bo.*;
 
 public class TestenMain {
 
@@ -20,7 +27,7 @@ public class TestenMain {
 		// TODO Auto-generated method stub
 		
 		//KontaktMapper.kontaktMapper().findKontaktByID(1);
-		
+		final KontaktAdministrationAsync kontaktVerwaltung = null;
 		
 		
 		
@@ -32,7 +39,7 @@ public class TestenMain {
 
 		
 		
-		System.out.println(KontaktMapper.kontaktMapper().findKontaktByID(3));
+	//	System.out.println(KontaktMapper.kontaktMapper().findKontaktByID(3));
 	
 //		Kontaktliste k1 = new Kontaktliste();
 //		Kontakt k = new Kontakt();
@@ -95,6 +102,8 @@ public class TestenMain {
 //		
 		kcre.init();
 		
+		
+		
 		/**
 		Kontakt i = new  Kontakt();
 		
@@ -105,11 +114,9 @@ public class TestenMain {
 		System.out.println(kcre.findEigenschaftauspraegungByKontaktID(2));
 		*/
 		
-		Kontaktliste kl = new Kontaktliste();
+		System.out.println(KontaktKontaktlisteMapper.kontaktkontaktlistemapper().getKontaktKontaktlisteByKontaktlisteID(1));
+
 		
-		kl.setID(1);
-		
-		System.out.println(KontaktMapper.kontaktMapper().getAllKontakteFromKontaktliste(kl.getID()));
 		
 		//System.out.println(kcre.findKontaktByID(5));
 //		

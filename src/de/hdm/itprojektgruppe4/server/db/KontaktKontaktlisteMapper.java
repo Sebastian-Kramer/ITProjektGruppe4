@@ -119,4 +119,37 @@ public class KontaktKontaktlisteMapper {
 			
 		}
 	}
+	
+	/**
+	 * Ausgabe eines Vectors mit allen KontaktKontaktlisten-Objekten mit dem Fremdschlüssel der übergebenen KontaktlisteID
+	 * 
+	 * @param kontaktlisteID
+	 * @return Vector result mit allen KontaktKontaktlisten-Objekten mit der übergebenen KontaktlistenID als Fremdschlüssel
+	 */
+	public Vector<KontaktKontaktliste> getKontaktKontaktlisteByKontaktlisteID(int kontaktlisteID){
+			Vector <KontaktKontaktliste> result = new Vector<KontaktKontaktliste>();
+			
+			Connection con = DBConnection.connection();
+			
+			try{
+				
+				Statement stmt = con.createStatement();
+				
+			ResultSet rs =	stmt.executeQuery("SELECT * FROM kontaktkontaktliste WHERE kontaktlisteID =" + kontaktlisteID);
+				
+			while (rs.next()){
+				KontaktKontaktliste kk = new KontaktKontaktliste();
+				kk.setID(rs.getInt("ID"));
+				kk.setKontaktID(rs.getInt("kontaktID"));
+				kk.setKontaktlisteID(rs.getInt("kontaktlisteID"));
+				
+				result.addElement(kk);
+			}
+				
+			}catch (SQLException e){
+				e.printStackTrace();
+			}
+			return result;
+	}
+	
 }

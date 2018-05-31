@@ -4,12 +4,24 @@ import java.util.ArrayList;
 import java.util.Vector;
 
 import org.datanucleus.state.CallbackHandler;
+ 
 
 import com.google.appengine.api.files.FileServicePb.ShuffleRequest.Callback;
+import com.google.gwt.cell.client.Cell.Context;
+import com.google.gwt.cell.client.FieldUpdater;
+import com.google.gwt.dom.client.Element;
+import com.google.gwt.dom.client.NativeEvent;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.event.dom.client.KeyCodes;
+import com.google.gwt.event.dom.client.KeyDownEvent;
+import com.google.gwt.event.dom.client.KeyDownHandler;
+import com.google.gwt.event.dom.client.KeyPressEvent;
+import com.google.gwt.event.logical.shared.SelectionEvent;
+import com.google.gwt.event.logical.shared.SelectionHandler;
 import com.google.gwt.user.cellview.client.CellTable;
 import com.google.gwt.user.cellview.client.TextColumn;
+import com.google.gwt.user.client.Event;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Button;
@@ -20,6 +32,11 @@ import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.TextArea;
 import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.client.ui.VerticalPanel;
+import com.google.gwt.view.client.SelectionChangeEvent.Handler;
+import com.google.gwt.view.client.NoSelectionModel;
+import com.google.gwt.view.client.SelectionChangeEvent;
+import com.google.gwt.view.client.SingleSelectionModel;
+import com.google.gwt.event.dom.client.KeyPressHandler;
 
 import de.hdm.itprojektgruppe4.client.ClientsideSettings;
 import de.hdm.itprojektgruppe4.shared.KontaktAdministrationAsync;
@@ -39,6 +56,9 @@ public class UpdateKontaktForm extends VerticalPanel {
 
 	private Kontakt kon = new Kontakt();
 
+	private CellTableForm ctf1 = new CellTableForm(kon);
+
+
 	private Label lbl_KontaktName = new Label("Kontaktname: ");
 	private TextBox txt_KontaktName = new TextBox();
 	private TextBox txt_Eigenschaft = new TextBox();
@@ -53,6 +73,21 @@ public class UpdateKontaktForm extends VerticalPanel {
 	private Eigenschaft eig1 = new Eigenschaft();
 	private Eigenschaftauspraegung eigaus = new Eigenschaftauspraegung();
 
+
+	private SingleSelectionModel<EigenschaftAuspraegungHybrid> sm = new SingleSelectionModel<EigenschaftAuspraegungHybrid>();
+
+//	public UpdateKontaktForm(Kontakt kon) {
+//
+//		this.kon = kon;
+//	}
+//
+//	public void onLoad() {
+//
+//		super.onLoad();
+//
+//		// Window.alert("die id ist: " + kon.getID() + "name: " +
+//		// kon.getName());
+
 	public UpdateKontaktForm(Kontakt kon) {
 
 		this.kon = kon;
@@ -63,6 +98,7 @@ public class UpdateKontaktForm extends VerticalPanel {
 		super.onLoad();
 
 		Window.alert("die id ist: " + kon.getID() + "name: " + kon.getName());
+
 		verwaltung.findKontaktByID(kon.getID(), new AsyncCallback<Kontakt>() {
 
 			@Override
@@ -87,6 +123,7 @@ public class UpdateKontaktForm extends VerticalPanel {
 		// hpanelDetails.add(lbl_Eigenschaft);
 		// hpanelDetails.add(txt_Eigenschaft);
 
+
 		hpanelDetails.setHeight("35px");
 		hpanelDetails.add(lbl_KontaktName);
 		hpanelDetails.add(txt_KontaktName);
@@ -105,6 +142,73 @@ public class UpdateKontaktForm extends VerticalPanel {
 		ea.setAuspraegung(txt_Auspraegung.getText());
 		ea.setEigenschaft(txt_Eigenschaft.getText());
 
+
+		// System.out.println(ctf.sm.getLastSelectedObject().getAuspraegung());
+		// Window.alert(""+ ctf.getSm().getSelectedObject().getAuspraegung());
+
+		ctf.setSelectionModel(sm);
+		ctf.getWertAuspraegung().setFieldUpdater(new FieldUpdater<EigenschaftAuspraegungHybrid, String>() {
+
+			@Override
+			public void update(int index, EigenschaftAuspraegungHybrid object, String value) {
+				sm.getSelectedObject().setAuspraegung(value);
+				sm.getSelectedObject().setAuspraegungID(object.getAuspraegungID());
+			
+				
+				eigaus.setID(sm.getSelectedObject().getAuspraegungID());
+				eigaus.setWert(sm.getSelectedObject().getAuspraegung());
+				eigaus.setStatus(0);
+				eigaus.setKontaktID(kon.getID());
+				eigaus.setEigenschaftsID(sm.getSelectedObject().getEigenschaftID());	
+				
+				
+			}	
+				
+		});
+		KeyDownHandler kdh = new KeyDownHandler(){
+
+
+				@Override
+				public void onKeyDown(KeyDownEvent event) {
+					if (event.getNativeKeyCode() == KeyCodes.KEY_ENTER) {
+
+						verwaltung.updateAuspraegung(eigaus, new AuspraegungBearbeitenCallback());
+						
+					}
+					
+				}
+				
+			};	
+		ctf.addKeyDownHandler(kdh);	
+		
+
+
+
+		// sm.addSelectionChangeHandler(new SelectionChangeEvent.Handler(){
+		//
+		// @Override
+		// public void onSelectionChange(SelectionChangeEvent event) {
+		// EigenschaftAuspraegungHybrid selected = sm.getSelectedObject();
+		// selected.setAuspraegung(ctf.getWertAuspraegung().getValue(selected));
+		//
+		// eigaus.setWert(selected.getAuspraegung());
+		// eigaus.setEigenschaftsID(selected.getEigenschaftID());
+		// Window.alert(" " + eigaus.getWert());
+		//// eigaus.setEigenschaftsID(event.getSelectedItem().getEigenschaftID());
+		//// eigaus.setWert(event.getSm().getSelectedObject().getAuspraegung());
+		//
+		// }
+		//
+		// });
+
+		saveRow.addClickHandler(new ClickHandler() {
+
+			@Override
+			public void onClick(ClickEvent event) {
+				Window.alert("die neue auspraegung lautet " + sm.getSelectedObject().getAuspraegung());
+			}
+		});
+
 		// ctf.sm.getLastSelectedObject().getAuspraegung();
 
 		// eigaus.setEigenschaftsID(ctf.getSm().getSelectedObject().getEigenschaftID());
@@ -117,6 +221,7 @@ public class UpdateKontaktForm extends VerticalPanel {
 		// Window.alert("hallo clirim");
 		// }
 		// });
+
 
 		addRow.addClickHandler(new ClickHandler() {
 
@@ -169,16 +274,49 @@ public class UpdateKontaktForm extends VerticalPanel {
 
 			@Override
 			public void onSuccess(Vector<Eigenschaft> result) {
-				Window.alert("alle Eigenschaften mï¿½ssten gefunden sein");
+				Window.alert("alle Eigenschaften m?ssten gefunden sein");
+
+				for (Eigenschaft eig : result)
+					;
 
 				for (Eigenschaft eig : result) {
 
 				}
+
 
 			}
 
 		});
 
 	}
+
+
+	class AuspraegungBearbeitenCallback implements AsyncCallback<Eigenschaftauspraegung> {
+
+		@Override
+		public void onFailure(Throwable caught) {
+			Window.alert(" Hat nicht funktioniert ");
+
+		}
+
+		@Override
+		public void onSuccess(Eigenschaftauspraegung result) {
+			Window.alert("Sie haben die Ausprägung " + result.getWert() + " angepasst");
+			eigaus.setWert(result.getWert());
+		}
+
+	}
+
+	// class AuspraegungBearbeiten implements SelectionHandler{
+	//
+	// @Override
+	// public void onSelection(SelectionEvent event) {
+	// // TODO Auto-generated method stub
+	//
+	//
+	// }
+	//
+	// }
+
 
 }
