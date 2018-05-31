@@ -108,21 +108,6 @@ public class ITProjektSS18 implements EntryPoint {
 							Cookies.setCookie("id", result.getID()+"");
 							loadStartseite();
 
-//							verwaltung.findNutzerByEmail(result.getEmail(), new AsyncCallback<Nutzer>() {
-//
-//								@Override
-//								public void onFailure(Throwable caught) {
-//									Window.alert("FEHLER!");
-//								}
-//
-//								@Override
-//								public void onSuccess(Nutzer result) {
-//									Window.alert("Angelegter Nutzer " + finalLog.getEmailAddress()
-//											+ " wurde erfolgreich GEFUNGEN.");
-//								}
-//
-//							});
-
 						}
 
 					});
