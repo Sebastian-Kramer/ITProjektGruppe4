@@ -1,33 +1,44 @@
 package de.hdm.itprojektgruppe4.client.gui;
 
 import java.util.ArrayList;
+
+import java.util.Arrays;
 import java.util.List;
 import java.util.Vector;
 
+import javax.swing.event.TreeSelectionListener;
+
+import com.gargoylesoftware.htmlunit.javascript.host.EventHandler;
+import com.google.gwt.cell.client.ClickableTextCell;
+import com.google.gwt.cell.client.TextCell;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
-import com.google.gwt.event.logical.shared.SelectionEvent;
-import com.google.gwt.event.logical.shared.SelectionHandler;
+import com.google.gwt.thirdparty.javascript.jscomp.Result;
 import com.google.gwt.user.cellview.client.CellList;
-import com.google.gwt.user.client.Cookies;
+import com.google.gwt.user.cellview.client.CellTable;
+import com.google.gwt.user.cellview.client.Column;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Button;
+import com.google.gwt.user.client.ui.CheckBox;
 import com.google.gwt.user.client.ui.Composite;
+import com.google.gwt.user.client.ui.FlexTable;
 import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.HorizontalPanel;
+import com.google.gwt.user.client.ui.MouseListener;
 import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwt.user.client.ui.Tree;
 import com.google.gwt.user.client.ui.TreeItem;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.view.client.SelectionChangeEvent;
+import com.google.gwt.view.client.SelectionChangeEvent.HasSelectionChangedHandlers;
 import com.google.gwt.view.client.SingleSelectionModel;
+import com.google.gwt.event.logical.shared.*;
 
 import de.hdm.itprojektgruppe4.client.ClientsideSettings;
 import de.hdm.itprojektgruppe4.shared.KontaktAdministrationAsync;
 import de.hdm.itprojektgruppe4.shared.bo.Kontakt;
 import de.hdm.itprojektgruppe4.shared.bo.Kontaktliste;
-import de.hdm.itprojektgruppe4.shared.bo.Nutzer;
 
 /**
  * 
@@ -35,7 +46,7 @@ import de.hdm.itprojektgruppe4.shared.bo.Nutzer;
  *
  */
 
-public class MainForm extends VerticalPanel {
+public class MainForm extends Composite {
 
 	private static KontaktAdministrationAsync verwaltung = ClientsideSettings.getKontaktVerwaltung();
 
@@ -70,24 +81,12 @@ public class MainForm extends VerticalPanel {
 
 	public MainForm() {
 
-		//initWidget(this.vpanelDetails);
-		Nutzer nutzer = new Nutzer ();
-		nutzer.setID(Integer.parseInt(Cookies.getCookie("id")));
-		nutzer.setEmail(Cookies.getCookie("email"));
-		
-		Window.alert(nutzer.getEmail());
-		
-		verwaltung.findKontaktByNutzerID(nutzer.getID(), new KontaktCallBack());
-		
-		
+		initWidget(this.vpanelDetails);
 
+		// verwaltung.findKontaktlisteByID(kontlist.getID(), new );
 
-	// verwaltung.findKontaktlisteByID(kontlist.getID(), new );
-
-		//verwaltung.findAllKontaktNames(new KontaktCallBack());
-	//	verwaltung.findKontaktlisteAll(new KontaktlistCallBack());
-
-	//	verwaltung.findKontaktlisteByNutzerID(new KontaktlistCallBack());
+		verwaltung.findAllKontaktNames(new KontaktCallBack());
+		verwaltung.findKontaktlisteAll(new KontaktlistCallBack());
 
 		cellList.setSelectionModel(selectionModel);
 		selectionModel.addSelectionChangeHandler(new SelectionChangeEvent.Handler() {
@@ -168,18 +167,11 @@ public class MainForm extends VerticalPanel {
 		vpanelDetails.add(html1);
 		vpanelDetails.add(hpanelDetails);
 		vpanelDetails.add(cellList);
-		this.add(vpanelDetails);
 		// this.add(vpanelDetails);
 
 	}
 
-
-
-	
-	
-	
-	class KontaktCallBack implements AsyncCallback<List<Kontakt>>{
-
+	class KontaktCallBack implements AsyncCallback<List<Kontakt>> {
 
 		@Override
 		public void onFailure(Throwable caught) {
