@@ -32,6 +32,7 @@ import com.google.gwt.user.client.ui.FlexTable;
 import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Label;
+import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwt.user.client.ui.TextArea;
 import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.client.ui.VerticalPanel;
@@ -69,7 +70,7 @@ public class UpdateKontaktForm extends VerticalPanel {
 	private Label lbl_NewAuspraegung = new Label("Auspraegung: ");
 	private TextBox txt_Auspraegung = new TextBox();
 	
-	private Button cancel = new Button("Cancel");
+	private Button cancelBtn = new Button("Cancel");
 	
 
 	private EigenschaftAuspraegungHybrid ea = new EigenschaftAuspraegungHybrid();
@@ -80,17 +81,16 @@ public class UpdateKontaktForm extends VerticalPanel {
 
 	private SingleSelectionModel<EigenschaftAuspraegungHybrid> sm = new SingleSelectionModel<EigenschaftAuspraegungHybrid>();
 	private CellTableForm ctf = null;
-
+	
 	public UpdateKontaktForm(Kontakt kon) {
 
 		this.kon = kon;
 	}
-
+	
 	public void onLoad() {
-
+	
 		super.onLoad();
 
-		Window.alert("die id ist: " + kon.getID() + "name: " + kon.getName());
 		verwaltung.findAllEigenschaft(new AllEigenschaftCallback());
 		
 		ctf = new CellTableForm(kon);
@@ -100,9 +100,10 @@ public class UpdateKontaktForm extends VerticalPanel {
 		hpanelDetails.setHeight("35px");
 		hpanelDetails.add(lbl_KontaktName);
 		hpanelDetails.add(txt_KontaktName);
-		hpanelDetails.add(cancel);
+		hpanelDetails.add(cancelBtn);
 
 		vpanelDetails.add(hpanelDetails);
+		
 		vpanelDetails.add(ctf);
 		vpanelDetails.add(hpanelAdd);
 		hpanelAdd.add(lbl_NewEigenschaft);
@@ -137,6 +138,7 @@ public class UpdateKontaktForm extends VerticalPanel {
 			}	
 				
 		});
+	
 		
 		KeyDownHandler kdh = new KeyDownHandler(){
 
@@ -168,6 +170,19 @@ public class UpdateKontaktForm extends VerticalPanel {
 				
 		ctf.addColumn(deleteBtn, "");
 	
+		cancelBtn.addClickHandler(new ClickHandler() {
+			
+			@Override
+			public void onClick(ClickEvent event) {
+				KontaktForm kf = new KontaktForm(kon);
+				
+				RootPanel.get("Details").clear();
+				RootPanel.get("Details").add(kf);
+				
+			}
+		});
+		
+		
 		deleteBtn.setFieldUpdater(new FieldUpdater<EigenschaftAuspraegungHybrid, String>() {
 					
 				@Override
