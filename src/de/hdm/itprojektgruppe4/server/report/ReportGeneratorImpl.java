@@ -47,7 +47,7 @@ public class ReportGeneratorImpl extends RemoteServiceServlet implements ReportG
 		
 		AllEigeneKontakteReport report = new AllEigeneKontakteReport();
 		
-		report.setTitle("Alle eigenen Kontakte");
+
 		
 		return report;
 		
