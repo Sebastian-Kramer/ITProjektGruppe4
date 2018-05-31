@@ -128,7 +128,7 @@ public interface KontaktAdministrationAsync {
 
 	void findNutzerByID(int id, AsyncCallback<Nutzer> callback);
 
-	void getAllKontaktlistenFromUser(int NutzerID, AsyncCallback<Vector<Kontaktliste>> callback);
+	void getAllKontaktlistenFromUser(int nutzerID, AsyncCallback<Vector<Kontaktliste>> callback);
 
 	void getAllTeilhaberschaftenFromUser(int nutzerID, AsyncCallback<Vector<Teilhaberschaft>> callback);
 
