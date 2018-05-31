@@ -7,7 +7,9 @@ import org.datanucleus.state.CallbackHandler;
  
 
 import com.google.appengine.api.files.FileServicePb.ShuffleRequest.Callback;
+import com.google.gwt.cell.client.ButtonCell;
 import com.google.gwt.cell.client.Cell.Context;
+import com.google.gwt.cell.client.ClickableTextCell;
 import com.google.gwt.cell.client.FieldUpdater;
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.dom.client.NativeEvent;
@@ -20,6 +22,7 @@ import com.google.gwt.event.dom.client.KeyPressEvent;
 import com.google.gwt.event.logical.shared.SelectionEvent;
 import com.google.gwt.event.logical.shared.SelectionHandler;
 import com.google.gwt.user.cellview.client.CellTable;
+import com.google.gwt.user.cellview.client.Column;
 import com.google.gwt.user.cellview.client.TextColumn;
 import com.google.gwt.user.client.Event;
 import com.google.gwt.user.client.Window;
@@ -53,20 +56,21 @@ public class UpdateKontaktForm extends VerticalPanel {
 
 	private VerticalPanel vpanelDetails = new VerticalPanel();
 	private HorizontalPanel hpanelDetails = new HorizontalPanel();
+	private HorizontalPanel hpanelAdd = new HorizontalPanel();
 
 	private Kontakt kon = new Kontakt();
-
-	private CellTableForm ctf1 = new CellTableForm(kon);
 
 
 	private Label lbl_KontaktName = new Label("Kontaktname: ");
 	private TextBox txt_KontaktName = new TextBox();
-	private TextBox txt_Eigenschaft = new TextBox();
-	private TextBox txt_Auspraegung = new TextBox();
-	private Button save = new Button("Speichern");
-	private Button cancel = new Button("Cancel");
 	private Button addRow = new Button("Add");
-	private Button saveRow = new Button("Save Changes");
+	private Label lbl_NewEigenschaft = new Label("Eigenschaft: ");
+	private TextBox txt_Eigenschaft = new TextBox();
+	private Label lbl_NewAuspraegung = new Label("Auspraegung: ");
+	private TextBox txt_Auspraegung = new TextBox();
+	
+	private Button cancel = new Button("Cancel");
+	
 
 	private EigenschaftAuspraegungHybrid ea = new EigenschaftAuspraegungHybrid();
 
@@ -75,18 +79,7 @@ public class UpdateKontaktForm extends VerticalPanel {
 
 
 	private SingleSelectionModel<EigenschaftAuspraegungHybrid> sm = new SingleSelectionModel<EigenschaftAuspraegungHybrid>();
-
-//	public UpdateKontaktForm(Kontakt kon) {
-//
-//		this.kon = kon;
-//	}
-//
-//	public void onLoad() {
-//
-//		super.onLoad();
-//
-//		// Window.alert("die id ist: " + kon.getID() + "name: " +
-//		// kon.getName());
+	private CellTableForm ctf = null;
 
 	public UpdateKontaktForm(Kontakt kon) {
 
@@ -98,55 +91,34 @@ public class UpdateKontaktForm extends VerticalPanel {
 		super.onLoad();
 
 		Window.alert("die id ist: " + kon.getID() + "name: " + kon.getName());
-
-		verwaltung.findKontaktByID(kon.getID(), new AsyncCallback<Kontakt>() {
-
-			@Override
-			public void onFailure(Throwable caught) {
-				// TODO Auto-generated method stub
-
-			}
-
-			@Override
-			public void onSuccess(Kontakt result) {
-				txt_KontaktName.setText(result.getName());
-
-			}
-
-		});
-
-		final CellTableForm ctf = new CellTableForm(kon);
+		verwaltung.findAllEigenschaft(new AllEigenschaftCallback());
+		
+		ctf = new CellTableForm(kon);
 
 		txt_KontaktName.setText(kon.getName());
-		// txt_Eigenschaft.setText(kon.ge);
-
-		// hpanelDetails.add(lbl_Eigenschaft);
-		// hpanelDetails.add(txt_Eigenschaft);
-
-
+	
 		hpanelDetails.setHeight("35px");
 		hpanelDetails.add(lbl_KontaktName);
 		hpanelDetails.add(txt_KontaktName);
-		hpanelDetails.add(save);
 		hpanelDetails.add(cancel);
 
 		vpanelDetails.add(hpanelDetails);
 		vpanelDetails.add(ctf);
-		vpanelDetails.add(addRow);
-		vpanelDetails.add(saveRow);
-		vpanelDetails.add(txt_Auspraegung);
-		vpanelDetails.add(txt_Eigenschaft);
-
+		vpanelDetails.add(hpanelAdd);
+		hpanelAdd.add(lbl_NewEigenschaft);
+		hpanelAdd.add(txt_Eigenschaft);
+		hpanelAdd.add(lbl_NewAuspraegung);
+		hpanelAdd.add(txt_Auspraegung);
+		hpanelAdd.add(addRow);
+		
+		
 		this.add(vpanelDetails);
 
 		ea.setAuspraegung(txt_Auspraegung.getText());
 		ea.setEigenschaft(txt_Eigenschaft.getText());
 
-
-		// System.out.println(ctf.sm.getLastSelectedObject().getAuspraegung());
-		// Window.alert(""+ ctf.getSm().getSelectedObject().getAuspraegung());
-
 		ctf.setSelectionModel(sm);
+		
 		ctf.getWertAuspraegung().setFieldUpdater(new FieldUpdater<EigenschaftAuspraegungHybrid, String>() {
 
 			@Override
@@ -165,6 +137,7 @@ public class UpdateKontaktForm extends VerticalPanel {
 			}	
 				
 		});
+		
 		KeyDownHandler kdh = new KeyDownHandler(){
 
 
@@ -179,118 +152,102 @@ public class UpdateKontaktForm extends VerticalPanel {
 				}
 				
 			};	
+			
 		ctf.addKeyDownHandler(kdh);	
-		
-
-
-
-		// sm.addSelectionChangeHandler(new SelectionChangeEvent.Handler(){
-		//
-		// @Override
-		// public void onSelectionChange(SelectionChangeEvent event) {
-		// EigenschaftAuspraegungHybrid selected = sm.getSelectedObject();
-		// selected.setAuspraegung(ctf.getWertAuspraegung().getValue(selected));
-		//
-		// eigaus.setWert(selected.getAuspraegung());
-		// eigaus.setEigenschaftsID(selected.getEigenschaftID());
-		// Window.alert(" " + eigaus.getWert());
-		//// eigaus.setEigenschaftsID(event.getSelectedItem().getEigenschaftID());
-		//// eigaus.setWert(event.getSm().getSelectedObject().getAuspraegung());
-		//
-		// }
-		//
-		// });
-
-		saveRow.addClickHandler(new ClickHandler() {
+	
+		Column<EigenschaftAuspraegungHybrid, String> deleteBtn = new Column<EigenschaftAuspraegungHybrid, String>(
+				new ButtonCell()) {
+			
 
 			@Override
-			public void onClick(ClickEvent event) {
-				Window.alert("die neue auspraegung lautet " + sm.getSelectedObject().getAuspraegung());
+			public String getValue(EigenschaftAuspraegungHybrid x) {
+				// TODO Auto-generated method stub
+				return "x";
 			}
-		});
-
-		// ctf.sm.getLastSelectedObject().getAuspraegung();
-
-		// eigaus.setEigenschaftsID(ctf.getSm().getSelectedObject().getEigenschaftID());
-		// eigaus.setWert(ctf.getSm().getSelectedObject().getAuspraegung());
-		//
-		// saveRow.addClickHandler(new ClickHandler() {
-		//
-		// @Override
-		// public void onClick(ClickEvent event) {
-		// Window.alert("hallo clirim");
-		// }
-		// });
-
-
+			};
+				
+		ctf.addColumn(deleteBtn, "");
+	
+		deleteBtn.setFieldUpdater(new FieldUpdater<EigenschaftAuspraegungHybrid, String>() {
+					
+				@Override
+				public void update(int index, EigenschaftAuspraegungHybrid object, String value) {
+					
+					ea.setAuspraegungID(object.getAuspraegungID());
+					ea.setEigenschaftID(object.getEigenschaftID());
+					
+					verwaltung.deleteEigenschaftUndAuspraegung(ea, new AuspraegungHybridLoeschenCallback());
+					
+				}
+			});
+		
 		addRow.addClickHandler(new ClickHandler() {
 
 			@Override
 			public void onClick(ClickEvent event) {
 				ctf.addRow(txt_Eigenschaft.getValue(), txt_Auspraegung.getValue());
 
-				verwaltung.insertEigenschaft(txt_Eigenschaft.getText(), 0, new AsyncCallback<Eigenschaft>() {
+				verwaltung.insertEigenschaft(txt_Eigenschaft.getText(), 0, new EigenschaftEinfuegenCallback());
+		}
 
-					@Override
-					public void onFailure(Throwable caught) {
-						// TODO Auto-generated method stub
+		});}
+	
+	class AllEigenschaftCallback implements AsyncCallback<Vector<Eigenschaft>>{
 
-					}
+		@Override
+		public void onFailure(Throwable caught) {
+			// TODO Auto-generated method stub
+			
+		}
 
-					@Override
-					public void onSuccess(Eigenschaft result) {
-						// TODO Auto-generated method stub
+		@Override
+		public void onSuccess(Vector<Eigenschaft> result) {
+			
+			for (Eigenschaft eig : result)
+				;
 
-						eig1.setID(result.getID());
-
-						verwaltung.insertAuspraegung(txt_Auspraegung.getText(), 0, eig1.getID(), kon.getID(),
-								new AsyncCallback<Eigenschaftauspraegung>() {
-
-									@Override
-									public void onFailure(Throwable caught) {
-										// TODO Auto-generated method stub
-
-									}
-
-									@Override
-									public void onSuccess(Eigenschaftauspraegung result) {
-										// TODO Auto-generated method stub
-									}
-								});
-					}
-				});
+			for (Eigenschaft eig : result) {
 
 			}
-
-		});
-
-		verwaltung.findAllEigenschaft(new AsyncCallback<Vector<Eigenschaft>>() {
-
-			@Override
-			public void onFailure(Throwable caught) {
-				// TODO Auto-generated method stub
-
-			}
-
-			@Override
-			public void onSuccess(Vector<Eigenschaft> result) {
-				Window.alert("alle Eigenschaften m?ssten gefunden sein");
-
-				for (Eigenschaft eig : result)
-					;
-
-				for (Eigenschaft eig : result) {
-
-				}
-
-
-			}
-
-		});
-
+		}
+		
 	}
+	
+	class EigenschaftEinfuegenCallback implements AsyncCallback<Eigenschaft>{
 
+		@Override
+		public void onFailure(Throwable caught) {
+			// TODO Auto-generated method stub
+			
+		}
 
+		@Override
+		public void onSuccess(Eigenschaft result) {
+			eig1.setID(result.getID());
+			verwaltung.insertAuspraegung(txt_Auspraegung.getText(), 0, eig1.getID(), kon.getID(), new AuspraegungEinfuegenCallback());
+			
+		}
+		
+	}
+	
+	class AuspraegungEinfuegenCallback implements AsyncCallback<Eigenschaftauspraegung>{
+
+		@Override
+		public void onFailure(Throwable caught) {
+			// TODO Auto-generated method stub
+			
+		}
+
+		@Override
+		public void onSuccess(Eigenschaftauspraegung result) {
+			verwaltung.findHybrid(kon, new ReloadCallback());
+			txt_Eigenschaft.setText("");
+			txt_Auspraegung.setText("");
+		}
+		
+	}
+	
+	
 	class AuspraegungBearbeitenCallback implements AsyncCallback<Eigenschaftauspraegung> {
 
 		@Override
@@ -306,17 +263,42 @@ public class UpdateKontaktForm extends VerticalPanel {
 		}
 
 	}
+	
+	class AuspraegungHybridLoeschenCallback implements AsyncCallback<Void>{
 
-	// class AuspraegungBearbeiten implements SelectionHandler{
-	//
-	// @Override
-	// public void onSelection(SelectionEvent event) {
-	// // TODO Auto-generated method stub
-	//
-	//
-	// }
-	//
-	// }
+		@Override
+		public void onFailure(Throwable caught) {
+			Window.alert("nein gunners nein");
+			
+		}
+
+		@Override
+		public void onSuccess(Void result) {
+			verwaltung.findHybrid(kon, new ReloadCallback());
+			
+//			ctf.redraw();
+			
+		}
+	}
+	
+	class ReloadCallback implements AsyncCallback<Vector<EigenschaftAuspraegungHybrid>>{
+
+		@Override
+		public void onFailure(Throwable caught) {
+			// TODO Auto-generated method stub
+			
+		}
+
+		@Override
+		public void onSuccess(Vector<EigenschaftAuspraegungHybrid> result) {
+			ctf.setRowData(0, result);
+			ctf.setRowCount(result.size(), true);
+		}
+		
+	}
+	
+	
+
 
 
 }

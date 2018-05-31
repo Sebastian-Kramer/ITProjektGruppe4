@@ -119,6 +119,14 @@ public class CellTableForm extends CellTable<EigenschaftAuspraegungHybrid> {
 
 		this.redraw();
 	}
+	
+	public void deleteRow(EigenschaftAuspraegungHybrid object){
+		model.getList().remove(object);
+		eList.remove(object);
+		model.refresh();
+	    this.redraw();
+	}
+	
 
 	// public void updateRow(String a, String b){
 	// EigenschaftAuspraegungHybrid eigenschafthybrid = new
