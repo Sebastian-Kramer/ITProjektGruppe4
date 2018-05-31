@@ -48,59 +48,132 @@ public class HTMLReportWriter extends ReportWriter {
 	  public String getTrailer() {
 	    return "</body></html>";
 	  }
+	  
+	  public String getReportText(){
+		  return this.getHeader() + this.reportText + this.getTrailer();
+	  }
 
 	@Override
-	public void process(AllKontakteVonAnderemNutzerReport c) {
+	public void process(KontakteMitBestimmtenEigenschaftenReport p) {
 	    this.resetReportText();
 	    
 	    StringBuffer result = new StringBuffer();
-		
+	    
+	    result.append("<h3>"+ p.getTitle() + "</h3>");
+		  result.append("<table style=\"width:400px;border:1px solid silver\"><tr>");
+		  result.append("</tr><tr><td></td><td>" + p.getCreated().toString() + "</td></tr></table>");
+
+		  	 Vector<Row> rows = p.getRows();
+		     result.append("<table style=\"width:400px\">");
+		     for (int i = 0; i < rows.size(); i++) {
+		         Row row = rows.elementAt(i);
+		         result.append("<tr>");
+		         for (int k = 0; k < row.getColumns().size(); k++) {
+			           if (i == 0) {
+			        	
+		             result.append("<td style=\"background:silver;font-weight:bold\">" + row.getColumnAt(k)
+		                 + "</td>");	             
+		           }
+		           else {
+		             if (i > 1) {
+		               result.append("<td style=\"border-top:1px solid silver\">"
+		                   + row.getColumnAt(k) + "</td>");
+		             }
+		             else {
+		               result.append("<td valign=\"top\">" + row.getColumnAt(k) + "</td>");
+		             }
+		           }
+		         }
+		         result.append("</tr>");
+		       }
+
+		       result.append("</table>");    
+		       this.reportText = result.toString();
 	}
+		
+	
 
 	@Override
-	public void process(AllEigeneKontakteReport c) {
+	public void process(AllKontakteReport p) {
 	    this.resetReportText();
 	    
 	    StringBuffer result = new StringBuffer();
+	   
+		  
+		  result.append("<h3>"+ p.getTitle() + "</h3>");
+		  result.append("<table style=\"width:400px;border:1px solid silver\"><tr>");
+		  result.append("</tr><tr><td></td><td>" + p.getCreated().toString() + "</td></tr></table>");
+
+		  	 Vector<Row> rows = p.getRows();
+		     result.append("<table style=\"width:400px\">");
+		     for (int i = 0; i < rows.size(); i++) {
+		         Row row = rows.elementAt(i);
+		         result.append("<tr>");
+		         for (int k = 0; k < row.getColumns().size(); k++) {
+		           if (i == 0) {
+		        	
+		             result.append("<td style=\"background:silver;font-weight:bold\">" + row.getColumnAt(k)
+		                 + "</td>");	             
+		           }
+		           else {
+		             if (i > 1) {
+		               result.append("<td style=\"border-top:1px solid silver\">"
+		                   + row.getColumnAt(k) + "</td>");
+		             }
+		             else {
+		               result.append("<td valign=\"top\">" + row.getColumnAt(k) + "</td>");
+		             }
+		           }
+		         }
+		         result.append("</tr>");
+		       }
+
+		       result.append("</table>");    
+		       this.reportText = result.toString();
 		
 	}
 
 	@Override
-	public void process(AllNutzerReport c) {
+	public void process(KontakteMitBestimmterTeilhaberschaft p) {
 	    this.resetReportText();
 		
 	    StringBuffer result = new StringBuffer();
-	}
-
-	@Override
-	public void process(KontakteMitBestimmtenEigenschaftenReport c) {
-	    this.resetReportText();
 	    
-	    StringBuffer result = new StringBuffer();
+	    result.append("<h3>"+ p.getTitle() + "</h3>");
+		  result.append("<table style=\"width:400px;border:1px solid silver\"><tr>");
+		  result.append("</tr><tr><td></td><td>" + p.getCreated().toString() + "</td></tr></table>");
+
+		  	 Vector<Row> rows = p.getRows();
+		     result.append("<table style=\"width:400px\">");
+		     for (int i = 0; i < rows.size(); i++) {
+		         Row row = rows.elementAt(i);
+		         result.append("<tr>");
+		         for (int k = 0; k < row.getColumns().size(); k++) {
+		           if (i == 0) {
+		        	
+		             result.append("<td style=\"background:silver;font-weight:bold\">" + row.getColumnAt(k)
+		                 + "</td>");	             
+		           }
+		           else {
+		             if (i > 1) {
+		               result.append("<td style=\"border-top:1px solid silver\">"
+		                   + row.getColumnAt(k) + "</td>");
+		             }
+		             else {
+		               result.append("<td valign=\"top\">" + row.getColumnAt(k) + "</td>");
+		             }
+		           }
+		         }
+		         result.append("</tr>");
+		       }
+
+		       result.append("</table>");    
+		       this.reportText = result.toString();
+	
 	}
 
-	@Override
-	public void process(KontakteMitBestimmtenEigenschaftsAuspraegungenReport c) {
-	    this.resetReportText();
-		
-	    StringBuffer result = new StringBuffer();
-	}
+	
 
-	@Override
-	public void process(KontakteMitBestimmtenAuspraegungenReport c) {
-	    this.resetReportText();
-	    
-	    StringBuffer result = new StringBuffer();
-		
-	}
-
-	@Override
-	public void process(KontakteMitBestimmterTeilhaberschaftReport c) {
-	    this.resetReportText();
-	    
-	    StringBuffer result = new StringBuffer();
-		
-	}
-
+	
 	
 }
