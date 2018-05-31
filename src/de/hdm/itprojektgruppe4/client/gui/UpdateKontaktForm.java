@@ -63,7 +63,7 @@ public class UpdateKontaktForm extends VerticalPanel {
 
 	private Label lbl_KontaktName = new Label("Kontaktname: ");
 	private TextBox txt_KontaktName = new TextBox();
-	private Button addRow = new Button("Add");
+	private Button addRow = new Button("Hinzufügen");
 	private Label lbl_NewEigenschaft = new Label("Eigenschaft: ");
 	private TextBox txt_Eigenschaft = new TextBox();
 	private Label lbl_NewAuspraegung = new Label("Auspraegung: ");
@@ -247,7 +247,6 @@ public class UpdateKontaktForm extends VerticalPanel {
 		
 	}
 	
-	
 	class AuspraegungBearbeitenCallback implements AsyncCallback<Eigenschaftauspraegung> {
 
 		@Override
@@ -296,9 +295,5 @@ public class UpdateKontaktForm extends VerticalPanel {
 		}
 		
 	}
-	
-	
-
-
 
 }
