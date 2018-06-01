@@ -12,18 +12,22 @@ import com.google.gwt.i18n.client.NumberFormat;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Button;
+import com.google.gwt.user.client.ui.DialogBox;
 import com.google.gwt.user.client.ui.Grid;
 import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.HorizontalPanel;
+import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwt.user.client.ui.TextArea;
 import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.client.ui.VerticalPanel;
+import com.google.gwt.view.client.SingleSelectionModel;
 import com.google.gwt.user.cellview.client.CellTable;
 import com.google.gwt.user.cellview.client.Column;
 
 import de.hdm.itprojektgruppe4.client.ClientsideSettings;
+import de.hdm.itprojektgruppe4.client.gui.UpdateKontaktForm.AllEigenschaftCallback;
 import de.hdm.itprojektgruppe4.shared.KontaktAdministrationAsync;
 import de.hdm.itprojektgruppe4.shared.bo.*;
 
@@ -47,18 +51,16 @@ public class KontaktForm extends VerticalPanel {
 	private VerticalPanel vpanelDetails = new VerticalPanel();
 	private VerticalPanel vpanelDetails1 = new VerticalPanel();
 	
-	List<Eigenschaft> eList = new ArrayList<>();
+
+	private SingleSelectionModel<EigenschaftAuspraegungHybrid> sm = new SingleSelectionModel<EigenschaftAuspraegungHybrid>();
+	private CellTableForm ctf = null;
 	
-	CellTable<Eigenschaftauspraegung> table = new CellTable<Eigenschaftauspraegung>();
-	CellTable<Eigenschaft> eTable = new CellTable<Eigenschaft>();
-	
-	TextArea ta = new TextArea();
-	
-	private Label hinweis = new Label("Hinweis zum Kontakt");
-	private Label auspraegung = new Label("Auspraegung");
+
 
 	private Button bearbeitenButton = new Button("Kontakt bearbeiten");
-	private Button zurueckButton = new Button("Zurück");
+	private Button loeschenButton = new Button("Kontakt löschen");
+	
+	
 	
 	public KontaktForm(Kontakt k){
 		this.k = k;
@@ -66,60 +68,46 @@ public class KontaktForm extends VerticalPanel {
 	
 	public void onLoad(){
 		
+		
+		final Image kontaktbild = new Image();
+		kontaktbild.setUrl("https://ssl.gstatic.com/s2/contacts/images/NoPicture.gif");
 		RootPanel.get("Buttonbar").clear();
 		
-		HTML html1 = new HTML("<h2>Meine Kontakt " +  k.getName()   + "</h2>"); 
-//		HTML html2 = new HTML("<div id = 'Linie'>_________________________________________________________________________________________________________________________________________________________________________________________________________</div>");
-		
+		HTML html1 = new HTML("<h2>" +  k.getName()   + "</h2>"); 
+
 		super.onLoad();
+		verwaltung.findAllEigenschaft(new AllEigenschaftCallback());
+		ctf = new CellTableForm(k);
 		
-		verwaltung.findEigenschaftauspraegungByKontaktID(k.getID(), new EigenschaftFromKontakt());
 		
-		Column<Eigenschaftauspraegung, String> bez = 
-			    new Column<Eigenschaftauspraegung, String>(new ClickableTextCell())  {
-			    
-					@Override
-					public String getValue(Eigenschaftauspraegung object) {
-						return object.getWert();
-					}
-					    
-		};
-		
-		Column<Eigenschaft, String> name = 
-			    new Column<Eigenschaft, String>(new ClickableTextCell())  {
-			    
-					@Override
-					public String getValue(Eigenschaft object) {
-						return object.getBezeichnung();
-					}
-					    
-		};
-		
-//		Window.alert(" " + eList.size());
-//		eTable.setRowData(0, eList);
-//		eTable.setRowCount(eList.size(), true);
-		table.addColumn(bez, "Wert");
-		eTable.addColumn(name, "Bezeichnung");
-		
-	    ta.setCharacterWidth(30);
-	    ta.setVisibleLines(20);
-		
-	    vpanelDetails1.add(hinweis);
-	    vpanelDetails1.add(ta);
-		
-	    hpanel.add(eTable);
+
 		hpanel.add(vpanelDetails1);
-		
-		vpanelDetails.add(html1);
+		hpanel.add(ctf);
+		vpanelDetails1.add(kontaktbild);
+		vpanelDetails1.add(html1);
 		vpanelDetails.add(hpanel);
 		
-		
-		
+		ctf.setSelectionModel(sm);
+		vpanel.add(vpanelDetails1);
 		vpanel.add(vpanelDetails);
 		
 		RootPanel.get("Buttonbar").add(bearbeitenButton);
+		RootPanel.get("Buttonbar").add(loeschenButton);
 
 		this.add(vpanel);
+		
+		loeschenButton.addClickHandler(new ClickHandler() {
+			
+			@Override
+			public void onClick(ClickEvent event) {
+				// TODO Auto-generated method stub
+				
+				DialogBox deleteBox = new DialogBoxKontakt(k);
+				deleteBox.center();
+			
+			}
+		});
+		
 		
 		bearbeitenButton.addClickHandler(new ClickHandler(){
 
@@ -169,44 +157,67 @@ public class KontaktForm extends VerticalPanel {
 	
 		}
 	
-	class EigenschaftFromKontakt implements AsyncCallback<Vector<Eigenschaftauspraegung>>{
+//	class EigenschaftFromKontakt implements AsyncCallback<Vector<Eigenschaftauspraegung>>{
+//
+//		@Override
+//		public void onFailure(Throwable caught) {
+//			Window.alert("Die Eigenschaftsausprägungen konnten nicht geladen werden");
+//			
+//		}
+//
+//		@Override
+//		public void onSuccess(Vector<Eigenschaftauspraegung> result) {
+//				
+//				table.setRowData(0, result);
+//				table.setRowCount(result.size(), true); 	
+//				
+//				for (Eigenschaftauspraegung ea : result){
+//					verwaltung.getEigenschaftByID(ea.getEigenschaftsID(), new AsyncCallback<Eigenschaft>(){
+//
+//						@Override
+//						public void onFailure(Throwable caught) {
+//							Window.alert("Die Eigenschaften konnten nicht geladen werden");
+//							
+//						}
+//
+//						@Override
+//						public void onSuccess(Eigenschaft result) {
+//							
+//						}
+//						
+//					});
+//
+//				}
+//				Window.alert(" " + eList.size());
+//				eTable.setRowData(0, eList);
+//				eTable.setRowCount(eList.size(), true);
+//
+//		}
+//		
+//	}
+	
+	class AllEigenschaftCallback implements AsyncCallback<Vector<Eigenschaft>>{
 
 		@Override
 		public void onFailure(Throwable caught) {
-			Window.alert("Die Eigenschaftsausprägungen konnten nicht geladen werden");
+			// TODO Auto-generated method stub
 			
 		}
 
 		@Override
-		public void onSuccess(Vector<Eigenschaftauspraegung> result) {
-				
-				table.setRowData(0, result);
-				table.setRowCount(result.size(), true); 	
-				
-				for (Eigenschaftauspraegung ea : result){
-					verwaltung.getEigenschaftByID(ea.getEigenschaftsID(), new AsyncCallback<Eigenschaft>(){
+		public void onSuccess(Vector<Eigenschaft> result) {
+			
+			for (Eigenschaft eig : result)
+				;
 
-						@Override
-						public void onFailure(Throwable caught) {
-							Window.alert("Die Eigenschaften konnten nicht geladen werden");
-							
-						}
+			for (Eigenschaft eig : result) {
 
-						@Override
-						public void onSuccess(Eigenschaft result) {
-							
-						}
-						
-					});
-
-				}
-//				Window.alert(" " + eList.size());
-//				eTable.setRowData(0, eList);
-//				eTable.setRowCount(eList.size(), true);
-
+			}
 		}
 		
 	}
+	
+	
 	void setSelected(Kontakt k){
 		kon = k;
 	}

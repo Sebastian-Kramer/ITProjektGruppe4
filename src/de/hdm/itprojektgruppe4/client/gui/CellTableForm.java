@@ -5,7 +5,6 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Vector;
 
-
 import com.google.gwt.cell.client.ButtonCell;
 import com.google.gwt.cell.client.ClickableTextCell;
 import com.google.gwt.cell.client.EditTextCell;
@@ -52,7 +51,6 @@ public class CellTableForm extends CellTable<EigenschaftAuspraegungHybrid> {
 	}
 
 	Column<EigenschaftAuspraegungHybrid, String> wertAuspraegung;
-	
 
 	public Column<EigenschaftAuspraegungHybrid, String> getWertAuspraegung() {
 		return wertAuspraegung;
@@ -87,9 +85,7 @@ public class CellTableForm extends CellTable<EigenschaftAuspraegungHybrid> {
 			}
 
 		};
-		
-		
-		
+
 		this.addColumn(wertAuspraegung, "Auspraegung");
 
 		// ListDataProvider<EigenschaftAuspraegungHybrid> model = new
@@ -119,30 +115,13 @@ public class CellTableForm extends CellTable<EigenschaftAuspraegungHybrid> {
 
 		this.redraw();
 	}
-	
-	public void deleteRow(EigenschaftAuspraegungHybrid object){
+
+	public void deleteRow(EigenschaftAuspraegungHybrid object) {
 		model.getList().remove(object);
 		eList.remove(object);
 		model.refresh();
-	    this.redraw();
+		this.redraw();
 	}
-	
-
-	// public void updateRow(String a, String b){
-	// EigenschaftAuspraegungHybrid eigenschafthybrid = new
-	// EigenschaftAuspraegungHybrid();
-	// eigenschafthybrid.setEigenschaft(a);
-	// eigenschafthybrid.setAuspraegung(b);
-	//
-	// eList.add(eigenschafthybrid);
-	//// model.getList().add(eigenschafthybrid);
-	//
-	//// int row = this.getRowCount();
-	// this.setRowData(0, eList);
-	// this.setRowCount(eList.size(), true);
-	//
-	// this.redraw();
-	// }
 
 	class AllAuspraegungToEigenschaftCallback implements AsyncCallback<Vector<EigenschaftAuspraegungHybrid>> {
 
@@ -164,8 +143,7 @@ public class CellTableForm extends CellTable<EigenschaftAuspraegungHybrid> {
 
 	public HandlerRegistration addKeyDownHandler(KeyDownHandler keyDownHandler) {
 		return addDomHandler(keyDownHandler, KeyDownEvent.getType());
-		
-	}
 
+	}
 
 }
