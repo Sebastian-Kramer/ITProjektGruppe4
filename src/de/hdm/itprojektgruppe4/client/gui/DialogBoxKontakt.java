@@ -30,7 +30,7 @@ public class DialogBoxKontakt extends DialogBox{
 		
 		
 	
-	
+		this.setStyleName("DialogboxBackground");
 	
 	
 		
