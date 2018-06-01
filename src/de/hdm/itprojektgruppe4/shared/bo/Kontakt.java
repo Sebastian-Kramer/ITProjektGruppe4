@@ -92,6 +92,17 @@ public class Kontakt extends Person{
 
 
 
+	@Override
+	public String toString() {
+		return "Kontakt [name=" + name + ", erzeugungsdatum=" + erzeugungsdatum + ", modifikationsdatum="
+				+ modifikationsdatum + ", status=" + status + ", kontaktlisteID=" + kontaktlisteID + ", nutzerID="
+				+ nutzerID + "]" ;
+		
+		
+	}
+
+
+
 
 }
 

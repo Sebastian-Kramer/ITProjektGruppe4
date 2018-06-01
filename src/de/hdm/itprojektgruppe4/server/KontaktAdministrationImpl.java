@@ -976,6 +976,20 @@ public class KontaktAdministrationImpl extends RemoteServiceServlet
 
 
 
+	@Override
+	public Vector<Eigenschaft> getEigenschaftByBezeichnung(String bez) throws IllegalArgumentException {
+		// TODO Auto-generated method stub
+		return this.eigMapper.getEigenschaftByBezeichnung(bez);
+	}
+
+
+
+	
+
+
+
+
+
 
 
 
