@@ -70,12 +70,12 @@ public class KontaktlisteKontaktTreeViewModel implements TreeViewModel {
 			BusinessObject selection = selectionModel.getSelectedObject();
 			if (selection instanceof Kontaktliste) {
 				//setSelectedKontaktliste((Kontaktliste) selection);
-				//RootPanel.get("Details").clear();
+				RootPanel.get("Details").clear();
 				RootPanel.get("Details").add(new KontaktlisteForm((Kontaktliste) selection));
 			} else if (selection instanceof Kontakt) {
 				//setSelectedKontakt((Kontakt) selection);
 				RootPanel.get("Details").clear();
-				RootPanel.get("Details").add(kontaktForm);
+				RootPanel.get("Details").add(new KontaktForm((Kontakt) selection));
 			}
 
 		}
