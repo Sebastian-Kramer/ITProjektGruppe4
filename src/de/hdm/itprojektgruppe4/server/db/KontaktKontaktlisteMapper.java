@@ -1,6 +1,6 @@
 /**
- * Die Mapper-Klasse <code>KontaktKontaktlistenMapper</cod> ermöglicht das Abbilden von Objekten der Klasse <code>KontaktKontakliste</code>
- * in einer relationalen Datenbank. Der Mapper enthält Methoden zum Erzeugen, Löschen und Modifizieren der Objekte.
+ * Die Mapper-Klasse <code>KontaktKontaktlistenMapper</cod> ermï¿½glicht das Abbilden von Objekten der Klasse <code>KontaktKontakliste</code>
+ * in einer relationalen Datenbank. Der Mapper enthï¿½lt Methoden zum Erzeugen, Lï¿½schen und Modifizieren der Objekte.
  * @version 
  * @author Raphael
  */
@@ -8,6 +8,8 @@ package de.hdm.itprojektgruppe4.server.db;
 
 import java.sql.*;
 import java.util.Vector;
+
+import de.hdm.itprojektgruppe4.shared.bo.Kontakt;
 import de.hdm.itprojektgruppe4.shared.bo.KontaktKontaktliste;
 
 public class KontaktKontaktlisteMapper {
@@ -29,7 +31,7 @@ public class KontaktKontaktlisteMapper {
 	
 	
 	/**
-	 * Hinzufügen eines neuen Objektes der Klasse KontaktKontaktliste in die Datenbank.
+	 * Hinzufï¿½gen eines neuen Objektes der Klasse KontaktKontaktliste in die Datenbank.
 	 * @param k
 	 * @return k
 	 */
@@ -59,8 +61,40 @@ public class KontaktKontaktlisteMapper {
 		return k;
 	}
 	
+	
+	// 
+	
+	public Vector<KontaktKontaktliste> findKontaktKontaktlisteByKontaktID (int i) {
+		
+		Vector<KontaktKontaktliste> result = new Vector<KontaktKontaktliste>();
+		
+		Connection con = DBConnection.connection();
+		
+		try{
+			Statement stmt = con.createStatement();
+			
+			ResultSet rs = stmt.executeQuery("SELECT ID, kontaktID, kontaktlisteID FROM kontaktkontaktliste "
+					 + "WHERE kontaktID = " + i);
+			
+			while (rs.next()){
+				KontaktKontaktliste kk = new KontaktKontaktliste();
+				kk.setID(rs.getInt("ID"));
+				kk.setKontaktID(rs.getInt("kontaktID"));
+				kk.setKontaktlisteID(rs.getInt("kontaktlisteID"));
+				
+				result.addElement(kk);
+
+			}			
+			}catch (SQLException e){
+				e.printStackTrace();
+			}
+			
+			return result;
+	}
+	
+	
 	/**
-	 * Ermöglicht das Löschen eines Objektes der Klasse KontaktKontaktliste anhand der ID.
+	 * Ermï¿½glicht das Lï¿½schen eines Objektes der Klasse KontaktKontaktliste anhand der ID.
 	 * @param k
 	 */
 	public void deleteKontaktKontaktliste (KontaktKontaktliste k){
@@ -80,17 +114,17 @@ public class KontaktKontaktlisteMapper {
 		
 	}
 	/**
-	 * Ermöglicht das Löschen eines Objektes der Klasse KontaktKontaktliste anhand des Fremdschlüssels KontaktID
+	 * Ermï¿½glicht das Lï¿½schen eines Objektes der Klasse KontaktKontaktliste anhand des Fremdschlï¿½ssels KontaktID
 	 * @param k
 	 */
-	public void deleteKontaktKontaktlisteByKontaktID (KontaktKontaktliste k){
+	public void deleteKontaktKontaktlisteByKontaktID (int k){
 		Connection con = DBConnection.connection();
 		
 		try{
 			
 			Statement stmt = con.createStatement();
 			
-			stmt.executeUpdate("DELETE from kontaktkontaktliste" + "WHERE ID= " + k.getKontaktID());
+			stmt.executeUpdate("DELETE FROM kontaktkontaktliste " + "WHERE kontaktID = " + k);
 			
 			
 		}catch(SQLException e){
@@ -100,7 +134,7 @@ public class KontaktKontaktlisteMapper {
 	}
 	
 	/**
-	 * Ermöglicht das Löschen eines Objekts der Klasse KontaktKontaktliste anhand des Fremdschlüssels KontaktlisteID
+	 * Ermï¿½glicht das Lï¿½schen eines Objekts der Klasse KontaktKontaktliste anhand des Fremdschlï¿½ssels KontaktlisteID
 	 * @param k
 	 */
 	
@@ -121,10 +155,10 @@ public class KontaktKontaktlisteMapper {
 	}
 	
 	/**
-	 * Ausgabe eines Vectors mit allen KontaktKontaktlisten-Objekten mit dem Fremdschlüssel der übergebenen KontaktlisteID
+	 * Ausgabe eines Vectors mit allen KontaktKontaktlisten-Objekten mit dem Fremdschlï¿½ssel der ï¿½bergebenen KontaktlisteID
 	 * 
 	 * @param kontaktlisteID
-	 * @return Vector result mit allen KontaktKontaktlisten-Objekten mit der übergebenen KontaktlistenID als Fremdschlüssel
+	 * @return Vector result mit allen KontaktKontaktlisten-Objekten mit der ï¿½bergebenen KontaktlistenID als Fremdschlï¿½ssel
 	 */
 	public Vector<KontaktKontaktliste> getKontaktKontaktlisteByKontaktlisteID(int kontaktlisteID){
 			Vector <KontaktKontaktliste> result = new Vector<KontaktKontaktliste>();

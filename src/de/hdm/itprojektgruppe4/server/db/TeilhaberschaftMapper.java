@@ -6,6 +6,7 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.Vector;
 
+import de.hdm.itprojektgruppe4.shared.bo.KontaktKontaktliste;
 import de.hdm.itprojektgruppe4.shared.bo.Teilhaberschaft;
 
 /**
@@ -72,11 +73,62 @@ public class TeilhaberschaftMapper {
 		return null;
 	}
 	
+	
+	public Vector <Teilhaberschaft> findTeilhaberschaftByKontaktID(int kontaktID){
+		
+		Vector <Teilhaberschaft> result = new Vector<Teilhaberschaft>();
+		
+		Connection con = DBConnection.connection();
+		
+		try{
+			Statement stmt = con.createStatement();
+			
+			ResultSet rs = stmt.executeQuery("SELECT `ID`, `kontaktlisteID`, `kontaktID`, `eigenschaftsauspraegungID`, `teilhaberID`  FROM teilhaberschaft "
+					 + "WHERE kontaktID = " + kontaktID);
+			
+			while (rs.next()){
+				Teilhaberschaft th = new Teilhaberschaft();
+				th.setID(rs.getInt("ID"));
+				th.setKontaktListeID(rs.getInt("kontaktID"));
+				th.setKontaktID(rs.getInt("kontaktID"));
+				th.setEigenschaftsauspraegungID(rs.getInt("eigenschaftsauspraegungID"));
+				th.setTeilhaberID(rs.getInt("teilhaberID"));
+				
+			
+				
+				result.addElement(th);
+
+			}			
+			}catch (SQLException e){
+				e.printStackTrace();
+			}
+			
+			return result;
+	}
+
+	
+	public void deleteTeilhaberschaftByKontaktID (int kontaktID){
+		Connection con = DBConnection.connection();
+		
+		try{
+			
+			Statement stmt = con.createStatement();
+			
+			stmt.executeUpdate("DELETE FROM teilhaberschaft " + "WHERE kontaktID = " + kontaktID);
+			
+			
+		}catch(SQLException e){
+			e.printStackTrace();
+			
+		}
+	}
+	
+	
 	/**
 	 * Ausgabe von Teilhaberschaft-Objekten anhand der TeilhaberID
 	 * 
 	 * @param teilhaberID
-	 * @return Vector mit sämtlichen Teilhaberschaften
+	 * @return Vector mit sï¿½mtlichen Teilhaberschaften
 	 */
 	public Vector<Teilhaberschaft> findTeilhaberschaftByTeilhaberID(int teilhaberID){
 		Vector<Teilhaberschaft> result = new Vector<Teilhaberschaft>();

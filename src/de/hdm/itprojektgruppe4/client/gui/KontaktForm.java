@@ -12,6 +12,7 @@ import com.google.gwt.i18n.client.NumberFormat;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Button;
+import com.google.gwt.user.client.ui.DialogBox;
 import com.google.gwt.user.client.ui.Grid;
 import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.HorizontalPanel;
@@ -50,22 +51,16 @@ public class KontaktForm extends VerticalPanel {
 	private VerticalPanel vpanelDetails = new VerticalPanel();
 	private VerticalPanel vpanelDetails1 = new VerticalPanel();
 	
-//	List<Eigenschaft> eList = new ArrayList<>();
+
 	private SingleSelectionModel<EigenschaftAuspraegungHybrid> sm = new SingleSelectionModel<EigenschaftAuspraegungHybrid>();
 	private CellTableForm ctf = null;
-	
-//	CellTable<Eigenschaftauspraegung> table = new CellTable<Eigenschaftauspraegung>();
-//	CellTable<Eigenschaft> eTable = new CellTable<Eigenschaft>();
-	
-	
-//	private Label hinweis = new Label("Hinweis zum Kontakt");
-//	TextArea ta = new TextArea();
-	
 	
 
 
 	private Button bearbeitenButton = new Button("Kontakt bearbeiten");
-
+	private Button loeschenButton = new Button("Kontakt löschen");
+	
+	
 	
 	public KontaktForm(Kontakt k){
 		this.k = k;
@@ -85,41 +80,7 @@ public class KontaktForm extends VerticalPanel {
 		ctf = new CellTableForm(k);
 		
 		
-//		verwaltung.findEigenschaftauspraegungByKontaktID(k.getID(), new EigenschaftFromKontakt());
-		
-//		Column<Eigenschaftauspraegung, String> bez = 
-//			    new Column<Eigenschaftauspraegung, String>(new ClickableTextCell())  {
-//			    
-//					@Override
-//					public String getValue(Eigenschaftauspraegung object) {
-//						return object.getWert();
-//					}
-//					    
-//		};
-		
-//		Column<Eigenschaft, String> name = 
-//			    new Column<Eigenschaft, String>(new ClickableTextCell())  {
-//			    
-//					@Override
-//					public String getValue(Eigenschaft object) {
-//						return object.getBezeichnung();
-//					}
-//					    
-//		};
-		
-//		Window.alert(" " + eList.size());
-//		eTable.setRowData(0, eList);
-//		eTable.setRowCount(eList.size(), true);
-//		table.addColumn(bez, "Wert");
-//		eTable.addColumn(name, "Bezeichnung");
-		
-//	    ta.setCharacterWidth(30);
-//	    ta.setVisibleLines(20);
-//		
-//	    vpanelDetails1.add(hinweis);
-//	    vpanelDetails1.add(ta);
-		
-//	    hpanel.add(eTable);
+
 		hpanel.add(vpanelDetails1);
 		hpanel.add(ctf);
 		vpanelDetails1.add(kontaktbild);
@@ -131,8 +92,22 @@ public class KontaktForm extends VerticalPanel {
 		vpanel.add(vpanelDetails);
 		
 		RootPanel.get("Buttonbar").add(bearbeitenButton);
+		RootPanel.get("Buttonbar").add(loeschenButton);
 
 		this.add(vpanel);
+		
+		loeschenButton.addClickHandler(new ClickHandler() {
+			
+			@Override
+			public void onClick(ClickEvent event) {
+				// TODO Auto-generated method stub
+				
+				DialogBox deleteBox = new DialogBoxKontakt(k);
+				deleteBox.center();
+			
+			}
+		});
+		
 		
 		bearbeitenButton.addClickHandler(new ClickHandler(){
 
