@@ -64,6 +64,36 @@ public class KontaktKontaktlisteMapper {
 	
 	// 
 	
+	public Vector<KontaktKontaktliste> findKontaktKontaktlisteByKontaktlisteID (int i) {
+			
+			Vector<KontaktKontaktliste> result = new Vector<KontaktKontaktliste>();
+			
+			Connection con = DBConnection.connection();
+			
+			try{
+				Statement stmt = con.createStatement();
+				
+				ResultSet rs = stmt.executeQuery("SELECT ID, kontaktID, kontaktlisteID FROM kontaktkontaktliste "
+						 + "WHERE kontaktlisteID = " + i);
+				
+				while (rs.next()){
+					KontaktKontaktliste kk = new KontaktKontaktliste();
+					kk.setID(rs.getInt("ID"));
+					kk.setKontaktID(rs.getInt("kontaktID"));
+					kk.setKontaktlisteID(rs.getInt("kontaktlisteID"));
+					
+					result.addElement(kk);
+	
+				}			
+				}catch (SQLException e){
+					e.printStackTrace();
+				}
+				
+				return result;
+		}
+	
+	
+	
 	public Vector<KontaktKontaktliste> findKontaktKontaktlisteByKontaktID (int i) {
 		
 		Vector<KontaktKontaktliste> result = new Vector<KontaktKontaktliste>();

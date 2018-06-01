@@ -5,6 +5,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.Vector;
 
+import com.google.gwt.cell.client.ButtonCell;
 import com.google.gwt.cell.client.ClickableTextCell;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
@@ -58,8 +59,8 @@ public class KontaktForm extends VerticalPanel {
 
 
 	private Button bearbeitenButton = new Button("Kontakt bearbeiten");
-	private Button loeschenButton = new Button("Kontakt lÃ¶schen");
-	
+	private Button loeschenButton = new Button("Kontakt löschen");
+	private Button zurueckBtn = new Button("Zurück");
 	
 	
 	public KontaktForm(Kontakt k){
@@ -74,17 +75,20 @@ public class KontaktForm extends VerticalPanel {
 		RootPanel.get("Buttonbar").clear();
 		
 		HTML html1 = new HTML("<h2>" +  k.getName()   + "</h2>"); 
-
+		HTML html2 = new HTML("Erstellt am: " + k.getErzeugungsdatum());
+		HTML html3 = new HTML("Zuletzt geändert am: " + k.getModifikationsdatum());
 		super.onLoad();
 		verwaltung.findAllEigenschaft(new AllEigenschaftCallback());
 		ctf = new CellTableForm(k);
 		
 		
-
+		
 		hpanel.add(vpanelDetails1);
 		hpanel.add(ctf);
 		vpanelDetails1.add(kontaktbild);
 		vpanelDetails1.add(html1);
+		vpanelDetails1.add(html2);
+		vpanelDetails1.add(html3);
 		vpanelDetails.add(hpanel);
 		
 		ctf.setSelectionModel(sm);
@@ -93,7 +97,7 @@ public class KontaktForm extends VerticalPanel {
 		
 		RootPanel.get("Buttonbar").add(bearbeitenButton);
 		RootPanel.get("Buttonbar").add(loeschenButton);
-
+		RootPanel.get("Buttonbar").add(zurueckBtn);
 		this.add(vpanel);
 		
 		loeschenButton.addClickHandler(new ClickHandler() {
@@ -106,6 +110,19 @@ public class KontaktForm extends VerticalPanel {
 				deleteBox.center();
 			
 			}
+		});
+		
+		zurueckBtn.addClickHandler(new ClickHandler(){
+
+			@Override
+			public void onClick(ClickEvent event) {
+				MainForm mf = new MainForm();
+				RootPanel.get("Details").clear();
+				RootPanel.get("Details").add(mf);
+				bearbeitenButton.setVisible(false);
+				
+			}
+			
 		});
 		
 		
@@ -123,78 +140,21 @@ public class KontaktForm extends VerticalPanel {
 				}
 		    	
 		    });
-		
-		
-		
-//		verwaltung.findEigenschaftauspraegungByKontaktID(2, new AsyncCallback<Vector<Eigenschaftauspraegung>>(){
-//
-//			@Override
-//			public void onFailure(Throwable caught) {
-//				Window.alert("Auspraegungen laden hat nicht geklappt");
-//				
-//			}
-//
-//			@Override
-//			public void onSuccess(Vector<Eigenschaftauspraegung> result) {
-//				Window.alert("Lï¿½UFT");
-//				kontaktGrid.resizeRows(result.size());
-//				for (int row = 1; row < result.size(); ++row){
-//						for(Eigenschaftauspraegung e : result){
-//							kontaktGrid.setWidget(row, 0, tbEig);
-//							kontaktGrid.setWidget(row, 1, tbAuspraegung);
-//							tbAuspraegung.setValue(e.getWert());
-//						
-//						}
-//						
-//					
-//				}
-//				}
-//				
-//			
-//			
-//		});
-//				
-	
 		}
 	
-//	class EigenschaftFromKontakt implements AsyncCallback<Vector<Eigenschaftauspraegung>>{
-//
-//		@Override
-//		public void onFailure(Throwable caught) {
-//			Window.alert("Die EigenschaftsausprÃ¤gungen konnten nicht geladen werden");
-//			
-//		}
-//
-//		@Override
-//		public void onSuccess(Vector<Eigenschaftauspraegung> result) {
-//				
-//				table.setRowData(0, result);
-//				table.setRowCount(result.size(), true); 	
-//				
-//				for (Eigenschaftauspraegung ea : result){
-//					verwaltung.getEigenschaftByID(ea.getEigenschaftsID(), new AsyncCallback<Eigenschaft>(){
-//
-//						@Override
-//						public void onFailure(Throwable caught) {
-//							Window.alert("Die Eigenschaften konnten nicht geladen werden");
-//							
-//						}
-//
-//						@Override
-//						public void onSuccess(Eigenschaft result) {
-//							
-//						}
-//						
-//					});
-//
-//				}
-//				Window.alert(" " + eList.size());
-//				eTable.setRowData(0, eList);
-//				eTable.setRowCount(eList.size(), true);
-//
-//		}
+//	Column<Eigenschaftauspraegung, String> modDate = new Column<Eigenschaftauspraegung, String>(
+//			new ClickableTextCell()) {
 //		
-//	}
+//
+//		@Override
+//		public String getValue(Eigenschaftauspraegung object) {
+//			// TODO Auto-generated method stub
+//			return object.get;
+//		}
+//		};
+//			
+//	ctf.addColumn(modDate, "");
+
 	
 	class AllEigenschaftCallback implements AsyncCallback<Vector<Eigenschaft>>{
 

@@ -1,6 +1,8 @@
 package de.hdm.itprojektgruppe4.client.gui;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.Vector;
 
 import org.datanucleus.state.CallbackHandler;
@@ -69,7 +71,8 @@ public class UpdateKontaktForm extends VerticalPanel {
 	private TextBox txt_Eigenschaft = new TextBox();
 	private Label lbl_NewAuspraegung = new Label("Auspraegung: ");
 	private TextBox txt_Auspraegung = new TextBox();
-	
+	private Date date = new Date();
+//	SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd.MM.yyyy");
 	private Button cancelBtn = new Button("Cancel");
 	
 
@@ -91,6 +94,8 @@ public class UpdateKontaktForm extends VerticalPanel {
 	
 		super.onLoad();
 
+//		simpleDateFormat.format(date);
+		
 		verwaltung.findAllEigenschaft(new AllEigenschaftCallback());
 		RootPanel.get("Buttonbar").clear();
 		ctf = new CellTableForm(kon);
@@ -201,12 +206,39 @@ public class UpdateKontaktForm extends VerticalPanel {
 
 			@Override
 			public void onClick(ClickEvent event) {
+//				Kontakt k = new Kontakt();
+//				k.setID(kon.getID());
+//				k.setModifikationsdatum(new Date());
+//				k.setNutzerID(kon.getNutzerID());
+//				k.setName(txt_KontaktName.getValue());
+//				k.setStatus(kon.getStatus());
+//				k.setErzeugungsdatum(kon.getErzeugungsdatum());
+				
 				ctf.addRow(txt_Eigenschaft.getValue(), txt_Auspraegung.getValue());
 
 				verwaltung.insertEigenschaft(txt_Eigenschaft.getText(), 0, new EigenschaftEinfuegenCallback());
+//				verwaltung.updateKontakt(k, new KontaktModifikationsdatumCallback());
 		}
 
 		});}
+	
+	class KontaktModifikationsdatumCallback implements AsyncCallback<Kontakt>{
+
+		@Override
+		public void onFailure(Throwable caught) {
+//			Window.alert("War nix");
+			
+		}
+
+		@Override
+		public void onSuccess(Kontakt result) {
+//			Window.alert(result.getName() + "     " + result.getNutzerID()+ "     " + result.getStatus()
+//			+ "     " + result.getModifikationsdatum()+ "     " + result.getErzeugungsdatum()+ "     " + result.getID());
+//			verwaltung.findHybrid(kon, new ReloadCallback());
+//			
+		}
+		
+	}
 	
 	class AllEigenschaftCallback implements AsyncCallback<Vector<Eigenschaft>>{
 

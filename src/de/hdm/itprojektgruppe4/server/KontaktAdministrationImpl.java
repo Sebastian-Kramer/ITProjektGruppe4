@@ -731,10 +731,17 @@ public class KontaktAdministrationImpl extends RemoteServiceServlet
      * @throws IllegalArgumentException
      */
 	
-	@Override
-	public void deleteKontaktliste(Kontaktliste k) throws IllegalArgumentException {
-		this.konlistMapper.deleteKontaktliste(k);
 	
+	// IN ARBEIT VON NINO
+	
+	@Override
+	public void deleteKontaktliste(Kontaktliste kliste) throws IllegalArgumentException {
+	//	this.konlistMapper.deleteKontaktliste(k);
+	
+		List<KontaktKontaktliste> kkliste = kontaktKontaktlisteMapper.findKontaktKontaktlisteByKontaktlisteID(kliste.getID());
+		
+	
+		
 	}
 	
 	/**
