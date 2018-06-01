@@ -57,7 +57,7 @@ public class DialogBoxKontakt extends DialogBox{
 		public void onClick(ClickEvent event) {
 			// TODO Auto-generated method stub
 			
-			verwaltung.deletePerson(selectedKontakt, new DeleteKontaktCallback());
+			verwaltung.deleteKontakt(selectedKontakt, new DeleteKontaktCallback());
 			hide();
 		}
 	});

@@ -232,11 +232,11 @@ public class KontaktAdministrationImpl extends RemoteServiceServlet
 	
 	@Override
 	public void deleteKontakt(Kontakt k) throws IllegalArgumentException {
-//		this.konMapper.deleteKontakt(k);
-	//	this.konMapper.findKontaktByID(k.getID());
+
 		List<Eigenschaftauspraegung> eaList = eigenschaftauspraegungMapper.findAuspraegungByKontaktID(k.getID());
 		List<KontaktKontaktliste> kontaktKontakliste = kontaktKontaktlisteMapper.findKontaktKontaktlisteByKontaktID(k.getID());
 		List<Teilhaberschaft> teilhaberschaft = teilhaberschaftMapper.findTeilhaberschaftByKontaktID(k.getID());
+		
 		
 		if (eaList != null){
 			for (Eigenschaftauspraegung ea : eaList){
@@ -258,12 +258,10 @@ public class KontaktAdministrationImpl extends RemoteServiceServlet
 		}
 		
 		
+		this.konMapper.deleteKontakt(k);
+		this.persMapper.deletePerson(this.persMapper.findPersonByID(k.getID()));
 		
-		
-//		this.eigenschaftauspraegungMapper.getAuspraegungByKontaktID(k.getID());
-		
-		
-//		this.persMapper.deletePerson(this.persMapper.findPersonByID(k.getID()));
+
 		
 		
 	}
