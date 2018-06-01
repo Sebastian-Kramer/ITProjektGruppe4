@@ -211,6 +211,10 @@ public interface KontaktAdministration extends RemoteService {
      */
     public Vector<Kontaktliste> findKontaktlisteAll() throws IllegalArgumentException;
     
+    
+    public Vector<Eigenschaft> getEigenschaftByBezeichnung (String bez) throws IllegalArgumentException;
+
+    
     /**
      * Eine Eigenschaft anhand der ID auslesen.
      * 

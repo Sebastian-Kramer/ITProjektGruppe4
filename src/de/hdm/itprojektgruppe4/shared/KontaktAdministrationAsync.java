@@ -135,4 +135,8 @@ public interface KontaktAdministrationAsync {
 	void getKontaktKontaktlisteFromKontaktliste(int kontaktlisteID,
 			AsyncCallback<Vector<KontaktKontaktliste>> callback);
 
+	void getEigenschaftByBezeichnung(String bez, AsyncCallback<Vector<Eigenschaft>> callback);
+
+
+
 }

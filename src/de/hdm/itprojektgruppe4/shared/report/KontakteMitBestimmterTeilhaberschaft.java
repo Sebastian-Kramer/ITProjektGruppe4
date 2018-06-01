@@ -1,9 +1,22 @@
 package de.hdm.itprojektgruppe4.shared.report;
 
-import java.io.Serializable;
+import java.util.Vector;
 
-public class KontakteMitBestimmterTeilhaberschaft extends SimpleReport 
-	implements Serializable {
+public class KontakteMitBestimmterTeilhaberschaft {
 
-	private static final long serialVersionUID = 1L;
+	public String getTitle() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	public Object getCreated() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	public Vector<Row> getRows() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 }

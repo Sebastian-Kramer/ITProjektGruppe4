@@ -30,6 +30,49 @@ public class EigenschaftMapper {
 		return eigenschaftMapper;
 	}	
 	
+	
+	
+	
+	
+	
+	
+	
+
+	
+	
+	public Vector <Eigenschaft>  getEigenschaftByBezeichnung(String bez){
+		
+	// Verbindung zur Datenbank aufbauen
+		Vector<Eigenschaft> result = new Vector<Eigenschaft>();
+		
+		Connection con = DBConnection.connection();
+
+		try {
+			
+	// Leeres SQL-Statement erzeugen
+		Statement stmt = con.createStatement();
+		
+	// Statement bef�llen und als Query an die Datenbank schicken	
+		ResultSet rs = stmt.executeQuery(
+				"SELECT * FROM `eigenschaft` " + " WHERE `bez` =" + bez );
+	
+		
+		while (rs.next()){
+			Eigenschaft e = new Eigenschaft();
+			e.setID(rs.getInt("ID"));
+			e.setBezeichnung(rs.getString("bez"));
+			e.setStatus(rs.getInt("status"));
+			
+			result.addElement(e);
+		}			
+		}catch (SQLException e){
+			e.printStackTrace();
+		}
+		
+		return result;
+	
+	}
+	
 	/**
 	 * Suchen einer Eigenschaft mit vorgegebener ID.
 	 * @param id der Eigenschaft

@@ -1,7 +1,7 @@
 package de.hdm.itprojektgruppe4.shared.report;
 
 
-public class PlainTextReportWriter extends ReportWriter {
+public abstract class PlainTextReportWriter extends ReportWriter {
 
 	
 	  private String reportText = "";
