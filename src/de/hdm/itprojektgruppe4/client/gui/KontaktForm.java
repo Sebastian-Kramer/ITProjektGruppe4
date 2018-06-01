@@ -58,8 +58,8 @@ public class KontaktForm extends VerticalPanel {
 
 
 	private Button bearbeitenButton = new Button("Kontakt bearbeiten");
-	private Button loeschenButton = new Button("Kontakt lÃ¶schen");
-	
+	private Button loeschenButton = new Button("Kontakt löschen");
+	private Button zurueckBtn = new Button("Zurück");
 	
 	
 	public KontaktForm(Kontakt k){
@@ -93,7 +93,7 @@ public class KontaktForm extends VerticalPanel {
 		
 		RootPanel.get("Buttonbar").add(bearbeitenButton);
 		RootPanel.get("Buttonbar").add(loeschenButton);
-
+		RootPanel.get("Buttonbar").add(zurueckBtn);
 		this.add(vpanel);
 		
 		loeschenButton.addClickHandler(new ClickHandler() {
@@ -106,6 +106,19 @@ public class KontaktForm extends VerticalPanel {
 				deleteBox.center();
 			
 			}
+		});
+		
+		zurueckBtn.addClickHandler(new ClickHandler(){
+
+			@Override
+			public void onClick(ClickEvent event) {
+				MainForm mf = new MainForm();
+				RootPanel.get("Details").clear();
+				RootPanel.get("Details").add(mf);
+				bearbeitenButton.setVisible(false);
+				
+			}
+			
 		});
 		
 		
