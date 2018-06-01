@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Vector;
 
+import com.google.appengine.api.images.Image;
+import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.logical.shared.SelectionEvent;
@@ -17,6 +19,7 @@ import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.RootPanel;
+import com.google.gwt.user.client.ui.ScrollPanel;
 import com.google.gwt.user.client.ui.Tree;
 import com.google.gwt.user.client.ui.TreeItem;
 import com.google.gwt.user.client.ui.VerticalPanel;
@@ -48,12 +51,10 @@ public class MainForm extends VerticalPanel {
 	private HorizontalPanel hpanelDetails = new HorizontalPanel();
 	private HorizontalPanel hpanelButtonBar = new HorizontalPanel();
 
-	private Button profil = new Button("Mein Profil");
-	private Button newKontakt = new Button("Neuer Kontakt");
-	private Button showKontakt = new Button("Kontakt anzeigen");
+	private Button newKontakt = new Button("Neuer Kontakt anlegen");
+	private Button newKontaktliste = new  Button("Neue Kontaktliste anlegen");
+	
 	private HTML html1 = new HTML("<h2>Meine Kontakte</h2>");
-	private HTML html2 = new HTML("<h2>Menü</h2>");
-	private Button updateKontakt = new Button("Kontakt bearbeiten");
 
 	private KontaktCell kontaktCell = new KontaktCell();
 
@@ -67,10 +68,12 @@ public class MainForm extends VerticalPanel {
 
 	final SingleSelectionModel<Kontakt> selectionModel = new SingleSelectionModel<Kontakt>();
 	final SingleSelectionModel<TreeItem> selectionTreeItem = new SingleSelectionModel<TreeItem>();
+	
+	private ScrollPanel scrollPanel = new ScrollPanel();
 
 	public MainForm() {
 
-		// initWidget(this.vpanelDetails);
+		
 		Nutzer nutzer = new Nutzer();
 		nutzer.setID(Integer.parseInt(Cookies.getCookie("id")));
 		nutzer.setEmail(Cookies.getCookie("email"));
@@ -123,6 +126,16 @@ public class MainForm extends VerticalPanel {
 		 */
 
 		// Details Panels & Widgets
+		
+		newKontaktliste.addClickHandler(new ClickHandler(){
+
+			@Override
+			public void onClick(ClickEvent event) {
+				DialogBoxNewKontaktliste dbk = new DialogBoxNewKontaktliste();
+				dbk.center();
+			}
+			
+		});
 
 		newKontakt.addClickHandler(new ClickHandler() {
 
@@ -133,34 +146,21 @@ public class MainForm extends VerticalPanel {
 				RootPanel.get("Details").add(nkf);
 			}
 		});
-
-		// showKontakt.addClickHandler(new ClickHandler(){
-		//
-		// @Override
-		// public void onClick(ClickEvent event) {
-		// KontaktForm kf = new KontaktForm();
-		// RootPanel.get("Details").clear();
-		// RootPanel.get("Details").add(kf);
-		//
-		// }
-		//
-		//
-		// });
-
+		
+		hpanelButtonBar.add(newKontaktliste);
 		hpanelButtonBar.add(newKontakt);
+		
+		scrollPanel.setSize("450px", "200px");
+		scrollPanel.setStyleName("scrollPanel");
+		cellList.setStyleName("cellListKontakte");
+		scrollPanel.add(cellList);
 
 		RootPanel.get("Buttonbar").add(hpanelButtonBar);
 
-		updateKontakt.setVisible(false);
-
-		hpanelDetails.add(updateKontakt);
-		hpanelDetails.add(showKontakt);
-
 		vpanelDetails.add(html1);
 		vpanelDetails.add(hpanelDetails);
-		vpanelDetails.add(cellList);
+		vpanelDetails.add(scrollPanel);
 		this.add(vpanelDetails);
-		// this.add(vpanelDetails);
 
 	}
 

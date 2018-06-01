@@ -13,6 +13,12 @@ h1 {
 h2 {
 	text-align: center;
 	margin-top: 3px;
+	font-size: 26px;
+}
+
+h3 {
+	text-align: center;
+	font-size: 18px;
 }
 
 h2#Kontakt {
@@ -24,7 +30,16 @@ h2#Kontakt {
 	font-size: 16pt;
 }
 
+.scrollPanel{
+	margin: auto;
+	font-size: 20px;
+}
 
+.cellListKontakte{
+	border-color: blue;
+	border-width: 1px;
+	broder-style: solid;
+}
 
 /** Most GWT widgets already have a style name defined */
 .gwt-DialogBox {
@@ -129,6 +144,17 @@ div#Buttonbar {
 	border-bottom: 1px solid LightSkyBlue;
 }
 
+div.DialogboxBackground{
+    background-color: aliceblue;
+    left: 271px;
+    top: 187px;
+    visibility: visible;
+    position: absolute;
+    overflow: visible;
+    border-style: solid;
+    border-width: 1px;
+}
+
 a, .akzentfarbe1 {
 	color: #28729a;
 }
@@ -206,6 +232,16 @@ footer>* {
 
 footer .branding {
 	text-align: right;
+}
+
+.gwt-DialogBox .Caption {
+  background: #F1F1F1;
+  padding: 4px 8px 4px 4px;
+  cursor: default;
+  font-family: Arial Unicode MS, Arial, sans-serif;
+  font-weight: bold;
+  border-bottom: 1px solid #bbbbbb;
+  border-top: 1px solid #D2D2D2;
 }
 
 .gwt-Button {
