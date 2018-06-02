@@ -461,7 +461,17 @@ public interface KontaktAdministration extends RemoteService {
 	 */
 	public Vector<KontaktKontaktliste> getKontaktKontaktlisteFromKontaktliste(int kontaktlisteID) throws IllegalArgumentException;
 
-  
+	/**
+	 * Dient zur Erstellung einer Basis-Kontaktliste namens "Meine Kontakte", die bei der Anmeldung eines Nutzers erstellt wird.
+	 * 
+	 * @param bez
+	 * @param status
+	 * @param nutzerID
+	 * @return Kontaktliste mit der Bezeichnung "Meine Kontakte"
+	 * @throws IllegalArgumentException
+	 */
+	public Kontaktliste insertMeineKontakte(String bez, int status, int nutzerID) throws IllegalArgumentException;
+	
     /**
      * @param name 
      * @param erzeugungsdatum 

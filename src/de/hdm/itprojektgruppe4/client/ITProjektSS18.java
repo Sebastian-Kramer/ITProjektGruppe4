@@ -32,6 +32,7 @@ import de.hdm.itprojektgruppe4.shared.KontaktAdministrationAsync;
 import de.hdm.itprojektgruppe4.shared.LoginService;
 import de.hdm.itprojektgruppe4.shared.LoginServiceAsync;
 import de.hdm.itprojektgruppe4.shared.bo.Nutzer;
+import de.hdm.itprojektgruppe4.shared.bo.Kontaktliste;
 
 public class ITProjektSS18 implements EntryPoint {
 
@@ -106,7 +107,8 @@ public class ITProjektSS18 implements EntryPoint {
 							Window.alert("Nutzer" + finalLog.getEmailAddress() + " wurde erfolgreich angelegt.");
 							Cookies.setCookie("email", result.getEmail());
 							Cookies.setCookie("id", result.getID()+"");
-							loadStartseite();
+							//loadStartseite();
+							verwaltung.insertMeineKontakte("Meine Kontakte", 0, result.getID(), new MeineKontakteAnlegen());
 
 						}
 
@@ -137,4 +139,23 @@ public class ITProjektSS18 implements EntryPoint {
 		RootPanel.get("Navigator").add(navigationTree);
 	}
 
+	/*
+	 * Meldet sich ein Nutzer neu auf der Plattform an, soll sofort eine Kontaktliste "Meinte Kontakte" erstellt werden.
+	 * Hierfür wird diese Callback-Klasse benötigt.
+	 */
+	private class MeineKontakteAnlegen implements AsyncCallback<Kontaktliste>{
+
+		@Override
+		public void onFailure(Throwable caught) {
+			// TODO Auto-generated method stub
+			
+		}
+
+		@Override
+		public void onSuccess(Kontaktliste result) {
+			loadStartseite();
+			
+		}
+		
+	}
 }
