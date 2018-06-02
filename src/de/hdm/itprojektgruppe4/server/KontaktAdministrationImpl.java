@@ -342,10 +342,13 @@ public class KontaktAdministrationImpl extends RemoteServiceServlet
 		Nutzer nutzer = new Nutzer();
 		nutzer.setEmail(mail);
 		return this.nutzerMapper.insertNutzer(nutzer);
+		
+
+		
 	}
 	
 	 /**
-     * L�schen eines Nutzers.
+     * Loeschen eines Nutzers.
      * 
      * @param n das zu l�schende Nutzer-Objekt
      * @throws IllegalArgumentException
@@ -695,8 +698,26 @@ public class KontaktAdministrationImpl extends RemoteServiceServlet
 			return this.konlistMapper.insertKontaktliste(k);
 		}
 	
+	/**
+	 * Dient zur Erstellung einer Basis-Kontaktliste namens "Meine Kontakte", die bei der Anmeldung eines Nutzers erstellt wird.
+	 * 
+	 * @param bez
+	 * @param status
+	 * @param nutzerID
+	 * @return Kontaktliste mit der Bezeichnung "Meine Kontakte"
+	 * @throws IllegalArgumentException
+	 */
+	@Override
+	public Kontaktliste insertMeineKontakte(String bez, int status, int nutzerID) throws IllegalArgumentException {
+		Kontaktliste meineKontakte = new Kontaktliste();
+		
+		meineKontakte.setBez("Meine Kontakte");
+		meineKontakte.setStatus(status);
+		meineKontakte.setNutzerID(nutzerID);
+		
+		return this.konlistMapper.insertKontaktliste(meineKontakte);
+	}
 
-	
 	
 	public Vector<Kontaktliste> getAllKontaktlisten() {
         
@@ -1040,19 +1061,8 @@ public class KontaktAdministrationImpl extends RemoteServiceServlet
 
 
 
-	
-
-
-
-
-
-
-
 
 	
-
-
-
 
 
 
@@ -1071,10 +1081,22 @@ public class KontaktAdministrationImpl extends RemoteServiceServlet
 
 
 
-	
 
 
 	
+
+
+
+
+
+
+
+
+
+	
+
+
+
 
     
     
