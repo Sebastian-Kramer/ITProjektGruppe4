@@ -261,14 +261,7 @@ public interface KontaktAdministration extends RemoteService {
     public Vector<Eigenschaft> findAllEigenschaft() throws IllegalArgumentException;
     
     
-    /**
-     * Auslesen einer Eigenschaft anhand der AuspraegungsID
-     * 
-     * @param id
-     * @return
-     * @throws IllegalArgumentException
-     */
-	public Vector<Eigenschaft> getEigenschaftbyKontaktID(int id) throws IllegalArgumentException;
+    public Vector<Eigenschaft> getEigenschaftbyKontaktID(int id);
    
     
 /**
