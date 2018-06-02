@@ -63,6 +63,8 @@ public class CellTableForm extends CellTable<EigenschaftAuspraegungHybrid> {
 	public CellTableForm(final Kontakt k) {
 
 		this.setSelectionModel(sm);
+		
+		this.setStyleName("CellTableHyprid");
 
 		Column<EigenschaftAuspraegungHybrid, String> bezEigenschaft = new Column<EigenschaftAuspraegungHybrid, String>(
 				new ClickableTextCell()) {

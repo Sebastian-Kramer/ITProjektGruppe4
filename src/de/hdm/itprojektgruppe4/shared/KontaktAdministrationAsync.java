@@ -137,6 +137,6 @@ public interface KontaktAdministrationAsync {
 
 	void getEigenschaftByBezeichnung(String bez, AsyncCallback<Vector<Eigenschaft>> callback);
 
-
+	void getEigenschaftbyKontaktID(int id, AsyncCallback<Vector<Eigenschaft>> callback);
 
 }

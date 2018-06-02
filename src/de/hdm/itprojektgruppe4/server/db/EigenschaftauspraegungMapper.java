@@ -238,8 +238,9 @@ public Vector<Eigenschaftauspraegung> findAuspraegungByKontaktID(int kontaktID){
 	try{
 		Statement stmt = con.createStatement();
 		
-		ResultSet rs = stmt.executeQuery("SELECT ID, wert, status, eigenschaftID, kontaktID from eigenschaftsauspraegung " + "WHERE kontaktID= " + kontaktID +
-				" ORDER by eigenschaftID");
+		ResultSet rs = stmt.executeQuery("SELECT ID, wert, status, eigenschaftID, kontaktID from eigenschaftsauspraegung " + 
+		"WHERE kontaktID= " + kontaktID +
+				" ORDER by ID");
 		
 		while (rs.next()){
 			Eigenschaftauspraegung ea = new Eigenschaftauspraegung();
