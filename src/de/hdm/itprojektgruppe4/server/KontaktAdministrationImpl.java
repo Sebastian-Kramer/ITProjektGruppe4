@@ -536,6 +536,25 @@ public class KontaktAdministrationImpl extends RemoteServiceServlet
 		
 	}
 	
+	/**
+	 * Eine Eigenschaft zur entsprechenden Auspraegung wird ausgelesen
+	 * 
+	 * @param ID der Eigenschaftauspraegung
+	 * @throws IllegalArgumentException
+	 */
+	@Override
+	public Vector<Eigenschaft> getEigenschaftbyKontaktID(int id) throws IllegalArgumentException {
+		
+		Vector<Eigenschaftauspraegung> aus = this.findEigenschaftauspraegungByKontaktID(id);
+		Vector<Eigenschaft> eig = new Vector<Eigenschaft>();
+		
+		for (Eigenschaftauspraegung ea : aus){
+			eig.add(this.eigMapper.getEigenchaftByID(ea.getEigenschaftsID()));
+		}
+		return eig;
+	}
+
+	
     /*##########################################################
      * ENDE Methoden f�r Eigenschaft-Objekte
      #########################################################*/
@@ -1017,6 +1036,7 @@ public class KontaktAdministrationImpl extends RemoteServiceServlet
 		// TODO Auto-generated method stub
 		return this.eigMapper.getEigenschaftByBezeichnung(bez);
 	}
+
 
 
 
