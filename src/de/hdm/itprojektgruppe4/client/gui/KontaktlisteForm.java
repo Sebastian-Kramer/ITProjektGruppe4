@@ -56,7 +56,7 @@ public class KontaktlisteForm extends VerticalPanel {
 	private Kontaktliste kl = null;
 	
 	/**
-	 * Konstruktor, der beim Auswählen einer Kontaktliste im Baum eingesetzt wird.
+	 * Konstruktor, der beim Auswï¿½hlen einer Kontaktliste im Baum eingesetzt wird.
 	 * @param kontaktliste
 	 */
 	public KontaktlisteForm(Kontaktliste kontaktliste){
@@ -69,7 +69,7 @@ public class KontaktlisteForm extends VerticalPanel {
 	public void onLoad(){
 		super.onLoad();
 		
-		//Instantiieren des DataProviders, der die Daten für die Liste hält
+		//Instantiieren des DataProviders, der die Daten fï¿½r die Liste hï¿½lt
 		KontakteDataProvider dataProvider = new KontakteDataProvider();
 		dataProvider.addDataDisplay(kontaktCellList);
 		
@@ -91,13 +91,16 @@ public class KontaktlisteForm extends VerticalPanel {
 		vpanel.add(kontaktCellList);
 		RootPanel.get("Details").add(vpanel);
 	
-		
+		kontaktlisteLoeschen.addClickHandler(new KontaktlisteloeschenClickhandler());
 
 	}
+	
+	
+	
 
 	/**
-	 * Nested Class, die es ermöglicht, auf Selektionsereignisse in der CellList zu reagieren.
-	 * Bei aktivieren der Selektion wird die <code>KontaktForm</code> aufgerufen, um den ausgewählten
+	 * Nested Class, die es ermï¿½glicht, auf Selektionsereignisse in der CellList zu reagieren.
+	 * Bei aktivieren der Selektion wird die <code>KontaktForm</code> aufgerufen, um den ausgewï¿½hlten
 	 * Kontakt anzuzeigen.
 	 */
 	private class SelectionChangeEventHandler implements SelectionChangeEvent.Handler{
@@ -118,8 +121,41 @@ public class KontaktlisteForm extends VerticalPanel {
 		
 	}
 	
+	
 	/**
-	 * Hier wird der DataProvider mit den entsprechenden Daten für die CellList erstellt.
+	 * Nested Class, fÃ¼r den Kontaktliste lÃ¶schen Button.
+	 */
+	
+	private class KontaktlisteloeschenClickhandler implements ClickHandler{
+
+		@Override
+		public void onClick(ClickEvent event) {
+			// TODO Auto-generated method stub
+			kontaktVerwaltung.deleteKontaktliste(kl, new KontaktlisteloeschenCallback());
+		}
+		
+	}
+	
+	private class KontaktlisteloeschenCallback implements AsyncCallback<Void> {
+
+		@Override
+		public void onFailure(Throwable caught) {
+			// TODO Auto-generated method stub
+			Window.alert("Kontaktliste wurde nicht gelÃ¶scht");
+		}
+
+		@Override
+		public void onSuccess(Void result) {
+			// TODO Auto-generated method stub
+			Window.alert("Kontaktliste wurde erfolgreich gelÃ¶scht");
+			
+		}
+
+		
+	}
+	
+	/**
+	 * Hier wird der DataProvider mit den entsprechenden Daten fï¿½r die CellList erstellt.
 	 */
 	private class KontakteDataProvider extends AsyncDataProvider<Kontakt>{
 
@@ -152,6 +188,9 @@ public class KontaktlisteForm extends VerticalPanel {
 		}
 		
 	}
+
+
+	
 	
 	
 
