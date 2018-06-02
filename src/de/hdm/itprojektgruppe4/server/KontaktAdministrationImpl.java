@@ -797,21 +797,21 @@ public class KontaktAdministrationImpl extends RemoteServiceServlet
      */
 	@Override
 	public Vector<Kontaktliste> getAllKontaktlistenFromUser(int nutzerID) throws IllegalArgumentException {
-	 //Instantiieren der benï¿½tigten Vectoren um Kontaktlisten und Teilhaberschaft Objekte abspeichern zu kï¿½nnen 
+	 //Instantiieren der benötigten Vectoren um Kontaktlisten und Teilhaberschaft Objekte abspeichern zu kï¿½nnen 
 	Vector<Kontaktliste> kontlisten = findKontaktlisteByNutzerID(nutzerID);
 	  Vector<Teilhaberschaft> teilhabe = getAllTeilhaberschaftenFromUser(nutzerID);
 	  
-	  //Fï¿½r jede Teilhaberschaft an einer Kontaktliste wird das entsprechende Kontaktlisten-Objekt in einem neuen Vector gespeichert
+	  //Fuer jede Teilhaberschaft an einer Kontaktliste wird das entsprechende Kontaktlisten-Objekt in einem neuen Vector gespeichert
 	 if (teilhabe != null){
 		 Vector<Kontaktliste> kontlist = new Vector<Kontaktliste>();
 		 for (Teilhaberschaft teilhaberschaft : teilhabe) {
 	 	kontlist.add(findKontaktlisteByID(teilhaberschaft.getKontaktListeID()));
 	}
-		//Hinzufï¿½gen der Kontaktlisten an denen eine Teilhaberschaft besteht zum Vector mit den eigens erstellten Kontaktlisten
+		//Hinzufuegen der Kontaktlisten an denen eine Teilhaberschaft besteht zum Vector mit den eigens erstellten Kontaktlisten
 		 kontlisten.addAll(kontlist);
 	 }
 	  
-	 //Rï¿½ckgabe des Vectors mit den erstellten und geteilten Kontaktlisten
+	 //Rueckgabe des Vectors mit den erstellten und geteilten Kontaktlisten
 	  return kontlisten;
 		
 	}
