@@ -145,7 +145,7 @@ div#Buttonbar {
 }
 
 div.DialogboxBackground{
-    background-color: aliceblue;
+    background: ghostwhite;
     left: 271px;
     top: 187px;
     visibility: visible;
@@ -153,6 +153,14 @@ div.DialogboxBackground{
     overflow: visible;
     border-style: solid;
     border-width: 1px;
+}
+
+.TeilhaberschaftButton{
+	margin-right: 35px;
+}
+
+.CellTableAuspraegung{
+	
 }
 
 a, .akzentfarbe1 {
@@ -188,6 +196,7 @@ table#MainTable {
 td {
 	height: 30px;
 	vertical-align: top;
+	width: 200px;
 }
 
 div#Linie {

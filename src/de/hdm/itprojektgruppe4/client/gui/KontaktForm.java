@@ -65,6 +65,7 @@ public class KontaktForm extends VerticalPanel {
 
 
 	private Button bearbeitenButton = new Button("Kontakt bearbeiten");
+	private Button kontaktTeilen = new Button("Kontakt teilen");
 
 	
 	public KontaktForm(Kontakt k){
@@ -131,6 +132,7 @@ public class KontaktForm extends VerticalPanel {
 		vpanel.add(vpanelDetails);
 		
 		RootPanel.get("Buttonbar").add(bearbeitenButton);
+		RootPanel.get("Buttonbar").add(kontaktTeilen);
 
 		this.add(vpanel);
 		
@@ -149,6 +151,16 @@ public class KontaktForm extends VerticalPanel {
 		    	
 		    });
 		
+		kontaktTeilen.addClickHandler(new ClickHandler(){
+
+			@Override
+			public void onClick(ClickEvent event) {
+				TeilhaberschaftForm tf = new TeilhaberschaftForm(k);
+				RootPanel.get("Details").clear();
+				RootPanel.get("Details").add(tf);		
+			}
+			
+		});
 		
 		
 //		verwaltung.findEigenschaftauspraegungByKontaktID(2, new AsyncCallback<Vector<Eigenschaftauspraegung>>(){

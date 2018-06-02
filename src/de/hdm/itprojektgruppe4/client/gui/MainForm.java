@@ -2,30 +2,23 @@ package de.hdm.itprojektgruppe4.client.gui;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Vector;
 
-import com.google.appengine.api.images.Image;
-import com.google.gwt.core.client.GWT;
+
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
-import com.google.gwt.event.logical.shared.SelectionEvent;
-import com.google.gwt.event.logical.shared.SelectionHandler;
 import com.google.gwt.user.cellview.client.CellList;
 import com.google.gwt.user.client.Cookies;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Button;
-import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwt.user.client.ui.ScrollPanel;
-import com.google.gwt.user.client.ui.Tree;
 import com.google.gwt.user.client.ui.TreeItem;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.view.client.SelectionChangeEvent;
 import com.google.gwt.view.client.SingleSelectionModel;
-
 import de.hdm.itprojektgruppe4.client.ClientsideSettings;
 import de.hdm.itprojektgruppe4.shared.KontaktAdministrationAsync;
 import de.hdm.itprojektgruppe4.shared.bo.Kontakt;
@@ -45,14 +38,15 @@ public class MainForm extends VerticalPanel {
 	Kontakt kon = new Kontakt();
 	Kontaktliste konList = new Kontaktliste();
 	Kontaktliste selectedKontaktlist = null;
+	Nutzer nutzer = new Nutzer();
 
 	private VerticalPanel vpanelDetails = new VerticalPanel();
-	// private VerticalPanel vpanelNavigator = new VerticalPanel();
 	private HorizontalPanel hpanelDetails = new HorizontalPanel();
 	private HorizontalPanel hpanelButtonBar = new HorizontalPanel();
 
 	private Button newKontakt = new Button("Neuer Kontakt anlegen");
-	private Button newKontaktliste = new  Button("Neue Kontaktliste anlegen");
+	private Button newKontaktliste = new Button("Neue Kontaktliste anlegen");
+	private Button newTeilhaberschaft = new Button("Kontaktliste teilen");
 	
 	private HTML html1 = new HTML("<h2>Meine Kontakte</h2>");
 
@@ -62,10 +56,6 @@ public class MainForm extends VerticalPanel {
 
 	private List<Kontakt> kList = new ArrayList<>();
 
-	private Tree kontaktListTree = new Tree();
-
-	private TreeItem kontaktListTreeItem = new TreeItem();
-
 	final SingleSelectionModel<Kontakt> selectionModel = new SingleSelectionModel<Kontakt>();
 	final SingleSelectionModel<TreeItem> selectionTreeItem = new SingleSelectionModel<TreeItem>();
 	
@@ -74,7 +64,6 @@ public class MainForm extends VerticalPanel {
 	public MainForm() {
 
 		
-		Nutzer nutzer = new Nutzer();
 		nutzer.setID(Integer.parseInt(Cookies.getCookie("id")));
 		nutzer.setEmail(Cookies.getCookie("email"));
 
@@ -84,6 +73,7 @@ public class MainForm extends VerticalPanel {
 		
 	
 		cellList.setSelectionModel(selectionModel);
+		
 		selectionModel.addSelectionChangeHandler(new SelectionChangeEvent.Handler() {
 
 			@Override
@@ -93,37 +83,12 @@ public class MainForm extends VerticalPanel {
 				KontaktForm kf = new KontaktForm(selected);
 				RootPanel.get("Details").clear();
 				RootPanel.get("Details").add(kf);
-				// if (selected != null) {
-				// updateKontakt.setVisible(true);
 
-				// }
 			}
 		});
 
-		kontaktListTree.addSelectionHandler(new SelectionHandler<TreeItem>() {
-
-			@Override
-			public void onSelection(SelectionEvent<TreeItem> event) {
-
-				TreeItem it = event.getSelectedItem();
-				verwaltung.findKontaktlisteByBezeichnung(it.getText(), new KontaktlisteKontaktCallBack());
-
-			}
-
-		});
-
-		kontaktListTreeItem.setText("Meine Kontaktlisten");
-
-		kontaktListTree.addItem(kontaktListTreeItem);
 
 		// Navigator Panels & Widgets
-
-		/**
-		 * 
-		 * vpanelNavigator.add(html2); vpanelNavigator.add(kontaktListTree);
-		 * vpanelNavigator.add(profil); vpanelNavigator.add(showKontakt);
-		 * RootPanel.get("Navigator").add(vpanelNavigator);
-		 */
 
 		// Details Panels & Widgets
 		
@@ -147,6 +112,7 @@ public class MainForm extends VerticalPanel {
 			}
 		});
 		
+		hpanelButtonBar.add(newTeilhaberschaft);
 		hpanelButtonBar.add(newKontaktliste);
 		hpanelButtonBar.add(newKontakt);
 		
@@ -187,28 +153,6 @@ public class MainForm extends VerticalPanel {
 
 	}
 
-	/**
-	class KontaktlistCallBack implements AsyncCallback<Vector<Kontaktliste>> {
-
-		@Override
-		public void onFailure(Throwable caught) {
-			Window.alert("Beim Laden der Kontaktlisten ist ein Fehler aufgetreten");
-
-		}
-
-		@Override
-		public void onSuccess(Vector<Kontaktliste> result) {
-
-			Window.alert("Alle Kontaktlsiten wurden gefunden");
-
-			for (Kontaktliste kList : result) {
-				kontaktListTreeItem.addTextItem(kList.getBez());
-			}
-
-		}
-
-	}
-*/
 	class KontaktlisteKontaktCallBack implements AsyncCallback<Kontaktliste> {
 
 		@Override
@@ -236,13 +180,12 @@ public class MainForm extends VerticalPanel {
 
 		@Override
 		public void onFailure(Throwable caught) {
-			// TODO Auto-generated method stub
+			
 
 		}
 
 		@Override
 		public void onSuccess(Kontakt result) {
-			// TODO Auto-generated method stub
 
 		}
 
