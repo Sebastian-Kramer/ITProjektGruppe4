@@ -59,9 +59,14 @@ public class KontaktForm extends VerticalPanel {
 
 
 	private Button bearbeitenButton = new Button("Kontakt bearbeiten");
-	private Button loeschenButton = new Button("Kontakt löschen");
-	private Button zurueckBtn = new Button("Zurück");
+
+	private Button loeschenButton = new Button("Kontakt lï¿½schen");
+	private Button zurueckBtn = new Button("Zurï¿½ck");
 	
+
+	private Button kontaktTeilen = new Button("Kontakt teilen");
+
+
 	
 	public KontaktForm(Kontakt k){
 		this.k = k;
@@ -76,7 +81,7 @@ public class KontaktForm extends VerticalPanel {
 		
 		HTML html1 = new HTML("<h2>" +  k.getName()   + "</h2>"); 
 		HTML html2 = new HTML("Erstellt am: " + k.getErzeugungsdatum());
-		HTML html3 = new HTML("Zuletzt geändert am: " + k.getModifikationsdatum());
+		HTML html3 = new HTML("Zuletzt geï¿½ndert am: " + k.getModifikationsdatum());
 		super.onLoad();
 		verwaltung.findAllEigenschaft(new AllEigenschaftCallback());
 		ctf = new CellTableForm(k);
@@ -96,8 +101,13 @@ public class KontaktForm extends VerticalPanel {
 		vpanel.add(vpanelDetails);
 		
 		RootPanel.get("Buttonbar").add(bearbeitenButton);
+
 		RootPanel.get("Buttonbar").add(loeschenButton);
 		RootPanel.get("Buttonbar").add(zurueckBtn);
+
+		RootPanel.get("Buttonbar").add(kontaktTeilen);
+
+
 		this.add(vpanel);
 		
 		loeschenButton.addClickHandler(new ClickHandler() {
@@ -140,6 +150,50 @@ public class KontaktForm extends VerticalPanel {
 				}
 		    	
 		    });
+
+		
+		kontaktTeilen.addClickHandler(new ClickHandler(){
+
+			@Override
+			public void onClick(ClickEvent event) {
+				TeilhaberschaftForm tf = new TeilhaberschaftForm(k);
+				RootPanel.get("Details").clear();
+				RootPanel.get("Details").add(tf);		
+			}
+			
+		});
+		
+		
+//		verwaltung.findEigenschaftauspraegungByKontaktID(2, new AsyncCallback<Vector<Eigenschaftauspraegung>>(){
+//
+//			@Override
+//			public void onFailure(Throwable caught) {
+//				Window.alert("Auspraegungen laden hat nicht geklappt");
+//				
+//			}
+//
+//			@Override
+//			public void onSuccess(Vector<Eigenschaftauspraegung> result) {
+//				Window.alert("Lï¿½UFT");
+//				kontaktGrid.resizeRows(result.size());
+//				for (int row = 1; row < result.size(); ++row){
+//						for(Eigenschaftauspraegung e : result){
+//							kontaktGrid.setWidget(row, 0, tbEig);
+//							kontaktGrid.setWidget(row, 1, tbAuspraegung);
+//							tbAuspraegung.setValue(e.getWert());
+//						
+//						}
+//						
+//					
+//				}
+//				}
+//				
+//			
+//			
+//		});
+//				
+	
+
 		}
 	
 //	Column<Eigenschaftauspraegung, String> modDate = new Column<Eigenschaftauspraegung, String>(

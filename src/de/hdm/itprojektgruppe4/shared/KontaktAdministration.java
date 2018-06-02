@@ -212,7 +212,7 @@ public interface KontaktAdministration extends RemoteService {
     public Vector<Kontaktliste> findKontaktlisteAll() throws IllegalArgumentException;
     
     
-    public Vector<Eigenschaft> getEigenschaftByBezeichnung (String bez) throws IllegalArgumentException;
+	public Vector<Eigenschaft> getEigenschaftByBezeichnung(String bez) throws IllegalArgumentException;
 
     
     /**
@@ -440,7 +440,7 @@ public interface KontaktAdministration extends RemoteService {
     /**
      * 
      * @param nutzerID die ID des Nutzers
-     * @return Vector mit sämtlichen erstellten und geteilten Kontaktlisten eines Users
+     * @return Vector mit sï¿½mtlichen erstellten und geteilten Kontaktlisten eines Users
      * @throws IllegalArgumentException
      */
     public Vector<Kontaktliste> getAllKontaktlistenFromUser (int nutzerID) throws IllegalArgumentException;
@@ -456,10 +456,11 @@ public interface KontaktAdministration extends RemoteService {
 	/**
 	 * 
 	 * @param kontaktlisteID
-	 * @return Vector mit KontaktKontaktlisten-Objekten die übergebene KontaktlisteID als Fremdschlüssel besitzen
+	 * @return Vector mit KontaktKontaktlisten-Objekten die ï¿½bergebene KontaktlisteID als Fremdschlï¿½ssel besitzen
 	 * @throws IllegalArgumentException
 	 */
 	public Vector<KontaktKontaktliste> getKontaktKontaktlisteFromKontaktliste(int kontaktlisteID) throws IllegalArgumentException;
+
   
     /**
      * @param name 
