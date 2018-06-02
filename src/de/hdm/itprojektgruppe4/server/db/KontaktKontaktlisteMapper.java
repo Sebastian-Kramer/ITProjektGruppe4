@@ -134,7 +134,7 @@ public class KontaktKontaktlisteMapper {
 			
 			Statement stmt = con.createStatement();
 			
-			stmt.executeUpdate("DELETE from kontaktkontaktliste" + "WHERE ID= " + k.getID());
+			stmt.executeUpdate("DELETE from kontaktkontaktliste " + "WHERE ID= " + k.getID());
 			
 			
 		}catch(SQLException e){

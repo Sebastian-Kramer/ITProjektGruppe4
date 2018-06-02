@@ -74,6 +74,41 @@ public class TeilhaberschaftMapper {
 	}
 	
 	
+	
+public Vector <Teilhaberschaft> findTeilhaberschaftByKontaktlisteID(int kontaktlisteID){
+		
+		Vector <Teilhaberschaft> result = new Vector<Teilhaberschaft>();
+		
+		Connection con = DBConnection.connection();
+		
+		try{
+			Statement stmt = con.createStatement();
+			
+			ResultSet rs = stmt.executeQuery("SELECT `ID`, `kontaktlisteID`, `kontaktID`, `eigenschaftsauspraegungID`, `teilhaberID`  FROM teilhaberschaft "
+					 + "WHERE kontaktlisteID = " + kontaktlisteID);
+			
+			while (rs.next()){
+				Teilhaberschaft th = new Teilhaberschaft();
+				th.setID(rs.getInt("ID"));
+				th.setKontaktListeID(rs.getInt("kontaktlisteID"));
+				th.setKontaktID(rs.getInt("kontaktID"));
+				th.setEigenschaftsauspraegungID(rs.getInt("eigenschaftsauspraegungID"));
+				th.setTeilhaberID(rs.getInt("teilhaberID"));
+				
+			
+				
+				result.addElement(th);
+
+			}			
+			}catch (SQLException e){
+				e.printStackTrace();
+			}
+			
+			return result;
+	}
+	
+	
+	
 	public Vector <Teilhaberschaft> findTeilhaberschaftByKontaktID(int kontaktID){
 		
 		Vector <Teilhaberschaft> result = new Vector<Teilhaberschaft>();
@@ -89,7 +124,7 @@ public class TeilhaberschaftMapper {
 			while (rs.next()){
 				Teilhaberschaft th = new Teilhaberschaft();
 				th.setID(rs.getInt("ID"));
-				th.setKontaktListeID(rs.getInt("kontaktID"));
+				th.setKontaktListeID(rs.getInt("kontaktlisteID"));
 				th.setKontaktID(rs.getInt("kontaktID"));
 				th.setEigenschaftsauspraegungID(rs.getInt("eigenschaftsauspraegungID"));
 				th.setTeilhaberID(rs.getInt("teilhaberID"));
@@ -115,6 +150,23 @@ public class TeilhaberschaftMapper {
 			Statement stmt = con.createStatement();
 			
 			stmt.executeUpdate("DELETE FROM teilhaberschaft " + "WHERE kontaktID = " + kontaktID);
+			
+			
+		}catch(SQLException e){
+			e.printStackTrace();
+			
+		}
+	}
+	
+	
+	public void deleteTeilhaberschaftByKontaktlisteID (int kontaktlisteID){
+		Connection con = DBConnection.connection();
+		
+		try{
+			
+			Statement stmt = con.createStatement();
+			
+			stmt.executeUpdate("DELETE FROM teilhaberschaft " + "WHERE kontaktlisteID = " + kontaktlisteID);
 			
 			
 		}catch(SQLException e){

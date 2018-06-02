@@ -739,8 +739,23 @@ public class KontaktAdministrationImpl extends RemoteServiceServlet
 	//	this.konlistMapper.deleteKontaktliste(k);
 	
 		List<KontaktKontaktliste> kkliste = kontaktKontaktlisteMapper.findKontaktKontaktlisteByKontaktlisteID(kliste.getID());
+		List<Teilhaberschaft> teilhaberschaft = teilhaberschaftMapper.findTeilhaberschaftByKontaktlisteID(kliste.getID());
 		
-	
+		
+		if (kkliste != null) {
+			for (KontaktKontaktliste kkl : kkliste){
+				
+				kontaktKontaktlisteMapper.deleteKontaktKontaktliste(kkl);
+			}
+		}
+		
+		if (teilhaberschaft != null){ 
+			for (Teilhaberschaft th : teilhaberschaft){
+				teilhaberschaftMapper.deleteTeilhaberschaftByKontaktlisteID(th.getKontaktListeID());
+			}
+		}
+		
+		this.konlistMapper.deleteKontaktliste(kliste);
 		
 	}
 	
@@ -797,7 +812,7 @@ public class KontaktAdministrationImpl extends RemoteServiceServlet
      */
 	@Override
 	public Vector<Kontaktliste> getAllKontaktlistenFromUser(int nutzerID) throws IllegalArgumentException {
-	 //Instantiieren der benötigten Vectoren um Kontaktlisten und Teilhaberschaft Objekte abspeichern zu kï¿½nnen 
+	 //Instantiieren der benï¿½tigten Vectoren um Kontaktlisten und Teilhaberschaft Objekte abspeichern zu kï¿½nnen 
 	Vector<Kontaktliste> kontlisten = findKontaktlisteByNutzerID(nutzerID);
 	  Vector<Teilhaberschaft> teilhabe = getAllTeilhaberschaftenFromUser(nutzerID);
 	  
