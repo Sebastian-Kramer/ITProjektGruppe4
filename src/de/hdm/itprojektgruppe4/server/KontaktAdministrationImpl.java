@@ -932,13 +932,14 @@ public class KontaktAdministrationImpl extends RemoteServiceServlet
 	
 	@Override
 	public Teilhaberschaft insertTeilhaberschaft(int kontaktID, int kontaktListeID, int eigenschaftsauspraegungID,
-			int teilhaberID) throws IllegalArgumentException {
+			int teilhaberID, int nutzerID) throws IllegalArgumentException {
 		Teilhaberschaft t = new Teilhaberschaft();
 		
 		t.setKontaktID(kontaktID);
 		t.setKontaktListeID(kontaktListeID);
 		t.setEigenschaftsauspraegungID(eigenschaftsauspraegungID);
 		t.setTeilhaberID(teilhaberID);
+		t.setNutzerID(nutzerID);
 		
 		return this.teilhaberschaftMapper.insertTeilhaberschaft(t);
     }

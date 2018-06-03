@@ -88,7 +88,7 @@ public interface KontaktAdministrationAsync {
 
 	void findByID(int id, AsyncCallback<Teilhaberschaft> callback);
 
-	void insertTeilhaberschaft(int kontaktID, int kontaktListeID, int eigenschaftsauspraegungID, int teilhaberID,
+	void insertTeilhaberschaft(int kontaktID, int kontaktListeID, int eigenschaftsauspraegungID, int teilhaberID, int nutzerID,
 			AsyncCallback<Teilhaberschaft> callback);
 
 	void deleteTeilhaberschaft(Teilhaberschaft t, AsyncCallback<Void> callback);

@@ -49,19 +49,20 @@ public class TeilhaberschaftMapper {
 			ResultSet rs = stmt.executeQuery(
 					
 					"SELECT `ID`, `kontaktlisteID`, `kontaktID`, `eigenschaftsauspraegungID`,"
-					+ " `teilhaberID` FROM"	+ " `teilhaberschaft` WHERE ID=" + id);
+					+ " `teilhaberID`, 'nutzerID' FROM"	+ " `teilhaberschaft` WHERE ID=" + id);
 
 			if (rs.next()) {
 				
-				Teilhaberschaft t = new Teilhaberschaft();
+				Teilhaberschaft th = new Teilhaberschaft();
 				
-				t.setID(rs.getInt("ID"));
-				t.setKontaktListeID(rs.getInt("kontaktlisteID"));
-				t.setKontaktID(rs.getInt("kontaktID"));
-				t.setEigenschaftsauspraegungID(rs.getInt("eigenschaftsauspraegungID"));
-				t.setTeilhaberID(rs.getInt("teilhaberID"));
+				th.setID(rs.getInt("ID"));
+				th.setKontaktListeID(rs.getInt("kontaktlisteID"));
+				th.setKontaktID(rs.getInt("kontaktID"));
+				th.setEigenschaftsauspraegungID(rs.getInt("eigenschaftsauspraegungID"));
+				th.setTeilhaberID(rs.getInt("teilhaberID"));
+				th.setNutzerID(rs.getInt("nutzerID"));
 
-				return t;
+				return th;
 			}
 		} catch (SQLException e) {
 			
@@ -84,7 +85,7 @@ public Vector <Teilhaberschaft> findTeilhaberschaftByKontaktlisteID(int kontaktl
 		try{
 			Statement stmt = con.createStatement();
 			
-			ResultSet rs = stmt.executeQuery("SELECT `ID`, `kontaktlisteID`, `kontaktID`, `eigenschaftsauspraegungID`, `teilhaberID`  FROM teilhaberschaft "
+			ResultSet rs = stmt.executeQuery("SELECT `ID`, `kontaktlisteID`, `kontaktID`, `eigenschaftsauspraegungID`, `teilhaberID`, 'nutzerID'  FROM teilhaberschaft "
 					 + "WHERE kontaktlisteID = " + kontaktlisteID);
 			
 			while (rs.next()){
@@ -94,7 +95,7 @@ public Vector <Teilhaberschaft> findTeilhaberschaftByKontaktlisteID(int kontaktl
 				th.setKontaktID(rs.getInt("kontaktID"));
 				th.setEigenschaftsauspraegungID(rs.getInt("eigenschaftsauspraegungID"));
 				th.setTeilhaberID(rs.getInt("teilhaberID"));
-				
+				th.setNutzerID(rs.getInt("nutzerID"));
 			
 				
 				result.addElement(th);
@@ -194,14 +195,15 @@ public Vector <Teilhaberschaft> findTeilhaberschaftByKontaktlisteID(int kontaktl
 			ResultSet rs = stmt.executeQuery("SELECT * FROM teilhaberschaft WHERE teilhaberID = " + teilhaberID);
 		
 		while(rs.next()){
-			Teilhaberschaft teilhaberschaft = new Teilhaberschaft();
-			teilhaberschaft.setID(rs.getInt("ID"));
-			teilhaberschaft.setKontaktListeID(rs.getInt("kontaktlisteID"));
-			teilhaberschaft.setKontaktID(rs.getInt("kontaktID"));
-			teilhaberschaft.setEigenschaftsauspraegungID(rs.getInt("eigenschaftsauspraegungID"));
-			teilhaberschaft.setTeilhaberID(rs.getInt("teilhaberID"));
+			Teilhaberschaft th = new Teilhaberschaft();
+			th.setID(rs.getInt("ID"));
+			th.setKontaktListeID(rs.getInt("kontaktlisteID"));
+			th.setKontaktID(rs.getInt("kontaktID"));
+			th.setEigenschaftsauspraegungID(rs.getInt("eigenschaftsauspraegungID"));
+			th.setTeilhaberID(rs.getInt("teilhaberID"));
+			th.setNutzerID(rs.getInt("nutzerID"));
 			
-			result.addElement(teilhaberschaft);
+			result.addElement(th);
 			
 		}
 		
@@ -242,9 +244,11 @@ public Vector <Teilhaberschaft> findTeilhaberschaftByKontaktlisteID(int kontaktl
 		        stmt.executeUpdate(
 		        		
 		        		"INSERT INTO `teilhaberschaft`(`ID`, `kontaktlisteID`, `kontaktID`,"
-		        		+ " `eigenschaftsauspraegungID`, `teilhaberID`) "
+		        		+ " `eigenschaftsauspraegungID`, `teilhaberID`, `nutzerID`) "
 		        		+ "VALUES ('"+t.getID()+"', '"+t.getKontaktListeID()+"', '"
-		        		+ ""+t.getKontaktID()+"', '"+t.getEigenschaftsauspraegungID()+"', '"+ ""+t.getTeilhaberID()+"')");
+		        		+ ""+t.getKontaktID()+"', '"+ t.getEigenschaftsauspraegungID()+ "', '" +t.getTeilhaberID()+"', '"+ ""+t.getNutzerID()+"')");
+		   
+		      
 		      }
 		    }
 		    catch (SQLException e2) {
@@ -270,7 +274,7 @@ public Vector <Teilhaberschaft> findTeilhaberschaftByKontaktlisteID(int kontaktl
 
 		      stmt.executeUpdate(
 		    		  
-		      "DELETE FROM teilhaberschaft " + "WHERE id=" + t.getID());
+		      "DELETE FROM teilhaberschaft " + "WHERE ID=" + t.getID());
 
 		    }
 		    catch (SQLException e2) {
