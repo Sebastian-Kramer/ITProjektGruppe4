@@ -118,7 +118,11 @@ public class TeilhaberschaftForm extends VerticalPanel {
 			public void onClick(ClickEvent event) {
 				verwaltung.findNutzerByEmail(dropBoxNutzer.getSelectedItemText(), new NutzerIDFromEmail());
 				for (Eigenschaftauspraegung ea : vecAus){
-					verwaltung.insertTeilhaberschaftKontakt(kon.getID(), ea.getID(), teilNutzer.getID(), new TeilhaberschaftAll());
+					
+					
+					verwaltung.insertTeilhaberschaftKontakt(kon.getID(), ea.getID(), teilNutzer.getID(), nutzer.getID(), new TeilhaberschaftAll());
+					
+				
 				}
 				
 			}

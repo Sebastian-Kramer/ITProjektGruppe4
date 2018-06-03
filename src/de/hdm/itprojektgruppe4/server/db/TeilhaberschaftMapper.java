@@ -232,11 +232,13 @@ public class TeilhaberschaftMapper {
 				stmt = con.createStatement();
 
 				stmt.executeUpdate(
+						" INSERT INTO `teilhaberschaft` (`ID`, `kontaktlisteID`, `kontaktID`, `eigenschaftsauspraegungID`, `teilhaberID`, `nutzerID`) "
+								+ " VALUES ('" + t.getID() + "' ,'" + t.getKontaktListeID() + "' ,'"
+								+ t.getKontaktID() + "' ,'" + t.getEigenschaftsauspraegungID() +  "' ,'"  
+								+ t.getTeilhaberID() + "' ,'"  +  t.getNutzerID() + "')");
 
-						"INSERT INTO `teilhaberschaft`(`ID`, `kontaktlisteID`, `kontaktID`,"
-								+ " `eigenschaftsauspraegungID`, `teilhaberID`) " + "VALUES ('" + t.getID() + "', '"
-								+ t.getKontaktListeID() + "', '" + "" + t.getKontaktID() + "', '"
-								+ t.getEigenschaftsauspraegungID() + "', '" + "" + t.getTeilhaberID() + "')");
+
+			
 			}
 		} catch (SQLException e2) {
 			e2.printStackTrace();
@@ -268,10 +270,10 @@ public class TeilhaberschaftMapper {
 
 				stmt.executeUpdate(
 
-						"INSERT INTO `teilhaberschaft`(`ID`, `kontaktlisteID`, `kontaktID`,"
-								+ " `eigenschaftsauspraegungID`, `teilhaberID`) " + "VALUES ('" + t.getID() + "', "
-								+ null + ", '" + "" + t.getKontaktID() + "', '" + t.getEigenschaftsauspraegungID()
-								+ "', '" + "" + t.getTeilhaberID() + "')");
+						" INSERT INTO `teilhaberschaft` (`ID`, `kontaktlisteID`, `kontaktID`, `eigenschaftsauspraegungID`, `teilhaberID`, `nutzerID`) "
+								+ " VALUES ('" + t.getID() + "' ,'" + t.getKontaktListeID() + "' ,'"
+								+ t.getKontaktID() + "' ,'" + t.getEigenschaftsauspraegungID() +  "' ,'"  
+								+ t.getTeilhaberID() + "' ,'"  +  t.getNutzerID() + "')");
 			}
 		} catch (SQLException e2) {
 			e2.printStackTrace();

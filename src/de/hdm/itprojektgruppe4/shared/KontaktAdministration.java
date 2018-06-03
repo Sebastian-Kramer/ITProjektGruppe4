@@ -347,7 +347,7 @@ public interface KontaktAdministration extends RemoteService {
      * @return Teilhaberschaft-Objekt
      * @throws IllegalArgumentException
      */
-    public Teilhaberschaft insertTeilhaberschaft(int kontaktID, int kontaktListeID, int eigenschaftsauspraegungID, int teilhaberID, int nutzerID) throws IllegalArgumentException;
+    public Teilhaberschaft insertTeilhaberschaft(int kontaktListeID, int kontaktID , int eigenschaftsauspraegungID, int teilhaberID, int nutzerID) throws IllegalArgumentException;
     
     /**
      * Eine Teilhaberschaft für ein geteilten Kontakt anlegen
@@ -357,7 +357,7 @@ public interface KontaktAdministration extends RemoteService {
      * @param teilhaberID
      * @return
      */
-    public Teilhaberschaft insertTeilhaberschaftKontakt(int kontaktID, int eigenschaftsauspraegungID, int teilhaberID);
+    public Teilhaberschaft insertTeilhaberschaftKontakt(int kontaktID, int eigenschaftsauspraegungID, int teilhaberID, int nutzerID);
     
     /**
      * Eine Teilhaberschaft l�schen.

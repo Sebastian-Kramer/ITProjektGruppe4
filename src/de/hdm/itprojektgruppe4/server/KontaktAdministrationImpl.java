@@ -931,12 +931,13 @@ public class KontaktAdministrationImpl extends RemoteServiceServlet
      */
 	
 	@Override
-	public Teilhaberschaft insertTeilhaberschaft(int kontaktID, int kontaktListeID, int eigenschaftsauspraegungID,
+	public Teilhaberschaft insertTeilhaberschaft(int kontaktListeID, int kontaktID, int eigenschaftsauspraegungID,
 			int teilhaberID, int nutzerID) throws IllegalArgumentException {
 		Teilhaberschaft t = new Teilhaberschaft();
 		
-		t.setKontaktID(kontaktID);
+		
 		t.setKontaktListeID(kontaktListeID);
+		t.setKontaktID(kontaktID);
 		t.setEigenschaftsauspraegungID(eigenschaftsauspraegungID);
 		t.setTeilhaberID(teilhaberID);
 		t.setNutzerID(nutzerID);
@@ -948,12 +949,13 @@ public class KontaktAdministrationImpl extends RemoteServiceServlet
 	 * 
 	 */
 	@Override
-	public Teilhaberschaft insertTeilhaberschaftKontakt(int kontaktID, int eigenschaftsauspraegungID, int teilhaberID) {
+	public Teilhaberschaft insertTeilhaberschaftKontakt(int kontaktID, int eigenschaftsauspraegungID, int teilhaberID, int nutzerID) {
 		Teilhaberschaft t = new Teilhaberschaft();
 		
 		t.setKontaktID(kontaktID);
 		t.setEigenschaftsauspraegungID(eigenschaftsauspraegungID);
 		t.setTeilhaberID(teilhaberID);
+		t.setNutzerID(nutzerID);
 		
 		return  this.teilhaberschaftMapper.insertTeilhaberschaftKontakt(t);
 	}

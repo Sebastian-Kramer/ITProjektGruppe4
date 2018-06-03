@@ -88,7 +88,7 @@ public interface KontaktAdministrationAsync {
 
 	void findByID(int id, AsyncCallback<Teilhaberschaft> callback);
 
-	void insertTeilhaberschaft(int kontaktID, int kontaktListeID, int eigenschaftsauspraegungID, int teilhaberID, int nutzerID,
+	void insertTeilhaberschaft(int kontaktListeID, int kontaktID, int eigenschaftsauspraegungID, int teilhaberID, int nutzerID,
 			AsyncCallback<Teilhaberschaft> callback);
 
 	void deleteTeilhaberschaft(Teilhaberschaft t, AsyncCallback<Void> callback);
@@ -140,7 +140,7 @@ public interface KontaktAdministrationAsync {
 
 	void getEigenschaftbyKontaktID(int id, AsyncCallback<Vector<Eigenschaft>> callback);
 	
-	void insertTeilhaberschaftKontakt(int kontaktID, int eigenschaftsauspraegungID, int teilhaberID,
+	void insertTeilhaberschaftKontakt(int kontaktID, int eigenschaftsauspraegungID, int teilhaberID, int nutzerID,
 			AsyncCallback<Teilhaberschaft> callback);
 
 	void insertMeineKontakte(String bez, int status, int nutzerID, AsyncCallback<Kontaktliste> callback);
