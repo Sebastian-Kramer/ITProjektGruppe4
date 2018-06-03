@@ -52,8 +52,12 @@ public class KontaktKontaktlisteMapper {
 				
 				stmt = con.createStatement();
 				
-				stmt.executeUpdate("INSERT INTO kontaktkontaktliste (ID, kontaktID, kontaktlisteID)" + "VALUES (" + k.getID() + " ,'" + k.getKontaktID() + " ,'" + k.getKontaktlisteID() + "')");
+				stmt.executeUpdate("INSERT INTO `kontaktkontaktliste`(`ID`, `kontaktID`,"
+        		+ " `kontaktlisteID`) "
+        		+ "VALUES ('"+k.getID()+"', '"+k.getKontaktID()+"', '"+ ""+k.getKontaktlisteID()+"')");
 				
+//						INSERT INTO kontaktkontaktliste (ID, kontaktID, kontaktlisteID) " + "VALUES (" + k.getID() + " ,'" + k.getKontaktID() + " ,'" + k.getKontaktlisteID() + "')");
+        		
 			}
 		}catch(SQLException e){
 			e.printStackTrace();

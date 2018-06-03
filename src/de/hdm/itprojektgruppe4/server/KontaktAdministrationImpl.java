@@ -149,10 +149,10 @@ public class KontaktAdministrationImpl extends RemoteServiceServlet
     	
     	Vector<Eigenschaftauspraegung> vector = new Vector<Eigenschaftauspraegung>();
     	
-    	Eigenschaftauspraegung ea1 = insertAuspraegung("Vorname", 0, 1, kontaktID);
-    	Eigenschaftauspraegung ea2 = insertAuspraegung("Nachname", 0, 2, kontaktID);
-    	Eigenschaftauspraegung ea3 = insertAuspraegung("Email", 0, 3, kontaktID);
-    	Eigenschaftauspraegung ea4 = insertAuspraegung("Geburtsdatum", 0, 4, kontaktID);
+    	Eigenschaftauspraegung ea1 = insertAuspraegung("", 0, 1, kontaktID);
+    	Eigenschaftauspraegung ea2 = insertAuspraegung("", 0, 2, kontaktID);
+    	Eigenschaftauspraegung ea3 = insertAuspraegung("", 0, 3, kontaktID);
+    	Eigenschaftauspraegung ea4 = insertAuspraegung("", 0, 4, kontaktID);
     	
     	vector.add(ea1);
     	vector.add(ea2);

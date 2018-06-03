@@ -63,6 +63,7 @@ public class KontaktForm extends VerticalPanel {
 	private Button loeschenButton = new Button("Kontakt l�schen");
 	private Button zurueckBtn = new Button("Zur�ck");
 	
+	private Button kontaktListehinzufuegen = new Button("Kontakt einer Liste hinzufügen");
 
 	private Button kontaktTeilen = new Button("Kontakt teilen");
 
@@ -106,7 +107,7 @@ public class KontaktForm extends VerticalPanel {
 		RootPanel.get("Buttonbar").add(zurueckBtn);
 
 		RootPanel.get("Buttonbar").add(kontaktTeilen);
-
+		RootPanel.get("Buttonbar").add(kontaktListehinzufuegen);
 
 		this.add(vpanel);
 		
@@ -163,6 +164,15 @@ public class KontaktForm extends VerticalPanel {
 			
 		});
 		
+		kontaktListehinzufuegen.addClickHandler(new ClickHandler() {
+			
+			@Override
+			public void onClick(ClickEvent event) {
+				// TODO Auto-generated method stub
+				DialogBoxAddContactToList dbkl = new DialogBoxAddContactToList(k);
+				dbkl.center();
+			}
+		});
 		
 //		verwaltung.findEigenschaftauspraegungByKontaktID(2, new AsyncCallback<Vector<Eigenschaftauspraegung>>(){
 //
