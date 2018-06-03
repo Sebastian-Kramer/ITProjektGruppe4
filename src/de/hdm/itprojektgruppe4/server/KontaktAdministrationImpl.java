@@ -816,7 +816,7 @@ public class KontaktAdministrationImpl extends RemoteServiceServlet
      */
 	@Override
 	public Vector<Kontaktliste> getAllKontaktlistenFromUser(int nutzerID) throws IllegalArgumentException {
-	 //Instantiieren der benötigten Vectoren um Kontaktlisten und Teilhaberschaft Objekte abspeichern zu kï¿½nnen 
+	 //Instantiieren der benï¿½tigten Vectoren um Kontaktlisten und Teilhaberschaft Objekte abspeichern zu kï¿½nnen 
 	Vector<Kontaktliste> kontlisten = findKontaktlisteByNutzerID(nutzerID);
 	  Vector<Teilhaberschaft> teilhabe = getAllTeilhaberschaftenFromUser(nutzerID);
 	  
@@ -906,6 +906,20 @@ public class KontaktAdministrationImpl extends RemoteServiceServlet
 		
 		return this.teilhaberschaftMapper.insertTeilhaberschaft(t);
     }
+	
+	/**
+	 * 
+	 */
+	@Override
+	public Teilhaberschaft insertTeilhaberschaftKontakt(int kontaktID, int eigenschaftsauspraegungID, int teilhaberID) {
+		Teilhaberschaft t = new Teilhaberschaft();
+		
+		t.setKontaktID(kontaktID);
+		t.setEigenschaftsauspraegungID(eigenschaftsauspraegungID);
+		t.setTeilhaberID(teilhaberID);
+		
+		return  this.teilhaberschaftMapper.insertTeilhaberschaftKontakt(t);
+	}
 
     /**
      * Eine Teilhaberschaft anhand der ID auslesen.
@@ -953,6 +967,10 @@ public class KontaktAdministrationImpl extends RemoteServiceServlet
      * @param t das zur lï¿½schende Teilhaber-Objekt
      * @throws IllegalArgumentException
      */
+	
+	/*##########################################################
+     * ENDE Methoden fï¿½r Teilhaberschaft-Objekte
+     #########################################################*/
 	
 	@Override
 	public void deleteKontaktFromTeilhaberschaft(Teilhaberschaft t) throws IllegalArgumentException {
@@ -1036,6 +1054,10 @@ public class KontaktAdministrationImpl extends RemoteServiceServlet
 		// TODO Auto-generated method stub
 		return this.eigMapper.getEigenschaftByBezeichnung(bez);
 	}
+
+
+
+	
 
 
 

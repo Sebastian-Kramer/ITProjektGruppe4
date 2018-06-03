@@ -10,51 +10,54 @@ import de.hdm.itprojektgruppe4.shared.bo.KontaktKontaktliste;
 import de.hdm.itprojektgruppe4.shared.bo.Teilhaberschaft;
 
 /**
- * Mapper Klassen, die <code>Teilhaberschaft</code>-Objekte auf einer relationalen Datenbank abbildet.
+ * Mapper Klassen, die <code>Teilhaberschaft</code>-Objekte auf einer
+ * relationalen Datenbank abbildet.
  *
  */
 
 public class TeilhaberschaftMapper {
-	
+
 	private static TeilhaberschaftMapper teilhaberschaftMapper = null;
-	
-	protected TeilhaberschaftMapper(){
-		
+
+	protected TeilhaberschaftMapper() {
+
 	};
-	
-	public static TeilhaberschaftMapper teilhaberschaftMapper(){
-		
-		if(teilhaberschaftMapper == null){
-			
+
+	public static TeilhaberschaftMapper teilhaberschaftMapper() {
+
+		if (teilhaberschaftMapper == null) {
+
 			teilhaberschaftMapper = new TeilhaberschaftMapper();
 		}
-		
+
 		return teilhaberschaftMapper;
 	}
-	
+
 	/**
 	 * Suchen einer Teilhaberschaft mit vorgegebener ID.
-	 * @param id der Teilhaberschaft
+	 * 
+	 * @param id
+	 *            der Teilhaberschaft
 	 * @return die gesuchte Teilhaberschaft
-	 */	
-	
+	 */
+
 	public Teilhaberschaft findByID(int id) {
-		
+
 		Connection con = DBConnection.connection();
 
 		try {
-			
+
 			Statement stmt = con.createStatement();
 
 			ResultSet rs = stmt.executeQuery(
-					
-					"SELECT `ID`, `kontaktlisteID`, `kontaktID`, `eigenschaftsauspraegungID`,"
-					+ " `teilhaberID` FROM"	+ " `teilhaberschaft` WHERE ID=" + id);
+
+					"SELECT `ID`, `kontaktlisteID`, `kontaktID`, `eigenschaftsauspraegungID`," + " `teilhaberID` FROM"
+							+ " `teilhaberschaft` WHERE ID=" + id);
 
 			if (rs.next()) {
-				
+
 				Teilhaberschaft t = new Teilhaberschaft();
-				
+
 				t.setID(rs.getInt("ID"));
 				t.setKontaktListeID(rs.getInt("kontaktlisteID"));
 				t.setKontaktID(rs.getInt("kontaktID"));
@@ -64,262 +67,286 @@ public class TeilhaberschaftMapper {
 				return t;
 			}
 		} catch (SQLException e) {
-			
+
 			e.printStackTrace();
-			
+
 			return null;
 		}
-		
+
 		return null;
 	}
-	
-	
-	public Vector <Teilhaberschaft> findTeilhaberschaftByKontaktID(int kontaktID){
-		
-		Vector <Teilhaberschaft> result = new Vector<Teilhaberschaft>();
-		
+
+	public Vector<Teilhaberschaft> findTeilhaberschaftByKontaktID(int kontaktID) {
+
+		Vector<Teilhaberschaft> result = new Vector<Teilhaberschaft>();
+
 		Connection con = DBConnection.connection();
-		
-		try{
+
+		try {
 			Statement stmt = con.createStatement();
-			
-			ResultSet rs = stmt.executeQuery("SELECT `ID`, `kontaktlisteID`, `kontaktID`, `eigenschaftsauspraegungID`, `teilhaberID`  FROM teilhaberschaft "
-					 + "WHERE kontaktID = " + kontaktID);
-			
-			while (rs.next()){
+
+			ResultSet rs = stmt.executeQuery(
+					"SELECT `ID`, `kontaktlisteID`, `kontaktID`, `eigenschaftsauspraegungID`, `teilhaberID`  FROM teilhaberschaft "
+							+ "WHERE kontaktID = " + kontaktID);
+
+			while (rs.next()) {
 				Teilhaberschaft th = new Teilhaberschaft();
 				th.setID(rs.getInt("ID"));
 				th.setKontaktListeID(rs.getInt("kontaktID"));
 				th.setKontaktID(rs.getInt("kontaktID"));
 				th.setEigenschaftsauspraegungID(rs.getInt("eigenschaftsauspraegungID"));
 				th.setTeilhaberID(rs.getInt("teilhaberID"));
-				
-			
-				
+
 				result.addElement(th);
 
-			}			
-			}catch (SQLException e){
-				e.printStackTrace();
 			}
-			
-			return result;
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+
+		return result;
 	}
 
-	
-	public void deleteTeilhaberschaftByKontaktID (int kontaktID){
+	public void deleteTeilhaberschaftByKontaktID(int kontaktID) {
 		Connection con = DBConnection.connection();
-		
-		try{
-			
+
+		try {
+
 			Statement stmt = con.createStatement();
-			
+
 			stmt.executeUpdate("DELETE FROM teilhaberschaft " + "WHERE kontaktID = " + kontaktID);
-			
-			
-		}catch(SQLException e){
+
+		} catch (SQLException e) {
 			e.printStackTrace();
-			
+
 		}
 	}
-	
-	
+
 	/**
 	 * Ausgabe von Teilhaberschaft-Objekten anhand der TeilhaberID
 	 * 
 	 * @param teilhaberID
 	 * @return Vector mit s�mtlichen Teilhaberschaften
 	 */
-	public Vector<Teilhaberschaft> findTeilhaberschaftByTeilhaberID(int teilhaberID){
+	public Vector<Teilhaberschaft> findTeilhaberschaftByTeilhaberID(int teilhaberID) {
 		Vector<Teilhaberschaft> result = new Vector<Teilhaberschaft>();
-		
+
 		Connection con = DBConnection.connection();
-		
-		
-		try{
+
+		try {
 			Statement stmt = con.createStatement();
-			
+
 			ResultSet rs = stmt.executeQuery("SELECT * FROM teilhaberschaft WHERE teilhaberID = " + teilhaberID);
-		
-		while(rs.next()){
-			Teilhaberschaft teilhaberschaft = new Teilhaberschaft();
-			teilhaberschaft.setID(rs.getInt("ID"));
-			teilhaberschaft.setKontaktListeID(rs.getInt("kontaktlisteID"));
-			teilhaberschaft.setKontaktID(rs.getInt("kontaktID"));
-			teilhaberschaft.setEigenschaftsauspraegungID(rs.getInt("eigenschaftsauspraegungID"));
-			teilhaberschaft.setTeilhaberID(rs.getInt("teilhaberID"));
-			
-			result.addElement(teilhaberschaft);
-			
-		}
-		
-		}catch(SQLException e){
+
+			while (rs.next()) {
+				Teilhaberschaft teilhaberschaft = new Teilhaberschaft();
+				teilhaberschaft.setID(rs.getInt("ID"));
+				teilhaberschaft.setKontaktListeID(rs.getInt("kontaktlisteID"));
+				teilhaberschaft.setKontaktID(rs.getInt("kontaktID"));
+				teilhaberschaft.setEigenschaftsauspraegungID(rs.getInt("eigenschaftsauspraegungID"));
+				teilhaberschaft.setTeilhaberID(rs.getInt("teilhaberID"));
+
+				result.addElement(teilhaberschaft);
+
+			}
+
+		} catch (SQLException e) {
 			e.printStackTrace();
 		}
-		
+
 		return result;
-		
+
+	}
+
+	/**
+	 * Einfuegen eines neuen Objktes vom Typ Teilhaberschaft in die DB der PK
+	 * wird ueberprueft und korrigiert -> maxID +1
+	 * 
+	 * @param t
+	 *            die zu speichernde Teilhaberschaft
+	 * @return die bereits uebergebene Teilhaberschaft
+	 */
+
+	public Teilhaberschaft insertTeilhaberschaft(Teilhaberschaft t) {
+		Connection con = DBConnection.connection();
+
+		try {
+			Statement stmt = con.createStatement();
+
+			ResultSet rs = stmt.executeQuery(
+
+					"SELECT MAX(id) AS maxid " + "FROM teilhaberschaft ");
+
+			if (rs.next()) {
+
+				t.setID(rs.getInt("maxid") + 1);
+
+				stmt = con.createStatement();
+
+				stmt.executeUpdate(
+
+						"INSERT INTO `teilhaberschaft`(`ID`, `kontaktlisteID`, `kontaktID`,"
+								+ " `eigenschaftsauspraegungID`, `teilhaberID`) " + "VALUES ('" + t.getID() + "', '"
+								+ t.getKontaktListeID() + "', '" + "" + t.getKontaktID() + "', '"
+								+ t.getEigenschaftsauspraegungID() + "', '" + "" + t.getTeilhaberID() + "')");
+			}
+		} catch (SQLException e2) {
+			e2.printStackTrace();
+		}
+
+		return t;
 	}
 	
-	 
 	/**
-	 *  Einfuegen eines neuen Objktes vom Typ Teilhaberschaft in die DB
-	 *  der PK wird ueberprueft und korrigiert -> maxID +1 
-	 * @param t 
-	 * die zu speichernde Teilhaberschaft
+	 * 
+	 * @param t
 	 * @return
-	 * die bereits uebergebene Teilhaberschaft
 	 */
-	
-	  public Teilhaberschaft insertTeilhaberschaft(Teilhaberschaft t) {
-		    Connection con = DBConnection.connection();
+	public Teilhaberschaft insertTeilhaberschaftKontakt(Teilhaberschaft t) {
+		Connection con = DBConnection.connection();
 
-		    try {
-		      Statement stmt = con.createStatement();
+		try {
+			Statement stmt = con.createStatement();
 
-		      ResultSet rs = stmt.executeQuery(
-		    		  
-		    "SELECT MAX(id) AS maxid " + "FROM teilhaberschaft ");
+			ResultSet rs = stmt.executeQuery(
 
-		      if (rs.next()) {
-		
-		        t.setID(rs.getInt("maxid") + 1);
+					"SELECT MAX(id) AS maxid " + "FROM teilhaberschaft ");
 
-		        stmt = con.createStatement();
+			if (rs.next()) {
 
-		        stmt.executeUpdate(
-		        		
-		        		"INSERT INTO `teilhaberschaft`(`ID`, `kontaktlisteID`, `kontaktID`,"
-		        		+ " `eigenschaftsauspraegungID`, `teilhaberID`) "
-		        		+ "VALUES ('"+t.getID()+"', '"+t.getKontaktListeID()+"', '"
-		        		+ ""+t.getKontaktID()+"', '"+t.getEigenschaftsauspraegungID()+"', '"+ ""+t.getTeilhaberID()+"')");
-		      }
-		    }
-		    catch (SQLException e2) {
-		      e2.printStackTrace();
-		    }
+				t.setID(rs.getInt("maxid") + 1);
 
-		    return t;
-		  }
-	  
-		/**
-		 *  ein Objekt vom Typ Teilhaberschaft wird aus der DB geloescht 
-		 * @param t
-		 * 	@return die zu loeschende Person
-		 */
-	  
-	  public void deleteTeilhaberschaft(Teilhaberschaft t) {
-		  
-		    Connection con = DBConnection.connection();
+				stmt = con.createStatement();
 
-		    try {
-		    	
-		      Statement stmt = con.createStatement();
+				stmt.executeUpdate(
 
-		      stmt.executeUpdate(
-		    		  
-		      "DELETE FROM teilhaberschaft " + "WHERE id=" + t.getID());
+						"INSERT INTO `teilhaberschaft`(`ID`, `kontaktlisteID`, `kontaktID`,"
+								+ " `eigenschaftsauspraegungID`, `teilhaberID`) " + "VALUES ('" + t.getID() + "', "
+								+ null + ", '" + "" + t.getKontaktID() + "', '"
+								+ t.getEigenschaftsauspraegungID() + "', '" + "" + t.getTeilhaberID() + "')");
+			}
+		} catch (SQLException e2) {
+			e2.printStackTrace();
+		}
 
-		    }
-		    catch (SQLException e2) {
-		    	
-		      e2.printStackTrace();
-		      
-		    }
-		    
-		  }
-	  
-	  /**
-	     * Eine Teilhaberschaft an einem Kontakt loeschen.
-	     * 
-	     * @param t das zu loeschende Teilhaber-Objekt
-	     */
-	  
-	  public void deleteKontaktFromTeilhaberschaft(Teilhaberschaft t) {
-		  
-		    Connection con = DBConnection.connection();
+		return t;
+	}
 
-		    try {
-		    	
-		      Statement stmt = con.createStatement();
+	/**
+	 * ein Objekt vom Typ Teilhaberschaft wird aus der DB geloescht
+	 * 
+	 * @param t
+	 * @return die zu loeschende Person
+	 */
 
-		      stmt.executeUpdate(
-		    		  
-		    	"DELETE FROM `teilhaberschaft` WHERE `kontaktID`=" + t.getKontaktID() 
-		    	+" " + "AND `teilhaberID` =" + t.getTeilhaberID());
+	public void deleteTeilhaberschaft(Teilhaberschaft t) {
 
-		    }
-		    catch (SQLException e2) {
-		    	
-		      e2.printStackTrace();
-		      
-		    }
-		    
-		  }
-	  
-	  /**
-	     * Eine Teilhaberschaft an einer Kontaktliste l�schen.
-	     * 
-	     * @param t das zu l�schende Teilhaberschaft-Objekt
-	     * @throws IllegalArgumentException
-	     */
-	  
-	  public void deleteKontaktlisteFromTeilhaberschaft(Teilhaberschaft t) {
-		  
-		    Connection con = DBConnection.connection();
+		Connection con = DBConnection.connection();
 
-		    try {
-		    	
-		      Statement stmt = con.createStatement();
+		try {
 
-		      stmt.executeUpdate
-		      
-		      (
-		    		  
-		        "DELETE FROM `teilhaberschaft` WHERE `kontaktlisteID`=" + t.getKontaktListeID() 
-		    	+" " + "AND `teilhaberID` =" + t.getTeilhaberID());
+			Statement stmt = con.createStatement();
 
-		    }
-		    catch (SQLException e2) {
-		    	
-		      e2.printStackTrace();
-		      
-		    }
-		    
-		  }
-	  
-	    /**
-	     * Eine Teilhaberschaft an einer Eigenschftausprägung loeschen.
-	     * 
-	     * @param t das zu loeschende Teilhaberschaft-Objekt
-	     * @throws IllegalArgumentException
-	     */
+			stmt.executeUpdate(
 
-	  public void deleteEigenschaftsauspraegungFromTeilhaberschaft(Teilhaberschaft t) {
-		  
-		    Connection con = DBConnection.connection();
+					"DELETE FROM teilhaberschaft " + "WHERE id=" + t.getID());
 
-		    try {
-		    	
-		      Statement stmt = con.createStatement();
+		} catch (SQLException e2) {
 
-		      stmt.executeUpdate
-		      
-		      (
-		    		  
-		       "DELETE FROM `teilhaberschaft` WHERE `eigenschaftsauspraegungID`=" + t.getEigenschaftsauspraegungID() 
-		    	+" " + "AND `teilhaberID` =" + t.getTeilhaberID());
+			e2.printStackTrace();
 
-		    }
-		    catch (SQLException e2) {
-		    	
-		      e2.printStackTrace();
-		      
-		    }
-		    
-		  }
-	  
-	  
+		}
+
+	}
+
+	/**
+	 * Eine Teilhaberschaft an einem Kontakt loeschen.
+	 * 
+	 * @param t
+	 *            das zu loeschende Teilhaber-Objekt
+	 */
+
+	public void deleteKontaktFromTeilhaberschaft(Teilhaberschaft t) {
+
+		Connection con = DBConnection.connection();
+
+		try {
+
+			Statement stmt = con.createStatement();
+
+			stmt.executeUpdate(
+
+					"DELETE FROM `teilhaberschaft` WHERE `kontaktID`=" + t.getKontaktID() + " " + "AND `teilhaberID` ="
+							+ t.getTeilhaberID());
+
+		} catch (SQLException e2) {
+
+			e2.printStackTrace();
+
+		}
+
+	}
+
+	/**
+	 * Eine Teilhaberschaft an einer Kontaktliste l�schen.
+	 * 
+	 * @param t
+	 *            das zu l�schende Teilhaberschaft-Objekt
+	 * @throws IllegalArgumentException
+	 */
+
+	public void deleteKontaktlisteFromTeilhaberschaft(Teilhaberschaft t) {
+
+		Connection con = DBConnection.connection();
+
+		try {
+
+			Statement stmt = con.createStatement();
+
+			stmt.executeUpdate
+
+			(
+
+					"DELETE FROM `teilhaberschaft` WHERE `kontaktlisteID`=" + t.getKontaktListeID() + " "
+							+ "AND `teilhaberID` =" + t.getTeilhaberID());
+
+		} catch (SQLException e2) {
+
+			e2.printStackTrace();
+
+		}
+
+	}
+
+	/**
+	 * Eine Teilhaberschaft an einer Eigenschftausprägung loeschen.
+	 * 
+	 * @param t
+	 *            das zu loeschende Teilhaberschaft-Objekt
+	 * @throws IllegalArgumentException
+	 */
+
+	public void deleteEigenschaftsauspraegungFromTeilhaberschaft(Teilhaberschaft t) {
+
+		Connection con = DBConnection.connection();
+
+		try {
+
+			Statement stmt = con.createStatement();
+
+			stmt.executeUpdate
+
+			(
+
+					"DELETE FROM `teilhaberschaft` WHERE `eigenschaftsauspraegungID`="
+							+ t.getEigenschaftsauspraegungID() + " " + "AND `teilhaberID` =" + t.getTeilhaberID());
+
+		} catch (SQLException e2) {
+
+			e2.printStackTrace();
+
+		}
+
+	}
 
 }
-
