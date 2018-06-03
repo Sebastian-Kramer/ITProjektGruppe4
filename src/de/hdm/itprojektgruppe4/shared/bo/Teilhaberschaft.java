@@ -13,6 +13,10 @@ public class Teilhaberschaft extends BusinessObject{
 	
 	private int teilhaberID;
 	
+	private int nutzerID;
+	
+
+	
 
 	public int getKontaktID() {
 		return kontaktID;
@@ -47,7 +51,13 @@ public class Teilhaberschaft extends BusinessObject{
 	}
 
 	
-	
+	public int getNutzerID() {
+		return nutzerID;
+	}
+
+	public void setNutzerID(int nutzerID) {
+		this.nutzerID = nutzerID;
+	}
 	
 	
 }

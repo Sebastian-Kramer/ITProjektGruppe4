@@ -31,6 +31,11 @@ import de.hdm.itprojektgruppe4.shared.KontaktAdministrationAsync;
 import de.hdm.itprojektgruppe4.shared.bo.*;
 import de.hdm.itprojektgruppe4.client.ClientsideSettings;
 
+/**
+ * Die Klasse dient zur Darstellung und Verwaltung von Kontaktlisten.
+ * @author Raphael
+ *
+ */
 public class KontaktlisteForm extends VerticalPanel {
 	
 	private VerticalPanel vpanel = new VerticalPanel();
@@ -45,15 +50,15 @@ public class KontaktlisteForm extends VerticalPanel {
 	
 	private Button kontaktlisteHinzufuegen = new Button();
 	private Button kontaktlisteLoeschen = new Button("Kontaktliste loeschen");
-	
-	
-	
-	
+
 	private KontaktAdministrationAsync kontaktVerwaltung = ClientsideSettings.getKontaktverwaltung();
 	
 	private Kontaktliste kl = null;
 	
-	
+	/**
+	 * Konstruktor, der beim Ausw�hlen einer Kontaktliste im Baum eingesetzt wird.
+	 * @param kontaktliste
+	 */
 	public KontaktlisteForm(Kontaktliste kontaktliste){
 		this.kl = kontaktliste;
 		selectionModel.addSelectionChangeHandler(new SelectionChangeEventHandler());
@@ -63,8 +68,11 @@ public class KontaktlisteForm extends VerticalPanel {
 	
 	public void onLoad(){
 		super.onLoad();
+		
+		//Instantiieren des DataProviders, der die Daten f�r die Liste h�lt
 		KontakteDataProvider dataProvider = new KontakteDataProvider();
 		dataProvider.addDataDisplay(kontaktCellList);
+		
 		kontaktCellList.setSelectionModel(selectionModel);
 		
 	
@@ -83,11 +91,18 @@ public class KontaktlisteForm extends VerticalPanel {
 		vpanel.add(kontaktCellList);
 		RootPanel.get("Details").add(vpanel);
 	
-		
+		kontaktlisteLoeschen.addClickHandler(new KontaktlisteloeschenClickhandler());
 
 	}
-
 	
+	
+	
+
+	/**
+	 * Nested Class, die es erm�glicht, auf Selektionsereignisse in der CellList zu reagieren.
+	 * Bei aktivieren der Selektion wird die <code>KontaktForm</code> aufgerufen, um den ausgew�hlten
+	 * Kontakt anzuzeigen.
+	 */
 	private class SelectionChangeEventHandler implements SelectionChangeEvent.Handler{
 
 		@Override
@@ -106,6 +121,42 @@ public class KontaktlisteForm extends VerticalPanel {
 		
 	}
 	
+	
+	/**
+	 * Nested Class, für den Kontaktliste löschen Button.
+	 */
+	
+	private class KontaktlisteloeschenClickhandler implements ClickHandler{
+
+		@Override
+		public void onClick(ClickEvent event) {
+			// TODO Auto-generated method stub
+			kontaktVerwaltung.deleteKontaktliste(kl, new KontaktlisteloeschenCallback());
+		}
+		
+	}
+	
+	private class KontaktlisteloeschenCallback implements AsyncCallback<Void> {
+
+		@Override
+		public void onFailure(Throwable caught) {
+			// TODO Auto-generated method stub
+			Window.alert("Kontaktliste wurde nicht gelöscht");
+		}
+
+		@Override
+		public void onSuccess(Void result) {
+			// TODO Auto-generated method stub
+			Window.alert("Kontaktliste wurde erfolgreich gelöscht");
+			
+		}
+
+		
+	}
+	
+	/**
+	 * Hier wird der DataProvider mit den entsprechenden Daten f�r die CellList erstellt.
+	 */
 	private class KontakteDataProvider extends AsyncDataProvider<Kontakt>{
 
 		@Override
@@ -137,6 +188,9 @@ public class KontaktlisteForm extends VerticalPanel {
 		}
 		
 	}
+
+
+	
 	
 	
 

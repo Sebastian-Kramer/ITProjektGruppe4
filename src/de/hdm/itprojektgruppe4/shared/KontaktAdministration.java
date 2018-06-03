@@ -347,7 +347,7 @@ public interface KontaktAdministration extends RemoteService {
      * @return Teilhaberschaft-Objekt
      * @throws IllegalArgumentException
      */
-    public Teilhaberschaft insertTeilhaberschaft(int kontaktID, int kontaktListeID, int eigenschaftsauspraegungID, int teilhaberID) throws IllegalArgumentException;
+    public Teilhaberschaft insertTeilhaberschaft(int kontaktID, int kontaktListeID, int eigenschaftsauspraegungID, int teilhaberID, int nutzerID) throws IllegalArgumentException;
     
     /**
      * Eine Teilhaberschaft für ein geteilten Kontakt anlegen
@@ -477,7 +477,18 @@ public interface KontaktAdministration extends RemoteService {
 	
 
 
-  
+	/**
+	 * Dient zur Erstellung einer Basis-Kontaktliste namens "Meine Kontakte", die bei der Anmeldung eines Nutzers erstellt wird.
+	 * 
+	 * @param bez
+	 * @param status
+	 * @param nutzerID
+	 * @return Kontaktliste mit der Bezeichnung "Meine Kontakte"
+	 * @throws IllegalArgumentException
+	 */
+	public Kontaktliste insertMeineKontakte(String bez, int status, int nutzerID) throws IllegalArgumentException;
+	
+
     /**
      * @param name 
      * @param erzeugungsdatum 

@@ -342,10 +342,13 @@ public class KontaktAdministrationImpl extends RemoteServiceServlet
 		Nutzer nutzer = new Nutzer();
 		nutzer.setEmail(mail);
 		return this.nutzerMapper.insertNutzer(nutzer);
+		
+
+		
 	}
 	
 	 /**
-     * L�schen eines Nutzers.
+     * Loeschen eines Nutzers.
      * 
      * @param n das zu l�schende Nutzer-Objekt
      * @throws IllegalArgumentException
@@ -695,8 +698,26 @@ public class KontaktAdministrationImpl extends RemoteServiceServlet
 			return this.konlistMapper.insertKontaktliste(k);
 		}
 	
+	/**
+	 * Dient zur Erstellung einer Basis-Kontaktliste namens "Meine Kontakte", die bei der Anmeldung eines Nutzers erstellt wird.
+	 * 
+	 * @param bez
+	 * @param status
+	 * @param nutzerID
+	 * @return Kontaktliste mit der Bezeichnung "Meine Kontakte"
+	 * @throws IllegalArgumentException
+	 */
+	@Override
+	public Kontaktliste insertMeineKontakte(String bez, int status, int nutzerID) throws IllegalArgumentException {
+		Kontaktliste meineKontakte = new Kontaktliste();
+		
+		meineKontakte.setBez("Meine Kontakte");
+		meineKontakte.setStatus(status);
+		meineKontakte.setNutzerID(nutzerID);
+		
+		return this.konlistMapper.insertKontaktliste(meineKontakte);
+	}
 
-	
 	
 	public Vector<Kontaktliste> getAllKontaktlisten() {
         
@@ -758,8 +779,23 @@ public class KontaktAdministrationImpl extends RemoteServiceServlet
 	//	this.konlistMapper.deleteKontaktliste(k);
 	
 		List<KontaktKontaktliste> kkliste = kontaktKontaktlisteMapper.findKontaktKontaktlisteByKontaktlisteID(kliste.getID());
+		List<Teilhaberschaft> teilhaberschaft = teilhaberschaftMapper.findTeilhaberschaftByKontaktlisteID(kliste.getID());
 		
-	
+		
+		if (kkliste != null) {
+			for (KontaktKontaktliste kkl : kkliste){
+				
+				kontaktKontaktlisteMapper.deleteKontaktKontaktliste(kkl);
+			}
+		}
+		
+		if (teilhaberschaft != null){ 
+			for (Teilhaberschaft th : teilhaberschaft){
+				teilhaberschaftMapper.deleteTeilhaberschaftByKontaktlisteID(th.getKontaktListeID());
+			}
+		}
+		
+		this.konlistMapper.deleteKontaktliste(kliste);
 		
 	}
 	
@@ -896,13 +932,14 @@ public class KontaktAdministrationImpl extends RemoteServiceServlet
 	
 	@Override
 	public Teilhaberschaft insertTeilhaberschaft(int kontaktID, int kontaktListeID, int eigenschaftsauspraegungID,
-			int teilhaberID) throws IllegalArgumentException {
+			int teilhaberID, int nutzerID) throws IllegalArgumentException {
 		Teilhaberschaft t = new Teilhaberschaft();
 		
 		t.setKontaktID(kontaktID);
 		t.setKontaktListeID(kontaktListeID);
 		t.setEigenschaftsauspraegungID(eigenschaftsauspraegungID);
 		t.setTeilhaberID(teilhaberID);
+		t.setNutzerID(nutzerID);
 		
 		return this.teilhaberschaftMapper.insertTeilhaberschaft(t);
     }
@@ -1062,19 +1099,8 @@ public class KontaktAdministrationImpl extends RemoteServiceServlet
 
 
 
-	
-
-
-
-
-
-
-
 
 	
-
-
-
 
 
 
@@ -1093,10 +1119,22 @@ public class KontaktAdministrationImpl extends RemoteServiceServlet
 
 
 
-	
 
 
 	
+
+
+
+
+
+
+
+
+
+	
+
+
+
 
     
     

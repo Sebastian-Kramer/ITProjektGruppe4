@@ -23,6 +23,7 @@ import com.google.gwt.event.dom.client.KeyDownHandler;
 import com.google.gwt.event.dom.client.KeyPressEvent;
 import com.google.gwt.event.logical.shared.SelectionEvent;
 import com.google.gwt.event.logical.shared.SelectionHandler;
+import com.google.gwt.i18n.client.DateTimeFormat;
 import com.google.gwt.user.cellview.client.CellTable;
 import com.google.gwt.user.cellview.client.Column;
 import com.google.gwt.user.cellview.client.TextColumn;
@@ -66,13 +67,14 @@ public class UpdateKontaktForm extends VerticalPanel {
 
 	private Label lbl_KontaktName = new Label("Kontaktname: ");
 	private TextBox txt_KontaktName = new TextBox();
-	private Button addRow = new Button("Hinzufügen");
+	private Button addRow = new Button("Hinzufï¿½gen");
 	private Label lbl_NewEigenschaft = new Label("Eigenschaft: ");
 	private TextBox txt_Eigenschaft = new TextBox();
 	private Label lbl_NewAuspraegung = new Label("Auspraegung: ");
 	private TextBox txt_Auspraegung = new TextBox();
 	private Date date = new Date();
 //	SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd.MM.yyyy");
+	  DateTimeFormat fmt = DateTimeFormat.getFormat("dd.MM.yyyy");
 	private Button cancelBtn = new Button("Cancel");
 	
 
@@ -95,7 +97,7 @@ public class UpdateKontaktForm extends VerticalPanel {
 		super.onLoad();
 
 //		simpleDateFormat.format(date);
-		
+		fmt.format(date);
 		verwaltung.findAllEigenschaft(new AllEigenschaftCallback());
 		RootPanel.get("Buttonbar").clear();
 		ctf = new CellTableForm(kon);
@@ -201,14 +203,14 @@ public class UpdateKontaktForm extends VerticalPanel {
 					
 				}
 			});
-		
+			
 		addRow.addClickHandler(new ClickHandler() {
 
 			@Override
 			public void onClick(ClickEvent event) {
 //				Kontakt k = new Kontakt();
 //				k.setID(kon.getID());
-//				k.setModifikationsdatum(new Date());
+//				kon.setModifikationsdatum(date);
 //				k.setNutzerID(kon.getNutzerID());
 //				k.setName(txt_KontaktName.getValue());
 //				k.setStatus(kon.getStatus());
@@ -217,7 +219,7 @@ public class UpdateKontaktForm extends VerticalPanel {
 				ctf.addRow(txt_Eigenschaft.getValue(), txt_Auspraegung.getValue());
 
 				verwaltung.insertEigenschaft(txt_Eigenschaft.getText(), 0, new EigenschaftEinfuegenCallback());
-//				verwaltung.updateKontakt(k, new KontaktModifikationsdatumCallback());
+				verwaltung.updateKontakt(kon, new KontaktModifikationsdatumCallback());
 		}
 
 		});}
@@ -305,7 +307,7 @@ public class UpdateKontaktForm extends VerticalPanel {
 
 		@Override
 		public void onSuccess(Eigenschaftauspraegung result) {
-			Window.alert("Sie haben die Ausprägung " + result.getWert() + " angepasst");
+			Window.alert("Sie haben die Ausprï¿½gung " + result.getWert() + " angepasst");
 			eigaus.setWert(result.getWert());
 		}
 
