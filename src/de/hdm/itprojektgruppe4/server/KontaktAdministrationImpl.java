@@ -943,6 +943,20 @@ public class KontaktAdministrationImpl extends RemoteServiceServlet
 		
 		return this.teilhaberschaftMapper.insertTeilhaberschaft(t);
     }
+	
+	/**
+	 * 
+	 */
+	@Override
+	public Teilhaberschaft insertTeilhaberschaftKontakt(int kontaktID, int eigenschaftsauspraegungID, int teilhaberID) {
+		Teilhaberschaft t = new Teilhaberschaft();
+		
+		t.setKontaktID(kontaktID);
+		t.setEigenschaftsauspraegungID(eigenschaftsauspraegungID);
+		t.setTeilhaberID(teilhaberID);
+		
+		return  this.teilhaberschaftMapper.insertTeilhaberschaftKontakt(t);
+	}
 
     /**
      * Eine Teilhaberschaft anhand der ID auslesen.
@@ -990,6 +1004,10 @@ public class KontaktAdministrationImpl extends RemoteServiceServlet
      * @param t das zur l�schende Teilhaber-Objekt
      * @throws IllegalArgumentException
      */
+	
+	/*##########################################################
+     * ENDE Methoden f�r Teilhaberschaft-Objekte
+     #########################################################*/
 	
 	@Override
 	public void deleteKontaktFromTeilhaberschaft(Teilhaberschaft t) throws IllegalArgumentException {
@@ -1073,6 +1091,10 @@ public class KontaktAdministrationImpl extends RemoteServiceServlet
 		// TODO Auto-generated method stub
 		return this.eigMapper.getEigenschaftByBezeichnung(bez);
 	}
+
+
+
+	
 
 
 

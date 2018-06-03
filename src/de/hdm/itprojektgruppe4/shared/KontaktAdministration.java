@@ -350,6 +350,16 @@ public interface KontaktAdministration extends RemoteService {
     public Teilhaberschaft insertTeilhaberschaft(int kontaktID, int kontaktListeID, int eigenschaftsauspraegungID, int teilhaberID, int nutzerID) throws IllegalArgumentException;
     
     /**
+     * Eine Teilhaberschaft für ein geteilten Kontakt anlegen
+     * 
+     * @param kontaktID
+     * @param eigenschaftsauspraegungID
+     * @param teilhaberID
+     * @return
+     */
+    public Teilhaberschaft insertTeilhaberschaftKontakt(int kontaktID, int eigenschaftsauspraegungID, int teilhaberID);
+    
+    /**
      * Eine Teilhaberschaft l�schen.
      * 
      * @param t das zu l�schende Teilhaberschaft-Objekt
@@ -463,6 +473,8 @@ public interface KontaktAdministration extends RemoteService {
 	 * @throws IllegalArgumentException
 	 */
 	public Vector<KontaktKontaktliste> getKontaktKontaktlisteFromKontaktliste(int kontaktlisteID) throws IllegalArgumentException;
+
+	
 
 
 	/**

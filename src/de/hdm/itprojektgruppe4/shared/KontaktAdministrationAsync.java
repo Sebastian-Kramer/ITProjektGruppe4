@@ -139,6 +139,9 @@ public interface KontaktAdministrationAsync {
 
 
 	void getEigenschaftbyKontaktID(int id, AsyncCallback<Vector<Eigenschaft>> callback);
+	
+	void insertTeilhaberschaftKontakt(int kontaktID, int eigenschaftsauspraegungID, int teilhaberID,
+			AsyncCallback<Teilhaberschaft> callback);
 
 	void insertMeineKontakte(String bez, int status, int nutzerID, AsyncCallback<Kontaktliste> callback);
 

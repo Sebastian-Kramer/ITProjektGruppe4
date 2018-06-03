@@ -4,6 +4,8 @@ import java.util.Vector;
 
 import com.google.gwt.cell.client.CheckboxCell;
 import com.google.gwt.cell.client.ClickableTextCell;
+import com.google.gwt.event.dom.client.ClickEvent;
+import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.cellview.client.CellTable;
 import com.google.gwt.user.cellview.client.Column;
 import com.google.gwt.user.client.Cookies;
@@ -25,6 +27,7 @@ import de.hdm.itprojektgruppe4.shared.KontaktAdministrationAsync;
 import de.hdm.itprojektgruppe4.shared.bo.Kontakt;
 import de.hdm.itprojektgruppe4.shared.bo.Kontaktliste;
 import de.hdm.itprojektgruppe4.shared.bo.Nutzer;
+import de.hdm.itprojektgruppe4.shared.bo.Teilhaberschaft;
 import de.hdm.itprojektgruppe4.shared.bo.Eigenschaft;
 import de.hdm.itprojektgruppe4.shared.bo.Eigenschaftauspraegung;
 
@@ -36,9 +39,13 @@ public class TeilhaberschaftForm extends VerticalPanel {
 	Kontaktliste konList = new Kontaktliste();
 	Kontaktliste selectedKontaktlist = null;
 	Nutzer nutzer = new Nutzer();
+	Nutzer teilNutzer = new Nutzer();
 
 	private VerticalPanel vpanel = new VerticalPanel();
 	private HorizontalPanel hpanel = new HorizontalPanel();
+	
+	private Vector<Eigenschaftauspraegung> vecAus = new Vector<Eigenschaftauspraegung>();
+	private Vector<Eigenschaft> vecEig = new Vector<Eigenschaft>();
 
 	private Button teilen = new Button("teilen");
 	private Button allTeilen = new Button("Alle Eigenschaftsausprägung teilen");
@@ -81,6 +88,7 @@ public class TeilhaberschaftForm extends VerticalPanel {
 			@Override
 			public Boolean getValue(Eigenschaftauspraegung object) {
 				return selectionModelAus.isSelected(object);
+				
 			}
 
 		};
@@ -103,6 +111,19 @@ public class TeilhaberschaftForm extends VerticalPanel {
 			}
 
 		};
+		
+		allTeilen.addClickHandler(new ClickHandler() {
+
+			@Override
+			public void onClick(ClickEvent event) {
+				verwaltung.findNutzerByEmail(dropBoxNutzer.getSelectedItemText(), new NutzerIDFromEmail());
+				for (Eigenschaftauspraegung ea : vecAus){
+					verwaltung.insertTeilhaberschaftKontakt(kon.getID(), ea.getID(), teilNutzer.getID(), new TeilhaberschaftAll());
+				}
+				
+			}
+			
+		});
 
 		cellAus.setStyleName("CellTableAuspraegung");
 		cellAus.setWidth("500px");
@@ -160,6 +181,7 @@ public class TeilhaberschaftForm extends VerticalPanel {
 		public void onSuccess(Vector<Eigenschaft> result) {
 			cellEig.setRowCount(result.size(), true);
 			cellEig.setRowData(0, result);
+			vecEig = result;
 		}
 
 	}
@@ -174,12 +196,45 @@ public class TeilhaberschaftForm extends VerticalPanel {
 
 		@Override
 		public void onSuccess(Vector<Eigenschaftauspraegung> result) {
-
 			cellAus.setRowCount(result.size(), true);
 			cellAus.setRowData(0, result);
+			vecAus = result;
 
 		}
 
+	}
+	
+	class NutzerIDFromEmail implements AsyncCallback<Nutzer>{
+
+		@Override
+		public void onFailure(Throwable caught) {
+			Window.alert("Der Nutzer konnte leider nicht gefunden werden");
+			
+		}
+
+		@Override
+		public void onSuccess(Nutzer result) {
+			teilNutzer = result;
+			Window.alert(" " + result.getID());
+			
+		}
+		
+	}
+	
+	class TeilhaberschaftAll implements AsyncCallback<Teilhaberschaft>{
+
+		@Override
+		public void onFailure(Throwable caught) {
+			Window.alert("Die Teilhaberschaft konnte nicht angelegt werden");
+			
+		}
+
+		@Override
+		public void onSuccess(Teilhaberschaft result) {
+			Window.alert("Die Teilhaberschaft wurde angelegt");
+			
+		}
+		
 	}
 
 }
