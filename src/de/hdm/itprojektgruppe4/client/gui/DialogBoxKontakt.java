@@ -18,6 +18,7 @@ import de.hdm.itprojektgruppe4.shared.bo.Kontakt;
 public class DialogBoxKontakt extends DialogBox{
 
 	KontaktAdministrationAsync verwaltung = ClientsideSettings.getKontaktVerwaltung();
+	KontaktlisteKontaktTreeViewModel kktvw = null;
 	
 	private VerticalPanel vpanel = new VerticalPanel();
 	private HorizontalPanel hpanel = new HorizontalPanel();
@@ -79,6 +80,12 @@ public class DialogBoxKontakt extends DialogBox{
 			RootPanel.get("Details").clear();
 			RootPanel.get("Details").add(mf);
 		}}
+	  
+	  
+	  void setKktvw(KontaktlisteKontaktTreeViewModel kktvw) {
+			this.kktvw = kktvw;
+		}
+		
 	   
 	}
 

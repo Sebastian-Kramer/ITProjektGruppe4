@@ -15,6 +15,7 @@ import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwt.user.client.ui.TextBox;
 
 import de.hdm.itprojektgruppe4.client.ClientsideSettings;
+import de.hdm.itprojektgruppe4.client.NavigationTree;
 import de.hdm.itprojektgruppe4.shared.KontaktAdministrationAsync;
 import de.hdm.itprojektgruppe4.shared.bo.Kontaktliste;
 import de.hdm.itprojektgruppe4.shared.bo.Nutzer;
@@ -22,6 +23,7 @@ import de.hdm.itprojektgruppe4.shared.bo.Nutzer;
 public class DialogBoxNewKontaktliste extends DialogBox {
 
 	private static KontaktAdministrationAsync verwaltung = ClientsideSettings.getKontaktVerwaltung();
+	KontaktlisteKontaktTreeViewModel kktvm = null;
 
 	private VerticalPanel vpanel = new VerticalPanel();
 
@@ -69,8 +71,11 @@ public class DialogBoxNewKontaktliste extends DialogBox {
 			hide();
 			verwaltung.insertKontaktliste(boxBez.getText(), 0, nutzer.getID(), new Liste());
 			MainForm mf = new MainForm();
+			NavigationTree navigation = new NavigationTree();
 			RootPanel.get("Details").clear();
+			RootPanel.get("Navigation").clear();
 			RootPanel.get("Buttonbar").clear();
+			RootPanel.get("Navigation").add(navigation);
 			RootPanel.get("Details").add(mf);						
 
 		}
@@ -87,10 +92,17 @@ public class DialogBoxNewKontaktliste extends DialogBox {
 
 		@Override
 		public void onSuccess(Kontaktliste result) {
+			kktvm.addKontaktliste(result);
+			
 			Window.alert("Die Kontaktliste wurde erfolgreich angelegt");
 
 		}
 
 	}
+	
+	void setKktvw(KontaktlisteKontaktTreeViewModel kktvm) {
+		this.kktvm = kktvm;
+	}
+	
 
 }

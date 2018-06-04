@@ -145,6 +145,8 @@ public interface KontaktAdministrationAsync {
 
 	void insertMeineKontakte(String bez, int status, int nutzerID, AsyncCallback<Kontaktliste> callback);
 
+	void findAllKontaktFromNutzer(int nutzerID, AsyncCallback<Vector<Kontakt>> callback);
+
 
 
 
