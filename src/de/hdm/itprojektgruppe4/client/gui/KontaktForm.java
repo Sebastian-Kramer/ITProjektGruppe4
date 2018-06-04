@@ -82,12 +82,11 @@ public class KontaktForm extends VerticalPanel {
 		
 		HTML html1 = new HTML("<h2>" +  k.getName()   + "</h2>"); 
 		HTML html2 = new HTML("Erstellt am: " + k.getErzeugungsdatum());
-		HTML html3 = new HTML("Zuletzt ge�ndert am: " + k.getModifikationsdatum());
+		HTML html3 = new HTML("Zuletzt geändert am: " + k.getModifikationsdatum());
 		super.onLoad();
 		verwaltung.findAllEigenschaft(new AllEigenschaftCallback());
 		ctf = new CellTableForm(k);
-		
-		
+			
 		
 		hpanel.add(vpanelDetails1);
 		hpanel.add(ctf);

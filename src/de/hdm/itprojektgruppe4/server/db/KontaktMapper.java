@@ -315,7 +315,7 @@ public class KontaktMapper extends PersonMapper {
 		try{
 			Statement stmt = con.createStatement();
 			
-			ResultSet rs = stmt.executeQuery("SELECT ID, name FROM kontakt "+ "WHERE nutzerID= " + nutzerID
+			ResultSet rs = stmt.executeQuery("SELECT ID, name, erzeugungsdatum, modifikationsdatum, status, nutzerID FROM kontakt "+ "WHERE nutzerID= " + nutzerID
 					 + " ORDER by ID");
 			
 					
@@ -323,7 +323,11 @@ public class KontaktMapper extends PersonMapper {
 			Kontakt k = new Kontakt();
 			k.setID(rs.getInt("ID"));
 			k.setName(rs.getString("name"));
-		
+			k.setErzeugungsdatum(rs.getDate("erzeugungsdatum"));
+			k.setModifikationsdatum(rs.getDate("modifikationsdatum"));
+			k.setStatus(rs.getInt("status"));
+			k.setNutzerID(rs.getInt("nutzerID"));
+			
 			result.addElement(k);
 		}			
 		}catch (SQLException e){

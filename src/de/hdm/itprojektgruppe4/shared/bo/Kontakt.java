@@ -101,7 +101,7 @@ public class Kontakt extends Person{
 		
 	}
 
-
+	
 
 
 }
