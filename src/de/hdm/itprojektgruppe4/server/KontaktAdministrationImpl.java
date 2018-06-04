@@ -209,9 +209,30 @@ public class KontaktAdministrationImpl extends RemoteServiceServlet
 		return this.konMapper.findKontaktByName(name);
 	}
 	
+	/**
+	 * Ausgabe eines Vectors mit sämtlichen geteilten und erstellten Kontakten eines Nutzers
+	 * 
+	 * @param nutzerID
+	 * @return Vector mit sämtlichen geteilten und erstellten Kontakten des Nutzers
+	 * @throws IllegalArgumentException
+	 */
+	@Override
+	public Vector<Kontakt> findAllKontaktFromNutzer(int nutzerID) throws IllegalArgumentException {
+		Vector<Kontakt> kontakte = findKontaktByNutzerID(nutzerID);
+		Vector<Teilhaberschaft> teilhabe = getAllTeilhaberschaftenFromUser(nutzerID);
+		
+		if(teilhabe!=null){
+		Vector<Kontakt> kont = new Vector<Kontakt>();
+		for(Teilhaberschaft t : teilhabe){
+			kont.add(findKontaktByID(t.getTeilhaberID()));	
+		}
+		kontakte.addAll(kont);
+		}
+		return kontakte;
+	}
 	
 	/**
-     * ï¿½berschreiben eines <code>Kontakt</code>-Objekts.
+     * Ueberschreiben eines <code>Kontakt</code>-Objekts.
      * 
      * @param k das zu bearbeitende Kontakt-Objekt
      * @return das bearbeitete Kontakt-Objekt
@@ -852,7 +873,7 @@ public class KontaktAdministrationImpl extends RemoteServiceServlet
      */
 	@Override
 	public Vector<Kontaktliste> getAllKontaktlistenFromUser(int nutzerID) throws IllegalArgumentException {
-	 //Instantiieren der benï¿½tigten Vectoren um Kontaktlisten und Teilhaberschaft Objekte abspeichern zu kï¿½nnen 
+	 //Instantiieren der benoetigten Vectoren um Kontaktlisten und Teilhaberschaft Objekte abspeichern zu kï¿½nnen 
 	Vector<Kontaktliste> kontlisten = findKontaktlisteByNutzerID(nutzerID);
 	  Vector<Teilhaberschaft> teilhabe = getAllTeilhaberschaftenFromUser(nutzerID);
 	  
@@ -860,6 +881,7 @@ public class KontaktAdministrationImpl extends RemoteServiceServlet
 	 if (teilhabe != null){
 		 Vector<Kontaktliste> kontlist = new Vector<Kontaktliste>();
 		 for (Teilhaberschaft teilhaberschaft : teilhabe) {
+			 if(teilhaberschaft.getTeilhaberID() == nutzerID);
 	 	kontlist.add(findKontaktlisteByID(teilhaberschaft.getKontaktListeID()));
 	}
 		//Hinzufuegen der Kontaktlisten an denen eine Teilhaberschaft besteht zum Vector mit den eigens erstellten Kontaktlisten
@@ -1093,6 +1115,10 @@ public class KontaktAdministrationImpl extends RemoteServiceServlet
 		// TODO Auto-generated method stub
 		return this.eigMapper.getEigenschaftByBezeichnung(bez);
 	}
+
+
+
+
 
 
 

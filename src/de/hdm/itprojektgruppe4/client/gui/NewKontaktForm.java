@@ -35,6 +35,7 @@ import de.hdm.itprojektgruppe4.shared.bo.Kontakt;
 import de.hdm.itprojektgruppe4.shared.bo.Kontaktliste;
 import de.hdm.itprojektgruppe4.shared.bo.Nutzer;
 
+
 public class NewKontaktForm extends VerticalPanel {
 
 KontaktAdministrationAsync verwaltung = ClientsideSettings.getKontaktVerwaltung();
@@ -74,6 +75,8 @@ KontaktAdministrationAsync verwaltung = ClientsideSettings.getKontaktVerwaltung(
 	private Kontakt kontakt1 = new Kontakt();
 	
 	private Nutzer nutzer = new Nutzer();
+	
+	KontaktlisteKontaktTreeViewModel kktvw = null;
 	
 	private Eigenschaftauspraegung eigaus = new Eigenschaftauspraegung();
 	
@@ -221,6 +224,7 @@ KontaktAdministrationAsync verwaltung = ClientsideSettings.getKontaktVerwaltung(
 			kontakt1.setID(result.getID());
 			Window.alert("Kontakt " +result.getName() + " wurde  erstellt");
 			verwaltung.insertBasicAuspraegung("", 0, result.getID(), new BasicAuspraegungenCallback());
+			
 		}
 		
 	}
@@ -343,5 +347,6 @@ KontaktAdministrationAsync verwaltung = ClientsideSettings.getKontaktVerwaltung(
 		}
 		
 	}
+	
 	
 }

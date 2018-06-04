@@ -32,9 +32,10 @@ import de.hdm.itprojektgruppe4.client.gui.UpdateKontaktForm.AllEigenschaftCallba
 import de.hdm.itprojektgruppe4.shared.KontaktAdministrationAsync;
 import de.hdm.itprojektgruppe4.shared.bo.*;
 
+
 /**
  * Die Klasse <code>KontaktFrom</code> dient zur Darstellung des selektierten Kontaktes
- * @author Raphael
+ * 
  *
  */
 
@@ -45,6 +46,7 @@ public class KontaktForm extends VerticalPanel {
 	Kontakt k = new Kontakt();
 	Kontakt kon = null;
 	
+	KontaktlisteKontaktTreeViewModel kktvw = null;
 	
 	private HorizontalPanel hpanel = new HorizontalPanel();
 	

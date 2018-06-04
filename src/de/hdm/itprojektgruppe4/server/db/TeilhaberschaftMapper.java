@@ -193,6 +193,7 @@ public class TeilhaberschaftMapper {
 				teilhaberschaft.setKontaktID(rs.getInt("kontaktID"));
 				teilhaberschaft.setEigenschaftsauspraegungID(rs.getInt("eigenschaftsauspraegungID"));
 				teilhaberschaft.setTeilhaberID(rs.getInt("teilhaberID"));
+				teilhaberschaft.setNutzerID(rs.getInt("nutzerID"));
 
 				result.addElement(teilhaberschaft);
 

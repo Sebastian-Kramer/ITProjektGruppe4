@@ -30,6 +30,7 @@ import com.google.gwt.view.client.HasData;
 import de.hdm.itprojektgruppe4.shared.KontaktAdministrationAsync;
 import de.hdm.itprojektgruppe4.shared.bo.*;
 import de.hdm.itprojektgruppe4.client.ClientsideSettings;
+import de.hdm.itprojektgruppe4.client.NavigationTree;
 
 /**
  * Die Klasse dient zur Darstellung und Verwaltung von Kontaktlisten.
@@ -44,19 +45,20 @@ public class KontaktlisteForm extends VerticalPanel {
 	private ScrollPanel scrollPanel = new ScrollPanel();
 	
 	private KontaktCell kontaktcell = new KontaktCell();
-	private KontaktlisteCell kontaktlisteCell = null;
 	private CellList<Kontakt> kontaktCellList = new CellList<Kontakt>(kontaktcell);
 	private SingleSelectionModel<Kontakt> selectionModel = new SingleSelectionModel<Kontakt>();
 	
-	private Button kontaktlisteHinzufuegen = new Button();
+	 
+	private Button kontaktHinzufuegen = new Button("Kontakt hinzufuegen");
 	private Button kontaktlisteLoeschen = new Button("Kontaktliste loeschen");
 
 	private KontaktAdministrationAsync kontaktVerwaltung = ClientsideSettings.getKontaktverwaltung();
+	KontaktlisteKontaktTreeViewModel kktvm = new KontaktlisteKontaktTreeViewModel();
 	
 	private Kontaktliste kl = null;
 	
 	/**
-	 * Konstruktor, der beim Auswï¿½hlen einer Kontaktliste im Baum eingesetzt wird.
+	 * Konstruktor, der beim Auswaehlen einer Kontaktliste im Baum eingesetzt wird.
 	 * @param kontaktliste
 	 */
 	public KontaktlisteForm(Kontaktliste kontaktliste){
@@ -72,26 +74,31 @@ public class KontaktlisteForm extends VerticalPanel {
 		//Instantiieren des DataProviders, der die Daten fï¿½r die Liste hï¿½lt
 		KontakteDataProvider dataProvider = new KontakteDataProvider();
 		dataProvider.addDataDisplay(kontaktCellList);
-		
-		kontaktCellList.setSelectionModel(selectionModel);
-		
 	
-
-		scrollPanel.setSize("450px", "200px");
+		kontaktCellList.setSelectionModel(selectionModel);
 		scrollPanel.setStyleName("scrollPanel");
 		kontaktCellList.setStyleName("cellListKontakte");
 		scrollPanel.add(kontaktCellList);
-		
-		//vpanel.add(kontaktCellList);
+		HTML html1 = new HTML("<h2>" +  kl.getBez()   + "</h2>");
+	
+		/*
+		 * Hinzufügen der Buttons zur Buttonbar
+		 */
 		RootPanel.get("Buttonbar").clear();
-		hpanelButtonbar.add(kontaktlisteHinzufuegen);
 		hpanelButtonbar.add(kontaktlisteLoeschen);
+		hpanelButtonbar.add(kontaktHinzufuegen);
 		RootPanel.get("Buttonbar").add(hpanelButtonbar);
+		
+		/*
+		 * Hinzufügen der Überschrift und der CellList zum Vertical Panel
+		 */
+		vpanel.add(html1);
 		vpanel.add(scrollPanel);
 		vpanel.add(kontaktCellList);
 		RootPanel.get("Details").add(vpanel);
 	
 		kontaktlisteLoeschen.addClickHandler(new KontaktlisteloeschenClickhandler());
+		kontaktHinzufuegen.addClickHandler(new KontaktHinzufuegenClickhandler());
 
 	}
 	
@@ -116,14 +123,8 @@ public class KontaktlisteForm extends VerticalPanel {
 		
 	}
 	
-	void setSelected(Kontaktliste kl){
-		this.kl = kl;
-		
-	}
-	
-	
 	/**
-	 * Nested Class, fÃ¼r den Kontaktliste lÃ¶schen Button.
+	 * Nested Class, fuer den Kontaktliste loeschen Button.
 	 */
 	
 	private class KontaktlisteloeschenClickhandler implements ClickHandler{
@@ -132,9 +133,38 @@ public class KontaktlisteForm extends VerticalPanel {
 		public void onClick(ClickEvent event) {
 			// TODO Auto-generated method stub
 			kontaktVerwaltung.deleteKontaktliste(kl, new KontaktlisteloeschenCallback());
+			kktvm.removeKontaktliste(kl);
+			
+		}
+	}
+	/**
+	 * Nested Class um den Button zum Hinzufuegen von Kontakten zur Kontaktliste bedienen zu können
+	 */
+	private class KontaktHinzufuegenClickhandler implements ClickHandler{
+
+		@Override
+		public void onClick(ClickEvent event) {
+			DialogBoxKontaktZuKontaktliste dialogKontakt = new DialogBoxKontaktZuKontaktliste(kl);
+			dialogKontakt.center();
+			
+			
 		}
 		
 	}
+		
+	
+	void setKktvw(KontaktlisteKontaktTreeViewModel kktvm) {
+		this.kktvm = kktvm;
+	}
+	
+	void setSelected(Kontaktliste kl){
+		this.kl = kl;
+		
+	}
+	
+	
+
+	
 	
 	private class KontaktlisteloeschenCallback implements AsyncCallback<Void> {
 
@@ -146,8 +176,14 @@ public class KontaktlisteForm extends VerticalPanel {
 
 		@Override
 		public void onSuccess(Void result) {
-			// TODO Auto-generated method stub
 			Window.alert("Kontaktliste wurde erfolgreich gelÃ¶scht");
+			MainForm main = new MainForm();
+			NavigationTree updatedTree = new NavigationTree();
+			RootPanel.get("Navigator").clear();
+			RootPanel.get("Details").clear();
+			RootPanel.get("Buttonbar").clear();
+			RootPanel.get("Details").add(main);
+			RootPanel.get("Navigator").add(updatedTree);
 			
 		}
 
@@ -155,7 +191,7 @@ public class KontaktlisteForm extends VerticalPanel {
 	}
 	
 	/**
-	 * Hier wird der DataProvider mit den entsprechenden Daten fï¿½r die CellList erstellt.
+	 * Hier wird der DataProvider mit den entsprechenden Daten fuer die CellList erstellt.
 	 */
 	private class KontakteDataProvider extends AsyncDataProvider<Kontakt>{
 
