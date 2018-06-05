@@ -189,6 +189,7 @@ KontaktAdministrationAsync verwaltung = ClientsideSettings.getKontaktVerwaltung(
 			Window.alert("Kontakt " +result.getName() + " wurde  erstellt");
 			verwaltung.insertBasicAuspraegung("", 0, result.getID(), new BasicAuspraegungenCallback());
 			
+			
 		}
 		
 	}

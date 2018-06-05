@@ -241,6 +241,72 @@ public class KontaktlisteMapper {
 		
 		}
 		
+		public Kontaktliste findBasicKontaktliste(int nutzerID){
+			
+			Connection con = DBConnection.connection();
+
+			try {
+				
+			
+			Statement stmt = con.createStatement();
+			
+			ResultSet rs = stmt.executeQuery(
+					
+			"SELECT ID, bez, status, nutzerID FROM `kontaktliste` WHERE `bez`=" + "'Meine Kontakte'" 
+			+" " + "AND `nutzerID` =" + nutzerID);
+
+			if (rs.next()) {
+				Kontaktliste kl = new Kontaktliste();
+				kl.setID(rs.getInt("ID"));
+				kl.setBez(rs.getString("bez"));
+				kl.setStatus(rs.getInt("status"));
+				kl.setNutzerID(rs.getInt("nutzerID"));
+				
+				return kl;
+			}
+			
+		}catch (SQLException e) {
+			e.printStackTrace();
+			return null;
+		}
+		return null;
+
+		}
+			
+		
+		public Kontaktliste findKontaktliste(int nutzerID, String bez){
+			
+			Connection con = DBConnection.connection();
+
+			try {
+				
+			
+			Statement stmt = con.createStatement();
+			
+			ResultSet rs = stmt.executeQuery(
+					
+			"SELECT ID, bez, status, nutzerID FROM kontaktliste WHERE bez='" + bez
+			+ "' and nutzerID=" + nutzerID);
+
+			if (rs.next()) {
+				Kontaktliste kl = new Kontaktliste();
+				kl.setID(rs.getInt("ID"));
+				kl.setBez(rs.getString("bez"));
+				kl.setStatus(rs.getInt("status"));
+				kl.setNutzerID(rs.getInt("nutzerID"));
+				
+				return kl;
+			}
+			
+		}catch (SQLException e) {
+			e.printStackTrace();
+			return null;
+		}
+		return null;
+
+		}
 		
 		
-}
+		
+		}
+		
