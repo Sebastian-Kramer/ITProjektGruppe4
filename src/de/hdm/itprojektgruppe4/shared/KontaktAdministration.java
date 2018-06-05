@@ -496,6 +496,14 @@ public interface KontaktAdministration extends RemoteService {
 	 * @throws IllegalArgumentException
 	 */
 	public Vector<Kontakt> findAllKontaktFromNutzer(int nutzerID) throws IllegalArgumentException;
+	
+	/**
+	 * Eine Teilhaberschaft an einer Kontaktliste löschen
+	 * 
+	 * @param kontaktlisteID die ID der Kontaktliste, an der die Teilhaberchaft aufgelöst werden soll
+	 * @throws IllegalArgumentException
+	 */
+	public void deleteTeilhaberschaftByKontaktlisteID(int kontaktlisteID) throws IllegalArgumentException;
 
     /**
      * @param name 

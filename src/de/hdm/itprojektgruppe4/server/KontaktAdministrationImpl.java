@@ -1021,6 +1021,18 @@ public class KontaktAdministrationImpl extends RemoteServiceServlet
 		this.teilhaberschaftMapper.deleteTeilhaberschaft(t);
 		
 	}
+	
+	/**
+	 * Eine Teilhaberschaft an einer Kontaktliste löschen
+	 * 
+	 * @param kontaktlisteID die ID der Kontaktliste, an der die Teilhaberchaft aufgelöst werden soll
+	 * @throws IllegalArgumentException
+	 */
+	@Override
+	public void deleteTeilhaberschaftByKontaktlisteID(int kontaktlisteID) throws IllegalArgumentException {
+		this.teilhaberschaftMapper.deleteTeilhaberschaftByKontaktlisteID(kontaktlisteID);
+		
+	}
 
 	/**
      * Eine Teilhaberschaft an einem Kontakt loeschen.
@@ -1115,6 +1127,10 @@ public class KontaktAdministrationImpl extends RemoteServiceServlet
 		// TODO Auto-generated method stub
 		return this.eigMapper.getEigenschaftByBezeichnung(bez);
 	}
+
+
+	
+
 
 
 
