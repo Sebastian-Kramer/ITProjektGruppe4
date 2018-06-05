@@ -8,6 +8,7 @@ import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.i18n.client.NumberFormat;
 import com.google.gwt.user.cellview.client.CellList;
+import com.google.gwt.user.client.Cookies;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Button;
@@ -26,6 +27,7 @@ import com.google.gwt.user.client.ui.ScrollPanel;
 import com.google.gwt.user.cellview.client.SimplePager;
 import com.google.gwt.view.client.AsyncDataProvider;
 import com.google.gwt.view.client.HasData;
+import com.google.gwt.user.client.ui.FlowPanel;
 
 import de.hdm.itprojektgruppe4.shared.KontaktAdministrationAsync;
 import de.hdm.itprojektgruppe4.shared.bo.*;
@@ -43,6 +45,7 @@ public class KontaktlisteForm extends VerticalPanel {
 	private HorizontalPanel hpanelButtonbar = new HorizontalPanel();
 	
 	private ScrollPanel scrollPanel = new ScrollPanel();
+	private FlowPanel fpanel = new FlowPanel();
 	
 	private KontaktCell kontaktcell = new KontaktCell();
 	private CellList<Kontakt> kontaktCellList = new CellList<Kontakt>(kontaktcell);
@@ -56,6 +59,7 @@ public class KontaktlisteForm extends VerticalPanel {
 	KontaktlisteKontaktTreeViewModel kktvm = new KontaktlisteKontaktTreeViewModel();
 	
 	private Kontaktliste kl = null;
+	private Nutzer nutzer = new Nutzer();
 	
 	/**
 	 * Konstruktor, der beim Auswaehlen einer Kontaktliste im Baum eingesetzt wird.
@@ -71,7 +75,10 @@ public class KontaktlisteForm extends VerticalPanel {
 	public void onLoad(){
 		super.onLoad();
 		
-		//Instantiieren des DataProviders, der die Daten fï¿½r die Liste hï¿½lt
+		nutzer.setID(Integer.parseInt(Cookies.getCookie("id")));
+		nutzer.setEmail(Cookies.getCookie("email"));
+		
+		//Instantiieren des DataProviders, der die Daten fuer die Liste haelt
 		KontakteDataProvider dataProvider = new KontakteDataProvider();
 		dataProvider.addDataDisplay(kontaktCellList);
 	
@@ -85,29 +92,27 @@ public class KontaktlisteForm extends VerticalPanel {
 		 * Hinzufügen der Buttons zur Buttonbar
 		 */
 		RootPanel.get("Buttonbar").clear();
-		hpanelButtonbar.add(kontaktlisteLoeschen);
-		hpanelButtonbar.add(kontaktHinzufuegen);
-		RootPanel.get("Buttonbar").add(hpanelButtonbar);
+		fpanel.add(kontaktlisteLoeschen);
+		fpanel.add(kontaktHinzufuegen);
+		RootPanel.get("Buttonbar").add(fpanel);
 		
 		/*
-		 * Hinzufügen der Überschrift und der CellList zum Vertical Panel
+		 * Hinzufuegen der Überschrift und der CellList zum Vertical Panel
 		 */
 		vpanel.add(html1);
 		vpanel.add(scrollPanel);
 		vpanel.add(kontaktCellList);
 		RootPanel.get("Details").add(vpanel);
+		
 	
 		kontaktlisteLoeschen.addClickHandler(new KontaktlisteloeschenClickhandler());
 		kontaktHinzufuegen.addClickHandler(new KontaktHinzufuegenClickhandler());
 
 	}
 	
-	
-	
-
 	/**
-	 * Nested Class, die es ermï¿½glicht, auf Selektionsereignisse in der CellList zu reagieren.
-	 * Bei aktivieren der Selektion wird die <code>KontaktForm</code> aufgerufen, um den ausgewï¿½hlten
+	 * Nested Class, die es ermoeglicht, auf Selektionsereignisse in der CellList zu reagieren.
+	 * Bei aktivieren der Selektion wird die <code>KontaktForm</code> aufgerufen, um den ausgewaehlten
 	 * Kontakt anzuzeigen.
 	 */
 	private class SelectionChangeEventHandler implements SelectionChangeEvent.Handler{
@@ -124,16 +129,21 @@ public class KontaktlisteForm extends VerticalPanel {
 	}
 	
 	/**
-	 * Nested Class, fuer den Kontaktliste loeschen Button.
+	 * Clickhandler, der das Löschen von Kontaktlisten bzw. die Auflösung einer Teilhaberschaft bei Klick ermöglicht
 	 */
-	
 	private class KontaktlisteloeschenClickhandler implements ClickHandler{
 
 		@Override
 		public void onClick(ClickEvent event) {
-			// TODO Auto-generated method stub
+			 //Wenn die ausgewählte Kontaktliste vom Nutzer erstellt wurde wird diese gelöscht
+		if(kl.getNutzerID() == nutzer.getID()){
 			kontaktVerwaltung.deleteKontaktliste(kl, new KontaktlisteloeschenCallback());
-			kktvm.removeKontaktliste(kl);
+			}
+			//Wenn nur eine Teilhaberschaft an der Kontaktliste besteht, wird nur diese aufgelöst	
+			else{
+				kontaktVerwaltung.deleteTeilhaberschaftByKontaktlisteID(kl.getID(), new KontaktlisteloeschenCallback());
+			}
+		
 			
 		}
 	}
@@ -165,18 +175,17 @@ public class KontaktlisteForm extends VerticalPanel {
 	
 
 	
-	
 	private class KontaktlisteloeschenCallback implements AsyncCallback<Void> {
 
 		@Override
 		public void onFailure(Throwable caught) {
 			// TODO Auto-generated method stub
-			Window.alert("Kontaktliste wurde nicht gelÃ¶scht");
+			Window.alert("Kontaktliste wurde nicht geloescht");
 		}
 
 		@Override
 		public void onSuccess(Void result) {
-			Window.alert("Kontaktliste wurde erfolgreich gelÃ¶scht");
+			Window.alert("Kontaktliste wurde erfolgreich geloescht");
 			MainForm main = new MainForm();
 			NavigationTree updatedTree = new NavigationTree();
 			RootPanel.get("Navigator").clear();

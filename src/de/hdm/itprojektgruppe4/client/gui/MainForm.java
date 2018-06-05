@@ -63,14 +63,13 @@ public class MainForm extends VerticalPanel {
 
 	public MainForm() {
 
-		
+
 		nutzer.setID(Integer.parseInt(Cookies.getCookie("id")));
 		nutzer.setEmail(Cookies.getCookie("email"));
 
 		Window.alert(nutzer.getEmail());
 
 		verwaltung.findKontaktByNutzerID(nutzer.getID(), new KontaktCallBack());
-		
 	
 		cellList.setSelectionModel(selectionModel);
 		

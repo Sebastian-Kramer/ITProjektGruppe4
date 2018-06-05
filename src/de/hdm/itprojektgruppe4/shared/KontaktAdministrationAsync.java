@@ -147,6 +147,8 @@ public interface KontaktAdministrationAsync {
 
 	void findAllKontaktFromNutzer(int nutzerID, AsyncCallback<Vector<Kontakt>> callback);
 
+	void deleteTeilhaberschaftByKontaktlisteID(int kontaktlisteID, AsyncCallback<Void> callback);
+
 
 
 
