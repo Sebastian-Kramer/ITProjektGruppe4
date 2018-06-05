@@ -31,7 +31,7 @@ public class KontaktKontaktlisteMapper {
 	
 	
 	/**
-	 * Hinzuf�gen eines neuen Objektes der Klasse KontaktKontaktliste in die Datenbank.
+	 * Hinzufuegen eines neuen Objektes der Klasse KontaktKontaktliste in die Datenbank.
 	 * @param k
 	 * @return k
 	 */
@@ -128,7 +128,7 @@ public class KontaktKontaktlisteMapper {
 	
 	
 	/**
-	 * Erm�glicht das L�schen eines Objektes der Klasse KontaktKontaktliste anhand der ID.
+	 * Ermoeglicht das Loeschen eines Objektes der Klasse KontaktKontaktliste anhand der ID.
 	 * @param k
 	 */
 	public void deleteKontaktKontaktliste (KontaktKontaktliste k){

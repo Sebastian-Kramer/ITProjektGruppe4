@@ -26,6 +26,7 @@ import com.google.gwt.view.client.MultiSelectionModel;
 import com.google.gwt.view.client.SelectionModel;
 import com.google.gwt.view.client.SingleSelectionModel;
 
+
 import de.hdm.itprojektgruppe4.client.ClientsideSettings;
 import de.hdm.itprojektgruppe4.client.NavigationTree;
 import de.hdm.itprojektgruppe4.shared.KontaktAdministrationAsync;
@@ -34,6 +35,11 @@ import de.hdm.itprojektgruppe4.shared.bo.Nutzer;
 import de.hdm.itprojektgruppe4.shared.bo.Kontakt;
 import de.hdm.itprojektgruppe4.shared.bo.KontaktKontaktliste;
 
+/**
+ * Die Klasse <code>DialogBoxKontaktZuKontaktliste</code> ermöglicht das Hinzufuegen eines Kontaktes oder mehrerer Kontakte
+ * @author Raphael
+ *
+ */
 public class DialogBoxKontaktZuKontaktliste extends DialogBox {
 	
 	private static KontaktAdministrationAsync kontaktVerwaltung = ClientsideSettings.getKontaktVerwaltung();
@@ -44,6 +50,7 @@ public class DialogBoxKontaktZuKontaktliste extends DialogBox {
 	private VerticalPanel vpanel = new VerticalPanel();
 	private KontaktCell kontaktCell = new KontaktCell();
 	
+	
 	private MultiSelectionModel<Kontakt> kontaktSelection = new MultiSelectionModel<Kontakt>();
 	
 	private CellTable<Kontakt> kontaktTable = new CellTable<Kontakt>();
@@ -53,6 +60,9 @@ public class DialogBoxKontaktZuKontaktliste extends DialogBox {
 	private Button kontakteHinzufuegen = new Button("Hinzufuegen");
 	private Vector<Kontakt> kontaktVector = new Vector<Kontakt>();
 	
+	/*
+	 * Konstruktor der beim Aufrufen der DialogBox zum Einsatz kommt
+	 */
 	DialogBoxKontaktZuKontaktliste(Kontaktliste kl){
 		this.kl = kl;
 	}
@@ -66,6 +76,9 @@ public class DialogBoxKontaktZuKontaktliste extends DialogBox {
 		kontaktVerwaltung.findAllKontaktFromNutzer(nutzer.getID(), new AlleKontakteVonNutzer());
 		kontaktTable.setSelectionModel(kontaktSelection, DefaultSelectionEventManager.<Kontakt>createCheckboxManager());
 		
+		/*
+		 * Erstellen einer Checkbox um Kontakte in der CellTable auswählen zu können
+		 */
 		Column<Kontakt, Boolean> checkBox = new Column<Kontakt, Boolean>(new CheckboxCell(true, false)){
 
 			@Override
@@ -80,7 +93,6 @@ public class DialogBoxKontaktZuKontaktliste extends DialogBox {
 
 			@Override
 			public String getValue(Kontakt object) {
-				// TODO Auto-generated method stub
 				return object.getName();
 			}
 			
@@ -90,9 +102,18 @@ public class DialogBoxKontaktZuKontaktliste extends DialogBox {
 
 			@Override
 			public void onClick(ClickEvent event) {
-				for(Kontakt k : kontaktVector){
+				
+					for(Kontakt k : kontaktSelection.getSelectedSet()){
 					kontaktVerwaltung.insertKontaktKontaktliste(k.getID(), kl.getID(), new KontaktHinzufuegen());
-				}
+					}
+					DialogBoxKontaktZuKontaktliste.this.hide();
+					KontaktlisteForm kontaktlisteForm = new KontaktlisteForm(kl);
+					NavigationTree updatedNavigation = new NavigationTree();
+					RootPanel.get("Details").clear();
+					RootPanel.get("Navigator").clear();
+					RootPanel.get("Details").add(kontaktlisteForm);;
+					RootPanel.get("Navigator").add(updatedNavigation);
+				
 				
 			}
 			
@@ -107,8 +128,19 @@ public class DialogBoxKontaktZuKontaktliste extends DialogBox {
 			}
 			
 		});
+		
+		kontaktTable.addColumn(kontakt);
+		kontaktTable.addColumn(checkBox);
+		vpanel.add(kontaktTable);
+		vpanel.add(kontakteHinzufuegen);
+		vpanel.add(abbrechen);
+		this.add(vpanel);
 	}
 	
+	/**
+	 * Callback-Klasse um alle Kontakte eines Nutzers mithilfe eines Callbacks zu erhalten.
+	 * Die im <code>Vector<Kontakt> result</code> gespeicherten Kontakt-Objekte werden der CellTable hinzugefügt.
+	 */
 	class AlleKontakteVonNutzer implements AsyncCallback<Vector<Kontakt>>{
 
 		@Override
@@ -127,6 +159,10 @@ public class DialogBoxKontaktZuKontaktliste extends DialogBox {
 		
 	}
 	
+	/**
+	 * Callback-Klasse um beim betätigen des Buttons <code>kontakteHinzufuegen</code> die entsprechenden
+	 * Kontakt-Objekte zu speichern. 
+	 */
 	class KontaktHinzufuegen implements AsyncCallback<KontaktKontaktliste>{
 
 		@Override

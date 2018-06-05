@@ -147,9 +147,13 @@ public interface KontaktAdministrationAsync {
 
 	void findAllKontaktFromNutzer(int nutzerID, AsyncCallback<Vector<Kontakt>> callback);
 
+
 	void findBasicKontaktliste(int nutzerID, AsyncCallback<Kontaktliste> callback);
 
 	void findKontaktliste(int nutzerID, String bez, AsyncCallback<Kontaktliste> callback);
+
+	void deleteTeilhaberschaftByKontaktlisteID(int kontaktlisteID, AsyncCallback<Void> callback);
+
 
 
 
