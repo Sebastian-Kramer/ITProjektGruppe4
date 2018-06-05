@@ -47,6 +47,8 @@ public class MainForm extends VerticalPanel {
 	private Button newKontakt = new Button("Neuer Kontakt anlegen");
 	private Button newKontaktliste = new Button("Neue Kontaktliste anlegen");
 	private Button newTeilhaberschaft = new Button("Kontaktliste teilen");
+	private Button suchen = new Button("Suchen");
+	
 	
 	private HTML html1 = new HTML("<h2>Meine Kontakte</h2>");
 
@@ -112,9 +114,22 @@ public class MainForm extends VerticalPanel {
 			}
 		});
 		
+		suchen.addClickHandler(new ClickHandler() {
+			
+			@Override
+			public void onClick(ClickEvent event) {
+				// TODO Auto-generated method stub
+				SuchenForm sf = new SuchenForm();
+				RootPanel.get("Details").clear();
+				RootPanel.get("Details").add(sf);
+			}
+		});
+		
+		
 		hpanelButtonBar.add(newTeilhaberschaft);
 		hpanelButtonBar.add(newKontaktliste);
 		hpanelButtonBar.add(newKontakt);
+		hpanelButtonBar.add(suchen);
 		
 		scrollPanel.setSize("450px", "200px");
 		scrollPanel.setStyleName("scrollPanel");

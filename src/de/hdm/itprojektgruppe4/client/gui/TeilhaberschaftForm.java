@@ -116,14 +116,10 @@ public class TeilhaberschaftForm extends VerticalPanel {
 
 			@Override
 			public void onClick(ClickEvent event) {
-				verwaltung.findNutzerByEmail(dropBoxNutzer.getSelectedItemText(), new NutzerIDFromEmail());
-				for (Eigenschaftauspraegung ea : vecAus){
-					
-					
-					verwaltung.insertTeilhaberschaftKontakt(kon.getID(), ea.getID(), teilNutzer.getID(), nutzer.getID(), new TeilhaberschaftAll());
-					
+				Window.alert(dropBoxNutzer.getSelectedValue());
+				verwaltung.findNutzerByEmail(dropBoxNutzer.getSelectedValue(), new NutzerIDFromEmail());
 				
-				}
+				
 				
 			}
 			
@@ -219,8 +215,15 @@ public class TeilhaberschaftForm extends VerticalPanel {
 		@Override
 		public void onSuccess(Nutzer result) {
 			teilNutzer = result;
-			Window.alert(" " + result.getID());
+			Window.alert("nutzerid : " +teilNutzer.getID());
 			
+			for (Eigenschaftauspraegung ea : vecAus){
+				
+			
+				verwaltung.insertTeilhaberschaftKontakt(kon.getID(), ea.getID(), teilNutzer.getID(), nutzer.getID(), new TeilhaberschaftAll());
+				
+			
+			}
 		}
 		
 	}
