@@ -26,39 +26,39 @@ import com.google.gwt.event.shared.HandlerRegistration;
 import com.google.gwt.event.dom.client.KeyDownHandler;
 
 import de.hdm.itprojektgruppe4.client.ClientsideSettings;
+import de.hdm.itprojektgruppe4.client.EigenschaftAuspraegungWrapper;
 import de.hdm.itprojektgruppe4.client.gui.UpdateKontaktForm.AuspraegungBearbeitenCallback;
 import de.hdm.itprojektgruppe4.shared.KontaktAdministrationAsync;
-import de.hdm.itprojektgruppe4.shared.bo.EigenschaftAuspraegungHybrid;
 import de.hdm.itprojektgruppe4.shared.bo.Kontakt;
 
-public class CellTableForm extends CellTable<EigenschaftAuspraegungHybrid> {
+public class CellTableForm extends CellTable<EigenschaftAuspraegungWrapper> {
 
-	private List<EigenschaftAuspraegungHybrid> eList = new ArrayList<>();
+	private List<EigenschaftAuspraegungWrapper> eList = new ArrayList<>();
 	KontaktAdministrationAsync verwaltung = ClientsideSettings.getKontaktVerwaltung();
 
-	private LinkedList<EigenschaftAuspraegungHybrid> getUserList() {
-		LinkedList<EigenschaftAuspraegungHybrid> list = new LinkedList<EigenschaftAuspraegungHybrid>();
+	private LinkedList<EigenschaftAuspraegungWrapper> getUserList() {
+		LinkedList<EigenschaftAuspraegungWrapper> list = new LinkedList<EigenschaftAuspraegungWrapper>();
 		return list;
 	}
 
-	final ListDataProvider<EigenschaftAuspraegungHybrid> model = new ListDataProvider<EigenschaftAuspraegungHybrid>(
+	final ListDataProvider<EigenschaftAuspraegungWrapper> model = new ListDataProvider<EigenschaftAuspraegungWrapper>(
 			getUserList());
 
-	private SingleSelectionModel<EigenschaftAuspraegungHybrid> sm = new SingleSelectionModel<EigenschaftAuspraegungHybrid>();
+	private SingleSelectionModel<EigenschaftAuspraegungWrapper> sm = new SingleSelectionModel<EigenschaftAuspraegungWrapper>();
 
-	public SingleSelectionModel<EigenschaftAuspraegungHybrid> getSm() {
+	public SingleSelectionModel<EigenschaftAuspraegungWrapper> getSm() {
 		return sm;
 	}
 
-	Column<EigenschaftAuspraegungHybrid, String> wertAuspraegung;
-
-	public Column<EigenschaftAuspraegungHybrid, String> getWertAuspraegung() {
-		return wertAuspraegung;
-	}
-
-	public void setWertAuspraegung(Column<EigenschaftAuspraegungHybrid, String> wertAuspraegung) {
-		this.wertAuspraegung = wertAuspraegung;
-	}
+//	Column<EigenschaftAuspraegungHybrid, String> wertAuspraegung;
+//
+//	public Column<EigenschaftAuspraegungHybrid, String> getWertAuspraegung() {
+//		return wertAuspraegung;
+//	}
+//
+//	public void setWertAuspraegung(Column<EigenschaftAuspraegungHybrid, String> wertAuspraegung) {
+//		this.wertAuspraegung = wertAuspraegung;
+//	}
 
 	public CellTableForm(final Kontakt k) {
 
@@ -66,37 +66,37 @@ public class CellTableForm extends CellTable<EigenschaftAuspraegungHybrid> {
 		
 		this.setStyleName("CellTableHyprid");
 
-		Column<EigenschaftAuspraegungHybrid, String> bezEigenschaft = new Column<EigenschaftAuspraegungHybrid, String>(
-				new ClickableTextCell()) {
-
-			@Override
-			public String getValue(EigenschaftAuspraegungHybrid object) {
-				// TODO Auto-generated method stub
-				return object.getEigenschaft();
-			}
-		};
-		bezEigenschaft.setCellStyleNames("bezEigenschaft");
-		this.addColumn(bezEigenschaft, "Eigenschaft");
-
-		wertAuspraegung = new Column<EigenschaftAuspraegungHybrid, String>(new EditTextCell()) {
-
-			@Override
-			public String getValue(EigenschaftAuspraegungHybrid object) {
-				// TODO Auto-generated method stub
-				return object.getAuspraegung();
-			}
-
-		};
-
-		this.addColumn(wertAuspraegung, "Auspraegung");
-
-		// ListDataProvider<EigenschaftAuspraegungHybrid> model = new
-		// ListDataProvider<EigenschaftAuspraegungHybrid>();
-		// model.addDataDisplay(this);
-		bezEigenschaft.setCellStyleNames("add-scrollbar");
-		bezEigenschaft.setSortable(true);
-		this.setHeight("300px");
-		this.setRowCount(getUserList().size());
+//		Column<EigenschaftAuspraegungHybrid, String> bezEigenschaft = new Column<EigenschaftAuspraegungHybrid, String>(
+//				new ClickableTextCell()) {
+//
+//			@Override
+//			public String getValue(EigenschaftAuspraegungHybrid object) {
+//				// TODO Auto-generated method stub
+//				return object.getEigenschaft();
+//			}
+//		};
+//		bezEigenschaft.setCellStyleNames("bezEigenschaft");
+//		this.addColumn(bezEigenschaft, "Eigenschaft");
+//
+//		wertAuspraegung = new Column<EigenschaftAuspraegungHybrid, String>(new EditTextCell()) {
+//
+//			@Override
+//			public String getValue(EigenschaftAuspraegungHybrid object) {
+//				// TODO Auto-generated method stub
+//				return object.getAuspraegung();
+//			}
+//
+//		};
+//
+//		this.addColumn(wertAuspraegung, "Auspraegung");
+//
+//		// ListDataProvider<EigenschaftAuspraegungHybrid> model = new
+//		// ListDataProvider<EigenschaftAuspraegungHybrid>();
+//		// model.addDataDisplay(this);
+//		bezEigenschaft.setCellStyleNames("add-scrollbar");
+//		bezEigenschaft.setSortable(true);
+//		this.setHeight("300px");
+//		this.setRowCount(getUserList().size());
 		model.addDataDisplay(this);
 
 		verwaltung.findHybrid(k, new AllAuspraegungToEigenschaftCallback());
@@ -104,9 +104,9 @@ public class CellTableForm extends CellTable<EigenschaftAuspraegungHybrid> {
 	}
 
 	public void addRow(String a, String b) {
-		EigenschaftAuspraegungHybrid eigenschafthybrid = new EigenschaftAuspraegungHybrid();
-		eigenschafthybrid.setEigenschaft(a);
-		eigenschafthybrid.setAuspraegung(b);
+		EigenschaftAuspraegungWrapper eigenschafthybrid = new EigenschaftAuspraegungWrapper();
+		eigenschafthybrid.setEigenschaftValue(a);
+		eigenschafthybrid.setAuspraegungValue(b);
 
 		eList.add(eigenschafthybrid);
 		// model.getList().add(eigenschafthybrid);
@@ -118,14 +118,14 @@ public class CellTableForm extends CellTable<EigenschaftAuspraegungHybrid> {
 		this.redraw();
 	}
 
-	public void deleteRow(EigenschaftAuspraegungHybrid object) {
+	public void deleteRow(EigenschaftAuspraegungWrapper object) {
 		model.getList().remove(object);
 		eList.remove(object);
 		model.refresh();
 		this.redraw();
 	}
 
-	class AllAuspraegungToEigenschaftCallback implements AsyncCallback<Vector<EigenschaftAuspraegungHybrid>> {
+	class AllAuspraegungToEigenschaftCallback implements AsyncCallback<Vector<EigenschaftAuspraegungWrapper>> {
 
 		@Override
 		public void onFailure(Throwable caught) {
@@ -134,7 +134,7 @@ public class CellTableForm extends CellTable<EigenschaftAuspraegungHybrid> {
 		}
 
 		@Override
-		public void onSuccess(Vector<EigenschaftAuspraegungHybrid> result) {
+		public void onSuccess(Vector<EigenschaftAuspraegungWrapper> result) {
 			// TODO Auto-generated method stub
 			eList.addAll(result);
 			setRowData(0, eList);

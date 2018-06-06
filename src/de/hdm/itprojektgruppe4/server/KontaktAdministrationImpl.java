@@ -10,6 +10,7 @@ import java.text.SimpleDateFormat;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.server.rpc.RemoteServiceServlet;
 
+import de.hdm.itprojektgruppe4.client.EigenschaftAuspraegungWrapper;
 import de.hdm.itprojektgruppe4.server.db.*;
 import de.hdm.itprojektgruppe4.server.db.KontaktlisteMapper;
 import de.hdm.itprojektgruppe4.shared.KontaktAdministration;
@@ -210,10 +211,10 @@ public class KontaktAdministrationImpl extends RemoteServiceServlet
 	}
 	
 	/**
-	 * Ausgabe eines Vectors mit sämtlichen geteilten und erstellten Kontakten eines Nutzers
+	 * Ausgabe eines Vectors mit sï¿½mtlichen geteilten und erstellten Kontakten eines Nutzers
 	 * 
 	 * @param nutzerID
-	 * @return Vector mit sämtlichen geteilten und erstellten Kontakten des Nutzers
+	 * @return Vector mit sï¿½mtlichen geteilten und erstellten Kontakten des Nutzers
 	 * @throws IllegalArgumentException
 	 */
 	@Override
@@ -1060,7 +1061,7 @@ public class KontaktAdministrationImpl extends RemoteServiceServlet
 		return this.eigenschaftauspraegungMapper.getAuspraegungByKontaktID(id);
 	}
 	
-	public void deleteEigenschaftUndAuspraegung(EigenschaftAuspraegungHybrid ea) throws IllegalArgumentException{
+	public void deleteEigenschaftUndAuspraegung(EigenschaftAuspraegungWrapper ea) throws IllegalArgumentException{
 		Eigenschaftauspraegung eaa = new Eigenschaftauspraegung();
 		Eigenschaft ee = new Eigenschaft();
 		eaa.setID(ea.getAuspraegungID());
@@ -1073,7 +1074,7 @@ public class KontaktAdministrationImpl extends RemoteServiceServlet
 
 	@Override
 
-	public Vector<EigenschaftAuspraegungHybrid> findHybrid(Person pers) throws IllegalArgumentException {
+	public Vector<EigenschaftAuspraegungWrapper> findHybrid(Person pers) throws IllegalArgumentException {
 		
 		Vector<Eigenschaftauspraegung> eigaus = getAuspraegungByKontaktID(pers.getID());
 		
@@ -1083,14 +1084,14 @@ public class KontaktAdministrationImpl extends RemoteServiceServlet
 			eig.add(getEigenschaftByID(eigenschaftauspraegung.getEigenschaftsID()));
 		}
 		
-		Vector<EigenschaftAuspraegungHybrid> hybrid = new Vector<EigenschaftAuspraegungHybrid>();
+		Vector<EigenschaftAuspraegungWrapper> hybrid = new Vector<EigenschaftAuspraegungWrapper>();
 		
 		for (int i = 0; i < eigaus.size(); i++){
 			
 			for (int z = 0; z < eigaus.size(); z++){
 				if (eigaus.elementAt(i).getEigenschaftsID() == eig.elementAt(z).getID()){
 					
-					hybrid.add(new EigenschaftAuspraegungHybrid(eig.elementAt(z), eigaus.elementAt(i)));	
+					hybrid.add(new EigenschaftAuspraegungWrapper(eig.elementAt(z), eigaus.elementAt(i)));	
 				}
 				
 		}

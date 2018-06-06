@@ -7,8 +7,8 @@ import java.util.Vector;
 import com.google.gwt.user.client.rpc.RemoteService;
 import com.google.gwt.user.client.rpc.RemoteServiceRelativePath;
 
+import de.hdm.itprojektgruppe4.client.EigenschaftAuspraegungWrapper;
 import de.hdm.itprojektgruppe4.shared.bo.Eigenschaft;
-import de.hdm.itprojektgruppe4.shared.bo.EigenschaftAuspraegungHybrid;
 import de.hdm.itprojektgruppe4.shared.bo.Eigenschaft_Auspraegung;
 import de.hdm.itprojektgruppe4.shared.bo.Eigenschaftauspraegung;
 import de.hdm.itprojektgruppe4.shared.bo.Kontakt;
@@ -323,9 +323,9 @@ public interface KontaktAdministration extends RemoteService {
 
     public Vector<Eigenschaftauspraegung> getAuspraegungByKontaktID(int id) throws IllegalArgumentException;
     
-    public Vector<EigenschaftAuspraegungHybrid> findHybrid(Person pers) throws IllegalArgumentException;
+    public Vector<EigenschaftAuspraegungWrapper> findHybrid(Person pers) throws IllegalArgumentException;
     
-    public void deleteEigenschaftUndAuspraegung(EigenschaftAuspraegungHybrid ea) throws IllegalArgumentException;
+    public void deleteEigenschaftUndAuspraegung(EigenschaftAuspraegungWrapper ea) throws IllegalArgumentException;
 
     
     /**
@@ -489,10 +489,10 @@ public interface KontaktAdministration extends RemoteService {
 	public Kontaktliste insertMeineKontakte(String bez, int status, int nutzerID) throws IllegalArgumentException;
 	
 	/**
-	 * Ausgabe eines Vectors mit sämtlichen geteilten und erstellten Kontakten eines Nutzers
+	 * Ausgabe eines Vectors mit sï¿½mtlichen geteilten und erstellten Kontakten eines Nutzers
 	 * 
 	 * @param nutzerID
-	 * @return Vector mit sämtlichen geteilten und erstellten Kontakten des Nutzers
+	 * @return Vector mit sï¿½mtlichen geteilten und erstellten Kontakten des Nutzers
 	 * @throws IllegalArgumentException
 	 */
 	public Vector<Kontakt> findAllKontaktFromNutzer(int nutzerID) throws IllegalArgumentException;

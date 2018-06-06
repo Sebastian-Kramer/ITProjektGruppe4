@@ -26,10 +26,10 @@ import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.view.client.SingleSelectionModel;
 
 import de.hdm.itprojektgruppe4.client.ClientsideSettings;
+import de.hdm.itprojektgruppe4.client.EigenschaftAuspraegungWrapper;
 import de.hdm.itprojektgruppe4.client.gui.UpdateKontaktForm.AuspraegungBearbeitenCallback;
 import de.hdm.itprojektgruppe4.shared.KontaktAdministrationAsync;
 import de.hdm.itprojektgruppe4.shared.bo.Eigenschaft;
-import de.hdm.itprojektgruppe4.shared.bo.EigenschaftAuspraegungHybrid;
 import de.hdm.itprojektgruppe4.shared.bo.Eigenschaftauspraegung;
 import de.hdm.itprojektgruppe4.shared.bo.Kontakt;
 import de.hdm.itprojektgruppe4.shared.bo.Kontaktliste;
@@ -80,7 +80,7 @@ KontaktAdministrationAsync verwaltung = ClientsideSettings.getKontaktVerwaltung(
 	
 	private Eigenschaftauspraegung eigaus = new Eigenschaftauspraegung();
 	
-	private SingleSelectionModel<EigenschaftAuspraegungHybrid> sm = new SingleSelectionModel<EigenschaftAuspraegungHybrid>();
+	private SingleSelectionModel<EigenschaftAuspraegungWrapper> sm = new SingleSelectionModel<EigenschaftAuspraegungWrapper>();
 	
 	public void onLoad(){
 		
@@ -256,24 +256,24 @@ KontaktAdministrationAsync verwaltung = ClientsideSettings.getKontaktVerwaltung(
 			
 			ctf.setSelectionModel(sm);
 			
-			ctf.getWertAuspraegung().setFieldUpdater(new FieldUpdater<EigenschaftAuspraegungHybrid, String>() {
-
-				@Override
-				public void update(int index, EigenschaftAuspraegungHybrid object, String value) {
-					sm.getSelectedObject().setAuspraegung(value);
-					sm.getSelectedObject().setAuspraegungID(object.getAuspraegungID());
-				
-					
-					eigaus.setID(sm.getSelectedObject().getAuspraegungID());
-					eigaus.setWert(sm.getSelectedObject().getAuspraegung());
-					eigaus.setStatus(0);
-					eigaus.setKontaktID(kontakt1.getID());
-					eigaus.setEigenschaftsID(sm.getSelectedObject().getEigenschaftID());	
-					
-					
-				}	
-					
-			});
+//			ctf.getWertAuspraegung().setFieldUpdater(new FieldUpdater<EigenschaftAuspraegungHybrid, String>() {
+//
+//				@Override
+//				public void update(int index, EigenschaftAuspraegungHybrid object, String value) {
+//					sm.getSelectedObject().setAuspraegung(value);
+//					sm.getSelectedObject().setAuspraegungID(object.getAuspraegungID());
+//				
+//					
+//					eigaus.setID(sm.getSelectedObject().getAuspraegungID());
+//					eigaus.setWert(sm.getSelectedObject().getAuspraegung());
+//					eigaus.setStatus(0);
+//					eigaus.setKontaktID(kontakt1.getID());
+//					eigaus.setEigenschaftsID(sm.getSelectedObject().getEigenschaftID());	
+//					
+//					
+//				}	
+//					
+//			});
 			
 			
 			KeyDownHandler kdh = new KeyDownHandler(){
