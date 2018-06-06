@@ -87,7 +87,7 @@ public class TeilhaberschaftMapper {
 			Statement stmt = con.createStatement();
 
 			ResultSet rs = stmt.executeQuery(
-					"SELECT `ID`, `kontaktlisteID`, `kontaktID`, `eigenschaftsauspraegungID`, `teilhaberID`, 'nutzerID'  FROM teilhaberschaft "
+					"SELECT `ID`, `kontaktlisteID`, `kontaktID`, `eigenschaftsauspraegungID`, `teilhaberID`, `nutzerID`  FROM teilhaberschaft "
 							+ "WHERE kontaktlisteID = " + kontaktlisteID);
 
 			while (rs.next()) {
@@ -119,7 +119,7 @@ public class TeilhaberschaftMapper {
 			Statement stmt = con.createStatement();
 
 			ResultSet rs = stmt.executeQuery(
-					"SELECT `ID`, `kontaktlisteID`, `kontaktID`, `eigenschaftsauspraegungID`, `teilhaberID`  FROM teilhaberschaft "
+					"SELECT `ID`, `kontaktlisteID`, `kontaktID`, `eigenschaftsauspraegungID`, `teilhaberID`, `nutzerID`   FROM teilhaberschaft "
 							+ "WHERE kontaktID = " + kontaktID);
 
 			while (rs.next()) {
@@ -129,7 +129,7 @@ public class TeilhaberschaftMapper {
 				th.setKontaktID(rs.getInt("kontaktID"));
 				th.setEigenschaftsauspraegungID(rs.getInt("eigenschaftsauspraegungID"));
 				th.setTeilhaberID(rs.getInt("teilhaberID"));
-
+				th.setNutzerID(rs.getInt("nutzerID"));
 				result.addElement(th);
 
 			}
@@ -215,8 +215,7 @@ public class TeilhaberschaftMapper {
 	 * Einfuegen eines neuen Objektes vom Typ Teilhaberschaft in die DB der PK
 	 * wird ueberprueft und korrigiert -> maxID +1
 	 * 
-	 * @param t
-	 *            die zu speichernde Teilhaberschaft
+	 * @param t die zu speichernde Teilhaberschaft
 	 * @return die bereits uebergebene Teilhaberschaft
 	 */
 
@@ -253,8 +252,11 @@ public class TeilhaberschaftMapper {
 	}
 
 	/**
+	 * Einfügen eines neuen Teilhaberschaft-Objekts in der Datenbank.
+	 * Wird beim teilen eines Kontaktes aufgerufen, daher wird die KontaktlisteID null gesetzt,
+	 * da diese hier nicht benötigt wird.
 	 * 
-	 * @param t
+	 * @param t die zu speichernde Teilhaberschaft
 	 * @return
 	 */
 	public Teilhaberschaft insertTeilhaberschaftKontakt(Teilhaberschaft t) {
@@ -274,9 +276,11 @@ public class TeilhaberschaftMapper {
 				stmt = con.createStatement();
 
 				stmt.executeUpdate(
-
+						
+						  
+						 
 						" INSERT INTO `teilhaberschaft` (`ID`, `kontaktlisteID`, `kontaktID`, `eigenschaftsauspraegungID`, `teilhaberID`, `nutzerID`) "
-								+ " VALUES ('" + t.getID() + "' ,'" + t.getKontaktListeID() + "' ,'"
+								+ " VALUES ('" + t.getID() + "',NULL,'"
 								+ t.getKontaktID() + "' ,'" + t.getEigenschaftsauspraegungID() +  "' ,'"  
 								+ t.getTeilhaberID() + "' ,'"  +  t.getNutzerID() + "')");
 			}
@@ -286,6 +290,44 @@ public class TeilhaberschaftMapper {
 
 		return t;
 	}
+	
+	/**
+	 * Einfügen eines neuen Teilhaberschaft-Objektes in die Datenbank.
+	 * Wird beim teilen einer Kontaktliste aufgerufen, daher werden die KontaktID, sowie die EigenschaftauspraegungID
+	 * null gesetzt. Diese werden beim Teilen einer Kontaktliste nicht benötigt.
+	 * @param t das Teilhaberschaft-Objekt
+	 * @return
+	 */
+	public Teilhaberschaft insertTeilhaberschaftKontaktliste(Teilhaberschaft t) {
+		Connection con = DBConnection.connection();
+
+		try {
+			Statement stmt = con.createStatement();
+
+			ResultSet rs = stmt.executeQuery(
+
+					"SELECT MAX(id) AS maxid " + "FROM teilhaberschaft ");
+
+			if (rs.next()) {
+
+				t.setID(rs.getInt("maxid") + 1);
+
+				stmt = con.createStatement();
+
+				stmt.executeUpdate(
+						
+						" INSERT INTO `teilhaberschaft` (`ID`, `kontaktlisteID`, `kontaktID`, `eigenschaftsauspraegungID`, `teilhaberID`, `nutzerID`) "
+								+ " VALUES ('" + t.getID() + "' ,'" + t.getKontaktListeID()
+								+  "' ,NULL,NULL,'"  
+								+ t.getTeilhaberID() + "' ,'"  +  t.getNutzerID() + "')");
+			}
+		} catch (SQLException e2) {
+			e2.printStackTrace();
+		}
+
+		return t;
+	}
+
 
 	/**
 	 * ein Objekt vom Typ Teilhaberschaft wird aus der DB geloescht

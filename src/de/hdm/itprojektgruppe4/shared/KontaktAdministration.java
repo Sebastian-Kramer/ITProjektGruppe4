@@ -511,6 +511,44 @@ public interface KontaktAdministration extends RemoteService {
 	
 	public Kontaktliste findKontaktliste(int nutzerID, String bez) throws IllegalArgumentException;
 	
+	/**
+	 * Ausgabe eines Vectors mit sämtlichen Kontakten, die mit einem bestimmten Nutzer geteilt wurden.
+	 * 
+	 * @param nutzerID die ID des Nutzers
+	 * @return Vector mit sämtlichen geteilten Kontakten eines Nutzers
+	 * @throws IllegalArgumentException
+	 */
+	public Vector<Kontakt> findAllSharedKontakteVonNutzer (int nutzerID) throws IllegalArgumentException;
+	
+	/**
+	 * Erstellen einer Teilhaberschaft zu einer Kontaktliste
+	 * 
+	 * @param kontaktlisteID die ID der Kontaktliste die geteilt werden soll
+	 * @param teilhaberID die ID des Nutzers, mit dem die Kontaktliste geteilt wird
+	 * @param nutzerID die ID des Nutzers, der die Kontaktliste teilt
+	 * @return Teilhaberschaft-Objekt
+	 * @throws IllegalArgumentException
+	 */
+	public Teilhaberschaft insertTeilhaberschaftKontaktliste (int kontaktlisteID, int teilhaberID, int nutzerID) throws IllegalArgumentException;
+	
+	/**
+	 * Ausgabe sämtlicher Teilhaberschaften an einer Kontaktliste
+	 * 
+	 * @param kontaktlisteID die ID der Kontaktliste deren Teilhaberschaften gesucht werden
+	 * @return Vector mit sämtlichen Teilhaberschaften an einer Kontaktliste
+	 * @throws IllegalArgumentException
+	 */
+	public Vector<Teilhaberschaft> findTeilhaberschaftByKontaktlisteID (int kontaktlisteID) throws IllegalArgumentException;
+	
+	/**
+	 * Vector mit sämtlichen Nutzern, die eine Teilhaberschaft an einer Kontaktliste haben
+	 * 
+	 * @param nutzerID die ID des Nutzers
+	 * @return Vector mit Nutzern die 
+	 * @throws IllegalArgumentException
+	 */
+	public Vector<Nutzer> findAllTeilhaberFromKontaktliste (int kontaktlisteID) throws IllegalArgumentException;
+	
     /**
      * @param name 
      * @param erzeugungsdatum 

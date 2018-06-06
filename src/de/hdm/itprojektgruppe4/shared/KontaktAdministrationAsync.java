@@ -154,6 +154,15 @@ public interface KontaktAdministrationAsync {
 
 	void deleteTeilhaberschaftByKontaktlisteID(int kontaktlisteID, AsyncCallback<Void> callback);
 
+	void findAllSharedKontakteVonNutzer(int nutzerID, AsyncCallback<Vector<Kontakt>> callback);
+
+	void insertTeilhaberschaftKontaktliste(int kontaktlisteID, int teilhaberID, int nutzerID,
+			AsyncCallback<Teilhaberschaft> callback);
+
+	void findTeilhaberschaftByKontaktlisteID(int kontaktlisteID, AsyncCallback<Vector<Teilhaberschaft>> callback);
+
+	void findAllTeilhaberFromKontaktliste(int kontaktlisteID, AsyncCallback<Vector<Nutzer>> callback);
+
 
 
 
