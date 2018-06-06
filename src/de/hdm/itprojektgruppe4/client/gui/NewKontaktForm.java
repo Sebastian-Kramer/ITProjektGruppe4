@@ -135,7 +135,7 @@ KontaktAdministrationAsync verwaltung = ClientsideSettings.getKontaktVerwaltung(
 						RootPanel.get("Buttonbar").clear();						
 						RootPanel.get("Details").clear();						
 						RootPanel.get("Details").add(getBack);
-		//				RootPanel.get("Buttonbar").add(getBack);
+//					RootPanel.get("Buttonbar").add(getBack);
 					}
 				});
 		

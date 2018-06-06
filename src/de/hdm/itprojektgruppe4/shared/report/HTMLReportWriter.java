@@ -54,7 +54,7 @@ public class HTMLReportWriter extends ReportWriter {
 	  }
 
 	@Override
-	public void process(KontakteMitBestimmtenEigenschaftenReport p) {
+	public void process(KontakteMitBestimmtenEigenschaftsAuspraegungenReport p) {
 	    this.resetReportText();
 	    
 	    StringBuffer result = new StringBuffer();
@@ -134,7 +134,7 @@ public class HTMLReportWriter extends ReportWriter {
 	}
 
 	@Override
-	public void process(KontakteMitBestimmterTeilhaberschaft p) {
+	public void process(KontakteMitBestimmterTeilhaberschaftReport p) {
 	    this.resetReportText();
 		
 	    StringBuffer result = new StringBuffer();

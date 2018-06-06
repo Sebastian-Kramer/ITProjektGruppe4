@@ -64,8 +64,11 @@ public class MainForm extends VerticalPanel {
 	private ScrollPanel scrollPanel = new ScrollPanel();
 
 	public MainForm() {
+	}
 
-
+	public void onLoad(){
+		
+		super.onLoad();
 		nutzer.setID(Integer.parseInt(Cookies.getCookie("id")));
 		nutzer.setEmail(Cookies.getCookie("email"));
 

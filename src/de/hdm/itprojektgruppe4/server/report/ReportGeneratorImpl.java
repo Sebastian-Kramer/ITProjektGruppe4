@@ -1,26 +1,18 @@
 package de.hdm.itprojektgruppe4.server.report;
 
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Vector;
 
 import com.google.gwt.user.server.rpc.RemoteServiceServlet;
 
 import de.hdm.itprojektgruppe4.server.KontaktAdministrationImpl;
-import de.hdm.itprojektgruppe4.server.db.KontaktMapper;
+import de.hdm.itprojektgruppe4.server.db.NutzerMapper;
 import de.hdm.itprojektgruppe4.shared.KontaktAdministration;
 import de.hdm.itprojektgruppe4.shared.ReportGenerator;
-import de.hdm.itprojektgruppe4.shared.bo.Eigenschaft;
-import de.hdm.itprojektgruppe4.shared.bo.Eigenschaftauspraegung;
 import de.hdm.itprojektgruppe4.shared.bo.Kontakt;
 import de.hdm.itprojektgruppe4.shared.bo.Nutzer;
 import de.hdm.itprojektgruppe4.shared.report.AllEigeneKontakteReport;
-import de.hdm.itprojektgruppe4.shared.report.AllKontakteVonAnderemNutzerReport;
-import de.hdm.itprojektgruppe4.shared.report.AllNutzerReport;
 import de.hdm.itprojektgruppe4.shared.report.Column;
 import de.hdm.itprojektgruppe4.shared.report.CompositeParagraph;
-import de.hdm.itprojektgruppe4.shared.report.KontakteMitBestimmtenAuspraegungenReport;
-import de.hdm.itprojektgruppe4.shared.report.KontakteMitBestimmtenEigenschaftenReport;
 import de.hdm.itprojektgruppe4.shared.report.KontakteMitBestimmtenEigenschaftsAuspraegungenReport;
 import de.hdm.itprojektgruppe4.shared.report.KontakteMitBestimmterTeilhaberschaftReport;
 import de.hdm.itprojektgruppe4.shared.report.Report;
@@ -32,7 +24,8 @@ public class ReportGeneratorImpl extends RemoteServiceServlet implements ReportG
 	private static final long serialVersionUID = 1L;
 
 	private KontaktAdministration verwaltung = null;
-
+	private NutzerMapper nutzerMapper = null;
+	
 	public ReportGeneratorImpl() throws IllegalArgumentException {
 
 	}
@@ -48,97 +41,136 @@ public class ReportGeneratorImpl extends RemoteServiceServlet implements ReportG
 	protected KontaktAdministration getAdministration() {
 		return this.verwaltung;
 	}
-	
-	protected void addImprint (Report r){
-		
+
+	protected void addImprint(Report r) {
+
 		// Das Impressum kann mehrere Seiten haben
 		CompositeParagraph imprint = new CompositeParagraph();
-		
+
 		// 1. Zeile
 		imprint.addSubParagraph(new SimpleParagraph("Kontaktverwaltung"));
-		
+
 		// Das Hinzufügen des Impressum zum Report
 		r.setImprint(imprint);
 
 	}
-	
+
 	/*
 	 * 
 	 * Erster Report
 	 * 
 	 */
 
-	public List<Kontakt> createAllEigeneKontakteReport(int NutzerID) throws IllegalArgumentException {
-		if (this.getAdministration()== null)
-		      return null;
+	public List<Kontakt> AllEigeneKontakteReport(int NutzerID) throws IllegalArgumentException {
+		if (this.getAdministration() == null)
+			return null;
 
+		// Leerer Report
+		AllEigeneKontakteReport result = new AllEigeneKontakteReport();
+
+		//
 		List<Kontakt> kontakt = this.verwaltung.findKontaktByNutzerID(NutzerID);
 
-		for (Kontakt k : kontakt){
+		result.setTitle("Meine Kontakte");
+
+		Row headline = new Row();
+
+		headline.addColumn(new Column("Kontakt"));
+
+		headline.addColumn(new Column("Erzeugungsdatum"));
+
+		headline.addColumn(new Column("Modifikationsdatum"));
+
+		result.addRow(headline);
+
+		for (Kontakt k : kontakt) {
 			// eine Leere zeile
 			Row kontaktRow = new Row();
-			
-			kontaktRow.addColumn(new Column(String.valueOf(k.getID())));
-			
-			kontaktRow.addColumn(new Column(String.valueOf(this.verwaltung.findKontaktByNutzerID(NutzerID))));
-			
-		//	result.addRow(kontaktRow);
+
+			kontaktRow.addColumn(new Column(String.valueOf(k.getName())));
+
+			kontaktRow.addColumn(new Column(String.valueOf(k.getErzeugungsdatum())));
+
+			kontaktRow.addColumn(new Column(String.valueOf(k.getModifikationsdatum())));
+
+			result.addRow(kontaktRow);
 		}
 
 		return kontakt;
-		
+
 	}
+	
+	
 
-	public List<Eigenschaft> createKontakteMitBestimmtenEigenschaftenReport(String bez) throws IllegalArgumentException {
-		if (this.getAdministration()== null)
-		      return null;
-
-		List<Eigenschaft> eigenschaft = this.verwaltung.getEigenschaftByBezeichnung(bez);
-
-
-		for (Eigenschaft e : eigenschaft){
-			// eine Leere zeile
-			Row eigenschaftRow = new Row();
-			
-
-			eigenschaftRow.addColumn(new Column(String.valueOf(e.getID())));
-			
-			eigenschaftRow.addColumn(new Column(String.valueOf(this.verwaltung.getEigenschaftByBezeichnung(bez))));
-			
-		//	result.addRow(kontaktRow);
-		}
-
-		return eigenschaft;
-		
-	}
-
-
-
-
-//	public List<Eigenschaftauspraegung>  createKontakteMitBestimmtenAuspraegungenReport(String wert)
+//						
+//	public List<Eigenschaft> createKontakteMitBestimmtenAuspraegungenReport(String bez)
 //			throws IllegalArgumentException {
-//		if (this.getAdministration()== null)
-//		      return null;
+//		if (this.getAdministration() == null)
+//			return null;
 //
-//			Eigenschaftauspraegung eigenschaftauspraegung = this.verwaltung.getAuspraegungByWert(wert);
+//		KontakteMitBestimmtenEigenschaftenReport result = new KontakteMitBestimmtenEigenschaftenReport();
+//		
+//		List<Eigenschaft> eigenschaft = this.verwaltung.getEigenschaftByBezeichnung(bez);
 //
+//		for (Eigenschaft e : eigenschaft) {
 //
-//			for (Eigenschaftauspraegung ea : eigenschaftauspraegung){
-//				// eine Leere zeile
-//				Row eigenschaftauspraegungRow = new Row();
-//				
+//			Kontakt k = verwaltung.findKontaktByID(e.getID());
 //
-//				eigenschaftauspraegungRow.addColumn(new Column(String.valueOf(ea.getID())));
-//				
-//				eigenschaftauspraegungRow.addColumn(new Column(String.valueOf(this.verwaltung.getEigenschaftByBezeichnung(wert))));
-//				
-//			//	result.addRow(kontaktRow);
-//			}
+//			// eine Leere zeile
+//			Row eigenschaftRow = new Row();
+
+//			eigenschaftRow.addColumn(new Column("Kontakt"));
 //
-//			return eigenschaftauspraegung;
-//			
+//			eigenschaftRow.addColumn(new Column("Bezeichnung"));
+//
+//			// Trennen
+//			eigenschaftRow.addColumn(new Column(""));
+//
+//			eigenschaftRow.addColumn(new Column(String.valueOf(k.getName())));
+//
+//			eigenschaftRow.addColumn(new Column(String.valueOf(e.getBezeichnung())));
+//
+//			result.addRow(eigenschaftRow);
 //		}
-//	
+//
+//		return eigenschaft;
+//
+//	}
+
+	/*
+	 * ____________________________________________________________
+	 */
+
+
+
+	// public List<Eigenschaftauspraegung>
+	// createKontakteMitBestimmtenAuspraegungenReport(String wert)
+	// throws IllegalArgumentException {
+	// if (this.getAdministration()== null)
+	// return null;
+	//
+	// Eigenschaftauspraegung eigenschaftauspraegung =
+	// this.verwaltung.getAuspraegungByWert(wert);
+	//
+	//
+	// for (Eigenschaftauspraegung ea : eigenschaftauspraegung){
+	// // eine Leere zeile
+	// Row eigenschaftauspraegungRow = new Row();
+	//
+	//
+	// eigenschaftauspraegungRow.addColumn(new
+	// Column(String.valueOf(ea.getID())));
+	//
+	// eigenschaftauspraegungRow.addColumn(new
+	// Column(String.valueOf(this.verwaltung.getEigenschaftByBezeichnung(wert))));
+	//
+	// // result.addRow(kontaktRow);
+	// }
+	//
+	// return eigenschaftauspraegung;
+	//
+	// }
+	//
 
 	public KontakteMitBestimmtenEigenschaftsAuspraegungenReport createKontakteMitBestimmtenEigenschaftsAuspraegungenReport()
 			throws IllegalArgumentException {
@@ -151,36 +183,18 @@ public class ReportGeneratorImpl extends RemoteServiceServlet implements ReportG
 	}
 
 	@Override
-	public AllEigeneKontakteReport createAllEigeneKontakteReport() throws IllegalArgumentException {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public AllNutzerReport createAllNutzerReport() throws IllegalArgumentException {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public AllKontakteVonAnderemNutzerReport createAllKontakteVonAnderemNutzerReport() throws IllegalArgumentException {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public KontakteMitBestimmtenEigenschaftenReport createKontakteMitBestimmtenEigenschaftenReport()
+	public de.hdm.itprojektgruppe4.shared.report.AllEigeneKontakteReport createAllEigeneKontakteReport()
 			throws IllegalArgumentException {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	public KontakteMitBestimmtenAuspraegungenReport createKontakteMitBestimmtenAuspraegungenReport()
-			throws IllegalArgumentException {
+	public Nutzer findNutzerByEmail(String email) throws IllegalArgumentException {
 		// TODO Auto-generated method stub
-		return null;
+		 return this.nutzerMapper.findNutzerByEmail(email);
 	}
+
 
 
 
