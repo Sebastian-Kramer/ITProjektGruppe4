@@ -122,44 +122,7 @@ KontaktAdministrationAsync verwaltung = ClientsideSettings.getKontaktVerwaltung(
 		
 		this.add(vpanel);
 		
-//		ctf.setSelectionModel(sm);
-//		
-//		ctf.getWertAuspraegung().setFieldUpdater(new FieldUpdater<EigenschaftAuspraegungHybrid, String>() {
-//
-//			@Override
-//			public void update(int index, EigenschaftAuspraegungHybrid object, String value) {
-//				sm.getSelectedObject().setAuspraegung(value);
-//				sm.getSelectedObject().setAuspraegungID(object.getAuspraegungID());
-//			
-//				
-//				eigaus.setID(sm.getSelectedObject().getAuspraegungID());
-//				eigaus.setWert(sm.getSelectedObject().getAuspraegung());
-//				eigaus.setStatus(0);
-//				eigaus.setKontaktID(kontakt1.getID());
-//				eigaus.setEigenschaftsID(sm.getSelectedObject().getEigenschaftID());	
-//				
-//				
-//			}	
-//				
-//		});
-//		
-//		
-//		KeyDownHandler kdh = new KeyDownHandler(){
-//
-//
-//			@Override
-//			public void onKeyDown(KeyDownEvent event) {
-//				if (event.getNativeKeyCode() == KeyCodes.KEY_ENTER) {
-//
-//					verwaltung.updateAuspraegung(eigaus, new AuspraegungBearbeitenCallback());
-//					
-//				}
-//				
-//			}
-//			
-//		};	
-//		
-//		ctf.addKeyDownHandler(kdh);	
+
 		
 		
 		cancel.addClickHandler(new ClickHandler() {
@@ -169,9 +132,10 @@ KontaktAdministrationAsync verwaltung = ClientsideSettings.getKontaktVerwaltung(
 						
 		
 						MainForm getBack = new MainForm();
-						RootPanel.get("Details").clear();
+						RootPanel.get("Buttonbar").clear();						
+						RootPanel.get("Details").clear();						
 						RootPanel.get("Details").add(getBack);
-						
+//					RootPanel.get("Buttonbar").add(getBack);
 					}
 				});
 		
@@ -224,6 +188,7 @@ KontaktAdministrationAsync verwaltung = ClientsideSettings.getKontaktVerwaltung(
 			kontakt1.setID(result.getID());
 			Window.alert("Kontakt " +result.getName() + " wurde  erstellt");
 			verwaltung.insertBasicAuspraegung("", 0, result.getID(), new BasicAuspraegungenCallback());
+			
 			
 		}
 		

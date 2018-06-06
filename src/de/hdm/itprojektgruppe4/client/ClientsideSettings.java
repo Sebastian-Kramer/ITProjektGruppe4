@@ -2,16 +2,29 @@ package de.hdm.itprojektgruppe4.client;
 
 import com.google.gwt.core.client.GWT;
 
+
 import de.hdm.itprojektgruppe4.shared.CommonSettings;
 import de.hdm.itprojektgruppe4.shared.KontaktAdministration;
 import de.hdm.itprojektgruppe4.shared.KontaktAdministrationAsync;
 import de.hdm.itprojektgruppe4.shared.LoginService;
 import de.hdm.itprojektgruppe4.shared.LoginServiceAsync;
+import de.hdm.itprojektgruppe4.shared.ReportGenerator;
+import de.hdm.itprojektgruppe4.shared.ReportGeneratorAsync;
 import de.hdm.itprojektgruppe4.shared.bo.Nutzer;
 
 public class ClientsideSettings extends CommonSettings{
 	
 	private static KontaktAdministrationAsync kontaktVerwaltung = null;
+	
+	
+	private static ReportGeneratorAsync reportVerwaltung = null;
+	
+	
+	
+	
+	
+	
+	
 	
 	private static LoginServiceAsync loginService = null;	
 	
@@ -56,6 +69,15 @@ public class ClientsideSettings extends CommonSettings{
 
 	public static void setAktuellerNutzer(Nutzer aktuellerNutzer) {
 		ClientsideSettings.aktuellerNutzer = aktuellerNutzer;
+	}
+	
+	public static ReportGeneratorAsync getReportVerwaltung() {
+
+		if (reportVerwaltung == null) {
+			reportVerwaltung = GWT.create(ReportGenerator.class);
+		}
+		return reportVerwaltung;
+
 	}
 
 	

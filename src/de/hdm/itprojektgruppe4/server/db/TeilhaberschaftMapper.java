@@ -154,7 +154,11 @@ public class TeilhaberschaftMapper {
 
 		}
 	}
-
+	
+	/**
+	 * Teilhaberschaft anhand der uebergebenen KontaktlisteID löschen.
+	 * @param kontaktlisteID die ID der Kontaktliste an der die Teilhaberschaft gelöscht werden soll
+	 */
 	public void deleteTeilhaberschaftByKontaktlisteID(int kontaktlisteID) {
 		Connection con = DBConnection.connection();
 
@@ -174,7 +178,7 @@ public class TeilhaberschaftMapper {
 	 * Ausgabe von Teilhaberschaft-Objekten anhand der TeilhaberID
 	 * 
 	 * @param teilhaberID
-	 * @return Vector mit sï¿½mtlichen Teilhaberschaften
+	 * @return Vector mit saemtlichen Teilhaberschaften
 	 */
 	public Vector<Teilhaberschaft> findTeilhaberschaftByTeilhaberID(int teilhaberID) {
 		Vector<Teilhaberschaft> result = new Vector<Teilhaberschaft>();
@@ -208,7 +212,7 @@ public class TeilhaberschaftMapper {
 	}
 
 	/**
-	 * Einfuegen eines neuen Objktes vom Typ Teilhaberschaft in die DB der PK
+	 * Einfuegen eines neuen Objektes vom Typ Teilhaberschaft in die DB der PK
 	 * wird ueberprueft und korrigiert -> maxID +1
 	 * 
 	 * @param t

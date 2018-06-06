@@ -24,7 +24,7 @@ public abstract class PlainTextReportWriter extends ReportWriter {
 	  }
 
 	@Override
-	public void process(KontakteMitBestimmtenEigenschaftenReport c) {
+	public void process(KontakteMitBestimmtenEigenschaftsAuspraegungenReport c) {
 		this.resetReportText();
 		
 		StringBuffer result = new StringBuffer();
@@ -40,7 +40,7 @@ public abstract class PlainTextReportWriter extends ReportWriter {
 	}
 
 	@Override
-	public void process(KontakteMitBestimmterTeilhaberschaft c) {
+	public void process(KontakteMitBestimmterTeilhaberschaftReport c) {
 		this.resetReportText();
 		
 		StringBuffer result = new StringBuffer();

@@ -1,5 +1,8 @@
 package de.hdm.itprojektgruppe4.shared.report;
 
-public class KontakteMitBestimmtenEigenschaftsAuspraegungenReport {
+import java.io.Serializable;
+
+public class KontakteMitBestimmtenEigenschaftsAuspraegungenReport 
+extends SimpleReport implements Serializable {
 
 }

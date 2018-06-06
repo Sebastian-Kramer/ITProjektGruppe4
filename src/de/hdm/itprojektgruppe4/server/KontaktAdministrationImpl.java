@@ -109,34 +109,24 @@ public class KontaktAdministrationImpl extends RemoteServiceServlet
  
     	Kontakt k = new Kontakt();
     	
-    	//k.setID(1);
+    	
     	k.setName(name);
     	k.setErzeugungsdatum(erzeugungsdatum);
     	k.setModifikationsdatum(modifikationsdatum);
     	k.setStatus(status);
     	k.setNutzerID(nutzerID);
     	
-    	
-//    	for(int i = 1;  i<5; i++) {
-//    	
-//    		
-//    		
-//    	Eigenschaftauspraegung ea = new Eigenschaftauspraegung();
-//    	ea.setID(k.getID());
-//    	ea.setWert("");
-//    	ea.setStatus(ea.getStatus());
-//    	ea.setKontaktID(k.getID());
-//    	ea.setEigenschaftsID(i);
-//    	
-//    	eigenschaftauspraegungMapper.insertAuspraegung(ea);
-//    	
-//    	}
+    	 
     	
     	
-        return this.konMapper.insertKontakt(k);
+         this.konMapper.insertKontakt(k);
         
+       Kontaktliste kl = this.findBasicKontaktliste(k.getNutzerID());
+       
+      this.createKontaktinBasicKontakliste(kl, k);
         
-        
+
+       return k;
     }
     
     
@@ -711,13 +701,24 @@ public class KontaktAdministrationImpl extends RemoteServiceServlet
 	
 	@Override
 	public Kontaktliste insertKontaktliste(String bez, int status, int nutzerID) throws IllegalArgumentException {
-			Kontaktliste k = new Kontaktliste();
+		
+			Kontaktliste k = findKontaktliste(nutzerID, bez);
 			
-			k.setBez(bez);
-			k.setStatus(status);
-			k.setNutzerID(nutzerID);
 			
-			return this.konlistMapper.insertKontaktliste(k);
+			Kontaktliste kontaktliste = new Kontaktliste();
+			kontaktliste.setBez(bez);
+			kontaktliste.setStatus(status);
+			kontaktliste.setNutzerID(nutzerID);
+
+
+			if(k == null){
+				this.konlistMapper.insertKontaktliste(kontaktliste);
+			}
+			
+		
+		return null;
+			
+			
 		}
 	
 	/**
@@ -1022,6 +1023,18 @@ public class KontaktAdministrationImpl extends RemoteServiceServlet
 		this.teilhaberschaftMapper.deleteTeilhaberschaft(t);
 		
 	}
+	
+	/**
+	 * Eine Teilhaberschaft an einer Kontaktliste löschen
+	 * 
+	 * @param kontaktlisteID die ID der Kontaktliste, an der die Teilhaberchaft aufgelöst werden soll
+	 * @throws IllegalArgumentException
+	 */
+	@Override
+	public void deleteTeilhaberschaftByKontaktlisteID(int kontaktlisteID) throws IllegalArgumentException {
+		this.teilhaberschaftMapper.deleteTeilhaberschaftByKontaktlisteID(kontaktlisteID);
+		
+	}
 
 	/**
      * Eine Teilhaberschaft an einem Kontakt loeschen.
@@ -1116,6 +1129,45 @@ public class KontaktAdministrationImpl extends RemoteServiceServlet
 		// TODO Auto-generated method stub
 		return this.eigMapper.getEigenschaftByBezeichnung(bez);
 	}
+
+
+	
+
+
+
+
+	@Override
+	public Kontaktliste findBasicKontaktliste(int nutzerID) throws IllegalArgumentException {
+		
+		
+		
+		return this.konlistMapper.findBasicKontaktliste(nutzerID);
+	
+		
+		
+		
+	}
+	
+	
+	public KontaktKontaktliste createKontaktinBasicKontakliste(Kontaktliste kl, Kontakt k) throws IllegalArgumentException {
+		
+		KontaktKontaktliste kkl = new KontaktKontaktliste();
+		
+		kkl.setKontaktlisteID(kl.getID());
+		kkl.setKontaktID(k.getID());
+		return  kontaktKontaktlisteMapper.insertKontaktKontaktliste(kkl);
+		
+		
+	}
+
+
+
+	@Override
+	public Kontaktliste findKontaktliste(int nutzerID, String bez) throws IllegalArgumentException {
+		// TODO Auto-generated method stub
+		return this.konlistMapper.findKontaktliste(nutzerID, bez);
+	}
+	
 
 
 
