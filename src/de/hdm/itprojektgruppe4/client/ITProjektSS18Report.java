@@ -1,15 +1,20 @@
 package de.hdm.itprojektgruppe4.client;
 
+import com.google.gwt.core.client.EntryPoint;
 import com.google.gwt.core.client.GWT;
+import com.google.gwt.event.dom.client.ClickEvent;
+import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.Cookies;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Anchor;
+import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
 
 import de.hdm.itprojektgruppe4.client.gui.MainForm;
+import de.hdm.itprojektgruppe4.client.gui.MainFormReport;
 import de.hdm.itprojektgruppe4.client.gui.NavigationReport;
 import de.hdm.itprojektgruppe4.shared.KontaktAdministrationAsync;
 import de.hdm.itprojektgruppe4.shared.LoginService;
@@ -17,7 +22,7 @@ import de.hdm.itprojektgruppe4.shared.LoginServiceAsync;
 import de.hdm.itprojektgruppe4.shared.ReportGeneratorAsync;
 import de.hdm.itprojektgruppe4.shared.bo.Nutzer;
 
-public class ITProjektSS18Report {
+public class ITProjektSS18Report   implements EntryPoint{
 
 	private LoginInfo loginInfo = null;
 	private VerticalPanel loginPanel = new VerticalPanel();
@@ -26,28 +31,26 @@ public class ITProjektSS18Report {
 	private Anchor signOutLink = new Anchor("Logout");
 
 	LoginServiceAsync loginService = GWT.create(LoginService.class);
-	private static ReportGeneratorAsync verwaltung = ClientsideSettings.getReportVerwaltung();
+	private static ReportGeneratorAsync reportverwaltung = ClientsideSettings.getReportVerwaltung();
 
 	private static String editorHtmlName = "ITProjektSS18Report.html";
 
 	public void onModuleLoad() {
 
 		
-		
-		Window.alert("TEST");
-		RootPanel.get("Details").add(loginPanel);
-		
-		
+		Window.alert("Hello, AJAX1");
 		
 		LoginServiceAsync loginService = GWT.create(LoginService.class);
 		loginService.login(GWT.getHostPageBaseURL() + editorHtmlName, new AsyncCallback<LoginInfo>() {
 
-		public void onFailure(Throwable error) {
+		
 			
+		public void onFailure(Throwable error) {
+			Window.alert("Hello, AJAX2");
 		}
 		public void onSuccess(LoginInfo result) {
 		ClientsideSettings.setCurrentUser(result);
-
+		Window.alert("Hello, AJAX3");
 		loginInfo = result;
 		if(loginInfo.isLoggedIn()) {
 			loadStartseite();
@@ -59,22 +62,25 @@ public class ITProjektSS18Report {
 	});
 	}
 	
+	
+	private Nutzer checkNewNutzer(LoginInfo result) {
+		final LoginInfo finalLog = result;
+		
+		Nutzer nutzer = null;
+		reportverwaltung.findNutzerByEmail(result.getEmailAddress(), new AsyncCallback<Nutzer>() {
+			
+			
+			@Override
+			public void onFailure(Throwable caught) {
+				Window.alert("Nutzer konnte nicht aus der Datenbank gelsesen werden." + " Daher wird "
+						+ finalLog.getEmailAddress() + "angelegt");
 
-//	private Nutzer checkNewNutzer(LoginInfo result) {
-//		final LoginInfo finalLog = result;
-//		
-//		Nutzer nutzer = null;
-//		verwaltung.findNutzerByEmail(result.getEmailAddress(), new AsyncCallback<Nutzer>() {
-//
-//			@Override
-//			public void onFailure(Throwable caught) {
-//				Window.alert("Nutzer konnte nicht aus der Datenbank gelsesen werden." + " Daher wird "
-//						+ finalLog.getEmailAddress() + "angelegt");
-//
-//			}
-//
-//			@Override
-//			public void onSuccess(Nutzer result) {
+			}
+
+			@Override
+			public void onSuccess(Nutzer result) {
+				
+				Window.alert("Hello, AJAX4");
 //				if (!result.getEmail().equals(null)) {
 //					Window.alert(
 //							"Hallo " + result.getEmail() + " wir konnten dich erfolgreich aus der Datenbank lesen.");
@@ -85,7 +91,7 @@ public class ITProjektSS18Report {
 //
 //				} else {
 //
-//					verwaltung.insertNutzer(loginInfo.getEmailAddress(), new AsyncCallback<Nutzer>() {
+//					reportverwaltung.insertNutzer(loginInfo.getEmailAddress(), new AsyncCallback<Nutzer>() {
 //
 //						@Override
 //						public void onFailure(Throwable caught) {
@@ -105,11 +111,11 @@ public class ITProjektSS18Report {
 //					});
 //
 //				}
-//
-//			}
-//		});
-//		return nutzer;
-//	}
+
+			}
+		});
+		return nutzer;
+	}
 
 	private void loadLogin() {
 
@@ -117,15 +123,18 @@ public class ITProjektSS18Report {
 		loginPanel.add(loginLabel);
 		loginPanel.add(signInLink);
 		RootPanel.get("Details").add(loginPanel);
+		Window.alert("Hello, AJAX5");
 
 	}
 
 	private void loadStartseite() {
 		NavigationReport navigationReport = new NavigationReport();
-		NavigationTree navigationTree = new NavigationTree();
+		MainFormReport mfReport = new MainFormReport();
 		signOutLink.setHref(loginInfo.getLogoutUrl());
-		RootPanel.get("Details").add(signOutLink);
-		RootPanel.get("Details").add(navigationReport);
-		RootPanel.get("Navigator").add(navigationTree);
+		RootPanel.get("Buttonbar").add(signOutLink);
+		RootPanel.get("Navigator").add(navigationReport);
+		RootPanel.get("Details").add(mfReport);
+
+		Window.alert("Hello, AJAX6");
 	}
 }

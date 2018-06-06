@@ -14,6 +14,8 @@
   <servlet-mapping>
     <servlet-name>kontaktverwaltungServlet</servlet-name>
     <url-pattern>/itprojektss18/kontaktmanager</url-pattern>
+    <url-pattern>/itprojektss18Report/reportgenerator</url-pattern>
+    
   </servlet-mapping>
   
   	<servlet>
@@ -34,7 +36,10 @@
 <servlet-mapping>
 <servlet-name>loginService</servlet-name>
 <url-pattern>/itprojektss18/login</url-pattern>
+<url-pattern>/itprojektss18Report/login</url-pattern>
 </servlet-mapping>
+  
+
   
   <!-- Default page to serve -->
   <welcome-file-list>

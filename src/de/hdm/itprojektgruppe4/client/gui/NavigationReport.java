@@ -14,9 +14,9 @@ public class NavigationReport extends VerticalPanel{
 	public void onLoad(){
 		super.onLoad();
 		
-		RootPanel.get("Buttonbar").clear();
+		RootPanel.get("Navigator").clear();
 		vPanel.add(alleeigenenKontakte);
-		RootPanel.get("Buttonbar").add(vPanel);
+		RootPanel.get("Navigator").add(vPanel);
 		
 	}
 
