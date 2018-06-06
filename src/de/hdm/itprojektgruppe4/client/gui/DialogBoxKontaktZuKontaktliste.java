@@ -73,6 +73,8 @@ public class DialogBoxKontaktZuKontaktliste extends DialogBox {
 		nutzer.setID(Integer.parseInt(Cookies.getCookie("id")));
 		nutzer.setEmail(Cookies.getCookie("email"));
 		
+		
+		
 		kontaktVerwaltung.findAllKontaktFromNutzer(nutzer.getID(), new AlleKontakteVonNutzer());
 		kontaktTable.setSelectionModel(kontaktSelection, DefaultSelectionEventManager.<Kontakt>createCheckboxManager());
 		
@@ -98,11 +100,16 @@ public class DialogBoxKontaktZuKontaktliste extends DialogBox {
 			
 		};
 		
+		/**
+		 * Clickhandler für das hinzufuegen eines Kontaktes		
+		 */
 		kontakteHinzufuegen.addClickHandler(new ClickHandler(){
 
 			@Override
 			public void onClick(ClickEvent event) {
-				
+				if(kontaktSelection.getSelectedSet() == null){
+					Window.alert("Sie müssen mindestens einen Kontakt auswählen");
+				}else{
 					for(Kontakt k : kontaktSelection.getSelectedSet()){
 					kontaktVerwaltung.insertKontaktKontaktliste(k.getID(), kl.getID(), new KontaktHinzufuegen());
 					}
@@ -111,14 +118,16 @@ public class DialogBoxKontaktZuKontaktliste extends DialogBox {
 					NavigationTree updatedNavigation = new NavigationTree();
 					RootPanel.get("Details").clear();
 					RootPanel.get("Navigator").clear();
-					RootPanel.get("Details").add(kontaktlisteForm);;
+					RootPanel.get("Details").add(kontaktlisteForm);
 					RootPanel.get("Navigator").add(updatedNavigation);
-				
-				
+					
 			}
-			
+			}
 		});
 		
+		/**
+		 * Clickhandler für das Abbrechen des Vorgangs
+		 */
 		abbrechen.addClickHandler(new ClickHandler(){
 
 			@Override

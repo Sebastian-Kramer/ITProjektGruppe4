@@ -54,6 +54,9 @@ public class KontaktlisteForm extends VerticalPanel {
 	 
 	private Button kontaktHinzufuegen = new Button("Kontakt hinzufuegen");
 	private Button kontaktlisteLoeschen = new Button("Kontaktliste loeschen");
+	private Button kontaktAnzeigen = new Button("Kontakt anzeigen");
+	private Button kontaktlisteTeilen = new Button("Kontaktliste teilen");
+	private Button teilhaberschaften = new Button("Teilhaberschaften verwalten");
 
 	private KontaktAdministrationAsync kontaktVerwaltung = ClientsideSettings.getKontaktverwaltung();
 	KontaktlisteKontaktTreeViewModel kktvm = new KontaktlisteKontaktTreeViewModel();
@@ -92,8 +95,11 @@ public class KontaktlisteForm extends VerticalPanel {
 		 * Hinzufügen der Buttons zur Buttonbar
 		 */
 		RootPanel.get("Buttonbar").clear();
-		fpanel.add(kontaktlisteLoeschen);
+		fpanel.add(kontaktAnzeigen);
 		fpanel.add(kontaktHinzufuegen);
+		fpanel.add(kontaktlisteTeilen);
+		fpanel.add(teilhaberschaften);
+		fpanel.add(kontaktlisteLoeschen);
 		RootPanel.get("Buttonbar").add(fpanel);
 		
 		/*
@@ -104,25 +110,26 @@ public class KontaktlisteForm extends VerticalPanel {
 		vpanel.add(kontaktCellList);
 		RootPanel.get("Details").add(vpanel);
 		
-	
+		/*
+		 * Hinzufuegen der Clickhandler zu den Buttons
+		 */
 		kontaktlisteLoeschen.addClickHandler(new KontaktlisteloeschenClickhandler());
 		kontaktHinzufuegen.addClickHandler(new KontaktHinzufuegenClickhandler());
+		kontaktAnzeigen.addClickHandler(new KontaktAnzeigenClickhandler());
+		kontaktlisteTeilen.addClickHandler(new KontaktlisteTeilenClickhandler());
+		teilhaberschaften.addClickHandler(new TeilhaberschaftenVerwaltenClickhandler());
 
 	}
 	
 	/**
 	 * Nested Class, die es ermoeglicht, auf Selektionsereignisse in der CellList zu reagieren.
-	 * Bei aktivieren der Selektion wird die <code>KontaktForm</code> aufgerufen, um den ausgewaehlten
-	 * Kontakt anzuzeigen.
+	 * 
 	 */
 	private class SelectionChangeEventHandler implements SelectionChangeEvent.Handler{
 
 		@Override
 		public void onSelectionChange(SelectionChangeEvent event) {
-			Kontakt selection = selectionModel.getSelectedObject();
-			RootPanel.get("Details").clear();
-			RootPanel.get("Details").add(new KontaktForm(selection));
-			
+			Kontakt selection = selectionModel.getSelectedObject();	
 			
 		}
 		
@@ -135,7 +142,7 @@ public class KontaktlisteForm extends VerticalPanel {
 
 		@Override
 		public void onClick(ClickEvent event) {
-			 //Wenn die ausgewählte Kontaktliste vom Nutzer erstellt wurde wird diese gelöscht
+			 //Wenn die ausgewählte Kontaktliste vom Nutzer erstellt wurde, wird diese gelöscht
 		if(kl.getNutzerID() == nutzer.getID()){
 			kontaktVerwaltung.deleteKontaktliste(kl, new KontaktlisteloeschenCallback());
 			}
@@ -161,6 +168,43 @@ public class KontaktlisteForm extends VerticalPanel {
 		}
 		
 	}
+	
+	private class KontaktAnzeigenClickhandler implements ClickHandler{
+
+		@Override
+		public void onClick(ClickEvent event) {
+			if(selectionModel.getSelectedObject() == null){
+				Window.alert("Sie müssen einen Kontakt auswählen");
+			}else{
+			KontaktForm kf = new KontaktForm(selectionModel.getSelectedObject());
+			RootPanel.get("Details").clear();
+			RootPanel.get("Details").add(kf);
+			kktvm.setSelectedKontakt(selectionModel.getSelectedObject());
+			}
+		}
+		
+	}
+	
+	private class KontaktlisteTeilenClickhandler implements ClickHandler{
+
+		@Override
+		public void onClick(ClickEvent event) {
+			DialogBoxKontaktlisteTeilen dbteilen = new DialogBoxKontaktlisteTeilen(kl);
+			dbteilen.center();
+			
+		}
+		
+	}
+	
+	private class TeilhaberschaftenVerwaltenClickhandler implements ClickHandler{
+
+		@Override
+		public void onClick(ClickEvent event) {
+			DialogBoxTeilhaberschaftVerwalten dbteilhaber = new DialogBoxTeilhaberschaftVerwalten(kl);
+			dbteilhaber.center();
+		}
+		
+	}
 		
 	
 	void setKktvw(KontaktlisteKontaktTreeViewModel kktvm) {
@@ -174,7 +218,11 @@ public class KontaktlisteForm extends VerticalPanel {
 	
 	
 
-	
+	/**
+	 * Callback-Klasse für die Löschung der Kontaktliste
+	 * @author Raphael
+	 *
+	 */
 	private class KontaktlisteloeschenCallback implements AsyncCallback<Void> {
 
 		@Override
