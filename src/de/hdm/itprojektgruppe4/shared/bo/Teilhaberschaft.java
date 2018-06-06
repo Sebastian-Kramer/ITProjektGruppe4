@@ -58,6 +58,14 @@ public class Teilhaberschaft extends BusinessObject{
 	public void setNutzerID(int nutzerID) {
 		this.nutzerID = nutzerID;
 	}
+
+	@Override
+	public String toString() {
+		return "Teilhaberschaft [kontaktID=" + kontaktID + ", kontaktListeID=" + kontaktListeID
+				+ ", eigenschaftsauspraegungID=" + eigenschaftsauspraegungID + ", teilhaberID=" + teilhaberID
+				+ ", nutzerID=" + nutzerID + "]";
+	}
+	
 	
 	
 }

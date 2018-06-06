@@ -16,6 +16,16 @@
     <url-pattern>/itprojektss18/kontaktmanager</url-pattern>
   </servlet-mapping>
   
+  	<servlet>
+		<servlet-name>ReportServlet</servlet-name>
+		<servlet-class>de.hdm.itprojektgruppe4.server.report.ReportGeneratorImpl</servlet-class>
+	</servlet>
+	
+	<servlet-mapping>
+		<servlet-name>ReportServlet</servlet-name>
+		<url-pattern>/itprojektss18Report/reportgenerator</url-pattern>
+	</servlet-mapping>
+  
  <servlet>
 <servlet-name>loginService</servlet-name>
 <servlet-class>de.hdm.itprojektgruppe4.server.LoginServiceImpl</servlet-class>
@@ -29,6 +39,6 @@
   <!-- Default page to serve -->
   <welcome-file-list>
     <welcome-file>ITProjektSS18.html</welcome-file>
-  </welcome-file-list>
-
+    <welcome-file>ITProjektSS18Report.html</welcome-file>
+      </welcome-file-list>
 </web-app>
