@@ -79,7 +79,7 @@ public class KontaktMapper extends PersonMapper {
 	/**
 	 * 	Ein Kontakt anhand des Attributs Name finden. 
 	 * @param name der Name als String
-	 * @return der Kontakt bei dem der Name �bereinstimmte 
+	 * @return der Kontakt bei dem der Name uebereinstimmt
 	 */
 	
 	

@@ -489,14 +489,28 @@ public interface KontaktAdministration extends RemoteService {
 	public Kontaktliste insertMeineKontakte(String bez, int status, int nutzerID) throws IllegalArgumentException;
 	
 	/**
-	 * Ausgabe eines Vectors mit sämtlichen geteilten und erstellten Kontakten eines Nutzers
+	 * Ausgabe eines Vectors mit sï¿½mtlichen geteilten und erstellten Kontakten eines Nutzers
 	 * 
 	 * @param nutzerID
-	 * @return Vector mit sämtlichen geteilten und erstellten Kontakten des Nutzers
+	 * @return Vector mit sï¿½mtlichen geteilten und erstellten Kontakten des Nutzers
 	 * @throws IllegalArgumentException
 	 */
 	public Vector<Kontakt> findAllKontaktFromNutzer(int nutzerID) throws IllegalArgumentException;
+	
+	/**
+	 * Eine Teilhaberschaft an einer Kontaktliste löschen
+	 * 
+	 * @param kontaktlisteID die ID der Kontaktliste, an der die Teilhaberchaft aufgelöst werden soll
+	 * @throws IllegalArgumentException
+	 */
+	public void deleteTeilhaberschaftByKontaktlisteID(int kontaktlisteID) throws IllegalArgumentException;
 
+	
+	public Kontaktliste findBasicKontaktliste(int nutzerID) throws IllegalArgumentException;
+	
+	
+	public Kontaktliste findKontaktliste(int nutzerID, String bez) throws IllegalArgumentException;
+	
     /**
      * @param name 
      * @param erzeugungsdatum 

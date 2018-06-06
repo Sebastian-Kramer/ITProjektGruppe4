@@ -154,9 +154,9 @@ public class UpdateKontaktForm extends VerticalPanel {
 				@Override
 				public void onKeyDown(KeyDownEvent event) {
 					if (event.getNativeKeyCode() == KeyCodes.KEY_ENTER) {
-
+						kon.setModifikationsdatum(date);
 						verwaltung.updateAuspraegung(eigaus, new AuspraegungBearbeitenCallback());
-						
+						verwaltung.updateKontakt(kon, new KontaktModifikationsdatumCallback());
 					}
 					
 				}
@@ -198,9 +198,9 @@ public class UpdateKontaktForm extends VerticalPanel {
 					
 					ea.setAuspraegungID(object.getAuspraegungID());
 					ea.setEigenschaftID(object.getEigenschaftID());
-					
+					kon.setModifikationsdatum(date);
 					verwaltung.deleteEigenschaftUndAuspraegung(ea, new AuspraegungHybridLoeschenCallback());
-					
+					verwaltung.updateKontakt(kon, new KontaktModifikationsdatumCallback());
 				}
 			});
 			
@@ -208,14 +208,9 @@ public class UpdateKontaktForm extends VerticalPanel {
 
 			@Override
 			public void onClick(ClickEvent event) {
-//				Kontakt k = new Kontakt();
-//				k.setID(kon.getID());
-//				kon.setModifikationsdatum(date);
-//				k.setNutzerID(kon.getNutzerID());
-//				k.setName(txt_KontaktName.getValue());
-//				k.setStatus(kon.getStatus());
-//				k.setErzeugungsdatum(kon.getErzeugungsdatum());
-				
+
+				kon.setModifikationsdatum(date);
+
 				ctf.addRow(txt_Eigenschaft.getValue(), txt_Auspraegung.getValue());
 
 				verwaltung.insertEigenschaft(txt_Eigenschaft.getText(), 0, new EigenschaftEinfuegenCallback());
@@ -228,16 +223,13 @@ public class UpdateKontaktForm extends VerticalPanel {
 
 		@Override
 		public void onFailure(Throwable caught) {
-//			Window.alert("War nix");
+
 			
 		}
 
 		@Override
 		public void onSuccess(Kontakt result) {
-//			Window.alert(result.getName() + "     " + result.getNutzerID()+ "     " + result.getStatus()
-//			+ "     " + result.getModifikationsdatum()+ "     " + result.getErzeugungsdatum()+ "     " + result.getID());
-//			verwaltung.findHybrid(kon, new ReloadCallback());
-//			
+			verwaltung.findHybrid(kon, new ReloadCallback());
 		}
 		
 	}

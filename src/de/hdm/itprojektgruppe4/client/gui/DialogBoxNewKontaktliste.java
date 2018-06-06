@@ -45,7 +45,7 @@ public class DialogBoxNewKontaktliste extends DialogBox {
 	public void onLoad() {
 
 		super.onLoad();
-
+	
 		nutzer.setID(Integer.parseInt(Cookies.getCookie("id")));
 		nutzer.setEmail(Cookies.getCookie("email"));
 
@@ -78,24 +78,34 @@ public class DialogBoxNewKontaktliste extends DialogBox {
 			RootPanel.get("Navigation").add(navigation);
 			RootPanel.get("Details").add(mf);						
 
+			
+			
 		}
 
 	}
 
 	class Liste implements AsyncCallback<Kontaktliste> {
 
+		
+		
 		@Override
 		public void onFailure(Throwable caught) {
 			Window.alert("Die Kontaktliste konnte leider nicht angelegt werden");
-
+			
+			
 		}
 
 		@Override
 		public void onSuccess(Kontaktliste result) {
 			kktvm.addKontaktliste(result);
+			Window.alert("Die Kontaktliste wurde erfolgreich angelegt" + result.getID());
 			
-			Window.alert("Die Kontaktliste wurde erfolgreich angelegt");
-
+			if(result.getID() ==0) {
+				
+				Window.alert("Kontaktliste konnte nicht angelegt werden, da dieser Name bereits vorhanden ist");
+			}else{
+			Window.alert("Die Kontaktliste wurde erfolgreich angelegt" + result.getID());
+			}
 		}
 
 	}

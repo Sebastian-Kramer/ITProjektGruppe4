@@ -9,6 +9,7 @@ import com.google.gwt.cell.client.ButtonCell;
 import com.google.gwt.cell.client.ClickableTextCell;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.i18n.client.DateTimeFormat;
 import com.google.gwt.i18n.client.NumberFormat;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
@@ -53,7 +54,7 @@ public class KontaktForm extends VerticalPanel {
 	private VerticalPanel vpanel = new VerticalPanel();
 	private VerticalPanel vpanelDetails = new VerticalPanel();
 	private VerticalPanel vpanelDetails1 = new VerticalPanel();
-	
+	DateTimeFormat fmt = DateTimeFormat.getFormat("dd.MM.yyyy");
 
 	private SingleSelectionModel<EigenschaftAuspraegungHybrid> sm = new SingleSelectionModel<EigenschaftAuspraegungHybrid>();
 	private CellTableForm ctf = null;
@@ -62,8 +63,8 @@ public class KontaktForm extends VerticalPanel {
 
 	private Button bearbeitenButton = new Button("Kontakt bearbeiten");
 
-	private Button loeschenButton = new Button("Kontakt l�schen");
-	private Button zurueckBtn = new Button("Zur�ck");
+	private Button loeschenButton = new Button("Kontakt löschen");
+	private Button zurueckBtn = new Button("Zurück");
 	
 	private Button kontaktListehinzufuegen = new Button("Kontakt einer Liste hinzufügen");
 
@@ -83,8 +84,8 @@ public class KontaktForm extends VerticalPanel {
 		RootPanel.get("Buttonbar").clear();
 		
 		HTML html1 = new HTML("<h2>" +  k.getName()   + "</h2>"); 
-		HTML html2 = new HTML("Erstellt am: " + k.getErzeugungsdatum());
-		HTML html3 = new HTML("Zuletzt geändert am: " + k.getModifikationsdatum());
+		HTML html2 = new HTML("Erstellt am: " + fmt.format(k.getErzeugungsdatum()));
+		HTML html3 = new HTML("Zuletzt geändert am: " + fmt.format(k.getModifikationsdatum()));
 		super.onLoad();
 		verwaltung.findAllEigenschaft(new AllEigenschaftCallback());
 		ctf = new CellTableForm(k);
@@ -129,6 +130,7 @@ public class KontaktForm extends VerticalPanel {
 			@Override
 			public void onClick(ClickEvent event) {
 				MainForm mf = new MainForm();
+				RootPanel.get("Buttonbar").clear();
 				RootPanel.get("Details").clear();
 				RootPanel.get("Details").add(mf);
 				bearbeitenButton.setVisible(false);
