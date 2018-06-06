@@ -449,6 +449,27 @@ public class KontaktAdministrationImpl extends RemoteServiceServlet
 		return this.nutzerMapper.findAllNutzer();
 	}
 	
+	/**
+	 * Vector mit sämtlichen Nutzern, die eine Teilhaberschaft an einer Kontaktliste haben
+	 * 
+	 * @param kontaktlisteID die ID der Kontaktliste an der Teilhaberschaften von Nutzern bestehen
+	 * @return Vector mit Nutzern die Teilhaber an einer Kontaktliste sind
+	 * @throws IllegalArgumentException
+	 */
+	@Override
+	public Vector<Nutzer> findAllTeilhaberFromKontaktliste(int kontaktlisteID) throws IllegalArgumentException {
+		Vector<Nutzer> nutzerVector = new Vector<Nutzer>();
+		Vector<Teilhaberschaft> teilhabe = teilhaberschaftMapper.findTeilhaberschaftByKontaktlisteID(kontaktlisteID);
+		
+		for(Teilhaberschaft t : teilhabe){
+			nutzerVector.add(nutzerMapper.findNutzerByID(t.getTeilhaberID()));
+			
+			
+		}
+		
+		return nutzerVector;
+	}
+	
 	
     /*##########################################################
      * ENDE Methoden fï¿½r Nutzer-Objekte
@@ -942,6 +963,18 @@ public class KontaktAdministrationImpl extends RemoteServiceServlet
 	}
 	
 	/**
+	 * Löschen eines Kontaktes aus einer Kontaktliste
+	 * 
+	 * @param kontaktID die ID des zu löschenden Kontaktes
+	 * @throws IllegalArgumentException
+	 */
+	@Override
+	public void deleteKontaktKontaktlisteByKontaktID(int kontaktID) throws IllegalArgumentException {
+		this.kontaktKontaktlisteMapper.deleteKontaktKontaktlisteByKontaktID(kontaktID);
+		
+	}
+	
+	/**
 	 * 
 	 * @param kontaktlisteID
 	 * @return Vector mit KontaktKontaktlisten-Objekten die ï¿½bergebene KontaktlisteID als Fremdschlï¿½ssel besitzen
@@ -1096,6 +1129,18 @@ public class KontaktAdministrationImpl extends RemoteServiceServlet
      * @throws IllegalArgumentException
      */
 	
+	/**
+	 * Löschen einer Teilhaberschaft anhand der TeilhaberID
+	 * 
+	 * @param teilhaberID die ID des Teilhabers dessen ID gelöscht werden soll
+	 * @throws IllegalArgumentException
+	 */
+	@Override
+	public void deleteTeilhaberschaftByTeilhaberID(int teilhaberID) throws IllegalArgumentException {
+		this.teilhaberschaftMapper.deleteTeilhaberschaftByTeilhaberID(teilhaberID);
+		
+	}
+	
 	/*##########################################################
      * ENDE Methoden fï¿½r Teilhaberschaft-Objekte
      #########################################################*/
@@ -1109,7 +1154,7 @@ public class KontaktAdministrationImpl extends RemoteServiceServlet
 	/**
      * Eine Teilhaberschaft an einer Kontaktliste loeschen.
      * 
-     * @param t das zu lï¿½schende Teilhaberschaft-Objekt
+     * @param t das zu loe½schende Teilhaberschaft-Objekt
      * @throws IllegalArgumentException
      */
 	
@@ -1191,9 +1236,6 @@ public class KontaktAdministrationImpl extends RemoteServiceServlet
 
 	@Override
 	public Kontaktliste findBasicKontaktliste(int nutzerID) throws IllegalArgumentException {
-		
-		
-		
 		return this.konlistMapper.findBasicKontaktliste(nutzerID);
 	
 		
@@ -1217,31 +1259,17 @@ public class KontaktAdministrationImpl extends RemoteServiceServlet
 
 	@Override
 	public Kontaktliste findKontaktliste(int nutzerID, String bez) throws IllegalArgumentException {
-		// TODO Auto-generated method stub
 		return this.konlistMapper.findKontaktliste(nutzerID, bez);
 	}
 
 
-	/**
-	 * Vector mit sämtlichen Nutzern, die eine Teilhaberschaft an einer Kontaktliste haben
-	 * 
-	 * @param kontaktlisteID die ID der Kontaktliste an der Teilhaberschaften von Nutzern bestehen
-	 * @return Vector mit Nutzern die Teilhaber an einer Kontaktliste sind
-	 * @throws IllegalArgumentException
-	 */
-	@Override
-	public Vector<Nutzer> findAllTeilhaberFromKontaktliste(int kontaktlisteID) throws IllegalArgumentException {
-		Vector<Nutzer> nutzerVector = new Vector<Nutzer>();
-		Vector<Teilhaberschaft> teilhabe = teilhaberschaftMapper.findTeilhaberschaftByKontaktlisteID(kontaktlisteID);
-		
-		for(Teilhaberschaft t : teilhabe){
-			nutzerVector.add(nutzerMapper.findNutzerByID(t.getNutzerID()));
-			
-			
-		}
-		
-		return nutzerVector;
-	}
+
+
+
+
+
+
+
 
 
 	

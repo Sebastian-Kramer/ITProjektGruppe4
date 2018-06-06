@@ -163,6 +163,10 @@ public interface KontaktAdministrationAsync {
 
 	void findAllTeilhaberFromKontaktliste(int kontaktlisteID, AsyncCallback<Vector<Nutzer>> callback);
 
+	void deleteKontaktKontaktlisteByKontaktID(int kontaktID, AsyncCallback<Void> callback);
+
+	void deleteTeilhaberschaftByTeilhaberID(int teilhaberID, AsyncCallback<Void> callback);
+
 
 
 

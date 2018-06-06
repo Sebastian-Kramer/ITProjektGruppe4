@@ -49,8 +49,13 @@ public class DialogBoxTeilhaberschaftVerwalten extends DialogBox {
 	
 	private VerticalPanel vpanel = new VerticalPanel();
 	
+	private Button teilhaberschaftAufloesen = new Button("Teilhaberschaft entfernen");
+	private Button abbrechen = new Button("abbrechen");
+	
+	
 	private NutzerCell nutzerCell = new NutzerCell();
 	private CellList<Nutzer> nutzerList = new CellList<Nutzer>(nutzerCell);
+	private SingleSelectionModel<Nutzer> selectionModel = new SingleSelectionModel<Nutzer>();
 	
 	DialogBoxTeilhaberschaftVerwalten(Kontaktliste kl){
 		this.kl = kl;
@@ -62,10 +67,56 @@ public class DialogBoxTeilhaberschaftVerwalten extends DialogBox {
 		NutzerDataProvider dataProvider = new NutzerDataProvider();
 		dataProvider.addDataDisplay(nutzerList);
 		
+		abbrechen.addClickHandler(new AbbrechenClickhandler());
+		teilhaberschaftAufloesen.addClickHandler(new TeilhaberschaftAufloesenClickhandler());
+		nutzerList.setSelectionModel(selectionModel);
 		
 		vpanel.add(nutzerList);
+		vpanel.add(abbrechen);
+		vpanel.add(teilhaberschaftAufloesen);
 		this.add(vpanel);
 	}
+	
+	private class AbbrechenClickhandler implements ClickHandler{
+
+		@Override
+		public void onClick(ClickEvent event) {
+			hide();
+			
+		}
+		
+	}
+		
+	private class TeilhaberschaftAufloesenClickhandler implements ClickHandler{
+
+		@Override
+		public void onClick(ClickEvent event) {
+			kontaktVerwaltung.deleteTeilhaberschaftByTeilhaberID(selectionModel.getSelectedObject().getID(), new TeilhaberschaftLoeschenCallback(){
+				
+			});
+			
+		}
+		
+	}
+	
+	private class TeilhaberschaftLoeschenCallback implements AsyncCallback<Void>{
+
+		@Override
+		public void onFailure(Throwable caught) {
+			// TODO Auto-generated method stub
+			
+		}
+
+		@Override
+		public void onSuccess(Void result) {
+			Window.alert("Die Teilhaberschaft wurde erfolgreich gelöscht");
+			hide();
+			
+		}
+		
+	}
+		
+	
 	
 	private class NutzerDataProvider extends AsyncDataProvider<Nutzer>{
 
@@ -97,5 +148,6 @@ public class DialogBoxTeilhaberschaftVerwalten extends DialogBox {
 		}
 		
 	}
+
 
 }

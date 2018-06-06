@@ -57,6 +57,7 @@ public class KontaktlisteForm extends VerticalPanel {
 	private Button kontaktAnzeigen = new Button("Kontakt anzeigen");
 	private Button kontaktlisteTeilen = new Button("Kontaktliste teilen");
 	private Button teilhaberschaften = new Button("Teilhaberschaften verwalten");
+	private Button kontaktEntfernen = new Button("Kontakt entfernen");
 
 	private KontaktAdministrationAsync kontaktVerwaltung = ClientsideSettings.getKontaktverwaltung();
 	KontaktlisteKontaktTreeViewModel kktvm = new KontaktlisteKontaktTreeViewModel();
@@ -97,6 +98,7 @@ public class KontaktlisteForm extends VerticalPanel {
 		RootPanel.get("Buttonbar").clear();
 		fpanel.add(kontaktAnzeigen);
 		fpanel.add(kontaktHinzufuegen);
+		fpanel.add(kontaktEntfernen);
 		fpanel.add(kontaktlisteTeilen);
 		fpanel.add(teilhaberschaften);
 		fpanel.add(kontaktlisteLoeschen);
@@ -118,6 +120,7 @@ public class KontaktlisteForm extends VerticalPanel {
 		kontaktAnzeigen.addClickHandler(new KontaktAnzeigenClickhandler());
 		kontaktlisteTeilen.addClickHandler(new KontaktlisteTeilenClickhandler());
 		teilhaberschaften.addClickHandler(new TeilhaberschaftenVerwaltenClickhandler());
+		kontaktEntfernen.addClickHandler(new KontaktEntfernenClickhandler());
 
 	}
 	
@@ -185,6 +188,20 @@ public class KontaktlisteForm extends VerticalPanel {
 		
 	}
 	
+	private class KontaktEntfernenClickhandler implements ClickHandler{
+
+		@Override
+		public void onClick(ClickEvent event) {
+			if(selectionModel.getSelectedObject() == null){
+				Window.alert("Sie müssen einen Kontakt auswählen");
+			}else{
+				kontaktVerwaltung.deleteKontaktKontaktlisteByKontaktID(selectionModel.getSelectedObject().getID(), new KontaktEntfernenCallback());
+			}
+			
+		}
+		
+	}
+	
 	private class KontaktlisteTeilenClickhandler implements ClickHandler{
 
 		@Override
@@ -244,6 +261,30 @@ public class KontaktlisteForm extends VerticalPanel {
 			
 		}
 
+		
+	}
+	
+	private class KontaktEntfernenCallback implements AsyncCallback<Void>{
+
+		@Override
+		public void onFailure(Throwable caught) {
+			// TODO Auto-generated method stub
+			
+		}
+
+		@Override
+		public void onSuccess(Void result) {
+			// Bei erfolgreicher Löschung müssen sowohl die KontaktlisteForm als auch der NavigationTree neu geladen werden
+			// und dem RootPanel hinzugefügt werden
+			KontaktlisteForm kf = new KontaktlisteForm(kl);
+			NavigationTree updatedTree = new NavigationTree();
+			RootPanel.get("Navigator").clear();
+			RootPanel.get("Details").clear();
+			RootPanel.get("Buttonbar").clear();
+			RootPanel.get("Details").add(kf);
+			RootPanel.get("Navigator").add(updatedTree);
+			
+		}
 		
 	}
 	

@@ -148,8 +148,8 @@ public class KontaktKontaktlisteMapper {
 		
 	}
 	/**
-	 * Erm�glicht das L�schen eines Objektes der Klasse KontaktKontaktliste anhand des Fremdschl�ssels KontaktID
-	 * @param k
+	 * Ermoeglicht das Loeschen eines Objektes der Klasse KontaktKontaktliste anhand des Fremdschluessels KontaktID
+	 * @param k die ID des Kontaktes
 	 */
 	public void deleteKontaktKontaktlisteByKontaktID (int k){
 		Connection con = DBConnection.connection();

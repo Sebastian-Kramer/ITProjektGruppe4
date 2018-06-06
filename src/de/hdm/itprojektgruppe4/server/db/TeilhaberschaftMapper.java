@@ -445,5 +445,32 @@ public class TeilhaberschaftMapper {
 		}
 
 	}
+	
+	/**
+	 * Loeschen einer Teilhaberschaft anhand der teilhaberID
+	 * 
+	 * @param teilhaberID die ID des Teilhabers, dessen Teilhaberschaft aufgelöst werden soll
+	 */
+	public void deleteTeilhaberschaftByTeilhaberID(int teilhaberID){
+
+		Connection con = DBConnection.connection();
+
+		try {
+
+			Statement stmt = con.createStatement();
+
+			stmt.executeUpdate
+
+			(
+
+					"DELETE FROM `teilhaberschaft` WHERE `teilhaberID` = " + teilhaberID);
+
+		} catch (SQLException e2) {
+
+			e2.printStackTrace();
+
+		}
+
+	}
 
 }
