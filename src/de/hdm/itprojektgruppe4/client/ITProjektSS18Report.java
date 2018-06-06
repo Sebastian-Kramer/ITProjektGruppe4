@@ -132,8 +132,9 @@ public class ITProjektSS18Report   implements EntryPoint{
 		MainFormReport mfReport = new MainFormReport();
 		signOutLink.setHref(loginInfo.getLogoutUrl());
 		RootPanel.get("Buttonbar").add(signOutLink);
-		RootPanel.get("Navigator").add(navigationReport);
 		RootPanel.get("Details").add(mfReport);
+		RootPanel.get("Navigator").add(navigationReport);
+		
 
 		Window.alert("Hello, AJAX6");
 	}

@@ -21,8 +21,8 @@ public class MainFormReport extends VerticalPanel {
 		
 		vpanel.add(reportHTML);
 		
-		RootPanel.get("Details").clear();
-		RootPanel.get("Details").add(vpanel);
+//		RootPanel.get("Details").clear();
+		this.add(reportHTML);
 		
 		
 		
