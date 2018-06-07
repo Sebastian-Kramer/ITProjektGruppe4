@@ -41,6 +41,8 @@ import com.google.gwt.user.client.ui.TextArea;
 import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.view.client.SelectionChangeEvent.Handler;
+import com.google.gwt.view.client.SelectionModel;
+import com.google.gwt.view.client.MultiSelectionModel;
 import com.google.gwt.view.client.NoSelectionModel;
 import com.google.gwt.view.client.SelectionChangeEvent;
 import com.google.gwt.view.client.SingleSelectionModel;
@@ -64,6 +66,8 @@ public class UpdateKontaktForm extends VerticalPanel {
 	private HorizontalPanel hpanelAdd = new HorizontalPanel();
 
 	private Kontakt kon = new Kontakt();
+	
+	private String wertAus = "";
 
 
 	private Label lbl_KontaktName = new Label("Kontaktname: ");
@@ -74,7 +78,6 @@ public class UpdateKontaktForm extends VerticalPanel {
 	private Label lbl_NewAuspraegung = new Label("Auspraegung: ");
 	private TextBox txt_Auspraegung = new TextBox();
 	private Date date = new Date();
-//	SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd.MM.yyyy");
 	DateTimeFormat fmt = DateTimeFormat.getFormat("dd.MM.yyyy");
 	private Button cancelBtn = new Button("Cancel");
 	
@@ -83,49 +86,17 @@ public class UpdateKontaktForm extends VerticalPanel {
 
 	private Eigenschaft eig1 = new Eigenschaft();
 	private Eigenschaftauspraegung eigaus = new Eigenschaftauspraegung();
+	
+//	KeyDownHandler kdh = new KeyDownHandler( "keydown", new KeyDownEvent());
 
-
-	private SingleSelectionModel<EigenschaftAuspraegungWrapper> sm = new SingleSelectionModel<EigenschaftAuspraegungWrapper>();
+	private SingleSelectionModel<EigenschaftAuspraegungWrapper> selectionModel = new SingleSelectionModel<EigenschaftAuspraegungWrapper>();
+	private NoSelectionModel<EigenschaftAuspraegungWrapper> sm = new NoSelectionModel<EigenschaftAuspraegungWrapper>();
 	private CellTableForm ctf = null;
 	
 	
-	Column<EigenschaftAuspraegungWrapper, String> bezEigenschaft = new Column<EigenschaftAuspraegungWrapper, String>(
-			new ClickableTextCell()) {
+	
 
-		@Override
-		public String getValue(EigenschaftAuspraegungWrapper object) {
-			// TODO Auto-generated method stub
-			return object.getEigenschaftValue();
-		}
-	};
-	
-	Column<EigenschaftAuspraegungWrapper, String> wertAuspraegung = new Column<EigenschaftAuspraegungWrapper, String>(
-			new EditTextCell()) {
 
-		@Override
-		public String getValue(EigenschaftAuspraegungWrapper object) {
-			// TODO Auto-generated method stub
-			return object.getAuspraegungValue();
-		}
-		
-		public void onBrowserEvent(Context context, Element elem, EigenschaftAuspraegungWrapper object,
-				NativeEvent event) {
-			super.onBrowserEvent(context, elem, object, event);
-			
-			if (event.getKeyCode() == KeyCodes.KEY_ENTER){
-				kon.setModifikationsdatum(date);
-				verwaltung.updateAuspraegung(eigaus, new AuspraegungBearbeitenCallback());
-				verwaltung.updateKontakt(kon, new KontaktModifikationsdatumCallback());
-			}
-			
-		};
-		
-	};
-//	public Column<EigenschaftAuspraegungHybrid, String> getWertAuspraegung() {
-//		return wertAuspraegung;
-//	}
-	
-	
 	
 	public UpdateKontaktForm(Kontakt kon) {
 
@@ -134,23 +105,20 @@ public class UpdateKontaktForm extends VerticalPanel {
 	
 	public void onLoad() {
 	
+		
+		
 		super.onLoad();
-
-//		simpleDateFormat.format(date);
 		fmt.format(date);
 		verwaltung.findAllEigenschaft(new AllEigenschaftCallback());
 		RootPanel.get("Buttonbar").clear();
 		ctf = new CellTableForm(kon);
-
 		txt_KontaktName.setText(kon.getName());
 	
 		hpanelDetails.setHeight("35px");
 		hpanelDetails.add(lbl_KontaktName);
 		hpanelDetails.add(txt_KontaktName);
-//		hpanelDetails.add(cancelBtn);
 
 		vpanelDetails.add(hpanelDetails);
-		
 		vpanelDetails.add(ctf);
 		vpanelDetails.add(hpanelAdd);
 		hpanelAdd.add(lbl_NewEigenschaft);
@@ -159,56 +127,23 @@ public class UpdateKontaktForm extends VerticalPanel {
 		hpanelAdd.add(txt_Auspraegung);
 		hpanelAdd.add(addRow);
 		
-		ctf.addColumn(bezEigenschaft, "Eigenschaft:");
-		ctf.addColumn(wertAuspraegung, "Wert:");
 		
 		
 		RootPanel.get("Buttonbar").add(cancelBtn);
 		
 		this.add(vpanelDetails);
-
-		ea.setAuspraegungValue(txt_Auspraegung.getText());
-		ea.setEigenschaftValue(txt_Eigenschaft.getText());
-
-		ctf.setSelectionModel(sm);
+		ctf.setSelectionModel(selectionModel);
 		
-//		ctf.getWertAuspraegung().setFieldUpdater(new FieldUpdater<EigenschaftAuspraegungHybrid, String>() {
-//
-//			@Override
-//			public void update(int index, EigenschaftAuspraegungHybrid object, String value) {
-//				sm.getSelectedObject().setAuspraegung(value);
-//				sm.getSelectedObject().setAuspraegungID(object.getAuspraegungID());
-//			
-//				
-//				eigaus.setID(sm.getSelectedObject().getAuspraegungID());
-//				eigaus.setWert(sm.getSelectedObject().getAuspraegung());
-//				eigaus.setStatus(0);
-//				eigaus.setKontaktID(kon.getID());
-//				eigaus.setEigenschaftsID(sm.getSelectedObject().getEigenschaftID());	
-//				
-//				
-//			}	
-//				
-//		});
-	
+		Column<EigenschaftAuspraegungWrapper, String> bezEigenschaft = new Column<EigenschaftAuspraegungWrapper, String>(
+				new ClickableTextCell()) {
+
+			@Override
+			public String getValue(EigenschaftAuspraegungWrapper object) {
+				// TODO Auto-generated method stub
+				return object.getEigenschaftValue();
+			}
+		};
 		
-		KeyDownHandler kdh = new KeyDownHandler(){
-
-
-				@Override
-				public void onKeyDown(KeyDownEvent event) {
-					if (event.getNativeKeyCode() == KeyCodes.KEY_ENTER) {
-						kon.setModifikationsdatum(date);
-						verwaltung.updateAuspraegung(eigaus, new AuspraegungBearbeitenCallback());
-						verwaltung.updateKontakt(kon, new KontaktModifikationsdatumCallback());
-					}
-					
-				}
-				
-			};	
-			
-		ctf.addKeyDownHandler(kdh);	
-	
 		Column<EigenschaftAuspraegungWrapper, String> deleteBtn = new Column<EigenschaftAuspraegungWrapper, String>(
 				new ButtonCell()) {
 			
@@ -219,9 +154,82 @@ public class UpdateKontaktForm extends VerticalPanel {
 				return "x";
 			}
 			};
+		
+		Column<EigenschaftAuspraegungWrapper, String> wertAuspraegung = new Column<EigenschaftAuspraegungWrapper, String>(
+				new EditTextCell()) {
+
+			@Override
+			public String getValue(EigenschaftAuspraegungWrapper object) {
+//				object.setAuspraegungID(object.getAuspraegungEigenschaftID());
 				
-		ctf.addColumn(deleteBtn, "");
+				return object.getAuspraegungValue();
+			}
+			public void onBrowserEvent(Context context, Element elem, EigenschaftAuspraegungWrapper object,
+					NativeEvent event) {
+				super.onBrowserEvent(context, elem, object, event);
+				
+				if (event.getKeyCode() == KeyCodes.KEY_ENTER){
+//					kon.setModifikationsdatum(date);
+					eigaus.setWert(selectionModel.getSelectedObject().getAuspraegungValue());
+					Window.alert("Der Wert der ausprägung beim onbrowserevent ist: " + eigaus.getWert());
+					verwaltung.updateAuspraegung(eigaus, new AuspraegungBearbeitenCallback());
+//					verwaltung.updateKontakt(kon, new KontaktModifikationsdatumCallback());
+				}
+				
+			};
+		
+		};
 	
+		
+
+//		{
+//	        public void onKeyDown(KeyDownEvent event) {
+//	            if (event.getNativeKeyCode() == KeyCodes.KEY_ENTER) {
+//
+//	            }
+//	          }
+//	        });
+		
+		
+		wertAuspraegung.setFieldUpdater(new FieldUpdater<EigenschaftAuspraegungWrapper, String>() {
+
+			@Override
+			public void update(int index, EigenschaftAuspraegungWrapper object, String value) {
+				object.setEigenschaftValue(value);
+				selectionModel.getSelectedObject().setAuspraegungValue(value);
+				selectionModel.getSelectedObject().setAuspraegungID(object.getAuspraegungID());
+				eigaus.setWert(object.getAuspraegungValue());
+				eigaus.setID(object.getAuspraegungID());
+				eigaus.setEigenschaftsID(object.getEigenschaftID());
+				eigaus.setKontaktID(kon.getID());
+				eigaus.setStatus(0);
+					
+		
+			}	
+				
+		});
+		
+		wertAuspraegung.setSortable(true);
+		ctf.addColumn(bezEigenschaft, "Eigenschaft:");
+		ctf.addColumn(wertAuspraegung, "Wert:");
+		ctf.addColumn(deleteBtn, "");
+		
+
+//		KeyDownHandler kdh = new KeyDownHandler(){
+//
+//			@Override
+//			public void onKeyDown(KeyDownEvent event) {
+//				if (event.getNativeKeyCode() == KeyCodes.KEY_ENTER) {
+//					kon.setModifikationsdatum(date);
+//					eigaus.setWert(wert);
+//					verwaltung.updateAuspraegung(eigaus, new AuspraegungBearbeitenCallback());
+//					verwaltung.updateKontakt(kon, new KontaktModifikationsdatumCallback());
+//				}
+//				
+//			}
+//			
+//		};	
+		
 		cancelBtn.addClickHandler(new ClickHandler() {
 			
 			@Override
@@ -230,7 +238,7 @@ public class UpdateKontaktForm extends VerticalPanel {
 				
 				RootPanel.get("Details").clear();
 				RootPanel.get("Details").add(kf);
-				
+		
 			}
 		});
 		
@@ -238,30 +246,33 @@ public class UpdateKontaktForm extends VerticalPanel {
 		deleteBtn.setFieldUpdater(new FieldUpdater<EigenschaftAuspraegungWrapper, String>() {
 					
 				@Override
-				public void update(int index, EigenschaftAuspraegungWrapper object, String value) {
-					
-					ea.setAuspraegungID(object.getAuspraegungID());
-					ea.setEigenschaftID(object.getEigenschaftID());
+				public void update(int index, EigenschaftAuspraegungWrapper object, String value) { 
+					ea.setAuspraegung(object.getAuspraegung());
+					ea.setEigenschaft(object.getEigenschaft());
 					kon.setModifikationsdatum(date);
 					verwaltung.deleteEigenschaftUndAuspraegung(ea, new AuspraegungHybridLoeschenCallback());
 					verwaltung.updateKontakt(kon, new KontaktModifikationsdatumCallback());
+					
 				}
 			});
-			
+		
+		
+		
 		addRow.addClickHandler(new ClickHandler() {
 
 			@Override
 			public void onClick(ClickEvent event) {
 
 				kon.setModifikationsdatum(date);
-
+		
 				ctf.addRow(txt_Eigenschaft.getValue(), txt_Auspraegung.getValue());
-
 				verwaltung.insertEigenschaft(txt_Eigenschaft.getText(), 0, new EigenschaftEinfuegenCallback());
 				verwaltung.updateKontakt(kon, new KontaktModifikationsdatumCallback());
 		}
 
 		});}
+	
+
 	
 	class KontaktModifikationsdatumCallback implements AsyncCallback<Kontakt>{
 
@@ -343,8 +354,9 @@ public class UpdateKontaktForm extends VerticalPanel {
 
 		@Override
 		public void onSuccess(Eigenschaftauspraegung result) {
-			Window.alert("Sie haben die Auspr�gung " + result.getWert() + " angepasst");
-			eigaus.setWert(result.getWert());
+			Window.alert("wurde aktualisiert");
+			verwaltung.findHybrid(kon, new ReloadCallback());
+//			eigaus.setWert(result.getWert());
 		}
 
 	}
@@ -360,7 +372,7 @@ public class UpdateKontaktForm extends VerticalPanel {
 		@Override
 		public void onSuccess(Void result) {
 			verwaltung.findHybrid(kon, new ReloadCallback());
-			
+	
 //			ctf.redraw();
 			
 		}
@@ -376,6 +388,7 @@ public class UpdateKontaktForm extends VerticalPanel {
 
 		@Override
 		public void onSuccess(Vector<EigenschaftAuspraegungWrapper> result) {
+			Window.alert("TEST");
 			ctf.setRowData(0, result);
 			ctf.setRowCount(result.size(), true);
 		}

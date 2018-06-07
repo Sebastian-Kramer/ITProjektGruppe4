@@ -50,15 +50,15 @@ public class CellTableForm extends CellTable<EigenschaftAuspraegungWrapper> {
 		return sm;
 	}
 
-//	Column<EigenschaftAuspraegungHybrid, String> wertAuspraegung;
-//
-//	public Column<EigenschaftAuspraegungHybrid, String> getWertAuspraegung() {
-//		return wertAuspraegung;
-//	}
-//
-//	public void setWertAuspraegung(Column<EigenschaftAuspraegungHybrid, String> wertAuspraegung) {
-//		this.wertAuspraegung = wertAuspraegung;
-//	}
+	Column<EigenschaftAuspraegungWrapper, String> wertAuspraegung;
+
+	public Column<EigenschaftAuspraegungWrapper, String> getWertAuspraegung() {
+		return wertAuspraegung;
+	}
+
+	public void setWertAuspraegung(Column<EigenschaftAuspraegungWrapper, String> wertAuspraegung) {
+		this.wertAuspraegung = wertAuspraegung;
+	}
 
 	public CellTableForm(final Kontakt k) {
 
@@ -104,17 +104,13 @@ public class CellTableForm extends CellTable<EigenschaftAuspraegungWrapper> {
 	}
 
 	public void addRow(String a, String b) {
-		EigenschaftAuspraegungWrapper eigenschafthybrid = new EigenschaftAuspraegungWrapper();
-		eigenschafthybrid.setEigenschaftValue(a);
-		eigenschafthybrid.setAuspraegungValue(b);
+		EigenschaftAuspraegungWrapper wrapper = new EigenschaftAuspraegungWrapper();
 
-		eList.add(eigenschafthybrid);
-		// model.getList().add(eigenschafthybrid);
-
-		// int row = this.getRowCount();
+		wrapper.setEigenschaftValue(a);
+		wrapper.setAuspraegungValue(b);
+		eList.add(wrapper);
 		this.setRowData(0, eList);
 		this.setRowCount(eList.size(), true);
-
 		this.redraw();
 	}
 
