@@ -48,7 +48,7 @@ public class MainForm extends VerticalPanel {
 	private Button newKontaktliste = new Button("Neue Kontaktliste anlegen");
 	private Button newTeilhaberschaft = new Button("Kontaktliste teilen");
 	private Button suchen = new Button("Suchen");
-	
+	private Button impressum = new Button("Impressum");
 	
 	private HTML html1 = new HTML("<h2>Meine Kontakte</h2>");
 
@@ -96,6 +96,9 @@ public class MainForm extends VerticalPanel {
 
 		// Details Panels & Widgets
 		
+		
+		impressum.addClickHandler(new ImpressumButton());
+		
 		newKontaktliste.addClickHandler(new ClickHandler(){
 
 			@Override
@@ -131,6 +134,7 @@ public class MainForm extends VerticalPanel {
 		hpanelButtonBar.add(newKontaktliste);
 		hpanelButtonBar.add(newKontakt);
 		hpanelButtonBar.add(suchen);
+		hpanelButtonBar.add(impressum);
 		
 		scrollPanel.setSize("450px", "250px");
 		scrollPanel.setStyleName("scrollPanel");
@@ -146,6 +150,16 @@ public class MainForm extends VerticalPanel {
 
 	}
 
+	class ImpressumButton implements ClickHandler {
+
+		@Override
+		public void onClick(ClickEvent event) {
+			// TODO Auto-generated method stub
+			ImpressumSeite imp = new ImpressumSeite();
+			RootPanel.get("Details").clear();
+			RootPanel.get("Details").add(imp);
+		}}
+	
 	class KontaktCallBack implements AsyncCallback<List<Kontakt>> {
 
 		@Override

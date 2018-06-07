@@ -19,10 +19,13 @@ import java.util.Vector;
 
 import com.google.gwt.core.client.EntryPoint;
 import com.google.gwt.core.client.GWT;
+import com.google.gwt.event.dom.client.ClickEvent;
+import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.Cookies;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Anchor;
+import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
@@ -41,13 +44,17 @@ public class ITProjektSS18 implements EntryPoint {
 	private Label loginLabel = new Label("Bitte melde dich mit deinem Google-Konto an");
 	private Anchor signInLink = new Anchor("Anmelden");
 	private Anchor signOutLink = new Anchor("Logout");
-
+	
+	
+	
 	LoginServiceAsync loginService = GWT.create(LoginService.class);
 	private static KontaktAdministrationAsync verwaltung = ClientsideSettings.getKontaktVerwaltung();
 
 	private static String editorHtmlName = "ITProjektSS18.html";
 
 	public void onModuleLoad() {
+		
+		
 
 		LoginServiceAsync loginService = GWT.create(LoginService.class);
 		loginService.login(GWT.getHostPageBaseURL() + editorHtmlName, new AsyncCallback<LoginInfo>() {
@@ -141,7 +148,7 @@ public class ITProjektSS18 implements EntryPoint {
 
 	/*
 	 * Meldet sich ein Nutzer neu auf der Plattform an, soll sofort eine Kontaktliste "Meinte Kontakte" erstellt werden.
-	 * Hierfür wird diese Callback-Klasse benötigt.
+	 * Hierfï¿½r wird diese Callback-Klasse benï¿½tigt.
 	 */
 	private class MeineKontakteAnlegen implements AsyncCallback<Kontaktliste>{
 
