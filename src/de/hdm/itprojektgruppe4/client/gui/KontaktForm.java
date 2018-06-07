@@ -7,6 +7,7 @@ import java.util.Vector;
 
 import com.google.gwt.cell.client.ButtonCell;
 import com.google.gwt.cell.client.ClickableTextCell;
+import com.google.gwt.cell.client.EditTextCell;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.i18n.client.DateTimeFormat;
@@ -111,6 +112,29 @@ public class KontaktForm extends VerticalPanel {
 
 		this.add(vpanel);
 		
+		Column<EigenschaftAuspraegungWrapper, String> bezEigenschaft = new Column<EigenschaftAuspraegungWrapper, String>(
+				new ClickableTextCell()) {
+
+			@Override
+			public String getValue(EigenschaftAuspraegungWrapper object) {
+				// TODO Auto-generated method stub
+				return object.getEigenschaftValue();
+			}
+		};
+		
+		Column<EigenschaftAuspraegungWrapper, String> wertAuspraegung = new Column<EigenschaftAuspraegungWrapper, String>(
+				new EditTextCell()) {
+
+			@Override
+			public String getValue(EigenschaftAuspraegungWrapper object) {
+//				object.setAuspraegungID(object.getAuspraegungEigenschaftID());
+				
+				return object.getAuspraegungValue();
+			}
+		};
+		
+		ctf.addColumn(bezEigenschaft, "Eigenschaft: ");
+		ctf.addColumn(wertAuspraegung, "Wert: ");
 		loeschenButton.addClickHandler(new ClickHandler() {
 			
 			@Override
