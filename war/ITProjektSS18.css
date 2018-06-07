@@ -30,36 +30,33 @@ h2#Kontakt {
 	font-size: 16pt;
 }
 
-.scrollPanel{
+.scrollPanel {
 	margin: auto;
 	font-size: 20px;
 }
 
-.cellListKontakte{
+.cellListKontakte {
 	border-color: blue;
 	border-width: 1px;
 	broder-style: solid;
 }
 
-/** Most GWT widgets already have a style name defined */
 .gwt-DialogBox {
-  width: 400px;
+	width: 400px;
 }
 
 .dialogVPanel {
-  margin: 5px;
+	margin: 5px;
 }
 
 .loginPanel {
-   margin-left: auto;
-   margin-right: auto;
+	margin-left: auto;
+	margin-right: auto;
 }
 
 .serverResponseLabelError {
-  color: red;
+	color: red;
 }
-
-/** Set ids using widget.getElement().setId("idOfElement") */
 
 #closeButton {
 	margin: 15px 6px 6px;
@@ -72,7 +69,6 @@ body {
 	color: #333;
 }
 
-/* ====================================================   HEADER   ==================================================== */
 header {
 	
 }
@@ -88,7 +84,6 @@ header {
 }
 
 @media screen and (max-width: 40em) {
-	/* Normalerweise werden solche responsiven Layout-Einstellungen gesondert am Schluss notiert. Hier sollen die mulitple backgrounds aber gleich anfangs gezeigt werden. Auf zu kleinen Bildschirmen wird das Bild jedoch ausgeblendet.  */
 	[role="banner"] {
 		background-image: none;
 	}
@@ -115,7 +110,6 @@ header {
 	height: 15em;
 }
 
-/* ==================================== content ===========================  */
 div#Navigationsseite {
 	background: white;
 	width: 100%;
@@ -144,22 +138,36 @@ div#Buttonbar {
 	border-bottom: 1px solid LightSkyBlue;
 }
 
-div.DialogboxBackground{
-    background: ghostwhite;
-    left: 271px;
-    top: 187px;
-    visibility: visible;
-    position: absolute;
-    overflow: visible;
-    border-style: solid;
-    border-width: 1px;
+div.DialogboxBackground {
+	background: ghostwhite;
+	left: 271px;
+	top: 187px;
+	visibility: visible;
+	position: absolute;
+	overflow: visible;
+	border-style: solid;
+	border-width: 1px;
 }
 
-.TeilhaberschaftButton{
+div.scrollPanel{
+	border-style: double;
+	border-color: 1px solid LightSkyBlue;
+	background: aliceblue;
+}
+
+div.cellListKontakte{
+	height: 250px;
+}
+
+div.com-google-gwt-user-cellview-client-CellList-Style-cellListEvenItem com-google-gwt-user-cellview-client-CellList-Style-cellListKeyboardSelectedItem{
+	
+}
+
+.TeilhaberschaftButton {
 	margin-right: 35px;
 }
 
-.CellTableAuspraegung{
+.CellTableAuspraegung {
 	
 }
 
@@ -191,6 +199,12 @@ table {
 table#MainTable {
 	min-height: 500px;
 	height: 100%;
+}
+
+table.CellTableHybrid{
+	height: 250px;
+    margin-bottom: 35px;
+    width: 600px;
 }
 
 td {
@@ -226,7 +240,7 @@ bezEigenschaft {
 	display: block;
 	overflow: auto;
 }
-/* ==================================== footer ===========================  */
+
 footer {
 	background: #666
 		repeating-linear-gradient(-45deg, LightSkyBlue, DodgerBlue, DeepSkyBlue,
@@ -244,13 +258,13 @@ footer .branding {
 }
 
 .gwt-DialogBox .Caption {
-  background: #F1F1F1;
-  padding: 4px 8px 4px 4px;
-  cursor: default;
-  font-family: Arial Unicode MS, Arial, sans-serif;
-  font-weight: bold;
-  border-bottom: 1px solid #bbbbbb;
-  border-top: 1px solid #D2D2D2;
+	background: #F1F1F1;
+	padding: 4px 8px 4px 4px;
+	cursor: default;
+	font-family: Arial Unicode MS, Arial, sans-serif;
+	font-weight: bold;
+	border-bottom: 1px solid #bbbbbb;
+	border-top: 1px solid #D2D2D2;
 }
 
 .gwt-Button {
@@ -267,4 +281,5 @@ footer .branding {
 	border-radius: 3px;
 	-moz-border-radius: 3px;
 	*/
+	
 }
