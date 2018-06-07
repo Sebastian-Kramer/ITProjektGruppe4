@@ -63,12 +63,9 @@ public class KontaktForm extends VerticalPanel {
 
 
 	private Button bearbeitenButton = new Button("Kontakt bearbeiten");
-
 	private Button loeschenButton = new Button("Kontakt löschen");
-	private Button zurueckBtn = new Button("Zurück");
-	
+	private Button zurueckBtn = new Button("Zurück");	
 	private Button kontaktListehinzufuegen = new Button("Kontakt einer Liste hinzufügen");
-
 	private Button kontaktTeilen = new Button("Kontakt teilen");
 
 

@@ -120,7 +120,6 @@ public class MainForm extends VerticalPanel {
 			
 			@Override
 			public void onClick(ClickEvent event) {
-				// TODO Auto-generated method stub
 				SuchenForm sf = new SuchenForm();
 				RootPanel.get("Details").clear();
 				RootPanel.get("Details").add(sf);
@@ -133,7 +132,7 @@ public class MainForm extends VerticalPanel {
 		hpanelButtonBar.add(newKontakt);
 		hpanelButtonBar.add(suchen);
 		
-		scrollPanel.setSize("450px", "200px");
+		scrollPanel.setSize("450px", "250px");
 		scrollPanel.setStyleName("scrollPanel");
 		cellList.setStyleName("cellListKontakte");
 		scrollPanel.add(cellList);
