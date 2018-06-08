@@ -232,38 +232,7 @@ public class NewKontaktForm extends VerticalPanel {
 		
 	}
 	
-	class FindListMeineKontakte implements AsyncCallback<Kontaktliste> {
 
-		@Override
-		public void onFailure(Throwable caught) {
-			Window.alert("Da hat etwas nicht funktioniert");
-			
-		}
-
-		@Override
-		public void onSuccess(Kontaktliste result) {
-			kList = result;
-			verwaltung.insertKontaktKontaktliste(kontakt1.getID(), kList.getID(), new InsertIntoMeineKontakte());
-			
-		}
-		
-	}
-	
-	class InsertIntoMeineKontakte implements AsyncCallback<KontaktKontaktliste> {
-
-		@Override
-		public void onFailure(Throwable caught) {
-			Window.alert("Der Kontakt " + kontakt1.getName() + " konnte nicht der Kontaktliste 'Meine Kontakte' hinzugefügt werden");
-			
-		}
-
-		@Override
-		public void onSuccess(KontaktKontaktliste result) {
-			Window.alert("Der Kontakt " + kontakt1.getName() + " wurde der Kontaktliste 'Meine Kontakte' hinzugefügt");
-			
-		}
-		
-	}
 
 	class KontaktErstellenCallback implements AsyncCallback<Kontakt> {
 
@@ -278,8 +247,7 @@ public class NewKontaktForm extends VerticalPanel {
 			kontakt1.setName(result.getName());
 			Window.alert("Kontakt " + result.getName() + " wurde  erstellt");
 			verwaltung.insertBasicAuspraegung("", 0, result.getID(), new BasicAuspraegungenCallback());
-			verwaltung.findKontaktlisteByBezeichnung("Meine Kontakte", new FindListMeineKontakte());
-			
+		
 		}
 
 	}
