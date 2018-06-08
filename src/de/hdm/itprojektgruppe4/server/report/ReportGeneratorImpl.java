@@ -1,6 +1,6 @@
 package de.hdm.itprojektgruppe4.server.report;
 
-import java.util.List;
+import java.util.Vector;
 
 import com.google.gwt.user.server.rpc.RemoteServiceServlet;
 
@@ -61,7 +61,7 @@ public class ReportGeneratorImpl extends RemoteServiceServlet implements ReportG
 	 * 
 	 */
 
-	public List<Kontakt> AllEigeneKontakteReport(int NutzerID) throws IllegalArgumentException {
+	public   AllEigeneKontakteReport AllEigeneKontakteReport() throws IllegalArgumentException {
 		if (this.getAdministration() == null)
 			return null;
 
@@ -69,7 +69,7 @@ public class ReportGeneratorImpl extends RemoteServiceServlet implements ReportG
 		AllEigeneKontakteReport result = new AllEigeneKontakteReport();
 
 		//
-		List<Kontakt> kontakt = this.verwaltung.findKontaktByNutzerID(NutzerID);
+		Vector<Kontakt> kontakt = this.verwaltung.findAllKontakte();
 
 		result.setTitle("Meine Kontakte");
 
@@ -96,7 +96,7 @@ public class ReportGeneratorImpl extends RemoteServiceServlet implements ReportG
 			result.addRow(kontaktRow);
 		}
 
-		return kontakt;
+		return result;
 
 	}
 	
@@ -182,18 +182,22 @@ public class ReportGeneratorImpl extends RemoteServiceServlet implements ReportG
 		return null;
 	}
 
-	@Override
-	public de.hdm.itprojektgruppe4.shared.report.AllEigeneKontakteReport createAllEigeneKontakteReport()
-			throws IllegalArgumentException {
-		// TODO Auto-generated method stub
-		return null;
-	}
+//	@Override
+//	public de.hdm.itprojektgruppe4.shared.report.AllEigeneKontakteReport createAllEigeneKontakteReport()
+//			throws IllegalArgumentException {
+//		// TODO Auto-generated method stub
+//		return null;
+//	}
 
 	@Override
 	public Nutzer findNutzerByEmail(String email) throws IllegalArgumentException {
 		// TODO Auto-generated method stub
 		 return this.nutzerMapper.findNutzerByEmail(email);
 	}
+
+	
+
+
 
 
 

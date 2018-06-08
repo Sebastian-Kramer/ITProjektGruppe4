@@ -37,20 +37,16 @@ public class ITProjektSS18Report   implements EntryPoint{
 
 	public void onModuleLoad() {
 
-		
-		Window.alert("Hello, AJAX1");
-		
+				
 		LoginServiceAsync loginService = GWT.create(LoginService.class);
 		loginService.login(GWT.getHostPageBaseURL() + editorHtmlName, new AsyncCallback<LoginInfo>() {
 
 		
 			
 		public void onFailure(Throwable error) {
-			Window.alert("Hello, AJAX2");
 		}
 		public void onSuccess(LoginInfo result) {
 		ClientsideSettings.setCurrentUser(result);
-		Window.alert("Hello, AJAX3");
 		loginInfo = result;
 		if(loginInfo.isLoggedIn()) {
 			loadStartseite();

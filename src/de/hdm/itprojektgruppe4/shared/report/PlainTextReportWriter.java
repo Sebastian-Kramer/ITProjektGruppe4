@@ -32,7 +32,7 @@ public abstract class PlainTextReportWriter extends ReportWriter {
 	}
 
 	@Override
-	public void process(AllKontakteReport c) {
+	public void process(AllEigeneKontakteReport c) {
 		this.resetReportText();
 		
 		StringBuffer result = new StringBuffer();
