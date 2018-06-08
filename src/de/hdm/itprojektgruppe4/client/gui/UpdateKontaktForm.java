@@ -166,13 +166,14 @@ public class UpdateKontaktForm extends VerticalPanel {
 			}
 			public void onBrowserEvent(Context context, Element elem, EigenschaftAuspraegungWrapper object,
 					NativeEvent event) {
-				super.onBrowserEvent(context, elem, object, event);
 				
+				super.onBrowserEvent(context, elem, object, event);
 				if (event.getKeyCode() == KeyCodes.KEY_ENTER){
 					setFieldUpdater(new FieldUpdater<EigenschaftAuspraegungWrapper, String>() {
 						
 						@Override
 						public void update(int index, EigenschaftAuspraegungWrapper object, String value) {
+//	        });
 							object.setEigenschaftValue(value);
 							selectionModel.getSelectedObject().setAuspraegungValue(value);
 							selectionModel.getSelectedObject().setAuspraegungID(object.getAuspraegungID());
@@ -204,8 +205,6 @@ public class UpdateKontaktForm extends VerticalPanel {
 //
 //	            }
 //	          }
-//	        });
-		
 		
 		
 		wertAuspraegung.setSortable(true);
