@@ -129,7 +129,7 @@ public class KontaktForm extends VerticalPanel {
 			@Override
 			public String getValue(EigenschaftAuspraegungWrapper object) {
 				// TODO Auto-generated method stub
-				return object.getEigenschaftValue();
+				return object.getAuspraegungValue();
 			}
 		};
 		
