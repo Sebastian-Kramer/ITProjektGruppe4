@@ -3,12 +3,18 @@ package de.hdm.itprojektgruppe4.client.gui;
 import java.util.Date;
 import java.util.Vector;
 
+import com.google.gwt.cell.client.ClickableTextCell;
+import com.google.gwt.cell.client.EditTextCell;
 import com.google.gwt.cell.client.FieldUpdater;
+import com.google.gwt.cell.client.Cell.Context;
+import com.google.gwt.dom.client.Element;
+import com.google.gwt.dom.client.NativeEvent;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.dom.client.KeyCodes;
 import com.google.gwt.event.dom.client.KeyDownEvent;
 import com.google.gwt.event.dom.client.KeyDownHandler;
+import com.google.gwt.user.cellview.client.Column;
 import com.google.gwt.user.client.Cookies;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
@@ -76,13 +82,10 @@ public class NewKontaktForm extends VerticalPanel {
 	
 	private SingleSelectionModel<EigenschaftAuspraegungWrapper> sm = new SingleSelectionModel<EigenschaftAuspraegungWrapper>();
 	
+	
+	
 	public void onLoad(){
 		
-
-
-//	private SingleSelectionModel<EigenschaftAuspraegungHybrid> sm = new SingleSelectionModel<EigenschaftAuspraegungHybrid>();
-//
-//	public void onLoad() {
 
 
 		super.onLoad();
@@ -119,6 +122,9 @@ public class NewKontaktForm extends VerticalPanel {
 
 		this.add(vpanel);
 
+		
+		
+		
 		cancel.addClickHandler(new ClickHandler() {
 
 			@Override
@@ -161,6 +167,69 @@ public class NewKontaktForm extends VerticalPanel {
 
 		});
 
+	}
+	
+	public void fillTable(){
+		
+		
+		Column<EigenschaftAuspraegungWrapper, String> bezEigenschaft = new Column<EigenschaftAuspraegungWrapper, String>(
+				new ClickableTextCell()) {
+
+			@Override
+			public String getValue(EigenschaftAuspraegungWrapper object) {
+				// TODO Auto-generated method stub
+				return object.getEigenschaftValue();
+			}
+		};
+		
+		Column<EigenschaftAuspraegungWrapper, String> wertAuspraegung = new Column<EigenschaftAuspraegungWrapper, String>(
+				new EditTextCell()) {
+
+			@Override
+			public String getValue(EigenschaftAuspraegungWrapper object) {
+//				object.setAuspraegungID(object.getAuspraegungEigenschaftID());
+				
+				return object.getAuspraegungValue();
+			}
+			public void onBrowserEvent(Context context, Element elem, EigenschaftAuspraegungWrapper object,
+					NativeEvent event) {
+				super.onBrowserEvent(context, elem, object, event);
+				
+				if (event.getKeyCode() == KeyCodes.KEY_ENTER){
+					setFieldUpdater(new FieldUpdater<EigenschaftAuspraegungWrapper, String>() {
+						
+						@Override
+						public void update(int index, EigenschaftAuspraegungWrapper object, String value) {
+							object.setEigenschaftValue(value);
+							sm.getSelectedObject().setAuspraegungValue(value);
+							sm.getSelectedObject().setAuspraegungID(object.getAuspraegungID());
+							eigaus.setWert(object.getAuspraegungValue());
+							eigaus.setID(object.getAuspraegungID());
+							eigaus.setEigenschaftsID(object.getEigenschaftID());
+							eigaus.setKontaktID(kontakt1.getID());
+							eigaus.setStatus(0);
+							
+							eigaus.setWert(sm.getSelectedObject().getAuspraegungValue());
+							verwaltung.updateAuspraegung(eigaus, new AuspraegungBearbeitenCallback());
+						}	
+						
+					});
+
+				}
+				
+			};
+		
+		};
+		
+		ctf = new CellTableForm(kontakt1);
+		ctf.addColumn(bezEigenschaft, "Eigenschaft");
+		ctf.addColumn(wertAuspraegung, "Wert");
+		add(ctf);
+		add(hpanel2);
+
+		ctf.setSelectionModel(sm);
+		
+		
 	}
 	
 	class FindListMeineKontakte implements AsyncCallback<Kontaktliste> {
@@ -210,7 +279,7 @@ public class NewKontaktForm extends VerticalPanel {
 			Window.alert("Kontakt " + result.getName() + " wurde  erstellt");
 			verwaltung.insertBasicAuspraegung("", 0, result.getID(), new BasicAuspraegungenCallback());
 			verwaltung.findKontaktlisteByBezeichnung("Meine Kontakte", new FindListMeineKontakte());
-
+			
 		}
 
 	}
@@ -232,53 +301,8 @@ public class NewKontaktForm extends VerticalPanel {
 			txt_Auspraegung.setVisible(true);
 			addRow.setVisible(true);
 
-			ctf = new CellTableForm(kontakt1);
-			add(ctf);
-			add(hpanel2);
+			fillTable();
 
-			ctf.setSelectionModel(sm);
-
-			
-//			ctf.getWertAuspraegung().setFieldUpdater(new FieldUpdater<EigenschaftAuspraegungHybrid, String>() {
-//
-//				@Override
-//				public void update(int index, EigenschaftAuspraegungHybrid object, String value) {
-//					sm.getSelectedObject().setAuspraegung(value);
-//					sm.getSelectedObject().setAuspraegungID(object.getAuspraegungID());
-//				
-//					
-//					eigaus.setID(sm.getSelectedObject().getAuspraegungID());
-//					eigaus.setWert(sm.getSelectedObject().getAuspraegung());
-//					eigaus.setStatus(0);
-//					eigaus.setKontaktID(kontakt1.getID());
-//					eigaus.setEigenschaftsID(sm.getSelectedObject().getEigenschaftID());	
-//					
-//					
-//				}	
-//					
-//			});
-			
-			
-//			KeyDownHandler kdh = new KeyDownHandler(){
-//
-//
-//			ctf.getWertAuspraegung().setFieldUpdater(new FieldUpdater<EigenschaftAuspraegungHybrid, String>() {
-//
-//				@Override
-//				public void update(int index, EigenschaftAuspraegungHybrid object, String value) {
-//					sm.getSelectedObject().setAuspraegung(value);
-//					sm.getSelectedObject().setAuspraegungID(object.getAuspraegungID());
-//
-//					eigaus.setID(sm.getSelectedObject().getAuspraegungID());
-//					eigaus.setWert(sm.getSelectedObject().getAuspraegung());
-//					eigaus.setStatus(0);
-//					eigaus.setKontaktID(kontakt1.getID());
-//					eigaus.setEigenschaftsID(sm.getSelectedObject().getEigenschaftID());
-//
-//
-//				}
-//
-//			});
 
 			KeyDownHandler kdh = new KeyDownHandler() {
 
@@ -340,7 +364,7 @@ public class NewKontaktForm extends VerticalPanel {
 		@Override
 		public void onSuccess(Eigenschaftauspraegung result) {
 			eigaus.setWert(result.getWert());
-			Window.alert("Sie haben die Auspr�gung " + result.getWert() + " angepasst");
+			Window.alert("Sie haben die Ausprägung " + result.getWert() + " angepasst");
 		}
 
 	}

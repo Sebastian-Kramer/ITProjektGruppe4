@@ -122,16 +122,20 @@ public class KontaktForm extends VerticalPanel {
 			}
 		};
 		
+		
 		Column<EigenschaftAuspraegungWrapper, String> wertAuspraegung = new Column<EigenschaftAuspraegungWrapper, String>(
-				new EditTextCell()) {
+				new ClickableTextCell()) {
 
 			@Override
 			public String getValue(EigenschaftAuspraegungWrapper object) {
-//				object.setAuspraegungID(object.getAuspraegungEigenschaftID());
-				
+				// TODO Auto-generated method stub
 				return object.getAuspraegungValue();
 			}
 		};
+		
+		
+
+		
 		
 		ctf.addColumn(bezEigenschaft, "Eigenschaft: ");
 		ctf.addColumn(wertAuspraegung, "Wert: ");
