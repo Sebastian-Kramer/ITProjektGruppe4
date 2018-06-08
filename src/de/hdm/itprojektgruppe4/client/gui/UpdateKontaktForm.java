@@ -170,8 +170,14 @@ public class UpdateKontaktForm extends VerticalPanel {
 				
 				if (event.getKeyCode() == KeyCodes.KEY_ENTER){
 //					kon.setModifikationsdatum(date);
+					
+					Window.alert("JETZT WURDE ENTER GEDRÜCKT");
+					
+					
 					eigaus.setWert(selectionModel.getSelectedObject().getAuspraegungValue());
-					Window.alert("Der Wert der ausprägung beim onbrowserevent ist: " + eigaus.getWert());
+					
+					Window.alert(eigaus.getWert());
+//					Window.alert("Der Wert der ausprägung beim onbrowserevent ist: " + eigaus.getWert());
 					verwaltung.updateAuspraegung(eigaus, new AuspraegungBearbeitenCallback());
 //					verwaltung.updateKontakt(kon, new KontaktModifikationsdatumCallback());
 				}
@@ -197,6 +203,8 @@ public class UpdateKontaktForm extends VerticalPanel {
 			public void update(int index, EigenschaftAuspraegungWrapper object, String value) {
 				object.setEigenschaftValue(value);
 				selectionModel.getSelectedObject().setAuspraegungValue(value);
+				Window.alert("FIELDUPDATER");
+				Window.alert(value);
 				selectionModel.getSelectedObject().setAuspraegungID(object.getAuspraegungID());
 				eigaus.setWert(object.getAuspraegungValue());
 				eigaus.setID(object.getAuspraegungID());
@@ -354,7 +362,6 @@ public class UpdateKontaktForm extends VerticalPanel {
 
 		@Override
 		public void onSuccess(Eigenschaftauspraegung result) {
-			Window.alert("wurde aktualisiert");
 			verwaltung.findHybrid(kon, new ReloadCallback());
 //			eigaus.setWert(result.getWert());
 		}
@@ -388,7 +395,6 @@ public class UpdateKontaktForm extends VerticalPanel {
 
 		@Override
 		public void onSuccess(Vector<EigenschaftAuspraegungWrapper> result) {
-			Window.alert("TEST");
 			ctf.setRowData(0, result);
 			ctf.setRowCount(result.size(), true);
 		}
