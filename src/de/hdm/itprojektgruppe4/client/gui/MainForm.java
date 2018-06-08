@@ -11,6 +11,7 @@ import com.google.gwt.user.client.Cookies;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Button;
+import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.RootPanel;
@@ -41,6 +42,7 @@ public class MainForm extends VerticalPanel {
 	Nutzer nutzer = new Nutzer();
 
 	private VerticalPanel vpanelDetails = new VerticalPanel();
+	private FlowPanel fPanel = new FlowPanel();
 	private HorizontalPanel hpanelDetails = new HorizontalPanel();
 	private HorizontalPanel hpanelButtonBar = new HorizontalPanel();
 
@@ -134,14 +136,19 @@ public class MainForm extends VerticalPanel {
 		hpanelButtonBar.add(newKontaktliste);
 		hpanelButtonBar.add(newKontakt);
 		hpanelButtonBar.add(suchen);
+
+		hpanelButtonBar.addStyleName("MainFormButtonbar");
+		fPanel.add(hpanelButtonBar);
+
 		hpanelButtonBar.add(impressum);
+
 		
 		scrollPanel.setSize("450px", "250px");
 		scrollPanel.setStyleName("scrollPanel");
 		cellList.setStyleName("cellListKontakte");
 		scrollPanel.add(cellList);
 
-		RootPanel.get("Buttonbar").add(hpanelButtonBar);
+		RootPanel.get("Buttonbar").add(fPanel);
 
 		vpanelDetails.add(html1);
 		vpanelDetails.add(hpanelDetails);
