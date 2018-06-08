@@ -4,9 +4,11 @@ public abstract class ReportWriter {
 	
 	public abstract void process(KontakteMitBestimmtenEigenschaftsAuspraegungenReport c);
 	
-	public abstract void process(AllKontakteReport c); 
+	public abstract void process(AllEigeneKontakteReport c); 
 	
 	public abstract void process(KontakteMitBestimmterTeilhaberschaftReport c);
+	
+	
 	
 	
 }
