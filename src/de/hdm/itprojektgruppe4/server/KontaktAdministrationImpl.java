@@ -342,7 +342,7 @@ public class KontaktAdministrationImpl extends RemoteServiceServlet
 	public Vector<Kontakt> findAllSharedKontakteVonNutzer(int nutzerID) throws IllegalArgumentException {
 		Vector<Teilhaberschaft> teilhaben = teilhaberschaftMapper.findTeilhaberschaftByTeilhaberID(nutzerID);
 		Vector <Kontakt> kontakte = new Vector<Kontakt>();
-		
+
 			for(Teilhaberschaft t : teilhaben){
 				kontakte.add(findKontaktByID(t.getKontaktID()));
 			}
