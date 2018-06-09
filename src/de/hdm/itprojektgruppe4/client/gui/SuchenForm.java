@@ -29,6 +29,7 @@ public class SuchenForm extends VerticalPanel {
 	
 	private Label beschreibung = new Label("Bitte Geben sie den Kontatknamen ein");
 	private TextBox tboxKontaktname = new TextBox();
+	
 	private Button suchen = new Button("Suchen");
 	
 	private VerticalPanel vpanel = new VerticalPanel();
