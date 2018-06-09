@@ -36,7 +36,7 @@ import de.hdm.itprojektgruppe4.shared.bo.Kontakt;
 import de.hdm.itprojektgruppe4.shared.bo.KontaktKontaktliste;
 
 /**
- * Die Klasse <code>DialogBoxKontaktZuKontaktliste</code> ermöglicht das Hinzufuegen eines Kontaktes oder mehrerer Kontakte
+ * Die Klasse <code>DialogBoxKontaktZuKontaktliste</code> ermï¿½glicht das Hinzufuegen eines Kontaktes oder mehrerer Kontakte
  * @author Raphael
  *
  */
@@ -79,7 +79,7 @@ public class DialogBoxKontaktZuKontaktliste extends DialogBox {
 		kontaktTable.setSelectionModel(kontaktSelection, DefaultSelectionEventManager.<Kontakt>createCheckboxManager());
 		
 		/*
-		 * Erstellen einer Checkbox um Kontakte in der CellTable auswählen zu können
+		 * Erstellen einer Checkbox um Kontakte in der CellTable auswï¿½hlen zu kï¿½nnen
 		 */
 		Column<Kontakt, Boolean> checkBox = new Column<Kontakt, Boolean>(new CheckboxCell(true, false)){
 
@@ -101,14 +101,14 @@ public class DialogBoxKontaktZuKontaktliste extends DialogBox {
 		};
 		
 		/**
-		 * Clickhandler für das hinzufuegen eines Kontaktes		
+		 * Clickhandler fï¿½r das hinzufuegen eines Kontaktes		
 		 */
 		kontakteHinzufuegen.addClickHandler(new ClickHandler(){
 
 			@Override
 			public void onClick(ClickEvent event) {
 				if(kontaktSelection.getSelectedSet() == null){
-					Window.alert("Sie müssen mindestens einen Kontakt auswählen");
+					Window.alert("Sie mï¿½ssen mindestens einen Kontakt auswï¿½hlen");
 				}else{
 					for(Kontakt k : kontaktSelection.getSelectedSet()){
 					kontaktVerwaltung.insertKontaktKontaktliste(k.getID(), kl.getID(), new KontaktHinzufuegen());
@@ -126,7 +126,7 @@ public class DialogBoxKontaktZuKontaktliste extends DialogBox {
 		});
 		
 		/**
-		 * Clickhandler für das Abbrechen des Vorgangs
+		 * Clickhandler fï¿½r das Abbrechen des Vorgangs
 		 */
 		abbrechen.addClickHandler(new ClickHandler(){
 
@@ -143,12 +143,13 @@ public class DialogBoxKontaktZuKontaktliste extends DialogBox {
 		vpanel.add(kontaktTable);
 		vpanel.add(kontakteHinzufuegen);
 		vpanel.add(abbrechen);
+		this.setStyleName("DialogboxBackground");
 		this.add(vpanel);
 	}
 	
 	/**
 	 * Callback-Klasse um alle Kontakte eines Nutzers mithilfe eines Callbacks zu erhalten.
-	 * Die im <code>Vector<Kontakt> result</code> gespeicherten Kontakt-Objekte werden der CellTable hinzugefügt.
+	 * Die im <code>Vector<Kontakt> result</code> gespeicherten Kontakt-Objekte werden der CellTable hinzugefï¿½gt.
 	 */
 	class AlleKontakteVonNutzer implements AsyncCallback<Vector<Kontakt>>{
 
@@ -169,7 +170,7 @@ public class DialogBoxKontaktZuKontaktliste extends DialogBox {
 	}
 	
 	/**
-	 * Callback-Klasse um beim betätigen des Buttons <code>kontakteHinzufuegen</code> die entsprechenden
+	 * Callback-Klasse um beim betï¿½tigen des Buttons <code>kontakteHinzufuegen</code> die entsprechenden
 	 * Kontakt-Objekte zu speichern. 
 	 */
 	class KontaktHinzufuegen implements AsyncCallback<KontaktKontaktliste>{
