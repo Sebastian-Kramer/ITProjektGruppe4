@@ -66,6 +66,9 @@ public class NewKontaktForm extends VerticalPanel {
 			+ " <b>Auspärgungen</b>  zu Ihrem Kontakt an." + "<span style='font-family:fixed'></span>", true);
 
 	private Button addRow = new Button("Eigenschaft hinzufügen");
+	
+	private Button addToList = new Button("Kontakt zu einer Liste hinzufügen");
+	
 
 	private TextBox txt_Eigenschaft = new TextBox();
 	private TextBox txt_Auspraegung = new TextBox();
@@ -122,6 +125,7 @@ public class NewKontaktForm extends VerticalPanel {
 		
 		
 		vpanel2.add(hpanel2);
+		vpanel2.add(addToList);
 		vpanel2.add(getBack);
 
 		hpanel.add(name);
@@ -143,6 +147,8 @@ public class NewKontaktForm extends VerticalPanel {
 		
 		
 		getBack.addClickHandler(new GetBackClick());
+		
+		addToList.addClickHandler(new AddToListClick());
 		
 		
 		// KeyHandler um den Kontaktnamen zu speichern und einen
@@ -290,7 +296,16 @@ public class NewKontaktForm extends VerticalPanel {
 		
 	}
 	
-	
+	class AddToListClick implements ClickHandler{
+
+		@Override
+		public void onClick(ClickEvent event) {
+			// TODO Auto-generated method stub
+			DialogBoxAddContactToList dbkl = new DialogBoxAddContactToList(kontakt1);
+			dbkl.center();
+		}
+		
+	}
 
 	/**
 	 * CallBack Klasse um einen neuen Kontakt zu erstellen, 

@@ -1,6 +1,7 @@
 package de.hdm.itprojektgruppe4.server;
 
 import java.util.Date;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Vector;
 import java.util.ArrayList;
@@ -332,10 +333,10 @@ public class KontaktAdministrationImpl extends RemoteServiceServlet
 	}
 	
 	/**
-	 * Ausgabe eines Vectors mit sämtlichen Kontakten, die mit einem bestimmten Nutzer geteilt wurden.
+	 * Ausgabe eines Vectors mit sï¿½mtlichen Kontakten, die mit einem bestimmten Nutzer geteilt wurden.
 	 * 
 	 * @param nutzerID die ID des Nutzers
-	 * @return Vector mit sämtlichen geteilten Kontakten eines Nutzers
+	 * @return Vector mit sï¿½mtlichen geteilten Kontakten eines Nutzers
 	 * @throws IllegalArgumentException
 	 */
 	@Override
@@ -450,7 +451,7 @@ public class KontaktAdministrationImpl extends RemoteServiceServlet
 	}
 	
 	/**
-	 * Vector mit sämtlichen Nutzern, die eine Teilhaberschaft an einer Kontaktliste haben
+	 * Vector mit sï¿½mtlichen Nutzern, die eine Teilhaberschaft an einer Kontaktliste haben
 	 * 
 	 * @param kontaktlisteID die ID der Kontaktliste an der Teilhaberschaften von Nutzern bestehen
 	 * @return Vector mit Nutzern die Teilhaber an einer Kontaktliste sind
@@ -963,9 +964,9 @@ public class KontaktAdministrationImpl extends RemoteServiceServlet
 	}
 	
 	/**
-	 * Löschen eines Kontaktes aus einer Kontaktliste
+	 * Lï¿½schen eines Kontaktes aus einer Kontaktliste
 	 * 
-	 * @param kontaktID die ID des zu löschenden Kontaktes
+	 * @param kontaktID die ID des zu lï¿½schenden Kontaktes
 	 * @throws IllegalArgumentException
 	 */
 	@Override
@@ -1072,10 +1073,10 @@ public class KontaktAdministrationImpl extends RemoteServiceServlet
 	}
 	
 	/**
-	 * Ausgabe sämtlicher Teilhaberschaften an einer Kontaktliste
+	 * Ausgabe sï¿½mtlicher Teilhaberschaften an einer Kontaktliste
 	 * 
 	 * @param kontaktlisteID die ID der Kontaktliste deren Teilhaberschaften gesucht werden
-	 * @return Vector mit sämtlichen Teilhaberschaften an einer Kontaktliste
+	 * @return Vector mit sï¿½mtlichen Teilhaberschaften an einer Kontaktliste
 	 * @throws IllegalArgumentException
 	 */
 	@Override
@@ -1111,9 +1112,9 @@ public class KontaktAdministrationImpl extends RemoteServiceServlet
 	}
 	
 	/**
-	 * Eine Teilhaberschaft an einer Kontaktliste löschen
+	 * Eine Teilhaberschaft an einer Kontaktliste lï¿½schen
 	 * 
-	 * @param kontaktlisteID die ID der Kontaktliste, an der die Teilhaberchaft aufgelöst werden soll
+	 * @param kontaktlisteID die ID der Kontaktliste, an der die Teilhaberchaft aufgelï¿½st werden soll
 	 * @throws IllegalArgumentException
 	 */
 	@Override
@@ -1130,9 +1131,9 @@ public class KontaktAdministrationImpl extends RemoteServiceServlet
      */
 	
 	/**
-	 * Löschen einer Teilhaberschaft anhand der TeilhaberID
+	 * Lï¿½schen einer Teilhaberschaft anhand der TeilhaberID
 	 * 
-	 * @param teilhaberID die ID des Teilhabers dessen ID gelöscht werden soll
+	 * @param teilhaberID die ID des Teilhabers dessen ID gelï¿½scht werden soll
 	 * @throws IllegalArgumentException
 	 */
 	@Override
@@ -1154,7 +1155,7 @@ public class KontaktAdministrationImpl extends RemoteServiceServlet
 	/**
      * Eine Teilhaberschaft an einer Kontaktliste loeschen.
      * 
-     * @param t das zu loe½schende Teilhaberschaft-Objekt
+     * @param t das zu loeï¿½schende Teilhaberschaft-Objekt
      * @throws IllegalArgumentException
      */
 	
@@ -1262,6 +1263,39 @@ public class KontaktAdministrationImpl extends RemoteServiceServlet
 		return this.konlistMapper.findKontaktliste(nutzerID, bez);
 	}
 
+
+
+	
+	public Vector<Kontaktliste> findKontaktlisteByNutzerIDexceptBasicList(int nutzerID) throws IllegalArgumentException {
+		// TODO Auto-generated method stub
+		
+
+		Vector<Kontaktliste> alleListen = findKontaktlisteByNutzerID(nutzerID);
+		
+		
+		Vector<Kontaktliste> newVec = new Vector<Kontaktliste>();
+		
+		
+		
+		for (Kontaktliste kontaktliste : alleListen) {
+			
+			
+			newVec.add(kontaktliste);
+			
+			
+			if (kontaktliste.getBez().equals("Meine Kontakte")) {
+				
+				newVec.remove(kontaktliste);
+			
+			}
+		}
+			
+		alleListen = newVec;
+		
+		return alleListen;
+			
+		
+	}
 
 
 
