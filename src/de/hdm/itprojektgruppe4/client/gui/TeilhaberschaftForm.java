@@ -1,17 +1,23 @@
 package de.hdm.itprojektgruppe4.client.gui;
 
+import java.util.Set;
 import java.util.Vector;
+import java.util.logging.Handler;
 
+import com.gargoylesoftware.htmlunit.Page;
+import com.gargoylesoftware.htmlunit.PromptHandler;
 import com.google.gwt.cell.client.CheckboxCell;
 import com.google.gwt.cell.client.ClickableTextCell;
+import com.google.gwt.cell.client.FieldUpdater;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
-import com.google.gwt.user.cellview.client.CellTable;
 import com.google.gwt.user.cellview.client.Column;
+import com.google.gwt.user.cellview.client.Header;
 import com.google.gwt.user.client.Cookies;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Button;
+import com.google.gwt.user.client.ui.CheckBox;
 import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.ListBox;
@@ -19,10 +25,14 @@ import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.view.client.DefaultSelectionEventManager;
 import com.google.gwt.view.client.MultiSelectionModel;
+
 import com.google.gwt.view.client.SelectionModel;
 import com.google.gwt.view.client.SingleSelectionModel;
 
 import de.hdm.itprojektgruppe4.client.ClientsideSettings;
+import de.hdm.itprojektgruppe4.client.EigenschaftAuspraegungWrapper;
+import de.hdm.itprojektgruppe4.client.NavigationTree;
+import de.hdm.itprojektgruppe4.client.gui.DialogBoxKontaktZuKontaktliste.KontaktHinzufuegen;
 import de.hdm.itprojektgruppe4.shared.KontaktAdministrationAsync;
 import de.hdm.itprojektgruppe4.shared.bo.Kontakt;
 import de.hdm.itprojektgruppe4.shared.bo.Kontaktliste;
@@ -43,9 +53,10 @@ public class TeilhaberschaftForm extends VerticalPanel {
 
 	private VerticalPanel vpanel = new VerticalPanel();
 	private HorizontalPanel hpanel = new HorizontalPanel();
-	
+
 	private Vector<Eigenschaftauspraegung> vecAus = new Vector<Eigenschaftauspraegung>();
 	private Vector<Eigenschaft> vecEig = new Vector<Eigenschaft>();
+	private Vector<EigenschaftAuspraegungWrapper> eigAus = new Vector<EigenschaftAuspraegungWrapper>();
 
 	private Button teilen = new Button("teilen");
 	private Button allTeilen = new Button("Alle Eigenschaftsausprägung teilen");
@@ -53,14 +64,15 @@ public class TeilhaberschaftForm extends VerticalPanel {
 
 	private ListBox dropBoxNutzer = new ListBox();
 
-	private CellTable<Eigenschaftauspraegung> cellAus = new CellTable<Eigenschaftauspraegung>();
-	private CellTable<Eigenschaft> cellEig = new CellTable<Eigenschaft>();
+	private CheckBox cb = new CheckBox();
+
+	private CellTableForm ctf = null;
 
 	private HTML html2 = new HTML("Bitte wählen Sie hier den <b> Nutzer </b> aus dem der "
 			+ " <b>Kontakt</b>  geteilt werden soll." + "<span style='font-family:fixed'></span>", true);
 
 	final SingleSelectionModel<Nutzer> selectionModel = new SingleSelectionModel<Nutzer>();
-	final SelectionModel<Eigenschaftauspraegung> selectionModelAus = new MultiSelectionModel<Eigenschaftauspraegung>();
+	final MultiSelectionModel<EigenschaftAuspraegungWrapper> selectionModelWrapper = new MultiSelectionModel<EigenschaftAuspraegungWrapper>();
 
 	public TeilhaberschaftForm(Kontakt k) {
 		this.kon = k;
@@ -77,71 +89,59 @@ public class TeilhaberschaftForm extends VerticalPanel {
 		verwaltung.getAuspraegungByKontaktID(kon.getID(), new AlleAuspraegungenFromNutzer());
 		verwaltung.getEigenschaftbyKontaktID(kon.getID(), new AlleEigenschaftFromKontakt());
 
+		ctf = new CellTableForm(kon);
+
 		HTML html1 = new HTML("<h2>" + kon.getName() + "</h2>");
 
-		cellAus.setSelectionModel(selectionModelAus,
-				DefaultSelectionEventManager.<Eigenschaftauspraegung>createCheckboxManager());
+		ctf.setSelectionModel(selectionModelWrapper,
+				DefaultSelectionEventManager.<EigenschaftAuspraegungWrapper>createCheckboxManager());
 
-		Column<Eigenschaftauspraegung, Boolean> checkBox = new Column<Eigenschaftauspraegung, Boolean>(
-				new CheckboxCell(true, false)) {
-
-			@Override
-			public Boolean getValue(Eigenschaftauspraegung object) {
-				return selectionModelAus.isSelected(object);
-				
-			}
-
-		};
-
-		Column<Eigenschaftauspraegung, String> ausp = new Column<Eigenschaftauspraegung, String>(
+		Column<EigenschaftAuspraegungWrapper, String> bezEigenschaft = new Column<EigenschaftAuspraegungWrapper, String>(
 				new ClickableTextCell()) {
 
 			@Override
-			public String getValue(Eigenschaftauspraegung object) {
-				return object.getWert();
+			public String getValue(EigenschaftAuspraegungWrapper object) {
+				return object.getEigenschaftValue();
 			}
-
 		};
 
-		Column<Eigenschaft, String> eig = new Column<Eigenschaft, String>(new ClickableTextCell()) {
+		Column<EigenschaftAuspraegungWrapper, String> wertAuspraegung = new Column<EigenschaftAuspraegungWrapper, String>(
+				new ClickableTextCell()) {
 
 			@Override
-			public String getValue(Eigenschaft object) {
-				return object.getBezeichnung();
+			public String getValue(EigenschaftAuspraegungWrapper object) {
+				return object.getAuspraegungValue();
 			}
-
 		};
-		
-		allTeilen.addClickHandler(new ClickHandler() {
+
+		final Column<EigenschaftAuspraegungWrapper, Boolean> checkBox = new Column<EigenschaftAuspraegungWrapper, Boolean>(
+				new CheckboxCell(true, false)) {
 
 			@Override
-			public void onClick(ClickEvent event) {
-				Window.alert(dropBoxNutzer.getSelectedValue());
-				verwaltung.findNutzerByEmail(dropBoxNutzer.getSelectedValue(), new NutzerIDFromEmail());
-				
-				
-				
+			public Boolean getValue(EigenschaftAuspraegungWrapper object) {
+
+//				if (selectionModelWrapper.isSelected(object) == false) {
+//					Window.alert(object.getAuspraegungValue());
+//				}
+				return selectionModelWrapper.isSelected(object);
+
 			}
-			
-		});
+		};
 
-		cellAus.setStyleName("CellTableAuspraegung");
-		cellAus.setWidth("500px");
-		cellAus.addColumn(ausp, "Wert");
-		cellAus.addColumn(checkBox);
+		allTeilen.addClickHandler(new AllAuspraegungenTeilenClickHandler());
+		teilen.addClickHandler(new MancheAuspraegungenTeilenClickHandler());
 
-		cellEig.addColumn(eig, "Eigenschaft");
+		ctf.setStyleName("CellTableAuspraegung");
+		ctf.setWidth("500px");
+		ctf.addColumn(bezEigenschaft, "Eigenschaft");
+		ctf.addColumn(wertAuspraegung, "Wert");
+		ctf.addColumn(checkBox);
 
-		hpanel.add(cellEig);
-		hpanel.add(cellAus);
+		hpanel.add(ctf);
 		vpanel.add(html1);
 		vpanel.add(hpanel);
 		vpanel.add(html2);
 		vpanel.add(dropBoxNutzer);
-
-		teilen.setStyleName("TeilhaberschaftButton");
-		allTeilen.setStyleName("TeilhaberschaftButton");
-		einzTeilen.setStyleName("TeilhaberschaftButton");
 
 		RootPanel.get("Buttonbar").clear();
 		RootPanel.get("Buttonbar").add(teilen);
@@ -149,6 +149,11 @@ public class TeilhaberschaftForm extends VerticalPanel {
 		RootPanel.get("Buttonbar").add(einzTeilen);
 		this.add(vpanel);
 
+	}
+	
+	private void auspraegungenTeilen(EigenschaftAuspraegungWrapper ea, Nutzer n){
+		Window.alert(n.getEmail());
+		verwaltung.insertTeilhaberschaftKontakt(kon.getID(), ea.getAuspraegungID(), n.getID(), nutzer.getID(), new TeilhaberschaftAuspraegung());
 	}
 
 	class AlleNutzer implements AsyncCallback<Vector<Nutzer>> {
@@ -162,7 +167,11 @@ public class TeilhaberschaftForm extends VerticalPanel {
 		public void onSuccess(Vector<Nutzer> result) {
 
 			for (Nutzer n : result) {
-				dropBoxNutzer.addItem(n.getEmail());
+				if (n.getID() != nutzer.getID()) {
+					dropBoxNutzer.addItem(n.getEmail());
+				} else {
+
+				}
 			}
 
 		}
@@ -179,8 +188,6 @@ public class TeilhaberschaftForm extends VerticalPanel {
 
 		@Override
 		public void onSuccess(Vector<Eigenschaft> result) {
-			cellEig.setRowCount(result.size(), true);
-			cellEig.setRowData(0, result);
 			vecEig = result;
 		}
 
@@ -196,15 +203,36 @@ public class TeilhaberschaftForm extends VerticalPanel {
 
 		@Override
 		public void onSuccess(Vector<Eigenschaftauspraegung> result) {
-			cellAus.setRowCount(result.size(), true);
-			cellAus.setRowData(0, result);
 			vecAus = result;
 
 		}
 
 	}
+
+	class NutzerIDFromEmail implements AsyncCallback<Nutzer> {
+
+		@Override
+		public void onFailure(Throwable caught) {
+			Window.alert("Der Nutzer konnte leider nicht gefunden werden");
+
+		}
+
+		@Override
+		public void onSuccess(Nutzer result) {
+			teilNutzer = result;
+			Window.alert("nutzerid : " + teilNutzer.getID());
+
+			for (Eigenschaftauspraegung ea : vecAus) {
+
+				verwaltung.insertTeilhaberschaftKontakt(kon.getID(), ea.getID(), teilNutzer.getID(), nutzer.getID(),
+						new TeilhaberschaftAll());
+
+			}
+		}
+
+	}
 	
-	class NutzerIDFromEmail implements AsyncCallback<Nutzer>{
+	class GetNutzerFromEmail implements AsyncCallback<Nutzer> {
 
 		@Override
 		public void onFailure(Throwable caught) {
@@ -214,21 +242,60 @@ public class TeilhaberschaftForm extends VerticalPanel {
 
 		@Override
 		public void onSuccess(Nutzer result) {
+			Window.alert(result.getEmail());
 			teilNutzer = result;
-			Window.alert("nutzerid : " +teilNutzer.getID());
 			
-			for (Eigenschaftauspraegung ea : vecAus){
-				
-			
-				verwaltung.insertTeilhaberschaftKontakt(kon.getID(), ea.getID(), teilNutzer.getID(), nutzer.getID(), new TeilhaberschaftAll());
-				
-			
-			}
 		}
 		
 	}
+
+	class TeilhaberschaftAll implements AsyncCallback<Teilhaberschaft> {
+
+		@Override
+		public void onFailure(Throwable caught) {
+			Window.alert("Die Teilhaberschaft konnte nicht angelegt werden");
+
+		}
+
+		@Override
+		public void onSuccess(Teilhaberschaft result) {
+			Window.alert("Die Teilhaberschaft wurde angelegt");
+
+		}
+
+	}
+
+	class AllAuspraegungenTeilenClickHandler implements ClickHandler {
+
+		@Override
+		public void onClick(ClickEvent event) {
+			Window.alert(dropBoxNutzer.getSelectedValue());
+			verwaltung.findNutzerByEmail(dropBoxNutzer.getSelectedValue(), new NutzerIDFromEmail());
+
+		}
+
+	}
+
+	class MancheAuspraegungenTeilenClickHandler implements ClickHandler {
+
+		@Override
+		public void onClick(ClickEvent event) {
+			verwaltung.findNutzerByEmail(dropBoxNutzer.getSelectedValue(), new GetNutzerFromEmail());
+			if (selectionModelWrapper.getSelectedSet().isEmpty()) {
+				Window.alert("Sie müssen mindestens eine Ausprägung auswählen");
+			} else {
+				for (EigenschaftAuspraegungWrapper eaw : selectionModelWrapper.getSelectedSet()) {
+					Window.alert(" " + eaw.getAuspraegungValue());
+					auspraegungenTeilen(eaw, teilNutzer);
+					
+				}
+
+			}
+		}
+
+	}
 	
-	class TeilhaberschaftAll implements AsyncCallback<Teilhaberschaft>{
+	class TeilhaberschaftAuspraegung implements AsyncCallback<Teilhaberschaft>{
 
 		@Override
 		public void onFailure(Throwable caught) {

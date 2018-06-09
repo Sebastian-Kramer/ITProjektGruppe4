@@ -36,7 +36,7 @@ import de.hdm.itprojektgruppe4.shared.bo.Kontakt;
 import de.hdm.itprojektgruppe4.shared.bo.KontaktKontaktliste;
 
 /**
- * Die Klasse <code>DialogBoxKontaktZuKontaktliste</code> ermöglicht das Hinzufuegen eines Kontaktes oder mehrerer Kontakte
+ * Die Klasse <code>DialogBoxKontaktZuKontaktliste</code> ermï¿½glicht das Hinzufuegen eines Kontaktes oder mehrerer Kontakte
  * @author Raphael
  *
  */
@@ -73,13 +73,11 @@ public class DialogBoxKontaktZuKontaktliste extends DialogBox {
 		nutzer.setID(Integer.parseInt(Cookies.getCookie("id")));
 		nutzer.setEmail(Cookies.getCookie("email"));
 		
-		
-		
 		kontaktVerwaltung.findAllKontaktFromNutzer(nutzer.getID(), new AlleKontakteVonNutzer());
 		kontaktTable.setSelectionModel(kontaktSelection, DefaultSelectionEventManager.<Kontakt>createCheckboxManager());
 		
 		/*
-		 * Erstellen einer Checkbox um Kontakte in der CellTable auswählen zu können
+		 * Erstellen einer Checkbox um Kontakte in der CellTable auswï¿½hlen zu kï¿½nnen
 		 */
 		Column<Kontakt, Boolean> checkBox = new Column<Kontakt, Boolean>(new CheckboxCell(true, false)){
 
@@ -100,55 +98,80 @@ public class DialogBoxKontaktZuKontaktliste extends DialogBox {
 			
 		};
 		
-		/**
-		 * Clickhandler für das hinzufuegen eines Kontaktes		
-		 */
-		kontakteHinzufuegen.addClickHandler(new ClickHandler(){
 
-			@Override
-			public void onClick(ClickEvent event) {
-				if(kontaktSelection.getSelectedSet() == null){
-					Window.alert("Sie müssen mindestens einen Kontakt auswählen");
-				}else{
-					for(Kontakt k : kontaktSelection.getSelectedSet()){
-					kontaktVerwaltung.insertKontaktKontaktliste(k.getID(), kl.getID(), new KontaktHinzufuegen());
-					}
-					DialogBoxKontaktZuKontaktliste.this.hide();
-					KontaktlisteForm kontaktlisteForm = new KontaktlisteForm(kl);
-					NavigationTree updatedNavigation = new NavigationTree();
-					RootPanel.get("Details").clear();
-					RootPanel.get("Navigator").clear();
-					RootPanel.get("Details").add(kontaktlisteForm);
-					RootPanel.get("Navigator").add(updatedNavigation);
-					
-			}
-			}
-		});
-		
-		/**
-		 * Clickhandler für das Abbrechen des Vorgangs
-		 */
-		abbrechen.addClickHandler(new ClickHandler(){
 
-			@Override
-			public void onClick(ClickEvent event) {
-				DialogBoxKontaktZuKontaktliste.this.hide();
-				
-			}
-			
-		});
+		kontakteHinzufuegen.addClickHandler(new kontaktHinzufuegenClickhandler());
+		abbrechen.addClickHandler(new AbbrechenClickhandler());
+
 		
+
+
+		/*
+		 * Hinzufuegen der Columns zu den Kontaktlisten
+		 */
 		kontaktTable.addColumn(kontakt);
 		kontaktTable.addColumn(checkBox);
+		
+		/*
+		 * Widgets dem Panel hinzufuegen
+		 */
 		vpanel.add(kontaktTable);
 		vpanel.add(kontakteHinzufuegen);
 		vpanel.add(abbrechen);
+		this.setStyleName("DialogboxBackground");
 		this.add(vpanel);
 	}
 	
+	/*
+	 * Methode, um ein KontaktKontaktliste-Objekt zu erstellen, welches die Zugehörigkeit eines Kontaktes zu einer Kontaktliste darstellt.
+	 * Bei Methodenaufruf wird ein asynchroner Callback aufgerufen, der es ermöglicht, ein KontaktKontaktliste-Objekt der Datenbank hinzuzufuegen.
+	 */
+	private void kontakteHinzufuegen(Kontakt k, Kontaktliste kl){
+		kontaktVerwaltung.insertKontaktKontaktliste(k.getID(), kl.getID(), new KontaktHinzufuegen());
+	}
+	
+	
+	private class kontaktHinzufuegenClickhandler implements ClickHandler{
+
+		@Override
+		public void onClick(ClickEvent event) {
+			//Wenn kein Kontakt ausgewählt ist, wird ein Window-Alert ausgegeben.
+			if(kontaktSelection.getSelectedSet().isEmpty()){
+				Window.alert("Sie müssen mindestens einen Kontakt auswählen");
+			}else{
+				
+				kontaktVector.addAll(kontaktSelection.getSelectedSet());
+				for(Kontakt k : kontaktVector){
+				kontakteHinzufuegen(k, kl);
+				}
+				DialogBoxKontaktZuKontaktliste.this.hide();
+				KontaktlisteForm kontaktlisteForm = new KontaktlisteForm(kl);
+				NavigationTree updatedNavigation = new NavigationTree();
+				RootPanel.get("Details").clear();
+				RootPanel.get("Navigator").clear();
+				RootPanel.get("Details").add(kontaktlisteForm);
+				RootPanel.get("Navigator").add(updatedNavigation);
+				
+		}
+		}
+			}
+	
+	
+	private class AbbrechenClickhandler implements ClickHandler{
+
+		@Override
+		public void onClick(ClickEvent event) {
+			DialogBoxKontaktZuKontaktliste.this.hide();
+			
+		}
+		
+	}
+		
+	
+	
 	/**
 	 * Callback-Klasse um alle Kontakte eines Nutzers mithilfe eines Callbacks zu erhalten.
-	 * Die im <code>Vector<Kontakt> result</code> gespeicherten Kontakt-Objekte werden der CellTable hinzugefügt.
+	 * Die im <code>Vector<Kontakt> result</code> gespeicherten Kontakt-Objekte werden der CellTable hinzugefï¿½gt.
 	 */
 	class AlleKontakteVonNutzer implements AsyncCallback<Vector<Kontakt>>{
 
@@ -169,7 +192,7 @@ public class DialogBoxKontaktZuKontaktliste extends DialogBox {
 	}
 	
 	/**
-	 * Callback-Klasse um beim betätigen des Buttons <code>kontakteHinzufuegen</code> die entsprechenden
+	 * Callback-Klasse um beim betï¿½tigen des Buttons <code>kontakteHinzufuegen</code> die entsprechenden
 	 * Kontakt-Objekte zu speichern. 
 	 */
 	class KontaktHinzufuegen implements AsyncCallback<KontaktKontaktliste>{

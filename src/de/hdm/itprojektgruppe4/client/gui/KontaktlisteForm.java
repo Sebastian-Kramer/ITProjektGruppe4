@@ -93,7 +93,7 @@ public class KontaktlisteForm extends VerticalPanel {
 		HTML html1 = new HTML("<h2>" +  kl.getBez()   + "</h2>");
 	
 		/*
-		 * Hinzufügen der Buttons zur Buttonbar
+		 * Hinzufï¿½gen der Buttons zur Buttonbar
 		 */
 		RootPanel.get("Buttonbar").clear();
 		fpanel.add(kontaktAnzeigen);
@@ -105,7 +105,7 @@ public class KontaktlisteForm extends VerticalPanel {
 		RootPanel.get("Buttonbar").add(fpanel);
 		
 		/*
-		 * Hinzufuegen der Überschrift und der CellList zum Vertical Panel
+		 * Hinzufuegen der ï¿½berschrift und der CellList zum Vertical Panel
 		 */
 		vpanel.add(html1);
 		vpanel.add(scrollPanel);
@@ -140,16 +140,19 @@ public class KontaktlisteForm extends VerticalPanel {
 	
 	/**
 	 * Clickhandler, der das Löschen von Kontaktlisten bzw. die Auflösung einer Teilhaberschaft bei Klick ermöglicht
+	 * Ist der Löschende der Inhaber der Liste, wird die Kontaktliste komplett aus der Datenbank entfernt.
+	 * Ist der Löschende Teilhaber der Liste, wird lediglich die Teilhaberschaft an der Liste aufgelöst.
+
 	 */
 	private class KontaktlisteloeschenClickhandler implements ClickHandler{
 
 		@Override
 		public void onClick(ClickEvent event) {
-			 //Wenn die ausgewählte Kontaktliste vom Nutzer erstellt wurde, wird diese gelöscht
+			 //Wenn die ausgewï¿½hlte Kontaktliste vom Nutzer erstellt wurde, wird diese gelï¿½scht
 		if(kl.getNutzerID() == nutzer.getID()){
 			kontaktVerwaltung.deleteKontaktliste(kl, new KontaktlisteloeschenCallback());
 			}
-			//Wenn nur eine Teilhaberschaft an der Kontaktliste besteht, wird nur diese aufgelöst	
+			//Wenn nur eine Teilhaberschaft an der Kontaktliste besteht, wird nur diese aufgelï¿½st	
 			else{
 				kontaktVerwaltung.deleteTeilhaberschaftByKontaktlisteID(kl.getID(), new KontaktlisteloeschenCallback());
 			}
@@ -159,6 +162,7 @@ public class KontaktlisteForm extends VerticalPanel {
 	}
 	/**
 	 * Nested Class um den Button zum Hinzufuegen von Kontakten zur Kontaktliste bedienen zu können
+	 * Bei Click auf den Button wird eine DialogBox geöffnet, die ermöglich, Kontakt zu öffnen.
 	 */
 	private class KontaktHinzufuegenClickhandler implements ClickHandler{
 
@@ -177,7 +181,7 @@ public class KontaktlisteForm extends VerticalPanel {
 		@Override
 		public void onClick(ClickEvent event) {
 			if(selectionModel.getSelectedObject() == null){
-				Window.alert("Sie müssen einen Kontakt auswählen");
+				Window.alert("Sie mï¿½ssen einen Kontakt auswï¿½hlen");
 			}else{
 			KontaktForm kf = new KontaktForm(selectionModel.getSelectedObject());
 			RootPanel.get("Details").clear();
@@ -193,7 +197,7 @@ public class KontaktlisteForm extends VerticalPanel {
 		@Override
 		public void onClick(ClickEvent event) {
 			if(selectionModel.getSelectedObject() == null){
-				Window.alert("Sie müssen einen Kontakt auswählen");
+				Window.alert("Sie mï¿½ssen einen Kontakt auswï¿½hlen");
 			}else{
 				kontaktVerwaltung.deleteKontaktKontaktlisteByKontaktID(selectionModel.getSelectedObject().getID(), new KontaktEntfernenCallback());
 			}
@@ -236,7 +240,7 @@ public class KontaktlisteForm extends VerticalPanel {
 	
 
 	/**
-	 * Callback-Klasse für die Löschung der Kontaktliste
+	 * Callback-Klasse fï¿½r die Lï¿½schung der Kontaktliste
 	 * @author Raphael
 	 *
 	 */
@@ -274,8 +278,8 @@ public class KontaktlisteForm extends VerticalPanel {
 
 		@Override
 		public void onSuccess(Void result) {
-			// Bei erfolgreicher Löschung müssen sowohl die KontaktlisteForm als auch der NavigationTree neu geladen werden
-			// und dem RootPanel hinzugefügt werden
+			// Bei erfolgreicher Lï¿½schung mï¿½ssen sowohl die KontaktlisteForm als auch der NavigationTree neu geladen werden
+			// und dem RootPanel hinzugefï¿½gt werden
 			KontaktlisteForm kf = new KontaktlisteForm(kl);
 			NavigationTree updatedTree = new NavigationTree();
 			RootPanel.get("Navigator").clear();

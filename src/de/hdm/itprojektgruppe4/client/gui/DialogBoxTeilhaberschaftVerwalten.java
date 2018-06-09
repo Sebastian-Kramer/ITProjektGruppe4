@@ -36,6 +36,7 @@ import de.hdm.itprojektgruppe4.client.NavigationTree;
 import de.hdm.itprojektgruppe4.shared.KontaktAdministrationAsync;
 import de.hdm.itprojektgruppe4.shared.bo.Kontaktliste;
 import de.hdm.itprojektgruppe4.shared.bo.Nutzer;
+import de.hdm.itprojektgruppe4.shared.bo.Teilhaberschaft;
 import de.hdm.itprojektgruppe4.shared.bo.Kontakt;
 import de.hdm.itprojektgruppe4.shared.bo.KontaktKontaktliste;
 
@@ -52,17 +53,21 @@ public class DialogBoxTeilhaberschaftVerwalten extends DialogBox {
 	private Button teilhaberschaftAufloesen = new Button("Teilhaberschaft entfernen");
 	private Button abbrechen = new Button("abbrechen");
 	
-	
+	private FlexTable flextable = new FlexTable();
 	private NutzerCell nutzerCell = new NutzerCell();
 	private CellList<Nutzer> nutzerList = new CellList<Nutzer>(nutzerCell);
 	private SingleSelectionModel<Nutzer> selectionModel = new SingleSelectionModel<Nutzer>();
 	
+	private Vector<Teilhaberschaft> teilhaberschaft = new Vector<Teilhaberschaft>();
+	
 	DialogBoxTeilhaberschaftVerwalten(Kontaktliste kl){
 		this.kl = kl;
+		run();
 	}
 	
-	public void onLoad(){
-		super.onLoad();
+	public void run(){
+//		super.onLoad();
+		this.setStylePrimaryName("dialogbox");
 		
 		NutzerDataProvider dataProvider = new NutzerDataProvider();
 		dataProvider.addDataDisplay(nutzerList);
@@ -71,11 +76,12 @@ public class DialogBoxTeilhaberschaftVerwalten extends DialogBox {
 		teilhaberschaftAufloesen.addClickHandler(new TeilhaberschaftAufloesenClickhandler());
 		nutzerList.setSelectionModel(selectionModel);
 		
-		vpanel.add(nutzerList);
-		vpanel.add(abbrechen);
-		vpanel.add(teilhaberschaftAufloesen);
-		this.add(vpanel);
+		flextable.setWidget(0, 0, nutzerList);
+		flextable.setWidget(1, 0, abbrechen);
+		flextable.setWidget(1, 1, teilhaberschaftAufloesen);
+		this.add(flextable);
 	}
+	
 	
 	private class AbbrechenClickhandler implements ClickHandler{
 
@@ -91,10 +97,16 @@ public class DialogBoxTeilhaberschaftVerwalten extends DialogBox {
 
 		@Override
 		public void onClick(ClickEvent event) {
+			Nutzer n = selectionModel.getSelectedObject();
+			//kontaktVerwaltung.findTeilhaberschaftByKontaktlisteID(kl.getID(), callback);
+			if(nutzer.getID() == kl.getNutzerID()){
 			kontaktVerwaltung.deleteTeilhaberschaftByTeilhaberID(selectionModel.getSelectedObject().getID(), new TeilhaberschaftLoeschenCallback(){
-				
 			});
-			
+			}else if (nutzer.getID() == kl.getNutzerID()) {
+				
+			}{
+				
+			}
 		}
 		
 	}
@@ -115,9 +127,36 @@ public class DialogBoxTeilhaberschaftVerwalten extends DialogBox {
 		}
 		
 	}
+	
+	private class TeilhaberschaftVonKontaktliste implements AsyncCallback<Vector<Teilhaberschaft>>{
+
+		@Override
+		public void onFailure(Throwable caught) {
+			// TODO Auto-generated method stub
+			
+		}
+
+		@Override
+		public void onSuccess(Vector<Teilhaberschaft> result) {
+			
+			
+		}
+
+	
+			
+		
+		
+	}
 		
 	
-	
+	/**
+	 * DataProvider, in den alle Teilhaber einer Kontaktliste gespeichert werden.
+	 * Mithilfe des DataProviders können Daten im Zuge eines asnychronen Methodenaufrufs dort gespeichert werden.
+	 * Anschließen werden diese Daten an die CellList <code>NutzerList</code> übergeben, um die Nutzer entsprechend
+	 * in der GUI anzeigen lassen zu können.
+	 * @author Raphael
+	 *
+	 */
 	private class NutzerDataProvider extends AsyncDataProvider<Nutzer>{
 
 		@Override
