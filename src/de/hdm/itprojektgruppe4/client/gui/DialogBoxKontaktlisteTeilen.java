@@ -58,7 +58,8 @@ public class DialogBoxKontaktlisteTeilen extends DialogBox{
 	
 	private CellList<Nutzer> nutzerList = new CellList<Nutzer>(nutzerCell);
 	
-	private MultiSelectionModel<Nutzer> nutzerSelection = new MultiSelectionModel<Nutzer>();
+	private SingleSelectionModel<Nutzer> nutzerSelection = new SingleSelectionModel<Nutzer>();
+	
 	
 	DialogBoxKontaktlisteTeilen(Kontaktliste kl){
 		this.kl = kl;
@@ -87,18 +88,24 @@ public class DialogBoxKontaktlisteTeilen extends DialogBox{
 		
 	}
 	
+	/**
+	 * Clickhandler, der das Teilen einer Kontaktliste mit einem Nutzer ermöglicht.
+	 * Hierfür wird das in der Celllist ausgewählte Objekt einem neuen Nutzer-Objekt zugewiesen.
+	 * Die Teilhaberschaft wird dann anhand der Kontaktliste und dem Nutzer mithilfe eines Callbacks in der Datenbank
+	 * angelegt.
+	 * @author Raphael
+	 *
+	 */
 	private class TeilenClickhandler implements ClickHandler{
 
 		@Override
 		public void onClick(ClickEvent event) {
-			if(nutzerSelection.getSelectedSet() == null){
+			// ist kein Nutzer ausgewählt, wird dies mithilfe eines Window-Alerts dem User kenntlich gemacht.
+			if(nutzerSelection.getSelectedObject() == null){
 				Window.alert("Sie müssen einen Nutzer auswählen");
 			}else{
-			Vector<Nutzer> nutzerVector = new Vector<Nutzer>();
-			nutzerVector.addAll(nutzerSelection.getSelectedSet());
-			for(Nutzer n : nutzerVector){
+			Nutzer n = nutzerSelection.getSelectedObject();
 				kontaktVerwaltung.insertTeilhaberschaftKontaktliste(kl.getID(), n.getID(), nutzer.getID(), new TeilhaberschaftErstellenCallback());
-			}
 			DialogBoxKontaktlisteTeilen.this.hide();
 			KontaktlisteForm kontaktlisteForm = new KontaktlisteForm(kl);
 			RootPanel.get("Details").clear();
@@ -107,6 +114,11 @@ public class DialogBoxKontaktlisteTeilen extends DialogBox{
 		}
 	}
 	
+	/**
+	 * Implementierung eines Clickhandlers, um beim Klick des Abbrechen-Buttons die DialogBox zu schließen.
+	 * @author Raphael
+	 *
+	 */
 	private class AbbrechenClickhandler implements ClickHandler{
 
 		@Override
@@ -117,6 +129,9 @@ public class DialogBoxKontaktlisteTeilen extends DialogBox{
 		
 	}
 	
+	/*
+	 * 
+	 */
 	private class TeilhaberschaftErstellenCallback implements AsyncCallback<Teilhaberschaft>{
 
 		@Override
