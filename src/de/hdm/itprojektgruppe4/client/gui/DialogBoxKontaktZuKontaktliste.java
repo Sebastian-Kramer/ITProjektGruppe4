@@ -79,6 +79,8 @@ public class DialogBoxKontaktZuKontaktliste extends DialogBox {
 		kontaktVerwaltung.findAllKontaktFromNutzer(nutzer.getID(), new AlleKontakteVonNutzer());
 		kontaktTable.setSelectionModel(kontaktSelection, DefaultSelectionEventManager.<Kontakt>createCheckboxManager());
 		
+		
+		
 		/*
 		 * Erstellen einer Checkbox um Kontakte in der CellTable ausw�hlen zu k�nnen
 		 */

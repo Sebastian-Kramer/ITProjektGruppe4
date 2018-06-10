@@ -58,6 +58,8 @@ public class KontaktlisteForm extends VerticalPanel {
 	private Button kontaktlisteTeilen = new Button("Kontaktliste teilen");
 	private Button teilhaberschaften = new Button("Teilhaberschaften verwalten");
 	private Button kontaktEntfernen = new Button("Kontakt entfernen");
+	private Button kontaktlisteBearbeiten = new Button("Kontaktliste bearbeiten");
+	private Button zurStartseite = new Button("Zuruech zur Startseite");
 
 	private KontaktAdministrationAsync kontaktVerwaltung = ClientsideSettings.getKontaktverwaltung();
 	KontaktlisteKontaktTreeViewModel kktvm = new KontaktlisteKontaktTreeViewModel();
@@ -96,12 +98,14 @@ public class KontaktlisteForm extends VerticalPanel {
 		 * Hinzufï¿½gen der Buttons zur Buttonbar
 		 */
 		RootPanel.get("Buttonbar").clear();
+		
+		if(kl.getNutzerID() == nutzer.getID()){
+			fpanel.add(kontaktlisteBearbeiten);
+		}
+		
 		fpanel.add(kontaktAnzeigen);
-		fpanel.add(kontaktHinzufuegen);
-		fpanel.add(kontaktEntfernen);
 		fpanel.add(kontaktlisteTeilen);
 		fpanel.add(teilhaberschaften);
-		fpanel.add(kontaktlisteLoeschen);
 		RootPanel.get("Buttonbar").add(fpanel);
 		
 		/*
@@ -121,6 +125,8 @@ public class KontaktlisteForm extends VerticalPanel {
 		kontaktlisteTeilen.addClickHandler(new KontaktlisteTeilenClickhandler());
 		teilhaberschaften.addClickHandler(new TeilhaberschaftenVerwaltenClickhandler());
 		kontaktEntfernen.addClickHandler(new KontaktEntfernenClickhandler());
+		kontaktlisteBearbeiten.addClickHandler(new KontaktlisteBearbeitenClickhandler());
+		zurStartseite.addClickHandler(new ZurueckZurStartseiteClickhandler());
 
 	}
 	
@@ -139,27 +145,23 @@ public class KontaktlisteForm extends VerticalPanel {
 	}
 	
 	/**
-	 * Clickhandler, der das Löschen von Kontaktlisten bzw. die Auflösung einer Teilhaberschaft bei Klick ermöglicht
-	 * Ist der Löschende der Inhaber der Liste, wird die Kontaktliste komplett aus der Datenbank entfernt.
-	 * Ist der Löschende Teilhaber der Liste, wird lediglich die Teilhaberschaft an der Liste aufgelöst.
-
+	 * Clickhandler, der eine Kontaktliste entfernt.
+	 * Dieser Clickhandler entfernt das Teilhaberschaftsobjekt zu dieser Kontaktliste.
+	 * Dadurch wird die Kontaktliste nicht gelöscht, sondern nur die Teilhaberschaft an dieser Kontaktliste
+	 * Aus diesem Grund ist dieser Clickhandler nur für einen Teilhaber an einer Kontakliste erreichbar, nicht für den Ersteller einer Kontaktliste
 	 */
 	private class KontaktlisteloeschenClickhandler implements ClickHandler{
 
 		@Override
 		public void onClick(ClickEvent event) {
 			 //Wenn die ausgewï¿½hlte Kontaktliste vom Nutzer erstellt wurde, wird diese gelï¿½scht
-		if(kl.getNutzerID() == nutzer.getID()){
-			kontaktVerwaltung.deleteKontaktliste(kl, new KontaktlisteloeschenCallback());
+		if(kl.getNutzerID() != nutzer.getID()){
+			kontaktVerwaltung.deleteTeilhaberschaftByKontaktlisteID(kl.getID(), new KontaktlisteloeschenCallback());
 			}
-			//Wenn nur eine Teilhaberschaft an der Kontaktliste besteht, wird nur diese aufgelï¿½st	
-			else{
-				kontaktVerwaltung.deleteTeilhaberschaftByKontaktlisteID(kl.getID(), new KontaktlisteloeschenCallback());
-			}
-		
 			
 		}
 	}
+
 	/**
 	 * Nested Class um den Button zum Hinzufuegen von Kontakten zur Kontaktliste bedienen zu können
 	 * Bei Click auf den Button wird eine DialogBox geöffnet, die ermöglich, Kontakt zu öffnen.
@@ -226,6 +228,32 @@ public class KontaktlisteForm extends VerticalPanel {
 		}
 		
 	}
+	
+	private class KontaktlisteBearbeitenClickhandler implements ClickHandler{
+
+		@Override
+		public void onClick(ClickEvent event) {
+			KontaktlisteBearbeitenForm kbf = new KontaktlisteBearbeitenForm(kl);
+			RootPanel.get("Details").clear();
+			RootPanel.get("Details").add(kbf);
+			
+		}
+		
+	}
+		
+	private class ZurueckZurStartseiteClickhandler implements ClickHandler{
+
+		@Override
+		public void onClick(ClickEvent event) {
+			MainForm mf = new MainForm();
+			RootPanel.get("Details").clear();
+			RootPanel.get("Details").add(mf);
+			
+			
+		}
+		
+	}
+		
 		
 	
 	void setKktvw(KontaktlisteKontaktTreeViewModel kktvm) {
