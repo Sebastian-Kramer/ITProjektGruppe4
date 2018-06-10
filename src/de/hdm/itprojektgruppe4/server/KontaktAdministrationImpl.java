@@ -1,6 +1,7 @@
 package de.hdm.itprojektgruppe4.server;
 
 import java.util.Date;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Vector;
 import java.util.ArrayList;
@@ -342,7 +343,7 @@ public class KontaktAdministrationImpl extends RemoteServiceServlet
 	public Vector<Kontakt> findAllSharedKontakteVonNutzer(int nutzerID) throws IllegalArgumentException {
 		Vector<Teilhaberschaft> teilhaben = teilhaberschaftMapper.findTeilhaberschaftByTeilhaberID(nutzerID);
 		Vector <Kontakt> kontakte = new Vector<Kontakt>();
-		
+
 			for(Teilhaberschaft t : teilhaben){
 				kontakte.add(findKontaktByID(t.getKontaktID()));
 			}
@@ -1264,6 +1265,39 @@ public class KontaktAdministrationImpl extends RemoteServiceServlet
 		return this.konlistMapper.findKontaktliste(nutzerID, bez);
 	}
 
+
+
+	
+	public Vector<Kontaktliste> findKontaktlisteByNutzerIDexceptBasicList(int nutzerID) throws IllegalArgumentException {
+		// TODO Auto-generated method stub
+		
+
+		Vector<Kontaktliste> alleListen = findKontaktlisteByNutzerID(nutzerID);
+		
+		
+		Vector<Kontaktliste> newVec = new Vector<Kontaktliste>();
+		
+		
+		
+		for (Kontaktliste kontaktliste : alleListen) {
+			
+			
+			newVec.add(kontaktliste);
+			
+			
+			if (kontaktliste.getBez().equals("Meine Kontakte")) {
+				
+				newVec.remove(kontaktliste);
+			
+			}
+		}
+			
+		alleListen = newVec;
+		
+		return alleListen;
+			
+		
+	}
 
 
 

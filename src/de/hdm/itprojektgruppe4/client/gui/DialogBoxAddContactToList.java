@@ -46,7 +46,7 @@ public class DialogBoxAddContactToList extends DialogBox {
 		nutzer.setID(Integer.parseInt(Cookies.getCookie("id")));
 		nutzer.setEmail(Cookies.getCookie("email"));
 	
-		verwaltung.getAllKontaktlistenFromUser(nutzer.getID(), new AllKontaktlisteByNutzerCallback());
+		verwaltung.findKontaktlisteByNutzerIDexceptBasicList(nutzer.getID(), new AllKontaktlisteByNutzerCallback());
 		
 		
 		vpanel.add(dropBoxKontaktlisten);

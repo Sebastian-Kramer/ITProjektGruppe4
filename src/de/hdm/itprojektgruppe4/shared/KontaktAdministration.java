@@ -564,6 +564,8 @@ public interface KontaktAdministration extends RemoteService {
 	 * @throws IllegalArgumentException
 	 */
 	public void deleteTeilhaberschaftByTeilhaberID (int teilhaberID) throws IllegalArgumentException;
+	
+	public Vector<Kontaktliste> findKontaktlisteByNutzerIDexceptBasicList(int nutzerID) throws IllegalArgumentException;
    
 
 }

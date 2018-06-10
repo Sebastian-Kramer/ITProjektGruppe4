@@ -139,7 +139,10 @@ public class KontaktlisteForm extends VerticalPanel {
 	}
 	
 	/**
-	 * Clickhandler, der das Lï¿½schen von Kontaktlisten bzw. die Auflï¿½sung einer Teilhaberschaft bei Klick ermï¿½glicht
+	 * Clickhandler, der das Löschen von Kontaktlisten bzw. die Auflösung einer Teilhaberschaft bei Klick ermöglicht
+	 * Ist der Löschende der Inhaber der Liste, wird die Kontaktliste komplett aus der Datenbank entfernt.
+	 * Ist der Löschende Teilhaber der Liste, wird lediglich die Teilhaberschaft an der Liste aufgelöst.
+
 	 */
 	private class KontaktlisteloeschenClickhandler implements ClickHandler{
 
@@ -158,7 +161,8 @@ public class KontaktlisteForm extends VerticalPanel {
 		}
 	}
 	/**
-	 * Nested Class um den Button zum Hinzufuegen von Kontakten zur Kontaktliste bedienen zu kï¿½nnen
+	 * Nested Class um den Button zum Hinzufuegen von Kontakten zur Kontaktliste bedienen zu können
+	 * Bei Click auf den Button wird eine DialogBox geöffnet, die ermöglich, Kontakt zu öffnen.
 	 */
 	private class KontaktHinzufuegenClickhandler implements ClickHandler{
 
