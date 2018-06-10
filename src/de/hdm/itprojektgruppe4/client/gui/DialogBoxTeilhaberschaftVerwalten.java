@@ -90,7 +90,7 @@ public class DialogBoxTeilhaberschaftVerwalten extends DialogBox {
 	
 
 	private void pruefeErlaubnis(){
-		kontaktVerwaltung.findTeilhaberschaftByTeilhaberID(selectionModel.getSelectedObject().getID(), kl.getID(), new TeilhaberschaftAuslesen());
+		
 		
 		if(nutzer.getID() == kl.getNutzerID()){
 			kontaktVerwaltung.deleteTeilhaberschaftByTeilhaberID(selectionModel.getSelectedObject().getID(), new TeilhaberschaftLoeschenCallback() );
@@ -121,10 +121,8 @@ public class DialogBoxTeilhaberschaftVerwalten extends DialogBox {
 
 		@Override
 		public void onClick(ClickEvent event) {
-			//Teilhaberschaftsobjekt anhand der Kontaktliste und der ID des gewählten Nutzers auslesen
-			
-			//Ist der angemeldete Nutzer der Urheber der Kontaktliste, so kann er jegliche Teilhaberschaften auslösen
-			pruefeErlaubnis();
+			kontaktVerwaltung.findTeilhaberschaftByTeilhaberID(selectionModel.getSelectedObject().getID(), kl.getID(), new TeilhaberschaftAuslesen());
+			hide();
 			
 				
 			
@@ -160,8 +158,7 @@ public class DialogBoxTeilhaberschaftVerwalten extends DialogBox {
 		@Override
 		public void onSuccess(Teilhaberschaft result) {
 			t = result;
-			Window.alert(t.getNutzerID() + "");
-			
+			pruefeErlaubnis();
 			
 		}
 
