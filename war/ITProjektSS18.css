@@ -42,7 +42,7 @@ h2#Kontakt {
 }
 
 .gwt-DialogBox {
-	width: 400px;
+	width: 300px;
 }
 
 .dialogVPanel {
@@ -74,10 +74,6 @@ header {
 	margin-bottom: 15px;
 }
 
-.ImageCell{
-	background:
-		url(""https://png.icons8.com/metro/100/000000/contacts.png");
-}
 
 [role="banner"] {
 	background:
@@ -87,10 +83,6 @@ header {
 		LightSkyBlue, DodgerBlue, DeepSkyBlue);
 	background-size: contain, auto;
 	padding: 0 0 0.5em;
-}
-
-.ImageCell{
-	background-image: url("http://ducktalk.org/wp-content/uploads/2017/02/people-icons-80620.png");
 }
 
 @media screen and (max-width: 40em) {
