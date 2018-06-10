@@ -50,7 +50,7 @@ public class KontaktKontaktlisteMapper {
 				
 				k.setID(rs.getInt("maxID") +1);
 				
-				stmt = con.createStatement();
+				//stmt = con.createStatement();
 				
 				stmt.executeUpdate("INSERT INTO `kontaktkontaktliste`(`ID`, `kontaktID`,"
         		+ " `kontaktlisteID`) "

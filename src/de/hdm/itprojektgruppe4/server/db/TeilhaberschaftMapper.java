@@ -139,6 +139,48 @@ public class TeilhaberschaftMapper {
 
 		return result;
 	}
+	
+	/**
+	 * Auslesen eines Teilhaberschaft-Objekts aus der Datenbank anhand des Fremdschlüssels teilhaberID
+	 * 
+	 * @param teilhaberID
+	 * @return Teilhaberschafts-Objekt
+	 */
+	public Teilhaberschaft findByTeilhaberIDKontaktlisteID(int teilhaberID, int kontaktlisteID) {
+
+		Connection con = DBConnection.connection();
+
+		try {
+
+			Statement stmt = con.createStatement();
+
+			ResultSet rs = stmt.executeQuery(
+
+					"SELECT `ID`, `kontaktlisteID`, `kontaktID`, `eigenschaftsauspraegungID`,"
+							+ " `teilhaberID`, `nutzerID` FROM" + " `teilhaberschaft` WHERE kontaktlisteID=" + kontaktlisteID +" " + "AND teilhaberID=" + teilhaberID);
+
+			if (rs.next()) {
+
+				Teilhaberschaft th = new Teilhaberschaft();
+
+				th.setID(rs.getInt("ID"));
+				th.setKontaktListeID(rs.getInt("kontaktlisteID"));
+				th.setKontaktID(rs.getInt("kontaktID"));
+				th.setEigenschaftsauspraegungID(rs.getInt("eigenschaftsauspraegungID"));
+				th.setTeilhaberID(rs.getInt("teilhaberID"));
+				th.setNutzerID(rs.getInt("nutzerID"));
+
+				return th;
+			}
+		} catch (SQLException e) {
+
+			e.printStackTrace();
+
+			return null;
+		}
+
+		return null;
+	}
 
 	public void deleteTeilhaberschaftByKontaktID(int kontaktID) {
 		Connection con = DBConnection.connection();

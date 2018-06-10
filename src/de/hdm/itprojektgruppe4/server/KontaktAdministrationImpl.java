@@ -1121,13 +1121,6 @@ public class KontaktAdministrationImpl extends RemoteServiceServlet
 		this.teilhaberschaftMapper.deleteTeilhaberschaftByKontaktlisteID(kontaktlisteID);
 		
 	}
-
-	/**
-     * Eine Teilhaberschaft an einem Kontakt loeschen.
-     * 
-     * @param t das zur lï¿½schende Teilhaber-Objekt
-     * @throws IllegalArgumentException
-     */
 	
 	/**
 	 * Löschen einer Teilhaberschaft anhand der TeilhaberID
@@ -1140,11 +1133,13 @@ public class KontaktAdministrationImpl extends RemoteServiceServlet
 		this.teilhaberschaftMapper.deleteTeilhaberschaftByTeilhaberID(teilhaberID);
 		
 	}
-	
-	/*##########################################################
-     * ENDE Methoden fï¿½r Teilhaberschaft-Objekte
-     #########################################################*/
-	
+
+	/**
+     * Eine Teilhaberschaft an einem Kontakt loeschen.
+     * 
+     * @param t das zu loeschende Teilhaber-Objekt
+     * @throws IllegalArgumentException
+     */
 	@Override
 	public void deleteKontaktFromTeilhaberschaft(Teilhaberschaft t) throws IllegalArgumentException {
 		this.teilhaberschaftMapper.deleteKontaktFromTeilhaberschaft(t);
@@ -1163,6 +1158,11 @@ public class KontaktAdministrationImpl extends RemoteServiceServlet
 		this.teilhaberschaftMapper.deleteKontaktlisteFromTeilhaberschaft(t);
 	
 	}
+	
+	
+	/*##########################################################
+     * ENDE Methoden fuer Teilhaberschaft-Objekte
+     #########################################################*/
 
 
 
@@ -1261,6 +1261,21 @@ public class KontaktAdministrationImpl extends RemoteServiceServlet
 	public Kontaktliste findKontaktliste(int nutzerID, String bez) throws IllegalArgumentException {
 		return this.konlistMapper.findKontaktliste(nutzerID, bez);
 	}
+
+
+	/**
+	 * Auslesen einer Teilhaberschaft anhand einer TeilhaberID
+	 * 
+	 * @param teilhaberID die ID des Teilhabers
+	 * @return gesuchte Teilhaberschaft
+	 * @throws IllegalArgumentException
+	 */
+	@Override
+	public Teilhaberschaft findTeilhaberschaftByTeilhaberID(int teilhaberID, int kontaktlisteID) throws IllegalArgumentException {
+		// TODO Auto-generated method stub
+		return this.teilhaberschaftMapper.findByTeilhaberIDKontaktlisteID(teilhaberID, kontaktlisteID);
+	}
+
 
 
 

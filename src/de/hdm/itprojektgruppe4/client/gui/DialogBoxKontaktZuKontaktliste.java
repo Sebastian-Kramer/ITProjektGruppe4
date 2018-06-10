@@ -25,6 +25,7 @@ import com.google.gwt.view.client.DefaultSelectionEventManager;
 import com.google.gwt.view.client.MultiSelectionModel;
 import com.google.gwt.view.client.SelectionModel;
 import com.google.gwt.view.client.SingleSelectionModel;
+import com.google.gwt.view.client.ProvidesKey;
 
 
 import de.hdm.itprojektgruppe4.client.ClientsideSettings;
@@ -60,6 +61,8 @@ public class DialogBoxKontaktZuKontaktliste extends DialogBox {
 	private Button kontakteHinzufuegen = new Button("Hinzufuegen");
 	private Vector<Kontakt> kontaktVector = new Vector<Kontakt>();
 	
+	
+	
 	/*
 	 * Konstruktor der beim Aufrufen der DialogBox zum Einsatz kommt
 	 */
@@ -85,6 +88,7 @@ public class DialogBoxKontaktZuKontaktliste extends DialogBox {
 			public Boolean getValue(Kontakt object) {
 				
 				return kontaktSelection.isSelected(object);
+				
 			}
 			
 		};
@@ -122,12 +126,20 @@ public class DialogBoxKontaktZuKontaktliste extends DialogBox {
 		this.add(vpanel);
 	}
 	
+
+	
 	/*
 	 * Methode, um ein KontaktKontaktliste-Objekt zu erstellen, welches die Zugehörigkeit eines Kontaktes zu einer Kontaktliste darstellt.
 	 * Bei Methodenaufruf wird ein asynchroner Callback aufgerufen, der es ermöglicht, ein KontaktKontaktliste-Objekt der Datenbank hinzuzufuegen.
 	 */
-	private void kontakteHinzufuegen(Kontakt k, Kontaktliste kl){
-		kontaktVerwaltung.insertKontaktKontaktliste(k.getID(), kl.getID(), new KontaktHinzufuegen());
+	private void kontakteHinzufuegen(Kontaktliste kl){
+		for(Kontakt kon : kontaktSelection.getSelectedSet()){	
+		Window.alert("Kontakt " + kon.getName() + " wurde erfolgreich hinzugefuegt");
+		kontaktVerwaltung.insertKontaktKontaktliste(kon.getID(), kl.getID(), new KontaktHinzufuegen());
+		kontaktSelection.getSelectedSet().remove(kon);
+		}
+	
+		
 	}
 	
 	
@@ -139,11 +151,7 @@ public class DialogBoxKontaktZuKontaktliste extends DialogBox {
 			if(kontaktSelection.getSelectedSet().isEmpty()){
 				Window.alert("Sie müssen mindestens einen Kontakt auswählen");
 			}else{
-				
-				kontaktVector.addAll(kontaktSelection.getSelectedSet());
-				for(Kontakt k : kontaktVector){
-				kontakteHinzufuegen(k, kl);
-				}
+				kontakteHinzufuegen(kl);
 				DialogBoxKontaktZuKontaktliste.this.hide();
 				KontaktlisteForm kontaktlisteForm = new KontaktlisteForm(kl);
 				NavigationTree updatedNavigation = new NavigationTree();
@@ -151,6 +159,9 @@ public class DialogBoxKontaktZuKontaktliste extends DialogBox {
 				RootPanel.get("Navigator").clear();
 				RootPanel.get("Details").add(kontaktlisteForm);
 				RootPanel.get("Navigator").add(updatedNavigation);
+				
+			
+				
 				
 		}
 		}
@@ -205,8 +216,7 @@ public class DialogBoxKontaktZuKontaktliste extends DialogBox {
 
 		@Override
 		public void onSuccess(KontaktKontaktliste result) {
-			// TODO Auto-generated method stub
-			
+			Window.alert(" " + result.getID());
 		}
 		
 	}
