@@ -86,6 +86,13 @@ public interface KontaktAdministration extends RemoteService {
      */
     public Vector<Kontakt> findAllKontakte() throws IllegalArgumentException;
     
+    
+    /**
+     * 
+     */
+    
+    public Vector<Kontakt> findKontaktByNameAndNutzerID(Kontakt kontakt) throws IllegalArgumentException;
+    
     /**
      * �berschreiben eines <code>Kontakt</code>-Objekts.
      * 

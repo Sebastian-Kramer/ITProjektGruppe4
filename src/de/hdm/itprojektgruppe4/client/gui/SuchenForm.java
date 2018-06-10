@@ -42,6 +42,9 @@ public class SuchenForm extends VerticalPanel {
 	
 	private SuggestBox suggestionBox = new SuggestBox(nameoracle);
 	
+	private Kontakt k = new Kontakt();
+	
+	
 	public SuchenForm(){
 	}
 	
@@ -78,11 +81,27 @@ public class SuchenForm extends VerticalPanel {
 			Nutzer nutzer = new Nutzer();
 			nutzer.setID(Integer.parseInt(Cookies.getCookie("id")));
 			nutzer.setEmail(Cookies.getCookie("mail"));
-			Kontakt k = new Kontakt();
 			
-			k.setName(tboxKontaktname.getValue());
+			
+			k.setName(suggestionBox.getValue());
 			k.setNutzerID(nutzer.getID());
 			
+			Window.alert("FLAH" + k.getName() + k.getID() + k.getNutzerID());
+			
+			verwaltung.findKontaktByNameAndNutzerID(k, new AsyncCallback<Vector<Kontakt>>() {
+
+				@Override
+				public void onFailure(Throwable caught) {
+					// TODO Auto-generated method stub
+					
+				}
+
+				@Override
+				public void onSuccess(Vector<Kontakt> result) {
+					// TODO Auto-generated method stub
+					Window.alert(result.toString());
+				}
+			});
 			
 			
 		}

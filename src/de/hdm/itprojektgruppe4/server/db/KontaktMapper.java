@@ -93,7 +93,10 @@ public class KontaktMapper extends PersonMapper {
 		Statement stmt = con.createStatement();
 		
 		ResultSet rs = stmt.executeQuery(
-				"SELECT ID, name, erzeugungsdatum, modifikationsdatum, status, nutzerID FROM kontakt " + " WHERE name= "+ "' "+ name +" '");
+				
+		
+		
+		"SELECT ID, name, erzeugungsdatum, modifikationsdatum, status, nutzerID FROM kontakt " + " WHERE name= " + name );
 		
 
 		if (rs.next()) {
@@ -338,6 +341,41 @@ public class KontaktMapper extends PersonMapper {
 	
 	}
 	
+	
+	public Vector<Kontakt> findKontaktByNameUndNutzerID(Kontakt kontakt){
+		Vector<Kontakt> result = new Vector<Kontakt>();
+		
+		Connection con = DBConnection.connection();
+		
+		try{
+			Statement stmt = con.createStatement();
+			
+			ResultSet rs = stmt.executeQuery(
+		
+	
+			"SELECT * FROM `kontakt` WHERE `name` LIKE " + "'" + kontakt.getName()  +"'" + " AND `nutzerID` = " + kontakt.getNutzerID()   + " ORDER by ID");
+
+					
+		while (rs.next()){
+			Kontakt k = new Kontakt();
+			k.setID(rs.getInt("ID"));
+			k.setName(rs.getString("name"));
+			k.setErzeugungsdatum(rs.getDate("erzeugungsdatum"));
+			k.setModifikationsdatum(rs.getDate("modifikationsdatum"));
+			k.setStatus(rs.getInt("status"));
+			k.setNutzerID(rs.getInt("nutzerID"));
+			
+			result.addElement(k);
+		}			
+		}catch (SQLException e){
+			e.printStackTrace();
+		}
+		
+		return result;
+	
+	}
+	
+	
 	/**
 	 *  Ausgabe aller Kontakte sortiert nach ID 
 	 * @return Ein Vektor mit allen Kontakt-Objekten
@@ -371,7 +409,7 @@ public class KontaktMapper extends PersonMapper {
 		
 	}
 	
-
+		
 
 
 
