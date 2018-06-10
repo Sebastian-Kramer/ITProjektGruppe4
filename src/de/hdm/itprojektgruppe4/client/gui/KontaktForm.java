@@ -134,64 +134,18 @@ public class KontaktForm extends VerticalPanel {
 		};
 		
 		
-
-		
-		
 		ctf.addColumn(bezEigenschaft, "Eigenschaft: ");
 		ctf.addColumn(wertAuspraegung, "Wert: ");
-		loeschenButton.addClickHandler(new ClickHandler() {
-			
-			@Override
-			public void onClick(ClickEvent event) {
-				// TODO Auto-generated method stub
-				
-				DialogBox deleteBox = new DialogBoxKontakt(k);
-				deleteBox.center();
-			
-			}
-		});
-		
-		zurueckBtn.addClickHandler(new ClickHandler(){
-
-			@Override
-			public void onClick(ClickEvent event) {
-				MainForm mf = new MainForm();
-				RootPanel.get("Buttonbar").clear();
-				RootPanel.get("Details").clear();
-				RootPanel.get("Details").add(mf);
-				bearbeitenButton.setVisible(false);
-				
-			}
-			
-		});
 		
 		
-		bearbeitenButton.addClickHandler(new ClickHandler(){
-
-				@Override
-				
-					public void onClick(ClickEvent event) {
-//						Kontakt testk = new Kontakt();
-//						testk.setID(2);
-						UpdateKontaktForm ukf = new UpdateKontaktForm(k);
-						RootPanel.get("Details").clear();
-						RootPanel.get("Details").add(ukf);
-						bearbeitenButton.setVisible(false);
-				}
-		    	
-		    });
-
+		loeschenButton.addClickHandler(new ClickLoeschenHandler()); 
 		
-		kontaktTeilen.addClickHandler(new ClickHandler(){
+		zurueckBtn.addClickHandler(new ClickZurueckHandler());
 
-			@Override
-			public void onClick(ClickEvent event) {
-				TeilhaberschaftForm tf = new TeilhaberschaftForm(k);
-				RootPanel.get("Details").clear();
-				RootPanel.get("Details").add(tf);		
-			}
-			
-		});
+		bearbeitenButton.addClickHandler(new ClickearbeitenHandler());
+
+		kontaktTeilen.addClickHandler(new ClickTeilenHandler()); 
+
 		
 		kontaktListehinzufuegen.addClickHandler(new ClickHandler() {
 			
@@ -248,6 +202,52 @@ public class KontaktForm extends VerticalPanel {
 //			
 //	ctf.addColumn(modDate, "");
 
+	
+	class ClickLoeschenHandler implements ClickHandler{
+		@Override
+		public void onClick(ClickEvent event) {
+			// TODO Auto-generated method stub
+			
+			DialogBox deleteBox = new DialogBoxKontakt(k);
+			deleteBox.center();
+		
+		}
+	}
+	
+	class ClickZurueckHandler implements ClickHandler{
+		@Override
+		public void onClick(ClickEvent event) {
+			MainForm mf = new MainForm();
+			RootPanel.get("Buttonbar").clear();
+			RootPanel.get("Details").clear();
+			RootPanel.get("Details").add(mf);
+			bearbeitenButton.setVisible(false);
+			
+		}
+	}
+	
+	class ClickearbeitenHandler implements ClickHandler{
+		@Override
+		
+		public void onClick(ClickEvent event) {
+//			Kontakt testk = new Kontakt();
+//			testk.setID(2);
+			UpdateKontaktForm ukf = new UpdateKontaktForm(k);
+			RootPanel.get("Details").clear();
+			RootPanel.get("Details").add(ukf);
+			bearbeitenButton.setVisible(false);
+	}
+	}
+	
+	class ClickTeilenHandler implements ClickHandler{
+		
+		@Override
+		public void onClick(ClickEvent event) {
+			TeilhaberschaftForm tf = new TeilhaberschaftForm(k);
+			RootPanel.get("Details").clear();
+			RootPanel.get("Details").add(tf);		
+		}
+	}
 	
 	class AllEigenschaftCallback implements AsyncCallback<Vector<Eigenschaft>>{
 

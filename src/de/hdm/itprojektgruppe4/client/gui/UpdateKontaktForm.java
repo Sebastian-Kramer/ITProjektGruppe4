@@ -87,27 +87,34 @@ public class UpdateKontaktForm extends VerticalPanel {
 	private Eigenschaft eig1 = new Eigenschaft();
 	private Eigenschaftauspraegung eigaus = new Eigenschaftauspraegung();
 	
-//	KeyDownHandler kdh = new KeyDownHandler( "keydown", new KeyDownEvent());
+
 
 	private SingleSelectionModel<EigenschaftAuspraegungWrapper> selectionModel = new SingleSelectionModel<EigenschaftAuspraegungWrapper>();
-	private NoSelectionModel<EigenschaftAuspraegungWrapper> sm = new NoSelectionModel<EigenschaftAuspraegungWrapper>();
+	
 	private CellTableForm ctf = null;
 	
-	
-	
-
-
 	
 	public UpdateKontaktForm(Kontakt kon) {
 
 		this.kon = kon;
 	}
 	
+	public void fillTable(){
+		
+		
+		
+	}
+	
+	
 	public void onLoad() {
 	
 		
 		
 		super.onLoad();
+		
+		fillTable();
+		
+		
 		fmt.format(date);
 		verwaltung.findAllEigenschaft(new AllEigenschaftCallback());
 		RootPanel.get("Buttonbar").clear();
@@ -132,7 +139,9 @@ public class UpdateKontaktForm extends VerticalPanel {
 		RootPanel.get("Buttonbar").add(cancelBtn);
 		
 		this.add(vpanelDetails);
-		ctf.setSelectionModel(selectionModel);
+		
+		
+		
 		
 		Column<EigenschaftAuspraegungWrapper, String> bezEigenschaft = new Column<EigenschaftAuspraegungWrapper, String>(
 				new ClickableTextCell()) {
@@ -154,13 +163,14 @@ public class UpdateKontaktForm extends VerticalPanel {
 				return "x";
 			}
 			};
-		
+			
+			
 		Column<EigenschaftAuspraegungWrapper, String> wertAuspraegung = new Column<EigenschaftAuspraegungWrapper, String>(
 				new EditTextCell()) {
 
 			@Override
 			public String getValue(EigenschaftAuspraegungWrapper object) {
-//				object.setAuspraegungID(object.getAuspraegungEigenschaftID());
+	
 				
 				return object.getAuspraegungValue();
 			}
@@ -188,122 +198,70 @@ public class UpdateKontaktForm extends VerticalPanel {
 						}	
 						
 					});
-//					kon.setModifikationsdatum(date);
-
-					
-					Window.alert("JETZT WURDE ENTER GEDRÜCKT");
-					
-					
-					eigaus.setWert(selectionModel.getSelectedObject().getAuspraegungValue());
-					
-					Window.alert(eigaus.getWert());
-//					Window.alert("Der Wert der ausprägung beim onbrowserevent ist: " + eigaus.getWert());
-					verwaltung.updateAuspraegung(eigaus, new AuspraegungBearbeitenCallback());
-
-//					Window.alert("Der Wert der ausprägung beim onbrowserevent ist: " + eigaus.getWert());
-
-//					verwaltung.updateKontakt(kon, new KontaktModifikationsdatumCallback());
 				}
 				
 			};
 		
 		};
 	
-		
-
-//		{
-//	        public void onKeyDown(KeyDownEvent event) {
-//	            if (event.getNativeKeyCode() == KeyCodes.KEY_ENTER) {
-//
-//	            }
-//	          }
-		
-
-		wertAuspraegung.setFieldUpdater(new FieldUpdater<EigenschaftAuspraegungWrapper, String>() {
-
-			@Override
-			public void update(int index, EigenschaftAuspraegungWrapper object, String value) {
-				object.setEigenschaftValue(value);
-				selectionModel.getSelectedObject().setAuspraegungValue(value);
-				Window.alert("FIELDUPDATER");
-				Window.alert(value);
-				selectionModel.getSelectedObject().setAuspraegungID(object.getAuspraegungID());
-				eigaus.setWert(object.getAuspraegungValue());
-				eigaus.setID(object.getAuspraegungID());
-				eigaus.setEigenschaftsID(object.getEigenschaftID());
-				eigaus.setKontaktID(kon.getID());
-				eigaus.setStatus(0);
-					
-		
-			}	
-				
-		});
-
-		
 		wertAuspraegung.setSortable(true);
 		ctf.addColumn(bezEigenschaft, "Eigenschaft:");
 		ctf.addColumn(wertAuspraegung, "Wert:");
 		ctf.addColumn(deleteBtn, "");
+		ctf.setSelectionModel(selectionModel);
+			
 		
-
-//		KeyDownHandler kdh = new KeyDownHandler(){
-//
-//			@Override
-//			public void onKeyDown(KeyDownEvent event) {
-//				if (event.getNativeKeyCode() == KeyCodes.KEY_ENTER) {
-//					kon.setModifikationsdatum(date);
-//					eigaus.setWert(wert);
-//					verwaltung.updateAuspraegung(eigaus, new AuspraegungBearbeitenCallback());
-//					verwaltung.updateKontakt(kon, new KontaktModifikationsdatumCallback());
-//				}
-//				
-//			}
-//			
-//		};	
-		
-		cancelBtn.addClickHandler(new ClickHandler() {
+		deleteBtn.setFieldUpdater(new FieldUpdater<EigenschaftAuspraegungWrapper, String>() {
 			
 			@Override
-			public void onClick(ClickEvent event) {
-				KontaktForm kf = new KontaktForm(kon);
+			public void update(int index, EigenschaftAuspraegungWrapper object, String value) { 
+				ea.setAuspraegung(object.getAuspraegung());
+				ea.setEigenschaft(object.getEigenschaft());
+				kon.setModifikationsdatum(date);
+				verwaltung.deleteEigenschaftUndAuspraegung(ea, new AuspraegungHybridLoeschenCallback());
+				verwaltung.updateKontakt(kon, new KontaktModifikationsdatumCallback());
 				
-				RootPanel.get("Details").clear();
-				RootPanel.get("Details").add(kf);
-		
 			}
 		});
 		
-		
-		deleteBtn.setFieldUpdater(new FieldUpdater<EigenschaftAuspraegungWrapper, String>() {
-					
-				@Override
-				public void update(int index, EigenschaftAuspraegungWrapper object, String value) { 
-					ea.setAuspraegung(object.getAuspraegung());
-					ea.setEigenschaft(object.getEigenschaft());
-					kon.setModifikationsdatum(date);
-					verwaltung.deleteEigenschaftUndAuspraegung(ea, new AuspraegungHybridLoeschenCallback());
-					verwaltung.updateKontakt(kon, new KontaktModifikationsdatumCallback());
-					
-				}
-			});
-		
-		
-		
-		addRow.addClickHandler(new ClickHandler() {
+		cancelBtn.addClickHandler(new CancelClick()); 
 
-			@Override
-			public void onClick(ClickEvent event) {
-
-				kon.setModifikationsdatum(date);
+		addRow.addClickHandler(new ClickAddRowHandler());
+	
 		
-				ctf.addRow(txt_Eigenschaft.getValue(), txt_Auspraegung.getValue());
-				verwaltung.insertEigenschaft(txt_Eigenschaft.getText(), 0, new EigenschaftEinfuegenCallback());
-				verwaltung.updateKontakt(kon, new KontaktModifikationsdatumCallback());
-		}
-
-		});}
+		
+	
+	
+	// Ende on-load
+	}
+	
 	
 
+		
+		
+	class CancelClick implements ClickHandler{
+
+		@Override
+		public void onClick(ClickEvent event) {
+			// TODO Auto-generated method stub
+			KontaktForm kf = new KontaktForm(kon);
+			
+			RootPanel.get("Details").clear();
+			RootPanel.get("Details").add(kf);
+		}
+		
+	}
+		
+	class ClickAddRowHandler implements ClickHandler{
+		@Override
+		public void onClick(ClickEvent event) {
+			kon.setModifikationsdatum(date);
+			
+			ctf.addRow(txt_Eigenschaft.getValue(), txt_Auspraegung.getValue());
+			verwaltung.insertEigenschaft(txt_Eigenschaft.getText(), 0, new EigenschaftEinfuegenCallback());
+			verwaltung.updateKontakt(kon, new KontaktModifikationsdatumCallback());
+			
+		}}
 	
 	class KontaktModifikationsdatumCallback implements AsyncCallback<Kontakt>{
 
@@ -383,11 +341,12 @@ public class UpdateKontaktForm extends VerticalPanel {
 
 		}
 
-		@Override
+		@Override	
 		public void onSuccess(Eigenschaftauspraegung result) {
 
 //			Window.alert("wurde aktualisiert");
-
+			eigaus.setWert(result.getWert());
+			selectionModel.setSelected(null, true);
 			verwaltung.findHybrid(kon, new ReloadCallback());
 //			eigaus.setWert(result.getWert());
 		}
