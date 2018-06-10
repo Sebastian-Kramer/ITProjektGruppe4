@@ -332,10 +332,10 @@ public class KontaktAdministrationImpl extends RemoteServiceServlet
 	}
 	
 	/**
-	 * Ausgabe eines Vectors mit sämtlichen Kontakten, die mit einem bestimmten Nutzer geteilt wurden.
+	 * Ausgabe eines Vectors mit sï¿½mtlichen Kontakten, die mit einem bestimmten Nutzer geteilt wurden.
 	 * 
 	 * @param nutzerID die ID des Nutzers
-	 * @return Vector mit sämtlichen geteilten Kontakten eines Nutzers
+	 * @return Vector mit sï¿½mtlichen geteilten Kontakten eines Nutzers
 	 * @throws IllegalArgumentException
 	 */
 	@Override
@@ -450,7 +450,7 @@ public class KontaktAdministrationImpl extends RemoteServiceServlet
 	}
 	
 	/**
-	 * Vector mit sämtlichen Nutzern, die eine Teilhaberschaft an einer Kontaktliste haben
+	 * Vector mit sï¿½mtlichen Nutzern, die eine Teilhaberschaft an einer Kontaktliste haben
 	 * 
 	 * @param kontaktlisteID die ID der Kontaktliste an der Teilhaberschaften von Nutzern bestehen
 	 * @return Vector mit Nutzern die Teilhaber an einer Kontaktliste sind
@@ -963,9 +963,9 @@ public class KontaktAdministrationImpl extends RemoteServiceServlet
 	}
 	
 	/**
-	 * Löschen eines Kontaktes aus einer Kontaktliste
+	 * Lï¿½schen eines Kontaktes aus einer Kontaktliste
 	 * 
-	 * @param kontaktID die ID des zu löschenden Kontaktes
+	 * @param kontaktID die ID des zu lï¿½schenden Kontaktes
 	 * @throws IllegalArgumentException
 	 */
 	@Override
@@ -1025,6 +1025,8 @@ public class KontaktAdministrationImpl extends RemoteServiceServlet
 	 * 
 	 */
 	@Override
+	
+	
 	public Teilhaberschaft insertTeilhaberschaftKontakt(int kontaktID, int eigenschaftsauspraegungID, int teilhaberID, int nutzerID) {
 		Teilhaberschaft t = new Teilhaberschaft();
 		
@@ -1072,10 +1074,10 @@ public class KontaktAdministrationImpl extends RemoteServiceServlet
 	}
 	
 	/**
-	 * Ausgabe sämtlicher Teilhaberschaften an einer Kontaktliste
+	 * Ausgabe sï¿½mtlicher Teilhaberschaften an einer Kontaktliste
 	 * 
 	 * @param kontaktlisteID die ID der Kontaktliste deren Teilhaberschaften gesucht werden
-	 * @return Vector mit sämtlichen Teilhaberschaften an einer Kontaktliste
+	 * @return Vector mit sï¿½mtlichen Teilhaberschaften an einer Kontaktliste
 	 * @throws IllegalArgumentException
 	 */
 	@Override
@@ -1111,9 +1113,9 @@ public class KontaktAdministrationImpl extends RemoteServiceServlet
 	}
 	
 	/**
-	 * Eine Teilhaberschaft an einer Kontaktliste löschen
+	 * Eine Teilhaberschaft an einer Kontaktliste lï¿½schen
 	 * 
-	 * @param kontaktlisteID die ID der Kontaktliste, an der die Teilhaberchaft aufgelöst werden soll
+	 * @param kontaktlisteID die ID der Kontaktliste, an der die Teilhaberchaft aufgelï¿½st werden soll
 	 * @throws IllegalArgumentException
 	 */
 	@Override
@@ -1130,9 +1132,9 @@ public class KontaktAdministrationImpl extends RemoteServiceServlet
      */
 	
 	/**
-	 * Löschen einer Teilhaberschaft anhand der TeilhaberID
+	 * Lï¿½schen einer Teilhaberschaft anhand der TeilhaberID
 	 * 
-	 * @param teilhaberID die ID des Teilhabers dessen ID gelöscht werden soll
+	 * @param teilhaberID die ID des Teilhabers dessen ID gelï¿½scht werden soll
 	 * @throws IllegalArgumentException
 	 */
 	@Override
@@ -1154,7 +1156,7 @@ public class KontaktAdministrationImpl extends RemoteServiceServlet
 	/**
      * Eine Teilhaberschaft an einer Kontaktliste loeschen.
      * 
-     * @param t das zu loe½schende Teilhaberschaft-Objekt
+     * @param t das zu loeï¿½schende Teilhaberschaft-Objekt
      * @throws IllegalArgumentException
      */
 	
@@ -1261,6 +1263,9 @@ public class KontaktAdministrationImpl extends RemoteServiceServlet
 	public Kontaktliste findKontaktliste(int nutzerID, String bez) throws IllegalArgumentException {
 		return this.konlistMapper.findKontaktliste(nutzerID, bez);
 	}
+
+
+
 
 
 
