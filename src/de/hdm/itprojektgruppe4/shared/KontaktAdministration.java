@@ -565,7 +565,20 @@ public interface KontaktAdministration extends RemoteService {
 	 */
 	public void deleteTeilhaberschaftByTeilhaberID (int teilhaberID) throws IllegalArgumentException;
 	
+
 	public Vector<Kontaktliste> findKontaktlisteByNutzerIDexceptBasicList(int nutzerID) throws IllegalArgumentException;
+
+	/**
+	 * Auslesen einer Teilhaberschaft anhand einer TeilhaberID und einer KontaktlisteID
+	 * 
+	 * @param teilhaberID die ID des Teilhabers
+	 * @return gesuchte Teilhaberschaft
+	 * @throws IllegalArgumentException
+	 */
+	public Teilhaberschaft findTeilhaberschaftByTeilhaberID (int teilhaberID, int kontaktlisteID) throws IllegalArgumentException;
+
    
+	
+
 
 }

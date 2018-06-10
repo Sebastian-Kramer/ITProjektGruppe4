@@ -181,7 +181,7 @@ public class KontaktlisteForm extends VerticalPanel {
 		@Override
 		public void onClick(ClickEvent event) {
 			if(selectionModel.getSelectedObject() == null){
-				Window.alert("Sie m�ssen einen Kontakt ausw�hlen");
+				Window.alert("Sie muessen einen Kontakt ausw�hlen");
 			}else{
 			KontaktForm kf = new KontaktForm(selectionModel.getSelectedObject());
 			RootPanel.get("Details").clear();
@@ -197,7 +197,7 @@ public class KontaktlisteForm extends VerticalPanel {
 		@Override
 		public void onClick(ClickEvent event) {
 			if(selectionModel.getSelectedObject() == null){
-				Window.alert("Sie m�ssen einen Kontakt ausw�hlen");
+				Window.alert("Sie muessen einen Kontakt auswaehlen");
 			}else{
 				kontaktVerwaltung.deleteKontaktKontaktlisteByKontaktID(selectionModel.getSelectedObject().getID(), new KontaktEntfernenCallback());
 			}
