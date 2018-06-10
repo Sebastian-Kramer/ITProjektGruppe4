@@ -124,12 +124,15 @@ public class DialogBoxNewKontaktliste extends DialogBox {
 		
 			
 			
-			if(result.getID() ==0) {
+			if(result == null) {
 				
 				Window.alert("Kontaktliste konnte nicht angelegt werden, da dieser Name bereits vorhanden ist");
 			}else{
+				
 			Window.alert("Die Kontaktliste wurde erfolgreich angelegt" + result.getID());
 			}
+			
+			hide();
 		}
 
 	}

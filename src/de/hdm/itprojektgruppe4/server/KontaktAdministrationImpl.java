@@ -1051,11 +1051,27 @@ public class KontaktAdministrationImpl extends RemoteServiceServlet
 	@Override
 	public Teilhaberschaft insertTeilhaberschaftKontaktliste(int kontaktlisteID, int teilhaberID, int nutzerID)
 			throws IllegalArgumentException {
+		
+	
+		
+		Kontaktliste kl = this.konlistMapper.findKontaktlistebyID(kontaktlisteID);
+		
+		
+		
+		if (kl.getBez().equals("Meine Kontakte")) {
+			
+			System.out.println("NEIN");
+			
+			return null;
+		}
+		
 		Teilhaberschaft t  = new Teilhaberschaft();
 		
 		t.setKontaktListeID(kontaktlisteID);
 		t.setTeilhaberID(teilhaberID);
 		t.setNutzerID(nutzerID);
+		
+		System.out.println("ja" + kl.getBez());
 		
 		return this.teilhaberschaftMapper.insertTeilhaberschaftKontaktliste(t);
 	}
@@ -1320,27 +1336,7 @@ public class KontaktAdministrationImpl extends RemoteServiceServlet
 	public Vector<Kontakt> findKontaktByNameAndNutzerID(Kontakt kontakt) throws IllegalArgumentException {
 		// TODO Auto-generated method stub
 		
-		
-//		char a = kontakt.getName().charAt(0);
-//		String b = "*";
-//		char c = b.charAt(0);
-//		char d = kontakt.getName().charAt(kontakt.getName().length() - 1);
-//
-//		Vector<Kontakt> kontaktVector = new Vector<Kontakt>();
-//		
-//
-//		if (a == c) {
-//			kontakt.setName(kontakt.getName().replace("*", "%"));
-//			kontaktVector = this.konMapper.findKontaktByNameUndNutzerID(kontakt);
-//		} else if (c == d) {
-//			kontakt.setName(kontakt.getName().replace("*", "%"));
-//			kontaktVector = this.konMapper.findKontaktByNameUndNutzerID(kontakt);
-//		} else {
-//			kontaktVector = this.konMapper.findKontaktByNameUndNutzerID(kontakt);
-//		}
-//
-//			return kontaktVector;
-//		
+			
 		return this.konMapper.findKontaktByNameUndNutzerID(kontakt);
 		
 		
