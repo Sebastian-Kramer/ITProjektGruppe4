@@ -33,7 +33,7 @@ import de.hdm.itprojektgruppe4.client.ClientsideSettings;
 
 import de.hdm.itprojektgruppe4.client.EigenschaftAuspraegungWrapper;
 import de.hdm.itprojektgruppe4.client.gui.UpdateKontaktForm.AuspraegungBearbeitenCallback;
-
+import de.hdm.itprojektgruppe4.client.gui.UpdateKontaktForm.ReloadCallback;
 import de.hdm.itprojektgruppe4.shared.KontaktAdministrationAsync;
 import de.hdm.itprojektgruppe4.shared.bo.Eigenschaft;
 import de.hdm.itprojektgruppe4.shared.bo.Eigenschaftauspraegung;
@@ -82,6 +82,7 @@ public class NewKontaktForm extends VerticalPanel {
 
 	private Nutzer nutzer = new Nutzer();
 	
+	private Eigenschaft eig1 = new Eigenschaft();
 	private Kontaktliste kList = new Kontaktliste();
 
 	KontaktlisteKontaktTreeViewModel kktvw = null;
@@ -179,7 +180,7 @@ public class NewKontaktForm extends VerticalPanel {
 				ctf.addRow(eigenschaftSugBox.getValue(), txt_Auspraegung.getValue());
 
 				verwaltung.insertEigenschaft(eigenschaftSugBox.getText(), 0, new EigenschaftHinzufuegenCallback());
-
+				
 			}
 
 		});
@@ -303,6 +304,7 @@ public class NewKontaktForm extends VerticalPanel {
 			// TODO Auto-generated method stub
 			DialogBoxAddContactToList dbkl = new DialogBoxAddContactToList(kontakt1);
 			dbkl.center();
+			verwaltung.findHybrid(kontakt1, new ReloadCallback());
 		}
 		
 	}
@@ -449,8 +451,8 @@ public class NewKontaktForm extends VerticalPanel {
 
 		@Override
 		public void onSuccess(Eigenschaft result) {
-		//	Window.alert("Die Neue Eigenschaft: " + result.getBezeichnung() + " wurde  hinzugefügt");
-			verwaltung.insertAuspraegung(txt_Auspraegung.getText(), 0, result.getID(), kontakt1.getID(),
+			eig1.setID(result.getID());
+			verwaltung.insertAuspraegung(txt_Auspraegung.getText(), 0, eig1.getID(), kontakt1.getID(),
 					new AuspraegungHinzufuegenCallback());
 		}
 
@@ -472,11 +474,29 @@ public class NewKontaktForm extends VerticalPanel {
 
 		@Override
 		public void onSuccess(Eigenschaftauspraegung result) {
-		//	Window.alert("Die Neue Ausprägung wurde  hinzugefügt");
+		
+			verwaltung.findHybrid(kontakt1, new ReloadCallback());
+			txt_Eigenschaft.setText("");
+			txt_Auspraegung.setText("");
 		}
 
 	}
 
+	class ReloadCallback implements AsyncCallback<Vector<EigenschaftAuspraegungWrapper>>{
 
+		@Override
+		public void onFailure(Throwable caught) {
+			// TODO Auto-generated method stub
+			
+		}
+
+		@Override
+		public void onSuccess(Vector<EigenschaftAuspraegungWrapper> result) {
+
+			ctf.setRowData(0, result);
+			ctf.setRowCount(result.size(), true);
+		}
+		
+	}
 
 }
