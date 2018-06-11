@@ -29,6 +29,7 @@ import com.google.gwt.view.client.AsyncDataProvider;
 import com.google.gwt.view.client.HasData;
 import com.google.gwt.user.client.ui.FlowPanel;
 
+
 import de.hdm.itprojektgruppe4.shared.KontaktAdministrationAsync;
 import de.hdm.itprojektgruppe4.shared.bo.*;
 import de.hdm.itprojektgruppe4.client.ClientsideSettings;
@@ -59,6 +60,7 @@ public class KontaktlisteBearbeitenForm extends VerticalPanel {
 	private KontaktCell kontaktcell = new KontaktCell();
 	private CellList<Kontakt> kontaktCellList = new CellList<Kontakt>(kontaktcell);
 	private SingleSelectionModel<Kontakt> selectionModel = new SingleSelectionModel<Kontakt>();
+	private ListDataProvider<Kontakt> dataProvider = new ListDataProvider<Kontakt>();
 	
 	
 	public KontaktlisteBearbeitenForm (Kontaktliste kl){
@@ -72,9 +74,14 @@ public class KontaktlisteBearbeitenForm extends VerticalPanel {
 		nutzer.setEmail(Cookies.getCookie("email"));
 		
 		//Instantiieren des DataProviders, der die Daten fuer die Liste haelt
-				KontakteDataProvider dataProvider = new KontakteDataProvider();
-				dataProvider.addDataDisplay(kontaktCellList);
+				//KontakteDataProvider dataProvider = new KontakteDataProvider();
+				//dataProvider.addDataDisplay(kontaktCellList);
 				kontaktCellList.setSelectionModel(selectionModel);
+				
+				
+	
+		kontaktVerwaltung.getAllKontakteFromKontaktliste(kl.getID(), new KontakteVonKontaktlisteCallback());
+		dataProvider.addDataDisplay(kontaktCellList);
 		
 		/*
 		 * Hinzufï¿½gen der Buttons zur Buttonbar
@@ -102,7 +109,6 @@ public class KontaktlisteBearbeitenForm extends VerticalPanel {
 		zurueck.addClickHandler(new BearbeitenBeendenClickhandler());
 	
 	}
-	
 	
 	/**
 	 * Clickhandler, der das Lï¿½schen von Kontaktlisten bzw. die Auflï¿½sung einer Teilhaberschaft bei Klick ermï¿½glicht
@@ -142,7 +148,13 @@ public class KontaktlisteBearbeitenForm extends VerticalPanel {
 		}
 		
 	}
-	
+	/**
+	 * Clickhandler um das Entfernen eines Kontaktes aus der Kontaktliste zu ermoeglichen.
+	 * Ist ein Kontakt ausgewaehlt, wird das gewählte Kontakt-Objekt sowohl aus der Datenbank, als auch aus der 
+	 * Celllist entfernt. Zum Entfernen des Objekts aus der Liste dient die Methode <code>remove()</code>.
+	 * @author Raphael
+	 *
+	 */
 	private class KontaktEntfernenClickhandler implements ClickHandler{
 
 		@Override
@@ -150,13 +162,20 @@ public class KontaktlisteBearbeitenForm extends VerticalPanel {
 			if(selectionModel.getSelectedObject() == null){
 				Window.alert("Sie muessen einen Kontakt auswaehlen");
 			}else{
+				dataProvider.getList().remove(selectionModel.getSelectedObject());
 				kontaktVerwaltung.deleteKontaktKontaktlisteByKontaktID(selectionModel.getSelectedObject().getID(), new KontaktEntfernenCallback());
 			}
 			
 		}
 		
 	}
-	
+	/**
+	 * Clickhandler der das Beenden der Bearbeitung einer Kontaktliste ermöglicht.
+	 * Da bei der Bearbeitung der Name und auch die Kontakte der Kontaktliste geändert werden können,
+	 * wird sowohl die KontaklisteForm als auch der Navigations-Baum neu geladen.
+	 * @author Raphael
+	 *
+	 */
 	private class BearbeitenBeendenClickhandler implements ClickHandler{
 
 		@Override
@@ -167,6 +186,29 @@ public class KontaktlisteBearbeitenForm extends VerticalPanel {
 			RootPanel.get("Navigator").clear();
 			RootPanel.get("Details").add(kf);
 			RootPanel.get("Navigator").add(updatedNavTree);
+			
+		}
+		
+	}
+	/**
+	 * Callback-Klasse, um alle Kontakte der Kontaktliste auszulesen. Jedes Kontakt Object aus dem Vector Result wird zum
+	 * ListDataProvider hinzugefügt, der die Daten für die Celllist hält. 
+	 * @author Raphael
+	 *
+	 */
+	private class KontakteVonKontaktlisteCallback implements AsyncCallback<Vector<Kontakt>>{
+
+		@Override
+		public void onFailure(Throwable caught) {
+			// TODO Auto-generated method stub
+			
+		}
+
+		@Override
+		public void onSuccess(Vector<Kontakt> result) {
+			for(Kontakt k : result){
+				dataProvider.getList().add(k);
+			}
 			
 		}
 		
@@ -218,45 +260,10 @@ public class KontaktlisteBearbeitenForm extends VerticalPanel {
 
 		@Override
 		public void onSuccess(Void result) {
-		
-				
+			
 		
 		}
 		
 	}
-	
-	/**
-	 * Hier wird der DataProvider mit den entsprechenden Daten fuer die CellList erstellt.
-	 */
-	private class KontakteDataProvider extends AsyncDataProvider<Kontakt>{
 
-		@Override
-		protected void onRangeChanged(HasData<Kontakt> display) {
-			final Range range = display.getVisibleRange();
-			
-			
-			kontaktVerwaltung.getAllKontakteFromKontaktliste(kl.getID(), new AsyncCallback<Vector<Kontakt>>(){
-				int start = range.getStart();
-				@Override
-				public void onFailure(Throwable caught) {
-					// TODO Auto-generated method stub
-					
-				}
-
-				@Override
-				public void onSuccess(Vector<Kontakt> result) {
-				
-					List<Kontakt> list = new ArrayList<Kontakt>();
-					for(Kontakt k : result){
-						list.add(k);
-					}
-					updateRowData(start, list);
-					
-				}
-				
-			});
-			
-		}
-		
-	}
 }

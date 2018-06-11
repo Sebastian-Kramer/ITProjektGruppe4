@@ -121,7 +121,8 @@ public class DialogBoxTeilhaberschaftVerwalten extends DialogBox {
 
 		@Override
 		public void onClick(ClickEvent event) {
-			kontaktVerwaltung.findTeilhaberschaftByTeilhaberID(selectionModel.getSelectedObject().getID(), kl.getID(), new TeilhaberschaftAuslesen());
+			kontaktVerwaltung.deleteTeilhaberschaftByTeilhaberID(selectionModel.getSelectedObject().getID(),new TeilhaberschaftLoeschenCallback());
+			//kontaktVerwaltung.findTeilhaberschaftByTeilhaberID(selectionModel.getSelectedObject().getID(), kl.getID(), new TeilhaberschaftAuslesen());
 			hide();
 			
 				
@@ -183,7 +184,7 @@ public class DialogBoxTeilhaberschaftVerwalten extends DialogBox {
 		protected void onRangeChanged(HasData<Nutzer> display) {
 			final Range range = display.getVisibleRange();
 			
-			kontaktVerwaltung.findAllTeilhaberFromKontaktliste(kl.getID(),new AsyncCallback<Vector<Nutzer>>(){
+			kontaktVerwaltung.findSharedWithNutzer(nutzer.getID(), kl.getID(),new AsyncCallback<Vector<Nutzer>>(){
 				int start = range.getStart();
 				@Override
 				public void onFailure(Throwable caught) {

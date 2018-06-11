@@ -174,7 +174,15 @@ public interface KontaktAdministrationAsync {
 
 	void findKontaktByNameAndNutzerID(Kontakt kontakt, AsyncCallback<Vector<Kontakt>> callback);
 
+
 	void insertKontaktinMeineGeteiltenKontakte(int konID, int kListID, AsyncCallback<KontaktKontaktliste> callback);
+
+	void findSharedWithNutzer(int nutzerID, int kontaktlisteID, AsyncCallback<Vector<Nutzer>> callback);
+
+	void findTeilhaberschaftByNutzerIDKontaktlisteID(int nutzerID, int kontaktlisteID,
+			AsyncCallback<Vector<Teilhaberschaft>> callback);
+
+
 
 //	void alleAuspraegungenTeilen(Kontakt kon, int teilhaberID,   ,AsyncCallback<Teilhaberschaft> callback);
 
