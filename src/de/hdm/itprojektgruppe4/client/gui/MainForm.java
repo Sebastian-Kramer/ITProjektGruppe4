@@ -11,6 +11,7 @@ import com.google.gwt.user.client.Cookies;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Button;
+import com.google.gwt.user.client.ui.FlexTable;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.HorizontalPanel;
@@ -46,11 +47,21 @@ public class MainForm extends VerticalPanel {
 	private HorizontalPanel hpanelDetails = new HorizontalPanel();
 	private HorizontalPanel hpanelButtonBar = new HorizontalPanel();
 
+	
+	private FlexTable anordnung = new FlexTable();
+	
 	private Button newKontakt = new Button("Neuer Kontakt anlegen");
 	private Button newKontaktliste = new Button("Neue Kontaktliste anlegen");
 	private Button newTeilhaberschaft = new Button("Kontaktliste teilen");
 	private Button suchen = new Button("Suchen");
 	private Button impressum = new Button("Impressum");
+	private HTML greetHTML1 = new HTML("<h2>MyContacs<h2>");
+	private HTML greetHTML2 = new HTML("Herzlich Willkommen auf MyContacts, "
+										+"<br>ihrer Kontaktverwaltung. "
+										+ "<br> Hier können Sie neue Kontakte anlegen, "
+										+ "<br> diese in verschiedene Listen organiesieren"
+										+ "<br> und sowohl die einzelnen Kontakte und Kontaktlisten mit anderen Nutzern teilen.");
+	
 	
 	private HTML html1 = new HTML("<h2>Meine Kontakte</h2>");
 
@@ -149,10 +160,19 @@ public class MainForm extends VerticalPanel {
 		scrollPanel.add(cellList);
 
 		RootPanel.get("Buttonbar").add(fPanel);
-
-		vpanelDetails.add(html1);
+		
+		anordnung.setWidget(0, 0, greetHTML1);
+		anordnung.setWidget(1, 0, greetHTML2);
+		anordnung.setWidget(0, 1, html1);
+		anordnung.setWidget(1, 1, scrollPanel);
+		
+		
+//		hpanelDetails.add(greetHTML);
+//		hpanelDetails.add(scrollPanel);
+		
+		//vpanelDetails.add(html1);
 		vpanelDetails.add(hpanelDetails);
-		vpanelDetails.add(scrollPanel);
+		vpanelDetails.add(anordnung);
 		this.add(vpanelDetails);
 
 	}

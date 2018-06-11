@@ -37,7 +37,9 @@ import com.google.gwt.user.client.ui.FlexTable;
 import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Label;
+import com.google.gwt.user.client.ui.MultiWordSuggestOracle;
 import com.google.gwt.user.client.ui.RootPanel;
+import com.google.gwt.user.client.ui.SuggestBox;
 import com.google.gwt.user.client.ui.TextArea;
 import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.client.ui.VerticalPanel;
@@ -52,6 +54,7 @@ import com.google.gwt.event.dom.client.KeyPressHandler;
 
 import de.hdm.itprojektgruppe4.client.ClientsideSettings;
 import de.hdm.itprojektgruppe4.client.EigenschaftAuspraegungWrapper;
+import de.hdm.itprojektgruppe4.client.gui.NewKontaktForm.AlleEigenschaftCallback;
 import de.hdm.itprojektgruppe4.shared.KontaktAdministrationAsync;
 import de.hdm.itprojektgruppe4.shared.bo.Eigenschaft;
 import de.hdm.itprojektgruppe4.shared.bo.Eigenschaftauspraegung;
@@ -80,6 +83,11 @@ public class UpdateKontaktForm extends VerticalPanel {
 	private Label lbl_NewAuspraegung = new Label("Auspraegung: ");
 	private TextBox txt_Auspraegung = new TextBox();
 	private Date date = new Date();
+	
+	private MultiWordSuggestOracle eigenschaftOracle = new MultiWordSuggestOracle();
+	private SuggestBox eigenschaftSugBox = new SuggestBox(eigenschaftOracle);
+	
+	
 	DateTimeFormat fmt = DateTimeFormat.getFormat("dd.MM.yyyy");
 	private Button cancelBtn = new Button("Cancel");
 	
@@ -131,7 +139,7 @@ public class UpdateKontaktForm extends VerticalPanel {
 		vpanelDetails.add(ctf);
 		vpanelDetails.add(hpanelAdd);
 		hpanelAdd.add(lbl_NewEigenschaft);
-		hpanelAdd.add(txt_Eigenschaft);
+		hpanelAdd.add(eigenschaftSugBox);
 		hpanelAdd.add(lbl_NewAuspraegung);
 		hpanelAdd.add(txt_Auspraegung);
 		hpanelAdd.add(addRow);
@@ -142,7 +150,7 @@ public class UpdateKontaktForm extends VerticalPanel {
 		
 		this.add(vpanelDetails);
 		
-		
+		verwaltung.findAllEigenschaft(new AlleEigenschaftCallback());
 		
 		
 		Column<EigenschaftAuspraegungWrapper, String> bezEigenschaft = new Column<EigenschaftAuspraegungWrapper, String>(
@@ -266,8 +274,8 @@ public class UpdateKontaktForm extends VerticalPanel {
 		public void onClick(ClickEvent event) {
 			kon.setModifikationsdatum(date);
 			
-			ctf.addRow(txt_Eigenschaft.getValue(), txt_Auspraegung.getValue());
-			verwaltung.insertEigenschaft(txt_Eigenschaft.getText(), 0, new EigenschaftEinfuegenCallback());
+			ctf.addRow(eigenschaftSugBox.getValue(), txt_Auspraegung.getValue());
+			verwaltung.insertEigenschaft(eigenschaftSugBox.getText(), 0, new EigenschaftEinfuegenCallback());
 			verwaltung.updateKontakt(kon, new KontaktModifikationsdatumCallback());
 			
 		}}
@@ -336,7 +344,7 @@ public class UpdateKontaktForm extends VerticalPanel {
 		@Override
 		public void onSuccess(Eigenschaftauspraegung result) {
 			verwaltung.findHybrid(kon, new ReloadCallback());
-			txt_Eigenschaft.setText("");
+			eigenschaftSugBox.setText("");
 			txt_Auspraegung.setText("");
 		}
 		
@@ -393,6 +401,27 @@ public class UpdateKontaktForm extends VerticalPanel {
 			ctf.setRowData(0, result);
 			ctf.setRowCount(result.size(), true);
 		}
+		
+	}
+	
+	class AlleEigenschaftCallback implements AsyncCallback<Vector<Eigenschaft>> {
+
+		@Override
+		public void onFailure(Throwable caught) {
+			// TODO Auto-generated method stub
+			
+		}
+
+		@Override
+		public void onSuccess(Vector<Eigenschaft> result) {
+			// TODO Auto-generated method stub
+			for (Eigenschaft eigenschaft : result) {
+				eigenschaftOracle.add(eigenschaft.getBezeichnung());
+			
+		}
+
+		}
+		
 		
 	}
 
