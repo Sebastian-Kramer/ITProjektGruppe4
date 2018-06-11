@@ -8,7 +8,12 @@ import java.util.*;
  */
 public class Kontaktliste extends BusinessObject {
 	
-	 /**
+	 @Override
+	public String toString() {
+		return "Kontaktliste [bez=" + bez + ", status=" + status + ", nutzerID=" + nutzerID + "]";
+	}
+
+	/**
      * 
      */
 	private static final long serialVersionUID = 1L;

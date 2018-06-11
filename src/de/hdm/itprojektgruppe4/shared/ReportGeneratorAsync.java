@@ -17,11 +17,6 @@ public interface ReportGeneratorAsync {
 	
 	
 	
-
-	void createKontakteMitBestimmtenEigenschaftsAuspraegungenReport(
-			AsyncCallback<KontakteMitBestimmtenEigenschaftsAuspraegungenReport> callback);
-
-	
 	void createKontakteMitBestimmterTeilhaberschaftReport(
 			AsyncCallback<KontakteMitBestimmterTeilhaberschaftReport> callback);
 
@@ -37,6 +32,17 @@ public interface ReportGeneratorAsync {
 
 
 	void AllEigeneKontakteReport(AsyncCallback<AllEigeneKontakteReport> asyncCallback);
+
+
+
+	void kontakteMitBestimmterTeilhaberschaftReport(AsyncCallback<KontakteMitBestimmterTeilhaberschaftReport> callback);
+
+
+
+	void KontakteMitBestimmterTeilhaberschaftReport(AsyncCallback<AllEigeneKontakteReport> asyncCallback);
+
+
+
 
 
 

@@ -22,7 +22,9 @@ import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Label;
+import com.google.gwt.user.client.ui.MultiWordSuggestOracle;
 import com.google.gwt.user.client.ui.RootPanel;
+import com.google.gwt.user.client.ui.SuggestBox;
 import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.view.client.SingleSelectionModel;
@@ -31,7 +33,7 @@ import de.hdm.itprojektgruppe4.client.ClientsideSettings;
 
 import de.hdm.itprojektgruppe4.client.EigenschaftAuspraegungWrapper;
 import de.hdm.itprojektgruppe4.client.gui.UpdateKontaktForm.AuspraegungBearbeitenCallback;
-
+import de.hdm.itprojektgruppe4.client.gui.UpdateKontaktForm.ReloadCallback;
 import de.hdm.itprojektgruppe4.shared.KontaktAdministrationAsync;
 import de.hdm.itprojektgruppe4.shared.bo.Eigenschaft;
 import de.hdm.itprojektgruppe4.shared.bo.Eigenschaftauspraegung;
@@ -48,31 +50,39 @@ public class NewKontaktForm extends VerticalPanel {
 	private VerticalPanel vpanel = new VerticalPanel();
 	private HorizontalPanel hpanelButtonBar = new HorizontalPanel();
 	private HorizontalPanel hpanel2 = new HorizontalPanel();
+	private VerticalPanel vpanel2 = new VerticalPanel();
 
 	private Label name = new Label("Name: ");
 	private TextBox tbName = new TextBox();
-	private Button save1 = new Button("Speichern");
 	private Label eigenschaftName = new Label("Eigenschaft");
 	private Label auspraegungName = new Label("Ausprägung");
 
 	private Button cancel = new Button("Cancel");
-	private HTML html1 = new HTML("Bitte geben Sie hier die <b> Namen </b> zu ihrem neuen " + " <b>Kontakt</b>  an."
+	private Button getBack = new Button("Abschliessen und zurück");
+	private HTML html1 = new HTML("Bitte geben Sie hier die <b> Namen </b> zu ihrem neuen " + " <b>Kontakt</b>  an und bestätigen Sie mit Enter."
 			+ "<span style='font-family:fixed'></span>", true);
 
 	private HTML html2 = new HTML("Bitte geben Sie hier die <b> Eigenschaften </b> und die dazugehörigen"
 			+ " <b>Auspärgungen</b>  zu Ihrem Kontakt an." + "<span style='font-family:fixed'></span>", true);
 
 	private Button addRow = new Button("Eigenschaft hinzufügen");
+	
+	private Button addToList = new Button("Kontakt zu einer Liste hinzufügen");
+	
 
 	private TextBox txt_Eigenschaft = new TextBox();
 	private TextBox txt_Auspraegung = new TextBox();
-
+	
+	private MultiWordSuggestOracle eigenschaftOracle = new MultiWordSuggestOracle();
+	private SuggestBox eigenschaftSugBox = new SuggestBox(eigenschaftOracle);
+	
 	private CellTableForm ctf = null;
 
 	private Kontakt kontakt1 = new Kontakt();
 
 	private Nutzer nutzer = new Nutzer();
 	
+	private Eigenschaft eig1 = new Eigenschaft();
 	private Kontaktliste kList = new Kontaktliste();
 
 	KontaktlisteKontaktTreeViewModel kktvw = null;
@@ -94,24 +104,30 @@ public class NewKontaktForm extends VerticalPanel {
 		nutzer.setEmail(Cookies.getCookie("email"));
 
 		html2.setVisible(false);
-		txt_Eigenschaft.setVisible(false);
+		eigenschaftSugBox.setVisible(false);
 		txt_Auspraegung.setVisible(false);
 		eigenschaftName.setVisible(false);
 		auspraegungName.setVisible(false);
 		addRow.setVisible(false);
 
-		hpanelButtonBar.add(save1);
+		
 
 		hpanelButtonBar.add(cancel);
+		
 
 		RootPanel.get("Buttonbar").clear();
 		RootPanel.get("Buttonbar").add(hpanelButtonBar);
 
 		hpanel2.add(eigenschaftName);
-		hpanel2.add(txt_Eigenschaft);
+		hpanel2.add(eigenschaftSugBox);
 		hpanel2.add(auspraegungName);
 		hpanel2.add(txt_Auspraegung);
 		hpanel2.add(addRow);
+		
+		
+		vpanel2.add(hpanel2);
+		vpanel2.add(addToList);
+		vpanel2.add(getBack);
 
 		hpanel.add(name);
 		hpanel.add(tbName);
@@ -120,23 +136,24 @@ public class NewKontaktForm extends VerticalPanel {
 		vpanel.add(hpanel);
 		vpanel.add(html2);
 
+		
 		this.add(vpanel);
 
 		
+		verwaltung.findAllEigenschaft(new AlleEigenschaftCallback());
+		
+		// Buttons
+		
+		cancel.addClickHandler(new CancelClick());
 		
 		
-		cancel.addClickHandler(new ClickHandler() {
-
-			@Override
-			public void onClick(ClickEvent event) {
-
-				MainForm getBack = new MainForm();
-				RootPanel.get("Buttonbar").clear();
-				RootPanel.get("Details").clear();
-				RootPanel.get("Details").add(getBack);
-
-			}
-		});
+		getBack.addClickHandler(new GetBackClick());
+		
+		addToList.addClickHandler(new AddToListClick());
+		
+		
+		// KeyHandler um den Kontaktnamen zu speichern und einen
+		// neuen Kontakt zu erstellen 
 
 		KeyDownHandler returnKeyHandler = new KeyDownHandler() {
 
@@ -148,6 +165,7 @@ public class NewKontaktForm extends VerticalPanel {
 							new KontaktErstellenCallback());
 				
 					html2.setVisible(true);
+					cancel.setVisible(false);
 
 				}
 			}
@@ -159,15 +177,21 @@ public class NewKontaktForm extends VerticalPanel {
 
 			@Override
 			public void onClick(ClickEvent event) {
-				ctf.addRow(txt_Eigenschaft.getValue(), txt_Auspraegung.getValue());
+				ctf.addRow(eigenschaftSugBox.getValue(), txt_Auspraegung.getValue());
 
-				verwaltung.insertEigenschaft(txt_Eigenschaft.getText(), 0, new EigenschaftHinzufuegenCallback());
-
+				verwaltung.insertEigenschaft(eigenschaftSugBox.getText(), 0, new EigenschaftHinzufuegenCallback());
+				
 			}
 
 		});
 
 	}
+	
+	/**
+	 *  Diese Methode wird aufgerufen, wenn die leeren Ausprägungen erfolgreich
+	 *  angelegt wurden. Es wird die CellTable mit 2 Spalten befüllt, und die Celltable 
+	 *  anschliessend der Klasse hinzugefügt.
+	 */
 	
 	public void fillTable(){
 		
@@ -187,7 +211,7 @@ public class NewKontaktForm extends VerticalPanel {
 
 			@Override
 			public String getValue(EigenschaftAuspraegungWrapper object) {
-//				object.setAuspraegungID(object.getAuspraegungEigenschaftID());
+
 				
 				return object.getAuspraegungValue();
 			}
@@ -225,13 +249,75 @@ public class NewKontaktForm extends VerticalPanel {
 		ctf.addColumn(bezEigenschaft, "Eigenschaft");
 		ctf.addColumn(wertAuspraegung, "Wert");
 		add(ctf);
-		add(hpanel2);
+		add(vpanel2);
 
 		ctf.setSelectionModel(sm);
 		
 		
 	}
 	
+
+	/**
+	 *  ClickHandler Klasse für den Cancel Button, welcher die Kontakterstellung
+	 *   abbricht und den Nutzer zurück auf die Startseite bringt
+	 * @author nino
+	 *
+	 */
+	
+	class CancelClick implements ClickHandler{
+
+		@Override
+		public void onClick(ClickEvent event) {
+			// TODO Auto-generated method stub
+			MainForm getBack = new MainForm();
+			RootPanel.get("Buttonbar").clear();
+			RootPanel.get("Details").clear();
+			RootPanel.get("Details").add(getBack);
+		}
+		
+	}
+	
+	
+	/**
+	 *  ClickHandler Klasse für den Cancel Button, welcher die Kontakterstellung
+	 *   beendet und den Nutzer zurück auf die Startseite bringt
+	 * @author nino
+	 *
+	 */
+	
+	class GetBackClick implements ClickHandler{
+
+		@Override
+		public void onClick(ClickEvent event) {
+			// TODO Auto-generated method stub
+			MainForm getBack = new MainForm();
+			RootPanel.get("Buttonbar").clear();
+			RootPanel.get("Details").clear();
+			RootPanel.get("Details").add(getBack);
+		}
+		
+	}
+	
+	class AddToListClick implements ClickHandler{
+
+		@Override
+		public void onClick(ClickEvent event) {
+			// TODO Auto-generated method stub
+			DialogBoxAddContactToList dbkl = new DialogBoxAddContactToList(kontakt1);
+			dbkl.center();
+			verwaltung.findHybrid(kontakt1, new ReloadCallback());
+		}
+		
+	}
+
+	/**
+	 * CallBack Klasse um einen neuen Kontakt zu erstellen, 
+	 * in der Applikationslogik wurde implemnetiert, dass ein neuer Kontakt zu der Basisliste
+	 * "Meine Kontakte " hinzugefügt wird.
+	 * @author nino
+	 *
+	 */
+
 
 
 	class KontaktErstellenCallback implements AsyncCallback<Kontakt> {
@@ -245,13 +331,21 @@ public class NewKontaktForm extends VerticalPanel {
 		public void onSuccess(Kontakt result) {
 			kontakt1.setID(result.getID());
 			kontakt1.setName(result.getName());
-			Window.alert("Kontakt " + result.getName() + " wurde  erstellt");
+		//	Window.alert("Kontakt " + result.getName() + " wurde  erstellt");
 			verwaltung.insertBasicAuspraegung("", 0, result.getID(), new BasicAuspraegungenCallback());
-		
+
 		}
 
 	}
 
+	
+	/**
+	 *  Callback Klasse um leere Ausprägungen, für unsere 4 vorgegebenen Eigenschaften, zu erstellen.
+	 *  Diese Ausprägungen werden im Nachheinen bearbeitet.
+	 * @author nino
+	 *
+	 */
+	
 	class BasicAuspraegungenCallback implements AsyncCallback<Vector<Eigenschaftauspraegung>> {
 
 		@Override
@@ -261,11 +355,11 @@ public class NewKontaktForm extends VerticalPanel {
 
 		@Override
 		public void onSuccess(Vector<Eigenschaftauspraegung> result) {
-			Window.alert("die leeren ausprägungen wurden erstellt ");
+	//		Window.alert("die leeren ausprägungen wurden erstellt ");
 			html2.setVisible(true);
 			eigenschaftName.setVisible(true);
 			auspraegungName.setVisible(true);
-			txt_Eigenschaft.setVisible(true);
+			eigenschaftSugBox.setVisible(true);
 			txt_Auspraegung.setVisible(true);
 			addRow.setVisible(true);
 
@@ -291,37 +385,13 @@ public class NewKontaktForm extends VerticalPanel {
 		}
 
 	}
-
-	class EigenschaftHinzufuegenCallback implements AsyncCallback<Eigenschaft> {
-
-		@Override
-		public void onFailure(Throwable caught) {
-			Window.alert("Die Neue Eigenschaft wurde nicht hinzugefügt");
-		}
-
-		@Override
-		public void onSuccess(Eigenschaft result) {
-			Window.alert("Die Neue Eigenschaft: " + result.getBezeichnung() + " wurde  hinzugefügt");
-			verwaltung.insertAuspraegung(txt_Auspraegung.getText(), 0, result.getID(), kontakt1.getID(),
-					new AuspraegungHinzufuegenCallback());
-		}
-
-	}
-
-	class AuspraegungHinzufuegenCallback implements AsyncCallback<Eigenschaftauspraegung> {
-
-		@Override
-		public void onFailure(Throwable caught) {
-			Window.alert("Die Neue Ausprägung wurde  nicht hinzugefügt");
-		}
-
-		@Override
-		public void onSuccess(Eigenschaftauspraegung result) {
-			Window.alert("Die Neue Ausprägung wurde  hinzugefügt");
-		}
-
-	}
-
+	
+	/**
+	 * Callback Klasse um die leeren Ausprägungen, zu den Basis-Eigenschaften, zu bearbeiten.
+	 * @author nino
+	 *
+	 */
+	
 	class AuspraegungBearbeitenCallback implements AsyncCallback<Eigenschaftauspraegung> {
 
 		@Override
@@ -332,9 +402,102 @@ public class NewKontaktForm extends VerticalPanel {
 		@Override
 		public void onSuccess(Eigenschaftauspraegung result) {
 			eigaus.setWert(result.getWert());
-			Window.alert("Sie haben die Ausprägung " + result.getWert() + " angepasst");
+		//	Window.alert("Sie haben die Ausprägung " + result.getWert() + " angepasst");
 		}
 
+	}
+	
+	/**
+	 * Callback Klasse um alle Eigenschaften aus dem System zu bekommen und 
+	 * diese in die SuggestionBox zu laden. 
+	 * @author nino
+	 *
+	 */
+	
+	class AlleEigenschaftCallback implements AsyncCallback<Vector<Eigenschaft>> {
+
+		@Override
+		public void onFailure(Throwable caught) {
+			// TODO Auto-generated method stub
+			
+		}
+
+		@Override
+		public void onSuccess(Vector<Eigenschaft> result) {
+			// TODO Auto-generated method stub
+			for (Eigenschaft eigenschaft : result) {
+				eigenschaftOracle.add(eigenschaft.getBezeichnung());
+			
+		}
+
+		}
+		
+		
+	}
+	
+	
+	/**
+	 * CallBack Klasse um anahnd der SuggestionBox eine neue Eigenschaft 
+	 * für den neuen Kontakt zu erstellen.
+	 * @author nino
+	 *
+	 */
+
+	class EigenschaftHinzufuegenCallback implements AsyncCallback<Eigenschaft> {
+
+		@Override
+		public void onFailure(Throwable caught) {
+			Window.alert("Die Neue Eigenschaft wurde nicht hinzugefügt");
+		}
+
+		@Override
+		public void onSuccess(Eigenschaft result) {
+			eig1.setID(result.getID());
+			verwaltung.insertAuspraegung(txt_Auspraegung.getText(), 0, eig1.getID(), kontakt1.getID(),
+					new AuspraegungHinzufuegenCallback());
+		}
+
+	}
+
+	/**
+	 * CallBack Klasse um anahnd der TextBox eine neue Ausprägung 
+	 * für den neuen Kontakt zu erstellen.
+	 * @author nino
+	 *
+	 */
+	
+	class AuspraegungHinzufuegenCallback implements AsyncCallback<Eigenschaftauspraegung> {
+
+		@Override
+		public void onFailure(Throwable caught) {
+			Window.alert("Die Neue Ausprägung wurde  nicht hinzugefügt");
+		}
+
+		@Override
+		public void onSuccess(Eigenschaftauspraegung result) {
+		
+			verwaltung.findHybrid(kontakt1, new ReloadCallback());
+			txt_Eigenschaft.setText("");
+			txt_Auspraegung.setText("");
+		}
+
+	}
+
+	class ReloadCallback implements AsyncCallback<Vector<EigenschaftAuspraegungWrapper>>{
+
+		@Override
+		public void onFailure(Throwable caught) {
+			// TODO Auto-generated method stub
+			
+		}
+
+		@Override
+		public void onSuccess(Vector<EigenschaftAuspraegungWrapper> result) {
+
+			ctf.setRowData(0, result);
+			ctf.setRowCount(result.size(), true);
+		}
+		
 	}
 
 }

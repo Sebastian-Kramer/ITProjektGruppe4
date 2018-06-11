@@ -89,8 +89,8 @@ public class DialogBoxKontaktlisteTeilen extends DialogBox{
 	}
 	
 	/**
-	 * Clickhandler, der das Teilen einer Kontaktliste mit einem Nutzer ermöglicht.
-	 * Hierfür wird das in der Celllist ausgewählte Objekt einem neuen Nutzer-Objekt zugewiesen.
+	 * Clickhandler, der das Teilen einer Kontaktliste mit einem Nutzer ermï¿½glicht.
+	 * Hierfï¿½r wird das in der Celllist ausgewï¿½hlte Objekt einem neuen Nutzer-Objekt zugewiesen.
 	 * Die Teilhaberschaft wird dann anhand der Kontaktliste und dem Nutzer mithilfe eines Callbacks in der Datenbank
 	 * angelegt.
 	 * @author Raphael
@@ -100,9 +100,9 @@ public class DialogBoxKontaktlisteTeilen extends DialogBox{
 
 		@Override
 		public void onClick(ClickEvent event) {
-			// ist kein Nutzer ausgewählt, wird dies mithilfe eines Window-Alerts dem User kenntlich gemacht.
+			// ist kein Nutzer ausgewï¿½hlt, wird dies mithilfe eines Window-Alerts dem User kenntlich gemacht.
 			if(nutzerSelection.getSelectedObject() == null){
-				Window.alert("Sie müssen einen Nutzer auswählen");
+				Window.alert("Sie mï¿½ssen einen Nutzer auswï¿½hlen");
 			}else{
 			Nutzer n = nutzerSelection.getSelectedObject();
 				kontaktVerwaltung.insertTeilhaberschaftKontaktliste(kl.getID(), n.getID(), nutzer.getID(), new TeilhaberschaftErstellenCallback());
@@ -115,7 +115,7 @@ public class DialogBoxKontaktlisteTeilen extends DialogBox{
 	}
 	
 	/**
-	 * Implementierung eines Clickhandlers, um beim Klick des Abbrechen-Buttons die DialogBox zu schließen.
+	 * Implementierung eines Clickhandlers, um beim Klick des Abbrechen-Buttons die DialogBox zu schlieï¿½en.
 	 * @author Raphael
 	 *
 	 */
@@ -142,8 +142,14 @@ public class DialogBoxKontaktlisteTeilen extends DialogBox{
 
 		@Override
 		public void onSuccess(Teilhaberschaft result) {
+			
+			
+			if(result==null){
+				Window.alert("Sie kÃ¶nnen diese Liste nicht teilen");
+			}else{
+			
 			Window.alert("Die Liste wurde erfolgreich geteilt");
-		
+			}
 			
 		}
 		

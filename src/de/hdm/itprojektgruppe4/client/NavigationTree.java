@@ -2,6 +2,7 @@ package de.hdm.itprojektgruppe4.client;
 
 
 import com.google.gwt.user.cellview.client.CellTree;
+import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.view.client.TreeViewModel;
@@ -17,6 +18,9 @@ public class NavigationTree extends VerticalPanel{
 		
 		CellTree navigationTree = new CellTree(kontaktNavigationTree, null);
 		
+		HTML html = new HTML("<h2>Meine Kontaktlisten</h2>");
+		
+		this.add(html);
 		this.add(navigationTree);
 	}
 	

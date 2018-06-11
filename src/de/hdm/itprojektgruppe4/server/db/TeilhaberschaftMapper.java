@@ -139,6 +139,48 @@ public class TeilhaberschaftMapper {
 
 		return result;
 	}
+	
+	/**
+	 * Auslesen eines Teilhaberschaft-Objekts aus der Datenbank anhand des Fremdschlüssels teilhaberID
+	 * 
+	 * @param teilhaberID
+	 * @return Teilhaberschafts-Objekt
+	 */
+	public Teilhaberschaft findByTeilhaberIDKontaktlisteID(int teilhaberID, int kontaktlisteID) {
+
+		Connection con = DBConnection.connection();
+
+		try {
+
+			Statement stmt = con.createStatement();
+
+			ResultSet rs = stmt.executeQuery(
+
+					"SELECT `ID`, `kontaktlisteID`, `kontaktID`, `eigenschaftsauspraegungID`,"
+							+ " `teilhaberID`, `nutzerID` FROM" + " `teilhaberschaft` WHERE kontaktlisteID=" + kontaktlisteID +" " + "AND teilhaberID=" + teilhaberID);
+
+			if (rs.next()) {
+
+				Teilhaberschaft th = new Teilhaberschaft();
+
+				th.setID(rs.getInt("ID"));
+				th.setKontaktListeID(rs.getInt("kontaktlisteID"));
+				th.setKontaktID(rs.getInt("kontaktID"));
+				th.setEigenschaftsauspraegungID(rs.getInt("eigenschaftsauspraegungID"));
+				th.setTeilhaberID(rs.getInt("teilhaberID"));
+				th.setNutzerID(rs.getInt("nutzerID"));
+
+				return th;
+			}
+		} catch (SQLException e) {
+
+			e.printStackTrace();
+
+			return null;
+		}
+
+		return null;
+	}
 
 	public void deleteTeilhaberschaftByKontaktID(int kontaktID) {
 		Connection con = DBConnection.connection();
@@ -156,8 +198,8 @@ public class TeilhaberschaftMapper {
 	}
 	
 	/**
-	 * Teilhaberschaft anhand der uebergebenen KontaktlisteID löschen.
-	 * @param kontaktlisteID die ID der Kontaktliste an der die Teilhaberschaft gelöscht werden soll
+	 * Teilhaberschaft anhand der uebergebenen KontaktlisteID lï¿½schen.
+	 * @param kontaktlisteID die ID der Kontaktliste an der die Teilhaberschaft gelï¿½scht werden soll
 	 */
 	public void deleteTeilhaberschaftByKontaktlisteID(int kontaktlisteID) {
 		Connection con = DBConnection.connection();
@@ -252,9 +294,9 @@ public class TeilhaberschaftMapper {
 	}
 
 	/**
-	 * Einfügen eines neuen Teilhaberschaft-Objekts in der Datenbank.
+	 * Einfï¿½gen eines neuen Teilhaberschaft-Objekts in der Datenbank.
 	 * Wird beim teilen eines Kontaktes aufgerufen, daher wird die KontaktlisteID null gesetzt,
-	 * da diese hier nicht benötigt wird.
+	 * da diese hier nicht benï¿½tigt wird.
 	 * 
 	 * @param t die zu speichernde Teilhaberschaft
 	 * @return
@@ -267,7 +309,7 @@ public class TeilhaberschaftMapper {
 
 			ResultSet rs = stmt.executeQuery(
 
-					"SELECT MAX(id) AS maxid " + "FROM teilhaberschaft ");
+					"SELECT MAX(ID) AS maxid " + "FROM teilhaberschaft ");
 
 			if (rs.next()) {
 
@@ -280,9 +322,9 @@ public class TeilhaberschaftMapper {
 						  
 						 
 						" INSERT INTO `teilhaberschaft` (`ID`, `kontaktlisteID`, `kontaktID`, `eigenschaftsauspraegungID`, `teilhaberID`, `nutzerID`) "
-								+ " VALUES ('" + t.getID() + "',NULL,'"
-								+ t.getKontaktID() + "' ,'" + t.getEigenschaftsauspraegungID() +  "' ,'"  
-								+ t.getTeilhaberID() + "' ,'"  +  t.getNutzerID() + "')");
+								+ " VALUES (" + t.getID() + ",NULL,"
+								+ t.getKontaktID() + " ," + t.getEigenschaftsauspraegungID() +  " ,"  
+								+ t.getTeilhaberID() + " ,"  +  t.getNutzerID() + ")");
 			}
 		} catch (SQLException e2) {
 			e2.printStackTrace();
@@ -292,9 +334,9 @@ public class TeilhaberschaftMapper {
 	}
 	
 	/**
-	 * Einfügen eines neuen Teilhaberschaft-Objektes in die Datenbank.
+	 * Einfï¿½gen eines neuen Teilhaberschaft-Objektes in die Datenbank.
 	 * Wird beim teilen einer Kontaktliste aufgerufen, daher werden die KontaktID, sowie die EigenschaftauspraegungID
-	 * null gesetzt. Diese werden beim Teilen einer Kontaktliste nicht benötigt.
+	 * null gesetzt. Diese werden beim Teilen einer Kontaktliste nicht benï¿½tigt.
 	 * @param t das Teilhaberschaft-Objekt
 	 * @return
 	 */
@@ -306,7 +348,7 @@ public class TeilhaberschaftMapper {
 
 			ResultSet rs = stmt.executeQuery(
 
-					"SELECT MAX(id) AS maxid " + "FROM teilhaberschaft ");
+					"SELECT MAX(ID) AS maxid " + "FROM teilhaberschaft ");
 
 			if (rs.next()) {
 
@@ -449,7 +491,7 @@ public class TeilhaberschaftMapper {
 	/**
 	 * Loeschen einer Teilhaberschaft anhand der teilhaberID
 	 * 
-	 * @param teilhaberID die ID des Teilhabers, dessen Teilhaberschaft aufgelöst werden soll
+	 * @param teilhaberID die ID des Teilhabers, dessen Teilhaberschaft aufgelï¿½st werden soll
 	 */
 	public void deleteTeilhaberschaftByTeilhaberID(int teilhaberID){
 

@@ -86,6 +86,13 @@ public interface KontaktAdministration extends RemoteService {
      */
     public Vector<Kontakt> findAllKontakte() throws IllegalArgumentException;
     
+    
+    /**
+     * 
+     */
+    
+    public Vector<Kontakt> findKontaktByNameAndNutzerID(Kontakt kontakt) throws IllegalArgumentException;
+    
     /**
      * ï¿½berschreiben eines <code>Kontakt</code>-Objekts.
      * 
@@ -498,9 +505,9 @@ public interface KontaktAdministration extends RemoteService {
 	public Vector<Kontakt> findAllKontaktFromNutzer(int nutzerID) throws IllegalArgumentException;
 	
 	/**
-	 * Eine Teilhaberschaft an einer Kontaktliste löschen
+	 * Eine Teilhaberschaft an einer Kontaktliste lï¿½schen
 	 * 
-	 * @param kontaktlisteID die ID der Kontaktliste, an der die Teilhaberchaft aufgelöst werden soll
+	 * @param kontaktlisteID die ID der Kontaktliste, an der die Teilhaberchaft aufgelï¿½st werden soll
 	 * @throws IllegalArgumentException
 	 */
 	public void deleteTeilhaberschaftByKontaktlisteID(int kontaktlisteID) throws IllegalArgumentException;
@@ -512,10 +519,10 @@ public interface KontaktAdministration extends RemoteService {
 	public Kontaktliste findKontaktliste(int nutzerID, String bez) throws IllegalArgumentException;
 	
 	/**
-	 * Ausgabe eines Vectors mit sämtlichen Kontakten, die mit einem bestimmten Nutzer geteilt wurden.
+	 * Ausgabe eines Vectors mit sï¿½mtlichen Kontakten, die mit einem bestimmten Nutzer geteilt wurden.
 	 * 
 	 * @param nutzerID die ID des Nutzers
-	 * @return Vector mit sämtlichen geteilten Kontakten eines Nutzers
+	 * @return Vector mit sï¿½mtlichen geteilten Kontakten eines Nutzers
 	 * @throws IllegalArgumentException
 	 */
 	public Vector<Kontakt> findAllSharedKontakteVonNutzer (int nutzerID) throws IllegalArgumentException;
@@ -532,16 +539,16 @@ public interface KontaktAdministration extends RemoteService {
 	public Teilhaberschaft insertTeilhaberschaftKontaktliste (int kontaktlisteID, int teilhaberID, int nutzerID) throws IllegalArgumentException;
 	
 	/**
-	 * Ausgabe sämtlicher Teilhaberschaften an einer Kontaktliste
+	 * Ausgabe sï¿½mtlicher Teilhaberschaften an einer Kontaktliste
 	 * 
 	 * @param kontaktlisteID die ID der Kontaktliste deren Teilhaberschaften gesucht werden
-	 * @return Vector mit sämtlichen Teilhaberschaften an einer Kontaktliste
+	 * @return Vector mit sï¿½mtlichen Teilhaberschaften an einer Kontaktliste
 	 * @throws IllegalArgumentException
 	 */
 	public Vector<Teilhaberschaft> findTeilhaberschaftByKontaktlisteID (int kontaktlisteID) throws IllegalArgumentException;
 	
 	/**
-	 * Vector mit sämtlichen Nutzern, die eine Teilhaberschaft an einer Kontaktliste haben
+	 * Vector mit sï¿½mtlichen Nutzern, die eine Teilhaberschaft an einer Kontaktliste haben
 	 * 
 	 * @param nutzerID die ID des Nutzers
 	 * @return Vector mit Nutzern die 
@@ -550,20 +557,35 @@ public interface KontaktAdministration extends RemoteService {
 	public Vector<Nutzer> findAllTeilhaberFromKontaktliste (int kontaktlisteID) throws IllegalArgumentException;
 	
 	/**
-	 * Löschen eines Kontaktes aus einer Kontaktliste
+	 * Lï¿½schen eines Kontaktes aus einer Kontaktliste
 	 * 
-	 * @param kontaktID die ID des zu löschenden Kontaktes
+	 * @param kontaktID die ID des zu lï¿½schenden Kontaktes
 	 * @throws IllegalArgumentException
 	 */
 	public void deleteKontaktKontaktlisteByKontaktID (int kontaktID) throws IllegalArgumentException;
 	
 	/**
-	 * Löschen einer Teilhaberschaft anhand der TeilhaberID
+	 * Lï¿½schen einer Teilhaberschaft anhand der TeilhaberID
 	 * 
-	 * @param teilhaberID die ID des Teilhabers dessen ID gelöscht werden soll
+	 * @param teilhaberID die ID des Teilhabers dessen ID gelï¿½scht werden soll
 	 * @throws IllegalArgumentException
 	 */
 	public void deleteTeilhaberschaftByTeilhaberID (int teilhaberID) throws IllegalArgumentException;
+	
+
+	public Vector<Kontaktliste> findKontaktlisteByNutzerIDexceptBasicList(int nutzerID) throws IllegalArgumentException;
+
+	/**
+	 * Auslesen einer Teilhaberschaft anhand einer TeilhaberID und einer KontaktlisteID
+	 * 
+	 * @param teilhaberID die ID des Teilhabers
+	 * @return gesuchte Teilhaberschaft
+	 * @throws IllegalArgumentException
+	 */
+	public Teilhaberschaft findTeilhaberschaftByTeilhaberID (int teilhaberID, int kontaktlisteID) throws IllegalArgumentException;
+
    
+	
+
 
 }

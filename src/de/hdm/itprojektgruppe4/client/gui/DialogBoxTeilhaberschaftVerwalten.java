@@ -47,6 +47,7 @@ public class DialogBoxTeilhaberschaftVerwalten extends DialogBox {
 	
 	private Nutzer nutzer = new Nutzer();
 	private Kontaktliste kl = null;
+	private Teilhaberschaft t = new Teilhaberschaft();
 	
 	private VerticalPanel vpanel = new VerticalPanel();
 	
@@ -69,6 +70,10 @@ public class DialogBoxTeilhaberschaftVerwalten extends DialogBox {
 //		super.onLoad();
 		this.setStylePrimaryName("dialogbox");
 		
+		//Setzen der Nutzerinformationen
+		nutzer.setID(Integer.parseInt(Cookies.getCookie("id")));
+		nutzer.setEmail(Cookies.getCookie("email"));
+		
 		NutzerDataProvider dataProvider = new NutzerDataProvider();
 		dataProvider.addDataDisplay(nutzerList);
 		
@@ -76,12 +81,31 @@ public class DialogBoxTeilhaberschaftVerwalten extends DialogBox {
 		teilhaberschaftAufloesen.addClickHandler(new TeilhaberschaftAufloesenClickhandler());
 		nutzerList.setSelectionModel(selectionModel);
 		
+		
 		flextable.setWidget(0, 0, nutzerList);
 		flextable.setWidget(1, 0, abbrechen);
 		flextable.setWidget(1, 1, teilhaberschaftAufloesen);
 		this.add(flextable);
 	}
 	
+
+	private void pruefeErlaubnis(){
+		
+		
+		if(nutzer.getID() == kl.getNutzerID()){
+			kontaktVerwaltung.deleteTeilhaberschaftByTeilhaberID(selectionModel.getSelectedObject().getID(), new TeilhaberschaftLoeschenCallback() );
+		}
+		//Ist der Nutzer der Ersteller der Teilhaberschaft zu einer Kontaktliste mit einem anderen Nutzer, so ist er berechtigt, diese Teilhaberschaft
+		// aufzulösen
+		else if(nutzer.getID() == t.getNutzerID() && selectionModel.getSelectedObject().getID() == t.getTeilhaberID()){
+			kontaktVerwaltung.deleteTeilhaberschaftByTeilhaberID(selectionModel.getSelectedObject().getID(), new TeilhaberschaftLoeschenCallback());
+		}
+		//Trifft keiner dieser Fälle zu ist der Nutzer nicht berechtig, eine Teilhaberschaft aufzulösen
+		else if(nutzer.getID() != kl.getNutzerID() || nutzer.getID() != t.getNutzerID() && selectionModel.getSelectedObject().getID() != t.getTeilhaberID()){
+			Window.alert("Sie sind nicht berechtigt, diese Teilhaberschaft aufzulösen, da Sie weder der Ersteller dieser Kontaktliste noch dieser Teilhaberschaft sind.");
+			
+		}
+	}
 	
 	private class AbbrechenClickhandler implements ClickHandler{
 
@@ -97,16 +121,11 @@ public class DialogBoxTeilhaberschaftVerwalten extends DialogBox {
 
 		@Override
 		public void onClick(ClickEvent event) {
-			Nutzer n = selectionModel.getSelectedObject();
-			//kontaktVerwaltung.findTeilhaberschaftByKontaktlisteID(kl.getID(), callback);
-			if(nutzer.getID() == kl.getNutzerID()){
-			kontaktVerwaltung.deleteTeilhaberschaftByTeilhaberID(selectionModel.getSelectedObject().getID(), new TeilhaberschaftLoeschenCallback(){
-			});
-			}else if (nutzer.getID() == kl.getNutzerID()) {
+			kontaktVerwaltung.findTeilhaberschaftByTeilhaberID(selectionModel.getSelectedObject().getID(), kl.getID(), new TeilhaberschaftAuslesen());
+			hide();
+			
 				
-			}{
-				
-			}
+			
 		}
 		
 	}
@@ -115,7 +134,7 @@ public class DialogBoxTeilhaberschaftVerwalten extends DialogBox {
 
 		@Override
 		public void onFailure(Throwable caught) {
-			// TODO Auto-generated method stub
+			Window.alert("Klappt nicht");
 			
 		}
 
@@ -128,7 +147,7 @@ public class DialogBoxTeilhaberschaftVerwalten extends DialogBox {
 		
 	}
 	
-	private class TeilhaberschaftVonKontaktliste implements AsyncCallback<Vector<Teilhaberschaft>>{
+	class TeilhaberschaftAuslesen implements AsyncCallback<Teilhaberschaft>{
 
 		@Override
 		public void onFailure(Throwable caught) {
@@ -137,8 +156,9 @@ public class DialogBoxTeilhaberschaftVerwalten extends DialogBox {
 		}
 
 		@Override
-		public void onSuccess(Vector<Teilhaberschaft> result) {
-			
+		public void onSuccess(Teilhaberschaft result) {
+			t = result;
+			pruefeErlaubnis();
 			
 		}
 

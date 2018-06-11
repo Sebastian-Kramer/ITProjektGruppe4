@@ -26,10 +26,14 @@ public interface ReportGenerator extends RemoteService {
 	
 		AllEigeneKontakteReport AllEigeneKontakteReport();
 
-	KontakteMitBestimmtenEigenschaftsAuspraegungenReport createKontakteMitBestimmtenEigenschaftsAuspraegungenReport()
-			throws IllegalArgumentException;
+	KontakteMitBestimmterTeilhaberschaftReport kontakteMitBestimmterTeilhaberschaftReport();
 
 	KontakteMitBestimmterTeilhaberschaftReport createKontakteMitBestimmterTeilhaberschaftReport()
 			throws IllegalArgumentException;
+
+
+	AllEigeneKontakteReport KontakteMitBestimmterTeilhaberschaftReport();
+
+
 
 }

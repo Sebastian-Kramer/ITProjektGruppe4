@@ -10,6 +10,7 @@ import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.DialogBox;
 import com.google.gwt.user.client.ui.HorizontalPanel;
+import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.ListBox;
 import com.google.gwt.user.client.ui.VerticalPanel;
 
@@ -28,7 +29,9 @@ public class DialogBoxAddContactToList extends DialogBox {
 	private VerticalPanel vpanel = new VerticalPanel();
 	private HorizontalPanel hpanel = new HorizontalPanel();
 
+	private Label pickList = new Label("Wählen Sie die gewünschte Liste aus");
 	private Button addKontakt = new Button("Dieser Liste Hinzufügen");
+	private Button cancel = new Button("Abbrechen");
 	private Nutzer nutzer = new Nutzer();
 	private Kontaktliste kliste = new Kontaktliste();
 
@@ -46,11 +49,14 @@ public class DialogBoxAddContactToList extends DialogBox {
 		nutzer.setID(Integer.parseInt(Cookies.getCookie("id")));
 		nutzer.setEmail(Cookies.getCookie("email"));
 	
-		verwaltung.getAllKontaktlistenFromUser(nutzer.getID(), new AllKontaktlisteByNutzerCallback());
+		verwaltung.findKontaktlisteByNutzerIDexceptBasicList(nutzer.getID(), new AllKontaktlisteByNutzerCallback());
 		
+		hpanel.add(addKontakt);
+		hpanel.add(cancel);
 		
+		vpanel.add(pickList);
 		vpanel.add(dropBoxKontaktlisten);
-		vpanel.add(addKontakt);
+		vpanel.add(hpanel);
 		
 		this.add(vpanel);
 		this.setStyleName("DialogboxBackground");
@@ -65,10 +71,24 @@ public class DialogBoxAddContactToList extends DialogBox {
 				
 			}
 		});
+		
+		
+		cancel.addClickHandler(new CancelClick());
+		
+		
 	}
 	
 	
 	
+	class CancelClick implements ClickHandler{
+
+		@Override
+		public void onClick(ClickEvent event) {
+			// TODO Auto-generated method stub
+			hide();
+		}
+		
+	}
 	
 	
 	
