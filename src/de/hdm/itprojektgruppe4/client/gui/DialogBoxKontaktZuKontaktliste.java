@@ -155,7 +155,7 @@ public class DialogBoxKontaktZuKontaktliste extends DialogBox {
 			}else{
 				kontakteHinzufuegen(kl);
 				DialogBoxKontaktZuKontaktliste.this.hide();
-				KontaktlisteForm kontaktlisteForm = new KontaktlisteForm(kl);
+				KontaktlisteBearbeitenForm kontaktlisteForm = new KontaktlisteBearbeitenForm(kl);
 				NavigationTree updatedNavigation = new NavigationTree();
 				RootPanel.get("Details").clear();
 				RootPanel.get("Navigator").clear();

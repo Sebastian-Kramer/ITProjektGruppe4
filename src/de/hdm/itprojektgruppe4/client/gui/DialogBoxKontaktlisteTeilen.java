@@ -105,7 +105,10 @@ public class DialogBoxKontaktlisteTeilen extends DialogBox{
 				Window.alert("Sie mï¿½ssen einen Nutzer auswï¿½hlen");
 			}else{
 			Nutzer n = nutzerSelection.getSelectedObject();
+			//Bei erfolgreicher Teilung der Kontaktliste wird der Status der Kontaktliste auf 1 (= geteilt) gesetzt
+			kl.setStatus(1);
 				kontaktVerwaltung.insertTeilhaberschaftKontaktliste(kl.getID(), n.getID(), nutzer.getID(), new TeilhaberschaftErstellenCallback());
+				kontaktVerwaltung.updateKontaktliste(kl, new KontaktlisteUpdatenCallback());
 			DialogBoxKontaktlisteTeilen.this.hide();
 			KontaktlisteForm kontaktlisteForm = new KontaktlisteForm(kl);
 			RootPanel.get("Details").clear();
@@ -142,14 +145,29 @@ public class DialogBoxKontaktlisteTeilen extends DialogBox{
 
 		@Override
 		public void onSuccess(Teilhaberschaft result) {
-			
-			
 			if(result==null){
-				Window.alert("Sie kÃ¶nnen diese Liste nicht teilen");
+				Window.alert("Sie können diese Liste nicht teilen");
 			}else{
-			
 			Window.alert("Die Liste wurde erfolgreich geteilt");
+			
+			
 			}
+			
+		}
+		
+	}
+	
+	private class KontaktlisteUpdatenCallback implements AsyncCallback<Kontaktliste>{
+
+		@Override
+		public void onFailure(Throwable caught) {
+			// TODO Auto-generated method stub
+			
+		}
+
+		@Override
+		public void onSuccess(Kontaktliste result) {
+			Window.alert("Kontaktliste erfolgreich updated");
 			
 		}
 		
