@@ -45,7 +45,7 @@ public class ITProjektSS18 implements EntryPoint {
 	private Anchor signInLink = new Anchor("Anmelden");
 	private Anchor signOutLink = new Anchor("Logout");
 	
-	
+	Nutzer n = new Nutzer();
 	
 	LoginServiceAsync loginService = GWT.create(LoginService.class);
 	private static KontaktAdministrationAsync verwaltung = ClientsideSettings.getKontaktVerwaltung();
@@ -111,12 +111,11 @@ public class ITProjektSS18 implements EntryPoint {
 
 						@Override
 						public void onSuccess(Nutzer result) {
-							Window.alert("Nutzer" + finalLog.getEmailAddress() + " wurde erfolgreich angelegt.");
+							Window.alert("Nutzer " + finalLog.getEmailAddress() + " wurde erfolgreich angelegt.");
 							Cookies.setCookie("email", result.getEmail());
 							Cookies.setCookie("id", result.getID()+"");
-							//loadStartseite();
 							verwaltung.insertMeineKontakte("Meine Kontakte", 0, result.getID(), new MeineKontakteAnlegen());
-
+							n = result;
 						}
 
 					});
@@ -154,7 +153,24 @@ public class ITProjektSS18 implements EntryPoint {
 
 		@Override
 		public void onFailure(Throwable caught) {
-			// TODO Auto-generated method stub
+
+			
+		}
+
+		@Override
+		public void onSuccess(Kontaktliste result) {
+			verwaltung.insertKontaktliste("Meine geteilten Kontakte", 0, n.getID(), new GeteilteKontakteAnlegen());
+			
+			
+		}
+		
+	}
+	
+	class GeteilteKontakteAnlegen implements AsyncCallback<Kontaktliste>{
+
+		@Override
+		public void onFailure(Throwable caught) {
+
 			
 		}
 

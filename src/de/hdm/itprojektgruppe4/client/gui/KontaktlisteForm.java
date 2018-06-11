@@ -42,7 +42,9 @@ import de.hdm.itprojektgruppe4.client.NavigationTree;
 public class KontaktlisteForm extends VerticalPanel {
 	
 	private VerticalPanel vpanel = new VerticalPanel();
-	private HorizontalPanel hpanelButtonbar = new HorizontalPanel();
+	private HorizontalPanel hpanel = new HorizontalPanel();
+	
+	private Label lbl_geteilt = new Label();
 	
 	private ScrollPanel scrollPanel = new ScrollPanel();
 	private FlowPanel fpanel = new FlowPanel();
@@ -59,7 +61,7 @@ public class KontaktlisteForm extends VerticalPanel {
 	private Button teilhaberschaften = new Button("Teilhaberschaften verwalten");
 	private Button kontaktEntfernen = new Button("Kontakt entfernen");
 	private Button kontaktlisteBearbeiten = new Button("Kontaktliste bearbeiten");
-	private Button zurStartseite = new Button("Zuruech zur Startseite");
+	private Button zurStartseite = new Button("Zurueck zur Startseite");
 
 	private KontaktAdministrationAsync kontaktVerwaltung = ClientsideSettings.getKontaktverwaltung();
 	KontaktlisteKontaktTreeViewModel kktvm = new KontaktlisteKontaktTreeViewModel();
@@ -102,16 +104,23 @@ public class KontaktlisteForm extends VerticalPanel {
 		if(kl.getNutzerID() == nutzer.getID()){
 			fpanel.add(kontaktlisteBearbeiten);
 		}
+		if(kl.getStatus() == 1){
+			lbl_geteilt.setText("Status: geteilt");
+			hpanel.add(lbl_geteilt);
+			
+		}
 		
 		fpanel.add(kontaktAnzeigen);
 		fpanel.add(kontaktlisteTeilen);
 		fpanel.add(teilhaberschaften);
+		fpanel.add(zurStartseite);
 		RootPanel.get("Buttonbar").add(fpanel);
 		
 		/*
 		 * Hinzufuegen der �berschrift und der CellList zum Vertical Panel
 		 */
-		vpanel.add(html1);
+		hpanel.add(html1);
+		vpanel.add(hpanel);
 		vpanel.add(scrollPanel);
 		vpanel.add(kontaktCellList);
 		RootPanel.get("Details").add(vpanel);
@@ -246,6 +255,7 @@ public class KontaktlisteForm extends VerticalPanel {
 		@Override
 		public void onClick(ClickEvent event) {
 			MainForm mf = new MainForm();
+			RootPanel.get("Buttonbar").clear();
 			RootPanel.get("Details").clear();
 			RootPanel.get("Details").add(mf);
 			

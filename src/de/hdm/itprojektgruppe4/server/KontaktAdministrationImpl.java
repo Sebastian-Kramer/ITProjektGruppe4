@@ -471,6 +471,27 @@ public class KontaktAdministrationImpl extends RemoteServiceServlet
 		return nutzerVector;
 	}
 	
+	/**
+	 * Auslesen aller Nutzer, mit denen der angemeldete Nutzer eine Kontaktliste geteilt hat
+	 * 
+	 * 
+	 * @param nutzerID die ID des angemeldeten Nutzers
+	 * @param kontaktlisteID die ID der Kontaktliste, deren Teilhaberschaften verwaltet werden sollen
+	 * @return Vector mit sämtlichen Nutzern, mit denen der angemeldete Nutzer die Kontaktliste geteilt hat
+	 * @throws IllegalArgumentException
+	 */
+	@Override
+	public Vector<Nutzer> findSharedWithNutzer(int nutzerID, int kontaktlisteID) throws IllegalArgumentException {
+		Vector<Teilhaberschaft> t = findTeilhaberschaftByNutzerIDKontaktlisteID(nutzerID, kontaktlisteID);
+		Vector<Nutzer> nutzerVector = new Vector<Nutzer>();
+		
+		for(Teilhaberschaft teil : t){
+			Nutzer n = findNutzerByID(teil.getTeilhaberID());
+			nutzerVector.add(n);
+		}
+		
+	return nutzerVector;
+	}
 	
     /*##########################################################
      * ENDE Methoden fï¿½r Nutzer-Objekte
@@ -1029,6 +1050,19 @@ public class KontaktAdministrationImpl extends RemoteServiceServlet
 			throws IllegalArgumentException {
 		return this.kontaktKontaktlisteMapper.getKontaktKontaktlisteByKontaktlisteID(kontaktlisteID);
 	}
+	
+	/**
+	 * 
+	 * @param konID, kListID
+	 * @return Mit dieser Methode wird der 
+	 * @throws IllegalArgumentException
+	 */
+	@Override
+	public KontaktKontaktliste insertKontaktinMeineGeteiltenKontakte(int konID, int kListID)
+			throws IllegalArgumentException {
+		// TODO Auto-generated method stub
+		return null;
+	}
 
 	
 	/*##########################################################
@@ -1221,6 +1255,21 @@ public class KontaktAdministrationImpl extends RemoteServiceServlet
 	
 	}
 	
+	/**
+	 * Auslesen aller Teilhaberschaften, mit der übergebenen nutzerID und kontaktlisteID
+	 * 
+	 * @param nutzerID die ID des angemeldeten Nutzers
+	 * @param kontaktlisteID die ID der gewählten kontaktlisteID
+	 * @return Vector mit sämtlichen Teilhaberschaften, mit den uebergebenen Parametern 
+	 * @throws IllegalArgumentException
+	 */
+	@Override
+	public Vector<Teilhaberschaft> findTeilhaberschaftByNutzerIDKontaktlisteID(int nutzerID, int kontaktlisteID)
+			throws IllegalArgumentException {
+		return this.teilhaberschaftMapper.findTeilhaberschaftenByKontaktlisteIDNutzerID(nutzerID, kontaktlisteID);
+		
+	}
+	
 	
 	/*##########################################################
      * ENDE Methoden fuer Teilhaberschaft-Objekte
@@ -1387,6 +1436,16 @@ public class KontaktAdministrationImpl extends RemoteServiceServlet
 		
 		
 	}
+
+
+	
+
+
+	
+
+
+
+
 
 
 

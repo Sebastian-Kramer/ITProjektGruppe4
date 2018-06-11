@@ -440,7 +440,24 @@ public interface KontaktAdministration extends RemoteService {
 	 * @return Vector mit sämtlichen Kontakten einer ausgewählten Kontaktliste
 	 * @throws IllegalArgumentException
 	 */
+    
+    /**
+     * 
+     * @param bez
+     * @param status
+     * @param nutzerID
+     * @return
+     * @throws IllegalArgumentException
+     */
+    public KontaktKontaktliste insertKontaktinMeineGeteiltenKontakte(int konID, int kListID) throws IllegalArgumentException;
 
+    
+    /**
+     * 
+     * @param i
+     * @return
+     * @throws IllegalArgumentException
+     */
     public Vector<Integer> findAllKontakteFromKontaktliste(int i) throws IllegalArgumentException;
     
    /**
@@ -584,8 +601,33 @@ public interface KontaktAdministration extends RemoteService {
 	 */
 	public Teilhaberschaft findTeilhaberschaftByTeilhaberID (int teilhaberID, int kontaktlisteID) throws IllegalArgumentException;
 
+
    
 	public Eigenschaft findEigByBezeichnung(String bez) throws IllegalArgumentException;
+
+	
+	/**
+	 * Auslesen aller Nutzer, mit den der angemeldete Nutzer eine Kontaktliste geteilt hat
+	 * 
+	 * @param nutzerID die ID des angemeldeten Nutzers
+	 * @param kontaktlisteID die ID der Kontaktliste, deren Teilhaberschaften verwaltet werden sollen
+	 * @return Vector mit s�mtlichen Nutzern, mit denen der angemeldete Nutzer die Kontaktliste geteilt hat
+	 * @throws IllegalArgumentException
+	 */
+	public Vector <Nutzer> findSharedWithNutzer (int nutzerID, int kontaktlisteID) throws IllegalArgumentException;
+	
+	/**
+	 * Auslesen aller Teilhaberschaften, mit der �bergebenen nutzerID und kontaktlisteID
+	 * 
+	 * @param nutzerID die ID des angemeldeten Nutzers
+	 * @param kontaktlisteID die ID der gew�hlten kontaktlisteID
+	 * @return Vector mit s�mtlichen Teilhaberschaften, mit den uebergebenen Parametern 
+	 * @throws IllegalArgumentException
+	 */
+	public Vector <Teilhaberschaft> findTeilhaberschaftByNutzerIDKontaktlisteID (int nutzerID, int kontaktlisteID) throws IllegalArgumentException;
+
+	
+
 
 
 }

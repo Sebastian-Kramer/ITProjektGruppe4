@@ -28,6 +28,7 @@ import de.hdm.itprojektgruppe4.client.EigenschaftAuspraegungWrapper;
 import de.hdm.itprojektgruppe4.shared.KontaktAdministrationAsync;
 import de.hdm.itprojektgruppe4.shared.bo.Eigenschaftauspraegung;
 import de.hdm.itprojektgruppe4.shared.bo.Kontakt;
+import de.hdm.itprojektgruppe4.shared.bo.KontaktKontaktliste;
 import de.hdm.itprojektgruppe4.shared.bo.Kontaktliste;
 import de.hdm.itprojektgruppe4.shared.bo.Nutzer;
 import de.hdm.itprojektgruppe4.shared.bo.Teilhaberschaft;
@@ -45,17 +46,19 @@ public class TeilhaberschaftForm extends VerticalPanel {
 	private VerticalPanel vpanel = new VerticalPanel();
 	private HorizontalPanel hpanel = new HorizontalPanel();
 
+	private Button zurueck = new Button("Zurück");
 	private Button allTeilen = new Button("Alle Eigenschaftsausprägung teilen");
 	private Button einzTeilen = new Button("Ausgewählte Eigenschaftsausprägungen teilen");
 
 	private ListBox dropBoxNutzer = new ListBox();
 
 	private CellTableForm ctf = null;
-	
+
 	private ImageCell imageCell = new ImageCell();
-	
+
 	private HTML html2 = new HTML("Sie können auch nur bestimmte Ausprägungen an einen anderen <b> Nutzer </b> teilen, "
-			+ " </br> wählen Sie dafür die entsprechenden <b> Ausprägungen </b>  mit den Checkboxen aus." + "<span style='font-family:fixed'></span>", true);
+			+ " </br> wählen Sie dafür die entsprechenden <b> Ausprägungen </b>  mit den Checkboxen aus."
+			+ "<span style='font-family:fixed'></span>", true);
 
 	private HTML html3 = new HTML("Bitte wählen Sie hier den <b> Nutzer </b> aus dem der "
 			+ " <b>Kontakt</b>  geteilt werden soll." + "<span style='font-family:fixed'></span>", true);
@@ -100,49 +103,51 @@ public class TeilhaberschaftForm extends VerticalPanel {
 				return object.getAuspraegungValue();
 			}
 		};
-		
-		Column<EigenschaftAuspraegungWrapper, String> status = new Column<EigenschaftAuspraegungWrapper, String>(imageCell){
+
+		Column<EigenschaftAuspraegungWrapper, String> status = new Column<EigenschaftAuspraegungWrapper, String>(
+				imageCell) {
 
 			@Override
 			public String getValue(EigenschaftAuspraegungWrapper object) {
-				
-//				Window.alert(" " + object.getAuspraegungStatus());
-//				if (object.getAuspraegungStatus() == 0){
-//					return " ";
-//				}else{
-//					return "/itprojektgruppe4/src/de/hdm/itprojektgruppe4/client/gui/contacts.png";
-//				}
+
+				// Window.alert(" " + object.getAuspraegungStatus());
+				// if (object.getAuspraegungStatus() == 0){
+				// return " ";
+				// }else{
+				// return
+				// "/itprojektgruppe4/src/de/hdm/itprojektgruppe4/client/gui/contacts.png";
+				// }
 				return object.getImageUrl(object);
-				
+
 			}
-			
+
 		};
-	
 
 		Column<EigenschaftAuspraegungWrapper, Boolean> checkBox = new Column<EigenschaftAuspraegungWrapper, Boolean>(
 				new CheckboxCell(true, false)) {
 
 			@Override
 			public Boolean getValue(EigenschaftAuspraegungWrapper object) {
-				
-				if(selectionModelWrapper.getSelectedSet().isEmpty()){
+
+				if (selectionModelWrapper.getSelectedSet().isEmpty()) {
 					einzTeilen.setVisible(false);
-				}else{
+				} else {
 					einzTeilen.setVisible(true);
 				}
 				return selectionModelWrapper.isSelected(object);
 
 			}
 		};
-		
-//		imageCell.getClass().getResource("/war/itprojektss18/contacts.png");
+
+		// imageCell.getClass().getResource("/war/itprojektss18/contacts.png");
 		dropBoxNutzer.setStyleName("DropDown");
 		html1.setStyleName("HtmlText1");
 		html2.setStyleName("HtmlText");
 		html3.setStyleName("HtmlText");
 		vpanel.setStyleName("TeilhaberschaftVPanel");
 		status.setCellStyleNames("ImageCell");
-		
+
+		zurueck.addClickHandler(new ZurueckClickHandler());
 		allTeilen.addClickHandler(new AllAuspraegungenTeilenClickHandler());
 		einzTeilen.addClickHandler(new MancheAuspraegungenTeilenClickHandler());
 
@@ -161,6 +166,7 @@ public class TeilhaberschaftForm extends VerticalPanel {
 		vpanel.add(dropBoxNutzer);
 
 		RootPanel.get("Buttonbar").clear();
+		RootPanel.get("Buttonbar").add(zurueck);
 		RootPanel.get("Buttonbar").add(allTeilen);
 		RootPanel.get("Buttonbar").add(einzTeilen);
 		this.add(vpanel);
@@ -185,6 +191,19 @@ public class TeilhaberschaftForm extends VerticalPanel {
 
 				}
 			}
+
+		}
+
+	}
+
+	class ZurueckClickHandler implements ClickHandler {
+
+		@Override
+		public void onClick(ClickEvent event) {
+			KontaktForm kf = new KontaktForm(kon);
+			RootPanel.get("Details").clear();
+			RootPanel.get("Buttonbar").clear();
+			RootPanel.get("Details").add(kf);
 
 		}
 
@@ -256,7 +275,7 @@ public class TeilhaberschaftForm extends VerticalPanel {
 
 		@Override
 		public void onSuccess(Teilhaberschaft result) {
-
+			verwaltung.findKontaktlisteByNutzerID(teilNutzer.getID(), new KontaktListe());
 		}
 
 	}
@@ -265,8 +284,7 @@ public class TeilhaberschaftForm extends VerticalPanel {
 
 		@Override
 		public void onClick(ClickEvent event) {
-			Window.alert(dropBoxNutzer.getSelectedValue());
-			
+
 			verwaltung.findNutzerByEmail(dropBoxNutzer.getSelectedValue(), new TeilhaberschaftAllerAuspraegungen());
 
 		}
@@ -286,7 +304,6 @@ public class TeilhaberschaftForm extends VerticalPanel {
 			teilNutzer.setID(result.getID());
 			teilNutzer.setEmail(result.getEmail());
 
-			Window.alert(" " + teilNutzer.getID());
 			verwaltung.getAuspraegungByKontaktID(kon.getID(), new AllAuspraegungenFromKontakt());
 
 		}
@@ -306,8 +323,77 @@ public class TeilhaberschaftForm extends VerticalPanel {
 			for (Eigenschaftauspraegung e : result) {
 				Window.alert(e.getWert() + " wurde geteilt");
 				verwaltung.insertTeilhaberschaftKontakt(kon.getID(), e.getID(), teilNutzer.getID(), nutzer.getID(),
-						new TeilhaberschaftAuspraegung());
+						new TeilhaberschaftAuspraegungAll());
 			}
+			verwaltung.findKontaktlisteByNutzerID(teilNutzer.getID(), new KontaktListe());
+		}
+
+	}
+
+	class TeilhaberschaftAuspraegungAll implements AsyncCallback<Teilhaberschaft> {
+
+		@Override
+		public void onFailure(Throwable caught) {
+
+		}
+
+		@Override
+		public void onSuccess(Teilhaberschaft result) {
+
+		}
+
+	}
+
+	class KontaktListe implements AsyncCallback<Vector<Kontaktliste>> {
+
+		@Override
+		public void onFailure(Throwable caught) {
+			Window.alert("Die Kontaktliste konnte nicht geladen werden");
+
+		}
+
+		@Override
+		public void onSuccess(Vector<Kontaktliste> result) {
+			for (Kontaktliste k : result) {
+
+				if (k.getBez() == "Meine geteilten Kontakte") {
+					verwaltung.insertKontaktKontaktliste(teilNutzer.getID(), k.getID(), new ListEintrag());
+				} else {
+				}
+			}
+			kon.setStatus(1);
+			verwaltung.updateKontakt(kon, new KontaktStatus());
+
+		}
+
+	}
+
+	class KontaktStatus implements AsyncCallback<Kontakt> {
+
+		@Override
+		public void onFailure(Throwable caught) {
+
+		}
+
+		@Override
+		public void onSuccess(Kontakt result) {
+
+		}
+
+	}
+
+	class ListEintrag implements AsyncCallback<KontaktKontaktliste> {
+
+		@Override
+		public void onFailure(Throwable caught) {
+			Window.alert("Der Kontakt konnte nicht der Kontaktliste hinzugefügt werden");
+
+		}
+
+		@Override
+		public void onSuccess(KontaktKontaktliste result) {
+			Window.alert("Der geteilte Kontakt " + kon.getName() + " wurde beim Nutzer " + teilNutzer.getEmail()
+					+ " in die Kontaktliste 'Meine geteilten Kontakte' hinzugefügt");
 
 		}
 
