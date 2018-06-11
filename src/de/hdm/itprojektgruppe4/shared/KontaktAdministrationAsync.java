@@ -174,6 +174,8 @@ public interface KontaktAdministrationAsync {
 
 	void findKontaktByNameAndNutzerID(Kontakt kontakt, AsyncCallback<Vector<Kontakt>> callback);
 
+	void findEigByBezeichnung(String bez, AsyncCallback<Eigenschaft> callback);
+
 
 
 

@@ -44,7 +44,7 @@ public class EigenschaftMapper {
 			Statement stmt = con.createStatement();
 
 			// Statement bef�llen und als Query an die Datenbank schicken
-			ResultSet rs = stmt.executeQuery("SELECT * FROM `eigenschaft` " + " WHERE `bez` =" + bez);
+			ResultSet rs = stmt.executeQuery("SELECT * FROM `eigenschaft` " + " WHERE `bez`='" + bez + "'");
 
 			while (rs.next()) {
 				Eigenschaft e = new Eigenschaft();
@@ -61,7 +61,39 @@ public class EigenschaftMapper {
 		return result;
 
 	}
+	
+	
 
+	public Eigenschaft findEigByBezeichnung(String bez) {
+
+		// Verbindung zur Datenbank aufbauen
+		Connection con = DBConnection.connection();
+
+		try {
+
+			// Leeres SQL-Statement erzeugen
+			Statement stmt = con.createStatement();
+
+			// Statement bef�llen und als Query an die Datenbank schicken
+			ResultSet rs = stmt.executeQuery("SELECT * FROM `eigenschaft` " + " WHERE `bez`='" + bez + "'");
+
+			if (rs.next()) {
+				Eigenschaft e = new Eigenschaft();
+				e.setID(rs.getInt("ID"));
+				e.setBezeichnung(rs.getString("bez"));
+				e.setStatus(rs.getInt("status"));
+				
+				return e;
+			}
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+			return null;
+		}
+		return null;
+
+	}
+	
 	/**
 	 * Suchen einer Eigenschaft mit vorgegebener ID.
 	 * 

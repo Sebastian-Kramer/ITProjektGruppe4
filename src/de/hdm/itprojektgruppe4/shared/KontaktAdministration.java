@@ -585,7 +585,7 @@ public interface KontaktAdministration extends RemoteService {
 	public Teilhaberschaft findTeilhaberschaftByTeilhaberID (int teilhaberID, int kontaktlisteID) throws IllegalArgumentException;
 
    
-	
+	public Eigenschaft findEigByBezeichnung(String bez) throws IllegalArgumentException;
 
 
 }

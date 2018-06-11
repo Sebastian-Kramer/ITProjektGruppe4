@@ -529,12 +529,45 @@ public class KontaktAdministrationImpl extends RemoteServiceServlet
 	public Eigenschaft insertEigenschaft(String bez, int status) throws IllegalArgumentException {
 		Eigenschaft e = new Eigenschaft();
 		
-		e.setBezeichnung(bez);
-		e.setStatus(status);
+		Eigenschaft eigenschaft = findEigByBezeichnung(bez);
 		
-		return this.eigMapper.insertEigenschaft(e);
+		if (eigenschaft == null) {
+			
+			e.setBezeichnung(bez);
+			e.setStatus(status);
+			
+			return this.eigMapper.insertEigenschaft(e);
+		}
+		
+		
+		
+		System.out.println("NEIN" + eigenschaft.getBezeichnung() + eigenschaft.getID());
+		//return this.findEigByBezeichnung(bez);
+		
+		return null;
 	}
     
+	
+//	Kontaktliste k = findKontaktliste(nutzerID, bez);
+//	
+//	
+//	Kontaktliste kontaktliste = new Kontaktliste();
+//	
+//	if (k == null) {
+//		kontaktliste.setBez(bez);
+//		kontaktliste.setStatus(status);
+//		kontaktliste.setNutzerID(nutzerID);
+//
+//
+//		return this.konlistMapper.insertKontaktliste(kontaktliste);
+//	}
+//	
+//	
+//	
+//	return null;
+//					
+//}
+	
 	/**
      *  Alle Objekte vom Typ Eigenschaft ausgeben
      * @return
@@ -1353,6 +1386,14 @@ public class KontaktAdministrationImpl extends RemoteServiceServlet
 		
 		
 		
+	}
+
+
+
+	@Override
+	public Eigenschaft findEigByBezeichnung(String bez) throws IllegalArgumentException {
+		// TODO Auto-generated method stub
+		return this.eigMapper.findEigByBezeichnung(bez);
 	}
 
 

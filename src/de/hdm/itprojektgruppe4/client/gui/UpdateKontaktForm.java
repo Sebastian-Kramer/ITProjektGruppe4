@@ -326,9 +326,19 @@ public class UpdateKontaktForm extends VerticalPanel {
 
 		@Override
 		public void onSuccess(Eigenschaft result) {
+			
+			if (result == null) {
+				Window.alert("IZ NULL");
+				
+				verwaltung.findEigByBezeichnung(eigenschaftSugBox.getText(), new FindEigenschaftCallBack());
+				
+				
+			}else{
+			
 			eig1.setID(result.getID());
 			verwaltung.insertAuspraegung(txt_Auspraegung.getText(), 0, eig1.getID(), kon.getID(), new AuspraegungEinfuegenCallback());
-			
+			Window.alert("DOCHNET NULL");
+			}
 		}
 		
 	}
@@ -422,6 +432,24 @@ public class UpdateKontaktForm extends VerticalPanel {
 
 		}
 		
+		
+	}
+	
+	
+	class FindEigenschaftCallBack implements AsyncCallback<Eigenschaft>{
+
+		@Override
+		public void onFailure(Throwable caught) {
+			// TODO Auto-generated method stub
+			
+		}
+
+		@Override
+		public void onSuccess(Eigenschaft result) {
+			// TODO Auto-generated method stub
+			Window.alert("HALLO MR RESULT" + result.getBezeichnung());
+			verwaltung.insertAuspraegung(txt_Auspraegung.getText(), 0, result.getID(), kon.getID(),  new AuspraegungEinfuegenCallback());
+		}
 		
 	}
 
