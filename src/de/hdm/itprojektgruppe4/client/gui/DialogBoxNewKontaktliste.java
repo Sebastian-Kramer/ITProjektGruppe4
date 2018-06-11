@@ -93,6 +93,8 @@ public class DialogBoxNewKontaktliste extends DialogBox {
 		@Override
 		public void onClick(ClickEvent event) {
 			hide();
+			
+			
 			verwaltung.insertKontaktliste(boxBez.getText(), 0, nutzer.getID(), new Liste());
 			MainForm mf = new MainForm();
 			NavigationTree navigation = new NavigationTree();
@@ -129,7 +131,7 @@ public class DialogBoxNewKontaktliste extends DialogBox {
 				Window.alert("Kontaktliste konnte nicht angelegt werden, da dieser Name bereits vorhanden ist");
 			}else{
 				
-			Window.alert("Die Kontaktliste wurde erfolgreich angelegt" + result.getID());
+			Window.alert("Die Kontaktliste wurde erfolgreich angelegt");
 			}
 			
 			hide();

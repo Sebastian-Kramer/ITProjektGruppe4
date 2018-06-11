@@ -5,6 +5,7 @@ import java.util.Vector;
 
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.user.cellview.client.CellTable;
 import com.google.gwt.user.client.Cookies;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
@@ -42,6 +43,7 @@ public class SuchenForm extends VerticalPanel {
 	
 	private SuggestBox suggestionBox = new SuggestBox(nameoracle);
 	
+	private CellTable<Kontakt> ctfKontakt = new CellTable<Kontakt>();
 
 
 	private Kontakt k = new Kontakt();
@@ -63,6 +65,7 @@ public class SuchenForm extends VerticalPanel {
 		flextable.setWidget(0, 1, suggestionBox);
 		flextable.setWidget(0, 2, suchen);
 		suchenPanel.add(flextable);
+		
 		suchenPanel.setStyleName("DialogboxBackground");
 		suggestionBox.setStyleName("DialogboxBackground");
 		
@@ -71,7 +74,7 @@ public class SuchenForm extends VerticalPanel {
 		suchen.addClickHandler(new SuchenButton());
 		verwaltung.findAllKontaktFromNutzer(nutzer.getID(), new  AllKontakteCallBack());
 	
-	
+		
 		
 		
 	}

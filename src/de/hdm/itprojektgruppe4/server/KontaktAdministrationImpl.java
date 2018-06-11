@@ -743,23 +743,25 @@ public class KontaktAdministrationImpl extends RemoteServiceServlet
 	@Override
 	public Kontaktliste insertKontaktliste(String bez, int status, int nutzerID) throws IllegalArgumentException {
 		
+			
 			Kontaktliste k = findKontaktliste(nutzerID, bez);
 			
 			
 			Kontaktliste kontaktliste = new Kontaktliste();
-			kontaktliste.setBez(bez);
-			kontaktliste.setStatus(status);
-			kontaktliste.setNutzerID(nutzerID);
+			
+			if (k == null) {
+				kontaktliste.setBez(bez);
+				kontaktliste.setStatus(status);
+				kontaktliste.setNutzerID(nutzerID);
 
 
-			if(k == null){
-				this.konlistMapper.insertKontaktliste(kontaktliste);
+				return this.konlistMapper.insertKontaktliste(kontaktliste);
 			}
 			
-		
-		return null;
 			
 			
+			return null;
+							
 		}
 	
 	/**
@@ -844,8 +846,14 @@ public class KontaktAdministrationImpl extends RemoteServiceServlet
 	
 		List<KontaktKontaktliste> kkliste = kontaktKontaktlisteMapper.findKontaktKontaktlisteByKontaktlisteID(kliste.getID());
 		List<Teilhaberschaft> teilhaberschaft = teilhaberschaftMapper.findTeilhaberschaftByKontaktlisteID(kliste.getID());
+		Kontaktliste konliste =  this.konlistMapper.findKontaktlistebyID(kliste.getID());
 		
-		
+
+			if (konliste.getBez().equals("Meine Kontakte")) {
+						
+							
+					}else{
+							
 		if (kkliste != null) {
 			for (KontaktKontaktliste kkl : kkliste){
 				
@@ -860,7 +868,9 @@ public class KontaktAdministrationImpl extends RemoteServiceServlet
 		}
 		
 		this.konlistMapper.deleteKontaktliste(kliste);
-		
+					}
+			
+			
 	}
 	
 	/**

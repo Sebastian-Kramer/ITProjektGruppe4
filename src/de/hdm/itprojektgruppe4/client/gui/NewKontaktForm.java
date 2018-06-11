@@ -15,6 +15,7 @@ import com.google.gwt.event.dom.client.KeyCodes;
 import com.google.gwt.event.dom.client.KeyDownEvent;
 import com.google.gwt.event.dom.client.KeyDownHandler;
 import com.google.gwt.user.cellview.client.Column;
+import com.google.gwt.user.cellview.client.HasKeyboardSelectionPolicy.KeyboardSelectionPolicy;
 import com.google.gwt.user.client.Cookies;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
@@ -248,11 +249,12 @@ public class NewKontaktForm extends VerticalPanel {
 		ctf = new CellTableForm(kontakt1);
 		ctf.addColumn(bezEigenschaft, "Eigenschaft");
 		ctf.addColumn(wertAuspraegung, "Wert");
+		
 		add(ctf);
 		add(vpanel2);
 
 		ctf.setSelectionModel(sm);
-		
+		ctf.setKeyboardSelectionPolicy(KeyboardSelectionPolicy.DISABLED);
 		
 	}
 	

@@ -27,6 +27,7 @@ import com.google.gwt.event.logical.shared.SelectionHandler;
 import com.google.gwt.i18n.client.DateTimeFormat;
 import com.google.gwt.user.cellview.client.CellTable;
 import com.google.gwt.user.cellview.client.Column;
+import com.google.gwt.user.cellview.client.HasKeyboardSelectionPolicy.KeyboardSelectionPolicy;
 import com.google.gwt.user.cellview.client.TextColumn;
 import com.google.gwt.user.client.Event;
 import com.google.gwt.user.client.Window;
@@ -42,6 +43,7 @@ import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.view.client.SelectionChangeEvent.Handler;
 import com.google.gwt.view.client.SelectionModel;
+import com.google.gwt.view.client.CellPreviewEvent;
 import com.google.gwt.view.client.MultiSelectionModel;
 import com.google.gwt.view.client.NoSelectionModel;
 import com.google.gwt.view.client.SelectionChangeEvent;
@@ -178,12 +180,16 @@ public class UpdateKontaktForm extends VerticalPanel {
 					NativeEvent event) {
 				
 				super.onBrowserEvent(context, elem, object, event);
+				ctf.setKeyboardSelectionPolicy(KeyboardSelectionPolicy.DISABLED);
 				if (event.getKeyCode() == KeyCodes.KEY_ENTER){
+					
+					
 					setFieldUpdater(new FieldUpdater<EigenschaftAuspraegungWrapper, String>() {
 						
 						@Override
 						public void update(int index, EigenschaftAuspraegungWrapper object, String value) {
 //	        });
+						
 							object.setEigenschaftValue(value);
 							selectionModel.getSelectedObject().setAuspraegungValue(value);
 							selectionModel.getSelectedObject().setAuspraegungID(object.getAuspraegungID());
@@ -201,8 +207,11 @@ public class UpdateKontaktForm extends VerticalPanel {
 				}
 				
 			};
+			
+			
 		
 		};
+		
 	
 		wertAuspraegung.setSortable(true);
 		ctf.addColumn(bezEigenschaft, "Eigenschaft:");
@@ -343,7 +352,7 @@ public class UpdateKontaktForm extends VerticalPanel {
 
 		@Override	
 		public void onSuccess(Eigenschaftauspraegung result) {
-
+			
 //			Window.alert("wurde aktualisiert");
 			eigaus.setWert(result.getWert());
 			selectionModel.setSelected(null, true);

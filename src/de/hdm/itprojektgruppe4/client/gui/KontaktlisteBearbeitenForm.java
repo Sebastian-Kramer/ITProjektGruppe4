@@ -105,9 +105,9 @@ public class KontaktlisteBearbeitenForm extends VerticalPanel {
 	
 	
 	/**
-	 * Clickhandler, der das Löschen von Kontaktlisten bzw. die Auflösung einer Teilhaberschaft bei Klick ermöglicht
-	 * Ist der Löschende der Inhaber der Liste, wird die Kontaktliste komplett aus der Datenbank entfernt.
-	 * Ist der Löschende Teilhaber der Liste, wird lediglich die Teilhaberschaft an der Liste aufgelöst.
+	 * Clickhandler, der das Lï¿½schen von Kontaktlisten bzw. die Auflï¿½sung einer Teilhaberschaft bei Klick ermï¿½glicht
+	 * Ist der Lï¿½schende der Inhaber der Liste, wird die Kontaktliste komplett aus der Datenbank entfernt.
+	 * Ist der Lï¿½schende Teilhaber der Liste, wird lediglich die Teilhaberschaft an der Liste aufgelï¿½st.
 
 	 */
 	private class KontaktlisteloeschenClickhandler implements ClickHandler{
@@ -128,8 +128,8 @@ public class KontaktlisteBearbeitenForm extends VerticalPanel {
 	}
 	
 	/**
-	 * Nested Class um den Button zum Hinzufuegen von Kontakten zur Kontaktliste bedienen zu können
-	 * Bei Click auf den Button wird eine DialogBox geöffnet, die ermöglich, Kontakt zu öffnen.
+	 * Nested Class um den Button zum Hinzufuegen von Kontakten zur Kontaktliste bedienen zu kï¿½nnen
+	 * Bei Click auf den Button wird eine DialogBox geï¿½ffnet, die ermï¿½glich, Kontakt zu ï¿½ffnen.
 	 */
 	private class KontaktHinzufuegenClickhandler implements ClickHandler{
 
@@ -187,6 +187,13 @@ public class KontaktlisteBearbeitenForm extends VerticalPanel {
 
 		@Override
 		public void onSuccess(Void result) {
+			
+			if (kl.getBez().equals("Meine Kontakte")) {
+				Window.alert("Sie kÃ¶nnen die Basis Liste Meine Kontakte nicht lÃ¶schen");
+				
+			}else{
+			
+			
 			Window.alert("Kontaktliste wurde erfolgreich geloescht");
 			MainForm main = new MainForm();
 			NavigationTree updatedTree = new NavigationTree();
@@ -195,7 +202,7 @@ public class KontaktlisteBearbeitenForm extends VerticalPanel {
 			RootPanel.get("Buttonbar").clear();
 			RootPanel.get("Details").add(main);
 			RootPanel.get("Navigator").add(updatedTree);
-			
+			}
 		}
 
 		
@@ -211,7 +218,9 @@ public class KontaktlisteBearbeitenForm extends VerticalPanel {
 
 		@Override
 		public void onSuccess(Void result) {
-			
+		
+				
+		
 		}
 		
 	}
