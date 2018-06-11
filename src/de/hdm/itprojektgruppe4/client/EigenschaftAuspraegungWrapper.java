@@ -94,7 +94,7 @@ public class EigenschaftAuspraegungWrapper implements Serializable {
 	}
 
 	public String getImageUrl(EigenschaftAuspraegungWrapper object) {
-		return "<img src = https://png.icons8.com/metro/100/000000/contacts.png>";
+		return "Image/contacts.png";
 	}
 	
 

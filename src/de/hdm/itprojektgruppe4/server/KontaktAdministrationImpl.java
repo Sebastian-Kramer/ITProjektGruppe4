@@ -996,6 +996,19 @@ public class KontaktAdministrationImpl extends RemoteServiceServlet
 			throws IllegalArgumentException {
 		return this.kontaktKontaktlisteMapper.getKontaktKontaktlisteByKontaktlisteID(kontaktlisteID);
 	}
+	
+	/**
+	 * 
+	 * @param konID, kListID
+	 * @return Mit dieser Methode wird der 
+	 * @throws IllegalArgumentException
+	 */
+	@Override
+	public KontaktKontaktliste insertKontaktinMeineGeteiltenKontakte(int konID, int kListID)
+			throws IllegalArgumentException {
+		// TODO Auto-generated method stub
+		return null;
+	}
 
 	
 	/*##########################################################
@@ -1354,6 +1367,10 @@ public class KontaktAdministrationImpl extends RemoteServiceServlet
 		
 		
 	}
+
+
+
+
 
 
 

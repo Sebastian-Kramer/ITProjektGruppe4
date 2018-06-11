@@ -440,7 +440,24 @@ public interface KontaktAdministration extends RemoteService {
 	 * @return Vector mit sämtlichen Kontakten einer ausgewählten Kontaktliste
 	 * @throws IllegalArgumentException
 	 */
+    
+    /**
+     * 
+     * @param bez
+     * @param status
+     * @param nutzerID
+     * @return
+     * @throws IllegalArgumentException
+     */
+    public KontaktKontaktliste insertKontaktinMeineGeteiltenKontakte(int konID, int kListID) throws IllegalArgumentException;
 
+    
+    /**
+     * 
+     * @param i
+     * @return
+     * @throws IllegalArgumentException
+     */
     public Vector<Integer> findAllKontakteFromKontaktliste(int i) throws IllegalArgumentException;
     
    /**
@@ -583,6 +600,8 @@ public interface KontaktAdministration extends RemoteService {
 	 * @throws IllegalArgumentException
 	 */
 	public Teilhaberschaft findTeilhaberschaftByTeilhaberID (int teilhaberID, int kontaktlisteID) throws IllegalArgumentException;
+
+	
 
    
 	
