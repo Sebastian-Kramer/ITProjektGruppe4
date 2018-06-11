@@ -477,7 +477,7 @@ public class KontaktAdministrationImpl extends RemoteServiceServlet
 	 * 
 	 * @param nutzerID die ID des angemeldeten Nutzers
 	 * @param kontaktlisteID die ID der Kontaktliste, deren Teilhaberschaften verwaltet werden sollen
-	 * @return Vector mit sämtlichen Nutzern, mit denen der angemeldete Nutzer die Kontaktliste geteilt hat
+	 * @return Vector mit sï¿½mtlichen Nutzern, mit denen der angemeldete Nutzer die Kontaktliste geteilt hat
 	 * @throws IllegalArgumentException
 	 */
 	@Override
@@ -903,7 +903,7 @@ public class KontaktAdministrationImpl extends RemoteServiceServlet
 		Kontaktliste konliste =  this.konlistMapper.findKontaktlistebyID(kliste.getID());
 		
 
-			if (konliste.getBez().equals("Meine Kontakte")) {
+			if (konliste.getBez().equals("Meine Kontakte") || konliste.getBez().equals("Meine geteilten Kontakte")) {
 						
 							
 					}else{
@@ -1135,9 +1135,9 @@ public class KontaktAdministrationImpl extends RemoteServiceServlet
 		
 		
 		
-		if (kl.getBez().equals("Meine Kontakte")) {
+		if (kl.getBez().equals("Meine Kontakte") || kl.getBez().equals("Meine geteilten Kontakte") ) {
 			
-			System.out.println("NEIN");
+			
 			
 			return null;
 		}
@@ -1256,11 +1256,11 @@ public class KontaktAdministrationImpl extends RemoteServiceServlet
 	}
 	
 	/**
-	 * Auslesen aller Teilhaberschaften, mit der übergebenen nutzerID und kontaktlisteID
+	 * Auslesen aller Teilhaberschaften, mit der ï¿½bergebenen nutzerID und kontaktlisteID
 	 * 
 	 * @param nutzerID die ID des angemeldeten Nutzers
-	 * @param kontaktlisteID die ID der gewählten kontaktlisteID
-	 * @return Vector mit sämtlichen Teilhaberschaften, mit den uebergebenen Parametern 
+	 * @param kontaktlisteID die ID der gewï¿½hlten kontaktlisteID
+	 * @return Vector mit sï¿½mtlichen Teilhaberschaften, mit den uebergebenen Parametern 
 	 * @throws IllegalArgumentException
 	 */
 	@Override

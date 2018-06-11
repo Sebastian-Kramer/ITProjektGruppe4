@@ -150,7 +150,7 @@ public class KontaktlisteBearbeitenForm extends VerticalPanel {
 	}
 	/**
 	 * Clickhandler um das Entfernen eines Kontaktes aus der Kontaktliste zu ermoeglichen.
-	 * Ist ein Kontakt ausgewaehlt, wird das gewählte Kontakt-Objekt sowohl aus der Datenbank, als auch aus der 
+	 * Ist ein Kontakt ausgewaehlt, wird das gewï¿½hlte Kontakt-Objekt sowohl aus der Datenbank, als auch aus der 
 	 * Celllist entfernt. Zum Entfernen des Objekts aus der Liste dient die Methode <code>remove()</code>.
 	 * @author Raphael
 	 *
@@ -170,8 +170,8 @@ public class KontaktlisteBearbeitenForm extends VerticalPanel {
 		
 	}
 	/**
-	 * Clickhandler der das Beenden der Bearbeitung einer Kontaktliste ermöglicht.
-	 * Da bei der Bearbeitung der Name und auch die Kontakte der Kontaktliste geändert werden können,
+	 * Clickhandler der das Beenden der Bearbeitung einer Kontaktliste ermï¿½glicht.
+	 * Da bei der Bearbeitung der Name und auch die Kontakte der Kontaktliste geï¿½ndert werden kï¿½nnen,
 	 * wird sowohl die KontaklisteForm als auch der Navigations-Baum neu geladen.
 	 * @author Raphael
 	 *
@@ -192,7 +192,7 @@ public class KontaktlisteBearbeitenForm extends VerticalPanel {
 	}
 	/**
 	 * Callback-Klasse, um alle Kontakte der Kontaktliste auszulesen. Jedes Kontakt Object aus dem Vector Result wird zum
-	 * ListDataProvider hinzugefügt, der die Daten für die Celllist hält. 
+	 * ListDataProvider hinzugefï¿½gt, der die Daten fï¿½r die Celllist hï¿½lt. 
 	 * @author Raphael
 	 *
 	 */
@@ -230,10 +230,16 @@ public class KontaktlisteBearbeitenForm extends VerticalPanel {
 		@Override
 		public void onSuccess(Void result) {
 			
-			if (kl.getBez().equals("Meine Kontakte")) {
+			if (kl.getBez().equals("Meine Kontakte") || kl.getBez().equals("Meine geteilten Kontakte")) {
 				Window.alert("Sie kÃ¶nnen die Basis Liste Meine Kontakte nicht lÃ¶schen");
 				
-			}else{
+			}
+			
+//			else if (kl.getBez().equals("Meine geteilten Kontakte")) {
+//				Window.alert("Sie kÃ¶nnen die Basis Liste Meine geteilten Kontakte nicht lÃ¶schen");
+//			}
+			
+			else{
 			
 			
 			Window.alert("Kontaktliste wurde erfolgreich geloescht");

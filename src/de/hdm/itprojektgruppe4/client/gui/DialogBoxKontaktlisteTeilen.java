@@ -108,7 +108,7 @@ public class DialogBoxKontaktlisteTeilen extends DialogBox{
 			//Bei erfolgreicher Teilung der Kontaktliste wird der Status der Kontaktliste auf 1 (= geteilt) gesetzt
 			kl.setStatus(1);
 				kontaktVerwaltung.insertTeilhaberschaftKontaktliste(kl.getID(), n.getID(), nutzer.getID(), new TeilhaberschaftErstellenCallback());
-				kontaktVerwaltung.updateKontaktliste(kl, new KontaktlisteUpdatenCallback());
+				
 			DialogBoxKontaktlisteTeilen.this.hide();
 			KontaktlisteForm kontaktlisteForm = new KontaktlisteForm(kl);
 			RootPanel.get("Details").clear();
@@ -146,9 +146,10 @@ public class DialogBoxKontaktlisteTeilen extends DialogBox{
 		@Override
 		public void onSuccess(Teilhaberschaft result) {
 			if(result==null){
-				Window.alert("Sie können diese Liste nicht teilen");
+				Window.alert("Sie kï¿½nnen diese Liste nicht teilen");
 			}else{
 			Window.alert("Die Liste wurde erfolgreich geteilt");
+			kontaktVerwaltung.updateKontaktliste(kl, new KontaktlisteUpdatenCallback());
 			
 			
 			}
@@ -167,6 +168,11 @@ public class DialogBoxKontaktlisteTeilen extends DialogBox{
 
 		@Override
 		public void onSuccess(Kontaktliste result) {
+			
+			if (result.getStatus() == 0) {
+				Window.alert("Kontaktliste erfolgreichNICHTTTT updated");
+			}
+			
 			Window.alert("Kontaktliste erfolgreich updated");
 			
 		}
