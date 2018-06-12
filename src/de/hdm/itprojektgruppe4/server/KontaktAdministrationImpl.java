@@ -231,7 +231,7 @@ public class KontaktAdministrationImpl extends RemoteServiceServlet
      */
 	@Override
 	public Kontakt updateKontakt(Kontakt k) throws IllegalArgumentException {
-		
+		k.setModifikationsdatum(new Date());
 		return this.konMapper.updateKontakt(k);
 	}
 
@@ -709,6 +709,9 @@ public class KontaktAdministrationImpl extends RemoteServiceServlet
 	
 	@Override
 	public Eigenschaftauspraegung updateAuspraegung(Eigenschaftauspraegung ea) throws IllegalArgumentException {
+			Kontakt k = findKontaktByID(ea.getKontaktID());
+			k.setModifikationsdatum(new Date());
+			updateKontakt(k);
 			return this.eigenschaftauspraegungMapper.updateAuspraegung(ea);
 		}
 
