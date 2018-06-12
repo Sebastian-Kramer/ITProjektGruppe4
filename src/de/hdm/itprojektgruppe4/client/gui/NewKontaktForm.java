@@ -225,6 +225,7 @@ public class NewKontaktForm extends VerticalPanel {
 							
 							eigaus.setWert(sm.getSelectedObject().getAuspraegungValue());
 							verwaltung.updateAuspraegung(eigaus, new AuspraegungBearbeitenCallback());
+							verwaltung.findHybrid(kontakt1, new ReloadCallback());
 						}	
 						
 					});
@@ -500,7 +501,7 @@ public class NewKontaktForm extends VerticalPanel {
 		public void onSuccess(Eigenschaftauspraegung result) {
 		
 			verwaltung.findHybrid(kontakt1, new ReloadCallback());
-			txt_Eigenschaft.setText("");
+			eigenschaftSugBox.setText("");
 			txt_Auspraegung.setText("");
 		}
 

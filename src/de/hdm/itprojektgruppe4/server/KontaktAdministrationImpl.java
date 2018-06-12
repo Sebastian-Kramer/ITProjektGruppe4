@@ -232,7 +232,7 @@ public class KontaktAdministrationImpl extends RemoteServiceServlet
      */
 	@Override
 	public Kontakt updateKontakt(Kontakt k) throws IllegalArgumentException {
-		
+		k.setModifikationsdatum(new Date());
 		return this.konMapper.updateKontakt(k);
 	}
 
@@ -710,6 +710,9 @@ public class KontaktAdministrationImpl extends RemoteServiceServlet
 	
 	@Override
 	public Eigenschaftauspraegung updateAuspraegung(Eigenschaftauspraegung ea) throws IllegalArgumentException {
+			Kontakt k = findKontaktByID(ea.getKontaktID());
+			k.setModifikationsdatum(new Date());
+			updateKontakt(k);
 			return this.eigenschaftauspraegungMapper.updateAuspraegung(ea);
 		}
 
@@ -1350,11 +1353,11 @@ public class KontaktAdministrationImpl extends RemoteServiceServlet
 	
 	public void deleteEigenschaftUndAuspraegung(EigenschaftAuspraegungWrapper ea) throws IllegalArgumentException{
 		Eigenschaftauspraegung eaa = new Eigenschaftauspraegung();
-		Eigenschaft ee = new Eigenschaft();
+//		Eigenschaft ee = new Eigenschaft();
 		eaa.setID(ea.getAuspraegungID());
-		ee.setID(ea.getEigenschaftID());
+//		ee.setID(ea.getEigenschaftID());
 		this.eigenschaftauspraegungMapper.deleteAuspraegung(eaa);
-		this.eigMapper.deleteEigenschaft(ee);
+//		this.eigMapper.deleteEigenschaft(ee);
 	}
 
 
@@ -1476,12 +1479,14 @@ public class KontaktAdministrationImpl extends RemoteServiceServlet
 			newVec.add(kontaktliste);
 			
 			
-			if (kontaktliste.getBez().equals("Meine Kontakte")) {
+			if (kontaktliste.getBez().equals("Meine Kontakte") || kontaktliste.getBez().equals("Meine geteilten Kontakte")) {
 				
 				newVec.remove(kontaktliste);
 			
 			}
 		}
+		
+		
 			
 		alleListen = newVec;
 		
@@ -1490,7 +1495,26 @@ public class KontaktAdministrationImpl extends RemoteServiceServlet
 		
 	}
 
-
+//	public KontaktKontaktliste removeExistingKontakt(int kontaktID, int kontaktlisteID, int nutzerID) throws IllegalArgumentException {
+//		
+//		Vector<Kontaktliste> alleListen = findKontaktlisteByNutzerID(nutzerID);
+//		
+//		Vector<KontaktKontaktliste> alleKonKonlistbyKontakt = kontaktKontaktlisteMapper.findKontaktKontaktlisteByKontaktID(kontaktID);
+//		
+//		Vector<Kontaktliste> newAlleListen = new Vector<Kontaktliste>();
+//		
+//		Vector<KontaktKontaktliste> newalleKonKonlist = new Vector<KontaktKontaktliste>();
+//		
+//		for (Kontaktliste kontaktliste : alleListen) {
+//			newAlleListen.add(kontaktliste);
+//		}
+//		
+//		return null;
+//		
+//		
+//	}
+	
+	
 
 	@Override
 	public Vector<Kontakt> findKontaktByNameAndNutzerID(Kontakt kontakt) throws IllegalArgumentException {
