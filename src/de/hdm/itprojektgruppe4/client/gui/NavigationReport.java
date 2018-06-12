@@ -14,6 +14,7 @@ import de.hdm.itprojektgruppe4.shared.KontaktAdministrationAsync;
 import de.hdm.itprojektgruppe4.shared.ReportGeneratorAsync;
 import de.hdm.itprojektgruppe4.shared.report.AllEigeneKontakteReport;
 import de.hdm.itprojektgruppe4.shared.report.HTMLReportWriter;
+import de.hdm.itprojektgruppe4.shared.report.KontakteMitBestimmterTeilhaberschaftReport;
 
 public class NavigationReport extends VerticalPanel {
 
@@ -23,89 +24,102 @@ public class NavigationReport extends VerticalPanel {
 	private VerticalPanel vPanel = new VerticalPanel();
 
 	
-	private Button alleeigenenKontakte = new Button("Alle Eigenen Kontakte");
+	private Button allKontakte = new Button("Alle Kontakte");
 	private Button teilhaberschaft = new Button("Kontakte die mit bestimmten Nutzer geteilt worden sind");
 	private Button eigenschaftsauspraegung = new Button("Kontakte mit bestimmten Eigenschaftsauspreagungen");
+
 
 
 
 	public void onLoad() {
 		super.onLoad();
 		
-		alleeigenenKontakte.setPixelSize(245, 40);
+		allKontakte.setPixelSize(245, 40);
 
 		RootPanel.get("Navigator").clear();
-		vPanel.add(alleeigenenKontakte);
+		vPanel.add(allKontakte);
 		vPanel.add(eigenschaftsauspraegung);
 		vPanel.add(teilhaberschaft);
 
-		RootPanel.get("Navigator").add(vPanel);
 
-		alleeigenenKontakte.addClickHandler(new ClickHandler() {
+		RootPanel.get("Navigator").add(vPanel);
+		
+		allKontakte.addClickHandler(new ClickHandler() {
 
 			@Override
 			public void onClick(ClickEvent event) {
+				RootPanel.get("Details").clear();
+				KontaktFormReport kontaktFormReport = new KontaktFormReport();
+				RootPanel.get("Details").add(kontaktFormReport);
 
-				// TODO Auto-generated method stub
-				reportverwaltung.AllEigeneKontakteReport(new AsyncCallback<AllEigeneKontakteReport>() {
-					@Override
-					public void onFailure(Throwable caught) {
-						RootPanel.get("Details").clear();
-						Window.alert("Fehler");
-
-					}
-
-					@Override
-					public void onSuccess(AllEigeneKontakteReport result) {
-						Window.alert("Läuft");
-
-						// TODO Auto-generated method stub
-						if (result != null) { 	
-							HTMLReportWriter writer = new HTMLReportWriter();
-							writer.process(result);
-							RootPanel.get("Details").clear();
-							RootPanel.get("Details").add(new HTML(writer.getReportText()));
-						}
-
-					}
-				});
 
 			}
 		});
 
 		
-		teilhaberschaft.addClickHandler(new ClickHandler() {
 
+		teilhaberschaft.addClickHandler(new ClickHandler() {
+			
 			@Override
 			public void onClick(ClickEvent event) {
-
-				// TODO Auto-generated method stub
-				reportverwaltung.KontakteMitBestimmterTeilhaberschaftReport(new AsyncCallback<AllEigeneKontakteReport>() {
-					@Override
-					public void onFailure(Throwable caught) {
-						RootPanel.get("Details").clear();
-						Window.alert("Fehler");
-
-					}
-
-					@Override
-					public void onSuccess(AllEigeneKontakteReport result) {
-						RootPanel.get("Details").clear();
-						Window.alert("Läuft" + result);
-
-						// TODO Auto-generated method stub
-						if (result != null) { 	
-							HTMLReportWriter writer = new HTMLReportWriter();
-							writer.process(result);
-							RootPanel.get("Details").clear();
-							RootPanel.get("Details").add(new HTML(writer.getReportText()));
-						}
-
-					}
-				});
+				RootPanel.get("Details").clear();
+				TeilhaberschaftFormReport kontaktFormReport = new TeilhaberschaftFormReport();
+				RootPanel.get("Details").add(kontaktFormReport);
 
 			}
 		});
+		
+		
+		
+		
+//		teilhaberschaft.addClickHandler(new ClickHandler() {
+//			
+//			@Override
+//			public void onClick(ClickEvent event) {
+//				// TODO Auto-generated method stub
+//				
+//				
+//				reportverwaltung.kontakteMitBestimmterTeilhaberschaftReport(new AsyncCallback<KontakteMitBestimmterTeilhaberschaftReport>() {
+//
+//					@Override
+//					public void onFailure(Throwable caught) {
+//						// TODO Auto-generated method stub
+//						Window.alert("Fehler");
+//					}
+//
+//					@Override
+//					public void onSuccess(KontakteMitBestimmterTeilhaberschaftReport result) {
+//						// TODO Auto-generated method stub
+//						RootPanel.get("Details").clear();
+////						Window.alert("Läuft" + result);
+////
+////						// TODO Auto-generated method stub
+////						if (result != null) { 	
+////							HTMLReportWriter writer = new HTMLReportWriter();
+////							writer.process(result);
+////							RootPanel.get("Details").clear();
+////							RootPanel.get("Details").add(new HTML(writer.getReportText()));
+//						
+//						Window.alert("Laeuft " + result);
+//						
+//						
+//						if (result != null) {
+//							HTMLReportWriter writer = new HTMLReportWriter();
+//							writer.process(result);
+//							RootPanel.get("Details").clear();
+//							RootPanel.get("Details").add(new HTML(writer.getReportText()));
+//						}
+//						
+//					}
+//				});
+//			}
+//		});
+//		
+//		
+//		
+//		
+//		
+//		
 	}
 
 }

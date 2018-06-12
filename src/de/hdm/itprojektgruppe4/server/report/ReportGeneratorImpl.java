@@ -14,6 +14,7 @@ import de.hdm.itprojektgruppe4.shared.bo.Kontakt;
 import de.hdm.itprojektgruppe4.shared.bo.Nutzer;
 import de.hdm.itprojektgruppe4.shared.bo.Teilhaberschaft;
 import de.hdm.itprojektgruppe4.shared.report.AllEigeneKontakteReport;
+import de.hdm.itprojektgruppe4.shared.report.AllNutzerReport;
 import de.hdm.itprojektgruppe4.shared.report.Column;
 import de.hdm.itprojektgruppe4.shared.report.CompositeParagraph;
 import de.hdm.itprojektgruppe4.shared.report.KontakteMitBestimmtenEigenschaftsAuspraegungenReport;
@@ -30,7 +31,7 @@ public class ReportGeneratorImpl extends RemoteServiceServlet implements ReportG
 	private NutzerMapper nutzerMapper = null;
 	private TeilhaberschaftMapper teilhaberschaftMapper = null;
 	private KontaktMapper kontaktMapper = null;
-	
+
 	public ReportGeneratorImpl() throws IllegalArgumentException {
 
 	}
@@ -66,7 +67,7 @@ public class ReportGeneratorImpl extends RemoteServiceServlet implements ReportG
 	 * 
 	 */
 
-	public   AllEigeneKontakteReport AllEigeneKontakteReport() throws IllegalArgumentException {
+	public AllEigeneKontakteReport AllEigeneKontakteReport() throws IllegalArgumentException {
 		if (this.getAdministration() == null)
 			return null;
 
@@ -97,8 +98,6 @@ public class ReportGeneratorImpl extends RemoteServiceServlet implements ReportG
 			kontaktRow.addColumn(new Column(String.valueOf(k.getErzeugungsdatum())));
 
 			kontaktRow.addColumn(new Column(String.valueOf(k.getModifikationsdatum())));
-			
-			
 
 			result.addRow(kontaktRow);
 		}
@@ -108,48 +107,116 @@ public class ReportGeneratorImpl extends RemoteServiceServlet implements ReportG
 	}
 	
 	
-	public   KontakteMitBestimmterTeilhaberschaftReport kontakteMitBestimmterTeilhaberschaftReport(int nutzerID) throws IllegalArgumentException {
+	
+	public AllEigeneKontakteReport AlleKontakteByNutzer(int nutzerID) throws IllegalArgumentException {
 		if (this.getAdministration() == null)
 			return null;
+
+		// Leerer Report
+		AllEigeneKontakteReport result = new AllEigeneKontakteReport();
+
+		//
+		Vector<Kontakt> kontakt = this.verwaltung.findAllKontaktFromNutzer(nutzerID);
+
+		result.setTitle("Meine Kontakte");
+
+		Row headline = new Row();
+
+		headline.addColumn(new Column("Kontakt"));
+
+		headline.addColumn(new Column("Erzeugungsdatum"));
+
+		headline.addColumn(new Column("Modifikationsdatum"));
+
+		result.addRow(headline);
+
+		for (Kontakt k : kontakt) {
+			// eine Leere zeile
+			Row kontaktRow = new Row();
+
+			kontaktRow.addColumn(new Column(String.valueOf(k.getName())));
+
+			kontaktRow.addColumn(new Column(String.valueOf(k.getErzeugungsdatum())));
+
+			kontaktRow.addColumn(new Column(String.valueOf(k.getModifikationsdatum())));
+
+			result.addRow(kontaktRow);
+		}
+
+		return result;
+
+	}
+	
+	
+	
+	
+
+	public Vector<Nutzer> allNutzerReport() throws IllegalArgumentException {
+		if (this.getAdministration() == null)
+			return null;
+
+		// Leerer Report
+		AllNutzerReport result = new AllNutzerReport();
+
+	
+
+		Vector<Nutzer> nutzer = this.verwaltung.findAllNutzer();
+
+
+
 		
+
+		return nutzer;
+
+	}
+
+	@Override
+	public Nutzer findNutzerByEmail(String email) throws IllegalArgumentException {
+		// TODO Auto-generated method stub
+	
+			return this.verwaltung.findNutzerByEmail(email);
 		
+	//	return this.nutzerMapper.findNutzerByEmail(email);
+	}
+
+	@Override
+	public KontakteMitBestimmterTeilhaberschaftReport kontakteMitBestimmterTeilhaberschaftReport(int nutzerID)
+			throws IllegalArgumentException {
+		if (this.getAdministration() == null)
+			// TODO Auto-generated method stub
+			return null;
+
 		// Leerer Report
 		KontakteMitBestimmterTeilhaberschaftReport result = new KontakteMitBestimmterTeilhaberschaftReport();
 
-		
-		Vector<Kontakt> kontakt = this.verwaltung.findAllSharedKontakteVonNutzer(3);
-
+		Vector<Kontakt> kontakt = this.verwaltung.findAllSharedKontakteVonNutzer(nutzerID);
 
 		result.setTitle("Geteilte Kontakte");
 
 		Row headline = new Row();
 
 		headline.addColumn(new Column("Kontaktname"));
-		
+
 		headline.addColumn(new Column("Erzeugungsdatum"));
-		
+
 		headline.addColumn(new Column("Modifikationsdatum"));
 
-		
-
+		headline.addColumn(new Column("Nutzer"));
 
 		result.addRow(headline);
 
-		for(Kontakt k : kontakt){
-			
+		for (Kontakt k : kontakt) {
 
 			// eine Leere zeile
 			Row kontaktRow = new Row();
 
-			kontaktRow.addColumn(new Column(String.valueOf(k.getNutzerID())));
+			kontaktRow.addColumn(new Column(String.valueOf(k.getName())));
+
+			kontaktRow.addColumn(new Column(String.valueOf(k.getErzeugungsdatum())));
+
+			kontaktRow.addColumn(new Column(String.valueOf(k.getModifikationsdatum())));
 
 			kontaktRow.addColumn(new Column(String.valueOf(k.getNutzerID())));
-
-			
-			
-
-
-
 
 			result.addRow(kontaktRow);
 		}
@@ -157,53 +224,10 @@ public class ReportGeneratorImpl extends RemoteServiceServlet implements ReportG
 		return result;
 
 	}
-
 	
 	
-
-
-
-
-	public KontakteMitBestimmterTeilhaberschaftReport createKontakteMitBestimmtenEigenschaftsAuspraegungenReport()
-			throws IllegalArgumentException {
-		return null;
-	}
-
-	public KontakteMitBestimmterTeilhaberschaftReport createKontakteMitBestimmterTeilhaberschaftReport()
-			throws IllegalArgumentException {
-		return null;
-	}
-
-//	@Override
-//	public de.hdm.itprojektgruppe4.shared.report.AllEigeneKontakteReport createAllEigeneKontakteReport()
-//			throws IllegalArgumentException {
-//		// TODO Auto-generated method stub
-//		return null;
-//	}
-
-	@Override
-	public Nutzer findNutzerByEmail(String email) throws IllegalArgumentException {
-		// TODO Auto-generated method stub
-		 return this.nutzerMapper.findNutzerByEmail(email);
-	}
-
-	@Override
-	public KontakteMitBestimmterTeilhaberschaftReport kontakteMitBestimmterTeilhaberschaftReport() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public de.hdm.itprojektgruppe4.shared.report.AllEigeneKontakteReport KontakteMitBestimmterTeilhaberschaftReport() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
 	
-
-
-
-
-
+	
+	
 
 }
