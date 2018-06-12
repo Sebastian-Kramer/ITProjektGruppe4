@@ -76,37 +76,6 @@ public class ITProjektSS18Report   implements EntryPoint{
 			@Override
 			public void onSuccess(Nutzer result) {
 				
-				Window.alert("Hello, AJAX4");
-//				if (!result.getEmail().equals(null)) {
-//					Window.alert(
-//							"Hallo " + result.getEmail() + " wir konnten dich erfolgreich aus der Datenbank lesen.");
-//					ClientsideSettings.setAktuellerNutzer(result);
-//					Cookies.setCookie("email", result.getEmail());
-//					Cookies.setCookie("id", result.getID() + "");
-//					loadStartseite();
-//
-//				} else {
-//
-//					reportverwaltung.insertNutzer(loginInfo.getEmailAddress(), new AsyncCallback<Nutzer>() {
-//
-//						@Override
-//						public void onFailure(Throwable caught) {
-//							Window.alert("Fehler");
-//						}
-//
-//						@Override
-//						public void onSuccess(Nutzer result) {
-//							Window.alert("Nutzer" + finalLog.getEmailAddress() + " wurde erfolgreich angelegt.");
-//							Cookies.setCookie("email", result.getEmail());
-//							Cookies.setCookie("id", result.getID()+"");
-//							//loadStartseite();
-//							
-//
-//						}
-//
-//					});
-//
-//				}
 
 			}
 		});
@@ -119,7 +88,6 @@ public class ITProjektSS18Report   implements EntryPoint{
 		loginPanel.add(loginLabel);
 		loginPanel.add(signInLink);
 		RootPanel.get("Details").add(loginPanel);
-		Window.alert("Hello, AJAX5");
 
 	}
 
