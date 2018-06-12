@@ -4,5 +4,8 @@ import java.io.Serializable;
 
 public class KontakteMitBestimmterTeilhaberschaftReport extends SimpleReport 
 implements Serializable { 
+	
+	private static final long serialVersionUID = 1L;
+
 
 }

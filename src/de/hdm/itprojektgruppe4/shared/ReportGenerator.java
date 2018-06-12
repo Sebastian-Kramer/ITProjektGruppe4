@@ -22,18 +22,16 @@ public interface ReportGenerator extends RemoteService {
 	
 	
 	 public Nutzer findNutzerByEmail(String email) throws IllegalArgumentException;
-
 	
-		AllEigeneKontakteReport AllEigeneKontakteReport();
+	 AllEigeneKontakteReport AllEigeneKontakteReport();
 
-	KontakteMitBestimmterTeilhaberschaftReport kontakteMitBestimmterTeilhaberschaftReport();
+	 KontakteMitBestimmterTeilhaberschaftReport kontakteMitBestimmterTeilhaberschaftReport(int nutzerID);
 
-	KontakteMitBestimmterTeilhaberschaftReport createKontakteMitBestimmterTeilhaberschaftReport()
-			throws IllegalArgumentException;
+	 Vector<Nutzer> allNutzerReport() ;
 
+	 public AllEigeneKontakteReport AlleKontakteByNutzer(int nutzerID) throws IllegalArgumentException;
+	 
 
-	AllEigeneKontakteReport KontakteMitBestimmterTeilhaberschaftReport();
-
-
+	 
 
 }
