@@ -27,6 +27,7 @@ import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.view.client.AsyncDataProvider;
 import com.google.gwt.view.client.DefaultSelectionEventManager;
 import com.google.gwt.view.client.HasData;
+import com.google.gwt.view.client.ListDataProvider;
 import com.google.gwt.view.client.MultiSelectionModel;
 import com.google.gwt.view.client.SelectionModel;
 import com.google.gwt.view.client.SingleSelectionModel;
@@ -47,9 +48,6 @@ public class DialogBoxTeilhaberschaftVerwalten extends DialogBox {
 	
 	private Nutzer nutzer = new Nutzer();
 	private Kontaktliste kl = null;
-	private Teilhaberschaft t = new Teilhaberschaft();
-	
-	private VerticalPanel vpanel = new VerticalPanel();
 	
 	private Button teilhaberschaftAufloesen = new Button("Teilhaberschaft entfernen");
 	private Button abbrechen = new Button("abbrechen");
@@ -58,8 +56,7 @@ public class DialogBoxTeilhaberschaftVerwalten extends DialogBox {
 	private NutzerCell nutzerCell = new NutzerCell();
 	private CellList<Nutzer> nutzerList = new CellList<Nutzer>(nutzerCell);
 	private SingleSelectionModel<Nutzer> selectionModel = new SingleSelectionModel<Nutzer>();
-	
-	private Vector<Teilhaberschaft> teilhaberschaft = new Vector<Teilhaberschaft>();
+	private ListDataProvider<Nutzer> dataProvider = new ListDataProvider<Nutzer>();
 	
 	DialogBoxTeilhaberschaftVerwalten(Kontaktliste kl){
 		this.kl = kl;
@@ -67,46 +64,46 @@ public class DialogBoxTeilhaberschaftVerwalten extends DialogBox {
 	}
 	
 	public void run(){
-//		super.onLoad();
 		this.setStylePrimaryName("dialogbox");
 		
 		//Setzen der Nutzerinformationen
 		nutzer.setID(Integer.parseInt(Cookies.getCookie("id")));
 		nutzer.setEmail(Cookies.getCookie("email"));
 		
-		NutzerDataProvider dataProvider = new NutzerDataProvider();
-		dataProvider.addDataDisplay(nutzerList);
+		/*
+		 * Ist der angemeldete User Eigentuemer der gewählten Kontaktliste, werden alle
+		 * Teilhaber der Kontaktliste der Celllist hinzugefügt. Der Eigentuemer soll in der Lage sein,
+		 * jegliche Teilhaberschaften an einer Kontaktliste aufzulösen.
+		 * 
+		 * Ist der angemeldete Nutzer Teilhaber einer Kontaktliste, werden die Anweiseungen im else-Block erledigt.
+		 * Lediglich die Nutzer, mit denen der angemeldete Nutzer die Kontaktliste geteilt hat, werden der Celllist hizugefuegt.
+		 * Hierzu dient der Aufruf der Methode <code>findSharedWithNutzer</code>
+		 */
+		if(nutzer.getID() == kl.getID()){
+			kontaktVerwaltung.findAllTeilhaberFromKontaktliste(kl.getID(), new TeilhaberVonKontaktliste());
+			dataProvider.addDataDisplay(nutzerList);
+		}else{
+			kontaktVerwaltung.findSharedWithNutzer(nutzer.getID(), kl.getID(), new SharedWithNutzerCallback() );
+			dataProvider.addDataDisplay(nutzerList);
+		}
 		
-		abbrechen.addClickHandler(new AbbrechenClickhandler());
-		teilhaberschaftAufloesen.addClickHandler(new TeilhaberschaftAufloesenClickhandler());
 		nutzerList.setSelectionModel(selectionModel);
 		
+		//Hinzufuegen der Clickhandler zu den Buttons
+		abbrechen.addClickHandler(new AbbrechenClickhandler());
+		teilhaberschaftAufloesen.addClickHandler(new TeilhaberschaftAufloesenClickhandler());
 		
+		//Anordnen der Buttons und der Celllist mithilfe einer Flextable und anschließendes Hinzufuegen der Flextable zum VerticalPanel
 		flextable.setWidget(0, 0, nutzerList);
 		flextable.setWidget(1, 0, abbrechen);
 		flextable.setWidget(1, 1, teilhaberschaftAufloesen);
 		this.add(flextable);
 	}
 	
-
-	private void pruefeErlaubnis(){
-		
-		
-		if(nutzer.getID() == kl.getNutzerID()){
-			kontaktVerwaltung.deleteTeilhaberschaftByTeilhaberID(selectionModel.getSelectedObject().getID(), new TeilhaberschaftLoeschenCallback() );
-		}
-		//Ist der Nutzer der Ersteller der Teilhaberschaft zu einer Kontaktliste mit einem anderen Nutzer, so ist er berechtigt, diese Teilhaberschaft
-		// aufzulösen
-		else if(nutzer.getID() == t.getNutzerID() && selectionModel.getSelectedObject().getID() == t.getTeilhaberID()){
-			kontaktVerwaltung.deleteTeilhaberschaftByTeilhaberID(selectionModel.getSelectedObject().getID(), new TeilhaberschaftLoeschenCallback());
-		}
-		//Trifft keiner dieser Fälle zu ist der Nutzer nicht berechtig, eine Teilhaberschaft aufzulösen
-		else if(nutzer.getID() != kl.getNutzerID() || nutzer.getID() != t.getNutzerID() && selectionModel.getSelectedObject().getID() != t.getTeilhaberID()){
-			Window.alert("Sie sind nicht berechtigt, diese Teilhaberschaft aufzulösen, da Sie weder der Ersteller dieser Kontaktliste noch dieser Teilhaberschaft sind.");
-			
-		}
-	}
-	
+	/**
+	 * Clickhandler um das Verwalten der Teilhaberschaften abzubrechen.
+	 * Bei Ausloesen des Clickhandlers wird die DialogBox geschlosse
+	 */
 	private class AbbrechenClickhandler implements ClickHandler{
 
 		@Override
@@ -116,21 +113,28 @@ public class DialogBoxTeilhaberschaftVerwalten extends DialogBox {
 		}
 		
 	}
-		
+	
+	/**
+	 * Clickhandler, um das Loeschen einer Teilhaberschaft zu ermoeglichen.
+	 * Die asynchrone Callback-Methode <code>deleteTeilhaberschaftByTeilhaberID</code> wird aufgerufen, um die Teilhaberschaft anhand der 
+	 * ID des gewählten Nutzer-Objekts zu entfernen.
+	 * Aschließend wird die DialogBox geschlossen.
+	 */
 	private class TeilhaberschaftAufloesenClickhandler implements ClickHandler{
 
 		@Override
 		public void onClick(ClickEvent event) {
 			kontaktVerwaltung.deleteTeilhaberschaftByTeilhaberID(selectionModel.getSelectedObject().getID(),new TeilhaberschaftLoeschenCallback());
-			//kontaktVerwaltung.findTeilhaberschaftByTeilhaberID(selectionModel.getSelectedObject().getID(), kl.getID(), new TeilhaberschaftAuslesen());
 			hide();
-			
-				
-			
 		}
 		
 	}
 	
+	/**
+	 * Callback für die Loeschung der Teilhaberschaft.
+	 * Nach erfolgreicher Loeschung wird die Dialogbox geschlossen.
+	 *
+	 */
 	private class TeilhaberschaftLoeschenCallback implements AsyncCallback<Void>{
 
 		@Override
@@ -148,7 +152,12 @@ public class DialogBoxTeilhaberschaftVerwalten extends DialogBox {
 		
 	}
 	
-	class TeilhaberschaftAuslesen implements AsyncCallback<Teilhaberschaft>{
+	/**
+	 * Callback-Klasse. Gibt alle Nutzer als Vector aus, mit denen der angemeldete Nutzer die Kontaktliste geteilt hat.
+	 * Jedes Objekt aus dem Vector <code>result</code> wird dabei der Celllist hinzugefuegt.
+	 *
+	 */
+	private class SharedWithNutzerCallback implements AsyncCallback <Vector<Nutzer>>{
 
 		@Override
 		public void onFailure(Throwable caught) {
@@ -157,57 +166,50 @@ public class DialogBoxTeilhaberschaftVerwalten extends DialogBox {
 		}
 
 		@Override
-		public void onSuccess(Teilhaberschaft result) {
-			t = result;
-			pruefeErlaubnis();
+		public void onSuccess(Vector<Nutzer> result) {
+			for(Nutzer n : result){
+				dataProvider.getList().add(n);
+				if(nutzer.getID() == n.getID()){
+					dataProvider.getList().add(n);
+				}
+			}
 			
 		}
-
-	
-			
-		
 		
 	}
-		
+	
 	
 	/**
-	 * DataProvider, in den alle Teilhaber einer Kontaktliste gespeichert werden.
-	 * Mithilfe des DataProviders können Daten im Zuge eines asnychronen Methodenaufrufs dort gespeichert werden.
-	 * Anschließen werden diese Daten an die CellList <code>NutzerList</code> übergeben, um die Nutzer entsprechend
-	 * in der GUI anzeigen lassen zu können.
-	 * @author Raphael
+	 * Callback-Klasse um alle Teilhaber an einer Kontaktliste anzeigen zu lassen.
+	 * Bei erfolgreicher Abfrage werden die Objekte aus dem Ergebnis-Vector zur Celllist hinzugefügt.
+	 * 
+	 * Diese Klasse wird nur benötigt, wenn der angemeldete Nutzer auch gleichzeitig der Eigentuemer der Kontaktliste ist, da der Eigentuemer
+	 * Zugriff auf saemtliche Teilhaberschaften haben soll.
+	 * 
+	 * Jedes Nutzer Objekt wird aus dem Ergebnis-Vektor gelesen und der Celllist hinzugefügt.
 	 *
 	 */
-	private class NutzerDataProvider extends AsyncDataProvider<Nutzer>{
+	private class TeilhaberVonKontaktliste implements AsyncCallback <Vector<Nutzer>>{
 
 		@Override
-		protected void onRangeChanged(HasData<Nutzer> display) {
-			final Range range = display.getVisibleRange();
-			
-			kontaktVerwaltung.findSharedWithNutzer(nutzer.getID(), kl.getID(),new AsyncCallback<Vector<Nutzer>>(){
-				int start = range.getStart();
-				@Override
-				public void onFailure(Throwable caught) {
-					// TODO Auto-generated method stub
-					
-				}
-
-				@Override
-				public void onSuccess(Vector<Nutzer> result) {
-					List<Nutzer> list = new ArrayList<Nutzer>();
-						for(Nutzer n : result){
-							list.add(n);
-						}
-						updateRowData(start, list);
-					}
-					
-				
-				
-			});
+		public void onFailure(Throwable caught) {
+			// TODO Auto-generated method stub
 			
 		}
-		
+
+
+		@Override
+		public void onSuccess(Vector<Nutzer> result) {
+			for(Nutzer n : result){
+				dataProvider.getList().add(n);
+				if(nutzer.getID() == n.getID()){
+					dataProvider.getList().remove(n);
+				}
+			}
+			
+		}
+
 	}
-
-
+	
 }
+	

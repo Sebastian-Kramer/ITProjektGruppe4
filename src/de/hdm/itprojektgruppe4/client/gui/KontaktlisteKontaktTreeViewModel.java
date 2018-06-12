@@ -43,7 +43,14 @@ public class KontaktlisteKontaktTreeViewModel implements TreeViewModel {
 	private ListDataProvider<Kontaktliste> kontaktlisteDataProvider = null;
 
 	private Map<Kontaktliste, ListDataProvider<Kontakt>> kontaktDataProvider = null;
-
+	
+	
+	/**
+	 * Diese Nested Class soll den BusinessObjects im Baum eindeutige Schlüssel zuweisen.
+	 * Hierdurch könnnen Kontaktlisten-Objekte von Kontakt-Objekten unterschieden werden.
+	 * der Schlüssel für Kontaktliste-Objekte ist ein positiver, der von Kontakt-Objekten ein negativer.
+	 * (siehe Prof. Rathke, BankProjekt, 2018)
+	 */
 	private class BusinessObjectKeyProvider implements ProvidesKey<BusinessObject> {
 
 		@Override
@@ -62,7 +69,16 @@ public class KontaktlisteKontaktTreeViewModel implements TreeViewModel {
 
 	private BusinessObjectKeyProvider boKeyProvider = null;
 	private SingleSelectionModel<BusinessObject> selectionModel = null;
-
+	
+	/**
+	 * Nested Class für das Setzen von Selektionsereignissen.
+	 * Ist das ausgewählte Objekt in der Baumstruktur ein Objekt vom Typ Kontaktliste,
+	 * wird die <code>KontaktlisteForm</code> geöffnet, die die Verwaltung und Bearbeitung der Kontaktliste ermöglicht.
+	 * Ist das selektierte Objekt vom Typ Kontakt, wird die <code>KontaktForm</code> geöffnet, die die Verwaltung und Bearbeitung
+	 * eines Kontakte ermöglicht.
+	 * @author Raphael
+	 *
+	 */
 	private class SelectionChangeEventHandler implements SelectionChangeEvent.Handler {
 
 		@Override
@@ -81,7 +97,10 @@ public class KontaktlisteKontaktTreeViewModel implements TreeViewModel {
 		}
 
 	}
-
+	
+	/*
+	 * Konstruktor für die Initialisierung der wichtigsten Variablen des Baums
+	 */
 	public KontaktlisteKontaktTreeViewModel() {
 		kontaktVerwaltung = ClientsideSettings.getKontaktVerwaltung();
 		boKeyProvider = new BusinessObjectKeyProvider();
@@ -196,7 +215,10 @@ public class KontaktlisteKontaktTreeViewModel implements TreeViewModel {
 	void updateKontakt(Kontakt k){
 		kontaktVerwaltung.findKontaktlisteByID(id, callback);
 	}
-*/
+*/	
+	/*
+	 * 
+	 */
 	@Override
 	public <T> NodeInfo<?> getNodeInfo(T value) {
 		this.setNutzer(nutzer);

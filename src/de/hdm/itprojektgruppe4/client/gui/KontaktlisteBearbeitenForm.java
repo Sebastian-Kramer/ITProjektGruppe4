@@ -1,34 +1,23 @@
 		package de.hdm.itprojektgruppe4.client.gui;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Vector;
 
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
-import com.google.gwt.i18n.client.NumberFormat;
+
 import com.google.gwt.user.cellview.client.CellList;
 import com.google.gwt.user.client.Cookies;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Button;
-import com.google.gwt.user.client.ui.Grid;
-import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.view.client.ListDataProvider;
-import com.google.gwt.view.client.Range;
-import com.google.gwt.view.client.SelectionChangeEvent;
 import com.google.gwt.view.client.SingleSelectionModel;
 import com.google.gwt.user.client.ui.RootPanel;
-import com.google.gwt.user.client.ui.ScrollPanel;
-import com.google.gwt.user.cellview.client.SimplePager;
-import com.google.gwt.view.client.AsyncDataProvider;
-import com.google.gwt.view.client.HasData;
 import com.google.gwt.user.client.ui.FlowPanel;
-
 
 import de.hdm.itprojektgruppe4.shared.KontaktAdministrationAsync;
 import de.hdm.itprojektgruppe4.shared.bo.*;
@@ -37,7 +26,12 @@ import de.hdm.itprojektgruppe4.client.NavigationTree;
 
 
 
-
+/**
+ * Diese Klasse dient der Bearbeitung einer Kontaktliste.
+ * Hier können Kontakte zur Kontaktliste hinzugefuegt oder entfernt werden, der Name der Kontaktliste geaendert werden,
+ * sowie die komplette Kontaktliste geloescht werden.
+ *
+ */
 public class KontaktlisteBearbeitenForm extends VerticalPanel {
 	
 	private KontaktAdministrationAsync kontaktVerwaltung = ClientsideSettings.getKontaktverwaltung();
@@ -84,7 +78,7 @@ public class KontaktlisteBearbeitenForm extends VerticalPanel {
 		dataProvider.addDataDisplay(kontaktCellList);
 		
 		/*
-		 * Hinzufï¿½gen der Buttons zur Buttonbar
+		 * Hinzufuegen der Buttons zur Buttonbar
 		 */
 		RootPanel.get("Buttonbar").clear();
 		fpanel.add(kontaktHinzufuegen);
@@ -111,10 +105,9 @@ public class KontaktlisteBearbeitenForm extends VerticalPanel {
 	}
 	
 	/**
-	 * Clickhandler, der das Lï¿½schen von Kontaktlisten bzw. die Auflï¿½sung einer Teilhaberschaft bei Klick ermï¿½glicht
-	 * Ist der Lï¿½schende der Inhaber der Liste, wird die Kontaktliste komplett aus der Datenbank entfernt.
-	 * Ist der Lï¿½schende Teilhaber der Liste, wird lediglich die Teilhaberschaft an der Liste aufgelï¿½st.
-
+	 * Clickhandler, der das Loeschen von Kontaktlisten bzw. die Aufloesung einer Teilhaberschaft bei Klick ermoeglicht
+	 * Ist der Loeschende der Inhaber der Liste, wird die Kontaktliste komplett aus der Datenbank entfernt.
+	 * Ist der Loeschende Teilhaber der Liste, wird lediglich die Teilhaberschaft an der Liste aufgeloest.
 	 */
 	private class KontaktlisteloeschenClickhandler implements ClickHandler{
 
@@ -135,7 +128,7 @@ public class KontaktlisteBearbeitenForm extends VerticalPanel {
 	
 	/**
 	 * Nested Class um den Button zum Hinzufuegen von Kontakten zur Kontaktliste bedienen zu kï¿½nnen
-	 * Bei Click auf den Button wird eine DialogBox geï¿½ffnet, die ermï¿½glich, Kontakt zu ï¿½ffnen.
+	 * Bei Click auf den Button wird eine DialogBox geoeffnet, die ermï¿½glich, Kontakt zu ï¿½ffnen.
 	 */
 	private class KontaktHinzufuegenClickhandler implements ClickHandler{
 
@@ -190,9 +183,10 @@ public class KontaktlisteBearbeitenForm extends VerticalPanel {
 		}
 		
 	}
+	
 	/**
 	 * Callback-Klasse, um alle Kontakte der Kontaktliste auszulesen. Jedes Kontakt Object aus dem Vector Result wird zum
-	 * ListDataProvider hinzugefï¿½gt, der die Daten fï¿½r die Celllist hï¿½lt. 
+	 * ListDataProvider hinzugefuegt, der die Daten fuer die Celllist haelt. 
 	 * @author Raphael
 	 *
 	 */
@@ -216,7 +210,6 @@ public class KontaktlisteBearbeitenForm extends VerticalPanel {
 	
 	/**
 	 * Callback-Klasse fuer die Loeschung der Kontaktliste
-	 * @author Raphael
 	 *
 	 */
 	private class KontaktlisteloeschenCallback implements AsyncCallback<Void> {
@@ -256,6 +249,9 @@ public class KontaktlisteBearbeitenForm extends VerticalPanel {
 		
 	}
 	
+	/**
+	 * Diese Nested Class wird als Callback benoetigt um das Entfernen eines Kontaktes aus einer Kontaktliste zu ermoeglichen 
+	 */
 	private class KontaktEntfernenCallback implements AsyncCallback<Void>{
 
 		@Override

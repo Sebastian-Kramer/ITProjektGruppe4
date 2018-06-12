@@ -436,23 +436,16 @@ public class KontaktAdministrationImpl extends RemoteServiceServlet
 	/**
      * Alle Nutzer auslesen.
      * 
-     * @return Vector sï¿½mtlicher Nutzer
+     * @return Vector saemtlicher Nutzer
      * @throws IllegalArgumentException
      */
-
-//	@Override
-//	public Nutzer findNutzerByID(int id) throws IllegalArgumentException {
-//		return this.nutzerMapper.findNutzerByID(id);
-//	}
-
-
 	@Override
 	public Vector<Nutzer> findAllNutzer() throws IllegalArgumentException {
 		return this.nutzerMapper.findAllNutzer();
 	}
 	
 	/**
-	 * Vector mit sï¿½mtlichen Nutzern, die eine Teilhaberschaft an einer Kontaktliste haben
+	 * Vector mit saemtlichen Nutzern, die eine Teilhaberschaft an einer Kontaktliste haben
 	 * 
 	 * @param kontaktlisteID die ID der Kontaktliste an der Teilhaberschaften von Nutzern bestehen
 	 * @return Vector mit Nutzern die Teilhaber an einer Kontaktliste sind
@@ -460,13 +453,17 @@ public class KontaktAdministrationImpl extends RemoteServiceServlet
 	 */
 	@Override
 	public Vector<Nutzer> findAllTeilhaberFromKontaktliste(int kontaktlisteID) throws IllegalArgumentException {
+		//Vector, in dem die gesuchten Nutzer-Objekte gespeichert werden sollen
 		Vector<Nutzer> nutzerVector = new Vector<Nutzer>();
+		//Vector mit saemtlichen Teilhaberschaften an einer Kontaktliste
 		Vector<Teilhaberschaft> teilhabe = teilhaberschaftMapper.findTeilhaberschaftByKontaktlisteID(kontaktlisteID);
 		
+		/*
+		 * Jedes Teilhaberschaft-Objekt wird ausgelesen und mit Hilfe der Teilhaber ID der gesuchte Nutzer herausgefunden und zum 
+		 * Nutzer-Vektor hinzugefuegt
+		 */
 		for(Teilhaberschaft t : teilhabe){
-			nutzerVector.add(nutzerMapper.findNutzerByID(t.getTeilhaberID()));
-			
-			
+			nutzerVector.add(nutzerMapper.findNutzerByID(t.getTeilhaberID()));	
 		}
 		
 		return nutzerVector;
@@ -1071,11 +1068,11 @@ public class KontaktAdministrationImpl extends RemoteServiceServlet
 
 	
 	/*##########################################################
-     * ENDE Methoden fï¿½r KontaktKontaktliste-Objekte
+     * ENDE Methoden fuer KontaktKontaktliste-Objekte
      #########################################################*/
 	
 	/*##########################################################
-     * START Methoden fï¿½r Teilhaberschaft-Objekte
+     * START Methoden fuer Teilhaberschaft-Objekte
      #########################################################*/
 
 	/**
@@ -1236,10 +1233,10 @@ public class KontaktAdministrationImpl extends RemoteServiceServlet
 	}
 	
 	/**
-	 * Ausgabe sï¿½mtlicher Teilhaberschaften an einer Kontaktliste
+	 * Ausgabe saemtlicher Teilhaberschaften an einer Kontaktliste
 	 * 
 	 * @param kontaktlisteID die ID der Kontaktliste deren Teilhaberschaften gesucht werden
-	 * @return Vector mit sï¿½mtlichen Teilhaberschaften an einer Kontaktliste
+	 * @return Vector mit saemtlichen Teilhaberschaften an einer Kontaktliste
 	 * @throws IllegalArgumentException
 	 */
 	@Override
@@ -1495,6 +1492,7 @@ public class KontaktAdministrationImpl extends RemoteServiceServlet
 		
 	}
 
+
 //	public KontaktKontaktliste removeExistingKontakt(int kontaktID, int kontaktlisteID, int nutzerID) throws IllegalArgumentException {
 //		
 //		Vector<Kontaktliste> alleListen = findKontaktlisteByNutzerID(nutzerID);
@@ -1515,6 +1513,11 @@ public class KontaktAdministrationImpl extends RemoteServiceServlet
 //	}
 	
 	
+
+
+
+	/**
+	 */
 
 	@Override
 	public Vector<Kontakt> findKontaktByNameAndNutzerID(Kontakt kontakt) throws IllegalArgumentException {
@@ -1545,6 +1548,26 @@ public class KontaktAdministrationImpl extends RemoteServiceServlet
 	public Eigenschaft findEigByBezeichnung(String bez) throws IllegalArgumentException {
 		// TODO Auto-generated method stub
 		return this.eigMapper.findEigByBezeichnung(bez);
+	}
+
+
+	/**
+	 * Auslesen des Teilenden einer Kontaktliste
+	 * 
+	 * @param kontaktlisteID die ID der geteilten Kontaktliste
+	 * @param nutzerID die ID des Nutzers mit dem die ID geteilt wurde
+	 * @return Nutzer-Objekt des Nutzers der die Kontaktliste geteilt hat
+	 * @throws IllegalArgumentException
+	 */
+	@Override
+	public Nutzer findTeilenderVonKontaktliste(int kontaktlisteID, int teilhaberID) throws IllegalArgumentException {
+		//Auslesen eines Teilhaberschaft-Objekts mithilfe der TeilhaberID und der KontaktlisteID
+		//Result wird an Teilhaberschaft-Objekt <code>t</code> übergeben
+		Teilhaberschaft t = findTeilhaberschaftByTeilhaberID(kontaktlisteID, teilhaberID);
+		
+		//Ausgabe des gesuchten Nutzers, dessen ID gleichzeitig der Fremdschlüssel um ausgelesenen Teilhaberschaft-Objekt ist
+		return this.findNutzerByID(t.getNutzerID());
+		
 	}
 
 
