@@ -25,11 +25,11 @@ public class DialogBoxKontakt extends DialogBox{
 	private Button ok = new Button("Ok");
 	private Button abbrechen = new Button("Abbrechen");
 	private Label safedelete = new Label("Wollen sie den Kontakt wirklich löschen");
-	
+	private Kontakt kontakt = new Kontakt();
 	
 	public DialogBoxKontakt(final Kontakt selectedKontakt){
 		
-		
+		this.kontakt= selectedKontakt;
 	
 		this.setStyleName("DialogboxBackground");
 	
@@ -43,27 +43,38 @@ public class DialogBoxKontakt extends DialogBox{
 		
 		this.add(vpanel);
 	
-	   abbrechen.addClickHandler(new ClickHandler() {
+	   abbrechen.addClickHandler(new abbrechenClickHandler());
 			
-				@Override
-				public void onClick(ClickEvent event) {
-					hide();
-				}
-			});
+	
 	   
 	   
-	   ok.addClickHandler(new ClickHandler() {
+	   ok.addClickHandler(new OkClickHandler()); 
 		
+		
+	   
+	}  
+	
+
+	class abbrechenClickHandler implements ClickHandler{
+
 		@Override
 		public void onClick(ClickEvent event) {
 			// TODO Auto-generated method stub
-			
-			verwaltung.deleteKontakt(selectedKontakt, new DeleteKontaktCallback());
 			hide();
 		}
-	});
-	   
-	}  
+		
+	}
+	
+	class OkClickHandler implements ClickHandler {
+
+		@Override
+		public void onClick(ClickEvent event) {
+			// TODO Auto-generated method stub
+			verwaltung.deleteKontakt(kontakt, new DeleteKontaktCallback());
+			hide();
+		}
+		
+	}
 	  class DeleteKontaktCallback implements AsyncCallback<Void> {
 
 		@Override
