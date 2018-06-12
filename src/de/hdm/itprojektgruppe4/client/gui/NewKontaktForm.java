@@ -33,8 +33,7 @@ import com.google.gwt.view.client.SingleSelectionModel;
 import de.hdm.itprojektgruppe4.client.ClientsideSettings;
 
 import de.hdm.itprojektgruppe4.client.EigenschaftAuspraegungWrapper;
-import de.hdm.itprojektgruppe4.client.gui.UpdateKontaktForm.AuspraegungBearbeitenCallback;
-import de.hdm.itprojektgruppe4.client.gui.UpdateKontaktForm.ReloadCallback;
+
 import de.hdm.itprojektgruppe4.shared.KontaktAdministrationAsync;
 import de.hdm.itprojektgruppe4.shared.bo.Eigenschaft;
 import de.hdm.itprojektgruppe4.shared.bo.Eigenschaftauspraegung;
@@ -174,17 +173,7 @@ public class NewKontaktForm extends VerticalPanel {
 
 		tbName.addKeyDownHandler(returnKeyHandler);
 
-		addRow.addClickHandler(new ClickHandler() {
-
-			@Override
-			public void onClick(ClickEvent event) {
-				ctf.addRow(eigenschaftSugBox.getValue(), txt_Auspraegung.getValue());
-
-				verwaltung.insertEigenschaft(eigenschaftSugBox.getText(), 0, new EigenschaftHinzufuegenCallback());
-				
-			}
-
-		});
+		addRow.addClickHandler(new ClickAddRowHandler());
 
 	}
 	
@@ -259,6 +248,8 @@ public class NewKontaktForm extends VerticalPanel {
 	}
 	
 
+	
+	
 	/**
 	 *  ClickHandler Klasse für den Cancel Button, welcher die Kontakterstellung
 	 *   abbricht und den Nutzer zurück auf die Startseite bringt
@@ -312,6 +303,22 @@ public class NewKontaktForm extends VerticalPanel {
 		
 	}
 
+	
+	class ClickAddRowHandler implements ClickHandler {
+
+		@Override
+		public void onClick(ClickEvent event) {
+			// TODO Auto-generated method stub
+			
+			
+			ctf.addRow(eigenschaftSugBox.getValue(), txt_Auspraegung.getValue());
+			verwaltung.insertEigenschaft(eigenschaftSugBox.getText(), 0, new EigenschaftHinzufuegenCallback());
+			
+		}
+		
+	}
+	
+	
 	/**
 	 * CallBack Klasse um einen neuen Kontakt zu erstellen, 
 	 * in der Applikationslogik wurde implemnetiert, dass ein neuer Kontakt zu der Basisliste
@@ -454,9 +461,23 @@ public class NewKontaktForm extends VerticalPanel {
 
 		@Override
 		public void onSuccess(Eigenschaft result) {
-			eig1.setID(result.getID());
-			verwaltung.insertAuspraegung(txt_Auspraegung.getText(), 0, eig1.getID(), kontakt1.getID(),
-					new AuspraegungHinzufuegenCallback());
+			
+			if (result == null) { 
+				
+				verwaltung.findEigByBezeichnung(eigenschaftSugBox.getText(), new FindEigenschaftCallback());
+				
+			}else {
+				
+				eig1.setID(result.getID());
+				verwaltung.insertAuspraegung(txt_Auspraegung.getText(), 0, eig1.getID(), kontakt1.getID(), new AuspraegungHinzufuegenCallback());
+				
+			}
+			
+			
+//			
+//			eig1.setID(result.getID());
+//			verwaltung.insertAuspraegung(txt_Auspraegung.getText(), 0, eig1.getID(), kontakt1.getID(),
+//					new AuspraegungHinzufuegenCallback());
 		}
 
 	}
@@ -484,6 +505,25 @@ public class NewKontaktForm extends VerticalPanel {
 		}
 
 	}
+	
+	
+	class FindEigenschaftCallback implements AsyncCallback<Eigenschaft> {
+
+		@Override
+		public void onFailure(Throwable caught) {
+			// TODO Auto-generated method stub
+			
+		}
+
+		@Override
+		public void onSuccess(Eigenschaft result) {
+			// TODO Auto-generated method stub
+			verwaltung.insertAuspraegung(txt_Auspraegung.getText(), 0, result.getID(), kontakt1.getID(), new AuspraegungHinzufuegenCallback());
+		}
+		
+		
+	}
+	
 
 	class ReloadCallback implements AsyncCallback<Vector<EigenschaftAuspraegungWrapper>>{
 

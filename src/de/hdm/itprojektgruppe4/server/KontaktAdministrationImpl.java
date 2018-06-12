@@ -562,7 +562,7 @@ public class KontaktAdministrationImpl extends RemoteServiceServlet
 		
 		
 		
-		System.out.println("NEIN" + eigenschaft.getBezeichnung() + eigenschaft.getID());
+	
 		//return this.findEigByBezeichnung(bez);
 		
 		return null;
@@ -1148,7 +1148,7 @@ public class KontaktAdministrationImpl extends RemoteServiceServlet
 		t.setTeilhaberID(teilhaberID);
 		t.setNutzerID(nutzerID);
 		
-		System.out.println("ja" + kl.getBez());
+		
 		
 		return this.teilhaberschaftMapper.insertTeilhaberschaftKontaktliste(t);
 	}
@@ -1313,8 +1313,11 @@ public class KontaktAdministrationImpl extends RemoteServiceServlet
 			for (int z = 0; z < eigaus.size(); z++){
 				if (eigaus.elementAt(i).getEigenschaftsID() == eig.elementAt(z).getID()){
 					
-					hybrid.add(new EigenschaftAuspraegungWrapper(eig.elementAt(z), eigaus.elementAt(i)));	
+					hybrid.add(new EigenschaftAuspraegungWrapper(eig.elementAt(z), eigaus.elementAt(i)));
+					
+					break;
 				}
+				
 				
 		}
 		}
