@@ -45,6 +45,7 @@ public class KontaktlisteForm extends VerticalPanel {
 	private HorizontalPanel hpanel = new HorizontalPanel();
 	
 	private Label lbl_geteilt = new Label();
+	private Label teilender = new Label();
 	
 	private ScrollPanel scrollPanel = new ScrollPanel();
 	private FlowPanel fpanel = new FlowPanel();
@@ -53,13 +54,10 @@ public class KontaktlisteForm extends VerticalPanel {
 	private CellList<Kontakt> kontaktCellList = new CellList<Kontakt>(kontaktcell);
 	private SingleSelectionModel<Kontakt> selectionModel = new SingleSelectionModel<Kontakt>();
 	
-	 
-	private Button kontaktHinzufuegen = new Button("Kontakt hinzufuegen");
-	private Button kontaktlisteLoeschen = new Button("Kontaktliste loeschen");
+	
 	private Button kontaktAnzeigen = new Button("Kontakt anzeigen");
 	private Button kontaktlisteTeilen = new Button("Kontaktliste teilen");
 	private Button teilhaberschaften = new Button("Teilhaberschaften verwalten");
-	private Button kontaktEntfernen = new Button("Kontakt entfernen");
 	private Button kontaktlisteBearbeiten = new Button("Kontaktliste bearbeiten");
 	private Button zurStartseite = new Button("Zurueck zur Startseite");
 
@@ -68,16 +66,14 @@ public class KontaktlisteForm extends VerticalPanel {
 	
 	private Kontaktliste kl = null;
 	private Nutzer nutzer = new Nutzer();
+	private Nutzer teilenderNutzer = null;
 	
 	/**
 	 * Konstruktor, der beim Auswaehlen einer Kontaktliste im Baum eingesetzt wird.
 	 * @param kontaktliste
 	 */
 	public KontaktlisteForm(Kontaktliste kontaktliste){
-		this.kl = kontaktliste;
-		selectionModel.addSelectionChangeHandler(new SelectionChangeEventHandler());
-		
-	
+		this.kl = kontaktliste;	
 	}
 	
 	public void onLoad(){
@@ -97,18 +93,32 @@ public class KontaktlisteForm extends VerticalPanel {
 		HTML html1 = new HTML("<h2>" +  kl.getBez()   + "</h2>");
 	
 		/*
-		 * Hinzufï¿½gen der Buttons zur Buttonbar
+		 * Hinzufuegen der Buttons zur Buttonbar
 		 */
 		RootPanel.get("Buttonbar").clear();
 		
+		//Der Button <code>kontaktlisteBearbeiten</code> wird nur zum Panel hinzugefuegt, wenn der angemeldete Nutzer Eigentuemer der Kontaktliste ist
 		if(kl.getNutzerID() == nutzer.getID()){
 			fpanel.add(kontaktlisteBearbeiten);
 		}
+		/*
+		 * Wenn die Kontaktliste geteilt wurde, soll dies als Status angezeigt werden.
+		 * Wenn der angemeldete Nutzer nicht Eigentuemer, sondern nur Teilhaber der Kontaktliste ist wird außerdem
+		 * der Nutzer in einem Label angezeigt, der die Kontaktliste mit dem angemeldeten Nutzer geteilt hat.
+		 */
+	/**
+	 * 
+	 
 		if(kl.getStatus() == 1){
 			lbl_geteilt.setText("Status: geteilt");
+			if(kl.getNutzerID() != nutzer.getID()){
+				kontaktVerwaltung.findTeilenderVonKontaktliste(kl.getID(), nutzer.getID(), new TeilendenAnzeigenCallback());
+				teilender.setText("Geteilt von: " + teilenderNutzer.getEmail());
+				hpanel.add(teilender);
+			}
 			hpanel.add(lbl_geteilt);
-			
 		}
+		*/
 		
 		fpanel.add(kontaktAnzeigen);
 		fpanel.add(kontaktlisteTeilen);
@@ -117,7 +127,7 @@ public class KontaktlisteForm extends VerticalPanel {
 		RootPanel.get("Buttonbar").add(fpanel);
 		
 		/*
-		 * Hinzufuegen der ï¿½berschrift und der CellList zum Vertical Panel
+		 * Hinzufuegen der Ueberschrift und der CellList zum Vertical Panel
 		 */
 		hpanel.add(html1);
 		vpanel.add(hpanel);
@@ -128,65 +138,18 @@ public class KontaktlisteForm extends VerticalPanel {
 		/*
 		 * Hinzufuegen der Clickhandler zu den Buttons
 		 */
-		kontaktlisteLoeschen.addClickHandler(new KontaktlisteloeschenClickhandler());
-		kontaktHinzufuegen.addClickHandler(new KontaktHinzufuegenClickhandler());
 		kontaktAnzeigen.addClickHandler(new KontaktAnzeigenClickhandler());
 		kontaktlisteTeilen.addClickHandler(new KontaktlisteTeilenClickhandler());
 		teilhaberschaften.addClickHandler(new TeilhaberschaftenVerwaltenClickhandler());
-		kontaktEntfernen.addClickHandler(new KontaktEntfernenClickhandler());
 		kontaktlisteBearbeiten.addClickHandler(new KontaktlisteBearbeitenClickhandler());
 		zurStartseite.addClickHandler(new ZurueckZurStartseiteClickhandler());
 
 	}
 	
 	/**
-	 * Nested Class, die es ermoeglicht, auf Selektionsereignisse in der CellList zu reagieren.
-	 * 
+	 * Clickhandler ermöglicht das Anzeigen eines ausgewaehlten Kontaktes.
+	 *
 	 */
-	private class SelectionChangeEventHandler implements SelectionChangeEvent.Handler{
-
-		@Override
-		public void onSelectionChange(SelectionChangeEvent event) {
-			Kontakt selection = selectionModel.getSelectedObject();	
-			
-		}
-		
-	}
-	
-	/**
-	 * Clickhandler, der eine Kontaktliste entfernt.
-	 * Dieser Clickhandler entfernt das Teilhaberschaftsobjekt zu dieser Kontaktliste.
-	 * Dadurch wird die Kontaktliste nicht gelöscht, sondern nur die Teilhaberschaft an dieser Kontaktliste
-	 * Aus diesem Grund ist dieser Clickhandler nur für einen Teilhaber an einer Kontakliste erreichbar, nicht für den Ersteller einer Kontaktliste
-	 */
-	private class KontaktlisteloeschenClickhandler implements ClickHandler{
-
-		@Override
-		public void onClick(ClickEvent event) {
-			 //Wenn die ausgewï¿½hlte Kontaktliste vom Nutzer erstellt wurde, wird diese gelï¿½scht
-		if(kl.getNutzerID() != nutzer.getID()){
-			kontaktVerwaltung.deleteTeilhaberschaftByKontaktlisteID(kl.getID(), new KontaktlisteloeschenCallback());
-			}
-			
-		}
-	}
-
-	/**
-	 * Nested Class um den Button zum Hinzufuegen von Kontakten zur Kontaktliste bedienen zu können
-	 * Bei Click auf den Button wird eine DialogBox geöffnet, die ermöglich, Kontakt zu öffnen.
-	 */
-	private class KontaktHinzufuegenClickhandler implements ClickHandler{
-
-		@Override
-		public void onClick(ClickEvent event) {
-			DialogBoxKontaktZuKontaktliste dialogKontakt = new DialogBoxKontaktZuKontaktliste(kl);
-			dialogKontakt.center();
-			
-			
-		}
-		
-	}
-	
 	private class KontaktAnzeigenClickhandler implements ClickHandler{
 
 		@Override
@@ -203,19 +166,6 @@ public class KontaktlisteForm extends VerticalPanel {
 		
 	}
 	
-	private class KontaktEntfernenClickhandler implements ClickHandler{
-
-		@Override
-		public void onClick(ClickEvent event) {
-			if(selectionModel.getSelectedObject() == null){
-				Window.alert("Sie muessen einen Kontakt auswaehlen");
-			}else{
-				kontaktVerwaltung.deleteKontaktKontaktlisteByKontaktID(selectionModel.getSelectedObject().getID(), new KontaktEntfernenCallback());
-			}
-			
-		}
-		
-	}
 	
 	private class KontaktlisteTeilenClickhandler implements ClickHandler{
 
@@ -263,6 +213,22 @@ public class KontaktlisteForm extends VerticalPanel {
 		}
 		
 	}
+	
+	private class TeilendenAnzeigenCallback implements AsyncCallback<Nutzer>{
+
+		@Override
+		public void onFailure(Throwable caught) {
+			// TODO Auto-generated method stub
+			
+		}
+
+		@Override
+		public void onSuccess(Nutzer result) {
+			teilenderNutzer = result;
+			
+		}
+		
+	}
 		
 		
 	
@@ -275,60 +241,6 @@ public class KontaktlisteForm extends VerticalPanel {
 		
 	}
 	
-	
-
-	/**
-	 * Callback-Klasse fï¿½r die Lï¿½schung der Kontaktliste
-	 * @author Raphael
-	 *
-	 */
-	private class KontaktlisteloeschenCallback implements AsyncCallback<Void> {
-
-		@Override
-		public void onFailure(Throwable caught) {
-			// TODO Auto-generated method stub
-			Window.alert("Kontaktliste wurde nicht geloescht");
-		}
-
-		@Override
-		public void onSuccess(Void result) {
-			Window.alert("Kontaktliste wurde erfolgreich geloescht");
-			MainForm main = new MainForm();
-			NavigationTree updatedTree = new NavigationTree();
-			RootPanel.get("Navigator").clear();
-			RootPanel.get("Details").clear();
-			RootPanel.get("Buttonbar").clear();
-			RootPanel.get("Details").add(main);
-			RootPanel.get("Navigator").add(updatedTree);
-			
-		}
-
-		
-	}
-	
-	private class KontaktEntfernenCallback implements AsyncCallback<Void>{
-
-		@Override
-		public void onFailure(Throwable caught) {
-			// TODO Auto-generated method stub
-			
-		}
-
-		@Override
-		public void onSuccess(Void result) {
-			// Bei erfolgreicher Lï¿½schung mï¿½ssen sowohl die KontaktlisteForm als auch der NavigationTree neu geladen werden
-			// und dem RootPanel hinzugefï¿½gt werden
-			KontaktlisteForm kf = new KontaktlisteForm(kl);
-			NavigationTree updatedTree = new NavigationTree();
-			RootPanel.get("Navigator").clear();
-			RootPanel.get("Details").clear();
-			RootPanel.get("Buttonbar").clear();
-			RootPanel.get("Details").add(kf);
-			RootPanel.get("Navigator").add(updatedTree);
-			
-		}
-		
-	}
 	
 	/**
 	 * Hier wird der DataProvider mit den entsprechenden Daten fuer die CellList erstellt.

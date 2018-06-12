@@ -200,6 +200,9 @@ public class DialogBoxKontaktlisteTeilen extends DialogBox{
 					List<Nutzer> list = new ArrayList<Nutzer>();
 						for(Nutzer n : result){
 							list.add(n);
+							if(n.getID() == nutzer.getID()){
+								list.remove(n);
+							}
 						}
 						updateRowData(start, list);
 					}
