@@ -61,16 +61,10 @@ public class DialogBoxAddContactToList extends DialogBox {
 		this.add(vpanel);
 		this.setStyleName("DialogboxBackground");
 		
+	
+
 		
-		addKontakt.addClickHandler(new ClickHandler() {
-			
-			@Override
-			public void onClick(ClickEvent event) {
-				// TODO Auto-generated method stub
-				verwaltung.insertKontaktKontaktliste(kon.getID(), Integer.parseInt(dropBoxKontaktlisten.getSelectedValue()), new InsertKontaktKontaktlisteBeziehung());
-				
-			}
-		});
+		addKontakt.addClickHandler(new addKontaktClick());
 		
 		
 		cancel.addClickHandler(new CancelClick());
@@ -78,7 +72,16 @@ public class DialogBoxAddContactToList extends DialogBox {
 		
 	}
 	
-	
+	class addKontaktClick implements ClickHandler{
+
+		@Override
+		public void onClick(ClickEvent event) {
+			// TODO Auto-generated method stub
+			verwaltung.insertKontaktKontaktliste(kon.getID(), Integer.parseInt(dropBoxKontaktlisten.getSelectedValue()), new InsertKontaktKontaktlisteBeziehung());
+		}
+		
+	}
+
 	
 	class CancelClick implements ClickHandler{
 

@@ -147,15 +147,16 @@ public class KontaktForm extends VerticalPanel {
 		kontaktTeilen.addClickHandler(new ClickTeilenHandler()); 
 
 		
-		kontaktListehinzufuegen.addClickHandler(new ClickHandler() {
-			
-			@Override
-			public void onClick(ClickEvent event) {
-				// TODO Auto-generated method stub
-				DialogBoxAddContactToList dbkl = new DialogBoxAddContactToList(k);
-				dbkl.center();
-			}
-		});
+		kontaktListehinzufuegen.addClickHandler(new ClickHinzufuegenHandler());
+//		{
+//			
+//			@Override
+//			public void onClick(ClickEvent event) {
+//				// TODO Auto-generated method stub
+//				DialogBoxAddContactToList dbkl = new DialogBoxAddContactToList(k);
+//				dbkl.center();
+//			}
+//		});
 		
 //		verwaltung.findEigenschaftauspraegungByKontaktID(2, new AsyncCallback<Vector<Eigenschaftauspraegung>>(){
 //
@@ -247,6 +248,17 @@ public class KontaktForm extends VerticalPanel {
 			RootPanel.get("Details").clear();
 			RootPanel.get("Details").add(tf);		
 		}
+	}
+	
+	class ClickHinzufuegenHandler implements ClickHandler{
+
+		@Override
+		public void onClick(ClickEvent event) {
+			// TODO Auto-generated method stub
+			DialogBoxAddContactToList dbkl = new DialogBoxAddContactToList(k);
+			dbkl.center();
+		}
+		
 	}
 	
 	class AllEigenschaftCallback implements AsyncCallback<Vector<Eigenschaft>>{

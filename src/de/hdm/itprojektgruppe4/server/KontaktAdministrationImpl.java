@@ -231,7 +231,7 @@ public class KontaktAdministrationImpl extends RemoteServiceServlet
      */
 	@Override
 	public Kontakt updateKontakt(Kontakt k) throws IllegalArgumentException {
-		
+		k.setModifikationsdatum(new Date());
 		return this.konMapper.updateKontakt(k);
 	}
 
@@ -709,6 +709,9 @@ public class KontaktAdministrationImpl extends RemoteServiceServlet
 	
 	@Override
 	public Eigenschaftauspraegung updateAuspraegung(Eigenschaftauspraegung ea) throws IllegalArgumentException {
+			Kontakt k = findKontaktByID(ea.getKontaktID());
+			k.setModifikationsdatum(new Date());
+			updateKontakt(k);
 			return this.eigenschaftauspraegungMapper.updateAuspraegung(ea);
 		}
 
@@ -1285,11 +1288,11 @@ public class KontaktAdministrationImpl extends RemoteServiceServlet
 	
 	public void deleteEigenschaftUndAuspraegung(EigenschaftAuspraegungWrapper ea) throws IllegalArgumentException{
 		Eigenschaftauspraegung eaa = new Eigenschaftauspraegung();
-		Eigenschaft ee = new Eigenschaft();
+//		Eigenschaft ee = new Eigenschaft();
 		eaa.setID(ea.getAuspraegungID());
-		ee.setID(ea.getEigenschaftID());
+//		ee.setID(ea.getEigenschaftID());
 		this.eigenschaftauspraegungMapper.deleteAuspraegung(eaa);
-		this.eigMapper.deleteEigenschaft(ee);
+//		this.eigMapper.deleteEigenschaft(ee);
 	}
 
 

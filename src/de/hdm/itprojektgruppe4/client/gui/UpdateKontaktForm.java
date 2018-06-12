@@ -174,7 +174,6 @@ public class UpdateKontaktForm extends VerticalPanel {
 			}
 			};
 			
-			
 		Column<EigenschaftAuspraegungWrapper, String> wertAuspraegung = new Column<EigenschaftAuspraegungWrapper, String>(
 				new EditTextCell()) {
 
@@ -196,7 +195,7 @@ public class UpdateKontaktForm extends VerticalPanel {
 						
 						@Override
 						public void update(int index, EigenschaftAuspraegungWrapper object, String value) {
-//	        });
+
 						
 							object.setEigenschaftValue(value);
 							selectionModel.getSelectedObject().setAuspraegungValue(value);
@@ -209,6 +208,7 @@ public class UpdateKontaktForm extends VerticalPanel {
 							
 							eigaus.setWert(selectionModel.getSelectedObject().getAuspraegungValue());
 							verwaltung.updateAuspraegung(eigaus, new AuspraegungBearbeitenCallback());
+							verwaltung.updateKontakt(kon, new KontaktModifikationsdatumCallback());
 						}	
 						
 					});
@@ -234,7 +234,7 @@ public class UpdateKontaktForm extends VerticalPanel {
 			public void update(int index, EigenschaftAuspraegungWrapper object, String value) { 
 				ea.setAuspraegung(object.getAuspraegung());
 				ea.setEigenschaft(object.getEigenschaft());
-				kon.setModifikationsdatum(date);
+//				kon.setModifikationsdatum(date);
 				verwaltung.deleteEigenschaftUndAuspraegung(ea, new AuspraegungHybridLoeschenCallback());
 				verwaltung.updateKontakt(kon, new KontaktModifikationsdatumCallback());
 				
@@ -261,18 +261,33 @@ public class UpdateKontaktForm extends VerticalPanel {
 		@Override
 		public void onClick(ClickEvent event) {
 			// TODO Auto-generated method stub
-			KontaktForm kf = new KontaktForm(kon);
+			verwaltung.findKontaktByID(kon.getID(), new FindKontaktCallback());
+			
+		}		
+	}
+		
+	class FindKontaktCallback implements AsyncCallback<Kontakt>{
+
+		@Override
+		public void onFailure(Throwable caught) {
+			// TODO Auto-generated method stub
+			
+		}
+
+		@Override
+		public void onSuccess(Kontakt result) {
+			KontaktForm kf = new KontaktForm(result);
 			
 			RootPanel.get("Details").clear();
 			RootPanel.get("Details").add(kf);
 		}
 		
 	}
-		
+	
 	class ClickAddRowHandler implements ClickHandler{
 		@Override
 		public void onClick(ClickEvent event) {
-			kon.setModifikationsdatum(date);
+//			kon.setModifikationsdatum(date);
 			
 			ctf.addRow(eigenschaftSugBox.getValue(), txt_Auspraegung.getValue());
 			verwaltung.insertEigenschaft(eigenschaftSugBox.getText(), 0, new EigenschaftEinfuegenCallback());
@@ -390,6 +405,7 @@ public class UpdateKontaktForm extends VerticalPanel {
 
 		@Override
 		public void onSuccess(Void result) {
+			ctf.deleteRow(ea);
 			verwaltung.findHybrid(kon, new ReloadCallback());
 	
 //			ctf.redraw();

@@ -112,35 +112,38 @@ public class MainForm extends VerticalPanel {
 		
 		impressum.addClickHandler(new ImpressumButton());
 		
-		newKontaktliste.addClickHandler(new ClickHandler(){
+		newKontaktliste.addClickHandler(new NewListClickHandler());
+//		{
+//
+//			@Override
+//			public void onClick(ClickEvent event) {
+//				DialogBoxNewKontaktliste dbk = new DialogBoxNewKontaktliste();
+//				dbk.center();
+//			}
+//			
+//		});
 
-			@Override
-			public void onClick(ClickEvent event) {
-				DialogBoxNewKontaktliste dbk = new DialogBoxNewKontaktliste();
-				dbk.center();
-			}
-			
-		});
-
-		newKontakt.addClickHandler(new ClickHandler() {
-
-			@Override
-			public void onClick(ClickEvent event) {
-				NewKontaktForm nkf = new NewKontaktForm();
-				RootPanel.get("Details").clear();
-				RootPanel.get("Details").add(nkf);
-			}
-		});
+		newKontakt.addClickHandler(new NewKontaktClickHandler());
+//		{
+//
+//			@Override
+//			public void onClick(ClickEvent event) {
+//				NewKontaktForm nkf = new NewKontaktForm();
+//				RootPanel.get("Details").clear();
+//				RootPanel.get("Details").add(nkf);
+//			}
+	//	});
 		
-		suchen.addClickHandler(new ClickHandler() {
-			
-			@Override
-			public void onClick(ClickEvent event) {
-				SuchenForm sf = new SuchenForm();
-				RootPanel.get("Details").clear();
-				RootPanel.get("Details").add(sf);
-			}
-		});
+		suchen.addClickHandler(new SuchenClickHandler());
+//		{
+//			
+//			@Override
+//			public void onClick(ClickEvent event) {
+//				SuchenForm sf = new SuchenForm();
+//				RootPanel.get("Details").clear();
+//				RootPanel.get("Details").add(sf);
+//			}
+//		});
 		
 		
 		hpanelButtonBar.add(newTeilhaberschaft);
@@ -185,8 +188,45 @@ public class MainForm extends VerticalPanel {
 			ImpressumSeite imp = new ImpressumSeite();
 			RootPanel.get("Details").clear();
 			RootPanel.get("Details").add(imp);
-		}}
+		}
+		
+	}
 	
+	class NewListClickHandler implements ClickHandler{
+
+		@Override
+		public void onClick(ClickEvent event) {
+			// TODO Auto-generated method stub
+			DialogBoxNewKontaktliste dbk = new DialogBoxNewKontaktliste();
+			dbk.center();
+		}
+		
+	}
+	
+	class NewKontaktClickHandler implements ClickHandler{
+
+		@Override
+		public void onClick(ClickEvent event) {
+			// TODO Auto-generated method stub
+			NewKontaktForm nkf = new NewKontaktForm();
+			RootPanel.get("Details").clear();
+			RootPanel.get("Details").add(nkf);
+		}
+		
+	}
+	
+class SuchenClickHandler implements ClickHandler{
+
+	@Override
+	public void onClick(ClickEvent event) {
+		// TODO Auto-generated method stub
+	
+			SuchenForm sf = new SuchenForm();
+			RootPanel.get("Details").clear();
+			RootPanel.get("Details").add(sf);
+		
+	}
+}
 	class KontaktCallBack implements AsyncCallback<List<Kontakt>> {
 
 		@Override
