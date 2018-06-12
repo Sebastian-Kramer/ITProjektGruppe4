@@ -184,7 +184,11 @@ public interface KontaktAdministrationAsync {
 	void findTeilhaberschaftByNutzerIDKontaktlisteID(int nutzerID, int kontaktlisteID,
 			AsyncCallback<Vector<Teilhaberschaft>> callback);
 
+	void insertTeilhaberschaftAuspraegungenKontakt(Kontakt kon, String selectedValue, int id, AsyncCallback<Teilhaberschaft> callback);
 
+	void insertTeilhaberschaftAusgewaehlteAuspraegungenKontakt(Kontakt kon,Vector<EigenschaftAuspraegungWrapper> eaw ,String selectedValue, int id, AsyncCallback<Teilhaberschaft> callback);
+	
+	
 
 //	void alleAuspraegungenTeilen(Kontakt kon, int teilhaberID,   ,AsyncCallback<Teilhaberschaft> callback);
 

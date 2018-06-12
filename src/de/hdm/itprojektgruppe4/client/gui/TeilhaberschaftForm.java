@@ -1,15 +1,16 @@
 package de.hdm.itprojektgruppe4.client.gui;
 
-import java.net.URL;
+import java.util.Date;
 import java.util.Vector;
 
-import com.google.gwt.cell.client.AbstractCell;
+import com.google.gwt.cell.client.ButtonCell;
 import com.google.gwt.cell.client.CheckboxCell;
 import com.google.gwt.cell.client.ClickableTextCell;
+import com.google.gwt.cell.client.FieldUpdater;
 import com.google.gwt.cell.client.ImageCell;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
-import com.google.gwt.safehtml.shared.SafeHtmlBuilder;
+import com.google.gwt.i18n.client.DateTimeFormat;
 import com.google.gwt.user.cellview.client.Column;
 import com.google.gwt.user.client.Cookies;
 import com.google.gwt.user.client.Window;
@@ -25,23 +26,30 @@ import com.google.gwt.view.client.MultiSelectionModel;
 import com.google.gwt.view.client.SingleSelectionModel;
 import de.hdm.itprojektgruppe4.client.ClientsideSettings;
 import de.hdm.itprojektgruppe4.client.EigenschaftAuspraegungWrapper;
+import de.hdm.itprojektgruppe4.client.gui.UpdateKontaktForm.AuspraegungHybridLoeschenCallback;
+import de.hdm.itprojektgruppe4.client.gui.UpdateKontaktForm.KontaktModifikationsdatumCallback;
 import de.hdm.itprojektgruppe4.shared.KontaktAdministrationAsync;
-import de.hdm.itprojektgruppe4.shared.bo.Eigenschaftauspraegung;
 import de.hdm.itprojektgruppe4.shared.bo.Kontakt;
-import de.hdm.itprojektgruppe4.shared.bo.KontaktKontaktliste;
 import de.hdm.itprojektgruppe4.shared.bo.Kontaktliste;
 import de.hdm.itprojektgruppe4.shared.bo.Nutzer;
 import de.hdm.itprojektgruppe4.shared.bo.Teilhaberschaft;
 
+/**
+ * Mit der Klasse TeilhaberschaftForm
+ * 
+ * @author Sebi_0107
+ *
+ */
 public class TeilhaberschaftForm extends VerticalPanel {
 
 	private static KontaktAdministrationAsync verwaltung = ClientsideSettings.getKontaktVerwaltung();
 
-	Kontakt kon = new Kontakt();
-	Kontaktliste konList = new Kontaktliste();
-	Kontaktliste selectedKontaktlist = null;
-	Nutzer nutzer = new Nutzer();
-	Nutzer teilNutzer = new Nutzer();
+	private Kontakt kon = new Kontakt();
+	private Kontaktliste konList = new Kontaktliste();
+	private Kontaktliste selectedKontaktlist = null;
+	private Nutzer nutzer = new Nutzer();
+	private Nutzer teilNutzer = new Nutzer();
+	private EigenschaftAuspraegungWrapper ea = new EigenschaftAuspraegungWrapper();
 
 	private VerticalPanel vpanel = new VerticalPanel();
 	private HorizontalPanel hpanel = new HorizontalPanel();
@@ -55,6 +63,10 @@ public class TeilhaberschaftForm extends VerticalPanel {
 	private CellTableForm ctf = null;
 
 	private ImageCell imageCell = new ImageCell();
+	
+	private Date date = new Date();
+	
+	DateTimeFormat fmt = DateTimeFormat.getFormat("dd.MM.yyyy");
 
 	private HTML html2 = new HTML("Sie können auch nur bestimmte Ausprägungen an einen anderen <b> Nutzer </b> teilen, "
 			+ " </br> wählen Sie dafür die entsprechenden <b> Ausprägungen </b>  mit den Checkboxen aus."
@@ -78,6 +90,8 @@ public class TeilhaberschaftForm extends VerticalPanel {
 		nutzer.setEmail(Cookies.getCookie("email"));
 
 		verwaltung.findAllNutzer(new AlleNutzer());
+		
+		fmt.format(date);
 
 		ctf = new CellTableForm(kon);
 
@@ -110,14 +124,12 @@ public class TeilhaberschaftForm extends VerticalPanel {
 			@Override
 			public String getValue(EigenschaftAuspraegungWrapper object) {
 
-				// Window.alert(" " + object.getAuspraegungStatus());
-				// if (object.getAuspraegungStatus() == 0){
-				// return " ";
-				// }else{
-				// return
-				// "/itprojektgruppe4/src/de/hdm/itprojektgruppe4/client/gui/contacts.png";
-				// }
-				return object.getImageUrl(object);
+				if (object.getAuspraegungStatus() == 0) {
+
+					return object.getImageUrlContact(object);
+				} else {
+					return object.getImageUrl2Contacts(object);
+				}
 
 			}
 
@@ -135,11 +147,31 @@ public class TeilhaberschaftForm extends VerticalPanel {
 					einzTeilen.setVisible(true);
 				}
 				return selectionModelWrapper.isSelected(object);
-
 			}
 		};
 
-		// imageCell.getClass().getResource("/war/itprojektss18/contacts.png");
+		Column<EigenschaftAuspraegungWrapper, String> deleteBtn = new Column<EigenschaftAuspraegungWrapper, String>(
+				new ButtonCell()) {
+
+			@Override
+			public String getValue(EigenschaftAuspraegungWrapper x) {
+				return "x";
+			}
+		};
+
+		deleteBtn.setFieldUpdater(new FieldUpdater<EigenschaftAuspraegungWrapper, String>() {
+
+			@Override
+			public void update(int index, EigenschaftAuspraegungWrapper object, String value) {
+				ea.setAuspraegung(object.getAuspraegung());
+				ea.setEigenschaft(object.getEigenschaft());
+				kon.setModifikationsdatum(date);
+				verwaltung.deleteEigenschaftUndAuspraegung(ea, new AuspraegungHybridLoeschenCallback());
+				verwaltung.updateKontakt(kon, new KontaktModifikationsdatumCallback());
+
+			}
+		});
+
 		dropBoxNutzer.setStyleName("DropDown");
 		html1.setStyleName("HtmlText1");
 		html2.setStyleName("HtmlText");
@@ -149,7 +181,7 @@ public class TeilhaberschaftForm extends VerticalPanel {
 
 		zurueck.addClickHandler(new ZurueckClickHandler());
 		allTeilen.addClickHandler(new AllAuspraegungenTeilenClickHandler());
-		einzTeilen.addClickHandler(new MancheAuspraegungenTeilenClickHandler());
+		einzTeilen.addClickHandler(new AusgewaehlteAuspraegungenTeilenClickHandler());
 
 		ctf.setStyleName("CellTableAuspraegung");
 		ctf.setWidth("500px");
@@ -157,6 +189,7 @@ public class TeilhaberschaftForm extends VerticalPanel {
 		ctf.addColumn(wertAuspraegung, "Wert");
 		ctf.addColumn(status, "Status");
 		ctf.addColumn(checkBox);
+		ctf.addColumn(deleteBtn, "Teilhaberschaft löschen"); 
 
 		hpanel.add(ctf);
 		vpanel.add(html1);
@@ -209,63 +242,19 @@ public class TeilhaberschaftForm extends VerticalPanel {
 
 	}
 
-	class MancheAuspraegungenTeilenClickHandler implements ClickHandler {
+	class AllAuspraegungenTeilenClickHandler implements ClickHandler {
 
 		@Override
 		public void onClick(ClickEvent event) {
 
-			findNutzerByEmail(dropBoxNutzer.getSelectedValue());
+			verwaltung.insertTeilhaberschaftAuspraegungenKontakt(kon, dropBoxNutzer.getSelectedValue(), nutzer.getID(),
+					new TeilhaberschaftCallback());
 
 		}
 
 	}
 
-	private void findNutzerByEmail(String email) {
-
-		verwaltung.findNutzerByEmail(email, new GetNutzerFromEmail());
-	}
-
-	class GetNutzerFromEmail implements AsyncCallback<Nutzer> {
-
-		@Override
-		public void onFailure(Throwable caught) {
-			Window.alert("Der Nutzer konnte leider nicht gefunden werden");
-
-		}
-
-		@Override
-		public void onSuccess(Nutzer result) {
-			teilNutzer.setID(result.getID());
-			teilNutzer.setEmail(result.getEmail());
-			TeilhaberschaftForm tf = new TeilhaberschaftForm(kon);
-			EigenschaftAuspraegungWrapper ea = new EigenschaftAuspraegungWrapper();
-
-			if (selectionModelWrapper.getSelectedSet().isEmpty()) {
-				Window.alert("Sie müssen mindestens eine Ausprägung auswählen");
-			} else {
-
-				for (EigenschaftAuspraegungWrapper eaw : selectionModelWrapper.getSelectedSet()) {
-					ea = eaw;
-					Window.alert("Die Eigenschaftsausprägung " + ea.getAuspraegungValue() + " wurde an den Nutzer "
-							+ teilNutzer.getEmail() + " geteilt");
-					auspraegungenTeilen(eaw);
-
-				}
-				Window.alert("Die Teilhaberschaft wurde angelegt");
-				RootPanel.get("Details").clear();
-				RootPanel.get("Details").add(tf);
-			}
-
-		}
-
-	}
-
-	private void auspraegungenTeilen(EigenschaftAuspraegungWrapper ea) {
-		verwaltung.insertTeilhaberschaftKontakt(kon.getID(), ea.getAuspraegungID(), teilNutzer.getID(), nutzer.getID(),
-				new TeilhaberschaftAuspraegung());
-	}
-
-	class TeilhaberschaftAuspraegung implements AsyncCallback<Teilhaberschaft> {
+	class TeilhaberschaftCallback implements AsyncCallback<Teilhaberschaft> {
 
 		@Override
 		public void onFailure(Throwable caught) {
@@ -275,128 +264,63 @@ public class TeilhaberschaftForm extends VerticalPanel {
 
 		@Override
 		public void onSuccess(Teilhaberschaft result) {
-			verwaltung.findKontaktlisteByNutzerID(teilNutzer.getID(), new KontaktListe());
+			Window.alert("Alle Eigenschaften wurden erfolgreich an den Nutzer " + dropBoxNutzer.getSelectedValue()
+					+ " geteilt");
+			TeilhaberschaftForm tf = new TeilhaberschaftForm(kon);
+			RootPanel.get("Details").clear();
+			RootPanel.get("Details").add(tf);
 		}
 
 	}
 
-	class AllAuspraegungenTeilenClickHandler implements ClickHandler {
+	class AusgewaehlteAuspraegungenTeilenClickHandler implements ClickHandler {
 
 		@Override
 		public void onClick(ClickEvent event) {
-
-			verwaltung.findNutzerByEmail(dropBoxNutzer.getSelectedValue(), new TeilhaberschaftAllerAuspraegungen());
-
-		}
-
-	}
-
-	class TeilhaberschaftAllerAuspraegungen implements AsyncCallback<Nutzer> {
-
-		@Override
-		public void onFailure(Throwable caught) {
-			Window.alert("Der Nutzer konnte leider nicht gefunden werden");
-
-		}
-
-		@Override
-		public void onSuccess(Nutzer result) {
-			teilNutzer.setID(result.getID());
-			teilNutzer.setEmail(result.getEmail());
-
-			verwaltung.getAuspraegungByKontaktID(kon.getID(), new AllAuspraegungenFromKontakt());
-
-		}
-
-	}
-
-	class AllAuspraegungenFromKontakt implements AsyncCallback<Vector<Eigenschaftauspraegung>> {
-
-		@Override
-		public void onFailure(Throwable caught) {
-			Window.alert("Die Ausprägungen konnten leider nicht gefunden werden");
-
-		}
-
-		@Override
-		public void onSuccess(Vector<Eigenschaftauspraegung> result) {
-			for (Eigenschaftauspraegung e : result) {
-				Window.alert(e.getWert() + " wurde geteilt");
-				verwaltung.insertTeilhaberschaftKontakt(kon.getID(), e.getID(), teilNutzer.getID(), nutzer.getID(),
-						new TeilhaberschaftAuspraegungAll());
+			TeilhaberschaftForm tf = new TeilhaberschaftForm(kon);
+			Vector<EigenschaftAuspraegungWrapper> ea = new Vector<EigenschaftAuspraegungWrapper>();
+			for (EigenschaftAuspraegungWrapper eaw : selectionModelWrapper.getSelectedSet()) {
+				ea.add(eaw);
 			}
-			verwaltung.findKontaktlisteByNutzerID(teilNutzer.getID(), new KontaktListe());
+			verwaltung.insertTeilhaberschaftAusgewaehlteAuspraegungenKontakt(kon, ea, dropBoxNutzer.getSelectedValue(),
+					nutzer.getID(), new TeilhaberschaftCallback());
+			RootPanel.get("Details").clear();
+			RootPanel.get("Details").add(tf);
 		}
 
 	}
-
-	class TeilhaberschaftAuspraegungAll implements AsyncCallback<Teilhaberschaft> {
+	
+	class AuspraegungHybridLoeschenCallback implements AsyncCallback<Void>{
 
 		@Override
 		public void onFailure(Throwable caught) {
-
+			Window.alert("Die Ausprägung konnte nicht gelöscht werden");
+			
 		}
 
 		@Override
-		public void onSuccess(Teilhaberschaft result) {
-
+		public void onSuccess(Void result) {
+			// TODO Auto-generated method stub
+			
 		}
-
+		
 	}
-
-	class KontaktListe implements AsyncCallback<Vector<Kontaktliste>> {
-
-		@Override
-		public void onFailure(Throwable caught) {
-			Window.alert("Die Kontaktliste konnte nicht geladen werden");
-
-		}
-
-		@Override
-		public void onSuccess(Vector<Kontaktliste> result) {
-			for (Kontaktliste k : result) {
-
-				if (k.getBez() == "Meine geteilten Kontakte") {
-					verwaltung.insertKontaktKontaktliste(teilNutzer.getID(), k.getID(), new ListEintrag());
-				} else {
-				}
-			}
-			kon.setStatus(1);
-			verwaltung.updateKontakt(kon, new KontaktStatus());
-
-		}
-
-	}
-
-	class KontaktStatus implements AsyncCallback<Kontakt> {
+	
+	class KontaktModifikationsdatumCallback implements AsyncCallback<Kontakt>{
 
 		@Override
 		public void onFailure(Throwable caught) {
-
+			// TODO Auto-generated method stub
+			
 		}
 
 		@Override
 		public void onSuccess(Kontakt result) {
-
+			// TODO Auto-generated method stub
+			
 		}
 
-	}
-
-	class ListEintrag implements AsyncCallback<KontaktKontaktliste> {
-
-		@Override
-		public void onFailure(Throwable caught) {
-			Window.alert("Der Kontakt konnte nicht der Kontaktliste hinzugefügt werden");
-
-		}
-
-		@Override
-		public void onSuccess(KontaktKontaktliste result) {
-			Window.alert("Der geteilte Kontakt " + kon.getName() + " wurde beim Nutzer " + teilNutzer.getEmail()
-					+ " in die Kontaktliste 'Meine geteilten Kontakte' hinzugefügt");
-
-		}
-
+		
 	}
 
 }

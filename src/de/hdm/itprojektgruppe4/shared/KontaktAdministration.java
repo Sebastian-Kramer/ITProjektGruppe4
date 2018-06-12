@@ -366,6 +366,13 @@ public interface KontaktAdministration extends RemoteService {
      */
     public Teilhaberschaft insertTeilhaberschaftKontakt(int kontaktID, int eigenschaftsauspraegungID, int teilhaberID, int nutzerID);
     
+    
+	public Teilhaberschaft insertTeilhaberschaftAuspraegungenKontakt(Kontakt kon, String selectedValue, int id) throws IllegalArgumentException;
+    
+	
+	public Teilhaberschaft insertTeilhaberschaftAusgewaehlteAuspraegungenKontakt(Kontakt kon,
+			Vector<EigenschaftAuspraegungWrapper> eaw, String selectedValue, int id);
+	
     /**
      * Eine Teilhaberschaft l�schen.
      * 
@@ -625,6 +632,10 @@ public interface KontaktAdministration extends RemoteService {
 	 * @throws IllegalArgumentException
 	 */
 	public Vector <Teilhaberschaft> findTeilhaberschaftByNutzerIDKontaktlisteID (int nutzerID, int kontaktlisteID) throws IllegalArgumentException;
+
+	
+
+
 
 	
 

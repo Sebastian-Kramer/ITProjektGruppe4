@@ -61,6 +61,10 @@ public class EigenschaftAuspraegungWrapper implements Serializable {
 		this.eigenschaft.setID(id);
 	}
 	
+	public void setAuspraegungStatus(int id){
+		this.auspraegung.setStatus(id);
+	}
+	
 	public String getEigenschaftValue(){
 		return this.eigenschaft.getBezeichnung();
 	}
@@ -93,7 +97,11 @@ public class EigenschaftAuspraegungWrapper implements Serializable {
 		return this.auspraegung.getKontaktID();
 	}
 
-	public String getImageUrl(EigenschaftAuspraegungWrapper object) {
+	public String getImageUrlContact(EigenschaftAuspraegungWrapper object) {
+		return "Image/contact.png";
+	}
+	
+	public String getImageUrl2Contacts(EigenschaftAuspraegungWrapper object) {
 		return "Image/contacts.png";
 	}
 	

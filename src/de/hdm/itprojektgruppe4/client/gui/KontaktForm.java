@@ -8,6 +8,7 @@ import java.util.Vector;
 import com.google.gwt.cell.client.ButtonCell;
 import com.google.gwt.cell.client.ClickableTextCell;
 import com.google.gwt.cell.client.EditTextCell;
+import com.google.gwt.cell.client.ImageCell;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.i18n.client.DateTimeFormat;
@@ -22,6 +23,7 @@ import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.RootPanel;
+import com.google.gwt.user.client.ui.ScrollPanel;
 import com.google.gwt.user.client.ui.TextArea;
 import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.client.ui.VerticalPanel;
@@ -61,13 +63,15 @@ public class KontaktForm extends VerticalPanel {
 	private SingleSelectionModel<EigenschaftAuspraegungWrapper> sm = new SingleSelectionModel<EigenschaftAuspraegungWrapper>();
 	private CellTableForm ctf = null;
 	
-
+	private ScrollPanel scrollPanel = new ScrollPanel();
+	
+	private ImageCell imageCell = new ImageCell();
 
 	private Button bearbeitenButton = new Button("Kontakt bearbeiten");
 	private Button loeschenButton = new Button("Kontakt löschen");
 	private Button zurueckBtn = new Button("Zurück");	
 	private Button kontaktListehinzufuegen = new Button("Kontakt einer Liste hinzufügen");
-	private Button kontaktTeilen = new Button("Kontakt teilen");
+	private Button kontaktTeilen = new Button("Teilhaberschaft verwalten");
 
 
 	
@@ -91,7 +95,9 @@ public class KontaktForm extends VerticalPanel {
 			
 		
 		hpanel.add(vpanelDetails1);
-		hpanel.add(ctf);
+		scrollPanel.setSize("650px","300px");
+		scrollPanel.add(ctf);
+		hpanel.add(scrollPanel);
 		vpanelDetails1.add(kontaktbild);
 		vpanelDetails1.add(html1);
 		vpanelDetails1.add(html2);
@@ -133,9 +139,27 @@ public class KontaktForm extends VerticalPanel {
 			}
 		};
 		
+		Column<EigenschaftAuspraegungWrapper, String> status = new Column<EigenschaftAuspraegungWrapper, String>(
+				imageCell) {
+
+			@Override
+			public String getValue(EigenschaftAuspraegungWrapper object) {
+
+				if (object.getAuspraegungStatus() == 0) {
+
+					return object.getImageUrlContact(object);
+				} else {
+					return object.getImageUrl2Contacts(object);
+				}
+
+			}
+
+		};
+		
 		
 		ctf.addColumn(bezEigenschaft, "Eigenschaft: ");
 		ctf.addColumn(wertAuspraegung, "Wert: ");
+		ctf.addColumn(status, "Status");
 		
 		
 		loeschenButton.addClickHandler(new ClickLoeschenHandler()); 

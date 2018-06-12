@@ -8,6 +8,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.text.SimpleDateFormat;
 
+import com.google.gwt.i18n.shared.DateTimeFormat;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.server.rpc.RemoteServiceServlet;
 
@@ -974,7 +975,7 @@ public class KontaktAdministrationImpl extends RemoteServiceServlet
 	 /**
      * Auslesen aller erstellten und geteilten Kontaktlisten eines Nutzers
      * 
-     * @param nutzerID die ID des Nutzers
+     * @param nutzerID die ID des angemeldeten Nutzers
      * @return Vector mit s�mtlichen erstellten und geteilten Kontaktlisten eines Users
      * @throws IllegalArgumentException
      */
@@ -988,8 +989,9 @@ public class KontaktAdministrationImpl extends RemoteServiceServlet
 	 if (teilhabe != null){
 		 Vector<Kontaktliste> kontlist = new Vector<Kontaktliste>();
 		 for (Teilhaberschaft teilhaberschaft : teilhabe) {
-			 if(teilhaberschaft.getTeilhaberID() == nutzerID);
+			 if(teilhaberschaft.getTeilhaberID() == nutzerID && teilhaberschaft.getKontaktListeID() != 0){
 	 	kontlist.add(findKontaktlisteByID(teilhaberschaft.getKontaktListeID()));
+			 }
 	}
 		//Hinzufuegen der Kontaktlisten an denen eine Teilhaberschaft besteht zum Vector mit den eigens erstellten Kontaktlisten
 		 kontlisten.addAll(kontlist);
@@ -1090,6 +1092,9 @@ public class KontaktAdministrationImpl extends RemoteServiceServlet
 		Teilhaberschaft t = new Teilhaberschaft();
 		
 		
+		
+		
+		
 		t.setKontaktListeID(kontaktListeID);
 		t.setKontaktID(kontaktID);
 		t.setEigenschaftsauspraegungID(eigenschaftsauspraegungID);
@@ -1098,6 +1103,7 @@ public class KontaktAdministrationImpl extends RemoteServiceServlet
 		
 		return this.teilhaberschaftMapper.insertTeilhaberschaft(t);
     }
+	
 	
 	/**
 	 * 
@@ -1128,17 +1134,11 @@ public class KontaktAdministrationImpl extends RemoteServiceServlet
 	@Override
 	public Teilhaberschaft insertTeilhaberschaftKontaktliste(int kontaktlisteID, int teilhaberID, int nutzerID)
 			throws IllegalArgumentException {
-		
-	
-		
+				
 		Kontaktliste kl = this.konlistMapper.findKontaktlistebyID(kontaktlisteID);
-		
-		
-		
+	
 		if (kl.getBez().equals("Meine Kontakte") || kl.getBez().equals("Meine geteilten Kontakte") ) {
-			
-			
-			
+								
 			return null;
 		}
 		
@@ -1148,10 +1148,75 @@ public class KontaktAdministrationImpl extends RemoteServiceServlet
 		t.setTeilhaberID(teilhaberID);
 		t.setNutzerID(nutzerID);
 		
-		
-		
 		return this.teilhaberschaftMapper.insertTeilhaberschaftKontaktliste(t);
 	}
+	
+	/**
+	 * 
+	 */
+	@Override
+	public Teilhaberschaft insertTeilhaberschaftAuspraegungenKontakt(Kontakt kon, String selectedValue, int id) throws IllegalArgumentException {
+		
+		Nutzer teilnutzer = this.findNutzerByEmail(selectedValue);
+		Kontakt k = this.findKontaktByID(kon.getID());
+		Vector<Eigenschaftauspraegung> allAus = this.getAuspraegungByKontaktID(kon.getID());
+		Vector<Kontaktliste> allListsFromTeilNutzer = this.findKontaktlisteByNutzerID(teilnutzer.getID());
+
+		
+		for (Eigenschaftauspraegung e : allAus){
+			this.insertTeilhaberschaftKontakt(k.getID(), e.getID(), teilnutzer.getID(), id);
+			e.setStatus(1);
+			this.updateAuspraegung(e);
+		}
+		
+		for (Kontaktliste kl : allListsFromTeilNutzer){
+
+			if (kl.getBez().equals("Meine geteilten Kontakte")) {
+				this.insertKontaktKontaktliste(k.getID(), kl.getID());
+				k.setStatus(1);
+				this.updateKontakt(k);
+				
+			} else {
+			
+			}
+			
+		}
+		
+		return null;
+	}
+	
+
+	@Override
+	public Teilhaberschaft insertTeilhaberschaftAusgewaehlteAuspraegungenKontakt(Kontakt kon, Vector<EigenschaftAuspraegungWrapper> eaw, String selectedValue, 
+			int id) throws IllegalArgumentException {
+		
+		Nutzer teilnutzer = this.findNutzerByEmail(selectedValue);
+		Kontakt k = this.findKontaktByID(kon.getID());
+		Vector<Kontaktliste> allListsFromTeilNutzer = this.findKontaktlisteByNutzerID(teilnutzer.getID());
+
+		
+		for (EigenschaftAuspraegungWrapper ea : eaw){
+			this.insertTeilhaberschaftKontakt(k.getID(), ea.getAuspraegungID(), teilnutzer.getID(), id);
+			ea.getAuspraegung().setStatus(1);
+			this.updateAuspraegung(ea.getAuspraegung());
+		}
+		
+		for (Kontaktliste kl : allListsFromTeilNutzer){
+
+			if (kl.getBez().equals("Meine geteilten Kontakte") && k.getStatus() == 0) {
+				this.insertKontaktKontaktliste(k.getID(), kl.getID());
+				k.setStatus(1);
+				this.updateKontakt(k);
+				
+			} else {
+			
+			}
+			
+		}
+		
+		return null;
+	}
+
 
     /**
      * Eine Teilhaberschaft anhand der ID auslesen.
@@ -1457,6 +1522,12 @@ public class KontaktAdministrationImpl extends RemoteServiceServlet
 		// TODO Auto-generated method stub
 		return this.eigMapper.findEigByBezeichnung(bez);
 	}
+
+
+
+
+
+
 
 
 
