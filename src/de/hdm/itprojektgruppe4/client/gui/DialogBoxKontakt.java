@@ -88,6 +88,7 @@ public class DialogBoxKontakt extends DialogBox{
 			// TODO Auto-generated method stub
 						Window.alert("Sie haben den Kontakt erfolgreich gelöscht." );
 			MainForm mf = new MainForm();
+			RootPanel.get("Buttonbar").clear();
 			RootPanel.get("Details").clear();
 			RootPanel.get("Details").add(mf);
 		}}
