@@ -405,6 +405,14 @@ public interface KontaktAdministration extends RemoteService {
      */
     public void deleteEigenschaftsauspraegungFromTeilhaberschaft(Teilhaberschaft t) throws IllegalArgumentException;
     
+	/**
+	 * 
+	 * @param teilhaberID
+	 * @return
+	 * @throws IllegalArgumentException
+	 */
+    public Vector<Nutzer> getAllTeilhaberfromAuspraegung(int auspraegungID) throws IllegalArgumentException;
+    
     /**
      * 
      * 
@@ -430,7 +438,7 @@ public interface KontaktAdministration extends RemoteService {
     public void deleteKontaktKontaktliste(KontaktKontaktliste k) throws IllegalArgumentException;
     
 
-    List<Kontakt> findKontaktByNutzerID(int nutzerID);
+    public List<Kontakt> findKontaktByNutzerID(int nutzerID);
 
     /**
      * Auslesen der Kontaktlisten anhand der ID des Kontaktlistenerstellers
@@ -642,6 +650,18 @@ public interface KontaktAdministration extends RemoteService {
 	 * @throws IllegalArgumentException
 	 */
 	public Nutzer findTeilenderVonKontaktliste (int kontaktlisteID, int teilhaberID) throws IllegalArgumentException;
+
+	
+	/**
+	 * Auslesen aller Teilhaberschaften zu einer Ausprägung
+	 * 
+	 * @param auspraegungID
+	 * @return
+	 * @throws IllegalArgumentException
+	 */
+	public Vector<Teilhaberschaft> findTeilhaberschaftByAuspraegungID(int auspraegungID) throws IllegalArgumentException;
+
+
 	
 	
 

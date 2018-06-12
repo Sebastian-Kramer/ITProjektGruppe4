@@ -26,16 +26,16 @@ import com.google.gwt.view.client.MultiSelectionModel;
 import com.google.gwt.view.client.SingleSelectionModel;
 import de.hdm.itprojektgruppe4.client.ClientsideSettings;
 import de.hdm.itprojektgruppe4.client.EigenschaftAuspraegungWrapper;
-import de.hdm.itprojektgruppe4.client.gui.UpdateKontaktForm.AuspraegungHybridLoeschenCallback;
-import de.hdm.itprojektgruppe4.client.gui.UpdateKontaktForm.KontaktModifikationsdatumCallback;
 import de.hdm.itprojektgruppe4.shared.KontaktAdministrationAsync;
 import de.hdm.itprojektgruppe4.shared.bo.Kontakt;
-import de.hdm.itprojektgruppe4.shared.bo.Kontaktliste;
 import de.hdm.itprojektgruppe4.shared.bo.Nutzer;
 import de.hdm.itprojektgruppe4.shared.bo.Teilhaberschaft;
 
 /**
- * Mit der Klasse TeilhaberschaftForm
+ * Mit der Klasse TeilhaberschaftForm lassen sich die Teilhaberschaften aller Ausprägungnen eines Kontakt verwalten.
+ * Dazu gehört das Anlegen und Löschen von Teilhaberschaften
+ * Die Ausprägungen eines Kontakts können komplett oder nur teilweise an einen anderen, im System angemeldeten Nutzer geteilt werden
+ * Außerdem kann der Eigentümer der Teilhaberschaft oder der teilhabende Nutzer die Teilhabschaft entfernen
  * 
  * @author Sebi_0107
  *
@@ -45,10 +45,7 @@ public class TeilhaberschaftForm extends VerticalPanel {
 	private static KontaktAdministrationAsync verwaltung = ClientsideSettings.getKontaktVerwaltung();
 
 	private Kontakt kon = new Kontakt();
-	private Kontaktliste konList = new Kontaktliste();
-	private Kontaktliste selectedKontaktlist = null;
 	private Nutzer nutzer = new Nutzer();
-	private Nutzer teilNutzer = new Nutzer();
 	private EigenschaftAuspraegungWrapper ea = new EigenschaftAuspraegungWrapper();
 
 	private VerticalPanel vpanel = new VerticalPanel();
@@ -155,7 +152,11 @@ public class TeilhaberschaftForm extends VerticalPanel {
 
 			@Override
 			public String getValue(EigenschaftAuspraegungWrapper x) {
-				return "x";
+				
+					return "x";
+				
+				
+				
 			}
 		};
 
@@ -163,12 +164,19 @@ public class TeilhaberschaftForm extends VerticalPanel {
 
 			@Override
 			public void update(int index, EigenschaftAuspraegungWrapper object, String value) {
-				ea.setAuspraegung(object.getAuspraegung());
-				ea.setEigenschaft(object.getEigenschaft());
-				kon.setModifikationsdatum(date);
-				verwaltung.deleteEigenschaftUndAuspraegung(ea, new AuspraegungHybridLoeschenCallback());
-				verwaltung.updateKontakt(kon, new KontaktModifikationsdatumCallback());
-
+				Window.alert("Geht");
+				if(object.getAuspraegungStatus() == 0){
+					Window.alert("Es ist momentan keine Teilhaberschaft vorhanden");
+				}else{
+					DialogBoxTeilhaberschaftLoeschen dtl = new DialogBoxTeilhaberschaftLoeschen(object);
+					dtl.center();
+					
+//				ea.setAuspraegung(object.getAuspraegung());
+//				ea.setEigenschaft(object.getEigenschaft());
+//				kon.setModifikationsdatum(date);
+//				verwaltung.deleteEigenschaftUndAuspraegung(ea, new AuspraegungHybridLoeschenCallback());
+//				verwaltung.updateKontakt(kon, new KontaktModifikationsdatumCallback());
+				}
 			}
 		});
 

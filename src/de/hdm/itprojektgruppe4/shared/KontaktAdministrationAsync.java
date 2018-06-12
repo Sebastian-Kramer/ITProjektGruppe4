@@ -88,8 +88,8 @@ public interface KontaktAdministrationAsync {
 
 	void findByID(int id, AsyncCallback<Teilhaberschaft> callback);
 
-	void insertTeilhaberschaft(int kontaktListeID, int kontaktID, int eigenschaftsauspraegungID, int teilhaberID, int nutzerID,
-			AsyncCallback<Teilhaberschaft> callback);
+	void insertTeilhaberschaft(int kontaktListeID, int kontaktID, int eigenschaftsauspraegungID, int teilhaberID,
+			int nutzerID, AsyncCallback<Teilhaberschaft> callback);
 
 	void deleteTeilhaberschaft(Teilhaberschaft t, AsyncCallback<Void> callback);
 
@@ -137,16 +137,14 @@ public interface KontaktAdministrationAsync {
 
 	void getEigenschaftByBezeichnung(String bez, AsyncCallback<Vector<Eigenschaft>> callback);
 
-
 	void getEigenschaftbyKontaktID(int id, AsyncCallback<Vector<Eigenschaft>> callback);
-	
+
 	void insertTeilhaberschaftKontakt(int kontaktID, int eigenschaftsauspraegungID, int teilhaberID, int nutzerID,
 			AsyncCallback<Teilhaberschaft> callback);
 
 	void insertMeineKontakte(String bez, int status, int nutzerID, AsyncCallback<Kontaktliste> callback);
 
 	void findAllKontaktFromNutzer(int nutzerID, AsyncCallback<Vector<Kontakt>> callback);
-
 
 	void findBasicKontaktliste(int nutzerID, AsyncCallback<Kontaktliste> callback);
 
@@ -167,7 +165,6 @@ public interface KontaktAdministrationAsync {
 
 	void deleteTeilhaberschaftByTeilhaberID(int teilhaberID, AsyncCallback<Void> callback);
 
-
 	void findKontaktlisteByNutzerIDexceptBasicList(int nutzerID, AsyncCallback<Vector<Kontaktliste>> callback);
 
 	void findTeilhaberschaftByTeilhaberID(int teilhaberID, int kontaktlisteID, AsyncCallback<Teilhaberschaft> callback);
@@ -176,7 +173,6 @@ public interface KontaktAdministrationAsync {
 
 	void findEigByBezeichnung(String bez, AsyncCallback<Eigenschaft> callback);
 
-
 	void insertKontaktinMeineGeteiltenKontakte(int konID, int kListID, AsyncCallback<KontaktKontaktliste> callback);
 
 	void findSharedWithNutzer(int nutzerID, int kontaktlisteID, AsyncCallback<Vector<Nutzer>> callback);
@@ -184,21 +180,16 @@ public interface KontaktAdministrationAsync {
 	void findTeilhaberschaftByNutzerIDKontaktlisteID(int nutzerID, int kontaktlisteID,
 			AsyncCallback<Vector<Teilhaberschaft>> callback);
 
-
-	void insertTeilhaberschaftAuspraegungenKontakt(Kontakt kon, String selectedValue, int id, AsyncCallback<Teilhaberschaft> callback);
+	void insertTeilhaberschaftAuspraegungenKontakt(Kontakt kon, String selectedValue, int id,
+			AsyncCallback<Teilhaberschaft> callback);
 
 	void findTeilenderVonKontaktliste(int kontaktlisteID, int teilhaberID, AsyncCallback<Nutzer> callback);
 
+	void insertTeilhaberschaftAusgewaehlteAuspraegungenKontakt(Kontakt kon, Vector<EigenschaftAuspraegungWrapper> eaw,
+			String selectedValue, int id, AsyncCallback<Teilhaberschaft> callback);
 
-	void insertTeilhaberschaftAusgewaehlteAuspraegungenKontakt(Kontakt kon,Vector<EigenschaftAuspraegungWrapper> eaw ,String selectedValue, int id, AsyncCallback<Teilhaberschaft> callback);
+	void getAllTeilhaberfromAuspraegung(int auspraegungID, AsyncCallback<Vector<Nutzer>> callback);
 	
-	
-
-//	void alleAuspraegungenTeilen(Kontakt kon, int teilhaberID,   ,AsyncCallback<Teilhaberschaft> callback);
-
-
-
-
-
+	void findTeilhaberschaftByAuspraegungID(int auspraegungID, AsyncCallback<Vector<Teilhaberschaft>> callback);
 
 }

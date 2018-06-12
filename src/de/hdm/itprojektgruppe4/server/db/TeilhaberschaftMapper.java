@@ -225,11 +225,11 @@ public class TeilhaberschaftMapper {
 		return null;
 	}
 	/**
-	 * Auslesen saemtlicher Teilhaberschaft-Objekte mit den übergebenen Parametern als Fremdschlüssen
+	 * Auslesen saemtlicher Teilhaberschaft-Objekte mit den ï¿½bergebenen Parametern als Fremdschlï¿½ssen
 	 * 
 	 * @param nutzerID die ID des Teilhaberschaft-Erstellers
 	 * @param kontaktlisteID die ID der Kontaktliste an der eine Teilhaberschaft besteht
-	 * @return Vector mit sämtlichen erstellten Teilhaberschaften eines Nutzers an einer Kontaktliste
+	 * @return Vector mit sï¿½mtlichen erstellten Teilhaberschaften eines Nutzers an einer Kontaktliste
 	 */
 	public Vector<Teilhaberschaft> findTeilhaberschaftenByKontaktlisteIDNutzerID(int nutzerID, int kontaktlisteID) {
 
@@ -312,6 +312,42 @@ public class TeilhaberschaftMapper {
 			Statement stmt = con.createStatement();
 
 			ResultSet rs = stmt.executeQuery("SELECT * FROM teilhaberschaft WHERE teilhaberID = " + teilhaberID);
+
+			while (rs.next()) {
+				Teilhaberschaft teilhaberschaft = new Teilhaberschaft();
+				teilhaberschaft.setID(rs.getInt("ID"));
+				teilhaberschaft.setKontaktListeID(rs.getInt("kontaktlisteID"));
+				teilhaberschaft.setKontaktID(rs.getInt("kontaktID"));
+				teilhaberschaft.setEigenschaftsauspraegungID(rs.getInt("eigenschaftsauspraegungID"));
+				teilhaberschaft.setTeilhaberID(rs.getInt("teilhaberID"));
+				teilhaberschaft.setNutzerID(rs.getInt("nutzerID"));
+
+				result.addElement(teilhaberschaft);
+
+			}
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+
+		return result;
+
+	}
+	
+	/**
+	 * 
+	 * @param teilhaberID
+	 * @return
+	 */
+	public Vector<Teilhaberschaft> findTeilhaberschaftByAuspraegungID(int auspraegungID) {
+		Vector<Teilhaberschaft> result = new Vector<Teilhaberschaft>();
+
+		Connection con = DBConnection.connection();
+
+		try {
+			Statement stmt = con.createStatement();
+
+			ResultSet rs = stmt.executeQuery("SELECT * FROM teilhaberschaft WHERE eigenschaftsauspraegungID = " + auspraegungID);
 
 			while (rs.next()) {
 				Teilhaberschaft teilhaberschaft = new Teilhaberschaft();

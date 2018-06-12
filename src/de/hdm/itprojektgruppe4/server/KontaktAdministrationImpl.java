@@ -491,6 +491,22 @@ public class KontaktAdministrationImpl extends RemoteServiceServlet
 	return nutzerVector;
 	}
 	
+	/**
+	 * 
+	 */
+	@Override
+	public Vector<Nutzer> getAllTeilhaberfromAuspraegung(int auspraegungID) throws IllegalArgumentException {
+		
+		Vector<Teilhaberschaft> t = this.findTeilhaberschaftByAuspraegungID(auspraegungID);
+		Vector<Nutzer> n = new Vector<Nutzer>();
+		
+		for(Teilhaberschaft teil : t){
+			n.add(this.findNutzerByID(teil.getTeilhaberID()));
+		}
+		
+		return n;
+	}
+	
     /*##########################################################
      * ENDE Methoden fï¿½r Nutzer-Objekte
      #########################################################*/
@@ -1334,6 +1350,14 @@ public class KontaktAdministrationImpl extends RemoteServiceServlet
 		return this.teilhaberschaftMapper.findTeilhaberschaftenByKontaktlisteIDNutzerID(nutzerID, kontaktlisteID);
 		
 	}
+
+	@Override
+	public Vector<Teilhaberschaft> findTeilhaberschaftByAuspraegungID(int auspraegungID)
+			throws IllegalArgumentException {
+		
+		return this.teilhaberschaftMapper.findTeilhaberschaftByAuspraegungID(auspraegungID);
+	}
+
 	
 	
 	/*##########################################################
@@ -1562,13 +1586,19 @@ public class KontaktAdministrationImpl extends RemoteServiceServlet
 	@Override
 	public Nutzer findTeilenderVonKontaktliste(int kontaktlisteID, int teilhaberID) throws IllegalArgumentException {
 		//Auslesen eines Teilhaberschaft-Objekts mithilfe der TeilhaberID und der KontaktlisteID
-		//Result wird an Teilhaberschaft-Objekt <code>t</code> übergeben
+		//Result wird an Teilhaberschaft-Objekt <code>t</code> ï¿½bergeben
 		Teilhaberschaft t = findTeilhaberschaftByTeilhaberID(kontaktlisteID, teilhaberID);
 		
-		//Ausgabe des gesuchten Nutzers, dessen ID gleichzeitig der Fremdschlüssel um ausgelesenen Teilhaberschaft-Objekt ist
+		//Ausgabe des gesuchten Nutzers, dessen ID gleichzeitig der Fremdschlï¿½ssel um ausgelesenen Teilhaberschaft-Objekt ist
 		return this.findNutzerByID(t.getNutzerID());
 		
 	}
+
+
+
+
+
+
 
 
 
