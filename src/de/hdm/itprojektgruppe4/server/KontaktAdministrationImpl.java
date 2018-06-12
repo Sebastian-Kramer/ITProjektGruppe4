@@ -1411,12 +1411,14 @@ public class KontaktAdministrationImpl extends RemoteServiceServlet
 			newVec.add(kontaktliste);
 			
 			
-			if (kontaktliste.getBez().equals("Meine Kontakte")) {
+			if (kontaktliste.getBez().equals("Meine Kontakte") || kontaktliste.getBez().equals("Meine geteilten Kontakte")) {
 				
 				newVec.remove(kontaktliste);
 			
 			}
 		}
+		
+		
 			
 		alleListen = newVec;
 		
@@ -1425,7 +1427,26 @@ public class KontaktAdministrationImpl extends RemoteServiceServlet
 		
 	}
 
-
+//	public KontaktKontaktliste removeExistingKontakt(int kontaktID, int kontaktlisteID, int nutzerID) throws IllegalArgumentException {
+//		
+//		Vector<Kontaktliste> alleListen = findKontaktlisteByNutzerID(nutzerID);
+//		
+//		Vector<KontaktKontaktliste> alleKonKonlistbyKontakt = kontaktKontaktlisteMapper.findKontaktKontaktlisteByKontaktID(kontaktID);
+//		
+//		Vector<Kontaktliste> newAlleListen = new Vector<Kontaktliste>();
+//		
+//		Vector<KontaktKontaktliste> newalleKonKonlist = new Vector<KontaktKontaktliste>();
+//		
+//		for (Kontaktliste kontaktliste : alleListen) {
+//			newAlleListen.add(kontaktliste);
+//		}
+//		
+//		return null;
+//		
+//		
+//	}
+	
+	
 
 	@Override
 	public Vector<Kontakt> findKontaktByNameAndNutzerID(Kontakt kontakt) throws IllegalArgumentException {
