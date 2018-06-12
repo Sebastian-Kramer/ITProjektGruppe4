@@ -174,7 +174,6 @@ public class UpdateKontaktForm extends VerticalPanel {
 			}
 			};
 			
-			
 		Column<EigenschaftAuspraegungWrapper, String> wertAuspraegung = new Column<EigenschaftAuspraegungWrapper, String>(
 				new EditTextCell()) {
 
@@ -196,7 +195,7 @@ public class UpdateKontaktForm extends VerticalPanel {
 						
 						@Override
 						public void update(int index, EigenschaftAuspraegungWrapper object, String value) {
-//	        });
+
 						
 							object.setEigenschaftValue(value);
 							selectionModel.getSelectedObject().setAuspraegungValue(value);
@@ -390,6 +389,7 @@ public class UpdateKontaktForm extends VerticalPanel {
 
 		@Override
 		public void onSuccess(Void result) {
+			ctf.deleteRow(ea);
 			verwaltung.findHybrid(kon, new ReloadCallback());
 	
 //			ctf.redraw();

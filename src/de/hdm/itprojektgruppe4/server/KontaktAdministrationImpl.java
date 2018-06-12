@@ -1285,11 +1285,11 @@ public class KontaktAdministrationImpl extends RemoteServiceServlet
 	
 	public void deleteEigenschaftUndAuspraegung(EigenschaftAuspraegungWrapper ea) throws IllegalArgumentException{
 		Eigenschaftauspraegung eaa = new Eigenschaftauspraegung();
-		Eigenschaft ee = new Eigenschaft();
+//		Eigenschaft ee = new Eigenschaft();
 		eaa.setID(ea.getAuspraegungID());
-		ee.setID(ea.getEigenschaftID());
+//		ee.setID(ea.getEigenschaftID());
 		this.eigenschaftauspraegungMapper.deleteAuspraegung(eaa);
-		this.eigMapper.deleteEigenschaft(ee);
+//		this.eigMapper.deleteEigenschaft(ee);
 	}
 
 
