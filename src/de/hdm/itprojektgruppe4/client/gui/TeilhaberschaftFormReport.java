@@ -31,6 +31,8 @@ public class TeilhaberschaftFormReport extends VerticalPanel{
 		super.onLoad();
 
 		RootPanel.get("Details").clear();
+		RootPanel.get("Buttonbar").clear();
+
 		hPanel.add(nutzerListe);
 		RootPanel.get("Buttonbar").add(hPanel);
 		

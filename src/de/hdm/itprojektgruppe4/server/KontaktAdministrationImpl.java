@@ -615,6 +615,12 @@ public class KontaktAdministrationImpl extends RemoteServiceServlet
 		return this.eigMapper.findAllEigenschaft();
 	
     }
+	
+	public Vector<Eigenschaftauspraegung> findAllEigenschaftauspraegung () throws IllegalArgumentException {
+		// TODO Auto-generated method stub
+		return this.eigenschaftauspraegungMapper.findAllAuspraegungn();
+	
+    }
 
     //pr�fen
     public Vector<Eigenschaft> getAllEigenschaftVonKontakt(Kontakt k) {
@@ -780,13 +786,39 @@ public class KontaktAdministrationImpl extends RemoteServiceServlet
      */
 	
 	//pr�fen
-	@Override
-	public Eigenschaftauspraegung getAuspraegungByWert(String wert) throws IllegalArgumentException {
-			
-			return null;
-		}
 	
-
+	
+	
+	//INBEARBEITNG 
+	
+//	@Override
+//	public Eigenschaftauspraegung getAuspraegungByWert(String wert) throws IllegalArgumentException {
+//			
+//			return null;
+//		}
+//	
+//
+//	public Vector<Eigenschaftauspraegung> getAuspraegungByWertVector(String wert) throws IllegalArgumentException{
+//		return this.eigenschaftauspraegungMapper.findAllAuspraegungnByWert(wert);
+//		
+//		
+//	}
+//	
+//	public Vector<Kontakt> getKontakteByAuspraegung (String wert) throws IllegalArgumentException{
+//	
+//		Vector<Eigenschaftauspraegung> vecEigaus = getAuspraegungByWertVector(wert);
+//		Vector<Kontakt> k = new Vector<Kontakt>;
+//		
+//		
+//		for (Eigenschaftauspraegung eigenschaftauspraegung : vecEigaus) {
+//			k = findKontaktByID(eigenschaftauspraegung.getKontaktID());
+//		}
+//		return k;
+//		
+//		
+//	}
+	
+	
 	@Override
 	public Vector<Eigenschaftauspraegung> findEigenschaftauspraegungByKontaktID(int kontaktID)
 			throws IllegalArgumentException {
@@ -1656,6 +1688,14 @@ public class KontaktAdministrationImpl extends RemoteServiceServlet
 
 
 
+
+
+
+	@Override
+	public Eigenschaftauspraegung getAuspraegungByWert(String wert) throws IllegalArgumentException {
+		// TODO Auto-generated method stub
+		return null;
+	}
 
 
 

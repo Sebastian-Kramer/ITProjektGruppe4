@@ -180,8 +180,12 @@ public interface KontaktAdministrationAsync {
 	void findTeilhaberschaftByNutzerIDKontaktlisteID(int nutzerID, int kontaktlisteID,
 			AsyncCallback<Vector<Teilhaberschaft>> callback);
 
+
 	void insertTeilhaberschaftAuspraegungenKontakt(Kontakt kon, String selectedValue, int id,
 			AsyncCallback<Teilhaberschaft> callback);
+
+	void findAllEigenschaftauspraegung(AsyncCallback<Vector<Eigenschaftauspraegung>> callback);
+
 
 	void findTeilenderVonKontaktliste(int kontaktlisteID, int teilhaberID, AsyncCallback<Nutzer> callback);
 
