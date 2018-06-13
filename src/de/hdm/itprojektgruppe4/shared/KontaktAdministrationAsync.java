@@ -195,4 +195,6 @@ public interface KontaktAdministrationAsync {
 	void findSharedAuspraegung(int nutzerID, int kontaktID,
 			AsyncCallback<Vector<EigenschaftAuspraegungWrapper>> callback);
 
+	
+
 }
