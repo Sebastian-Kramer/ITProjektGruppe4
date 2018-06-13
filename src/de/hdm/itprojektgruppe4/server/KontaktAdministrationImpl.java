@@ -1341,6 +1341,7 @@ public class KontaktAdministrationImpl extends RemoteServiceServlet
 	public void deleteTeilhaberschaftByTeilhaberID(int teilhaberID) throws IllegalArgumentException {
 		this.teilhaberschaftMapper.deleteTeilhaberschaftByTeilhaberID(teilhaberID);
 		
+		
 	}
 
 	/**
