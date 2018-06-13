@@ -32,10 +32,12 @@ import de.hdm.itprojektgruppe4.shared.bo.Nutzer;
 import de.hdm.itprojektgruppe4.shared.bo.Teilhaberschaft;
 
 /**
- * Mit der Klasse TeilhaberschaftForm lassen sich die Teilhaberschaften aller Ausprägungnen eines Kontakt verwalten.
- * Dazu gehört das Anlegen und Löschen von Teilhaberschaften
- * Die Ausprägungen eines Kontakts können komplett oder nur teilweise an einen anderen, im System angemeldeten Nutzer geteilt werden
- * Außerdem kann der Eigentümer der Teilhaberschaft oder der teilhabende Nutzer die Teilhabschaft entfernen
+ * Mit der Klasse TeilhaberschaftForm lassen sich die Teilhaberschaften aller
+ * Ausprägungnen eines Kontakt verwalten. Dazu gehört das Anlegen und Löschen
+ * von Teilhaberschaften Die Ausprägungen eines Kontakts können komplett oder
+ * nur teilweise an einen anderen, im System angemeldeten Nutzer geteilt werden
+ * Außerdem kann der Eigentümer der Teilhaberschaft oder der teilhabende Nutzer
+ * die Teilhabschaft entfernen
  * 
  * @author Sebi_0107
  *
@@ -60,9 +62,9 @@ public class TeilhaberschaftForm extends VerticalPanel {
 	private CellTableForm ctf = null;
 
 	private ImageCell imageCell = new ImageCell();
-	
+
 	private Date date = new Date();
-	
+
 	DateTimeFormat fmt = DateTimeFormat.getFormat("dd.MM.yyyy");
 
 	private HTML html2 = new HTML("Sie können auch nur bestimmte Ausprägungen an einen anderen <b> Nutzer </b> teilen, "
@@ -87,7 +89,7 @@ public class TeilhaberschaftForm extends VerticalPanel {
 		nutzer.setEmail(Cookies.getCookie("email"));
 
 		verwaltung.findAllNutzer(new AlleNutzer());
-		
+
 		fmt.format(date);
 
 		ctf = new CellTableForm(kon);
@@ -152,11 +154,9 @@ public class TeilhaberschaftForm extends VerticalPanel {
 
 			@Override
 			public String getValue(EigenschaftAuspraegungWrapper x) {
-				
-					return "x";
-				
-				
-				
+
+				return "x";
+
 			}
 		};
 
@@ -164,18 +164,13 @@ public class TeilhaberschaftForm extends VerticalPanel {
 
 			@Override
 			public void update(int index, EigenschaftAuspraegungWrapper object, String value) {
-				Window.alert("Geht");
-				if(object.getAuspraegungStatus() == 0){
+				
+				if (object.getAuspraegungStatus() == 0) {
 					Window.alert("Es ist momentan keine Teilhaberschaft vorhanden");
-				}else{
-					DialogBoxTeilhaberschaftLoeschen dtl = new DialogBoxTeilhaberschaftLoeschen(object);
+				} else {
+					DialogBoxTeilhaberschaftVerwalten dtl = new DialogBoxTeilhaberschaftVerwalten(object, kon);
 					dtl.center();
-					
-//				ea.setAuspraegung(object.getAuspraegung());
-//				ea.setEigenschaft(object.getEigenschaft());
-//				kon.setModifikationsdatum(date);
-//				verwaltung.deleteEigenschaftUndAuspraegung(ea, new AuspraegungHybridLoeschenCallback());
-//				verwaltung.updateKontakt(kon, new KontaktModifikationsdatumCallback());
+
 				}
 			}
 		});
@@ -197,7 +192,7 @@ public class TeilhaberschaftForm extends VerticalPanel {
 		ctf.addColumn(wertAuspraegung, "Wert");
 		ctf.addColumn(status, "Status");
 		ctf.addColumn(checkBox);
-		ctf.addColumn(deleteBtn, "Teilhaberschaft löschen"); 
+		ctf.addColumn(deleteBtn, "Teilhaberschaft löschen");
 
 		hpanel.add(ctf);
 		vpanel.add(html1);
@@ -296,39 +291,6 @@ public class TeilhaberschaftForm extends VerticalPanel {
 			RootPanel.get("Details").add(tf);
 		}
 
-	}
-	
-	class AuspraegungHybridLoeschenCallback implements AsyncCallback<Void>{
-
-		@Override
-		public void onFailure(Throwable caught) {
-			Window.alert("Die Ausprägung konnte nicht gelöscht werden");
-			
-		}
-
-		@Override
-		public void onSuccess(Void result) {
-			// TODO Auto-generated method stub
-			
-		}
-		
-	}
-	
-	class KontaktModifikationsdatumCallback implements AsyncCallback<Kontakt>{
-
-		@Override
-		public void onFailure(Throwable caught) {
-			// TODO Auto-generated method stub
-			
-		}
-
-		@Override
-		public void onSuccess(Kontakt result) {
-			// TODO Auto-generated method stub
-			
-		}
-
-		
 	}
 
 }
