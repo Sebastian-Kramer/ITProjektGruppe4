@@ -23,17 +23,13 @@ public class NavigationReport extends VerticalPanel {
 
 	private VerticalPanel vPanel = new VerticalPanel();
 
-	
 	private Button allKontakte = new Button("Alle Kontakte");
 	private Button teilhaberschaft = new Button("Kontakte die mit bestimmten Nutzer geteilt worden sind");
 	private Button eigenschaftsauspraegung = new Button("Kontakte mit bestimmten Eigenschaftsauspreagungen");
 
-	
-
-
 	public void onLoad() {
 		super.onLoad();
-		
+
 		allKontakte.setPixelSize(245, 40);
 
 		RootPanel.get("Navigator").clear();
@@ -41,13 +37,8 @@ public class NavigationReport extends VerticalPanel {
 		vPanel.add(eigenschaftsauspraegung);
 		vPanel.add(teilhaberschaft);
 
-
-
-		allKontakte.addClickHandler(new AlleEigenenKontakteClickHandler());
-	
-
 		RootPanel.get("Navigator").add(vPanel);
-		
+
 		allKontakte.addClickHandler(new ClickHandler() {
 
 			@Override
@@ -56,14 +47,11 @@ public class NavigationReport extends VerticalPanel {
 				KontaktFormReport kontaktFormReport = new KontaktFormReport();
 				RootPanel.get("Details").add(kontaktFormReport);
 
-
 			}
 		});
 
-		
-
 		teilhaberschaft.addClickHandler(new ClickHandler() {
-			
+
 			@Override
 			public void onClick(ClickEvent event) {
 				RootPanel.get("Details").clear();
@@ -72,97 +60,19 @@ public class NavigationReport extends VerticalPanel {
 
 			}
 		});
-		
-		
-		
-		
-//		teilhaberschaft.addClickHandler(new ClickHandler() {
-//			
-//			@Override
-//			public void onClick(ClickEvent event) {
-//				// TODO Auto-generated method stub
-//				
-//				
-//				reportverwaltung.kontakteMitBestimmterTeilhaberschaftReport(new AsyncCallback<KontakteMitBestimmterTeilhaberschaftReport>() {
-//
-//					@Override
-//					public void onFailure(Throwable caught) {
-//						// TODO Auto-generated method stub
-//						Window.alert("Fehler");
-//					}
-//
-//					@Override
-//					public void onSuccess(KontakteMitBestimmterTeilhaberschaftReport result) {
-//						// TODO Auto-generated method stub
-//						RootPanel.get("Details").clear();
-////						Window.alert("Läuft" + result);
-////
-////						// TODO Auto-generated method stub
-////						if (result != null) { 	
-////							HTMLReportWriter writer = new HTMLReportWriter();
-////							writer.process(result);
-////							RootPanel.get("Details").clear();
-////							RootPanel.get("Details").add(new HTML(writer.getReportText()));
-//						
-//						Window.alert("Laeuft " + result);
-//						
-//						
-//						if (result != null) {
-//							HTMLReportWriter writer = new HTMLReportWriter();
-//							writer.process(result);
-//							RootPanel.get("Details").clear();
-//							RootPanel.get("Details").add(new HTML(writer.getReportText()));
-//						}
-//						
-//					}
-//				});
-//			}
-//		});
-//		
-//		
-//		
-//		
-//		
-//		
+
+		eigenschaftsauspraegung.addClickHandler(new ClickHandler() {
+
+			@Override
+			public void onClick(ClickEvent event) {
+				RootPanel.get("Details").clear();
+				EigenschaftAuspraegungForm eigenschaftAuspraegungForm = new EigenschaftAuspraegungForm();
+				RootPanel.get("Details").add(eigenschaftAuspraegungForm);
+
+			}
+
+		});
 
 	}
 	
-class AlleEigenenKontakteClickHandler implements ClickHandler{
-
-	@Override
-	public void onClick(ClickEvent event) {
-		// TODO Auto-generated method stub
-		
-
-							// TODO Auto-generated method stub
-							reportverwaltung.AllEigeneKontakteReport(new AsyncCallback<AllEigeneKontakteReport>() {
-								@Override
-								public void onFailure(Throwable caught) {
-									RootPanel.get("Details").clear();
-									Window.alert("Fehler");
-			
-								}
-			
-								@Override
-							public void onSuccess(AllEigeneKontakteReport result) {
-								Window.alert("Lï¿½uft");
-			
-									if (result != null) { 	
-										HTMLReportWriter writer = new HTMLReportWriter();
-										writer.process(result);
-										RootPanel.get("Details").clear();
-										RootPanel.get("Details").add(new HTML(writer.getReportText()));
-									}
-			
-							}
-							});
-			
-						}
-	}
-	
-	
-
-	}
-		
-	
-
+}

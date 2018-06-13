@@ -184,6 +184,8 @@ public interface KontaktAdministrationAsync {
 	void findTeilhaberschaftByNutzerIDKontaktlisteID(int nutzerID, int kontaktlisteID,
 			AsyncCallback<Vector<Teilhaberschaft>> callback);
 
+	void findAllEigenschaftauspraegung(AsyncCallback<Vector<Eigenschaftauspraegung>> callback);
+
 
 
 //	void alleAuspraegungenTeilen(Kontakt kon, int teilhaberID,   ,AsyncCallback<Teilhaberschaft> callback);

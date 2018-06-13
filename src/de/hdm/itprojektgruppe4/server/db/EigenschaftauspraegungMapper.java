@@ -6,6 +6,7 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.Vector;
 
+import de.hdm.itprojektgruppe4.shared.bo.Eigenschaft;
 import de.hdm.itprojektgruppe4.shared.bo.Eigenschaftauspraegung;
 import de.hdm.itprojektgruppe4.shared.bo.Kontakt;
 
@@ -257,6 +258,65 @@ public Vector<Eigenschaftauspraegung> findAuspraegungByKontaktID(int kontaktID){
 	}
 	return result;
 }
+public Vector<Eigenschaftauspraegung> findAllAuspraegungn() {
+
+	Vector<Eigenschaftauspraegung> result = new Vector<Eigenschaftauspraegung>();
+
+	Connection con = DBConnection.connection();
+
+	try {
+		Statement stmt = con.createStatement();
+
+		ResultSet rs = stmt.executeQuery("SELECT ID, wert, status, eigenschaftID, kontaktID FROM eigenschaftsauspraegung" + " ORDER BY ID");
+
+		while (rs.next()) {
+			Eigenschaftauspraegung e = new Eigenschaftauspraegung();
+			e.setID(rs.getInt("ID"));
+			e.setWert(rs.getString("wert"));
+			e.setStatus(rs.getInt("status"));
+			e.setKontaktID(rs.getInt("kontaktID"));
+
+
+			result.addElement(e);
+		}
+	} catch (SQLException e) {
+		e.printStackTrace();
+	}
+
+	return result;
+
+}
+
+
+		public Vector<Eigenschaftauspraegung> findAllAuspraegungnByWert(String wert) {
+		
+			Vector<Eigenschaftauspraegung> result = new Vector<Eigenschaftauspraegung>();
+		
+			Connection con = DBConnection.connection();
+		
+			try {
+				Statement stmt = con.createStatement();
+		
+				ResultSet rs = stmt.executeQuery("SELECT ID, wert, status, eigenschaftID, kontaktID FROM eigenschaftsauspraegung " + " WHERE wert= "+ "'" + wert +"'");
+		
+				while (rs.next()) {
+					Eigenschaftauspraegung e = new Eigenschaftauspraegung();
+					e.setID(rs.getInt("ID"));
+					e.setWert(rs.getString("wert"));
+					e.setStatus(rs.getInt("status"));
+					e.setKontaktID(rs.getInt("kontaktID"));
+		
+		
+					result.addElement(e);
+				}
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		
+			return result;
+		
+		}
+
 
 
 }
