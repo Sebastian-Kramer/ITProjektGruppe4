@@ -6,41 +6,25 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Vector;
 
-import com.google.gwt.cell.client.CheckboxCell;
-import com.google.gwt.cell.client.ClickableTextCell;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.cellview.client.CellList;
-import com.google.gwt.user.cellview.client.CellTable;
-import com.google.gwt.user.cellview.client.Column;
 import com.google.gwt.user.client.Cookies;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Button;
-import com.google.gwt.user.client.ui.FlexTable;
-import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.VerticalPanel;
-import com.google.gwt.view.client.MultiSelectionModel;
 import com.google.gwt.view.client.Range;
-import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.RootPanel;
-import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.view.client.AsyncDataProvider;
-import com.google.gwt.view.client.DefaultSelectionEventManager;
 import com.google.gwt.view.client.HasData;
-import com.google.gwt.view.client.MultiSelectionModel;
-import com.google.gwt.view.client.SelectionModel;
 import com.google.gwt.view.client.SingleSelectionModel;
 
-
 import de.hdm.itprojektgruppe4.client.ClientsideSettings;
-import de.hdm.itprojektgruppe4.client.NavigationTree;
 import de.hdm.itprojektgruppe4.shared.KontaktAdministrationAsync;
 import de.hdm.itprojektgruppe4.shared.bo.Kontaktliste;
 import de.hdm.itprojektgruppe4.shared.bo.Nutzer;
 import de.hdm.itprojektgruppe4.shared.bo.Teilhaberschaft;
-import de.hdm.itprojektgruppe4.shared.bo.Kontakt;
-import de.hdm.itprojektgruppe4.shared.bo.KontaktKontaktliste;
 
 public class DialogBoxKontaktlisteTeilen extends DialogBox{
 	
@@ -55,9 +39,7 @@ public class DialogBoxKontaktlisteTeilen extends DialogBox{
 	private Button teilen = new Button("teilen");
 	private Button abbrechen = new Button("abbrechen");
 	
-	
 	private CellList<Nutzer> nutzerList = new CellList<Nutzer>(nutzerCell);
-	
 	private SingleSelectionModel<Nutzer> nutzerSelection = new SingleSelectionModel<Nutzer>();
 	
 	
@@ -78,8 +60,6 @@ public class DialogBoxKontaktlisteTeilen extends DialogBox{
 		teilen.addClickHandler(new TeilenClickhandler());
 		abbrechen.addClickHandler(new AbbrechenClickhandler());
 		
-		
-		
 		vpanel.add(nutzerList);
 		vpanel.add(teilen);
 		vpanel.add(abbrechen);
@@ -89,11 +69,10 @@ public class DialogBoxKontaktlisteTeilen extends DialogBox{
 	}
 	
 	/**
-	 * Clickhandler, der das Teilen einer Kontaktliste mit einem Nutzer erm�glicht.
-	 * Hierf�r wird das in der Celllist ausgew�hlte Objekt einem neuen Nutzer-Objekt zugewiesen.
+	 * Clickhandler, der das Teilen einer Kontaktliste mit einem Nutzer ermoeglicht.
+	 * Hierfuer wird das in der Celllist ausgewaehlte Objekt einem neuen Nutzer-Objekt zugewiesen.
 	 * Die Teilhaberschaft wird dann anhand der Kontaktliste und dem Nutzer mithilfe eines Callbacks in der Datenbank
 	 * angelegt.
-	 * @author Raphael
 	 *
 	 */
 	private class TeilenClickhandler implements ClickHandler{
@@ -102,7 +81,7 @@ public class DialogBoxKontaktlisteTeilen extends DialogBox{
 		public void onClick(ClickEvent event) {
 			// ist kein Nutzer ausgew�hlt, wird dies mithilfe eines Window-Alerts dem User kenntlich gemacht.
 			if(nutzerSelection.getSelectedObject() == null){
-				Window.alert("Sie m�ssen einen Nutzer ausw�hlen");
+				Window.alert("Sie muessen einen Nutzer auswaehlen");
 			}else{
 			Nutzer n = nutzerSelection.getSelectedObject();
 			//Bei erfolgreicher Teilung der Kontaktliste wird der Status der Kontaktliste auf 1 (= geteilt) gesetzt
@@ -118,9 +97,7 @@ public class DialogBoxKontaktlisteTeilen extends DialogBox{
 	}
 	
 	/**
-	 * Implementierung eines Clickhandlers, um beim Klick des Abbrechen-Buttons die DialogBox zu schlie�en.
-	 * @author Raphael
-	 *
+	 * Implementierung eines Clickhandlers, um beim Klick des Abbrechen-Buttons die DialogBox zu schliessen.
 	 */
 	private class AbbrechenClickhandler implements ClickHandler{
 
@@ -146,7 +123,7 @@ public class DialogBoxKontaktlisteTeilen extends DialogBox{
 		@Override
 		public void onSuccess(Teilhaberschaft result) {
 			if(result==null){
-				Window.alert("Sie k�nnen diese Liste nicht teilen");
+				Window.alert("Sie koennen diese Liste nicht teilen");
 			}else{
 			Window.alert("Die Liste wurde erfolgreich geteilt");
 			kontaktVerwaltung.updateKontaktliste(kl, new KontaktlisteUpdatenCallback());
@@ -168,12 +145,6 @@ public class DialogBoxKontaktlisteTeilen extends DialogBox{
 
 		@Override
 		public void onSuccess(Kontaktliste result) {
-			
-			if (result.getStatus() == 0) {
-				Window.alert("Kontaktliste erfolgreichNICHTTTT updated");
-			}
-			
-			Window.alert("Kontaktliste erfolgreich updated");
 			
 		}
 		

@@ -43,7 +43,6 @@ public class KontaktlisteForm extends VerticalPanel {
 	
 	private VerticalPanel vpanel = new VerticalPanel();
 	private HorizontalPanel hpanel = new HorizontalPanel();
-	
 	private Label lbl_geteilt = new Label();
 	private Label teilender = new Label();
 	
@@ -53,7 +52,6 @@ public class KontaktlisteForm extends VerticalPanel {
 	private KontaktCell kontaktcell = new KontaktCell();
 	private CellList<Kontakt> kontaktCellList = new CellList<Kontakt>(kontaktcell);
 	private SingleSelectionModel<Kontakt> selectionModel = new SingleSelectionModel<Kontakt>();
-	
 	
 	private Button kontaktAnzeigen = new Button("Kontakt anzeigen");
 	private Button kontaktlisteTeilen = new Button("Kontaktliste teilen");
@@ -74,6 +72,7 @@ public class KontaktlisteForm extends VerticalPanel {
 	 */
 	public KontaktlisteForm(Kontaktliste kontaktliste){
 		this.kl = kontaktliste;	
+		kontaktVerwaltung.findTeilenderVonKontaktliste(kl.getID(), nutzer.getID(), new TeilendenAnzeigenCallback());
 	}
 	
 	public void onLoad(){
@@ -106,20 +105,14 @@ public class KontaktlisteForm extends VerticalPanel {
 		 * Wenn der angemeldete Nutzer nicht Eigentuemer, sondern nur Teilhaber der Kontaktliste ist wird außerdem
 		 * der Nutzer in einem Label angezeigt, der die Kontaktliste mit dem angemeldeten Nutzer geteilt hat.
 		 */
-	/**
-	 * 
-	 
 		if(kl.getStatus() == 1){
 			lbl_geteilt.setText("Status: geteilt");
 			if(kl.getNutzerID() != nutzer.getID()){
-				kontaktVerwaltung.findTeilenderVonKontaktliste(kl.getID(), nutzer.getID(), new TeilendenAnzeigenCallback());
 				teilender.setText("Geteilt von: " + teilenderNutzer.getEmail());
 				hpanel.add(teilender);
 			}
 			hpanel.add(lbl_geteilt);
 		}
-		*/
-		
 		fpanel.add(kontaktAnzeigen);
 		fpanel.add(kontaktlisteTeilen);
 		fpanel.add(teilhaberschaften);
@@ -146,9 +139,13 @@ public class KontaktlisteForm extends VerticalPanel {
 
 	}
 	
+	private void SetEditable(){
+		RootPanel.get("Buttonbar").clear();
+		
+	}
+	
 	/**
 	 * Clickhandler ermöglicht das Anzeigen eines ausgewaehlten Kontaktes.
-	 *
 	 */
 	private class KontaktAnzeigenClickhandler implements ClickHandler{
 
