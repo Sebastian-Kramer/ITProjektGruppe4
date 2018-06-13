@@ -2,6 +2,9 @@ package de.hdm.itprojektgruppe4.shared.report;
 
 import java.io.Serializable;
 
+/**
+ * code in Anlehnung an Bankprojekt von Prof Thies
+ */
 
 public class Column implements Serializable{
 
@@ -39,7 +42,7 @@ public class Column implements Serializable{
 		  }
 	  
 	  /**
-	   * Der Wert Spalte wird überschrieben
+	   * Der Wert Spalte wird ï¿½berschrieben
 	   * 
 	   * 
 	   * @param value der neue Spaltenwert

@@ -76,7 +76,8 @@ public class TeilhaberschaftMapper {
 
 		return null;
 	}
-
+	
+	
 	public Vector<Teilhaberschaft> findTeilhaberschaftByKontaktlisteID(int kontaktlisteID) {
 
 		Vector<Teilhaberschaft> result = new Vector<Teilhaberschaft>();
@@ -140,10 +141,13 @@ public class TeilhaberschaftMapper {
 		return result;
 	}
 	
+	
+	
 	/**
 	 * Auslesen eines Teilhaberschaft-Objekts aus der Datenbank anhand der teilhaberID und der kontaktlisteID
 	 * 
 	 * @param teilhaberID
+	 * @param kontaktlisteID
 	 * @return Teilhaberschafts-Objekt
 	 */
 	public Teilhaberschaft findByTeilhaberIDKontaktlisteID(int teilhaberID, int kontaktlisteID) {
@@ -157,7 +161,8 @@ public class TeilhaberschaftMapper {
 			ResultSet rs = stmt.executeQuery(
 
 					"SELECT `ID`, `kontaktlisteID`, `kontaktID`, `eigenschaftsauspraegungID`,"
-							+ " `teilhaberID`, `nutzerID` FROM" + " `teilhaberschaft` WHERE kontaktlisteID=" + kontaktlisteID +" " + "AND teilhaberID=" + teilhaberID);
+							+ " `teilhaberID`, `nutzerID` FROM" + " `teilhaberschaft` "
+									+ "WHERE kontaktlisteID=" + kontaktlisteID +" " + "AND teilhaberID=" + teilhaberID);
 
 			if (rs.next()) {
 
@@ -200,7 +205,8 @@ public class TeilhaberschaftMapper {
 			ResultSet rs = stmt.executeQuery(
 
 					"SELECT `ID`, `kontaktlisteID`, `kontaktID`, `eigenschaftsauspraegungID`,"
-							+ " `teilhaberID`, `nutzerID` FROM" + " `teilhaberschaft` WHERE kontaktlisteID=" + kontaktlisteID +" " + "AND nutzerID=" + nutzerID);
+							+ " `teilhaberID`, `nutzerID` FROM" + " `teilhaberschaft` "
+									+ "WHERE kontaktlisteID=" + kontaktlisteID +" " + "AND nutzerID=" + nutzerID);
 
 			if (rs.next()) {
 
@@ -224,8 +230,9 @@ public class TeilhaberschaftMapper {
 
 		return null;
 	}
+	
 	/**
-	 * Auslesen saemtlicher Teilhaberschaft-Objekte mit den �bergebenen Parametern als Fremdschl�ssen
+	 * Auslesen saemtlicher Teilhaberschaft-Objekte mit den uebergebenen Parametern als Fremdschluessel
 	 * 
 	 * @param nutzerID die ID des Teilhaberschaft-Erstellers
 	 * @param kontaktlisteID die ID der Kontaktliste an der eine Teilhaberschaft besteht
@@ -279,8 +286,8 @@ public class TeilhaberschaftMapper {
 	}
 	
 	/**
-	 * Teilhaberschaft anhand der uebergebenen KontaktlisteID l�schen.
-	 * @param kontaktlisteID die ID der Kontaktliste an der die Teilhaberschaft gel�scht werden soll
+	 * Teilhaberschaft anhand der uebergebenen KontaktlisteID loeschen.
+	 * @param kontaktlisteID die ID der Kontaktliste an der die Teilhaberschaft geloescht werden soll
 	 */
 	public void deleteTeilhaberschaftByKontaktlisteID(int kontaktlisteID) {
 		Connection con = DBConnection.connection();
@@ -335,9 +342,10 @@ public class TeilhaberschaftMapper {
 	}
 	
 	/**
+	 * Auslesen aller Teilhaberschaft-Objekte in einem Vector anhand der uebergebenen AuspraegungID
 	 * 
-	 * @param teilhaberID
-	 * @return
+	 * @param auspraegungID die ID der Auspraegung
+	 * @return Vector mit Teilhaberschaftobjekten
 	 */
 	public Vector<Teilhaberschaft> findTeilhaberschaftByAuspraegungID(int auspraegungID) {
 		Vector<Teilhaberschaft> result = new Vector<Teilhaberschaft>();
@@ -411,7 +419,7 @@ public class TeilhaberschaftMapper {
 	}
 
 	/**
-	 * Einf�gen eines neuen Teilhaberschaft-Objekts in der Datenbank.
+	 * Einfuegen eines neuen Teilhaberschaft-Objekts in der Datenbank.
 	 * Wird beim teilen eines Kontaktes aufgerufen, daher wird die KontaktlisteID null gesetzt,
 	 * da diese hier nicht ben�tigt wird.
 	 * 
@@ -451,9 +459,9 @@ public class TeilhaberschaftMapper {
 	}
 	
 	/**
-	 * Einf�gen eines neuen Teilhaberschaft-Objektes in die Datenbank.
+	 * Einfuegen eines neuen Teilhaberschaft-Objektes in die Datenbank.
 	 * Wird beim teilen einer Kontaktliste aufgerufen, daher werden die KontaktID, sowie die EigenschaftauspraegungID
-	 * null gesetzt. Diese werden beim Teilen einer Kontaktliste nicht ben�tigt.
+	 * null gesetzt. Diese werden beim Teilen einer Kontaktliste nicht benoetigt.
 	 * @param t das Teilhaberschaft-Objekt
 	 * @return
 	 */

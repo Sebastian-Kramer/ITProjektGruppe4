@@ -1638,11 +1638,10 @@ public class KontaktAdministrationImpl extends RemoteServiceServlet
 	@Override
 	public Nutzer findTeilenderVonKontaktliste(int kontaktlisteID, int teilhaberID) throws IllegalArgumentException {
 		//Auslesen eines Teilhaberschaft-Objekts mithilfe der TeilhaberID und der KontaktlisteID
-		//Result wird an Teilhaberschaft-Objekt <code>t</code> �bergeben
+		//Result wird an Teilhaberschaft-Objekt <code>t</code> uebergeben
 		Teilhaberschaft t = findTeilhaberschaftByTeilhaberID(kontaktlisteID, teilhaberID);
-		
-		//Ausgabe des gesuchten Nutzers, dessen ID gleichzeitig der Fremdschl�ssel um ausgelesenen Teilhaberschaft-Objekt ist
-		return this.findNutzerByID(t.getNutzerID());
+		//Ausgabe des gesuchten Nutzers, dessen ID gleichzeitig der Fremdschluessel um ausgelesenen Teilhaberschaft-Objekt ist
+		return this.nutzerMapper.findNutzerByID(t.getNutzerID());
 		
 	}
 
