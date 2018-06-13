@@ -48,7 +48,6 @@ public class TeilhaberschaftForm extends VerticalPanel {
 
 	private Kontakt kon = new Kontakt();
 	private Nutzer nutzer = new Nutzer();
-	private EigenschaftAuspraegungWrapper ea = new EigenschaftAuspraegungWrapper();
 
 	private VerticalPanel vpanel = new VerticalPanel();
 	private HorizontalPanel hpanel = new HorizontalPanel();
@@ -61,11 +60,11 @@ public class TeilhaberschaftForm extends VerticalPanel {
 
 	private CellTableForm ctf = null;
 
-	private ImageCell imageCell = new ImageCell();
-
 	private Date date = new Date();
 
 	DateTimeFormat fmt = DateTimeFormat.getFormat("dd.MM.yyyy");
+
+	private HTML html1 = new HTML("<h2>" + kon.getName() + "</h2>");
 
 	private HTML html2 = new HTML("Sie können auch nur bestimmte Ausprägungen an einen anderen <b> Nutzer </b> teilen, "
 			+ " </br> wählen Sie dafür die entsprechenden <b> Ausprägungen </b>  mit den Checkboxen aus."
@@ -78,7 +77,11 @@ public class TeilhaberschaftForm extends VerticalPanel {
 	final MultiSelectionModel<EigenschaftAuspraegungWrapper> selectionModelWrapper = new MultiSelectionModel<EigenschaftAuspraegungWrapper>();
 
 	public TeilhaberschaftForm(Kontakt k) {
+
 		this.kon = k;
+
+		fmt.format(date);
+
 	}
 
 	public void onLoad() {
@@ -90,81 +93,33 @@ public class TeilhaberschaftForm extends VerticalPanel {
 
 		verwaltung.findAllNutzer(new AlleNutzer());
 
-		fmt.format(date);
-
 		ctf = new CellTableForm(kon);
-
-		HTML html1 = new HTML("<h2>" + kon.getName() + "</h2>");
-
 		ctf.setSelectionModel(selectionModelWrapper,
 				DefaultSelectionEventManager.<EigenschaftAuspraegungWrapper>createCheckboxManager());
 
-		Column<EigenschaftAuspraegungWrapper, String> bezEigenschaft = new Column<EigenschaftAuspraegungWrapper, String>(
-				new ClickableTextCell()) {
+		if (selectionModelWrapper.getSelectedSet().isEmpty()) {
+			einzTeilen.setVisible(false);
+		} else {
+			einzTeilen.setVisible(true);
+		}
 
-			@Override
-			public String getValue(EigenschaftAuspraegungWrapper object) {
-				return object.getEigenschaftValue();
-			}
-		};
+		zurueck.addClickHandler(new ZurueckClickHandler());
+		allTeilen.addClickHandler(new AllAuspraegungenTeilenClickHandler());
+		einzTeilen.addClickHandler(new AusgewaehlteAuspraegungenTeilenClickHandler());
 
-		Column<EigenschaftAuspraegungWrapper, String> wertAuspraegung = new Column<EigenschaftAuspraegungWrapper, String>(
-				new ClickableTextCell()) {
+		ctf.addColumn(ctf.getWertAuspraegung(), "Eigenschaft");
+		ctf.addColumn(ctf.getBezEigenschaft(), "Wert");
+		ctf.addColumn(ctf.getStatus(), "Status");
+		ctf.addColumn(ctf.getCheckBox());
+		ctf.addColumn(ctf.getDeleteBtn(), "Teilhaberschaft löschen");
+		ctf.setStyleName("CellTableAuspraegung");
+		ctf.setWidth("500px");
 
-			@Override
-			public String getValue(EigenschaftAuspraegungWrapper object) {
-				return object.getAuspraegungValue();
-			}
-		};
-
-		Column<EigenschaftAuspraegungWrapper, String> status = new Column<EigenschaftAuspraegungWrapper, String>(
-				imageCell) {
-
-			@Override
-			public String getValue(EigenschaftAuspraegungWrapper object) {
-
-				if (object.getAuspraegungStatus() == 0) {
-
-					return object.getImageUrlContact(object);
-				} else {
-					return object.getImageUrl2Contacts(object);
-				}
-
-			}
-
-		};
-
-		Column<EigenschaftAuspraegungWrapper, Boolean> checkBox = new Column<EigenschaftAuspraegungWrapper, Boolean>(
-				new CheckboxCell(true, false)) {
-
-			@Override
-			public Boolean getValue(EigenschaftAuspraegungWrapper object) {
-
-				if (selectionModelWrapper.getSelectedSet().isEmpty()) {
-					einzTeilen.setVisible(false);
-				} else {
-					einzTeilen.setVisible(true);
-				}
-				return selectionModelWrapper.isSelected(object);
-			}
-		};
-
-		Column<EigenschaftAuspraegungWrapper, String> deleteBtn = new Column<EigenschaftAuspraegungWrapper, String>(
-				new ButtonCell()) {
-
-			@Override
-			public String getValue(EigenschaftAuspraegungWrapper x) {
-
-				return "x";
-
-			}
-		};
-
-		deleteBtn.setFieldUpdater(new FieldUpdater<EigenschaftAuspraegungWrapper, String>() {
+		ctf.getDeleteBtn().setFieldUpdater(new FieldUpdater<EigenschaftAuspraegungWrapper, String>() {
 
 			@Override
 			public void update(int index, EigenschaftAuspraegungWrapper object, String value) {
-				
+
 				if (object.getAuspraegungStatus() == 0) {
 					Window.alert("Es ist momentan keine Teilhaberschaft vorhanden");
 				} else {
@@ -180,19 +135,6 @@ public class TeilhaberschaftForm extends VerticalPanel {
 		html2.setStyleName("HtmlText");
 		html3.setStyleName("HtmlText");
 		vpanel.setStyleName("TeilhaberschaftVPanel");
-		status.setCellStyleNames("ImageCell");
-
-		zurueck.addClickHandler(new ZurueckClickHandler());
-		allTeilen.addClickHandler(new AllAuspraegungenTeilenClickHandler());
-		einzTeilen.addClickHandler(new AusgewaehlteAuspraegungenTeilenClickHandler());
-
-		ctf.setStyleName("CellTableAuspraegung");
-		ctf.setWidth("500px");
-		ctf.addColumn(bezEigenschaft, "Eigenschaft");
-		ctf.addColumn(wertAuspraegung, "Wert");
-		ctf.addColumn(status, "Status");
-		ctf.addColumn(checkBox);
-		ctf.addColumn(deleteBtn, "Teilhaberschaft löschen");
 
 		hpanel.add(ctf);
 		vpanel.add(html1);

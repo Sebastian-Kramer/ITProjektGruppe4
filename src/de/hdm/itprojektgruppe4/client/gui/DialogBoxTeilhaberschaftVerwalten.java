@@ -1,6 +1,5 @@
 package de.hdm.itprojektgruppe4.client.gui;
 
-
 import java.util.Vector;
 
 import com.google.gwt.event.dom.client.ClickEvent;
@@ -13,6 +12,7 @@ import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.DialogBox;
 import com.google.gwt.user.client.ui.FlexTable;
 import com.google.gwt.user.client.ui.HTML;
+import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.view.client.SelectionChangeEvent;
 import com.google.gwt.view.client.ListDataProvider;
@@ -26,9 +26,12 @@ import de.hdm.itprojektgruppe4.shared.bo.Nutzer;
 import de.hdm.itprojektgruppe4.shared.bo.Kontakt;
 
 /**
- * Die DialogboxTeilhaberschaft zeigt die jeweiligen Nutzer an, die eine Teilhaberschaft an einer Kontaktliste, 
- * an einem Kontakt oder an einer Ausprägung haben. Hierfür werden zwei verschiedene Konstruktoren benötigt, die die jeweils benötigten Daten aus der Datenbank in eine CellList lädt.
- * Über diese Dialogbox können die vorhanden Teilhaberschaften auch wieder entfernt werden.
+ * Die DialogboxTeilhaberschaft zeigt die jeweiligen Nutzer an, die eine
+ * Teilhaberschaft an einer Kontaktliste, an einem Kontakt oder an einer
+ * Ausprägung haben. Hierfür werden zwei verschiedene Konstruktoren benötigt,
+ * die die jeweils benötigten Daten aus der Datenbank in eine CellList lädt.
+ * Über diese Dialogbox können die vorhanden Teilhaberschaften auch wieder
+ * entfernt werden.
  * 
  * 
  * @author Sebi_0107
@@ -42,10 +45,11 @@ public class DialogBoxTeilhaberschaftVerwalten extends DialogBox {
 	private Nutzer nutzer = new Nutzer();
 	private EigenschaftAuspraegungWrapper ea = new EigenschaftAuspraegungWrapper();
 	private Kontaktliste k = new Kontaktliste();
+	private Kontakt kon = new Kontakt();
 
 	private Button teilhaberschaftAufloesen = new Button("Teilhaberschaft entfernen");
 	private Button abbrechen = new Button("abbrechen");
-	
+
 	private HTML html1 = null;
 
 	private FlexTable flextable = new FlexTable();
@@ -55,10 +59,11 @@ public class DialogBoxTeilhaberschaftVerwalten extends DialogBox {
 	private ListDataProvider<Nutzer> dataProvider = new ListDataProvider<Nutzer>();
 	private VerticalPanel vpanel = new VerticalPanel();
 
-	
 	/**
-	 * Dieser Konstruktor wird verwendet, wenn der angemeldete Nutzer im System die Teilhaberschaft einer bestimmten Kontaktliste 
-	 * verwalten möchte, dazu wird das ausgewählte Kontaktliste-Object übergeben.
+	 * Dieser Konstruktor wird verwendet, wenn der angemeldete Nutzer im System
+	 * die Teilhaberschaft einer bestimmten Kontaktliste verwalten möchte, dazu
+	 * wird das ausgewählte Kontaktliste-Object übergeben.
+	 * 
 	 * @param kl
 	 */
 	DialogBoxTeilhaberschaftVerwalten(Kontaktliste kl) {
@@ -67,7 +72,7 @@ public class DialogBoxTeilhaberschaftVerwalten extends DialogBox {
 		// Setzen der Nutzerinformationen
 		nutzer.setID(Integer.parseInt(Cookies.getCookie("id")));
 		nutzer.setEmail(Cookies.getCookie("email"));
-		
+
 		html1 = new HTML("Diese <b> Nutzer </b> haben eine <b> Teilhaberschaft </b> an der Kontaktliste");
 
 		/*
@@ -100,16 +105,19 @@ public class DialogBoxTeilhaberschaftVerwalten extends DialogBox {
 	}
 
 	/**
-	 * Dieser Konstruktor wird verwendet, wenn der angemeldete Nutzer im System die Teilhaberschaft einer bestimmten Ausprägung  
-	 * verwalten möchte, dazu wird das ausgewählte EigenschaftAuspraegungWrapper-Object und das Kontakt-Object übergeben. 
+	 * Dieser Konstruktor wird verwendet, wenn der angemeldete Nutzer im System
+	 * die Teilhaberschaft einer bestimmten Ausprägung verwalten möchte, dazu
+	 * wird das ausgewählte EigenschaftAuspraegungWrapper-Object und das
+	 * Kontakt-Object übergeben.
+	 * 
 	 * @param eaw
 	 * @param kon
 	 */
 	DialogBoxTeilhaberschaftVerwalten(EigenschaftAuspraegungWrapper eaw, Kontakt kon) {
 
-
 		this.ea = eaw;
-		
+		this.kon = kon;
+
 		html1 = new HTML("Diese <b> Nutzer </b> haben eine <b> Teilhaberschaft </b> an der Ausprägung");
 
 		nutzer.setID(Integer.parseInt(Cookies.getCookie("id")));
@@ -122,34 +130,38 @@ public class DialogBoxTeilhaberschaftVerwalten extends DialogBox {
 		teilhaberschaftAufloesen.addClickHandler(new LoeschenClickHandler());
 
 	}
-	
+
 	/**
-	 * Die onLoad() Methode wird automatisch beim Öffnen der Dialogbox ausgeführt.
-	 * Dabei wird differenziert, ob man die Teilhaberschaft einer Kontaktliste oder die Teilahaberschaft einer Ausprägung verwalten möchte.
-	 * Dementsprechend ist die CellList befüllt und die entsprechenden Nutzer werden angezeigt.
+	 * Die onLoad() Methode wird automatisch beim Öffnen der Dialogbox
+	 * ausgeführt. Dabei wird differenziert, ob man die Teilhaberschaft einer
+	 * Kontaktliste oder die Teilahaberschaft einer Ausprägung verwalten möchte.
+	 * Dementsprechend ist die CellList befüllt und die entsprechenden Nutzer
+	 * werden angezeigt.
 	 */
-	public void onLoad(){
-		
+	public void onLoad() {
+
 		super.onLoad();
 
 		nutzerList.setSelectionModel(selectionModel);
-		
+
 		flextable.setWidget(0, 0, nutzerList);
 		flextable.setWidget(1, 0, abbrechen);
 		flextable.setWidget(1, 1, teilhaberschaftAufloesen);
-		
+
 		flextable.setStylePrimaryName("Flextable");
-		
+
 		vpanel.add(html1);
 		vpanel.add(flextable);
-		
+
 		this.setStylePrimaryName("DialogboxBackground1");
 		this.add(vpanel);
-		
+
 	}
 
 	/**
-	 * Callback - Klasse um alle Teilhaberschaften an einer Ausprägung in die Celllist zu speichern.
+	 * Callback - Klasse um alle Teilhaberschaften an einer Ausprägung in die
+	 * Celllist zu speichern.
+	 * 
 	 * @author Sebi_0107
 	 *
 	 */
@@ -209,8 +221,11 @@ public class DialogBoxTeilhaberschaftVerwalten extends DialogBox {
 		@Override
 		public void onClick(ClickEvent event) {
 			Window.alert("GEHT " + selectionModel.getSelectedObject().getID());
-			kontaktVerwaltung.deleteTeilhaberschaftByTeilhaberID(selectionModel.getSelectedObject().getID(), new TeilhaberschaftLoeschenCallback());
-
+			kontaktVerwaltung.deleteTeilhaberschaftByTeilhaberID(selectionModel.getSelectedObject().getID(),
+					new TeilhaberschaftLoeschenCallback());
+			TeilhaberschaftForm tf = new TeilhaberschaftForm(kon);
+			RootPanel.get("Details").clear();
+			RootPanel.get("Details").add(tf);
 		}
 
 	}
@@ -247,7 +262,6 @@ public class DialogBoxTeilhaberschaftVerwalten extends DialogBox {
 
 		@Override
 		public void onFailure(Throwable caught) {
-			// TODO Auto-generated method stub
 
 		}
 
@@ -281,7 +295,6 @@ public class DialogBoxTeilhaberschaftVerwalten extends DialogBox {
 
 		@Override
 		public void onFailure(Throwable caught) {
-			// TODO Auto-generated method stub
 
 		}
 
@@ -302,7 +315,6 @@ public class DialogBoxTeilhaberschaftVerwalten extends DialogBox {
 
 		@Override
 		public void onSelectionChange(SelectionChangeEvent event) {
-			// TODO Auto-generated method stub
 
 		}
 
