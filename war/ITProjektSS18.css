@@ -153,6 +153,26 @@ div.DialogboxBackground {
 	border-width: 1px;
 }
 
+div.DialogboxBackground1 {
+	background: ghostwhite;
+	left: 271px;
+	top: 187px;
+	visibility: visible;
+	position: absolute;
+	overflow: visible;
+	border-width: 1px;
+	max-width: 300px;
+    border-style: groove;
+}
+
+div.gwt-HTML{
+	
+}
+
+.Flextable{
+	
+}
+
 div.scrollPanel {
 	border-style: double;
 	border-color: 1px solid LightSkyBlue;

@@ -103,7 +103,7 @@ public class KontaktlisteForm extends VerticalPanel {
 		}
 		/*
 		 * Wenn die Kontaktliste geteilt wurde, soll dies als Status angezeigt werden.
-		 * Wenn der angemeldete Nutzer nicht Eigentuemer, sondern nur Teilhaber der Kontaktliste ist wird außerdem
+		 * Wenn der angemeldete Nutzer nicht Eigentuemer, sondern nur Teilhaber der Kontaktliste ist wird auï¿½erdem
 		 * der Nutzer in einem Label angezeigt, der die Kontaktliste mit dem angemeldeten Nutzer geteilt hat.
 		 */
 	/**
@@ -147,7 +147,7 @@ public class KontaktlisteForm extends VerticalPanel {
 	}
 	
 	/**
-	 * Clickhandler ermöglicht das Anzeigen eines ausgewaehlten Kontaktes.
+	 * Clickhandler ermï¿½glicht das Anzeigen eines ausgewaehlten Kontaktes.
 	 *
 	 */
 	private class KontaktAnzeigenClickhandler implements ClickHandler{

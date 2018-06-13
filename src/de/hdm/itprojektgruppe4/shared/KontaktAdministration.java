@@ -652,14 +652,7 @@ public interface KontaktAdministration extends RemoteService {
 	public Nutzer findTeilenderVonKontaktliste (int kontaktlisteID, int teilhaberID) throws IllegalArgumentException;
 
 	
-	/**
-	 * Auslesen aller Teilhaberschaften zu einer Ausprägung
-	 * 
-	 * @param auspraegungID
-	 * @return
-	 * @throws IllegalArgumentException
-	 */
-	public Vector<Teilhaberschaft> findTeilhaberschaftByAuspraegungID(int auspraegungID) throws IllegalArgumentException;
+	public Vector<Teilhaberschaft> findTeilhaberschaftByAuspraegungID(int auspraegungID);
 
 
 	
