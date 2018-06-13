@@ -4,16 +4,39 @@ import java.util.Vector;
 
 import de.hdm.itprojektgruppe4.shared.bo.Kontakt;
 
-public class HTMLReportWriter extends ReportWriter {
 
+/**
+ * Ein <code>ReportWriter</code>, der Reports mittels HTML formatiert. Das im
+ * Zielformat vorliegende Ergebnis wird in der Variable <code>reportText</code>
+ * abgelegt und kann nach Aufruf der entsprechenden Prozessierungsmethode mit
+ * <code>getReportText()</code> ausgelesen werden.
+ * 
+ * in Anlehnung <n Bankprojekt von Prof. Thies
+ */
+public class HTMLReportWriter extends ReportWriter {
+	
+	/**
+	   * Diese Variable wird mit dem Ergebnis einer Umwandlung (vgl.
+	   * <code>process...</code>-Methoden) belegt. Format: HTML-Text
+	   */
+	
 	  private String reportText = "";
 
+	  /**
+	   * Zurücksetzen der Variable <code>reportText</code>.
+	   */
 	
 	  public void resetReportText() {
 	    this.reportText = "";
 	  }
 
-	 
+	  /**
+	   * Umwandeln eines <code>Paragraph</code>-Objekts in HTML.
+	   * 
+	   * @param p der Paragraph
+	   * @return HTML-Text
+	   */
+	  
 	  public String paragraph2HTML(Paragraph p) {
 	    if (p instanceof CompositeParagraph) {
 	      return this.paragraph2HTML((CompositeParagraph) p);
@@ -23,7 +46,13 @@ public class HTMLReportWriter extends ReportWriter {
 	    }
 	  }
 
-	
+	  /**
+	   * Umwandeln eines <code>CompositeParagraph</code>-Objekts in HTML.
+	   * 
+	   * @param p der CompositeParagraph
+	   * @return HTML-Text
+	   */
+	  
 	  public String paragraph2HTML(CompositeParagraph p) {
 	    StringBuffer result = new StringBuffer();
 
@@ -34,11 +63,23 @@ public class HTMLReportWriter extends ReportWriter {
 	    return result.toString();
 	  }
 
+	  /**
+	   * Umwandeln eines <code>SimpleParagraph</code>-Objekts in HTML.
+	   * 
+	   * @param p der SimpleParagraph
+	   * @return HTML-Text
+	   */
+	  
 	 
 	  public String paragraph2HTML(SimpleParagraph p) {
 	    return "<p>" + p.toString() + "</p>";
 	  }
 
+	  /**
+	   * HTML-Header-Text produzieren.
+	   * 
+	   * @return HTML-Text
+	   */
 	 
 	  public String getHeader() {
 	    StringBuffer result = new StringBuffer();
@@ -47,7 +88,11 @@ public class HTMLReportWriter extends ReportWriter {
 	    return result.toString();
 	  }
 
-	
+	  /**
+	   * HTML-Trailer-Text produzieren.
+	   * 
+	   * @return HTML-Text
+	   */
 	  public String getTrailer() {
 	    return "</body></html>";
 	  }
@@ -58,11 +103,22 @@ public class HTMLReportWriter extends ReportWriter {
 
 
 		
-	
+	  /**
+	   * Prozessieren des übergebenen Reports und Ablage im Zielformat. Ein Auslesen
+	   * des Ergebnisses kann später mittels <code>getReportText()</code> erfolgen.
+	   * 
+	   * @param r der zu prozessierende Report
+	   */
 
 	@Override
 	public void process(AllEigeneKontakteReport p) {
+		 // Ergebnisse vorangegangener Prozessierung wird gelöscht
 	    this.resetReportText();
+	    
+	    /*
+	     * In diesen Buffer werden während der Prozessierung sukzessive
+	     * die Ergebnisse geschrieben.
+	     */
 	    
 	    StringBuffer result = new StringBuffer();
 	   
