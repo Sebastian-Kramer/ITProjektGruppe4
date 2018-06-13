@@ -1413,8 +1413,60 @@ public class KontaktAdministrationImpl extends RemoteServiceServlet
 		return hybrid;
 	}
 
-
-
+	@Override
+	public Vector<EigenschaftAuspraegungWrapper> findSharedAuspraegung(int nutzerID, int kontaktID) throws IllegalArgumentException {
+		
+//		Nutzer nutzer = findNutzerByID(nutzerID);
+		Vector<Teilhaberschaft> vecTeil = getAllTeilhaberschaftenFromUser(nutzerID);
+		Vector<Eigenschaftauspraegung> auspraegungVector = new Vector<Eigenschaftauspraegung>();
+		Vector<EigenschaftAuspraegungWrapper> wrapper = new Vector<EigenschaftAuspraegungWrapper>();
+		Vector<Eigenschaft> eig = new Vector<Eigenschaft>();
+		Vector<EigenschaftAuspraegungWrapper> wrapperFiltered = new Vector<EigenschaftAuspraegungWrapper>();
+		
+		for (Teilhaberschaft teilhaberschaft : vecTeil) {
+			auspraegungVector.add(getAuspraegungByID(teilhaberschaft.getEigenschaftsauspraegungID()));
+		}
+		
+	
+		
+		for(Eigenschaftauspraegung eigenschaftauspraegung : auspraegungVector){
+			eig.add(getEigenschaftByID(eigenschaftauspraegung.getEigenschaftsID()));
+		}
+		
+//		for (int i = 0; i<auspraegungVector.size(); i++){
+//			for(int o = 0; o<auspraegungVector.size(); o++){
+//				if(eig.elementAt(i).getID() == auspraegungVector.elementAt(o).getEigenschaftsID()){
+//					
+//					wrapper.add(new EigenschaftAuspraegungWrapper(eig.elementAt(i), auspraegungVector.elementAt(o)));
+//					break;
+//				}
+//			}
+//		}
+	
+		
+		
+		for (Eigenschaftauspraegung eigauspraegung : auspraegungVector) {
+			for (Eigenschaft eigenschaft2 : eig) {
+				if(eigauspraegung.getEigenschaftsID() == eigenschaft2.getID()){
+					
+					wrapper.add(new EigenschaftAuspraegungWrapper(eigenschaft2, eigauspraegung));
+					break;	
+				}
+			}
+			
+		}
+		
+		for (EigenschaftAuspraegungWrapper auspraegungwrapper : wrapper) {
+			if(auspraegungwrapper.getAuspraegung().getKontaktID() == kontaktID){
+				
+				wrapperFiltered.add(auspraegungwrapper);
+			}	
+		}
+		
+		
+		return wrapperFiltered;
+		
+	}
 
 
 

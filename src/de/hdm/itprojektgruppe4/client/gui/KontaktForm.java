@@ -77,6 +77,13 @@ public class KontaktForm extends VerticalPanel {
 	
 	public KontaktForm(Kontakt k){
 		this.k = k;
+		ctf = new CellTableForm(k);
+	}
+	
+	public KontaktForm(Kontakt k, String teilhaberschaft){
+		this.k = k;
+		Window.alert(teilhaberschaft); 
+		ctf = new CellTableForm(k, teilhaberschaft);
 	}
 	
 	public void onLoad(){
@@ -91,7 +98,7 @@ public class KontaktForm extends VerticalPanel {
 		HTML html3 = new HTML("Zuletzt geändert am: " + fmt.format(k.getModifikationsdatum()));
 		super.onLoad();
 		verwaltung.findAllEigenschaft(new AllEigenschaftCallback());
-		ctf = new CellTableForm(k);
+		
 			
 		
 		hpanel.add(vpanelDetails1);

@@ -157,7 +157,7 @@ public class KontaktlisteForm extends VerticalPanel {
 			if(selectionModel.getSelectedObject() == null){
 				Window.alert("Sie muessen einen Kontakt ausw�hlen");
 			}else{
-			KontaktForm kf = new KontaktForm(selectionModel.getSelectedObject());
+			KontaktForm kf = new KontaktForm(selectionModel.getSelectedObject(), "teilhaberschaft");
 			RootPanel.get("Details").clear();
 			RootPanel.get("Details").add(kf);
 			kktvm.setSelectedKontakt(selectionModel.getSelectedObject());

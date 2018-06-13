@@ -192,4 +192,7 @@ public interface KontaktAdministrationAsync {
 	
 	void findTeilhaberschaftByAuspraegungID(int auspraegungID, AsyncCallback<Vector<Teilhaberschaft>> callback);
 
+	void findSharedAuspraegung(int nutzerID, int kontaktID,
+			AsyncCallback<Vector<EigenschaftAuspraegungWrapper>> callback);
+
 }

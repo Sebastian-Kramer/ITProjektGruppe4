@@ -45,7 +45,7 @@ public class EigenschaftauspraegungMapper {
 		Statement stmt = con.createStatement();
 		
 		ResultSet rs = stmt.executeQuery(
-				"SELECT ID, wert, status FROM eigenschaftsauspraegung " + " WHERE ID= " + id );
+				"SELECT * FROM eigenschaftsauspraegung " + " WHERE ID= " + id );
 				 
 		
 		if (rs.next()) {
@@ -53,7 +53,8 @@ public class EigenschaftauspraegungMapper {
 			e.setID(rs.getInt("ID"));
 			e.setWert(rs.getString("wert"));
 			e.setStatus(rs.getInt("status"));
-		
+			e.setEigenschaftsID(rs.getInt("eigenschaftID"));
+			e.setKontaktID(rs.getInt("kontaktID"));
 			
 			return e;
 		}

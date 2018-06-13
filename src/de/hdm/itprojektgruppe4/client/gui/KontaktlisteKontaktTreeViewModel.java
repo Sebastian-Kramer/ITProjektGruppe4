@@ -43,12 +43,12 @@ public class KontaktlisteKontaktTreeViewModel implements TreeViewModel {
 	private ListDataProvider<Kontaktliste> kontaktlisteDataProvider = null;
 
 	private Map<Kontaktliste, ListDataProvider<Kontakt>> kontaktDataProvider = null;
-	
+	private String teilhaberschaft = "";
 	
 	/**
-	 * Diese Nested Class soll den BusinessObjects im Baum eindeutige Schlüssel zuweisen.
-	 * Hierdurch könnnen Kontaktlisten-Objekte von Kontakt-Objekten unterschieden werden.
-	 * der Schlüssel für Kontaktliste-Objekte ist ein positiver, der von Kontakt-Objekten ein negativer.
+	 * Diese Nested Class soll den BusinessObjects im Baum eindeutige Schlï¿½ssel zuweisen.
+	 * Hierdurch kï¿½nnnen Kontaktlisten-Objekte von Kontakt-Objekten unterschieden werden.
+	 * der Schlï¿½ssel fï¿½r Kontaktliste-Objekte ist ein positiver, der von Kontakt-Objekten ein negativer.
 	 * (siehe Prof. Rathke, BankProjekt, 2018)
 	 */
 	private class BusinessObjectKeyProvider implements ProvidesKey<BusinessObject> {
@@ -71,11 +71,11 @@ public class KontaktlisteKontaktTreeViewModel implements TreeViewModel {
 	private SingleSelectionModel<BusinessObject> selectionModel = null;
 	
 	/**
-	 * Nested Class für das Setzen von Selektionsereignissen.
-	 * Ist das ausgewählte Objekt in der Baumstruktur ein Objekt vom Typ Kontaktliste,
-	 * wird die <code>KontaktlisteForm</code> geöffnet, die die Verwaltung und Bearbeitung der Kontaktliste ermöglicht.
-	 * Ist das selektierte Objekt vom Typ Kontakt, wird die <code>KontaktForm</code> geöffnet, die die Verwaltung und Bearbeitung
-	 * eines Kontakte ermöglicht.
+	 * Nested Class fï¿½r das Setzen von Selektionsereignissen.
+	 * Ist das ausgewï¿½hlte Objekt in der Baumstruktur ein Objekt vom Typ Kontaktliste,
+	 * wird die <code>KontaktlisteForm</code> geï¿½ffnet, die die Verwaltung und Bearbeitung der Kontaktliste ermï¿½glicht.
+	 * Ist das selektierte Objekt vom Typ Kontakt, wird die <code>KontaktForm</code> geï¿½ffnet, die die Verwaltung und Bearbeitung
+	 * eines Kontakte ermï¿½glicht.
 	 * @author Raphael
 	 *
 	 */
@@ -88,10 +88,18 @@ public class KontaktlisteKontaktTreeViewModel implements TreeViewModel {
 				//setSelectedKontaktliste((Kontaktliste) selection);
 				RootPanel.get("Details").clear();
 				RootPanel.get("Details").add(new KontaktlisteForm((Kontaktliste) selection));
+				if(((Kontaktliste) selection).getBez().equals("Meine geteilten Kontakte")){
+					teilhaberschaft = "teilhaberschaft";
+				}
 			} else if (selection instanceof Kontakt) {
 				//setSelectedKontakt((Kontakt) selection);
 				RootPanel.get("Details").clear();
-				RootPanel.get("Details").add(new KontaktForm((Kontakt) selection));
+				if(teilhaberschaft.equals("teilhaberschaft")){
+					RootPanel.get("Details").add(new KontaktForm((Kontakt) selection, teilhaberschaft));
+				} else {
+					
+					RootPanel.get("Details").add(new KontaktForm((Kontakt) selection));
+				}
 			}
 
 		}
@@ -99,7 +107,7 @@ public class KontaktlisteKontaktTreeViewModel implements TreeViewModel {
 	}
 	
 	/*
-	 * Konstruktor für die Initialisierung der wichtigsten Variablen des Baums
+	 * Konstruktor fï¿½r die Initialisierung der wichtigsten Variablen des Baums
 	 */
 	public KontaktlisteKontaktTreeViewModel() {
 		kontaktVerwaltung = ClientsideSettings.getKontaktVerwaltung();

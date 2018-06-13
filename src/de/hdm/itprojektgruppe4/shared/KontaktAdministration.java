@@ -654,6 +654,8 @@ public interface KontaktAdministration extends RemoteService {
 	
 	public Vector<Teilhaberschaft> findTeilhaberschaftByAuspraegungID(int auspraegungID);
 
+	Vector<EigenschaftAuspraegungWrapper> findSharedAuspraegung(int nutzerID, int kontaktID) throws IllegalArgumentException;
+
 
 	
 	

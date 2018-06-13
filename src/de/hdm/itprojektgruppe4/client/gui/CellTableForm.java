@@ -13,6 +13,7 @@ import com.google.gwt.thirdparty.javascript.jscomp.parsing.parser.trees.GetAcces
 import com.google.gwt.user.cellview.client.CellTable;
 import com.google.gwt.user.cellview.client.Column;
 import com.google.gwt.user.cellview.client.DataGrid;
+import com.google.gwt.user.client.Cookies;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.view.client.ListDataProvider;
@@ -30,9 +31,12 @@ import de.hdm.itprojektgruppe4.client.EigenschaftAuspraegungWrapper;
 import de.hdm.itprojektgruppe4.client.gui.UpdateKontaktForm.AuspraegungBearbeitenCallback;
 import de.hdm.itprojektgruppe4.shared.KontaktAdministrationAsync;
 import de.hdm.itprojektgruppe4.shared.bo.Kontakt;
+import de.hdm.itprojektgruppe4.shared.bo.Nutzer;
 
 public class CellTableForm extends CellTable<EigenschaftAuspraegungWrapper> {
 
+	private Kontakt kontakt = new Kontakt();
+	
 	private List<EigenschaftAuspraegungWrapper> eList = new ArrayList<>();
 	KontaktAdministrationAsync verwaltung = ClientsideSettings.getKontaktVerwaltung();
 
@@ -61,10 +65,10 @@ public class CellTableForm extends CellTable<EigenschaftAuspraegungWrapper> {
 	}
 
 	public CellTableForm(final Kontakt k) {
-
-		this.setSelectionModel(sm);
-		
-		this.setStyleName("CellTableHyprid");
+//
+//		this.setSelectionModel(sm);
+//		
+//		this.setStyleName("CellTableHyprid");
 
 //		Column<EigenschaftAuspraegungHybrid, String> bezEigenschaft = new Column<EigenschaftAuspraegungHybrid, String>(
 //				new ClickableTextCell()) {
@@ -97,10 +101,40 @@ public class CellTableForm extends CellTable<EigenschaftAuspraegungWrapper> {
 //		bezEigenschaft.setSortable(true);
 //		this.setHeight("300px");
 //		this.setRowCount(getUserList().size());
-		model.addDataDisplay(this);
-
+//		model.addDataDisplay(this);
 		verwaltung.findHybrid(k, new AllAuspraegungToEigenschaftCallback());
+		this.kontakt = k;
+		run();
+	}
+	
+	public CellTableForm(Kontakt k, String teilhaberschaft){
+		this.kontakt = k;
+		Nutzer nutzer = new Nutzer();
+		nutzer.setID(Integer.parseInt(Cookies.getCookie("id")));
+		verwaltung.findSharedAuspraegung(nutzer.getID(), k.getID(), new AsyncCallback<Vector<EigenschaftAuspraegungWrapper>>() {
 
+			@Override
+			public void onFailure(Throwable caught) {
+				// TODO Auto-generated method stub
+				
+			}
+
+			@Override
+			public void onSuccess(Vector<EigenschaftAuspraegungWrapper> result) {
+				// TODO Auto-generated method stub
+				eList.addAll(result);
+				setRowData(0, eList);
+				setRowCount(eList.size(), true);
+			}
+		});
+		run();
+	}
+	public void run(){
+
+		this.setSelectionModel(sm);
+		
+		this.setStyleName("CellTableHyprid");
+		model.addDataDisplay(this);
 	}
 
 	public void addRow(String a, String b) {
