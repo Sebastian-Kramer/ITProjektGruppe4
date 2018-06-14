@@ -87,15 +87,16 @@ public class KontaktlisteKontaktTreeViewModel implements TreeViewModel {
 			if (selection instanceof Kontaktliste) {
 				setSelectedKontaktliste((Kontaktliste) selection);
 				RootPanel.get("Details").clear();
-				RootPanel.get("Details").add(new KontaktlisteForm((Kontaktliste) selection));
+				RootPanel.get("Details").add(new KontaktlisteForm(getSelectedKontaktliste()));
 				if(((Kontaktliste) selection).getBez().equals("Meine geteilten Kontakte")){
 					teilhaberschaft = "teilhaberschaft";
 				}
-				RootPanel.get("Details").add(new KontaktlisteForm(getSelectedKontaktliste()));
+			}else if (selection instanceof Kontakt){
+				setSelectedKontakt((Kontakt) selection);
+				RootPanel.get("Details").clear();
 				if(teilhaberschaft.equals("teilhaberschaft")){
 					RootPanel.get("Details").add(new KontaktForm((Kontakt) selection, teilhaberschaft));
 				} else {
-					
 					RootPanel.get("Details").add(new KontaktForm((Kontakt) selection));
 				}
 			}
