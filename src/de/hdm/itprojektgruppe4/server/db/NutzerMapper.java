@@ -13,8 +13,6 @@ import java.util.Date;
  *
  */
 
-
-
 public class NutzerMapper extends PersonMapper {
 
 	SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
@@ -48,7 +46,7 @@ public class NutzerMapper extends PersonMapper {
 			
 			Statement stmt = con.createStatement();
 			
-			ResultSet rs = stmt.executeQuery("SELECT ID, email FROM nutzer " + " WHERE ID= " + id);
+			ResultSet rs = stmt.executeQuery("SELECT * FROM nutzer " + " WHERE ID= " + id);
 					
 			if (rs.next()){
 				Nutzer n = new Nutzer();

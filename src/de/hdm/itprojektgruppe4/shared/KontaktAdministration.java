@@ -643,16 +643,7 @@ public interface KontaktAdministration extends RemoteService {
 	 */
 	public Vector <Teilhaberschaft> findTeilhaberschaftByNutzerIDKontaktlisteID (int nutzerID, int kontaktlisteID) throws IllegalArgumentException;
 	
-	/**
-	 * Auslesen des Teilenden einer Kontaktliste
-	 * 
-	 * @param kontaktlisteID die ID der geteilten Kontaktliste
-	 * @param nutzerID die ID des Nutzers mit dem die ID geteilt wurde
-	 * @return Nutzer-Objekt des Nutzers der die Kontaktliste geteilt hat
-	 * @throws IllegalArgumentException
-	 */
-	public Nutzer findTeilenderVonKontaktliste (int kontaktlisteID, int teilhaberID) throws IllegalArgumentException;
-
+	
 	
 	public Vector<Teilhaberschaft> findTeilhaberschaftByAuspraegungID(int auspraegungID);
 

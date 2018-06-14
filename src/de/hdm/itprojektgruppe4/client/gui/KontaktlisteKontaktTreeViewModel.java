@@ -106,7 +106,7 @@ public class KontaktlisteKontaktTreeViewModel implements TreeViewModel {
 	}
 	
 	/*
-	 * Konstruktor fï¿½r die Initialisierung der wichtigsten Variablen des Baums
+	 * Konstruktor fuer die Initialisierung der wichtigsten Variablen des Baums
 	 */
 	public KontaktlisteKontaktTreeViewModel() {
 		kontaktVerwaltung = ClientsideSettings.getKontaktVerwaltung();
@@ -116,24 +116,22 @@ public class KontaktlisteKontaktTreeViewModel implements TreeViewModel {
 		kontaktDataProvider = new HashMap<Kontaktliste, ListDataProvider<Kontakt>>();
 
 	}
-
+	/*
+	 * Setter für das Nutzer-Objekt
+	 * Informationen werden aus den Cookie gelesen
+	 * @param nutzer
+	 */
 	void setNutzer(Nutzer nutzer) {
 		nutzer.setID(Integer.parseInt(Cookies.getCookie("id")));
 		nutzer.setEmail(Cookies.getCookie("email"));
 	}
-
+	/*
+	 * Getter für das Nutzer-Objekt
+	 */
 	Nutzer getNutzer() {
 		return nutzer;
 	}
 
-	void setKontaktlisteForm(KontaktlisteForm klf) {
-		kontaktlisteForm = klf;
-
-	}
-
-	void setKontaktForm(KontaktForm kf) {
-		kontaktForm = kf;
-	}
 
 	Kontaktliste getSelectedKontaktliste() {
 		return selectedKontaktliste;
