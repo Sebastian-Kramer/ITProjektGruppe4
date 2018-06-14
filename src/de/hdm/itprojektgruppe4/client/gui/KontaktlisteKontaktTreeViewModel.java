@@ -85,13 +85,13 @@ public class KontaktlisteKontaktTreeViewModel implements TreeViewModel {
 		public void onSelectionChange(SelectionChangeEvent event) {
 			BusinessObject selection = selectionModel.getSelectedObject();
 			if (selection instanceof Kontaktliste) {
-				//setSelectedKontaktliste((Kontaktliste) selection);
+				setSelectedKontaktliste((Kontaktliste) selection);
 				RootPanel.get("Details").clear();
-				RootPanel.get("Details").add(new KontaktlisteForm((Kontaktliste) selection));
+				RootPanel.get("Details").add(new KontaktlisteForm(getSelectedKontaktliste()));
 			} else if (selection instanceof Kontakt) {
-				//setSelectedKontakt((Kontakt) selection);
+				setSelectedKontakt((Kontakt) selection);
 				RootPanel.get("Details").clear();
-				RootPanel.get("Details").add(new KontaktForm((Kontakt) selection));
+				RootPanel.get("Details").add(new KontaktForm(getSelectedKontaktliste(), getSelectedKontakt()));
 			}
 
 		}
@@ -134,10 +134,6 @@ public class KontaktlisteKontaktTreeViewModel implements TreeViewModel {
 
 	void setSelectedKontaktliste(Kontaktliste kl) {
 		selectedKontaktliste = kl;
-		kontaktlisteForm.setSelected(kl);
-		selectedKontakt = null;
-		kontaktForm.setSelected(null);
-
 	}
 
 	Kontakt getSelectedKontakt() {
@@ -146,26 +142,6 @@ public class KontaktlisteKontaktTreeViewModel implements TreeViewModel {
 
 	void setSelectedKontakt(Kontakt k) {
 		selectedKontakt = k;
-		kontaktForm.setSelected(k);
-
-		if (k != null) {
-			kontaktVerwaltung.findKontaktlisteByID(k.getKontaktlisteID(), new AsyncCallback<Kontaktliste>() {
-
-				@Override
-				public void onFailure(Throwable caught) {
-					// TODO Auto-generated method stub
-
-				}
-
-				@Override
-				public void onSuccess(Kontaktliste result) {
-					selectedKontaktliste = result;
-					kontaktlisteForm.setSelected(result);
-
-				}
-
-			});
-		}
 	}
 	
 
@@ -248,7 +224,7 @@ public class KontaktlisteKontaktTreeViewModel implements TreeViewModel {
 					null);
 		}
 
-		if (value instanceof Kontaktliste) {
+		else if (value instanceof Kontaktliste) {
 
 			final ListDataProvider<Kontakt> kontaktProvider = new ListDataProvider<Kontakt>();
 			kontaktDataProvider.put((Kontaktliste) value, kontaktProvider);

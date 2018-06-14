@@ -70,7 +70,7 @@ public class NutzerMapper extends PersonMapper {
 	
 	 /**
 		 * alle Objekte vom Typ Nutzer auslesen
-		 * @return Vektor sämtlicher Nutzer-Objekte
+		 * @return Vektor saemtlicher Nutzer-Objekte
 		 *
 		 */
 	

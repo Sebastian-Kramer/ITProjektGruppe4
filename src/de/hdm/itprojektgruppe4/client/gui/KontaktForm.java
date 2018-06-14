@@ -50,6 +50,7 @@ public class KontaktForm extends VerticalPanel {
 	
 	Kontakt k = new Kontakt();
 	Kontakt kon = null;
+	Kontaktliste kl = new Kontaktliste();
 	
 	KontaktlisteKontaktTreeViewModel kktvw = null;
 	
@@ -76,6 +77,11 @@ public class KontaktForm extends VerticalPanel {
 
 	
 	public KontaktForm(Kontakt k){
+		this.k = k;
+	}
+	
+	public KontaktForm(Kontaktliste kl, Kontakt k){
+		this.kl = kl;
 		this.k = k;
 	}
 	

@@ -72,7 +72,7 @@ public class KontaktlisteForm extends VerticalPanel {
 	 */
 	public KontaktlisteForm(Kontaktliste kontaktliste){
 		this.kl = kontaktliste;	
-		kontaktVerwaltung.findTeilenderVonKontaktliste(kl.getID(), nutzer.getID(), new TeilendenAnzeigenCallback());
+		
 	}
 	
 	public void onLoad(){
@@ -91,6 +91,8 @@ public class KontaktlisteForm extends VerticalPanel {
 		scrollPanel.add(kontaktCellList);
 		HTML html1 = new HTML("<h2>" +  kl.getBez()   + "</h2>");
 	
+		
+		setTextboxStatus();
 		/*
 		 * Hinzufuegen der Buttons zur Buttonbar
 		 */
@@ -104,7 +106,7 @@ public class KontaktlisteForm extends VerticalPanel {
 		 * Wenn die Kontaktliste geteilt wurde, soll dies als Status angezeigt werden.
 		 * Wenn der angemeldete Nutzer nicht Eigentuemer, sondern nur Teilhaber der Kontaktliste ist wird au�erdem
 		 * der Nutzer in einem Label angezeigt, der die Kontaktliste mit dem angemeldeten Nutzer geteilt hat.
-		 */
+		 
 		if(kl.getStatus() == 1){
 			lbl_geteilt.setText("Status: geteilt");
 			if(kl.getNutzerID() != nutzer.getID()){
@@ -113,6 +115,7 @@ public class KontaktlisteForm extends VerticalPanel {
 			}
 			hpanel.add(lbl_geteilt);
 		}
+		*/
 		fpanel.add(kontaktAnzeigen);
 		fpanel.add(kontaktlisteTeilen);
 		fpanel.add(teilhaberschaften);
@@ -125,7 +128,6 @@ public class KontaktlisteForm extends VerticalPanel {
 		hpanel.add(html1);
 		vpanel.add(hpanel);
 		vpanel.add(scrollPanel);
-		vpanel.add(kontaktCellList);
 		RootPanel.get("Details").add(vpanel);
 		
 		/*
@@ -142,6 +144,22 @@ public class KontaktlisteForm extends VerticalPanel {
 	private void SetEditable(){
 		RootPanel.get("Buttonbar").clear();
 		
+		
+	}
+	
+	private void setTextboxStatus(){
+		if(kl.getStatus() == 1){
+			//lbl_geteilt.setText("Status: geteilt");
+			if(kl.getNutzerID() != nutzer.getID()){
+				teilender.setText("Geteilt von: " + teilenderNutzer.getEmail());
+				hpanel.add(teilender);
+			}
+			hpanel.add(lbl_geteilt);
+		}
+	}
+	
+	private void checkTeilhaberschaften(){
+		
 	}
 	
 	/*
@@ -154,10 +172,9 @@ public class KontaktlisteForm extends VerticalPanel {
 			if(selectionModel.getSelectedObject() == null){
 				Window.alert("Sie muessen einen Kontakt ausw�hlen");
 			}else{
-			KontaktForm kf = new KontaktForm(selectionModel.getSelectedObject());
+			KontaktForm kf = new KontaktForm(kl, selectionModel.getSelectedObject());
 			RootPanel.get("Details").clear();
 			RootPanel.get("Details").add(kf);
-			kktvm.setSelectedKontakt(selectionModel.getSelectedObject());
 			}
 		}
 		
@@ -210,6 +227,8 @@ public class KontaktlisteForm extends VerticalPanel {
 		}
 		
 	}
+	
+	
 	
 	private class TeilendenAnzeigenCallback implements AsyncCallback<Nutzer>{
 

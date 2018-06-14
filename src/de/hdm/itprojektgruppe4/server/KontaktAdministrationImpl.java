@@ -211,15 +211,19 @@ public class KontaktAdministrationImpl extends RemoteServiceServlet
 	@Override
 	public Vector<Kontakt> findAllKontaktFromNutzer(int nutzerID) throws IllegalArgumentException {
 		Vector<Kontakt> kontakte = findKontaktByNutzerID(nutzerID);
-		Vector<Teilhaberschaft> teilhabe = getAllTeilhaberschaftenFromUser(nutzerID);
-		
+		//Vector<Teilhaberschaft> teilhabe = getAllTeilhaberschaftenFromUser(nutzerID);
+		Vector<Kontakt> empfangeneKontakte = findAllSharedKontakteVonNutzer(nutzerID);
+		/*
 		if(teilhabe!=null){
 		Vector<Kontakt> kont = new Vector<Kontakt>();
 		for(Teilhaberschaft t : teilhabe){
-			kont.add(findKontaktByID(t.getTeilhaberID()));	
+			if(t.getTeilhaberID() == nutzerID && t.getKontaktID() != 0){
+			kont.add(findKontaktByID(t.getTeilhaberID()));
+			}
 		}
 		kontakte.addAll(kont);
-		}
+		}*/
+		kontakte.addAll(empfangeneKontakte);
 		return kontakte;
 	}
 	
