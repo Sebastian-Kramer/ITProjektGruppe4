@@ -13,6 +13,7 @@ import com.google.gwt.view.client.ListDataProvider;
 import com.google.gwt.view.client.MultiSelectionModel;
 import com.google.gwt.view.client.SingleSelectionModel;
 import com.google.gwt.cell.client.ButtonCell;
+import com.google.gwt.cell.client.Cell;
 import com.google.gwt.cell.client.CheckboxCell;
 import com.google.gwt.cell.client.ClickableTextCell;
 import com.google.gwt.cell.client.ImageCell;
@@ -31,15 +32,9 @@ public class CellTableForm extends CellTable<EigenschaftAuspraegungWrapper> {
 
 	private Kontakt kontakt = new Kontakt();
 	private ImageCell imageCell = new ImageCell();
-
-	// final UpdateKontaktForm.AuspraegungBearbeitenCallback innerClass1 =
-	// kontaktForm.new AuspraegungBearbeitenCallback();
-	// final UpdateKontaktForm.KontaktModifikationsdatumCallback innerClass2 =
-	// kontaktForm.new KontaktModifikationsdatumCallback();
-	// final UpdateKontaktForm.AuspraegungHybridLoeschenCallback innerClass3 =
-	// kontaktForm.new AuspraegungHybridLoeschenCallback();
-	// final TeilhaberschaftForm.a
-
+	
+	
+	
 	private List<EigenschaftAuspraegungWrapper> eList = new ArrayList<>();
 	KontaktAdministrationAsync verwaltung = ClientsideSettings.getKontaktVerwaltung();
 
@@ -82,52 +77,8 @@ public class CellTableForm extends CellTable<EigenschaftAuspraegungWrapper> {
 		run();
 	}
 
-	// Column<EigenschaftAuspraegungWrapper, String> wertAuspraegung1 = new
-	// Column<EigenschaftAuspraegungWrapper, String>(
-	// new EditTextCell()) {
-	//
-	// @Override
-	// public String getValue(EigenschaftAuspraegungWrapper object) {
-	//
-	//
-	// return object.getAuspraegungValue();
-	// }
-	// public void onBrowserEvent(Context context, Element elem,
-	// EigenschaftAuspraegungWrapper object,
-	// NativeEvent event) {
-	//
-	// super.onBrowserEvent(context, elem, object, event);
-	// setKeyboardSelectionPolicy(KeyboardSelectionPolicy.DISABLED);
-	// if (event.getKeyCode() == KeyCodes.KEY_ENTER){
-	//
-	//
-	// setFieldUpdater(new FieldUpdater<EigenschaftAuspraegungWrapper, String>()
-	// {
-	//
-	// @Override
-	// public void update(int index, EigenschaftAuspraegungWrapper object,
-	// String value) {
-	//
-	//
-	// object.setEigenschaftValue(value);
-	// sm.getSelectedObject().setAuspraegungValue(value);
-	// sm.getSelectedObject().setAuspraegungID(object.getAuspraegungID());
-	// eigaus.setWert(object.getAuspraegungValue());
-	// eigaus.setID(object.getAuspraegungID());
-	// eigaus.setEigenschaftsID(object.getEigenschaftID());
-	// eigaus.setKontaktID(k.getID());
-	// eigaus.setStatus(0);
-	//
-	// eigaus.setWert(sm.getSelectedObject().getAuspraegungValue());
-	// verwaltung.updateAuspraegung(eigaus, innerClass1);
-	// verwaltung.updateKontakt(k, innerClass2);
-	// }
-	// });
-	// }
-	// };
-	// };
-	//
 	Column<EigenschaftAuspraegungWrapper, String> bezEigenschaft = new Column<EigenschaftAuspraegungWrapper, String>(
+
 			new ClickableTextCell()) {
 
 		@Override
@@ -135,8 +86,10 @@ public class CellTableForm extends CellTable<EigenschaftAuspraegungWrapper> {
 			return object.getEigenschaftValue();
 		}
 	};
+	
 
 	Column<EigenschaftAuspraegungWrapper, String> wertAuspraegung = new Column<EigenschaftAuspraegungWrapper, String>(
+
 			new ClickableTextCell()) {
 
 		@Override
@@ -144,6 +97,7 @@ public class CellTableForm extends CellTable<EigenschaftAuspraegungWrapper> {
 			return object.getAuspraegungValue();
 		}
 	};
+	
 
 	Column<EigenschaftAuspraegungWrapper, String> status = new Column<EigenschaftAuspraegungWrapper, String>(
 			imageCell) {
@@ -162,7 +116,7 @@ public class CellTableForm extends CellTable<EigenschaftAuspraegungWrapper> {
 
 	};
 
-	Column<EigenschaftAuspraegungWrapper, Boolean> checkBox = new Column<EigenschaftAuspraegungWrapper, Boolean>(
+	Column<EigenschaftAuspraegungWrapper, Boolean> checkBox = new Column<EigenschaftAuspraegungWrapper, Boolean>( 
 			new CheckboxCell(true, false)) {
 
 		@Override
@@ -304,6 +258,86 @@ public class CellTableForm extends CellTable<EigenschaftAuspraegungWrapper> {
 		this.redraw();
 	}
 
+	class ColumnAuspraegung extends Column<EigenschaftAuspraegungWrapper, String>{
+
+		public ColumnAuspraegung(Cell<String> cell) {
+			super(cell);
+			// TODO Auto-generated constructor stub
+		}
+
+		@Override
+		public String getValue(EigenschaftAuspraegungWrapper object) {
+			// TODO Auto-generated method stub
+			return object.getAuspraegungValue();
+		}
+		
+	}
+	
+	class ColumnCeckBox extends Column<EigenschaftAuspraegungWrapper, Boolean>{
+
+		public ColumnCeckBox(Cell<Boolean> cell) {
+			super(cell);
+			// TODO Auto-generated constructor stub
+		}
+
+		@Override
+		public Boolean getValue(EigenschaftAuspraegungWrapper object) {
+			// TODO Auto-generated method stub
+			return selectionModelWrapper.isSelected(object);
+		}
+		
+	}
+	
+	class ColumnDeleteBtn extends Column<EigenschaftAuspraegungWrapper, String>{
+
+		public ColumnDeleteBtn(Cell<String> cell) {
+			super(cell);
+			// TODO Auto-generated constructor stub
+		}
+
+		@Override
+		public String getValue(EigenschaftAuspraegungWrapper object) {
+			// TODO Auto-generated method stub
+			return "x";
+		}
+		
+	}
+	
+	class ColumnEigenschaft extends Column<EigenschaftAuspraegungWrapper, String>{
+
+		public ColumnEigenschaft(Cell<String> cell) {
+			super(cell);
+			// TODO Auto-generated constructor stub
+		}
+
+		@Override
+		public String getValue(EigenschaftAuspraegungWrapper object) {
+			// TODO Auto-generated method stub
+			return object.getEigenschaftValue();
+		}
+		
+	}
+	
+	class ColumnStatus extends Column<EigenschaftAuspraegungWrapper, String>{
+
+		public ColumnStatus(Cell<String> cell) {
+			super(cell);
+			// TODO Auto-generated constructor stub
+		}
+
+		@Override
+		public String getValue(EigenschaftAuspraegungWrapper object) {
+			// TODO Auto-generated method stub
+			if (object.getAuspraegungStatus() == 0) {
+
+				return object.getImageUrlContact(object);
+			} else {
+				return object.getImageUrl2Contacts(object);
+			}
+		}
+		
+	}
+	
 	class AllAuspraegungToEigenschaftCallback implements AsyncCallback<Vector<EigenschaftAuspraegungWrapper>> {
 
 		@Override

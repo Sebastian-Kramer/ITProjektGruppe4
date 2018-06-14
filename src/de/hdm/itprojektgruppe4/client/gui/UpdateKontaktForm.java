@@ -1,60 +1,37 @@
 package de.hdm.itprojektgruppe4.client.gui;
 
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
+
 import java.util.Date;
 import java.util.Vector;
-
-import org.datanucleus.state.CallbackHandler;
- 
-
-import com.google.appengine.api.files.FileServicePb.ShuffleRequest.Callback;
 import com.google.gwt.cell.client.ButtonCell;
 import com.google.gwt.cell.client.Cell.Context;
 import com.google.gwt.cell.client.ClickableTextCell;
 import com.google.gwt.cell.client.EditTextCell;
 import com.google.gwt.cell.client.FieldUpdater;
+import com.google.gwt.cell.client.ImageCell;
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.dom.client.NativeEvent;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.dom.client.KeyCodes;
-import com.google.gwt.event.dom.client.KeyDownEvent;
-import com.google.gwt.event.dom.client.KeyDownHandler;
-import com.google.gwt.event.dom.client.KeyPressEvent;
-import com.google.gwt.event.logical.shared.SelectionEvent;
-import com.google.gwt.event.logical.shared.SelectionHandler;
 import com.google.gwt.i18n.client.DateTimeFormat;
-import com.google.gwt.user.cellview.client.CellTable;
-import com.google.gwt.user.cellview.client.Column;
+
 import com.google.gwt.user.cellview.client.HasKeyboardSelectionPolicy.KeyboardSelectionPolicy;
-import com.google.gwt.user.cellview.client.TextColumn;
-import com.google.gwt.user.client.Event;
+
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.FlexTable;
-import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.MultiWordSuggestOracle;
 import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwt.user.client.ui.SuggestBox;
-import com.google.gwt.user.client.ui.TextArea;
 import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.client.ui.VerticalPanel;
-import com.google.gwt.view.client.SelectionChangeEvent.Handler;
-import com.google.gwt.view.client.SelectionModel;
-import com.google.gwt.view.client.CellPreviewEvent;
-import com.google.gwt.view.client.MultiSelectionModel;
-import com.google.gwt.view.client.NoSelectionModel;
-import com.google.gwt.view.client.SelectionChangeEvent;
 import com.google.gwt.view.client.SingleSelectionModel;
-import com.google.gwt.event.dom.client.KeyPressHandler;
-
 import de.hdm.itprojektgruppe4.client.ClientsideSettings;
 import de.hdm.itprojektgruppe4.client.EigenschaftAuspraegungWrapper;
-import de.hdm.itprojektgruppe4.client.gui.NewKontaktForm.AlleEigenschaftCallback;
 import de.hdm.itprojektgruppe4.shared.KontaktAdministrationAsync;
 import de.hdm.itprojektgruppe4.shared.bo.Eigenschaft;
 import de.hdm.itprojektgruppe4.shared.bo.Eigenschaftauspraegung;
@@ -71,62 +48,82 @@ public class UpdateKontaktForm extends VerticalPanel {
 	private HorizontalPanel hpanelAdd = new HorizontalPanel();
 
 	private Kontakt kon = new Kontakt();
-	
-	private String wertAus = "";
-
 
 	private Label lbl_KontaktName = new Label("Kontaktname: ");
 	private TextBox txt_KontaktName = new TextBox();
 	private Button addRow = new Button("Hinzufügen");
 	private Label lbl_NewEigenschaft = new Label("Eigenschaft: ");
-	private TextBox txt_Eigenschaft = new TextBox();
 	private Label lbl_NewAuspraegung = new Label("Auspraegung: ");
 	private TextBox txt_Auspraegung = new TextBox();
 	private Date date = new Date();
 	
+	private CellTableForm ctf = null;
+	private ButtonCell deletebtn = new ButtonCell();
+	private ClickableTextCell bezeigenschaft = new ClickableTextCell();
+	private EditTextCell wertauspraegung = new EditTextCell();
+	private CellTableForm.ColumnEigenschaft bezEigenschaft = ctf.new ColumnEigenschaft(bezeigenschaft);
+	private CellTableForm.ColumnAuspraegung wertAuspraegung = ctf.new ColumnAuspraegung(wertauspraegung){
+		
+		public void onBrowserEvent(Context context, Element elem, EigenschaftAuspraegungWrapper object, NativeEvent event) {
+			
+			super.onBrowserEvent(context, elem, object, event);
+			ctf.setKeyboardSelectionPolicy(KeyboardSelectionPolicy.DISABLED);
+			if (event.getKeyCode() == KeyCodes.KEY_ENTER){
+				
+				
+				setFieldUpdater(new FieldUpdater<EigenschaftAuspraegungWrapper, String>() {
+					
+					@Override
+					public void update(int index, EigenschaftAuspraegungWrapper object, String value) {
+
+					
+						object.setEigenschaftValue(value);
+						selectionModel.getSelectedObject().setAuspraegungValue(value);
+						selectionModel.getSelectedObject().setAuspraegungID(object.getAuspraegungID());
+						eigaus.setWert(object.getAuspraegungValue());
+						eigaus.setID(object.getAuspraegungID());
+						eigaus.setEigenschaftsID(object.getEigenschaftID());
+						eigaus.setKontaktID(kon.getID());
+						eigaus.setStatus(0);
+						
+						eigaus.setWert(selectionModel.getSelectedObject().getAuspraegungValue());
+						verwaltung.updateAuspraegung(eigaus, new AuspraegungBearbeitenCallback());
+						verwaltung.updateKontakt(kon, new KontaktModifikationsdatumCallback());
+					}	
+					
+				});
+			}
+			
+		};
+		
+	};
+	
 	private MultiWordSuggestOracle eigenschaftOracle = new MultiWordSuggestOracle();
 	private SuggestBox eigenschaftSugBox = new SuggestBox(eigenschaftOracle);
-	
 	
 	DateTimeFormat fmt = DateTimeFormat.getFormat("dd.MM.yyyy");
 	private Button cancelBtn = new Button("Cancel");
 	
-
 	private EigenschaftAuspraegungWrapper ea = new EigenschaftAuspraegungWrapper();
 
 	private Eigenschaft eig1 = new Eigenschaft();
 	private Eigenschaftauspraegung eigaus = new Eigenschaftauspraegung();
 	
-
-
 	private SingleSelectionModel<EigenschaftAuspraegungWrapper> selectionModel = new SingleSelectionModel<EigenschaftAuspraegungWrapper>();
-	
-	private CellTableForm ctf = null;
-	
+	private CellTableForm.ColumnDeleteBtn deleteBtn = ctf.new ColumnDeleteBtn(deletebtn);
 	
 	public UpdateKontaktForm(Kontakt kon) {
 
 		this.kon = kon;
 	}
 	
-	public void fillTable(){
-		
-		
-		
-	}
-	
-	
 	public void onLoad() {
 	
-		
+		deleteBtn.setFieldUpdater(new DeleteFieldUpdater());
 		
 		super.onLoad();
 		
-		fillTable();
-		
-		
 		fmt.format(date);
-		verwaltung.findAllEigenschaft(new AllEigenschaftCallback());
 		RootPanel.get("Buttonbar").clear();
 		ctf = new CellTableForm(kon);
 		txt_KontaktName.setText(kon.getName());
@@ -143,118 +140,35 @@ public class UpdateKontaktForm extends VerticalPanel {
 		hpanelAdd.add(lbl_NewAuspraegung);
 		hpanelAdd.add(txt_Auspraegung);
 		hpanelAdd.add(addRow);
-		
-		
-		
+		wertAuspraegung.setSortable(true);
+		ctf.setSelectionModel(selectionModel);
+		ctf.addColumn(bezEigenschaft, "Eigenschaft: ");
+		ctf.addColumn(wertAuspraegung, "Wert: ");
+		ctf.addColumn(deleteBtn, "Löschen");
+	
 		RootPanel.get("Buttonbar").add(cancelBtn);
 		
 		this.add(vpanelDetails);
 		
 		verwaltung.findAllEigenschaft(new AlleEigenschaftCallback());
 		
-		
-		Column<EigenschaftAuspraegungWrapper, String> bezEigenschaft = new Column<EigenschaftAuspraegungWrapper, String>(
-				new ClickableTextCell()) {
-
-			@Override
-			public String getValue(EigenschaftAuspraegungWrapper object) {
-				// TODO Auto-generated method stub
-				return object.getEigenschaftValue();
-			}
-		};
-		
-		Column<EigenschaftAuspraegungWrapper, String> deleteBtn = new Column<EigenschaftAuspraegungWrapper, String>(
-				new ButtonCell()) {
-			
-
-			@Override
-			public String getValue(EigenschaftAuspraegungWrapper x) {
-				// TODO Auto-generated method stub
-				return "x";
-			}
-			};
-			
-		Column<EigenschaftAuspraegungWrapper, String> wertAuspraegung = new Column<EigenschaftAuspraegungWrapper, String>(
-				new EditTextCell()) {
-
-			@Override
-			public String getValue(EigenschaftAuspraegungWrapper object) {
-	
-				
-				return object.getAuspraegungValue();
-			}
-			public void onBrowserEvent(Context context, Element elem, EigenschaftAuspraegungWrapper object,
-					NativeEvent event) {
-				
-				super.onBrowserEvent(context, elem, object, event);
-				ctf.setKeyboardSelectionPolicy(KeyboardSelectionPolicy.DISABLED);
-				if (event.getKeyCode() == KeyCodes.KEY_ENTER){
-					
-					
-					setFieldUpdater(new FieldUpdater<EigenschaftAuspraegungWrapper, String>() {
-						
-						@Override
-						public void update(int index, EigenschaftAuspraegungWrapper object, String value) {
-
-						
-							object.setEigenschaftValue(value);
-							selectionModel.getSelectedObject().setAuspraegungValue(value);
-							selectionModel.getSelectedObject().setAuspraegungID(object.getAuspraegungID());
-							eigaus.setWert(object.getAuspraegungValue());
-							eigaus.setID(object.getAuspraegungID());
-							eigaus.setEigenschaftsID(object.getEigenschaftID());
-							eigaus.setKontaktID(kon.getID());
-							eigaus.setStatus(0);
-							
-							eigaus.setWert(selectionModel.getSelectedObject().getAuspraegungValue());
-							verwaltung.updateAuspraegung(eigaus, new AuspraegungBearbeitenCallback());
-							verwaltung.updateKontakt(kon, new KontaktModifikationsdatumCallback());
-						}	
-						
-					});
-				}
-				
-			};
-			
-			
-		
-		};
-		
-	
-		wertAuspraegung.setSortable(true);
-		ctf.addColumn(bezEigenschaft, "Eigenschaft:");
-		ctf.addColumn(wertAuspraegung, "Wert:");
-		ctf.addColumn(deleteBtn, "");
-		ctf.setSelectionModel(selectionModel);
-			
-		
-		deleteBtn.setFieldUpdater(new FieldUpdater<EigenschaftAuspraegungWrapper, String>() {
-			
-			@Override
-			public void update(int index, EigenschaftAuspraegungWrapper object, String value) { 
-				ea.setAuspraegung(object.getAuspraegung());
-				ea.setEigenschaft(object.getEigenschaft());
-//				kon.setModifikationsdatum(date);
-				verwaltung.deleteEigenschaftUndAuspraegung(ea, new AuspraegungHybridLoeschenCallback());
-				verwaltung.updateKontakt(kon, new KontaktModifikationsdatumCallback());
-				
-			}
-		});
-		
 		cancelBtn.addClickHandler(new CancelClick()); 
 
 		addRow.addClickHandler(new ClickAddRowHandler());
-	
-		
-		
-	
-	
-	// Ende on-load
+
 	}
 	
-	
-
-		
+	class DeleteFieldUpdater implements FieldUpdater<EigenschaftAuspraegungWrapper, String>{
+		@Override
+		public void update(int index, EigenschaftAuspraegungWrapper object, String value) { 
+			ea.setAuspraegung(object.getAuspraegung());
+			ea.setEigenschaft(object.getEigenschaft());
+//			kon.setModifikationsdatum(date);
+			verwaltung.deleteEigenschaftUndAuspraegung(ea, new AuspraegungHybridLoeschenCallback());
+			verwaltung.updateKontakt(kon, new KontaktModifikationsdatumCallback());
+			
+		}
+	}
 		
 	class CancelClick implements ClickHandler{
 
@@ -293,7 +207,8 @@ public class UpdateKontaktForm extends VerticalPanel {
 			verwaltung.insertEigenschaft(eigenschaftSugBox.getText(), 0, new EigenschaftEinfuegenCallback());
 			verwaltung.updateKontakt(kon, new KontaktModifikationsdatumCallback());
 			
-		}}
+		}
+		}
 	
 	class KontaktModifikationsdatumCallback implements AsyncCallback<Kontakt>{
 
@@ -306,27 +221,6 @@ public class UpdateKontaktForm extends VerticalPanel {
 		@Override
 		public void onSuccess(Kontakt result) {
 			verwaltung.findHybrid(kon, new ReloadCallback());
-		}
-		
-	}
-	
-	class AllEigenschaftCallback implements AsyncCallback<Vector<Eigenschaft>>{
-
-		@Override
-		public void onFailure(Throwable caught) {
-			// TODO Auto-generated method stub
-			
-		}
-
-		@Override
-		public void onSuccess(Vector<Eigenschaft> result) {
-			
-			for (Eigenschaft eig : result)
-				;
-
-			for (Eigenschaft eig : result) {
-
-			}
 		}
 		
 	}
@@ -451,7 +345,6 @@ public class UpdateKontaktForm extends VerticalPanel {
 		
 	}
 	
-	
 	class FindEigenschaftCallBack implements AsyncCallback<Eigenschaft>{
 
 		@Override
@@ -468,5 +361,5 @@ public class UpdateKontaktForm extends VerticalPanel {
 		}
 		
 	}
-
 }
+

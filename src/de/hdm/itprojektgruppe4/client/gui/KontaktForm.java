@@ -1,5 +1,7 @@
 package de.hdm.itprojektgruppe4.client.gui;
 
+import com.google.gwt.cell.client.ClickableTextCell;
+import com.google.gwt.cell.client.ImageCell;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.i18n.client.DateTimeFormat;
@@ -43,7 +45,6 @@ public class KontaktForm extends VerticalPanel {
 	DateTimeFormat fmt = DateTimeFormat.getFormat("dd.MM.yyyy");
 
 	private SingleSelectionModel<EigenschaftAuspraegungWrapper> sm = new SingleSelectionModel<EigenschaftAuspraegungWrapper>();
-	private CellTableForm ctf = null;
 
 	private ScrollPanel scrollPanel = new ScrollPanel();
 
@@ -52,7 +53,15 @@ public class KontaktForm extends VerticalPanel {
 	private Button zurueckBtn = new Button("Zurück");
 	private Button kontaktListehinzufuegen = new Button("Kontakt einer Liste hinzufügen");
 	private Button kontaktTeilen = new Button("Teilhaberschaft verwalten");
-
+	
+	private CellTableForm ctf = null;
+	private ImageCell image = new ImageCell();
+	private ClickableTextCell bezeigenschaft = new ClickableTextCell();
+	private ClickableTextCell wertauspraegung = new ClickableTextCell();
+	private CellTableForm.ColumnStatus status = ctf.new ColumnStatus(image);
+	private CellTableForm.ColumnEigenschaft bezEigenschaft = ctf.new ColumnEigenschaft(bezeigenschaft);
+	private CellTableForm.ColumnAuspraegung wertAuspraegung = ctf.new ColumnAuspraegung(wertauspraegung);
+	
 	public KontaktForm(Kontakt k) {
 		this.k = k;
 		ctf = new CellTableForm(k);
@@ -78,9 +87,9 @@ public class KontaktForm extends VerticalPanel {
 		HTML html2 = new HTML("Erstellt am: " + fmt.format(k.getErzeugungsdatum()));
 		HTML html3 = new HTML("Zuletzt geändert am: " + fmt.format(k.getModifikationsdatum()));
 
-		ctf.addColumn(ctf.getBezEigenschaft(), "Eigenschaft: ");
-		ctf.addColumn(ctf.getWertAuspraegung(), "Wert: ");
-		ctf.addColumn(ctf.getStatus(), "Status");
+		ctf.addColumn(bezEigenschaft, "Eigenschaft: ");
+		ctf.addColumn(wertAuspraegung, "Wert: ");
+		ctf.addColumn(status, "Status");
 		ctf.setSelectionModel(sm);
 
 		hpanel.add(vpanelDetails1);
@@ -109,61 +118,9 @@ public class KontaktForm extends VerticalPanel {
 		kontaktTeilen.addClickHandler(new ClickTeilenHandler());
 		kontaktListehinzufuegen.addClickHandler(new ClickHinzufuegenHandler());
 
-		// {
-		//
-		// @Override
-		// public void onClick(ClickEvent event) {
-		// 
-		// DialogBoxAddContactToList dbkl = new DialogBoxAddContactToList(k);
-		// dbkl.center();
-		// }
-		// });
 
-		// verwaltung.findEigenschaftauspraegungByKontaktID(2, new
-		// AsyncCallback<Vector<Eigenschaftauspraegung>>(){
-		//
-		// @Override
-		// public void onFailure(Throwable caught) {
-		// Window.alert("Auspraegungen laden hat nicht geklappt");
-		//
-		// }
-		//
-		// @Override
-		// public void onSuccess(Vector<Eigenschaftauspraegung> result) {
-		// Window.alert("L�UFT");
-		// kontaktGrid.resizeRows(result.size());
-		// for (int row = 1; row < result.size(); ++row){
-		// for(Eigenschaftauspraegung e : result){
-		// kontaktGrid.setWidget(row, 0, tbEig);
-		// kontaktGrid.setWidget(row, 1, tbAuspraegung);
-		// tbAuspraegung.setValue(e.getWert());
-		//
-		// }
-		//
-		//
-		// }
-		// }
-		//
-		//
-		//
-		// });
-		//
 
 	}
-
-	// Column<Eigenschaftauspraegung, String> modDate = new
-	// Column<Eigenschaftauspraegung, String>(
-	// new ClickableTextCell()) {
-	//
-	//
-	// @Override
-	// public String getValue(Eigenschaftauspraegung object) {
-	//
-	// return object.get;
-	// }
-	// };
-	//
-	// ctf.addColumn(modDate, "");
 
 	class ClickLoeschenHandler implements ClickHandler {
 		@Override
