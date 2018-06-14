@@ -32,10 +32,7 @@ import de.hdm.itprojektgruppe4.shared.bo.Kontakt;
  * die die jeweils benötigten Daten aus der Datenbank in eine CellList lädt.
  * Über diese Dialogbox können die vorhanden Teilhaberschaften auch wieder
  * entfernt werden.
- * 
- * 
- * @author Sebi_0107
- *
+
  */
 
 public class DialogBoxTeilhaberschaftVerwalten extends DialogBox {
@@ -157,6 +154,7 @@ public class DialogBoxTeilhaberschaftVerwalten extends DialogBox {
 		this.add(vpanel);
 
 	}
+	
 
 	/**
 	 * Callback - Klasse um alle Teilhaberschaften an einer Ausprägung in die
@@ -186,7 +184,7 @@ public class DialogBoxTeilhaberschaftVerwalten extends DialogBox {
 
 	/**
 	 * Clickhandler um das Verwalten der Teilhaberschaften abzubrechen. Bei
-	 * Ausloesen des Clickhandlers wird die DialogBox geschlosse
+	 * Ausloesen des Clickhandlers wird die DialogBox geschlossen
 	 */
 	private class AbbrechenClickhandler implements ClickHandler {
 
@@ -211,6 +209,7 @@ public class DialogBoxTeilhaberschaftVerwalten extends DialogBox {
 		public void onClick(ClickEvent event) {
 			kontaktVerwaltung.deleteTeilhaberschaftByTeilhaberID(selectionModel.getSelectedObject().getID(),
 					new TeilhaberschaftLoeschenCallback());
+			
 			hide();
 		}
 
@@ -231,7 +230,7 @@ public class DialogBoxTeilhaberschaftVerwalten extends DialogBox {
 	}
 
 	/**
-	 * Callback f�r die Loeschung der Teilhaberschaft. Nach erfolgreicher
+	 * Callback fuer die Loeschung der Teilhaberschaft. Nach erfolgreicher
 	 * Loeschung wird die Dialogbox geschlossen.
 	 *
 	 */
@@ -245,7 +244,7 @@ public class DialogBoxTeilhaberschaftVerwalten extends DialogBox {
 
 		@Override
 		public void onSuccess(Void result) {
-			Window.alert("Die Teilhaberschaft wurde erfolgreich gel�scht");
+			Window.alert("Die Teilhaberschaft wurde erfolgreich geloescht");
 			hide();
 
 		}
@@ -281,14 +280,14 @@ public class DialogBoxTeilhaberschaftVerwalten extends DialogBox {
 	/**
 	 * Callback-Klasse um alle Teilhaber an einer Kontaktliste anzeigen zu
 	 * lassen. Bei erfolgreicher Abfrage werden die Objekte aus dem
-	 * Ergebnis-Vector zur Celllist hinzugef�gt.
+	 * Ergebnis-Vector zur Celllist hinzugefuegt.
 	 * 
 	 * Diese Klasse wird nur ben�tigt, wenn der angemeldete Nutzer auch
 	 * gleichzeitig der Eigentuemer der Kontaktliste ist, da der Eigentuemer
 	 * Zugriff auf saemtliche Teilhaberschaften haben soll.
 	 * 
 	 * Jedes Nutzer Objekt wird aus dem Ergebnis-Vektor gelesen und der Celllist
-	 * hinzugef�gt.
+	 * hinzugefuegt.
 	 *
 	 */
 	private class TeilhaberVonKontaktliste implements AsyncCallback<Vector<Nutzer>> {
@@ -305,6 +304,7 @@ public class DialogBoxTeilhaberschaftVerwalten extends DialogBox {
 				if (nutzer.getID() == n.getID()) {
 					dataProvider.getList().remove(n);
 				}
+				
 			}
 
 		}

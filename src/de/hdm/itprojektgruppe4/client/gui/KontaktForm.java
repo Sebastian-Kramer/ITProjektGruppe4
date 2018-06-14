@@ -34,6 +34,7 @@ public class KontaktForm extends VerticalPanel {
 
 	Kontakt k = new Kontakt();
 	Kontakt kon = null;
+	Kontaktliste kl = new Kontaktliste();
 
 	KontaktlisteKontaktTreeViewModel kktvw = null;
 
@@ -68,6 +69,7 @@ public class KontaktForm extends VerticalPanel {
 
 	}
 
+
 	public KontaktForm(Kontakt k, String teilhaberschaft) {
 
 		this.k = k;
@@ -75,9 +77,14 @@ public class KontaktForm extends VerticalPanel {
 		ctf = new CellTableForm(k, teilhaberschaft);
 	}
 
-	public void onLoad() {
-
-		super.onLoad();
+	public KontaktForm(Kontaktliste kl, Kontakt k){
+		this.kl = kl;
+		this.k = k;
+	}
+	
+	public void onLoad(){
+		
+		
 
 		final Image kontaktbild = new Image();
 		kontaktbild.setUrl("https://ssl.gstatic.com/s2/contacts/images/NoPicture.gif");
