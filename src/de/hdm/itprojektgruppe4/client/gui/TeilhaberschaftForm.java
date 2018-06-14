@@ -23,6 +23,7 @@ import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.view.client.DefaultSelectionEventManager;
 import com.google.gwt.view.client.MultiSelectionModel;
+import com.google.gwt.view.client.SelectionChangeEvent;
 import com.google.gwt.view.client.SingleSelectionModel;
 import de.hdm.itprojektgruppe4.client.ClientsideSettings;
 import de.hdm.itprojektgruppe4.client.EigenschaftAuspraegungWrapper;
@@ -97,11 +98,19 @@ public class TeilhaberschaftForm extends VerticalPanel {
 		ctf.setSelectionModel(selectionModelWrapper,
 				DefaultSelectionEventManager.<EigenschaftAuspraegungWrapper>createCheckboxManager());
 
-		if (selectionModelWrapper.getSelectedSet().isEmpty()) {
-			einzTeilen.setVisible(false);
-		} else {
-			einzTeilen.setVisible(true);
-		}
+		selectionModelWrapper.addSelectionChangeHandler(new SelectionChangeEvent.Handler() {
+			
+			@Override
+			public void onSelectionChange(SelectionChangeEvent event) {
+				if (selectionModelWrapper.getSelectedSet().isEmpty()) {
+					einzTeilen.setVisible(false);
+				} else {
+					einzTeilen.setVisible(true);
+				}
+				
+			}
+		});
+		
 
 		zurueck.addClickHandler(new ZurueckClickHandler());
 		allTeilen.addClickHandler(new AllAuspraegungenTeilenClickHandler());

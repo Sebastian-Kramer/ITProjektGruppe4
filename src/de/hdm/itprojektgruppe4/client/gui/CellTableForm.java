@@ -7,52 +7,39 @@ import java.util.Vector;
 
 import com.google.gwt.user.cellview.client.CellTable;
 import com.google.gwt.user.cellview.client.Column;
-
-import com.google.gwt.user.cellview.client.DataGrid;
 import com.google.gwt.user.client.Cookies;
-
-import com.google.gwt.user.client.Element;
-
-import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.view.client.ListDataProvider;
 import com.google.gwt.view.client.MultiSelectionModel;
 import com.google.gwt.view.client.SingleSelectionModel;
 import com.google.gwt.cell.client.ButtonCell;
-import com.google.gwt.cell.client.Cell.Context;
 import com.google.gwt.cell.client.CheckboxCell;
 import com.google.gwt.cell.client.ClickableTextCell;
-import com.google.gwt.cell.client.EditTextCell;
-import com.google.gwt.cell.client.FieldUpdater;
 import com.google.gwt.cell.client.ImageCell;
-import com.google.gwt.dom.client.NativeEvent;
-import com.google.gwt.event.dom.client.KeyCodes;
 import com.google.gwt.event.dom.client.KeyDownEvent;
-import com.google.gwt.event.dom.client.KeyPressEvent;
-import com.google.gwt.event.dom.client.KeyPressHandler;
 import com.google.gwt.event.shared.HandlerRegistration;
 import com.google.gwt.event.dom.client.KeyDownHandler;
 
 import de.hdm.itprojektgruppe4.client.ClientsideSettings;
 import de.hdm.itprojektgruppe4.client.EigenschaftAuspraegungWrapper;
-import de.hdm.itprojektgruppe4.client.gui.UpdateKontaktForm.AuspraegungBearbeitenCallback;
+
 import de.hdm.itprojektgruppe4.shared.KontaktAdministrationAsync;
 import de.hdm.itprojektgruppe4.shared.bo.Kontakt;
 import de.hdm.itprojektgruppe4.shared.bo.Nutzer;
 
 public class CellTableForm extends CellTable<EigenschaftAuspraegungWrapper> {
 
-
 	private Kontakt kontakt = new Kontakt();
-
 	private ImageCell imageCell = new ImageCell();
-	
-//	final UpdateKontaktForm.AuspraegungBearbeitenCallback innerClass1 = kontaktForm.new AuspraegungBearbeitenCallback();
-//	final UpdateKontaktForm.KontaktModifikationsdatumCallback innerClass2 = kontaktForm.new KontaktModifikationsdatumCallback();
-//	final UpdateKontaktForm.AuspraegungHybridLoeschenCallback innerClass3 = kontaktForm.new AuspraegungHybridLoeschenCallback();
-//	final TeilhaberschaftForm.a
 
-	
+	// final UpdateKontaktForm.AuspraegungBearbeitenCallback innerClass1 =
+	// kontaktForm.new AuspraegungBearbeitenCallback();
+	// final UpdateKontaktForm.KontaktModifikationsdatumCallback innerClass2 =
+	// kontaktForm.new KontaktModifikationsdatumCallback();
+	// final UpdateKontaktForm.AuspraegungHybridLoeschenCallback innerClass3 =
+	// kontaktForm.new AuspraegungHybridLoeschenCallback();
+	// final TeilhaberschaftForm.a
+
 	private List<EigenschaftAuspraegungWrapper> eList = new ArrayList<>();
 	KontaktAdministrationAsync verwaltung = ClientsideSettings.getKontaktVerwaltung();
 
@@ -67,52 +54,79 @@ public class CellTableForm extends CellTable<EigenschaftAuspraegungWrapper> {
 	private SingleSelectionModel<EigenschaftAuspraegungWrapper> sm = new SingleSelectionModel<EigenschaftAuspraegungWrapper>();
 	final MultiSelectionModel<EigenschaftAuspraegungWrapper> selectionModelWrapper = new MultiSelectionModel<EigenschaftAuspraegungWrapper>();
 
-
 	public SingleSelectionModel<EigenschaftAuspraegungWrapper> getSm() {
 		return sm;
 	}
-	
-//	Column<EigenschaftAuspraegungWrapper, String> wertAuspraegung1 = new Column<EigenschaftAuspraegungWrapper, String>(
-//			new EditTextCell()) {
-//
-//		@Override
-//		public String getValue(EigenschaftAuspraegungWrapper object) {
-//
-//			
-//			return object.getAuspraegungValue();
-//		}
-//		public void onBrowserEvent(Context context, Element elem, EigenschaftAuspraegungWrapper object,
-//				NativeEvent event) {
-//			
-//			super.onBrowserEvent(context, elem, object, event);
-//			setKeyboardSelectionPolicy(KeyboardSelectionPolicy.DISABLED);
-//			if (event.getKeyCode() == KeyCodes.KEY_ENTER){
-//				
-//				
-//				setFieldUpdater(new FieldUpdater<EigenschaftAuspraegungWrapper, String>() {
-//					
-//					@Override
-//					public void update(int index, EigenschaftAuspraegungWrapper object, String value) {
-//
-//					
-//						object.setEigenschaftValue(value);
-//						sm.getSelectedObject().setAuspraegungValue(value);
-//						sm.getSelectedObject().setAuspraegungID(object.getAuspraegungID());
-//						eigaus.setWert(object.getAuspraegungValue());
-//						eigaus.setID(object.getAuspraegungID());
-//						eigaus.setEigenschaftsID(object.getEigenschaftID());
-//						eigaus.setKontaktID(k.getID());
-//						eigaus.setStatus(0);
-//						
-//						eigaus.setWert(sm.getSelectedObject().getAuspraegungValue());
-//						verwaltung.updateAuspraegung(eigaus, innerClass1);
-//						verwaltung.updateKontakt(k, innerClass2);
-//					}	
-//				});
-//			}
-//		};
-//	};
-//	
+
+	public CellTableForm(Kontakt k, String teilhaberschaft) {
+
+		this.kontakt = k;
+		Nutzer nutzer = new Nutzer();
+		nutzer.setID(Integer.parseInt(Cookies.getCookie("id")));
+		verwaltung.findSharedAuspraegung(nutzer.getID(), kontakt.getID(),
+				new AsyncCallback<Vector<EigenschaftAuspraegungWrapper>>() {
+
+					@Override
+					public void onFailure(Throwable caught) {
+
+					}
+
+					@Override
+					public void onSuccess(Vector<EigenschaftAuspraegungWrapper> result) {
+
+						eList.addAll(result);
+						setRowData(0, eList);
+						setRowCount(eList.size(), true);
+					}
+				});
+		run();
+	}
+
+	// Column<EigenschaftAuspraegungWrapper, String> wertAuspraegung1 = new
+	// Column<EigenschaftAuspraegungWrapper, String>(
+	// new EditTextCell()) {
+	//
+	// @Override
+	// public String getValue(EigenschaftAuspraegungWrapper object) {
+	//
+	//
+	// return object.getAuspraegungValue();
+	// }
+	// public void onBrowserEvent(Context context, Element elem,
+	// EigenschaftAuspraegungWrapper object,
+	// NativeEvent event) {
+	//
+	// super.onBrowserEvent(context, elem, object, event);
+	// setKeyboardSelectionPolicy(KeyboardSelectionPolicy.DISABLED);
+	// if (event.getKeyCode() == KeyCodes.KEY_ENTER){
+	//
+	//
+	// setFieldUpdater(new FieldUpdater<EigenschaftAuspraegungWrapper, String>()
+	// {
+	//
+	// @Override
+	// public void update(int index, EigenschaftAuspraegungWrapper object,
+	// String value) {
+	//
+	//
+	// object.setEigenschaftValue(value);
+	// sm.getSelectedObject().setAuspraegungValue(value);
+	// sm.getSelectedObject().setAuspraegungID(object.getAuspraegungID());
+	// eigaus.setWert(object.getAuspraegungValue());
+	// eigaus.setID(object.getAuspraegungID());
+	// eigaus.setEigenschaftsID(object.getEigenschaftID());
+	// eigaus.setKontaktID(k.getID());
+	// eigaus.setStatus(0);
+	//
+	// eigaus.setWert(sm.getSelectedObject().getAuspraegungValue());
+	// verwaltung.updateAuspraegung(eigaus, innerClass1);
+	// verwaltung.updateKontakt(k, innerClass2);
+	// }
+	// });
+	// }
+	// };
+	// };
+	//
 	Column<EigenschaftAuspraegungWrapper, String> bezEigenschaft = new Column<EigenschaftAuspraegungWrapper, String>(
 			new ClickableTextCell()) {
 
@@ -209,94 +223,66 @@ public class CellTableForm extends CellTable<EigenschaftAuspraegungWrapper> {
 		this.deleteBtn = deleteBtn;
 	}
 
-	public CellTableForm(final Kontakt k) {
+	public CellTableForm(Kontakt k) {
 
-//
-//		this.setSelectionModel(sm);
-//		
-//		this.setStyleName("CellTableHyprid");
-
+		//
+		// this.setSelectionModel(sm);
+		//
+		// this.setStyleName("CellTableHyprid");
 
 		this.setSelectionModel(sm);
 
-
-
-//		Column<EigenschaftAuspraegungHybrid, String> bezEigenschaft = new Column<EigenschaftAuspraegungHybrid, String>(
-//				new ClickableTextCell()) {
-//
-//			@Override
-//			public String getValue(EigenschaftAuspraegungHybrid object) {
-//				// TODO Auto-generated method stub
-//				return object.getEigenschaft();
-//			}
-//		};
-//		bezEigenschaft.setCellStyleNames("bezEigenschaft");
-//		this.addColumn(bezEigenschaft, "Eigenschaft");
-//
-//		wertAuspraegung = new Column<EigenschaftAuspraegungHybrid, String>(new EditTextCell()) {
-//
-//			@Override
-//			public String getValue(EigenschaftAuspraegungHybrid object) {
-//				// TODO Auto-generated method stub
-//				return object.getAuspraegung();
-//			}
-//
-//		};
-//
-//		this.addColumn(wertAuspraegung, "Auspraegung");
-//
-//		// ListDataProvider<EigenschaftAuspraegungHybrid> model = new
-//		// ListDataProvider<EigenschaftAuspraegungHybrid>();
-//		// model.addDataDisplay(this);
-//		bezEigenschaft.setCellStyleNames("add-scrollbar");
-//		bezEigenschaft.setSortable(true);
-//		this.setHeight("300px");
-//		this.setRowCount(getUserList().size());
-//		model.addDataDisplay(this);
+		// Column<EigenschaftAuspraegungHybrid, String> bezEigenschaft = new
+		// Column<EigenschaftAuspraegungHybrid, String>(
+		// new ClickableTextCell()) {
+		//
+		// @Override
+		// public String getValue(EigenschaftAuspraegungHybrid object) {
+		//
+		// return object.getEigenschaft();
+		// }
+		// };
+		// bezEigenschaft.setCellStyleNames("bezEigenschaft");
+		// this.addColumn(bezEigenschaft, "Eigenschaft");
+		//
+		// wertAuspraegung = new Column<EigenschaftAuspraegungHybrid,
+		// String>(new EditTextCell()) {
+		//
+		// @Override
+		// public String getValue(EigenschaftAuspraegungHybrid object) {
+		//
+		// return object.getAuspraegung();
+		// }
+		//
+		// };
+		//
+		// this.addColumn(wertAuspraegung, "Auspraegung");
+		//
+		// // ListDataProvider<EigenschaftAuspraegungHybrid> model = new
+		// // ListDataProvider<EigenschaftAuspraegungHybrid>();
+		// // model.addDataDisplay(this);
+		// bezEigenschaft.setCellStyleNames("add-scrollbar");
+		// bezEigenschaft.setSortable(true);
+		// this.setHeight("300px");
+		// this.setRowCount(getUserList().size());
+		// model.addDataDisplay(this);
 
 		this.setStyleName("CellTableHyprid");
-		
+
 		status.setCellStyleNames("ImageCell");
-
-		model.addDataDisplay(this);
-
 
 		verwaltung.findHybrid(k, new AllAuspraegungToEigenschaftCallback());
 
 		this.kontakt = k;
 		run();
 	}
-	
-	public CellTableForm(Kontakt k, String teilhaberschaft){
-		this.kontakt = k;
-		Nutzer nutzer = new Nutzer();
-		nutzer.setID(Integer.parseInt(Cookies.getCookie("id")));
-		verwaltung.findSharedAuspraegung(nutzer.getID(), k.getID(), new AsyncCallback<Vector<EigenschaftAuspraegungWrapper>>() {
 
-			@Override
-			public void onFailure(Throwable caught) {
-				// TODO Auto-generated method stub
-				
-			}
-
-			@Override
-			public void onSuccess(Vector<EigenschaftAuspraegungWrapper> result) {
-				// TODO Auto-generated method stub
-				eList.addAll(result);
-				setRowData(0, eList);
-				setRowCount(eList.size(), true);
-			}
-		});
-		run();
-	}
-	public void run(){
+	public void run() {
 
 		this.setSelectionModel(sm);
-		
+
 		this.setStyleName("CellTableHyprid");
 		model.addDataDisplay(this);
-
-		
 
 	}
 

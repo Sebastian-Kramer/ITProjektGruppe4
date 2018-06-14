@@ -3,7 +3,6 @@ package de.hdm.itprojektgruppe4.client.gui;
 import java.util.ArrayList;
 import java.util.List;
 
-
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.cellview.client.CellList;
@@ -47,22 +46,18 @@ public class MainForm extends VerticalPanel {
 	private HorizontalPanel hpanelDetails = new HorizontalPanel();
 	private HorizontalPanel hpanelButtonBar = new HorizontalPanel();
 
-	
 	private FlexTable anordnung = new FlexTable();
-	
+
 	private Button newKontakt = new Button("Neuer Kontakt anlegen");
 	private Button newKontaktliste = new Button("Neue Kontaktliste anlegen");
 	private Button newTeilhaberschaft = new Button("Kontaktliste teilen");
 	private Button suchen = new Button("Suchen");
 	private Button impressum = new Button("Impressum");
 	private HTML greetHTML1 = new HTML("<h2>MyContacs<h2>");
-	private HTML greetHTML2 = new HTML("Herzlich Willkommen auf MyContacts, "
-										+"<br>ihrer Kontaktverwaltung. "
-										+ "<br> Hier können Sie neue Kontakte anlegen, "
-										+ "<br> diese in verschiedene Listen organiesieren"
-										+ "<br> und sowohl die einzelnen Kontakte und Kontaktlisten mit anderen Nutzern teilen.");
-	
-	
+	private HTML greetHTML2 = new HTML("Herzlich Willkommen auf MyContacts, " + "<br>ihrer Kontaktverwaltung. "
+			+ "<br> Hier können Sie neue Kontakte anlegen, " + "<br> diese in verschiedene Listen organiesieren"
+			+ "<br> und sowohl die einzelnen Kontakte und Kontaktlisten mit anderen Nutzern teilen.");
+
 	private HTML html1 = new HTML("<h2>Meine Kontakte</h2>");
 
 	private KontaktCell kontaktCell = new KontaktCell();
@@ -73,14 +68,14 @@ public class MainForm extends VerticalPanel {
 
 	final SingleSelectionModel<Kontakt> selectionModel = new SingleSelectionModel<Kontakt>();
 	final SingleSelectionModel<TreeItem> selectionTreeItem = new SingleSelectionModel<TreeItem>();
-	
+
 	private ScrollPanel scrollPanel = new ScrollPanel();
 
 	public MainForm() {
 	}
 
-	public void onLoad(){
-		
+	public void onLoad() {
+
 		super.onLoad();
 		nutzer.setID(Integer.parseInt(Cookies.getCookie("id")));
 		nutzer.setEmail(Cookies.getCookie("email"));
@@ -88,9 +83,9 @@ public class MainForm extends VerticalPanel {
 		Window.alert(nutzer.getEmail());
 
 		verwaltung.findKontaktByNutzerID(nutzer.getID(), new KontaktCallBack());
-	
+
 		cellList.setSelectionModel(selectionModel);
-		
+
 		selectionModel.addSelectionChangeHandler(new SelectionChangeEvent.Handler() {
 
 			@Override
@@ -104,48 +99,6 @@ public class MainForm extends VerticalPanel {
 			}
 		});
 
-
-		// Navigator Panels & Widgets
-
-		// Details Panels & Widgets
-		
-		
-		impressum.addClickHandler(new ImpressumButton());
-		
-		newKontaktliste.addClickHandler(new NewListClickHandler());
-//		{
-//
-//			@Override
-//			public void onClick(ClickEvent event) {
-//				DialogBoxNewKontaktliste dbk = new DialogBoxNewKontaktliste();
-//				dbk.center();
-//			}
-//			
-//		});
-
-		newKontakt.addClickHandler(new NewKontaktClickHandler());
-//		{
-//
-//			@Override
-//			public void onClick(ClickEvent event) {
-//				NewKontaktForm nkf = new NewKontaktForm();
-//				RootPanel.get("Details").clear();
-//				RootPanel.get("Details").add(nkf);
-//			}
-	//	});
-		
-		suchen.addClickHandler(new SuchenClickHandler());
-//		{
-//			
-//			@Override
-//			public void onClick(ClickEvent event) {
-//				SuchenForm sf = new SuchenForm();
-//				RootPanel.get("Details").clear();
-//				RootPanel.get("Details").add(sf);
-//			}
-//		});
-		
-		
 		hpanelButtonBar.add(newTeilhaberschaft);
 		hpanelButtonBar.add(newKontaktliste);
 		hpanelButtonBar.add(newKontakt);
@@ -156,27 +109,26 @@ public class MainForm extends VerticalPanel {
 
 		hpanelButtonBar.add(impressum);
 
-		
 		scrollPanel.setSize("450px", "250px");
 		scrollPanel.setStyleName("scrollPanel");
 		cellList.setStyleName("cellListKontakte");
 		scrollPanel.add(cellList);
 
 		RootPanel.get("Buttonbar").add(fPanel);
-		
+
 		anordnung.setWidget(0, 0, greetHTML1);
 		anordnung.setWidget(1, 0, greetHTML2);
 		anordnung.setWidget(0, 1, html1);
 		anordnung.setWidget(1, 1, scrollPanel);
-		
-		
-//		hpanelDetails.add(greetHTML);
-//		hpanelDetails.add(scrollPanel);
-		
-		//vpanelDetails.add(html1);
+
 		vpanelDetails.add(hpanelDetails);
 		vpanelDetails.add(anordnung);
 		this.add(vpanelDetails);
+
+		impressum.addClickHandler(new ImpressumButton());
+		newKontaktliste.addClickHandler(new NewListClickHandler());
+		newKontakt.addClickHandler(new NewKontaktClickHandler());
+		suchen.addClickHandler(new SuchenClickHandler());
 
 	}
 
@@ -184,49 +136,46 @@ public class MainForm extends VerticalPanel {
 
 		@Override
 		public void onClick(ClickEvent event) {
-			// TODO Auto-generated method stub
 			ImpressumSeite imp = new ImpressumSeite();
 			RootPanel.get("Details").clear();
 			RootPanel.get("Details").add(imp);
 		}
-		
+
 	}
-	
-	class NewListClickHandler implements ClickHandler{
+
+	class NewListClickHandler implements ClickHandler {
 
 		@Override
 		public void onClick(ClickEvent event) {
-			// TODO Auto-generated method stub
 			DialogBoxNewKontaktliste dbk = new DialogBoxNewKontaktliste();
 			dbk.center();
 		}
-		
+
 	}
-	
-	class NewKontaktClickHandler implements ClickHandler{
+
+	class NewKontaktClickHandler implements ClickHandler {
 
 		@Override
 		public void onClick(ClickEvent event) {
-			// TODO Auto-generated method stub
 			NewKontaktForm nkf = new NewKontaktForm();
 			RootPanel.get("Details").clear();
 			RootPanel.get("Details").add(nkf);
 		}
-		
-	}
-	
-class SuchenClickHandler implements ClickHandler{
 
-	@Override
-	public void onClick(ClickEvent event) {
-		// TODO Auto-generated method stub
-	
+	}
+
+	class SuchenClickHandler implements ClickHandler {
+
+		@Override
+		public void onClick(ClickEvent event) {
+
 			SuchenForm sf = new SuchenForm();
 			RootPanel.get("Details").clear();
 			RootPanel.get("Details").add(sf);
-		
+
+		}
 	}
-}
+
 	class KontaktCallBack implements AsyncCallback<List<Kontakt>> {
 
 		@Override
@@ -277,7 +226,6 @@ class SuchenClickHandler implements ClickHandler{
 
 		@Override
 		public void onFailure(Throwable caught) {
-			
 
 		}
 
@@ -287,7 +235,5 @@ class SuchenClickHandler implements ClickHandler{
 		}
 
 	}
-
-	
 
 }
