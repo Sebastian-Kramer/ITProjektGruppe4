@@ -71,7 +71,6 @@ public class KontaktForm extends VerticalPanel {
 
 
 	public KontaktForm(Kontakt k, String teilhaberschaft) {
-
 		this.k = k;
 		Window.alert(teilhaberschaft);
 		ctf = new CellTableForm(k, teilhaberschaft);
