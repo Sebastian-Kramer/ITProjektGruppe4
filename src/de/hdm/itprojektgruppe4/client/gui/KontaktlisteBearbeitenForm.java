@@ -63,12 +63,11 @@ public class KontaktlisteBearbeitenForm extends VerticalPanel {
 
 		nutzer.setID(Integer.parseInt(Cookies.getCookie("id")));
 		nutzer.setEmail(Cookies.getCookie("email"));
-
+		
 		// Instantiieren des DataProviders, der die Daten fuer die Liste haelt
 		// KontakteDataProvider dataProvider = new KontakteDataProvider();
 		// dataProvider.addDataDisplay(kontaktCellList);
 		kontaktCellList.setSelectionModel(selectionModel);
-
 		kontaktVerwaltung.getAllKontakteFromKontaktliste(kl.getID(), new KontakteVonKontaktlisteCallback());
 		dataProvider.addDataDisplay(kontaktCellList);
 
@@ -109,17 +108,16 @@ public class KontaktlisteBearbeitenForm extends VerticalPanel {
 
 		@Override
 		public void onClick(ClickEvent event) {
-			// Wenn die ausgew�hlte Kontaktliste vom Nutzer erstellt wurde,
-			// wird diese gel�scht
+			// Wenn die ausgewaehlte Kontaktliste vom Nutzer erstellt wurde,
+			// wird diese geloescht
 			if (kl.getNutzerID() == nutzer.getID()) {
 				kontaktVerwaltung.deleteKontaktliste(kl, new KontaktlisteloeschenCallback());
 			}
 			// Wenn nur eine Teilhaberschaft an der Kontaktliste besteht, wird
 			// nur diese aufgel�st
 			else {
-				if(Window.confirm(" Wollen Sie Die Kontaktliste wirklich loeschen?")){
 				kontaktVerwaltung.deleteTeilhaberschaftByKontaktlisteID(kl.getID(), new KontaktlisteloeschenCallback());
-			}
+			
 			}
 
 		}
