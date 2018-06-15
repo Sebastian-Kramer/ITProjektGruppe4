@@ -4,7 +4,9 @@ import java.util.Vector;
 
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
-
+import com.google.gwt.event.dom.client.KeyCodes;
+import com.google.gwt.event.dom.client.KeyDownEvent;
+import com.google.gwt.event.dom.client.KeyDownHandler;
 import com.google.gwt.user.cellview.client.CellList;
 import com.google.gwt.user.client.Cookies;
 import com.google.gwt.user.client.Window;
@@ -25,7 +27,7 @@ import de.hdm.itprojektgruppe4.client.ClientsideSettings;
 import de.hdm.itprojektgruppe4.client.NavigationTree;
 
 /**
- * Diese Klasse dient der Bearbeitung einer Kontaktliste. Hier können Kontakte
+ * Diese Klasse dient der Bearbeitung einer Kontaktliste. Hier kï¿½nnen Kontakte
  * zur Kontaktliste hinzugefuegt oder entfernt werden, der Name der Kontaktliste
  * geaendert werden, sowie die komplette Kontaktliste geloescht werden.
  *
@@ -46,6 +48,8 @@ public class KontaktlisteBearbeitenForm extends VerticalPanel {
 	private Button kontaktEntfernen = new Button("Kontakt entfernen");
 	private Button zurueck = new Button("Bearbeitung beenden");
 
+	private KeyDownHandler changeListNameHandler = new ChangeListNameHandler(); 
+	
 	private Label lbl_kontaktliste = new Label("Kontaktlistenname:");
 	private TextBox txt_kontaktliste = new TextBox();
 
@@ -94,6 +98,7 @@ public class KontaktlisteBearbeitenForm extends VerticalPanel {
 		kontaktEntfernen.addClickHandler(new KontaktEntfernenClickhandler());
 		kontaktlisteLoeschen.addClickHandler(new KontaktlisteloeschenClickhandler());
 		zurueck.addClickHandler(new BearbeitenBeendenClickhandler());
+		txt_kontaktliste.addKeyDownHandler(changeListNameHandler);
 
 	}
 
@@ -185,6 +190,48 @@ public class KontaktlisteBearbeitenForm extends VerticalPanel {
 
 	}
 
+	private class ChangeListNameHandler implements KeyDownHandler{
+
+		@Override
+		public void onKeyDown(KeyDownEvent event) {
+			// TODO Auto-generated method stub
+			if (event.getNativeKeyCode() == KeyCodes.KEY_ENTER) {
+				kl.setBez(txt_kontaktliste.getValue());
+				kontaktVerwaltung.updateKontaktliste(kl, new UpdateKontaktlisteCallback());
+				
+				
+				NavigationTree updatedNavTree = new NavigationTree();
+				
+				RootPanel.get("Navigator").clear();
+				
+				RootPanel.get("Navigator").add(updatedNavTree);
+				
+			}
+			
+			
+		}
+		
+		
+	}
+	
+	
+	private class UpdateKontaktlisteCallback implements AsyncCallback<Kontaktliste> {
+
+		@Override
+		public void onFailure(Throwable caught) {
+			// TODO Auto-generated method stub
+			
+		}
+
+		@Override
+		public void onSuccess(Kontaktliste result) {
+			// TODO Auto-generated method stub
+			Window.alert("Der Name der Liste wurde erfolgreich zu " + result.getBez() +" geÃ¤ndert." );
+		}
+		
+	}
+	
+	
 	/**
 	 * Callback-Klasse, um alle Kontakte der Kontaktliste auszulesen. Jedes
 	 * Kontakt Object aus dem Vector Result wird zum ListDataProvider
