@@ -2,6 +2,13 @@ package de.hdm.itprojektgruppe4.shared.report;
 
 import java.util.Vector;
 
+/**
+ * Einfacher Report. Weist Informationen der Superklasse Report auf und eine Tabelle auf, 
+ * die auf die beiden Hilfsklassen Row und Column zugreift
+ * Code in Anlehnung an Prof. Thies
+ *
+ */
+
 	public abstract class SimpleReport extends Report {
 	
 		private static final long serialVersionUID = 1L ;
