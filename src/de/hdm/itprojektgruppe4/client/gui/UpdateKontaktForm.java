@@ -14,6 +14,8 @@ import com.google.gwt.dom.client.NativeEvent;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.dom.client.KeyCodes;
+import com.google.gwt.event.dom.client.KeyDownEvent;
+import com.google.gwt.event.dom.client.KeyDownHandler;
 import com.google.gwt.i18n.client.DateTimeFormat;
 
 import com.google.gwt.user.cellview.client.HasKeyboardSelectionPolicy.KeyboardSelectionPolicy;
@@ -56,6 +58,8 @@ public class UpdateKontaktForm extends VerticalPanel {
 	private Label lbl_NewAuspraegung = new Label("Auspraegung: ");
 	private TextBox txt_Auspraegung = new TextBox();
 	private Date date = new Date();
+	
+	private KeyDownHandler changeNameHandler = new ChangeNameHandler(); 
 	
 	private CellTableForm ctf = null;
 	private ButtonCell deletebtn = new ButtonCell();
@@ -155,6 +159,8 @@ public class UpdateKontaktForm extends VerticalPanel {
 		cancelBtn.addClickHandler(new CancelClick()); 
 
 		addRow.addClickHandler(new ClickAddRowHandler());
+		
+		txt_KontaktName.addKeyDownHandler(changeNameHandler);
 
 	}
 	
@@ -209,6 +215,24 @@ public class UpdateKontaktForm extends VerticalPanel {
 			
 		}
 		}
+	
+	
+	
+	class ChangeNameHandler implements KeyDownHandler{
+
+		@Override
+		public void onKeyDown(KeyDownEvent event) {
+			// TODO Auto-generated method stub
+			if (event.getNativeKeyCode() == KeyCodes.KEY_ENTER) {
+				kon.setName(txt_KontaktName.getValue());
+				verwaltung.updateKontakt(kon, new KontaktModifikationsdatumCallback());
+			}
+		}
+		
+		
+	}
+	
+	
 	
 	class KontaktModifikationsdatumCallback implements AsyncCallback<Kontakt>{
 

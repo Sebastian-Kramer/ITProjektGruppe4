@@ -160,8 +160,7 @@ public class TeilhaberschaftMapper {
 
 			ResultSet rs = stmt.executeQuery(
 
-					"SELECT `ID`, `kontaktlisteID`, `kontaktID`, `eigenschaftsauspraegungID`,"
-							+ " `teilhaberID`, `nutzerID` FROM" + " `teilhaberschaft` "
+					"SELECT * FROM `teilhaberschaft` "
 									+ "WHERE kontaktlisteID=" + kontaktlisteID +" " + "AND teilhaberID=" + teilhaberID);
 
 			if (rs.next()) {
@@ -356,6 +355,37 @@ public class TeilhaberschaftMapper {
 			Statement stmt = con.createStatement();
 
 			ResultSet rs = stmt.executeQuery("SELECT * FROM teilhaberschaft WHERE eigenschaftsauspraegungID = " + auspraegungID);
+
+			while (rs.next()) {
+				Teilhaberschaft teilhaberschaft = new Teilhaberschaft();
+				teilhaberschaft.setID(rs.getInt("ID"));
+				teilhaberschaft.setKontaktListeID(rs.getInt("kontaktlisteID"));
+				teilhaberschaft.setKontaktID(rs.getInt("kontaktID"));
+				teilhaberschaft.setEigenschaftsauspraegungID(rs.getInt("eigenschaftsauspraegungID"));
+				teilhaberschaft.setTeilhaberID(rs.getInt("teilhaberID"));
+				teilhaberschaft.setNutzerID(rs.getInt("nutzerID"));
+
+				result.addElement(teilhaberschaft);
+
+			}
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+
+		return result;
+
+	}
+	
+	public Vector<Teilhaberschaft> findTeilhaberschaftenByKontaktlisteID(int kontaktlisteID) {
+		Vector<Teilhaberschaft> result = new Vector<Teilhaberschaft>();
+
+		Connection con = DBConnection.connection();
+
+		try {
+			Statement stmt = con.createStatement();
+
+			ResultSet rs = stmt.executeQuery("SELECT * FROM teilhaberschaft WHERE kontaktlisteID = " + kontaktlisteID);
 
 			while (rs.next()) {
 				Teilhaberschaft teilhaberschaft = new Teilhaberschaft();

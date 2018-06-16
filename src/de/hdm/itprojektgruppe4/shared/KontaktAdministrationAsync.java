@@ -189,8 +189,6 @@ public interface KontaktAdministrationAsync {
 	void findAllEigenschaftauspraegung(AsyncCallback<Vector<Eigenschaftauspraegung>> callback);
 
 
-	void findTeilenderVonKontaktliste(int kontaktlisteID, int teilhaberID, AsyncCallback<Nutzer> callback);
-
 	void insertTeilhaberschaftAusgewaehlteAuspraegungenKontakt(Kontakt kon, Vector<EigenschaftAuspraegungWrapper> eaw,
 			String selectedValue, int id, AsyncCallback<Teilhaberschaft> callback);
 

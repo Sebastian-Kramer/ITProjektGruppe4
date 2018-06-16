@@ -6,13 +6,13 @@ import java.util.Vector;
 
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
-import com.google.gwt.i18n.client.NumberFormat;
+
 import com.google.gwt.user.cellview.client.CellList;
 import com.google.gwt.user.client.Cookies;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Button;
-import com.google.gwt.user.client.ui.Grid;
+
 import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Label;
@@ -20,11 +20,9 @@ import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.view.client.ListDataProvider;
 import com.google.gwt.view.client.Range;
-import com.google.gwt.view.client.SelectionChangeEvent;
 import com.google.gwt.view.client.SingleSelectionModel;
 import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwt.user.client.ui.ScrollPanel;
-import com.google.gwt.user.cellview.client.SimplePager;
 import com.google.gwt.view.client.AsyncDataProvider;
 import com.google.gwt.view.client.HasData;
 import com.google.gwt.user.client.ui.FlowPanel;
@@ -44,7 +42,7 @@ public class KontaktlisteForm extends VerticalPanel {
 	private VerticalPanel vpanel = new VerticalPanel();
 	private HorizontalPanel hpanel = new HorizontalPanel();
 	private Label lbl_geteilt = new Label();
-	private Label teilender = new Label();
+	private Label ersteller = new Label();
 	
 	private ScrollPanel scrollPanel = new ScrollPanel();
 	private FlowPanel fpanel = new FlowPanel();
@@ -64,7 +62,7 @@ public class KontaktlisteForm extends VerticalPanel {
 	
 	private Kontaktliste kl = null;
 	private Nutzer nutzer = new Nutzer();
-	private Nutzer teilenderNutzer = null;
+	private Nutzer kontaktlisteErsteller = null;
 	
 	/**
 	 * Konstruktor, der beim Auswaehlen einer Kontaktliste im Baum eingesetzt wird.
@@ -72,7 +70,8 @@ public class KontaktlisteForm extends VerticalPanel {
 	 */
 	public KontaktlisteForm(Kontaktliste kontaktliste){
 		this.kl = kontaktliste;	
-		kontaktVerwaltung.findTeilenderVonKontaktliste(kl.getID(), nutzer.getID(), new TeilendenAnzeigenCallback());
+		kontaktVerwaltung.findNutzerByID(kl.getNutzerID(), new KontaktlistenErstellerCallback());
+		
 	}
 	
 	public void onLoad(){
@@ -91,6 +90,8 @@ public class KontaktlisteForm extends VerticalPanel {
 		scrollPanel.add(kontaktCellList);
 		HTML html1 = new HTML("<h2>" +  kl.getBez()   + "</h2>");
 	
+		
+		//setTextboxStatus();
 		/*
 		 * Hinzufuegen der Buttons zur Buttonbar
 		 */
@@ -105,14 +106,17 @@ public class KontaktlisteForm extends VerticalPanel {
 		 * Wenn der angemeldete Nutzer nicht Eigentuemer, sondern nur Teilhaber der Kontaktliste ist wird auï¿½erdem
 		 * der Nutzer in einem Label angezeigt, der die Kontaktliste mit dem angemeldeten Nutzer geteilt hat.
 		 */
+		/*
 		if(kl.getStatus() == 1){
 			lbl_geteilt.setText("Status: geteilt");
 			if(kl.getNutzerID() != nutzer.getID()){
-				teilender.setText("Geteilt von: " + teilenderNutzer.getEmail());
-				hpanel.add(teilender);
+				ersteller.setText("Geteilt von: " + kontaktlisteErsteller.getEmail());
+				hpanel.add(ersteller);
 			}
 			hpanel.add(lbl_geteilt);
 		}
+		*/
+		
 		fpanel.add(kontaktAnzeigen);
 		fpanel.add(kontaktlisteTeilen);
 		fpanel.add(teilhaberschaften);
@@ -125,7 +129,6 @@ public class KontaktlisteForm extends VerticalPanel {
 		hpanel.add(html1);
 		vpanel.add(hpanel);
 		vpanel.add(scrollPanel);
-		vpanel.add(kontaktCellList);
 		RootPanel.get("Details").add(vpanel);
 		
 		/*
@@ -139,10 +142,20 @@ public class KontaktlisteForm extends VerticalPanel {
 
 	}
 	
-	private void SetEditable(){
-		RootPanel.get("Buttonbar").clear();
-		
+	
+	/*
+	private void setTextboxStatus(){
+		if(kl.getStatus() == 1){
+			//lbl_geteilt.setText("Status: geteilt");
+			if(kl.getNutzerID() != nutzer.getID()){
+				
+				teilender.setText("Diese Kontaktliste wurde erstellt von: " + kontaktlisteErsteller.getEmail());
+				hpanel.add(teilender);
+			}
+			hpanel.add(lbl_geteilt);
+		}
 	}
+	*/
 	
 	/*
 	 * Clickhandler ermöglicht das Anzeigen eines ausgewaehlten Kontaktes.
@@ -155,9 +168,12 @@ public class KontaktlisteForm extends VerticalPanel {
 				Window.alert("Sie muessen einen Kontakt auswï¿½hlen");
 			}else{
 			KontaktForm kf = new KontaktForm(selectionModel.getSelectedObject(), "teilhaberschaft");
+
+
+
+
 			RootPanel.get("Details").clear();
 			RootPanel.get("Details").add(kf);
-			kktvm.setSelectedKontakt(selectionModel.getSelectedObject());
 			}
 		}
 		
@@ -172,6 +188,23 @@ public class KontaktlisteForm extends VerticalPanel {
 			dbteilen.center();
 			
 		}
+		
+	}
+	
+	private class KontaktlistenErstellerCallback implements AsyncCallback<Nutzer>{
+
+		@Override
+		public void onFailure(Throwable caught) {
+			// TODO Auto-generated method stub
+			
+		}
+
+		@Override
+		public void onSuccess(Nutzer result) {
+			kontaktlisteErsteller = result;
+			
+		}
+		
 		
 	}
 	
@@ -211,21 +244,6 @@ public class KontaktlisteForm extends VerticalPanel {
 		
 	}
 	
-	private class TeilendenAnzeigenCallback implements AsyncCallback<Nutzer>{
-
-		@Override
-		public void onFailure(Throwable caught) {
-			// TODO Auto-generated method stub
-			
-		}
-
-		@Override
-		public void onSuccess(Nutzer result) {
-			teilenderNutzer = result;
-			
-		}
-		
-	}
 		
 		
 	
