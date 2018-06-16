@@ -102,6 +102,8 @@ public interface KontaktAdministrationAsync {
 	void insertKontaktKontaktliste(int kontaktID, int kontaktlisteID, AsyncCallback<KontaktKontaktliste> callback);
 
 	void deleteKontaktKontaktliste(KontaktKontaktliste k, AsyncCallback<Void> callback);
+	
+	void deleteKontaktKontaktlisteByKontaktIDAndByKListID(int kontaktID, int kontaktlisteID, AsyncCallback<Void> callback);
 
 	void findKontaktlisteByNutzerID(int nutzerID, AsyncCallback<Vector<Kontaktliste>> callback);
 
@@ -149,12 +151,17 @@ public interface KontaktAdministrationAsync {
 	void findBasicKontaktliste(int nutzerID, AsyncCallback<Kontaktliste> callback);
 
 	void findKontaktliste(int nutzerID, String bez, AsyncCallback<Kontaktliste> callback);
+	
+	void findKontaktlisteMeineGeteiltenKontakte(String kList, int nutzerID, AsyncCallback<Kontaktliste> callback);
 
 	void deleteTeilhaberschaftByKontaktlisteID(int kontaktlisteID, AsyncCallback<Void> callback);
 
 	void findAllSharedKontakteVonNutzer(int nutzerID, AsyncCallback<Vector<Kontakt>> callback);
 
 	void insertTeilhaberschaftKontaktliste(int kontaktlisteID, int teilhaberID, int nutzerID,
+			AsyncCallback<Teilhaberschaft> callback);
+	
+	void insertTeilhaberschaftAuspraegung(int eigenschaftauspraegungID, int teilhaberID, int nutzerID,
 			AsyncCallback<Teilhaberschaft> callback);
 
 	void findTeilhaberschaftByKontaktlisteID(int kontaktlisteID, AsyncCallback<Vector<Teilhaberschaft>> callback);
@@ -170,6 +177,8 @@ public interface KontaktAdministrationAsync {
 	void findKontaktlisteByNutzerIDexceptBasicList(int nutzerID, AsyncCallback<Vector<Kontaktliste>> callback);
 
 	void findTeilhaberschaftByTeilhaberID(int teilhaberID, int kontaktlisteID, AsyncCallback<Teilhaberschaft> callback);
+	
+	void findTeilhaberschaftByKontaktID(int kontaktID, AsyncCallback<Vector<Teilhaberschaft>> callback);
 
 	void findKontaktByNameAndNutzerID(Kontakt kontakt, AsyncCallback<Vector<Kontakt>> callback);
 
@@ -198,7 +207,7 @@ public interface KontaktAdministrationAsync {
 
 	void findSharedAuspraegung(int nutzerID, int kontaktID,
 			AsyncCallback<Vector<EigenschaftAuspraegungWrapper>> callback);
-
+	
 	
 
 }

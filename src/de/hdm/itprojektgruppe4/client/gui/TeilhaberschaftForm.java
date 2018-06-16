@@ -24,7 +24,9 @@ import com.google.gwt.view.client.SingleSelectionModel;
 import de.hdm.itprojektgruppe4.client.ClientsideSettings;
 import de.hdm.itprojektgruppe4.client.EigenschaftAuspraegungWrapper;
 import de.hdm.itprojektgruppe4.shared.KontaktAdministrationAsync;
+import de.hdm.itprojektgruppe4.shared.bo.Eigenschaftauspraegung;
 import de.hdm.itprojektgruppe4.shared.bo.Kontakt;
+import de.hdm.itprojektgruppe4.shared.bo.Kontaktliste;
 import de.hdm.itprojektgruppe4.shared.bo.Nutzer;
 import de.hdm.itprojektgruppe4.shared.bo.Teilhaberschaft;
 
@@ -56,16 +58,20 @@ public class TeilhaberschaftForm extends VerticalPanel {
 	private ListBox dropBoxNutzer = new ListBox();
 
 	private CellTableForm ctf = null;
-	
+
 	private ScrollPanel scrollPanel = new ScrollPanel();
 
 	private Date date = new Date();
 
+	private Vector<Eigenschaftauspraegung> eaV = new Vector<Eigenschaftauspraegung>();
+
 	DateTimeFormat fmt = DateTimeFormat.getFormat("dd.MM.yyyy");
 
-	private HTML html2 = new HTML("Sie können auch nur bestimmte <b> Ausprägungen </b> an einen anderen <b> Nutzer </b> teilen, "
-			+ " </br> wählen Sie dafür die entsprechenden <b> Ausprägungen </b>  mit den Checkboxen aus."
-			+ "<span style='font-family:fixed'></span>", true);
+	private HTML html2 = new HTML(
+			"Sie können auch nur bestimmte <b> Ausprägungen </b> an einen anderen <b> Nutzer </b> teilen, "
+					+ " </br> wählen Sie dafür die entsprechenden <b> Ausprägungen </b>  mit den Checkboxen aus."
+					+ "<span style='font-family:fixed'></span>",
+			true);
 
 	private HTML html3 = new HTML("Bitte wählen Sie hier den <b> Nutzer </b> aus dem der "
 			+ " <b>Kontakt</b>  geteilt werden soll." + "<span style='font-family:fixed'></span>", true);
@@ -76,7 +82,7 @@ public class TeilhaberschaftForm extends VerticalPanel {
 	public TeilhaberschaftForm(Kontakt k) {
 
 		this.kon = k;
-
+		einzTeilen.setVisible(false);
 		fmt.format(date);
 
 	}
@@ -90,11 +96,11 @@ public class TeilhaberschaftForm extends VerticalPanel {
 		nutzer.setEmail(Cookies.getCookie("email"));
 
 		verwaltung.findAllNutzer(new AlleNutzer());
+		verwaltung.getAuspraegungByKontaktID(kon.getID(), new AuspraegungCallback());
 
 		ctf = new CellTableForm(kon);
 		ctf.setSelectionModel(selectionModelWrapper,
 				DefaultSelectionEventManager.<EigenschaftAuspraegungWrapper>createCheckboxManager());
-
 		selectionModelWrapper.addSelectionChangeHandler(new Handler());
 
 		zurueck.addClickHandler(new ZurueckClickHandler());
@@ -133,6 +139,57 @@ public class TeilhaberschaftForm extends VerticalPanel {
 
 	}
 
+	class AuspraegungCallback implements AsyncCallback<Vector<Eigenschaftauspraegung>> {
+
+		@Override
+		public void onFailure(Throwable caught) {
+
+		}
+
+		@Override
+		public void onSuccess(Vector<Eigenschaftauspraegung> result) {
+			for (Eigenschaftauspraegung e : result) {
+				if (e.getStatus() == 1) {
+					eaV.add(e);
+				}
+			}
+			if (eaV.isEmpty()) {
+				kon.setStatus(0);
+				verwaltung.updateKontakt(kon, new StatusAendernCallback());
+
+			}
+		}
+
+	}
+
+	class KontaktAusKlistLoeschen implements AsyncCallback<Void> {
+
+		@Override
+		public void onFailure(Throwable caught) {
+
+		}
+
+		@Override
+		public void onSuccess(Void result) {
+
+		}
+
+	}
+
+	class StatusAendernCallback implements AsyncCallback<Kontakt> {
+
+		@Override
+		public void onFailure(Throwable caught) {
+
+		}
+
+		@Override
+		public void onSuccess(Kontakt result) {
+			
+		}
+
+	}
+
 	class Handler implements SelectionChangeEvent.Handler {
 
 		@Override
@@ -146,6 +203,7 @@ public class TeilhaberschaftForm extends VerticalPanel {
 		}
 
 	}
+
 
 	class DeleteFieldUpdater implements FieldUpdater<EigenschaftAuspraegungWrapper, String> {
 
@@ -221,8 +279,8 @@ public class TeilhaberschaftForm extends VerticalPanel {
 
 		@Override
 		public void onSuccess(Teilhaberschaft result) {
-			Window.alert("Alle Eigenschaften wurden erfolgreich an den Nutzer " + dropBoxNutzer.getSelectedValue()
-					+ " geteilt");
+			Window.alert("Die Teilhaberschaft wurden erfolgreich mit dem Nutzer " + dropBoxNutzer.getSelectedValue()
+					+ " angelegt");
 			TeilhaberschaftForm tf = new TeilhaberschaftForm(kon);
 			RootPanel.get("Details").clear();
 			RootPanel.get("Details").add(tf);
@@ -234,15 +292,15 @@ public class TeilhaberschaftForm extends VerticalPanel {
 
 		@Override
 		public void onClick(ClickEvent event) {
-			TeilhaberschaftForm tf = new TeilhaberschaftForm(kon);
+
+
 			Vector<EigenschaftAuspraegungWrapper> ea = new Vector<EigenschaftAuspraegungWrapper>();
 			for (EigenschaftAuspraegungWrapper eaw : selectionModelWrapper.getSelectedSet()) {
 				ea.add(eaw);
 			}
 			verwaltung.insertTeilhaberschaftAusgewaehlteAuspraegungenKontakt(kon, ea, dropBoxNutzer.getSelectedValue(),
 					nutzer.getID(), new TeilhaberschaftCallback());
-			RootPanel.get("Details").clear();
-			RootPanel.get("Details").add(tf);
+
 		}
 
 	}

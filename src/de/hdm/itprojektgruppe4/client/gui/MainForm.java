@@ -9,9 +9,9 @@ import com.google.gwt.user.cellview.client.CellList;
 import com.google.gwt.user.client.Cookies;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
+import com.google.gwt.user.client.ui.Anchor;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.FlexTable;
-import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.RootPanel;
@@ -21,6 +21,7 @@ import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.view.client.SelectionChangeEvent;
 import com.google.gwt.view.client.SingleSelectionModel;
 import de.hdm.itprojektgruppe4.client.ClientsideSettings;
+import de.hdm.itprojektgruppe4.client.LoginInfo;
 import de.hdm.itprojektgruppe4.shared.KontaktAdministrationAsync;
 import de.hdm.itprojektgruppe4.shared.bo.Kontakt;
 import de.hdm.itprojektgruppe4.shared.bo.Kontaktliste;
@@ -42,11 +43,12 @@ public class MainForm extends VerticalPanel {
 	Nutzer nutzer = new Nutzer();
 
 	private VerticalPanel vpanelDetails = new VerticalPanel();
-	private FlowPanel fPanel = new FlowPanel();
 	private HorizontalPanel hpanelDetails = new HorizontalPanel();
-	private HorizontalPanel hpanelButtonBar = new HorizontalPanel();
 
 	private FlexTable anordnung = new FlexTable();
+	
+	private Anchor signOutLink = new Anchor("Logout");
+	private LoginInfo loginInfo = null;
 
 	private Button newKontakt = new Button("Neuer Kontakt anlegen");
 	private Button newKontaktliste = new Button("Neue Kontaktliste anlegen");
@@ -72,6 +74,7 @@ public class MainForm extends VerticalPanel {
 	private ScrollPanel scrollPanel = new ScrollPanel();
 
 	public MainForm() {
+	
 	}
 
 	public void onLoad() {
@@ -80,41 +83,25 @@ public class MainForm extends VerticalPanel {
 		nutzer.setID(Integer.parseInt(Cookies.getCookie("id")));
 		nutzer.setEmail(Cookies.getCookie("email"));
 
-		Window.alert(nutzer.getEmail());
-
 		verwaltung.findKontaktByNutzerID(nutzer.getID(), new KontaktCallBack());
 
 		cellList.setSelectionModel(selectionModel);
 
-		selectionModel.addSelectionChangeHandler(new SelectionChangeEvent.Handler() {
-
-			@Override
-			public void onSelectionChange(SelectionChangeEvent event) {
-				Kontakt selected = selectionModel.getSelectedObject();
-				Window.alert("Sie haben folgenden Kontakt ausgewählt: " + selected.getName());
-				KontaktForm kf = new KontaktForm(selected);
-				RootPanel.get("Details").clear();
-				RootPanel.get("Details").add(kf);
-
-			}
-		});
-
-		hpanelButtonBar.add(newTeilhaberschaft);
-		hpanelButtonBar.add(newKontaktliste);
-		hpanelButtonBar.add(newKontakt);
-		hpanelButtonBar.add(suchen);
-
-		hpanelButtonBar.addStyleName("MainFormButtonbar");
-		fPanel.add(hpanelButtonBar);
-
-		hpanelButtonBar.add(impressum);
+		selectionModel.addSelectionChangeHandler(new SelectionChangeHandler()); 
 
 		scrollPanel.setSize("450px", "250px");
 		scrollPanel.setStyleName("scrollPanel");
 		cellList.setStyleName("cellListKontakte");
 		scrollPanel.add(cellList);
+		
+//		signOutLink.setHref(loginInfo.getLogoutUrl());
 
-		RootPanel.get("Buttonbar").add(fPanel);
+		RootPanel.get("Buttonbar").add(newTeilhaberschaft);
+		RootPanel.get("Buttonbar").add(newKontaktliste);
+		RootPanel.get("Buttonbar").add(newKontakt);
+		RootPanel.get("Buttonbar").add(suchen);
+		RootPanel.get("Buttonbar").add(impressum);
+//		RootPanel.get("Buttonbar").add(signOutLink);
 
 		anordnung.setWidget(0, 0, greetHTML1);
 		anordnung.setWidget(1, 0, greetHTML2);
@@ -130,6 +117,20 @@ public class MainForm extends VerticalPanel {
 		newKontakt.addClickHandler(new NewKontaktClickHandler());
 		suchen.addClickHandler(new SuchenClickHandler());
 
+	}
+	
+	class SelectionChangeHandler implements SelectionChangeEvent.Handler {
+
+		@Override
+		public void onSelectionChange(SelectionChangeEvent event) {
+			Kontakt selected = selectionModel.getSelectedObject();
+			Window.alert("Sie haben folgenden Kontakt ausgewählt: " + selected.getName());
+			KontaktForm kf = new KontaktForm(selected);
+			RootPanel.get("Details").clear();
+			RootPanel.get("Details").add(kf);
+			
+		}
+		
 	}
 
 	class ImpressumButton implements ClickHandler {

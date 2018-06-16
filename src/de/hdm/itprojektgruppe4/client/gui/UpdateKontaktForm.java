@@ -28,6 +28,7 @@ import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.MultiWordSuggestOracle;
 import com.google.gwt.user.client.ui.RootPanel;
+import com.google.gwt.user.client.ui.ScrollPanel;
 import com.google.gwt.user.client.ui.SuggestBox;
 import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.client.ui.VerticalPanel;
@@ -60,6 +61,8 @@ public class UpdateKontaktForm extends VerticalPanel {
 	private Date date = new Date();
 	
 	private KeyDownHandler changeNameHandler = new ChangeNameHandler(); 
+	
+	private ScrollPanel scrollPanel = new ScrollPanel();
 	
 	private CellTableForm ctf = null;
 	private ButtonCell deletebtn = new ButtonCell();
@@ -136,8 +139,9 @@ public class UpdateKontaktForm extends VerticalPanel {
 		hpanelDetails.add(lbl_KontaktName);
 		hpanelDetails.add(txt_KontaktName);
 
+		scrollPanel.add(ctf);
 		vpanelDetails.add(hpanelDetails);
-		vpanelDetails.add(ctf);
+		vpanelDetails.add(scrollPanel);
 		vpanelDetails.add(hpanelAdd);
 		hpanelAdd.add(lbl_NewEigenschaft);
 		hpanelAdd.add(eigenschaftSugBox);
@@ -149,6 +153,8 @@ public class UpdateKontaktForm extends VerticalPanel {
 		ctf.addColumn(bezEigenschaft, "Eigenschaft: ");
 		ctf.addColumn(wertAuspraegung, "Wert: ");
 		ctf.addColumn(deleteBtn, "Löschen");
+		scrollPanel.setHeight("400px");
+		
 	
 		RootPanel.get("Buttonbar").add(cancelBtn);
 		

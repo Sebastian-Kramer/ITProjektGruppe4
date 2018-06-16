@@ -32,9 +32,7 @@ public class CellTableForm extends CellTable<EigenschaftAuspraegungWrapper> {
 
 	private Kontakt kontakt = new Kontakt();
 	private ImageCell imageCell = new ImageCell();
-	
-	
-	
+
 	private List<EigenschaftAuspraegungWrapper> eList = new ArrayList<>();
 	KontaktAdministrationAsync verwaltung = ClientsideSettings.getKontaktVerwaltung();
 
@@ -74,6 +72,7 @@ public class CellTableForm extends CellTable<EigenschaftAuspraegungWrapper> {
 						setRowCount(eList.size(), true);
 					}
 				});
+		this.setPageSize(100);
 		run();
 	}
 
@@ -86,7 +85,6 @@ public class CellTableForm extends CellTable<EigenschaftAuspraegungWrapper> {
 			return object.getEigenschaftValue();
 		}
 	};
-	
 
 	Column<EigenschaftAuspraegungWrapper, String> wertAuspraegung = new Column<EigenschaftAuspraegungWrapper, String>(
 
@@ -97,7 +95,6 @@ public class CellTableForm extends CellTable<EigenschaftAuspraegungWrapper> {
 			return object.getAuspraegungValue();
 		}
 	};
-	
 
 	Column<EigenschaftAuspraegungWrapper, String> status = new Column<EigenschaftAuspraegungWrapper, String>(
 			imageCell) {
@@ -116,7 +113,7 @@ public class CellTableForm extends CellTable<EigenschaftAuspraegungWrapper> {
 
 	};
 
-	Column<EigenschaftAuspraegungWrapper, Boolean> checkBox = new Column<EigenschaftAuspraegungWrapper, Boolean>( 
+	Column<EigenschaftAuspraegungWrapper, Boolean> checkBox = new Column<EigenschaftAuspraegungWrapper, Boolean>(
 			new CheckboxCell(true, false)) {
 
 		@Override
@@ -234,8 +231,8 @@ public class CellTableForm extends CellTable<EigenschaftAuspraegungWrapper> {
 	public void run() {
 
 		this.setSelectionModel(sm);
-
 		this.setStyleName("CellTableHyprid");
+		this.setPageSize(100);
 		model.addDataDisplay(this);
 
 	}
@@ -258,7 +255,7 @@ public class CellTableForm extends CellTable<EigenschaftAuspraegungWrapper> {
 		this.redraw();
 	}
 
-	class ColumnAuspraegung extends Column<EigenschaftAuspraegungWrapper, String>{
+	class ColumnAuspraegung extends Column<EigenschaftAuspraegungWrapper, String> {
 
 		public ColumnAuspraegung(Cell<String> cell) {
 			super(cell);
@@ -270,10 +267,10 @@ public class CellTableForm extends CellTable<EigenschaftAuspraegungWrapper> {
 			// TODO Auto-generated method stub
 			return object.getAuspraegungValue();
 		}
-		
+
 	}
-	
-	class ColumnCeckBox extends Column<EigenschaftAuspraegungWrapper, Boolean>{
+
+	class ColumnCeckBox extends Column<EigenschaftAuspraegungWrapper, Boolean> {
 
 		public ColumnCeckBox(Cell<Boolean> cell) {
 			super(cell);
@@ -285,10 +282,10 @@ public class CellTableForm extends CellTable<EigenschaftAuspraegungWrapper> {
 			// TODO Auto-generated method stub
 			return selectionModelWrapper.isSelected(object);
 		}
-		
+
 	}
-	
-	class ColumnDeleteBtn extends Column<EigenschaftAuspraegungWrapper, String>{
+
+	class ColumnDeleteBtn extends Column<EigenschaftAuspraegungWrapper, String> {
 
 		public ColumnDeleteBtn(Cell<String> cell) {
 			super(cell);
@@ -300,10 +297,10 @@ public class CellTableForm extends CellTable<EigenschaftAuspraegungWrapper> {
 			// TODO Auto-generated method stub
 			return "x";
 		}
-		
+
 	}
-	
-	class ColumnEigenschaft extends Column<EigenschaftAuspraegungWrapper, String>{
+
+	class ColumnEigenschaft extends Column<EigenschaftAuspraegungWrapper, String> {
 
 		public ColumnEigenschaft(Cell<String> cell) {
 			super(cell);
@@ -315,10 +312,10 @@ public class CellTableForm extends CellTable<EigenschaftAuspraegungWrapper> {
 			// TODO Auto-generated method stub
 			return object.getEigenschaftValue();
 		}
-		
+
 	}
-	
-	class ColumnStatus extends Column<EigenschaftAuspraegungWrapper, String>{
+
+	class ColumnStatus extends Column<EigenschaftAuspraegungWrapper, String> {
 
 		public ColumnStatus(Cell<String> cell) {
 			super(cell);
@@ -335,9 +332,9 @@ public class CellTableForm extends CellTable<EigenschaftAuspraegungWrapper> {
 				return object.getImageUrl2Contacts(object);
 			}
 		}
-		
+
 	}
-	
+
 	class AllAuspraegungToEigenschaftCallback implements AsyncCallback<Vector<EigenschaftAuspraegungWrapper>> {
 
 		@Override

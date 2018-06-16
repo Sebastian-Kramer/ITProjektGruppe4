@@ -140,7 +140,7 @@ public class ITProjektSS18 implements EntryPoint {
 		MainForm mainForm = new MainForm();
 		NavigationTree navigationTree = new NavigationTree();
 		signOutLink.setHref(loginInfo.getLogoutUrl());
-		RootPanel.get("Details").add(signOutLink);
+		RootPanel.get("Buttonbar").add(signOutLink);
 		RootPanel.get("Details").add(mainForm);
 		RootPanel.get("Navigator").add(navigationTree);
 	}

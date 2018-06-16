@@ -219,10 +219,7 @@ public class DialogBoxTeilhaberschaftVerwalten extends DialogBox {
 		@Override
 		public void onClick(ClickEvent event) {
 			kontaktVerwaltung.deleteUpdateTeilhaberschaft(ea, selectionModel.getSelectedObject(),
-					new TeilhaberschaftLoeschenCallback());
-			TeilhaberschaftForm tf = new TeilhaberschaftForm(kon);
-			RootPanel.get("Details").clear();
-			RootPanel.get("Details").add(tf);
+					new TeilhaberschaftAuspraegungLoeschenCallback());
 		}
 
 	}
@@ -247,6 +244,27 @@ public class DialogBoxTeilhaberschaftVerwalten extends DialogBox {
 
 		}
 
+	}
+	
+	private class TeilhaberschaftAuspraegungLoeschenCallback implements AsyncCallback<Void>{
+
+		@Override
+		public void onFailure(Throwable caught) {
+			Window.alert("Die Teilhaberschaft konnte nicht gelöscht werden");
+			
+		}
+
+		@Override
+		public void onSuccess(Void result) {
+			Window.alert("Die Teilhaberschaft wurde erfolgreich geloescht");
+			hide();
+			TeilhaberschaftForm tf = new TeilhaberschaftForm(kon);
+			RootPanel.get("Details").clear();
+			RootPanel.get("Details").add(tf);
+			
+			
+		}
+		
 	}
 
 	/**

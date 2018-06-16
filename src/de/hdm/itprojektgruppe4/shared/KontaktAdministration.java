@@ -709,4 +709,12 @@ public interface KontaktAdministration extends RemoteService {
 
 	public void deleteUpdateTeilhaberschaft(EigenschaftAuspraegungWrapper ea, Nutzer n) throws IllegalArgumentException;
 
+	public Vector<Teilhaberschaft> findTeilhaberschaftByKontaktID(int kontaktID) throws IllegalArgumentException;
+
+	public Teilhaberschaft insertTeilhaberschaftAuspraegung(int eigenschaftauspraegungID, int teilhaberID, int nutzerID);
+
+	public void deleteKontaktKontaktlisteByKontaktIDAndByKListID(int kontaktID, int kontaktlisteID) throws IllegalArgumentException;
+
+	public Kontaktliste findKontaktlisteMeineGeteiltenKontakte(String kList, int nutzerID) throws IllegalArgumentException;
+
 }

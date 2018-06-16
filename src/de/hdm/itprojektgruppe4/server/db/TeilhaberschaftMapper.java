@@ -494,6 +494,41 @@ public class TeilhaberschaftMapper {
 
 		return t;
 	}
+	
+	/**
+	 * 
+	 * @param t
+	 * @return
+	 */
+	public Teilhaberschaft insertTeilhaberschaftAuspraegung(Teilhaberschaft t) {
+		Connection con = DBConnection.connection();
+
+		try {
+			Statement stmt = con.createStatement();
+
+			ResultSet rs = stmt.executeQuery(
+
+					"SELECT MAX(ID) AS maxid " + "FROM teilhaberschaft ");
+
+			if (rs.next()) {
+
+				t.setID(rs.getInt("maxid") + 1);
+
+				stmt = con.createStatement();
+
+				stmt.executeUpdate(
+
+						" INSERT INTO `teilhaberschaft` (`ID`, `kontaktlisteID`, `kontaktID`, `eigenschaftsauspraegungID`, `teilhaberID`, `nutzerID`) "
+								+ " VALUES (" + t.getID() + ",NULL," + " NULL" + " , "
+								+ t.getEigenschaftsauspraegungID() + " ," + t.getTeilhaberID() + " ," + t.getNutzerID()
+								+ ")");
+			}
+		} catch (SQLException e2) {
+			e2.printStackTrace();
+		}
+
+		return t;
+	}
 
 	/**
 	 * Einfuegen eines neuen Teilhaberschaft-Objektes in die Datenbank. Wird

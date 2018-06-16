@@ -93,6 +93,36 @@ public class KontaktlisteMapper {
 	}
 	
 	/**
+	 * 
+	 * @param bezeichnung
+	 * @return
+	 */
+	public Kontaktliste findKontaktlisteMeineGeteiltenKontakte(String bezeichnung, int nutzerID){
+		Connection con = DBConnection.connection();
+		 
+		try{
+			Statement stmt = con.createStatement();
+		ResultSet rs = stmt.executeQuery("SELECT ID, bez, status, nutzerID FROM kontaktliste " + "WHERE bez = "
+			+ "'" + bezeichnung + "'"  + " AND nutzerID = " + nutzerID);
+		
+		if(rs.next()){
+			Kontaktliste kl = new Kontaktliste();
+			kl.setID(rs.getInt("ID"));
+			kl.setBez(rs.getString("bez"));
+			kl.setStatus(rs.getInt("status"));
+			kl.setNutzerID(rs.getInt("nutzerID"));
+			return kl ;
+		
+				}
+			}
+		catch(SQLException e2){
+			e2.printStackTrace();
+			return null;
+		}
+		return null;
+	}
+	
+	/**
 	 * Hinzufuegen eines neuen Objektes vom Typ Kontaktliste in die Datenbank.
 	 * Der Primaerschluessel wird ueberprueft und korrigiert -> maxID +1
 	 * @param k

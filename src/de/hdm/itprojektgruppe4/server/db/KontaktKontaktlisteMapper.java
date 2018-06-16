@@ -168,6 +168,26 @@ public class KontaktKontaktlisteMapper {
 	}
 	
 	/**
+	 * Ermoeglicht das Loeschen eines Objektes der Klasse KontaktKontaktliste anhand des Fremdschluessels KontaktID
+	 * @param k
+	 */
+	public void deleteKontaktKontaktlisteByKontaktIDAndByKListID (int kontaktID, int kontaktlisteID){
+		Connection con = DBConnection.connection();
+		
+		try{
+			
+			Statement stmt = con.createStatement();
+			
+			stmt.executeUpdate("DELETE FROM kontaktkontaktliste " + "WHERE kontaktID = " + kontaktID + " AND kontaktlisteID = " + kontaktlisteID);
+			
+			
+		}catch(SQLException e){
+			e.printStackTrace();
+			
+		}
+	}
+	
+	/**
 	 * Erm�glicht das L�schen eines Objekts der Klasse KontaktKontaktliste anhand des Fremdschl�ssels KontaktlisteID
 	 * @param k
 	 */
