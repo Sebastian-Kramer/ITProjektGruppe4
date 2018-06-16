@@ -658,6 +658,8 @@ public interface KontaktAdministration extends RemoteService {
 
 	Vector<EigenschaftAuspraegungWrapper> findSharedAuspraegung(int nutzerID, int kontaktID) throws IllegalArgumentException;
 
+	public void deleteUpdateTeilhaberschaftByTeilhaberID(int teilhaberID, EigenschaftAuspraegungWrapper ea) throws IllegalArgumentException;
+
 
 	
 	

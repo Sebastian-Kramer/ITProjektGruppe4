@@ -3,15 +3,10 @@ package de.hdm.itprojektgruppe4.client.gui;
 import java.util.Date;
 import java.util.Vector;
 
-import com.google.gwt.cell.client.ButtonCell;
-import com.google.gwt.cell.client.CheckboxCell;
-import com.google.gwt.cell.client.ClickableTextCell;
 import com.google.gwt.cell.client.FieldUpdater;
-import com.google.gwt.cell.client.ImageCell;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.i18n.client.DateTimeFormat;
-import com.google.gwt.user.cellview.client.Column;
 import com.google.gwt.user.client.Cookies;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
@@ -98,19 +93,7 @@ public class TeilhaberschaftForm extends VerticalPanel {
 		ctf.setSelectionModel(selectionModelWrapper,
 				DefaultSelectionEventManager.<EigenschaftAuspraegungWrapper>createCheckboxManager());
 
-		selectionModelWrapper.addSelectionChangeHandler(new SelectionChangeEvent.Handler() {
-			
-			@Override
-			public void onSelectionChange(SelectionChangeEvent event) {
-				if (selectionModelWrapper.getSelectedSet().isEmpty()) {
-					einzTeilen.setVisible(false);
-				} else {
-					einzTeilen.setVisible(true);
-				}
-				
-			}
-		});
-		
+		selectionModelWrapper.addSelectionChangeHandler(new Handler());
 
 		zurueck.addClickHandler(new ZurueckClickHandler());
 		allTeilen.addClickHandler(new AllAuspraegungenTeilenClickHandler());
@@ -124,20 +107,7 @@ public class TeilhaberschaftForm extends VerticalPanel {
 		ctf.setStyleName("CellTableAuspraegung");
 		ctf.setWidth("500px");
 
-		ctf.getDeleteBtn().setFieldUpdater(new FieldUpdater<EigenschaftAuspraegungWrapper, String>() {
-
-			@Override
-			public void update(int index, EigenschaftAuspraegungWrapper object, String value) {
-
-				if (object.getAuspraegungStatus() == 0) {
-					Window.alert("Es ist momentan keine Teilhaberschaft vorhanden");
-				} else {
-					DialogBoxTeilhaberschaftVerwalten dtl = new DialogBoxTeilhaberschaftVerwalten(object, kon);
-					dtl.center();
-
-				}
-			}
-		});
+		ctf.getDeleteBtn().setFieldUpdater(new DeleteFieldUpdater());
 
 		dropBoxNutzer.setStyleName("DropDown");
 		html1.setStyleName("HtmlText1");
@@ -157,6 +127,36 @@ public class TeilhaberschaftForm extends VerticalPanel {
 		RootPanel.get("Buttonbar").add(allTeilen);
 		RootPanel.get("Buttonbar").add(einzTeilen);
 		this.add(vpanel);
+
+	}
+
+	class Handler implements SelectionChangeEvent.Handler {
+
+		@Override
+		public void onSelectionChange(SelectionChangeEvent event) {
+			if (selectionModelWrapper.getSelectedSet().isEmpty()) {
+				einzTeilen.setVisible(false);
+			} else {
+				einzTeilen.setVisible(true);
+			}
+
+		}
+
+	}
+
+	class DeleteFieldUpdater implements FieldUpdater<EigenschaftAuspraegungWrapper, String> {
+
+		@Override
+		public void update(int index, EigenschaftAuspraegungWrapper object, String value) {
+
+			if (object.getAuspraegungStatus() == 0) {
+				Window.alert("Es ist momentan keine Teilhaberschaft vorhanden");
+			} else {
+				DialogBoxTeilhaberschaftVerwalten dtl = new DialogBoxTeilhaberschaftVerwalten(object, kon);
+				dtl.center();
+			}
+
+		}
 
 	}
 

@@ -220,10 +220,11 @@ public class DialogBoxTeilhaberschaftVerwalten extends DialogBox {
 
 		@Override
 		public void onClick(ClickEvent event) {
-			Window.alert("GEHT " + selectionModel.getSelectedObject().getID());
-			kontaktVerwaltung.deleteTeilhaberschaftByTeilhaberID(selectionModel.getSelectedObject().getID(),
+			
+			kontaktVerwaltung.deleteUpdateTeilhaberschaftByTeilhaberID(selectionModel.getSelectedObject().getID(), ea,
 					new TeilhaberschaftLoeschenCallback());
 			TeilhaberschaftForm tf = new TeilhaberschaftForm(kon);
+			
 			RootPanel.get("Details").clear();
 			RootPanel.get("Details").add(tf);
 		}

@@ -164,6 +164,8 @@ public interface KontaktAdministrationAsync {
 	void deleteKontaktKontaktlisteByKontaktID(int kontaktID, AsyncCallback<Void> callback);
 
 	void deleteTeilhaberschaftByTeilhaberID(int teilhaberID, AsyncCallback<Void> callback);
+	
+	void deleteUpdateTeilhaberschaftByTeilhaberID(int teilhaberID, EigenschaftAuspraegungWrapper ea, AsyncCallback<Void> callback);
 
 	void findKontaktlisteByNutzerIDexceptBasicList(int nutzerID, AsyncCallback<Vector<Kontaktliste>> callback);
 

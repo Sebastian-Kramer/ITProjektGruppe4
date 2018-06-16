@@ -1221,8 +1221,9 @@ public class KontaktAdministrationImpl extends RemoteServiceServlet
 
 			if (kl.getBez().equals("Meine geteilten Kontakte")) {
 				this.insertKontaktKontaktliste(k.getID(), kl.getID());
-				k.setStatus(1);
-				this.updateKontakt(k);
+//				k.setStatus(1);
+//				this.updateKontakt(k);
+				
 				
 			} else {
 			
@@ -1339,9 +1340,9 @@ public class KontaktAdministrationImpl extends RemoteServiceServlet
 	 */
 	@Override
 	public void deleteTeilhaberschaftByTeilhaberID(int teilhaberID) throws IllegalArgumentException {
+		
 		this.teilhaberschaftMapper.deleteTeilhaberschaftByTeilhaberID(teilhaberID);
-		
-		
+	
 	}
 
 	/**
@@ -1353,6 +1354,25 @@ public class KontaktAdministrationImpl extends RemoteServiceServlet
 	@Override
 	public void deleteKontaktFromTeilhaberschaft(Teilhaberschaft t) throws IllegalArgumentException {
 		this.teilhaberschaftMapper.deleteKontaktFromTeilhaberschaft(t);
+		
+	}
+	
+	/**
+	 * 
+	 */
+	@Override
+	public void deleteUpdateTeilhaberschaftByTeilhaberID(int teilhaberID, EigenschaftAuspraegungWrapper ea)
+			throws IllegalArgumentException {
+		
+		Vector<Teilhaberschaft> t = this.findTeilhaberschaftByAuspraegungID(ea.getAuspraegungID());
+		Window.alert("TEST");
+		if (t.isEmpty()){
+			ea.setAuspraegungStatus(0);
+			Window.alert(" " + ea.getAuspraegungStatus());
+			this.updateAuspraegung(ea.getAuspraegung());
+		}else{
+			Window.alert("TEST");
+		}
 		
 	}
 
@@ -1697,6 +1717,10 @@ public class KontaktAdministrationImpl extends RemoteServiceServlet
 		// TODO Auto-generated method stub
 		return null;
 	}
+
+
+
+
 
 
 
