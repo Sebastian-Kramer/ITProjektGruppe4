@@ -775,9 +775,9 @@ public class KontaktAdministrationImpl extends RemoteServiceServlet
      */
 		
 	@Override
-	public void deleteEigenschaftsauspraegungFromTeilhaberschaft(Teilhaberschaft t)
+	public void deleteEigenschaftsauspraegungFromTeilhaberschaft(EigenschaftAuspraegungWrapper ea, Nutzer n)
 				throws IllegalArgumentException {
-			this.teilhaberschaftMapper.deleteEigenschaftsauspraegungFromTeilhaberschaft(t);
+			this.teilhaberschaftMapper.deleteEigenschaftsauspraegungFromTeilhaberschaft(ea, n);
 			
 		}
 	
@@ -1365,17 +1365,16 @@ public class KontaktAdministrationImpl extends RemoteServiceServlet
 	 * 
 	 */
 	@Override
-	public void deleteUpdateTeilhaberschaftByTeilhaberID(int teilhaberID, EigenschaftAuspraegungWrapper ea)
+	public void deleteUpdateTeilhaberschaft(EigenschaftAuspraegungWrapper ea, Nutzer n)
 			throws IllegalArgumentException {
-		
+		this.teilhaberschaftMapper.deleteEigenschaftsauspraegungFromTeilhaberschaft(ea, n);
 		Vector<Teilhaberschaft> t = this.findTeilhaberschaftByAuspraegungID(ea.getAuspraegungID());
-		Window.alert("TEST");
-		if (t.isEmpty()){
+		
+		if(t.isEmpty()){
 			ea.setAuspraegungStatus(0);
-			Window.alert(" " + ea.getAuspraegungStatus());
 			this.updateAuspraegung(ea.getAuspraegung());
 		}else{
-			Window.alert("TEST");
+			
 		}
 		
 	}

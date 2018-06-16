@@ -97,7 +97,7 @@ public interface KontaktAdministrationAsync {
 
 	void deleteKontaktlisteFromTeilhaberschaft(Teilhaberschaft t, AsyncCallback<Void> callback);
 
-	void deleteEigenschaftsauspraegungFromTeilhaberschaft(Teilhaberschaft t, AsyncCallback<Void> callback);
+	void deleteEigenschaftsauspraegungFromTeilhaberschaft(EigenschaftAuspraegungWrapper ea, Nutzer n, AsyncCallback<Void> callback);
 
 	void insertKontaktKontaktliste(int kontaktID, int kontaktlisteID, AsyncCallback<KontaktKontaktliste> callback);
 
@@ -165,7 +165,7 @@ public interface KontaktAdministrationAsync {
 
 	void deleteTeilhaberschaftByTeilhaberID(int teilhaberID, AsyncCallback<Void> callback);
 	
-	void deleteUpdateTeilhaberschaftByTeilhaberID(int teilhaberID, EigenschaftAuspraegungWrapper ea, AsyncCallback<Void> callback);
+	void deleteUpdateTeilhaberschaft(EigenschaftAuspraegungWrapper ea, Nutzer n, AsyncCallback<Void> callback);
 
 	void findKontaktlisteByNutzerIDexceptBasicList(int nutzerID, AsyncCallback<Vector<Kontaktliste>> callback);
 

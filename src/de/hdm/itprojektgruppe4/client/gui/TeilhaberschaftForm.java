@@ -15,6 +15,7 @@ import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.ListBox;
 import com.google.gwt.user.client.ui.RootPanel;
+import com.google.gwt.user.client.ui.ScrollPanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.view.client.DefaultSelectionEventManager;
 import com.google.gwt.view.client.MultiSelectionModel;
@@ -55,14 +56,14 @@ public class TeilhaberschaftForm extends VerticalPanel {
 	private ListBox dropBoxNutzer = new ListBox();
 
 	private CellTableForm ctf = null;
+	
+	private ScrollPanel scrollPanel = new ScrollPanel();
 
 	private Date date = new Date();
 
 	DateTimeFormat fmt = DateTimeFormat.getFormat("dd.MM.yyyy");
 
-	private HTML html1 = new HTML("<h2>" + kon.getName() + "</h2>");
-
-	private HTML html2 = new HTML("Sie können auch nur bestimmte Ausprägungen an einen anderen <b> Nutzer </b> teilen, "
+	private HTML html2 = new HTML("Sie können auch nur bestimmte <b> Ausprägungen </b> an einen anderen <b> Nutzer </b> teilen, "
 			+ " </br> wählen Sie dafür die entsprechenden <b> Ausprägungen </b>  mit den Checkboxen aus."
 			+ "<span style='font-family:fixed'></span>", true);
 
@@ -84,6 +85,7 @@ public class TeilhaberschaftForm extends VerticalPanel {
 
 		super.onLoad();
 
+		HTML html1 = new HTML("<h2>" + kon.getName() + "</h2>");
 		nutzer.setID(Integer.parseInt(Cookies.getCookie("id")));
 		nutzer.setEmail(Cookies.getCookie("email"));
 
@@ -105,9 +107,10 @@ public class TeilhaberschaftForm extends VerticalPanel {
 		ctf.addColumn(ctf.getCheckBox());
 		ctf.addColumn(ctf.getDeleteBtn(), "Teilhaberschaft löschen");
 		ctf.setStyleName("CellTableAuspraegung");
-		ctf.setWidth("500px");
-
+		ctf.setWidth("700px");
 		ctf.getDeleteBtn().setFieldUpdater(new DeleteFieldUpdater());
+		scrollPanel.add(ctf);
+		scrollPanel.setHeight("300px");
 
 		dropBoxNutzer.setStyleName("DropDown");
 		html1.setStyleName("HtmlText1");
@@ -115,7 +118,7 @@ public class TeilhaberschaftForm extends VerticalPanel {
 		html3.setStyleName("HtmlText");
 		vpanel.setStyleName("TeilhaberschaftVPanel");
 
-		hpanel.add(ctf);
+		hpanel.add(scrollPanel);
 		vpanel.add(html1);
 		vpanel.add(html2);
 		vpanel.add(hpanel);

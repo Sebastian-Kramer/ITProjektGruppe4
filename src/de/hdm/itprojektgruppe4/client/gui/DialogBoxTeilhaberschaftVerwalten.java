@@ -32,7 +32,7 @@ import de.hdm.itprojektgruppe4.shared.bo.Kontakt;
  * die die jeweils benötigten Daten aus der Datenbank in eine CellList lädt.
  * Über diese Dialogbox können die vorhanden Teilhaberschaften auch wieder
  * entfernt werden.
-
+ * 
  */
 
 public class DialogBoxTeilhaberschaftVerwalten extends DialogBox {
@@ -154,7 +154,6 @@ public class DialogBoxTeilhaberschaftVerwalten extends DialogBox {
 		this.add(vpanel);
 
 	}
-	
 
 	/**
 	 * Callback - Klasse um alle Teilhaberschaften an einer Ausprägung in die
@@ -209,7 +208,7 @@ public class DialogBoxTeilhaberschaftVerwalten extends DialogBox {
 		public void onClick(ClickEvent event) {
 			kontaktVerwaltung.deleteTeilhaberschaftByTeilhaberID(selectionModel.getSelectedObject().getID(),
 					new TeilhaberschaftLoeschenCallback());
-			
+
 			hide();
 		}
 
@@ -219,11 +218,9 @@ public class DialogBoxTeilhaberschaftVerwalten extends DialogBox {
 
 		@Override
 		public void onClick(ClickEvent event) {
-			
-			kontaktVerwaltung.deleteUpdateTeilhaberschaftByTeilhaberID(selectionModel.getSelectedObject().getID(), ea,
+			kontaktVerwaltung.deleteUpdateTeilhaberschaft(ea, selectionModel.getSelectedObject(),
 					new TeilhaberschaftLoeschenCallback());
 			TeilhaberschaftForm tf = new TeilhaberschaftForm(kon);
-			
 			RootPanel.get("Details").clear();
 			RootPanel.get("Details").add(tf);
 		}
@@ -239,7 +236,7 @@ public class DialogBoxTeilhaberschaftVerwalten extends DialogBox {
 
 		@Override
 		public void onFailure(Throwable caught) {
-			Window.alert("Klappt nicht");
+			Window.alert("Die Teilhaberschaft konnte nicht gelöscht werden");
 
 		}
 
@@ -305,7 +302,7 @@ public class DialogBoxTeilhaberschaftVerwalten extends DialogBox {
 				if (nutzer.getID() == n.getID()) {
 					dataProvider.getList().remove(n);
 				}
-				
+
 			}
 
 		}

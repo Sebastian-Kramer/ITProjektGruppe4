@@ -54,7 +54,7 @@ public class KontaktForm extends VerticalPanel {
 	private Button zurueckBtn = new Button("Zurück");
 	private Button kontaktListehinzufuegen = new Button("Kontakt einer Liste hinzufügen");
 	private Button kontaktTeilen = new Button("Teilhaberschaft verwalten");
-	
+
 	private CellTableForm ctf = null;
 	private ImageCell image = new ImageCell();
 	private ClickableTextCell bezeigenschaft = new ClickableTextCell();
@@ -62,13 +62,12 @@ public class KontaktForm extends VerticalPanel {
 	private CellTableForm.ColumnStatus status = ctf.new ColumnStatus(image);
 	private CellTableForm.ColumnEigenschaft bezEigenschaft = ctf.new ColumnEigenschaft(bezeigenschaft);
 	private CellTableForm.ColumnAuspraegung wertAuspraegung = ctf.new ColumnAuspraegung(wertauspraegung);
-	
+
 	public KontaktForm(Kontakt k) {
 		this.k = k;
 		ctf = new CellTableForm(k);
 
 	}
-
 
 	public KontaktForm(Kontakt k, String teilhaberschaft) {
 		this.k = k;
@@ -76,14 +75,12 @@ public class KontaktForm extends VerticalPanel {
 		ctf = new CellTableForm(k, teilhaberschaft);
 	}
 
-	public KontaktForm(Kontaktliste kl, Kontakt k){
+	public KontaktForm(Kontaktliste kl, Kontakt k) {
 		this.kl = kl;
 		this.k = k;
 	}
-	
-	public void onLoad(){
-		
-		
+
+	public void onLoad() {
 
 		final Image kontaktbild = new Image();
 		kontaktbild.setUrl("https://ssl.gstatic.com/s2/contacts/images/NoPicture.gif");
@@ -123,8 +120,6 @@ public class KontaktForm extends VerticalPanel {
 		bearbeitenButton.addClickHandler(new ClickearbeitenHandler());
 		kontaktTeilen.addClickHandler(new ClickTeilenHandler());
 		kontaktListehinzufuegen.addClickHandler(new ClickHinzufuegenHandler());
-
-
 
 	}
 
