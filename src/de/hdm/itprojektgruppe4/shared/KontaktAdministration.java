@@ -401,7 +401,7 @@ public interface KontaktAdministration extends RemoteService {
 	 * @param teilhaberID
 	 * @return
 	 */
-	public Teilhaberschaft insertTeilhaberschaftKontakt(int kontaktID, int eigenschaftsauspraegungID, int teilhaberID,
+	public Teilhaberschaft insertTeilhaberschaftKontakt(int kontaktID, int teilhaberID,
 			int nutzerID);
 
 	public Teilhaberschaft insertTeilhaberschaftAuspraegungenKontakt(Kontakt kon, String selectedValue, int id)
@@ -707,7 +707,7 @@ public interface KontaktAdministration extends RemoteService {
 	public Vector<EigenschaftAuspraegungWrapper> findSharedAuspraegung(int nutzerID, int kontaktID)
 			throws IllegalArgumentException;
 
-	public void deleteUpdateTeilhaberschaft(EigenschaftAuspraegungWrapper ea, Nutzer n) throws IllegalArgumentException;
+	public void deleteUpdateTeilhaberschaft(EigenschaftAuspraegungWrapper ea, Nutzer teilhaber, Nutzer n, Kontakt k) throws IllegalArgumentException;
 
 	public Vector<Teilhaberschaft> findTeilhaberschaftByKontaktID(int kontaktID) throws IllegalArgumentException;
 
@@ -716,5 +716,17 @@ public interface KontaktAdministration extends RemoteService {
 	public void deleteKontaktKontaktlisteByKontaktIDAndByKListID(int kontaktID, int kontaktlisteID) throws IllegalArgumentException;
 
 	public Kontaktliste findKontaktlisteMeineGeteiltenKontakte(String kList, int nutzerID) throws IllegalArgumentException;
+
+	public void deleteTeilhaberschaftByKontaktIDAndNutzerID(int kontaktID, int teilNutzerID) throws IllegalArgumentException;
+
+	public Kontakt updateKontaktStatus(Kontakt k, Nutzer n) throws IllegalArgumentException;
+
+	public Vector<Teilhaberschaft> findTeilhaberschaftByAuspraegungIDAndTeilhaberID(int auspraegungID, int teilhaberID) throws IllegalArgumentException;
+
+	public Vector<Teilhaberschaft> findTeilhaberschaftByKontaktIDAndTeilhaberID(int kontaktID, int teilhaberID) throws IllegalArgumentException;
+
+	public Vector<Teilhaberschaft> findTeilhaberschaftByTeilhaberIDAndNutzerID(int teilhaberID, int nutzerID) throws IllegalArgumentException;
+
+	public KontaktKontaktliste findKontaktKontaktlisteByKontaktIDAndKlisteID(int kontaktID, int kListID) throws IllegalArgumentException;
 
 }

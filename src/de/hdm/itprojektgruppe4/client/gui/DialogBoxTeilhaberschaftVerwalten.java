@@ -218,7 +218,7 @@ public class DialogBoxTeilhaberschaftVerwalten extends DialogBox {
 
 		@Override
 		public void onClick(ClickEvent event) {
-			kontaktVerwaltung.deleteUpdateTeilhaberschaft(ea, selectionModel.getSelectedObject(),
+			kontaktVerwaltung.deleteUpdateTeilhaberschaft(ea, selectionModel.getSelectedObject(), nutzer, kon, 
 					new TeilhaberschaftAuspraegungLoeschenCallback());
 		}
 

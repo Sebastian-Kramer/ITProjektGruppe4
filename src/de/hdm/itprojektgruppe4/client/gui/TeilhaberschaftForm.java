@@ -26,7 +26,6 @@ import de.hdm.itprojektgruppe4.client.EigenschaftAuspraegungWrapper;
 import de.hdm.itprojektgruppe4.shared.KontaktAdministrationAsync;
 import de.hdm.itprojektgruppe4.shared.bo.Eigenschaftauspraegung;
 import de.hdm.itprojektgruppe4.shared.bo.Kontakt;
-import de.hdm.itprojektgruppe4.shared.bo.Kontaktliste;
 import de.hdm.itprojektgruppe4.shared.bo.Nutzer;
 import de.hdm.itprojektgruppe4.shared.bo.Teilhaberschaft;
 
@@ -96,7 +95,7 @@ public class TeilhaberschaftForm extends VerticalPanel {
 		nutzer.setEmail(Cookies.getCookie("email"));
 
 		verwaltung.findAllNutzer(new AlleNutzer());
-		verwaltung.getAuspraegungByKontaktID(kon.getID(), new AuspraegungCallback());
+//		verwaltung.getAuspraegungByKontaktID(kon.getID(), new AuspraegungCallback());
 
 		ctf = new CellTableForm(kon);
 		ctf.setSelectionModel(selectionModelWrapper,
@@ -139,28 +138,27 @@ public class TeilhaberschaftForm extends VerticalPanel {
 
 	}
 
-	class AuspraegungCallback implements AsyncCallback<Vector<Eigenschaftauspraegung>> {
-
-		@Override
-		public void onFailure(Throwable caught) {
-
-		}
-
-		@Override
-		public void onSuccess(Vector<Eigenschaftauspraegung> result) {
-			for (Eigenschaftauspraegung e : result) {
-				if (e.getStatus() == 1) {
-					eaV.add(e);
-				}
-			}
-			if (eaV.isEmpty()) {
-				kon.setStatus(0);
-				verwaltung.updateKontakt(kon, new StatusAendernCallback());
-
-			}
-		}
-
-	}
+//	class AuspraegungCallback implements AsyncCallback<Vector<Eigenschaftauspraegung>> {
+//
+//		@Override
+//		public void onFailure(Throwable caught) {
+//
+//		}
+//
+//		@Override
+//		public void onSuccess(Vector<Eigenschaftauspraegung> result) {
+//			for (Eigenschaftauspraegung e : result) {
+//				if (e.getStatus() == 1) {
+//					eaV.add(e);
+//				}
+//			}
+//			if (eaV.isEmpty()) {
+//				verwaltung.updateKontaktStatus(kon, new StatusAendernCallback());
+//
+//			}
+//		}
+//
+//	}
 
 	class KontaktAusKlistLoeschen implements AsyncCallback<Void> {
 
@@ -185,7 +183,7 @@ public class TeilhaberschaftForm extends VerticalPanel {
 
 		@Override
 		public void onSuccess(Kontakt result) {
-			
+
 		}
 
 	}
@@ -203,7 +201,6 @@ public class TeilhaberschaftForm extends VerticalPanel {
 		}
 
 	}
-
 
 	class DeleteFieldUpdater implements FieldUpdater<EigenschaftAuspraegungWrapper, String> {
 
@@ -293,14 +290,13 @@ public class TeilhaberschaftForm extends VerticalPanel {
 		@Override
 		public void onClick(ClickEvent event) {
 
-
 			Vector<EigenschaftAuspraegungWrapper> ea = new Vector<EigenschaftAuspraegungWrapper>();
 			for (EigenschaftAuspraegungWrapper eaw : selectionModelWrapper.getSelectedSet()) {
 				ea.add(eaw);
 			}
 			verwaltung.insertTeilhaberschaftAusgewaehlteAuspraegungenKontakt(kon, ea, dropBoxNutzer.getSelectedValue(),
 					nutzer.getID(), new TeilhaberschaftCallback());
-
+			
 		}
 
 	}
