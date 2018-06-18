@@ -9,7 +9,6 @@ import com.google.gwt.user.cellview.client.CellList;
 import com.google.gwt.user.client.Cookies;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
-import com.google.gwt.user.client.ui.Anchor;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.FlexTable;
 import com.google.gwt.user.client.ui.HTML;
@@ -21,7 +20,7 @@ import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.view.client.SelectionChangeEvent;
 import com.google.gwt.view.client.SingleSelectionModel;
 import de.hdm.itprojektgruppe4.client.ClientsideSettings;
-import de.hdm.itprojektgruppe4.client.LoginInfo;
+import de.hdm.itprojektgruppe4.client.ImpressumSeite;
 import de.hdm.itprojektgruppe4.shared.KontaktAdministrationAsync;
 import de.hdm.itprojektgruppe4.shared.bo.Kontakt;
 import de.hdm.itprojektgruppe4.shared.bo.Kontaktliste;
@@ -46,15 +45,11 @@ public class MainForm extends VerticalPanel {
 	private HorizontalPanel hpanelDetails = new HorizontalPanel();
 
 	private FlexTable anordnung = new FlexTable();
-	
-	private Anchor signOutLink = new Anchor("Logout");
-	private LoginInfo loginInfo = null;
 
 	private Button newKontakt = new Button("Neuer Kontakt anlegen");
 	private Button newKontaktliste = new Button("Neue Kontaktliste anlegen");
 	private Button newTeilhaberschaft = new Button("Kontaktliste teilen");
 	private Button suchen = new Button("Suchen");
-	private Button impressum = new Button("Impressum");
 	private HTML greetHTML1 = new HTML("<h2>MyContacs<h2>");
 	private HTML greetHTML2 = new HTML("Herzlich Willkommen auf MyContacts, " + "<br>ihrer Kontaktverwaltung. "
 			+ "<br> Hier können Sie neue Kontakte anlegen, " + "<br> diese in verschiedene Listen organiesieren"
@@ -86,6 +81,7 @@ public class MainForm extends VerticalPanel {
 		verwaltung.findKontaktByNutzerID(nutzer.getID(), new KontaktCallBack());
 
 		cellList.setSelectionModel(selectionModel);
+		cellList.setPageSize(100);
 
 		selectionModel.addSelectionChangeHandler(new SelectionChangeHandler()); 
 
@@ -93,15 +89,11 @@ public class MainForm extends VerticalPanel {
 		scrollPanel.setStyleName("scrollPanel");
 		cellList.setStyleName("cellListKontakte");
 		scrollPanel.add(cellList);
-		
-//		signOutLink.setHref(loginInfo.getLogoutUrl());
 
 		RootPanel.get("Buttonbar").add(newTeilhaberschaft);
 		RootPanel.get("Buttonbar").add(newKontaktliste);
 		RootPanel.get("Buttonbar").add(newKontakt);
 		RootPanel.get("Buttonbar").add(suchen);
-		RootPanel.get("Buttonbar").add(impressum);
-//		RootPanel.get("Buttonbar").add(signOutLink);
 
 		anordnung.setWidget(0, 0, greetHTML1);
 		anordnung.setWidget(1, 0, greetHTML2);
@@ -112,7 +104,6 @@ public class MainForm extends VerticalPanel {
 		vpanelDetails.add(anordnung);
 		this.add(vpanelDetails);
 
-		impressum.addClickHandler(new ImpressumButton());
 		newKontaktliste.addClickHandler(new NewListClickHandler());
 		newKontakt.addClickHandler(new NewKontaktClickHandler());
 		suchen.addClickHandler(new SuchenClickHandler());
