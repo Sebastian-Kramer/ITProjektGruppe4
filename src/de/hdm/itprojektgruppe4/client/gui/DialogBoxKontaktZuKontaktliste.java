@@ -61,8 +61,6 @@ public class DialogBoxKontaktZuKontaktliste extends DialogBox {
 	private Button kontakteHinzufuegen = new Button("Hinzufuegen");
 	private Vector<Kontakt> kontaktVector = new Vector<Kontakt>();
 	
-	
-	
 	/*
 	 * Konstruktor der beim Aufrufen der DialogBox zum Einsatz kommt
 	 */
@@ -102,13 +100,8 @@ public class DialogBoxKontaktZuKontaktliste extends DialogBox {
 			
 		};
 		
-
-
 		kontakteHinzufuegen.addClickHandler(new kontaktHinzufuegenClickhandler());
 		abbrechen.addClickHandler(new AbbrechenClickhandler());
-
-		
-
 
 		/*
 		 * Hinzufuegen der Columns zu den Kontaktlisten
@@ -216,7 +209,7 @@ public class DialogBoxKontaktZuKontaktliste extends DialogBox {
 
 		@Override
 		public void onSuccess(KontaktKontaktliste result) {
-			Window.alert(" " + result.getID());
+			
 		}
 		
 	}
