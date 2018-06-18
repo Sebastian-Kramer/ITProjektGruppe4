@@ -90,40 +90,40 @@ public class KontaktFormReport extends VerticalPanel {
 
 	}
 
-	class AllNutzerCallback implements AsyncCallback<Nutzer>{
-
-		@Override
-		public void onFailure(Throwable caught) {
-			// TODO Auto-generated method stub
-			
-		}
-
-		@Override
-		public void onSuccess(Nutzer result) {
-			// TODO Auto-generated method stub
-			reportverwaltung.AlleKontakteByNutzer(result.getID(), new AsyncCallback<AllEigeneKontakteReport>() {
-
-				@Override
-				public void onFailure(Throwable caught) {
-					// TODO Auto-generated method stub
-					
-				}
-
-				@Override
-				public void onSuccess(AllEigeneKontakteReport result) {
-					// TODO Auto-generated method stub
-					if (result != null) { 	
-						HTMLReportWriter writer = new HTMLReportWriter();
-						writer.process(result);
-						RootPanel.get("Details").clear();
-						RootPanel.get("Details").add(new HTML(writer.getReportText()));
-					}
-				}
-			});
-		}
-		
-		
-		
-	}
+//	class AllNutzerCallback implements AsyncCallback<Nutzer>{
+//
+//		@Override
+//		public void onFailure(Throwable caught) {
+//			// TODO Auto-generated method stub
+//			
+//		}
+//
+//		@Override
+//		public void onSuccess(Nutzer result) {
+//			// TODO Auto-generated method stub
+//			reportverwaltung.AlleKontakteByNutzer(result.getID(), new AsyncCallback<AllEigeneKontakteReport>() {
+//
+//				@Override
+//				public void onFailure(Throwable caught) {
+//					// TODO Auto-generated method stub
+//					
+//				}
+//
+//				@Override
+//				public void onSuccess(AllEigeneKontakteReport result) {
+//					// TODO Auto-generated method stub
+//					if (result != null) { 	
+//						HTMLReportWriter writer = new HTMLReportWriter();
+//						writer.process(result);
+//						RootPanel.get("Details").clear();
+//						RootPanel.get("Details").add(new HTML(writer.getReportText()));
+//					}
+//				}
+//			});
+//		}
+//		
+//		
+//		
+//	}
 	
 }

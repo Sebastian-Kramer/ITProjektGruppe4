@@ -65,11 +65,10 @@ public class ReportGeneratorImpl extends RemoteServiceServlet implements ReportG
 		r.setImprint(imprint);
 
 	}
-	
+
 	public Kontakt findKontaktByID(int id) throws IllegalArgumentException {
 		return this.kontaktMapper.findKontaktByID(id);
-		
-		
+
 	}
 
 	/*
@@ -116,9 +115,7 @@ public class ReportGeneratorImpl extends RemoteServiceServlet implements ReportG
 		return result;
 
 	}
-	
-	
-	
+
 	public AllEigeneKontakteReport AlleKontakteByNutzer(int nutzerID) throws IllegalArgumentException {
 		if (this.getAdministration() == null)
 			return null;
@@ -157,10 +154,6 @@ public class ReportGeneratorImpl extends RemoteServiceServlet implements ReportG
 		return result;
 
 	}
-	
-	
-	
-	
 
 	public Vector<Nutzer> allNutzerReport() throws IllegalArgumentException {
 		if (this.getAdministration() == null)
@@ -169,13 +162,7 @@ public class ReportGeneratorImpl extends RemoteServiceServlet implements ReportG
 		// Leerer Report
 		AllNutzerReport result = new AllNutzerReport();
 
-	
-
 		Vector<Nutzer> nutzer = this.verwaltung.findAllNutzer();
-
-
-
-		
 
 		return nutzer;
 
@@ -184,14 +171,13 @@ public class ReportGeneratorImpl extends RemoteServiceServlet implements ReportG
 	@Override
 	public Nutzer findNutzerByEmail(String email) throws IllegalArgumentException {
 		// TODO Auto-generated method stub
-	
-			return this.verwaltung.findNutzerByEmail(email);
-		
-	//	return this.nutzerMapper.findNutzerByEmail(email);
+
+		return this.verwaltung.findNutzerByEmail(email);
+
+		// return this.nutzerMapper.findNutzerByEmail(email);
 	}
 
-	@Override
-	public KontakteMitBestimmterTeilhaberschaftReport kontakteMitBestimmterTeilhaberschaftReport(int nutzerID)
+	public KontakteMitBestimmterTeilhaberschaftReport kontakteMitBestimmterTeilhaberschaftReport(int nutzerID, int teilhaberID)
 			throws IllegalArgumentException {
 		if (this.getAdministration() == null)
 			// TODO Auto-generated method stub
@@ -200,42 +186,36 @@ public class ReportGeneratorImpl extends RemoteServiceServlet implements ReportG
 		// Leerer Report
 		KontakteMitBestimmterTeilhaberschaftReport result = new KontakteMitBestimmterTeilhaberschaftReport();
 
-		Vector<Kontakt> teilhaben = this.verwaltung.findAllSharedKontakteVonNutzer(nutzerID);
-	
+		Vector<Kontakt> teilhaben = this.verwaltung.findGeteilteKontakteFromNutzerAndTeilhaber ( nutzerID,  teilhaberID);
 
 		result.setTitle("Geteilte Kontakte");
 
 		Row headline = new Row();
 
-		headline.addColumn(new Column("ID"));
+		headline.addColumn(new Column("Kontakt"));
 
-		headline.addColumn(new Column("Kontaktliste"));
+		headline.addColumn(new Column("Erzeugungsdatum"));
 
-		headline.addColumn(new Column("Name"));
-		
-		headline.addColumn(new Column("Nutzer"));
-
+		headline.addColumn(new Column("Modifikationsdatum"));
 
 		result.addRow(headline);
 
-		for(Kontakt t : teilhaben){
-		
+		for (Kontakt t : teilhaben) {
 
 			// eine Leere zeile
 			Row kontaktRow = new Row();
 
-			kontaktRow.addColumn(new Column(String.valueOf(t.getID())));
-
-			kontaktRow.addColumn(new Column(String.valueOf(t.getKontaktlisteID())));
-
 			kontaktRow.addColumn(new Column(String.valueOf(t.getName())));
-			
-			kontaktRow.addColumn(new Column(String.valueOf(t.getNutzerID())));
+
+			kontaktRow.addColumn(new Column(String.valueOf(t.getErzeugungsdatum())));
+
+			kontaktRow.addColumn(new Column(String.valueOf(t.getModifikationsdatum())));
 
 
 			result.addRow(kontaktRow);
 		}
 
+			System.out.println(teilhaben);
 		return result;
 
 	}
@@ -245,11 +225,9 @@ public class ReportGeneratorImpl extends RemoteServiceServlet implements ReportG
 		Nutzer nutzer = new Nutzer();
 		nutzer.setEmail(mail);
 		return this.nutzerMapper.insertNutzer(nutzer);
-		
 
-		
 	}
-	
+
 	public Vector<Eigenschaft> findAllEigenschaft() throws IllegalArgumentException {
 		if (this.getAdministration() == null)
 			return null;
@@ -257,43 +235,41 @@ public class ReportGeneratorImpl extends RemoteServiceServlet implements ReportG
 		// Leerer Report
 		FindAllEigenschaftReport result = new FindAllEigenschaftReport();
 
-	
-
 		Vector<Eigenschaft> eigenschaft = this.verwaltung.findAllEigenschaft();
 
-
-
-		
-
 		return eigenschaft;
 
 	}
-	
-	
+
 	public Vector<Eigenschaft> findEigenschaftByBezeichnung(String bez) throws IllegalArgumentException {
 		if (this.getAdministration() == null)
-		return null;
-		
+			return null;
+
 		FindEigenschaftByBezeichnung findEigenschaftByBezeichnung = new FindEigenschaftByBezeichnung();
-		
+
 		Vector<Eigenschaft> eigenschaft = this.verwaltung.getEigenschaftByBezeichnung(bez);
-		
+
 		return eigenschaft;
-		
+
 	}
-	
-	public Vector<Eigenschaftauspraegung> findAllEigenschaftsAuspraegungn () throws IllegalArgumentException {
+
+	public Vector<Eigenschaftauspraegung> findAllEigenschaftsAuspraegungn() throws IllegalArgumentException {
 		if (this.getAdministration() == null)
-		return null;
-		
+			return null;
+
 		FindAllEigenschaftsAuspraegungn findAllEigenschaftsAuspraegungn = new FindAllEigenschaftsAuspraegungn();
-		
+
 		Vector<Eigenschaftauspraegung> eigenschaftauspraegung = this.verwaltung.findAllEigenschaftauspraegung();
-		
+
 		return eigenschaftauspraegung;
-		
+
 	}
 
-
+	@Override
+	public de.hdm.itprojektgruppe4.shared.report.AllEigeneKontakteReport AlleKontakteByNutzer(int nutzerID,
+			int teilhaberID) throws IllegalArgumentException {
+		// TODO Auto-generated method stub
+		return null;
+	}
 
 }

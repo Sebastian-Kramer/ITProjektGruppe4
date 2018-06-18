@@ -219,6 +219,9 @@ public interface KontaktAdministrationAsync {
 
 	void findSharedAuspraegung(int nutzerID, int kontaktID,
 			AsyncCallback<Vector<EigenschaftAuspraegungWrapper>> callback);
+
+	void findGeteilteKontakteFromNutzerAndTeilhaber(int nutzerID, int teilhaberID,
+			AsyncCallback<Vector<Kontakt>> callback);
 	
 	
 

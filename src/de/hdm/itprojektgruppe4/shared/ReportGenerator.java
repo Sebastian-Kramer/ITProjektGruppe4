@@ -29,11 +29,11 @@ public interface ReportGenerator extends RemoteService {
 	
 	 AllEigeneKontakteReport AllEigeneKontakteReport(int nutzerID);
 
-	 KontakteMitBestimmterTeilhaberschaftReport kontakteMitBestimmterTeilhaberschaftReport(int nutzerID);
+public KontakteMitBestimmterTeilhaberschaftReport kontakteMitBestimmterTeilhaberschaftReport(int nutzerID, int teilhaberID);
 
 	 Vector<Nutzer> allNutzerReport() ;
 
-	 public AllEigeneKontakteReport AlleKontakteByNutzer(int nutzerID) throws IllegalArgumentException;
+	 public AllEigeneKontakteReport AlleKontakteByNutzer(int nutzerID, int teilhaberID) throws IllegalArgumentException;
 
 	 Vector<Eigenschaft> findAllEigenschaft() throws IllegalArgumentException;
 
