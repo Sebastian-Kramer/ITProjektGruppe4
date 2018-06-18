@@ -79,13 +79,15 @@ public class NewKontaktForm extends VerticalPanel {
 	private CellTableForm ctf = null;
 	private ClickableTextCell bezeigenschaft = new ClickableTextCell();
 	private EditTextCell wertauspraegung = new EditTextCell();
+	private SingleSelectionModel<EigenschaftAuspraegungWrapper> sm = new SingleSelectionModel<EigenschaftAuspraegungWrapper>();
+
 	private CellTableForm.ColumnEigenschaft bezEigenschaft = ctf.new ColumnEigenschaft(bezeigenschaft);
 	private CellTableForm.ColumnAuspraegung wertAuspraegung = ctf.new ColumnAuspraegung(wertauspraegung){
 
 		public void onBrowserEvent(Context context, Element elem, EigenschaftAuspraegungWrapper object, NativeEvent event) {
 			
 			super.onBrowserEvent(context, elem, object, event);
-		//	ctf.setKeyboardSelectionPolicy(KeyboardSelectionPolicy.DISABLED);
+			ctf.setKeyboardSelectionPolicy(KeyboardSelectionPolicy.DISABLED);
 			if (event.getKeyCode() == KeyCodes.KEY_ENTER) {
 				
 				
@@ -94,9 +96,12 @@ public class NewKontaktForm extends VerticalPanel {
 					@Override
 					public void update(int index, EigenschaftAuspraegungWrapper object, String value) {
 						
-						object.setEigenschaftValue(value);
+						object.setAuspraegungValue(value);
+						
+						
 						sm.getSelectedObject().setAuspraegungValue(value);
 						sm.getSelectedObject().setAuspraegungID(object.getAuspraegungID());
+						
 						eigaus.setWert(object.getAuspraegungValue());
 						eigaus.setID(object.getAuspraegungID());
 						eigaus.setEigenschaftsID(object.getEigenschaftID());
@@ -104,8 +109,11 @@ public class NewKontaktForm extends VerticalPanel {
 						eigaus.setStatus(0);
 						
 						eigaus.setWert(sm.getSelectedObject().getAuspraegungValue());
+						
 						verwaltung.updateAuspraegung(eigaus, new AuspraegungBearbeitenCallback());
+					
 						verwaltung.findHybrid(kontakt1, new ReloadCallback());
+						
 					}
 
 				});
@@ -117,8 +125,7 @@ public class NewKontaktForm extends VerticalPanel {
 
 	KontaktlisteKontaktTreeViewModel kktvw = null;
 
-	private SingleSelectionModel<EigenschaftAuspraegungWrapper> sm = new SingleSelectionModel<EigenschaftAuspraegungWrapper>();
-
+	
 	public void onLoad() {
 
 		super.onLoad();
@@ -135,6 +142,8 @@ public class NewKontaktForm extends VerticalPanel {
 		ctf = new CellTableForm(kontakt1);
 		ctf.addColumn(bezEigenschaft, "Eigenschaft");
 		ctf.addColumn(wertAuspraegung, "Ausprägung");
+		
+		ctf.setSelectionModel(sm);
 
 		hpanelButtonBar.add(cancel);
 
@@ -321,31 +330,11 @@ public class NewKontaktForm extends VerticalPanel {
 			txt_Auspraegung.setVisible(true);
 			addRow.setVisible(true);
 
-//			fehler liegt entweder hier oder oben bei instanziierung von column wertauspraegung
-			
-			// fillTable();
+
 			add(ctf);
 			add(vpanel2);
 			verwaltung.findHybrid(kontakt1, new ReloadCallback());
-			// KeyDownHandler kdh = new KeyDownHandler() {
-			//
-			// @Override
-			// public void onKeyDown(KeyDownEvent event) {
-			// if (event.getNativeKeyCode() == KeyCodes.KEY_ENTER) {
-			//
-			// Window.alert("wert "+eigaus.getWert()+"id "+eigaus.getID()+"eigid
-			// "+eigaus.getEigenschaftsID()+"konid "+
-			// eigaus.getKontaktID()+"status "+ eigaus.getStatus());
-			// verwaltung.updateAuspraegung(eigaus, new
-			// AuspraegungBearbeitenCallback());
-			//
-			// }
-			//
-			// }
-			//
-			// };
-
-			// ctf.addKeyDownHandler(kdh);
+			
 
 		}
 
@@ -369,8 +358,10 @@ public class NewKontaktForm extends VerticalPanel {
 		@Override
 		public void onSuccess(Eigenschaftauspraegung result) {
 			eigaus.setWert(result.getWert());
-			// Window.alert("Sie haben die Ausprägung " + result.getWert() + "
-			// angepasst");
+			sm.setSelected(null, true);
+			verwaltung.findHybrid(kontakt1, new ReloadCallback());
+			
+		
 		}
 
 	}
@@ -433,11 +424,6 @@ public class NewKontaktForm extends VerticalPanel {
 
 			}
 
-			//
-			// eig1.setID(result.getID());
-			// verwaltung.insertAuspraegung(txt_Auspraegung.getText(), 0,
-			// eig1.getID(), kontakt1.getID(),
-			// new AuspraegungHinzufuegenCallback());
 		}
 
 	}
