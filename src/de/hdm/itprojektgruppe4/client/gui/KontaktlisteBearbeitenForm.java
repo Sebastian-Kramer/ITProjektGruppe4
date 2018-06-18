@@ -68,9 +68,6 @@ public class KontaktlisteBearbeitenForm extends VerticalPanel {
 		nutzer.setID(Integer.parseInt(Cookies.getCookie("id")));
 		nutzer.setEmail(Cookies.getCookie("email"));
 		
-		// Instantiieren des DataProviders, der die Daten fuer die Liste haelt
-		// KontakteDataProvider dataProvider = new KontakteDataProvider();
-		// dataProvider.addDataDisplay(kontaktCellList);
 		kontaktCellList.setSelectionModel(selectionModel);
 		kontaktVerwaltung.getAllKontakteFromKontaktliste(kl.getID(), new KontakteVonKontaktlisteCallback());
 		dataProvider.addDataDisplay(kontaktCellList);

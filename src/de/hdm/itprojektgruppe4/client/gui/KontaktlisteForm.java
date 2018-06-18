@@ -41,7 +41,7 @@ public class KontaktlisteForm extends VerticalPanel {
 	
 	private VerticalPanel vpanel = new VerticalPanel();
 	private HorizontalPanel hpanel = new HorizontalPanel();
-	private Label lbl_geteilt = new Label();
+	private Label lbl_status = new Label();
 	private Label ersteller = new Label();
 	
 	private ScrollPanel scrollPanel = new ScrollPanel();
@@ -71,14 +71,15 @@ public class KontaktlisteForm extends VerticalPanel {
 	public KontaktlisteForm(Kontaktliste kontaktliste){
 		this.kl = kontaktliste;	
 		kontaktVerwaltung.findNutzerByID(kl.getNutzerID(), new KontaktlistenErstellerCallback());
+		nutzer.setID(Integer.parseInt(Cookies.getCookie("id")));
+		nutzer.setEmail(Cookies.getCookie("email"));
+		
 		
 	}
 	
 	public void onLoad(){
 		super.onLoad();
 		
-		nutzer.setID(Integer.parseInt(Cookies.getCookie("id")));
-		nutzer.setEmail(Cookies.getCookie("email"));
 		
 		//Instantiieren des DataProviders, der die Daten fuer die Liste haelt
 		KontakteDataProvider dataProvider = new KontakteDataProvider();
@@ -90,8 +91,6 @@ public class KontaktlisteForm extends VerticalPanel {
 		scrollPanel.add(kontaktCellList);
 		HTML html1 = new HTML("<h2>" +  kl.getBez()   + "</h2>");
 	
-		
-		//setTextboxStatus();
 		/*
 		 * Hinzufuegen der Buttons zur Buttonbar
 		 */
@@ -101,21 +100,6 @@ public class KontaktlisteForm extends VerticalPanel {
 		if(kl.getNutzerID() == nutzer.getID()){
 			fpanel.add(kontaktlisteBearbeiten);
 		}
-		/*
-		 * Wenn die Kontaktliste geteilt wurde, soll dies als Status angezeigt werden.
-		 * Wenn der angemeldete Nutzer nicht Eigentuemer, sondern nur Teilhaber der Kontaktliste ist wird auï¿½erdem
-		 * der Nutzer in einem Label angezeigt, der die Kontaktliste mit dem angemeldeten Nutzer geteilt hat.
-		 */
-		/*
-		if(kl.getStatus() == 1){
-			lbl_geteilt.setText("Status: geteilt");
-			if(kl.getNutzerID() != nutzer.getID()){
-				ersteller.setText("Geteilt von: " + kontaktlisteErsteller.getEmail());
-				hpanel.add(ersteller);
-			}
-			hpanel.add(lbl_geteilt);
-		}
-		*/
 		
 		fpanel.add(kontaktAnzeigen);
 		fpanel.add(kontaktlisteTeilen);
@@ -142,20 +126,6 @@ public class KontaktlisteForm extends VerticalPanel {
 
 	}
 	
-	
-	/*
-	private void setTextboxStatus(){
-		if(kl.getStatus() == 1){
-			//lbl_geteilt.setText("Status: geteilt");
-			if(kl.getNutzerID() != nutzer.getID()){
-				
-				teilender.setText("Diese Kontaktliste wurde erstellt von: " + kontaktlisteErsteller.getEmail());
-				hpanel.add(teilender);
-			}
-			hpanel.add(lbl_geteilt);
-		}
-	}
-	*/
 	
 	/*
 	 * Clickhandler ermöglicht das Anzeigen eines ausgewaehlten Kontaktes.
