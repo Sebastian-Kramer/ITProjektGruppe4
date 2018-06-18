@@ -729,6 +729,13 @@ public interface KontaktAdministration extends RemoteService {
 
 	public KontaktKontaktliste findKontaktKontaktlisteByKontaktIDAndKlisteID(int kontaktID, int kListID) throws IllegalArgumentException;
 	public Vector <Kontakt> findGeteilteKontakteFromNutzerAndTeilhaber ( int nutzerID, int teilhaberID) throws IllegalArgumentException;
-
+	
+	/**
+	 * 
+	 * @param kontaktlisteID
+	 * @return Kontaktliste-Objekt mit geändertem Status
+	 * @throws IllegalArgumentException
+	 */
+	public Kontaktliste updateKontaktlisteStatus (int kontaktlisteID) throws IllegalArgumentException;
 
 }

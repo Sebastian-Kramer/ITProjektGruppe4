@@ -1139,6 +1139,25 @@ public class KontaktAdministrationImpl extends RemoteServiceServlet implements K
 
 		return this.konlistMapper.findKontaktlisteMeineGeteiltenKontakte(kList, nutzerID);
 	}
+	
+	/**
+	 *Gibt es keine Teilhaberschaft an einer Kontaktliste, so wird deren Status auf 0 (= nicht geteilt) gesetzt werden.
+	 *
+	 * @param kontaktlisteID
+	 * @return Kontaktliste-Objekt mit geändertem Status
+	 * @throws IllegalArgumentException
+	 */
+	@Override
+	public Kontaktliste updateKontaktlisteStatus(int kontaktlisteID) throws IllegalArgumentException {
+		Vector<Teilhaberschaft> teilhaberschaften = findTeilhaberschaftByKontaktlisteID(kontaktlisteID);
+		Kontaktliste kontaktliste = findKontaktlisteByID(kontaktlisteID);
+		if(teilhaberschaften.isEmpty()){
+			kontaktliste.setStatus(0);
+			return this.konlistMapper.updateKontaktliste(kontaktliste);
+		}else return null;
+		
+	}
+
 
 	/*
 	 * ########################################################## ENDE Methoden
@@ -1855,5 +1874,6 @@ public class KontaktAdministrationImpl extends RemoteServiceServlet implements K
 		return teilKon;
 
 	}
+
 
 }

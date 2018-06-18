@@ -60,6 +60,7 @@ public class DialogBoxKontaktZuKontaktliste extends DialogBox {
 	private Button abbrechen = new Button("Abbrechen");
 	private Button kontakteHinzufuegen = new Button("Hinzufuegen");
 	private Vector<Kontakt> kontaktVector = new Vector<Kontakt>();
+	private Vector<Kontakt> kontakteVonListeVector = new Vector <Kontakt>();
 	
 	/*
 	 * Konstruktor der beim Aufrufen der DialogBox zum Einsatz kommt
@@ -122,16 +123,20 @@ public class DialogBoxKontaktZuKontaktliste extends DialogBox {
 
 	
 	/*
-	 * Methode, um ein KontaktKontaktliste-Objekt zu erstellen, welches die Zugehörigkeit eines Kontaktes zu einer Kontaktliste darstellt.
-	 * Bei Methodenaufruf wird ein asynchroner Callback aufgerufen, der es ermöglicht, ein KontaktKontaktliste-Objekt der Datenbank hinzuzufuegen.
+	 * Methode, um ein KontaktKontaktliste-Objekt zu erstellen, welches die Zugehï¿½rigkeit eines Kontaktes zu einer Kontaktliste darstellt.
+	 * Bei Methodenaufruf wird ein asynchroner Callback aufgerufen, der es ermï¿½glicht, ein KontaktKontaktliste-Objekt der Datenbank hinzuzufuegen.
 	 */
 	private void kontakteHinzufuegen(Kontaktliste kl){
+		kontaktVerwaltung.getAllKontakteFromKontaktliste(kl.getID(), new KontakteVonKontaktliste());
 		for(Kontakt kon : kontaktSelection.getSelectedSet()){	
+			if(kontakteVonListeVector.contains(kon)){
+				Window.alert("Dieser Kontakt ist bereits in dieser Liste");
+			}else{
 		Window.alert("Kontakt " + kon.getName() + " wurde erfolgreich hinzugefuegt");
 		kontaktVerwaltung.insertKontaktKontaktliste(kon.getID(), kl.getID(), new KontaktHinzufuegen());
 		kontaktSelection.getSelectedSet().remove(kon);
 		}
-	
+		}
 		
 	}
 	
@@ -140,9 +145,9 @@ public class DialogBoxKontaktZuKontaktliste extends DialogBox {
 
 		@Override
 		public void onClick(ClickEvent event) {
-			//Wenn kein Kontakt ausgewählt ist, wird ein Window-Alert ausgegeben.
+			//Wenn kein Kontakt ausgewï¿½hlt ist, wird ein Window-Alert ausgegeben.
 			if(kontaktSelection.getSelectedSet().isEmpty()){
-				Window.alert("Sie müssen mindestens einen Kontakt auswählen");
+				Window.alert("Sie mï¿½ssen mindestens einen Kontakt auswï¿½hlen");
 			}else{
 				kontakteHinzufuegen(kl);
 				DialogBoxKontaktZuKontaktliste.this.hide();
@@ -211,6 +216,24 @@ public class DialogBoxKontaktZuKontaktliste extends DialogBox {
 		public void onSuccess(KontaktKontaktliste result) {
 			
 		}
+		
+	}
+	
+	private class KontakteVonKontaktliste implements AsyncCallback<Vector<Kontakt>>{
+
+		@Override
+		public void onFailure(Throwable caught) {
+			// TODO Auto-generated method stub
+			
+		}
+
+		@Override
+		public void onSuccess(Vector<Kontakt> result) {
+			result = kontakteVonListeVector;
+			
+		}
+
+	
 		
 	}
 }

@@ -222,6 +222,9 @@ public interface KontaktAdministrationAsync {
 
 	void findGeteilteKontakteFromNutzerAndTeilhaber(int nutzerID, int teilhaberID,
 			AsyncCallback<Vector<Kontakt>> callback);
+
+	void updateKontaktlisteStatus(int kontaktlisteID, AsyncCallback<Kontaktliste> callback);
+
 	
 	
 
