@@ -50,8 +50,6 @@ public class DialogBoxKontaktZuKontaktliste extends DialogBox {
 	
 	private VerticalPanel vpanel = new VerticalPanel();
 	private KontaktCell kontaktCell = new KontaktCell();
-	
-	
 	private MultiSelectionModel<Kontakt> kontaktSelection = new MultiSelectionModel<Kontakt>();
 	
 	private CellTable<Kontakt> kontaktTable = new CellTable<Kontakt>();
@@ -59,7 +57,6 @@ public class DialogBoxKontaktZuKontaktliste extends DialogBox {
 	
 	private Button abbrechen = new Button("Abbrechen");
 	private Button kontakteHinzufuegen = new Button("Hinzufuegen");
-	private Vector<Kontakt> kontaktVector = new Vector<Kontakt>();
 	private Vector<Kontakt> kontakteVonListeVector = new Vector <Kontakt>();
 	
 	/*
@@ -145,9 +142,9 @@ public class DialogBoxKontaktZuKontaktliste extends DialogBox {
 
 		@Override
 		public void onClick(ClickEvent event) {
-			//Wenn kein Kontakt ausgew�hlt ist, wird ein Window-Alert ausgegeben.
+			//Wenn kein Kontakt ausgewählt ist, wird ein Window-Alert ausgegeben.
 			if(kontaktSelection.getSelectedSet().isEmpty()){
-				Window.alert("Sie m�ssen mindestens einen Kontakt ausw�hlen");
+				Window.alert("Sie müssen mindestens einen Kontakt auswählen");
 			}else{
 				kontakteHinzufuegen(kl);
 				DialogBoxKontaktZuKontaktliste.this.hide();
@@ -194,7 +191,7 @@ public class DialogBoxKontaktZuKontaktliste extends DialogBox {
 		public void onSuccess(Vector<Kontakt> result) {
 			kontaktTable.setRowCount(result.size());
 			kontaktTable.setRowData(0, result);
-			kontaktVector = result;
+			
 			
 		}
 		

@@ -78,7 +78,7 @@ public class KontaktlisteForm extends VerticalPanel {
 	public void onLoad(){
 		super.onLoad();
 		
-		checkStatus();
+		//checkStatus();
 		//Instantiieren des DataProviders, der die Daten fuer die Liste haelt
 		KontakteDataProvider dataProvider = new KontakteDataProvider();
 		dataProvider.addDataDisplay(kontaktCellList);

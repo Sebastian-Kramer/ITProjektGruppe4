@@ -2,6 +2,7 @@ package de.hdm.itprojektgruppe4.client.gui;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Vector;
 
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
@@ -48,24 +49,17 @@ public class MainForm extends VerticalPanel {
 
 	private Button newKontakt = new Button("Neuer Kontakt anlegen");
 	private Button newKontaktliste = new Button("Neue Kontaktliste anlegen");
-	private Button newTeilhaberschaft = new Button("Kontaktliste teilen");
 	private Button suchen = new Button("Suchen");
 	private HTML greetHTML1 = new HTML("<h2>MyContacs<h2>");
 	private HTML greetHTML2 = new HTML("Herzlich Willkommen auf MyContacts, " + "<br>ihrer Kontaktverwaltung. "
 			+ "<br> Hier können Sie neue Kontakte anlegen, " + "<br> diese in verschiedene Listen organiesieren"
 			+ "<br> und sowohl die einzelnen Kontakte und Kontaktlisten mit anderen Nutzern teilen.");
 
-	private HTML html1 = new HTML("<h2>Meine Kontakte</h2>");
+	private HTML html1 = new HTML("<h2>Alle Kontakte</h2>");
 
 	private KontaktCell kontaktCell = new KontaktCell();
-
 	private CellList<Kontakt> cellList = new CellList<Kontakt>(kontaktCell);
-
-	private List<Kontakt> kList = new ArrayList<>();
-
 	final SingleSelectionModel<Kontakt> selectionModel = new SingleSelectionModel<Kontakt>();
-	final SingleSelectionModel<TreeItem> selectionTreeItem = new SingleSelectionModel<TreeItem>();
-
 	private ScrollPanel scrollPanel = new ScrollPanel();
 
 	public MainForm() {
@@ -78,7 +72,7 @@ public class MainForm extends VerticalPanel {
 		nutzer.setID(Integer.parseInt(Cookies.getCookie("id")));
 		nutzer.setEmail(Cookies.getCookie("email"));
 
-		verwaltung.findKontaktByNutzerID(nutzer.getID(), new KontaktCallBack());
+		verwaltung.findAllKontaktFromNutzer(nutzer.getID(), new KontakteVonNutzerCallback());
 
 		cellList.setSelectionModel(selectionModel);
 		cellList.setPageSize(100);
@@ -90,7 +84,6 @@ public class MainForm extends VerticalPanel {
 		cellList.setStyleName("cellListKontakte");
 		scrollPanel.add(cellList);
 
-		RootPanel.get("Buttonbar").add(newTeilhaberschaft);
 		RootPanel.get("Buttonbar").add(newKontaktliste);
 		RootPanel.get("Buttonbar").add(newKontakt);
 		RootPanel.get("Buttonbar").add(suchen);
@@ -167,29 +160,24 @@ public class MainForm extends VerticalPanel {
 
 		}
 	}
-
-	class KontaktCallBack implements AsyncCallback<List<Kontakt>> {
+	
+	class KontakteVonNutzerCallback implements AsyncCallback<Vector<Kontakt>>{
 
 		@Override
 		public void onFailure(Throwable caught) {
-			Window.alert("Beim Laden der Kontakte ist ein Fehler aufgetreten");
-
+			// TODO Auto-generated method stub
+			
 		}
 
 		@Override
-		public void onSuccess(List<Kontakt> result) {
-
-			Window.alert("Es wurden " + result.size() + " Kontakte geladen");
-
-			for (Kontakt kon : result) {
-				kList.add(kon);
-			}
-
-			cellList.setRowCount(kList.size(), true);
-			cellList.setRowData(0, kList);
+		public void onSuccess(Vector<Kontakt> result) {
+			cellList.setRowCount(result.size(), true);
+			cellList.setRowData(result);
+			
 		}
-
+		
 	}
+	
 
 	class KontaktlisteKontaktCallBack implements AsyncCallback<Kontaktliste> {
 
