@@ -1,6 +1,5 @@
 package de.hdm.itprojektgruppe4.client;
 
-
 import de.hdm.itprojektgruppe4.client.gui.MainForm;
 import de.hdm.itprojektgruppe4.client.gui.Startseite;
 import de.hdm.itprojektgruppe4.shared.FieldVerifier;
@@ -14,8 +13,6 @@ import de.hdm.itprojektgruppe4.client.NavigationTree;
 
 import java.util.Date;
 import java.util.Vector;
-
-
 
 import com.google.gwt.core.client.EntryPoint;
 import com.google.gwt.core.client.GWT;
@@ -44,42 +41,45 @@ public class ITProjektSS18 implements EntryPoint {
 	private Label loginLabel = new Label("Bitte melde dich mit deinem Google-Konto an");
 	private Anchor signInLink = new Anchor("Anmelden");
 	private Anchor signOutLink = new Anchor("Logout");
-	
+	private Anchor impressum = new Anchor("Impressum");
+	private Anchor startseite = new Anchor("Startseite");
+
 	Nutzer n = new Nutzer();
-	
+
 	LoginServiceAsync loginService = GWT.create(LoginService.class);
 	private static KontaktAdministrationAsync verwaltung = ClientsideSettings.getKontaktVerwaltung();
 
 	private static String editorHtmlName = "ITProjektSS18.html";
 
 	public void onModuleLoad() {
-		
-		
 
+		impressum.setStyleName("Impressum");
+		signOutLink.setStyleName("Logout");
+		startseite.setStyleName("Startseite");
 		LoginServiceAsync loginService = GWT.create(LoginService.class);
 		loginService.login(GWT.getHostPageBaseURL() + editorHtmlName, new AsyncCallback<LoginInfo>() {
 
-		public void onFailure(Throwable error) {
-			
-		}
-		public void onSuccess(LoginInfo result) {
-		ClientsideSettings.setCurrentUser(result);
+			public void onFailure(Throwable error) {
 
-		loginInfo = result;
-		if(loginInfo.isLoggedIn()) {
-			checkNewNutzer(loginInfo);
-			
-		} else {
-			loadLogin();
-		}
-		}
-	});
+			}
+
+			public void onSuccess(LoginInfo result) {
+				ClientsideSettings.setCurrentUser(result);
+
+				loginInfo = result;
+				if (loginInfo.isLoggedIn()) {
+					checkNewNutzer(loginInfo);
+
+				} else {
+					loadLogin();
+				}
+			}
+		});
 	}
-	
 
 	private Nutzer checkNewNutzer(LoginInfo result) {
 		final LoginInfo finalLog = result;
-		
+
 		Nutzer nutzer = null;
 		verwaltung.findNutzerByEmail(result.getEmailAddress(), new AsyncCallback<Nutzer>() {
 
@@ -113,8 +113,9 @@ public class ITProjektSS18 implements EntryPoint {
 						public void onSuccess(Nutzer result) {
 							Window.alert("Nutzer " + finalLog.getEmailAddress() + " wurde erfolgreich angelegt.");
 							Cookies.setCookie("email", result.getEmail());
-							Cookies.setCookie("id", result.getID()+"");
-							verwaltung.insertMeineKontakte("Meine Kontakte", 0, result.getID(), new MeineKontakteAnlegen());
+							Cookies.setCookie("id", result.getID() + "");
+							verwaltung.insertMeineKontakte("Meine Kontakte", 0, result.getID(),
+									new MeineKontakteAnlegen());
 							n = result;
 						}
 
@@ -140,45 +141,73 @@ public class ITProjektSS18 implements EntryPoint {
 		MainForm mainForm = new MainForm();
 		NavigationTree navigationTree = new NavigationTree();
 		signOutLink.setHref(loginInfo.getLogoutUrl());
-		RootPanel.get("Buttonbar").add(signOutLink);
+		RootPanel.get("Header").add(signOutLink);
+		RootPanel.get("Header").add(impressum);
+		RootPanel.get("Header").add(startseite);
+		impressum.addClickHandler(new ImpressumClickHandler());
+		startseite.addClickHandler(new StartseiteClickHandler());
 		RootPanel.get("Details").add(mainForm);
 		RootPanel.get("Navigator").add(navigationTree);
 	}
 
 	/*
-	 * Meldet sich ein Nutzer neu auf der Plattform an, soll sofort eine Kontaktliste "Meinte Kontakte" erstellt werden.
-	 * Hierf�r wird diese Callback-Klasse ben�tigt.
+	 * Meldet sich ein Nutzer neu auf der Plattform an, soll sofort eine
+	 * Kontaktliste "Meinte Kontakte" erstellt werden. Hierf�r wird diese
+	 * Callback-Klasse ben�tigt.
 	 */
-	private class MeineKontakteAnlegen implements AsyncCallback<Kontaktliste>{
+	private class MeineKontakteAnlegen implements AsyncCallback<Kontaktliste> {
 
 		@Override
 		public void onFailure(Throwable caught) {
 
-			
 		}
 
 		@Override
 		public void onSuccess(Kontaktliste result) {
 			verwaltung.insertKontaktliste("Meine geteilten Kontakte", 0, n.getID(), new GeteilteKontakteAnlegen());
-			
-			
+
 		}
-		
+
 	}
-	
-	class GeteilteKontakteAnlegen implements AsyncCallback<Kontaktliste>{
+
+	class StartseiteClickHandler implements ClickHandler {
+
+		@Override
+		public void onClick(ClickEvent event) {
+			MainForm mf = new MainForm();
+			RootPanel.get("Buttonbar").clear();
+			RootPanel.get("Details").clear();
+			RootPanel.get("Details").add(mf);
+
+		}
+
+	}
+
+	class ImpressumClickHandler implements ClickHandler {
+
+		@Override
+		public void onClick(ClickEvent event) {
+			ImpressumSeite imp = new ImpressumSeite();
+			RootPanel.get("Buttonbar").clear();
+			RootPanel.get("Details").clear();
+			RootPanel.get("Details").add(imp);
+
+		}
+
+	}
+
+	class GeteilteKontakteAnlegen implements AsyncCallback<Kontaktliste> {
 
 		@Override
 		public void onFailure(Throwable caught) {
 
-			
 		}
 
 		@Override
 		public void onSuccess(Kontaktliste result) {
 			loadStartseite();
-			
+
 		}
-		
+
 	}
 }
