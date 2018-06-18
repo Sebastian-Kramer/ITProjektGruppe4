@@ -49,14 +49,14 @@ public interface ReportGeneratorAsync {
 
 
 
-	void AlleKontakteByNutzer(int nutzerID, AsyncCallback<AllEigeneKontakteReport> callback);
+	void AlleKontakteByNutzer(int nutzerID, int teilhaberID, AsyncCallback<AllEigeneKontakteReport> callback);
 
 
 
 
 
 
-	void kontakteMitBestimmterTeilhaberschaftReport(int nutzerID,
+	void kontakteMitBestimmterTeilhaberschaftReport(int nutzerID, int teilhaberID,
 			AsyncCallback<KontakteMitBestimmterTeilhaberschaftReport> callback);
 
 
@@ -70,6 +70,9 @@ public interface ReportGeneratorAsync {
 
 
 	void findAllEigenschaftsAuspraegungn(AsyncCallback<Vector<Eigenschaftauspraegung>> callback);
+
+
+
 
 
 
