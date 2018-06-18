@@ -990,14 +990,34 @@ public class KontaktAdministrationImpl extends RemoteServiceServlet implements K
 	@Override
 	public Kontaktliste updateKontaktliste(Kontaktliste k) throws IllegalArgumentException {
 		// TODO Auto-generated method stub
+		Kontaktliste konliste = this.konlistMapper.findKontaktlistebyID(k.getID());
+		
+
+		
+		if (konliste.getBez().equals("Meine Kontakte") || konliste.getBez().equals("Meine geteilten Kontakte")) {
+			
+			
+			
+			return null ;
+			
+		} else if ((k.getBez().equals("Meine Kontakte") || k.getBez().equals("Meine geteilten Kontakte"))) {
+			
+						
+			return null ;
+		}
+		{
+		
 		return this.konlistMapper.updateKontaktliste(k);
 	}
+		
+		
+		}
 
 	/**
-	 * Eine Kontaktliste l�schen.
+	 * Eine Kontaktliste löschen.
 	 * 
 	 * @param k
-	 *            das zu l�schende Kontaktlisten-Objekt
+	 *            das zu löschende Kontaktlisten-Objekt
 	 * @throws IllegalArgumentException
 	 */
 

@@ -226,6 +226,19 @@ public class KontaktlisteBearbeitenForm extends VerticalPanel {
 		@Override
 		public void onSuccess(Kontaktliste result) {
 			// TODO Auto-generated method stub
+			
+			if (result == null) {
+				Window.alert("Sie dürfen die Namen der Basis-Kontaktlisten nicht verwenden." );
+				
+				KontaktlisteForm kf = new KontaktlisteForm(kl);
+				NavigationTree updatedNavTree = new NavigationTree();
+				RootPanel.get("Details").clear();
+				RootPanel.get("Navigator").clear();
+				RootPanel.get("Details").add(kf);
+				RootPanel.get("Navigator").add(updatedNavTree);
+				
+			}
+			
 			Window.alert("Der Name der Liste wurde erfolgreich zu " + result.getBez() +" geändert." );
 		}
 		

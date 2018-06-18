@@ -86,6 +86,7 @@ public class MainForm extends VerticalPanel {
 		verwaltung.findKontaktByNutzerID(nutzer.getID(), new KontaktCallBack());
 
 		cellList.setSelectionModel(selectionModel);
+		cellList.setPageSize(100);
 
 		selectionModel.addSelectionChangeHandler(new SelectionChangeHandler()); 
 
