@@ -71,7 +71,7 @@ public class KontaktlisteKontaktTreeViewModel implements TreeViewModel {
 	private SingleSelectionModel<BusinessObject> selectionModel = null;
 	
 	/**
-	 * Nested Class fï¿½r das Setzen von Selektionsereignissen.
+	 * Nested Class fuer das Setzen von Selektionsereignissen.
 	 * Ist das ausgewï¿½hlte Objekt in der Baumstruktur ein Objekt vom Typ Kontaktliste,
 	 * wird die <code>KontaktlisteForm</code> geï¿½ffnet, die die Verwaltung und Bearbeitung der Kontaktliste ermï¿½glicht.
 	 * Ist das selektierte Objekt vom Typ Kontakt, wird die <code>KontaktForm</code> geï¿½ffnet, die die Verwaltung und Bearbeitung
@@ -125,6 +125,7 @@ public class KontaktlisteKontaktTreeViewModel implements TreeViewModel {
 		nutzer.setID(Integer.parseInt(Cookies.getCookie("id")));
 		nutzer.setEmail(Cookies.getCookie("email"));
 	}
+	
 	/*
 	 * Getter für das Nutzer-Objekt
 	 */

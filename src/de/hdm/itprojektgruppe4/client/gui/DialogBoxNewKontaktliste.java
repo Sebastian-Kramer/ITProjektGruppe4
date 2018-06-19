@@ -40,6 +40,7 @@ public class DialogBoxNewKontaktliste extends DialogBox {
 	private FlexTable kList = new FlexTable();
 
 	private Nutzer nutzer = new Nutzer();
+	private Kontaktliste kl = new Kontaktliste();
 
 	public DialogBoxNewKontaktliste() {
 
@@ -58,23 +59,15 @@ public class DialogBoxNewKontaktliste extends DialogBox {
 		kList.setWidget(4, 0, anlegen);
 		kList.setWidget(4, 1, cancel);
 		
-		
-		
-		
 		vpanel.add(kList);
 		vpanel.add(infolabel);
 
 		this.setStyleName("DialogboxBackground");
 		this.add(vpanel);
 		
-
-		
-		
 		anlegen.addClickHandler(new KontaktListeAnlegen());
 		cancel.addClickHandler(new CancelButton());
-		
-
-
+	
 	}
 
 	class CancelButton implements ClickHandler {
@@ -92,18 +85,16 @@ public class DialogBoxNewKontaktliste extends DialogBox {
 
 		@Override
 		public void onClick(ClickEvent event) {
+			verwaltung.insertKontaktliste(boxBez.getValue(), 0, nutzer.getID(), new Liste());
 			hide();
-			
-			
-			verwaltung.insertKontaktliste(boxBez.getText(), 0, nutzer.getID(), new Liste());
-			MainForm mf = new MainForm();
+			KontaktlisteForm kf = new KontaktlisteForm(kl);
 			NavigationTree navigation = new NavigationTree();
 			RootPanel.get("Details").clear();
-			RootPanel.get("Navigation").clear();
+			RootPanel.get("Navigator").clear();
 			RootPanel.get("Buttonbar").clear();
-			RootPanel.get("Navigation").add(navigation);
-			RootPanel.get("Details").add(mf);						
-
+			RootPanel.get("Navigator").add(navigation);
+			RootPanel.get("Details").add(kf);						
+			
 			
 			
 		}
@@ -123,18 +114,13 @@ public class DialogBoxNewKontaktliste extends DialogBox {
 
 		@Override
 		public void onSuccess(Kontaktliste result) {
-		
-			
-			
+			kl = result;
 			if(result == null) {
-				
 				Window.alert("Kontaktliste konnte nicht angelegt werden, da dieser Name bereits vorhanden ist");
 			}else{
-				
 			Window.alert("Die Kontaktliste wurde erfolgreich angelegt");
 			}
 			
-			hide();
 		}
 
 	}

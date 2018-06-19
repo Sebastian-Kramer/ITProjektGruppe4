@@ -85,15 +85,15 @@ public class UpdateKontaktForm extends VerticalPanel {
 
 					
 						object.setEigenschaftValue(value);
-						selectionModel.getSelectedObject().setAuspraegungValue(value);
-						selectionModel.getSelectedObject().setAuspraegungID(object.getAuspraegungID());
+						ctf.getSm().getSelectedObject().setAuspraegungValue(value);
+						ctf.getSm().getSelectedObject().setAuspraegungID(object.getAuspraegungID());
 						eigaus.setWert(object.getAuspraegungValue());
 						eigaus.setID(object.getAuspraegungID());
 						eigaus.setEigenschaftsID(object.getEigenschaftID());
 						eigaus.setKontaktID(kon.getID());
 						eigaus.setStatus(0);
 						
-						eigaus.setWert(selectionModel.getSelectedObject().getAuspraegungValue());
+						eigaus.setWert(ctf.getSm().getSelectedObject().getAuspraegungValue());
 						verwaltung.updateAuspraegung(eigaus, new AuspraegungBearbeitenCallback());
 						verwaltung.updateKontakt(kon, new KontaktModifikationsdatumCallback());
 					}	
@@ -116,7 +116,6 @@ public class UpdateKontaktForm extends VerticalPanel {
 	private Eigenschaft eig1 = new Eigenschaft();
 	private Eigenschaftauspraegung eigaus = new Eigenschaftauspraegung();
 	
-	private SingleSelectionModel<EigenschaftAuspraegungWrapper> selectionModel = new SingleSelectionModel<EigenschaftAuspraegungWrapper>();
 	private CellTableForm.ColumnDeleteBtn deleteBtn = ctf.new ColumnDeleteBtn(deletebtn);
 	
 	public UpdateKontaktForm(Kontakt kon) {
@@ -149,7 +148,8 @@ public class UpdateKontaktForm extends VerticalPanel {
 		hpanelAdd.add(txt_Auspraegung);
 		hpanelAdd.add(addRow);
 		wertAuspraegung.setSortable(true);
-		ctf.setSelectionModel(selectionModel);
+		ctf.setSelectionModel(ctf.getSm());
+//		ctf.setSelectionModel(selectionModel);
 		ctf.addColumn(bezEigenschaft, "Eigenschaft: ");
 		ctf.addColumn(wertAuspraegung, "Wert: ");
 		ctf.addColumn(deleteBtn, "Löschen");
@@ -312,7 +312,7 @@ public class UpdateKontaktForm extends VerticalPanel {
 			
 //			Window.alert("wurde aktualisiert");
 			eigaus.setWert(result.getWert());
-			selectionModel.setSelected(null, true);
+			ctf.getSm().setSelected(null, true);
 			verwaltung.findHybrid(kon, new ReloadCallback());
 //			eigaus.setWert(result.getWert());
 		}

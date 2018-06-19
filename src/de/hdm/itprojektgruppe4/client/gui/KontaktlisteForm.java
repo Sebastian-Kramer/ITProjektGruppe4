@@ -41,7 +41,7 @@ public class KontaktlisteForm extends VerticalPanel {
 	
 	private VerticalPanel vpanel = new VerticalPanel();
 	private HorizontalPanel hpanel = new HorizontalPanel();
-	private Label lbl_geteilt = new Label();
+	private Label lbl_status = new Label();
 	private Label ersteller = new Label();
 	
 	private ScrollPanel scrollPanel = new ScrollPanel();
@@ -58,7 +58,6 @@ public class KontaktlisteForm extends VerticalPanel {
 	private Button zurStartseite = new Button("Zurueck zur Startseite");
 
 	private KontaktAdministrationAsync kontaktVerwaltung = ClientsideSettings.getKontaktverwaltung();
-	KontaktlisteKontaktTreeViewModel kktvm = new KontaktlisteKontaktTreeViewModel();
 	
 	private Kontaktliste kl = null;
 	private Nutzer nutzer = new Nutzer();
@@ -70,16 +69,16 @@ public class KontaktlisteForm extends VerticalPanel {
 	 */
 	public KontaktlisteForm(Kontaktliste kontaktliste){
 		this.kl = kontaktliste;	
-		kontaktVerwaltung.findNutzerByID(kl.getNutzerID(), new KontaktlistenErstellerCallback());
+		nutzer.setID(Integer.parseInt(Cookies.getCookie("id")));
+		nutzer.setEmail(Cookies.getCookie("email"));
+		
 		
 	}
 	
 	public void onLoad(){
 		super.onLoad();
 		
-		nutzer.setID(Integer.parseInt(Cookies.getCookie("id")));
-		nutzer.setEmail(Cookies.getCookie("email"));
-		
+		//checkStatus();
 		//Instantiieren des DataProviders, der die Daten fuer die Liste haelt
 		KontakteDataProvider dataProvider = new KontakteDataProvider();
 		dataProvider.addDataDisplay(kontaktCellList);
@@ -90,8 +89,6 @@ public class KontaktlisteForm extends VerticalPanel {
 		scrollPanel.add(kontaktCellList);
 		HTML html1 = new HTML("<h2>" +  kl.getBez()   + "</h2>");
 	
-		
-		//setTextboxStatus();
 		/*
 		 * Hinzufuegen der Buttons zur Buttonbar
 		 */
@@ -101,21 +98,6 @@ public class KontaktlisteForm extends VerticalPanel {
 		if(kl.getNutzerID() == nutzer.getID()){
 			fpanel.add(kontaktlisteBearbeiten);
 		}
-		/*
-		 * Wenn die Kontaktliste geteilt wurde, soll dies als Status angezeigt werden.
-		 * Wenn der angemeldete Nutzer nicht Eigentuemer, sondern nur Teilhaber der Kontaktliste ist wird au�erdem
-		 * der Nutzer in einem Label angezeigt, der die Kontaktliste mit dem angemeldeten Nutzer geteilt hat.
-		 */
-		/*
-		if(kl.getStatus() == 1){
-			lbl_geteilt.setText("Status: geteilt");
-			if(kl.getNutzerID() != nutzer.getID()){
-				ersteller.setText("Geteilt von: " + kontaktlisteErsteller.getEmail());
-				hpanel.add(ersteller);
-			}
-			hpanel.add(lbl_geteilt);
-		}
-		*/
 		
 		fpanel.add(kontaktAnzeigen);
 		fpanel.add(kontaktlisteTeilen);
@@ -142,23 +124,12 @@ public class KontaktlisteForm extends VerticalPanel {
 
 	}
 	
-	
-	/*
-	private void setTextboxStatus(){
-		if(kl.getStatus() == 1){
-			//lbl_geteilt.setText("Status: geteilt");
-			if(kl.getNutzerID() != nutzer.getID()){
-				
-				teilender.setText("Diese Kontaktliste wurde erstellt von: " + kontaktlisteErsteller.getEmail());
-				hpanel.add(teilender);
-			}
-			hpanel.add(lbl_geteilt);
-		}
+	public void checkStatus(){
+		kontaktVerwaltung.updateKontaktlisteStatus(kl.getID(), new UpdateKontaktlisteStatus());
 	}
-	*/
 	
 	/*
-	 * Clickhandler erm�glicht das Anzeigen eines ausgewaehlten Kontaktes.
+	 * Clickhandler ermöglicht das Anzeigen eines ausgewaehlten Kontaktes.
 	 */
 	private class KontaktAnzeigenClickhandler implements ClickHandler{
 
@@ -168,10 +139,6 @@ public class KontaktlisteForm extends VerticalPanel {
 				Window.alert("Sie muessen einen Kontakt ausw�hlen");
 			}else{
 			KontaktForm kf = new KontaktForm(selectionModel.getSelectedObject(), "teilhaberschaft");
-
-
-
-
 			RootPanel.get("Details").clear();
 			RootPanel.get("Details").add(kf);
 			}
@@ -179,7 +146,10 @@ public class KontaktlisteForm extends VerticalPanel {
 		
 	}
 	
-	
+	/**
+	 * Clickhandler, der das Teilen einer Kontaktliste ermöglicht.
+	 * Wird der Button "Kontaktliste teilen" angewählt, öffnet sich die DialogBox <code>DialogBoxKontaktlisteTeilen</code>
+	 */
 	private class KontaktlisteTeilenClickhandler implements ClickHandler{
 
 		@Override
@@ -191,7 +161,7 @@ public class KontaktlisteForm extends VerticalPanel {
 		
 	}
 	
-	private class KontaktlistenErstellerCallback implements AsyncCallback<Nutzer>{
+	private class UpdateKontaktlisteStatus implements AsyncCallback<Kontaktliste>{
 
 		@Override
 		public void onFailure(Throwable caught) {
@@ -200,14 +170,17 @@ public class KontaktlisteForm extends VerticalPanel {
 		}
 
 		@Override
-		public void onSuccess(Nutzer result) {
-			kontaktlisteErsteller = result;
+		public void onSuccess(Kontaktliste result) {
+			// TODO Auto-generated method stub
 			
 		}
 		
-		
 	}
 	
+	/*
+	 * Clickhandler, der das Anwählen des Buttons "Teilhaberschaft verwalten" ermöglicht.
+	 * Bei Aktivierung des Clickhandlers wird eine DialogBox mit den Teilhaberschaften an einer Kontaktliste geöffnet
+	 */
 	private class TeilhaberschaftenVerwaltenClickhandler implements ClickHandler{
 
 		@Override
@@ -244,19 +217,7 @@ public class KontaktlisteForm extends VerticalPanel {
 		
 	}
 	
-		
-		
-	
-	void setKktvw(KontaktlisteKontaktTreeViewModel kktvm) {
-		this.kktvm = kktvm;
-	}
-	
-	void setSelected(Kontaktliste kl){
-		this.kl = kl;
-		
-	}
-	
-	
+
 	/**
 	 * Hier wird der DataProvider mit den entsprechenden Daten fuer die CellList erstellt.
 	 */

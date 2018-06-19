@@ -337,7 +337,7 @@ public interface KontaktAdministration extends RemoteService {
 	 * @return Eigenschafts-Objekt mit gesuchtem Wert
 	 * @throws IllegalArgumentException
 	 */
-	public Eigenschaftauspraegung getAuspraegungByWert(String wert) throws IllegalArgumentException;
+	public Vector<Eigenschaftauspraegung> getAuspraegungByWert(String wert) throws IllegalArgumentException;
 
 	/**
 	 * Eine Eigenschaftsauspraegung anhand der ID auslesen.
@@ -730,7 +730,17 @@ public interface KontaktAdministration extends RemoteService {
 	public KontaktKontaktliste findKontaktKontaktlisteByKontaktIDAndKlisteID(int kontaktID, int kListID) throws IllegalArgumentException;
 	public Vector <Kontakt> findGeteilteKontakteFromNutzerAndTeilhaber ( int nutzerID, int teilhaberID) throws IllegalArgumentException;
 
+
 	public Vector<Kontakt> findKontakteByEigAus(int NutzerID ,	String bez , String wert) throws IllegalArgumentException ;
+
+
+	/**
+	 * 
+	 * @param kontaktlisteID
+	 * @return Kontaktliste-Objekt mit geändertem Status
+	 * @throws IllegalArgumentException
+	 */
+	public Kontaktliste updateKontaktlisteStatus (int kontaktlisteID) throws IllegalArgumentException;
 
 
 }

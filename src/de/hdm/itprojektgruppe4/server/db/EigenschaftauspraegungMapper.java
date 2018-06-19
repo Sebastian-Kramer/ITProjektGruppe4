@@ -201,8 +201,8 @@ public void deleteAuspraegung(Eigenschaftauspraegung ea){
  */
 
 //pr�fen
-public Eigenschaftauspraegung getAuspraegungByWert(Eigenschaftauspraegung ea){
-	
+public Vector<Eigenschaftauspraegung> getAuspraegungByWert(String wert){
+	Vector<Eigenschaftauspraegung> result = new Vector<Eigenschaftauspraegung>();
 	Connection con = DBConnection.connection();
 
 	try {
@@ -212,22 +212,25 @@ public Eigenschaftauspraegung getAuspraegungByWert(Eigenschaftauspraegung ea){
 	
 	ResultSet rs = stmt.executeQuery(
 			
-	"SELECT ID, wert, kontaktID FROM `eigenschaftsauspraegung` WHERE `wert`=" + ea.getWert() 
-	+" " + "AND `kontaktID` =" + ea.getKontaktID());
-
+	"SELECT * FROM `eigenschaftsauspraegung` WHERE `wert` LIKE " + "'" + wert + "'" +" ORDER by ID");
+	
+			
 	if (rs.next()) {
+		Eigenschaftauspraegung ea = new Eigenschaftauspraegung();
 		ea.setID(rs.getInt("ID"));
 		ea.setWert(rs.getString("wert"));
 		ea.setKontaktID(rs.getInt("kontaktID"));
+		ea.setStatus(rs.getInt("status"));
+		ea.setEigenschaftsID(rs.getInt("eigenschaftID"));
 		
-		return ea;
+		result.addElement(ea);
 	}
 	
 }catch (SQLException e) {
 	e.printStackTrace();
-	return null;
+	
 }
-return null;
+return result;
 
 }
 

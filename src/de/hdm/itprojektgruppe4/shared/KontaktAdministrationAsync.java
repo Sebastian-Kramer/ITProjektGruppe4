@@ -84,7 +84,7 @@ public interface KontaktAdministrationAsync {
 
 	void deleteAuspraegung(Eigenschaftauspraegung ea, AsyncCallback<Void> callback);
 
-	void getAuspraegungByWert(String wert, AsyncCallback<Eigenschaftauspraegung> callback);
+	void getAuspraegungByWert(String wert, AsyncCallback<Vector<Eigenschaftauspraegung>> callback);
 
 	void getAuspraegungByID(int id, AsyncCallback<Eigenschaftauspraegung> callback);
 
@@ -223,7 +223,12 @@ public interface KontaktAdministrationAsync {
 	void findGeteilteKontakteFromNutzerAndTeilhaber(int nutzerID, int teilhaberID,
 			AsyncCallback<Vector<Kontakt>> callback);
 
+
 	void findKontakteByEigAus(int NutzerID, String bez, String wert, AsyncCallback<Vector<Kontakt>> callback);
+
+	void updateKontaktlisteStatus(int kontaktlisteID, AsyncCallback<Kontaktliste> callback);
+
+
 	
 	
 
