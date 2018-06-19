@@ -7,6 +7,7 @@ import java.sql.Statement;
 import java.util.Vector;
 
 import de.hdm.itprojektgruppe4.client.EigenschaftAuspraegungWrapper;
+import de.hdm.itprojektgruppe4.shared.bo.Eigenschaftauspraegung;
 import de.hdm.itprojektgruppe4.shared.bo.Nutzer;
 import de.hdm.itprojektgruppe4.shared.bo.Teilhaberschaft;
 
@@ -811,7 +812,7 @@ public class TeilhaberschaftMapper {
 	 * @throws IllegalArgumentException
 	 */
 
-	public void deleteEigenschaftsauspraegungFromTeilhaberschaft(EigenschaftAuspraegungWrapper ea, Nutzer n) {
+	public void deleteEigenschaftsauspraegungFromTeilhaberschaft(Eigenschaftauspraegung ea, Nutzer n) {
 
 		Connection con = DBConnection.connection();
 
@@ -820,7 +821,7 @@ public class TeilhaberschaftMapper {
 			Statement stmt = con.createStatement();
 
 			stmt.executeUpdate("DELETE FROM `teilhaberschaft` WHERE `eigenschaftsauspraegungID`="
-					+ ea.getAuspraegungID() + " " + "AND `teilhaberID` =" + n.getID());
+					+ ea.getID() + " " + "AND `teilhaberID` =" + n.getID());
 
 		} catch (SQLException e2) {
 
