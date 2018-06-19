@@ -32,8 +32,8 @@ import de.hdm.itprojektgruppe4.shared.bo.Teilhaberschaft;
 /**
  * Mit der Klasse TeilhaberschaftForm lassen sich die Teilhaberschaften aller
  * Ausprägungnen eines Kontakt verwalten. Dazu gehört das Anlegen und Löschen
- * von Teilhaberschaften Die Ausprägungen eines Kontakts können komplett oder
- * nur teilweise an einen anderen, im System angemeldeten Nutzer geteilt werden
+ * von Teilhaberschaften. Die Ausprägungen eines Kontakts können komplett oder
+ * nur teilweise an einen anderen, im System angemeldeten, Nutzer geteilt werden.
  * Außerdem kann der Eigentümer der Teilhaberschaft oder der teilhabende Nutzer
  * die Teilhabschaft entfernen
  * 
@@ -62,8 +62,6 @@ public class TeilhaberschaftForm extends VerticalPanel {
 
 	private Date date = new Date();
 
-	private Vector<Eigenschaftauspraegung> eaV = new Vector<Eigenschaftauspraegung>();
-
 	DateTimeFormat fmt = DateTimeFormat.getFormat("dd.MM.yyyy");
 
 	private HTML html2 = new HTML(
@@ -75,7 +73,6 @@ public class TeilhaberschaftForm extends VerticalPanel {
 	private HTML html3 = new HTML("Bitte wählen Sie hier den <b> Nutzer </b> aus dem der "
 			+ " <b>Kontakt</b>  geteilt werden soll." + "<span style='font-family:fixed'></span>", true);
 
-	final SingleSelectionModel<Nutzer> selectionModel = new SingleSelectionModel<Nutzer>();
 	final MultiSelectionModel<EigenschaftAuspraegungWrapper> selectionModelWrapper = new MultiSelectionModel<EigenschaftAuspraegungWrapper>();
 
 	public TeilhaberschaftForm(Kontakt k) {
@@ -95,7 +92,6 @@ public class TeilhaberschaftForm extends VerticalPanel {
 		nutzer.setEmail(Cookies.getCookie("email"));
 
 		verwaltung.findAllNutzer(new AlleNutzer());
-//		verwaltung.getAuspraegungByKontaktID(kon.getID(), new AuspraegungCallback());
 
 		ctf = new CellTableForm(kon);
 		ctf.setSelectionModel(selectionModelWrapper,
@@ -106,8 +102,8 @@ public class TeilhaberschaftForm extends VerticalPanel {
 		allTeilen.addClickHandler(new AllAuspraegungenTeilenClickHandler());
 		einzTeilen.addClickHandler(new AusgewaehlteAuspraegungenTeilenClickHandler());
 
-		ctf.addColumn(ctf.getWertAuspraegung(), "Eigenschaft");
-		ctf.addColumn(ctf.getBezEigenschaft(), "Wert");
+		ctf.addColumn(ctf.getBezEigenschaft(), "Eigenschaft");
+		ctf.addColumn(ctf.getWertAuspraegung(), "Wert");
 		ctf.addColumn(ctf.getStatus(), "Status");
 		ctf.addColumn(ctf.getCheckBox());
 		ctf.addColumn(ctf.getDeleteBtn(), "Teilhaberschaft löschen");
@@ -137,28 +133,6 @@ public class TeilhaberschaftForm extends VerticalPanel {
 		this.add(vpanel);
 
 	}
-
-//	class AuspraegungCallback implements AsyncCallback<Vector<Eigenschaftauspraegung>> {
-//
-//		@Override
-//		public void onFailure(Throwable caught) {
-//
-//		}
-//
-//		@Override
-//		public void onSuccess(Vector<Eigenschaftauspraegung> result) {
-//			for (Eigenschaftauspraegung e : result) {
-//				if (e.getStatus() == 1) {
-//					eaV.add(e);
-//				}
-//			}
-//			if (eaV.isEmpty()) {
-//				verwaltung.updateKontaktStatus(kon, new StatusAendernCallback());
-//
-//			}
-//		}
-//
-//	}
 
 	class KontaktAusKlistLoeschen implements AsyncCallback<Void> {
 
@@ -260,27 +234,8 @@ public class TeilhaberschaftForm extends VerticalPanel {
 		public void onClick(ClickEvent event) {
 
 			verwaltung.insertTeilhaberschaftAuspraegungenKontakt(kon, dropBoxNutzer.getSelectedValue(), nutzer.getID(),
-					new TeilhaberschaftCallback());
+					new TeilhaberschaftCallback()); 
 
-		}
-
-	}
-
-	class TeilhaberschaftCallback implements AsyncCallback<Teilhaberschaft> {
-
-		@Override
-		public void onFailure(Throwable caught) {
-			Window.alert("Die Teilhaberschaft konnte nicht angelegt werden");
-
-		}
-
-		@Override
-		public void onSuccess(Teilhaberschaft result) {
-			Window.alert("Die Teilhaberschaft wurden erfolgreich mit dem Nutzer " + dropBoxNutzer.getSelectedValue()
-					+ " angelegt");
-			TeilhaberschaftForm tf = new TeilhaberschaftForm(kon);
-			RootPanel.get("Details").clear();
-			RootPanel.get("Details").add(tf);
 		}
 
 	}
@@ -294,9 +249,39 @@ public class TeilhaberschaftForm extends VerticalPanel {
 			for (EigenschaftAuspraegungWrapper eaw : selectionModelWrapper.getSelectedSet()) {
 				ea.add(eaw);
 			}
-			verwaltung.insertTeilhaberschaftAusgewaehlteAuspraegungenKontakt(kon, ea, dropBoxNutzer.getSelectedValue(),
-					nutzer.getID(), new TeilhaberschaftCallback());
 			
+			verwaltung.insertTeilhaberschaftAusgewaehlteAuspraegungenKontakt(kon, ea, dropBoxNutzer.getSelectedValue(),
+					nutzer.getID(), new TeilhaberschaftCallback()); 
+
+		}
+
+	}
+
+	class TeilhaberschaftCallback implements AsyncCallback<Integer> {
+
+		@Override
+		public void onFailure(Throwable caught) {
+			Window.alert("Die Teilhaberschaft konnte nicht angelegt werden");
+
+		}
+
+		@Override
+		public void onSuccess(Integer result) {
+
+			if (result == 1) {
+				Window.alert("Die Teilhaberschaft wurden erfolgreich mit dem Nutzer " + dropBoxNutzer.getSelectedValue()
+						+ " angelegt");
+				TeilhaberschaftForm tf = new TeilhaberschaftForm(kon);
+				RootPanel.get("Details").clear();
+				RootPanel.get("Details").add(tf);
+			} else {
+				Window.alert(
+						"Mit dem Nutzer " + dropBoxNutzer.getSelectedValue() + " besteht bereits eine Teilhaberschaft");
+				TeilhaberschaftForm tf = new TeilhaberschaftForm(kon);
+				RootPanel.get("Details").clear();
+				RootPanel.get("Details").add(tf);
+			}
+
 		}
 
 	}

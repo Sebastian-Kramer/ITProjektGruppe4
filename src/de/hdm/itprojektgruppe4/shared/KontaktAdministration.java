@@ -404,10 +404,10 @@ public interface KontaktAdministration extends RemoteService {
 	public Teilhaberschaft insertTeilhaberschaftKontakt(int kontaktID, int teilhaberID,
 			int nutzerID);
 
-	public Teilhaberschaft insertTeilhaberschaftAuspraegungenKontakt(Kontakt kon, String selectedValue, int id)
+	public int insertTeilhaberschaftAuspraegungenKontakt(Kontakt kon, String selectedValue, int id)
 			throws IllegalArgumentException;
 
-	public Teilhaberschaft insertTeilhaberschaftAusgewaehlteAuspraegungenKontakt(Kontakt kon,
+	public int insertTeilhaberschaftAusgewaehlteAuspraegungenKontakt(Kontakt kon,
 			Vector<EigenschaftAuspraegungWrapper> eaw, String selectedValue, int id);
 
 	/**
@@ -437,7 +437,7 @@ public interface KontaktAdministration extends RemoteService {
 	 */
 	public void deleteKontaktlisteFromTeilhaberschaft(Teilhaberschaft t) throws IllegalArgumentException;
 
-	public void deleteEigenschaftsauspraegungFromTeilhaberschaft(EigenschaftAuspraegungWrapper ea, Nutzer n)
+	public void deleteEigenschaftsauspraegungFromTeilhaberschaft(Eigenschaftauspraegung ea, Nutzer n)
 			throws IllegalArgumentException;
 
 	/**
@@ -707,7 +707,7 @@ public interface KontaktAdministration extends RemoteService {
 	public Vector<EigenschaftAuspraegungWrapper> findSharedAuspraegung(int nutzerID, int kontaktID)
 			throws IllegalArgumentException;
 
-	public void deleteUpdateTeilhaberschaft(EigenschaftAuspraegungWrapper ea, Nutzer teilhaber, Nutzer n, Kontakt k) throws IllegalArgumentException;
+	public void deleteUpdateTeilhaberschaft(Eigenschaftauspraegung ea, Nutzer teilhaber, Nutzer n, Kontakt k) throws IllegalArgumentException;
 
 	public Vector<Teilhaberschaft> findTeilhaberschaftByKontaktID(int kontaktID) throws IllegalArgumentException;
 
@@ -719,7 +719,7 @@ public interface KontaktAdministration extends RemoteService {
 
 	public void deleteTeilhaberschaftByKontaktIDAndNutzerID(int kontaktID, int teilNutzerID) throws IllegalArgumentException;
 
-	public Kontakt updateKontaktStatus(Kontakt k, Nutzer n) throws IllegalArgumentException;
+	public void updateKontaktStatus(Kontakt k, Nutzer n) throws IllegalArgumentException;
 
 	public Vector<Teilhaberschaft> findTeilhaberschaftByAuspraegungIDAndTeilhaberID(int auspraegungID, int teilhaberID) throws IllegalArgumentException;
 
@@ -729,7 +729,11 @@ public interface KontaktAdministration extends RemoteService {
 
 	public KontaktKontaktliste findKontaktKontaktlisteByKontaktIDAndKlisteID(int kontaktID, int kListID) throws IllegalArgumentException;
 	public Vector <Kontakt> findGeteilteKontakteFromNutzerAndTeilhaber ( int nutzerID, int teilhaberID) throws IllegalArgumentException;
-	
+
+
+	public Vector<Kontakt> findKontakteByEigAus(int NutzerID ,	String bez , String wert) throws IllegalArgumentException ;
+
+
 	/**
 	 * 
 	 * @param kontaktlisteID
@@ -737,5 +741,6 @@ public interface KontaktAdministration extends RemoteService {
 	 * @throws IllegalArgumentException
 	 */
 	public Kontaktliste updateKontaktlisteStatus (int kontaktlisteID) throws IllegalArgumentException;
+
 
 }

@@ -4,17 +4,26 @@ import java.util.Vector;
 
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.user.client.Cookies;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
+import com.google.gwt.user.client.ui.Button;
+import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.HorizontalPanel;
+import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.ListBox;
 import com.google.gwt.user.client.ui.RootPanel;
+import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.client.ui.VerticalPanel;
 
 import de.hdm.itprojektgruppe4.client.ClientsideSettings;
 import de.hdm.itprojektgruppe4.shared.ReportGeneratorAsync;
 import de.hdm.itprojektgruppe4.shared.bo.Eigenschaft;
 import de.hdm.itprojektgruppe4.shared.bo.Eigenschaftauspraegung;
+import de.hdm.itprojektgruppe4.shared.bo.Kontakt;
+import de.hdm.itprojektgruppe4.shared.bo.Nutzer;
+import de.hdm.itprojektgruppe4.shared.report.HTMLReportWriter;
+import de.hdm.itprojektgruppe4.shared.report.KontakteMitBestimmtenEigenschaftsAuspraegungen;
 
 public class EigenschaftAuspraegungForm extends VerticalPanel {
 
@@ -22,83 +31,75 @@ public class EigenschaftAuspraegungForm extends VerticalPanel {
 
 	private HorizontalPanel hPanel = new HorizontalPanel();
 
-	private ListBox eigenschaftListe = new ListBox();
+	private Label eigenschaftLabel = new Label("Eigenschaft");
 
-	private ListBox auspraegungListe = new ListBox();
+	private Label auspraegungLabel = new Label("Auspraegung");
+
+	private TextBox eigenschafBox = new TextBox();
+
+	private TextBox auspraegungBox = new TextBox();
+
+	private Button sendButton = new Button("Absenden");
+
+	Nutzer nutzer = new Nutzer();
 
 	public void onLoad() {
 		super.onLoad();
+		
+		nutzer.setID(Integer.parseInt(Cookies.getCookie("id")));
+		nutzer.setEmail(Cookies.getCookie("email"));
 
+
+		RootPanel.get("Buttonbar").clear();
 		RootPanel.get("Details").clear();
-		hPanel.add(eigenschaftListe);
-		hPanel.add(auspraegungListe);
+		hPanel.add(eigenschaftLabel);
+		hPanel.add(eigenschafBox);
+		hPanel.add(auspraegungLabel);
+		hPanel.add(auspraegungBox);
+		hPanel.add(sendButton);
 		RootPanel.get("Buttonbar").add(hPanel);
-
-		reportverwaltung.findAllEigenschaft(new AsyncCallback<Vector<Eigenschaft>>() {
-
-			@Override
-			public void onSuccess(Vector<Eigenschaft> result) {
-				// TODO Auto-generated method stub
-				for (Eigenschaft eigenschaft : result) {
-					eigenschaftListe.addItem(eigenschaft.getBezeichnung());
-				}
-			}
-
-			@Override
-			public void onFailure(Throwable caught) {
-				// TODO Auto-generated method stub
-
-			}
-		});
-
-		eigenschaftListe.addClickHandler(new ClickHandler() {
+		
+		sendButton.addClickHandler(new ClickHandler() {
 
 			@Override
 			public void onClick(ClickEvent event) {
-				// TODO Auto-generated method stub
-				reportverwaltung.findEigenschaftByBezeichnung(eigenschaftListe.getSelectedValue(),
-						new AsyncCallback<Vector<Eigenschaft>>() {
 
-							@Override
-							public void onFailure(Throwable caught) {
+reportverwaltung.kontakteMitBestimmtenEigenschaftsAuspraegungen(nutzer.getID(), eigenschafBox.getValue(), auspraegungBox.getValue(), new AsyncCallback<KontakteMitBestimmtenEigenschaftsAuspraegungen>() {
+	@Override
+	public void onFailure(Throwable caught) {
+		RootPanel.get("Details").clear();
+		Window.alert("Fehler");		
+	}
 
-								Window.alert("Fehler amk");
-								// TODO Auto-generated method stub
+	@Override
+	public void onSuccess(KontakteMitBestimmtenEigenschaftsAuspraegungen result) {
+	
+		if (result != null) { 	
+			
+			HTMLReportWriter writer = new HTMLReportWriter();
+			writer.process(result);
+			RootPanel.get("Details").clear();
+			RootPanel.get("Details").add(new HTML(writer.getReportText()));
+		}
 
-							}
-
-							@Override
-							public void onSuccess(Vector<Eigenschaft> result) {
-								Window.alert(result + "");
-								
-
-							}
-						});
-
-			}
-		});
 		
-		/*
-		 * Jetzt folgt Ausprägung
-		 */
+	}
 
-		//reportverwaltung.findAllEigenschaft(new AsyncCallback<Vector<Eigenschaft>>() {
-		
-		reportverwaltung.findAllEigenschaftsAuspraegungn(new AsyncCallback<Vector<Eigenschaftauspraegung>>() {
 
-			public void onSuccess(Vector<Eigenschaftauspraegung> result) {
-				// TODO Auto-generated method stub
-				for (Eigenschaftauspraegung eigenschaftauspraegung : result) {
-					auspraegungListe.addItem(eigenschaftauspraegung.getWert());
-				}
-			}
+	
+});
 
-			@Override
-			public void onFailure(Throwable caught) {
-				// TODO Auto-generated method stub
+
+			
 
 			}
+			
 		});
+
+
+		
+
+
 
 	}
 

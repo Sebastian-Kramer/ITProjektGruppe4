@@ -41,11 +41,16 @@ public class KontaktForm extends VerticalPanel {
 	KontaktlisteKontaktTreeViewModel kktvw = null;
 
 	private HorizontalPanel hpanel = new HorizontalPanel();
+
 	private HorizontalPanel hpanel2 = new HorizontalPanel();
+
+	private HorizontalPanel hpanel1 = new HorizontalPanel();
+
 
 	private VerticalPanel vpanel = new VerticalPanel();
 	private VerticalPanel vpanelDetails = new VerticalPanel();
 	private VerticalPanel vpanelDetails1 = new VerticalPanel();
+	private VerticalPanel vpanelBearbeitung = new VerticalPanel();
 	DateTimeFormat fmt = DateTimeFormat.getFormat("dd.MM.yyyy");
 
 	private SingleSelectionModel<EigenschaftAuspraegungWrapper> sm = new SingleSelectionModel<EigenschaftAuspraegungWrapper>();
@@ -106,19 +111,28 @@ public class KontaktForm extends VerticalPanel {
 		ctf.addColumn(wertAuspraegung, "Wert: ");
 		ctf.addColumn(status, "Status");
 		ctf.setSelectionModel(sm);
-		
-		hpanel2.add(html1);	
-		hpanel.add(vpanelDetails1);
+
+
 		scrollPanel.setSize("650px", "300px");
 		scrollPanel.add(ctf);
+		
+		vpanelBearbeitung.add(html2);
+		vpanelBearbeitung.add(html3);
+		hpanel1.add(kontaktbild);
+		hpanel1.add(html1);
+		hpanel1.add(vpanelBearbeitung);
+
+		vpanelDetails1.add(hpanel1);
 		hpanel.add(scrollPanel);
+
 		vpanelDetails1.add(kontaktbild);
 		vpanelDetails1.add(hpanel2);	
-		vpanelDetails1.add(html2);
-		vpanelDetails1.add(html3);
-		vpanelDetails.add(hpanel);
+
+		vpanelDetails.add(hpanel1);
+				
 		vpanel.add(vpanelDetails1);
 		vpanel.add(vpanelDetails);
+		vpanel.add(hpanel);
 		this.add(vpanel);
 
 		RootPanel.get("Buttonbar").add(bearbeitenButton);
@@ -134,10 +148,10 @@ public class KontaktForm extends VerticalPanel {
 		kontaktListehinzufuegen.addClickHandler(new ClickHinzufuegenHandler());
 		
 		if (k.getStatus() == 0) {
-			hpanel2.add(notSharedPic);
+			hpanel1.add(notSharedPic);
 			
 		}else if(k.getStatus() == 1) {
-			hpanel2.add(sharedPic);
+			hpanel1.add(sharedPic);
 		
 		}
 

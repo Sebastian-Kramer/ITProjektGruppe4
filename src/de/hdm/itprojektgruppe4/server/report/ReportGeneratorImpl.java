@@ -22,6 +22,7 @@ import de.hdm.itprojektgruppe4.shared.report.CompositeParagraph;
 import de.hdm.itprojektgruppe4.shared.report.FindAllEigenschaftReport;
 import de.hdm.itprojektgruppe4.shared.report.FindAllEigenschaftsAuspraegungn;
 import de.hdm.itprojektgruppe4.shared.report.FindEigenschaftByBezeichnung;
+import de.hdm.itprojektgruppe4.shared.report.KontakteMitBestimmtenEigenschaftsAuspraegungen;
 import de.hdm.itprojektgruppe4.shared.report.KontakteMitBestimmtenEigenschaftsAuspraegungenReport;
 import de.hdm.itprojektgruppe4.shared.report.KontakteMitBestimmterTeilhaberschaftReport;
 import de.hdm.itprojektgruppe4.shared.report.Report;
@@ -219,6 +220,46 @@ public class ReportGeneratorImpl extends RemoteServiceServlet implements ReportG
 		return result;
 
 	}
+	
+	public  KontakteMitBestimmtenEigenschaftsAuspraegungen kontakteMitBestimmtenEigenschaftsAuspraegungen(int NutzerID ,	String bez , String wert)
+			throws IllegalArgumentException {
+		if (this.getAdministration() == null)
+			// TODO Auto-generated method stub
+			return null;
+
+		// Leerer Report
+		KontakteMitBestimmtenEigenschaftsAuspraegungen result = new KontakteMitBestimmtenEigenschaftsAuspraegungen();
+
+		Vector<Kontakt> kontakt = this.verwaltung.findKontakteByEigAus(NutzerID, bez, wert);
+
+		result.setTitle("Kontakte mit bestimmten Eigenschaftsauspraegungen");
+
+		Row headline = new Row();
+
+		headline.addColumn(new Column("Kontakt"));
+
+
+		result.addRow(headline);
+
+		for (Kontakt t : kontakt) {
+
+			// eine Leere zeile
+			Row kontaktRow = new Row();
+
+			kontaktRow.addColumn(new Column(String.valueOf(t.getName())));
+			
+
+
+	
+
+
+			result.addRow(kontaktRow);
+		}
+
+		return result;
+
+	}
+
 
 	@Override
 	public Nutzer insertNutzer(String mail) throws IllegalArgumentException {
