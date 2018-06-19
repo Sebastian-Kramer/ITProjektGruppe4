@@ -1160,7 +1160,8 @@ public class KontaktAdministrationImpl extends RemoteServiceServlet implements K
 
 
 	/*
-	 * ########################################################## ENDE Methoden
+	 * ########################################################## 
+	 * ENDE Methoden
 	 * fuer Kontaktliste-Objekte
 	 * #########################################################
 	 */
