@@ -23,6 +23,7 @@ import de.hdm.itprojektgruppe4.client.EigenschaftAuspraegungWrapper;
 import de.hdm.itprojektgruppe4.shared.KontaktAdministrationAsync;
 import de.hdm.itprojektgruppe4.shared.bo.Kontaktliste;
 import de.hdm.itprojektgruppe4.shared.bo.Nutzer;
+import de.hdm.itprojektgruppe4.shared.bo.Eigenschaftauspraegung;
 import de.hdm.itprojektgruppe4.shared.bo.Kontakt;
 
 /**
@@ -41,6 +42,7 @@ public class DialogBoxTeilhaberschaftVerwalten extends DialogBox {
 
 	private Nutzer nutzer = new Nutzer();
 	private EigenschaftAuspraegungWrapper ea = new EigenschaftAuspraegungWrapper();
+	private Eigenschaftauspraegung e = new Eigenschaftauspraegung();
 	private Kontaktliste k = new Kontaktliste();
 	private Kontakt kon = new Kontakt();
 
@@ -112,8 +114,11 @@ public class DialogBoxTeilhaberschaftVerwalten extends DialogBox {
 	 */
 	DialogBoxTeilhaberschaftVerwalten(EigenschaftAuspraegungWrapper eaw, Kontakt kon) {
 
-		this.ea = eaw;
+		this.ea = eaw;  
 		this.kon = kon;
+		this.e = eaw.getAuspraegung();
+		
+		Window.alert(e.getWert()); 
 
 		html1 = new HTML("Diese <b> Nutzer </b> haben eine <b> Teilhaberschaft </b> an der Ausprägung");
 
@@ -218,7 +223,8 @@ public class DialogBoxTeilhaberschaftVerwalten extends DialogBox {
 
 		@Override
 		public void onClick(ClickEvent event) {
-			kontaktVerwaltung.deleteUpdateTeilhaberschaft(ea, selectionModel.getSelectedObject(), nutzer, kon, 
+			Window.alert(e.getWert());
+			kontaktVerwaltung.deleteUpdateTeilhaberschaft(e, selectionModel.getSelectedObject(), nutzer, kon,
 					new TeilhaberschaftAuspraegungLoeschenCallback());
 		}
 
