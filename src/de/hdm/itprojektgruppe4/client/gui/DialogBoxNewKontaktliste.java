@@ -41,6 +41,7 @@ public class DialogBoxNewKontaktliste extends DialogBox {
 
 	private Nutzer nutzer = new Nutzer();
 	private Kontaktliste kl = new Kontaktliste();
+	
 
 	public DialogBoxNewKontaktliste() {
 
@@ -87,14 +88,7 @@ public class DialogBoxNewKontaktliste extends DialogBox {
 		public void onClick(ClickEvent event) {
 			verwaltung.insertKontaktliste(boxBez.getValue(), 0, nutzer.getID(), new Liste());
 			hide();
-			KontaktlisteForm kf = new KontaktlisteForm(kl);
-			NavigationTree navigation = new NavigationTree();
-			RootPanel.get("Details").clear();
-			RootPanel.get("Navigator").clear();
-			RootPanel.get("Buttonbar").clear();
-			RootPanel.get("Navigator").add(navigation);
-			RootPanel.get("Details").add(kf);						
-			
+
 			
 			
 		}
@@ -120,6 +114,14 @@ public class DialogBoxNewKontaktliste extends DialogBox {
 			}else{
 			Window.alert("Die Kontaktliste wurde erfolgreich angelegt");
 			}
+			
+			KontaktlisteForm kf = new KontaktlisteForm(kl);
+			NavigationTree navigation = new NavigationTree();
+			RootPanel.get("Details").clear();
+			RootPanel.get("Navigator").clear();
+			RootPanel.get("Buttonbar").clear();
+			RootPanel.get("Navigator").add(navigation);
+			RootPanel.get("Details").add(kf);		
 			
 		}
 
