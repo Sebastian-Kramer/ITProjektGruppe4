@@ -20,6 +20,7 @@ import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.view.client.MultiSelectionModel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.RootPanel;
+import com.google.gwt.user.client.ui.ScrollPanel;
 import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.view.client.DefaultSelectionEventManager;
 import com.google.gwt.view.client.MultiSelectionModel;
@@ -58,6 +59,7 @@ public class DialogBoxKontaktZuKontaktliste extends DialogBox {
 	private Button abbrechen = new Button("Abbrechen");
 	private Button kontakteHinzufuegen = new Button("Hinzufuegen");
 	private Vector<Kontakt> kontakteVonListeVector = new Vector <Kontakt>();
+	private ScrollPanel scrollPanel = new ScrollPanel();
 	
 	/*
 	 * Konstruktor der beim Aufrufen der DialogBox zum Einsatz kommt
@@ -98,6 +100,13 @@ public class DialogBoxKontaktZuKontaktliste extends DialogBox {
 			
 		};
 		
+		kontaktTable.setPageSize(100);
+		scrollPanel.setHeight("250px");
+		scrollPanel.setWidth("250px");
+		scrollPanel.setStyleName("scrollPanel");
+		scrollPanel.add(kontaktTable);
+		
+		
 		kontakteHinzufuegen.addClickHandler(new kontaktHinzufuegenClickhandler());
 		abbrechen.addClickHandler(new AbbrechenClickhandler());
 
@@ -110,7 +119,7 @@ public class DialogBoxKontaktZuKontaktliste extends DialogBox {
 		/*
 		 * Widgets dem Panel hinzufuegen
 		 */
-		vpanel.add(kontaktTable);
+		vpanel.add(scrollPanel);
 		vpanel.add(kontakteHinzufuegen);
 		vpanel.add(abbrechen);
 		this.setStyleName("DialogboxBackground");
