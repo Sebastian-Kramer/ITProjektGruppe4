@@ -367,9 +367,10 @@ public class KontaktAdministrationImpl extends RemoteServiceServlet implements K
 		Vector<Kontakt> kontakte = new Vector<Kontakt>();
 
 		for (Teilhaberschaft t : teilhaben) {
+			if(t.getKontaktID() != 0){
 			kontakte.add(findKontaktByID(t.getKontaktID()));
 		}
-
+		}
 		return kontakte;
 	}
 

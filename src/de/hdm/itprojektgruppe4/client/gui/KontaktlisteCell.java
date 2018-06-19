@@ -14,7 +14,6 @@ public class KontaktlisteCell extends AbstractCell<Kontaktliste> {
 	@Override
 	public void render(com.google.gwt.cell.client.Cell.Context context, Kontaktliste value, SafeHtmlBuilder sb) {
 		nutzer.setID(Integer.parseInt(Cookies.getCookie("id")));
-		nutzer.setEmail(Cookies.getCookie("email"));
 	
 		if(value == null) {
 			return;

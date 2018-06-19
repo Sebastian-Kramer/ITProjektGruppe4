@@ -66,7 +66,6 @@ public class DialogBoxTeilhaberschaftVerwalten extends DialogBox {
 	 * @param kl
 	 */
 	DialogBoxTeilhaberschaftVerwalten(Kontaktliste kl) {
-
 		this.k = kl;
 		// Setzen der Nutzerinformationen
 		nutzer.setID(Integer.parseInt(Cookies.getCookie("id")));
@@ -113,7 +112,6 @@ public class DialogBoxTeilhaberschaftVerwalten extends DialogBox {
 	 * @param kon
 	 */
 	DialogBoxTeilhaberschaftVerwalten(EigenschaftAuspraegungWrapper eaw, Kontakt kon) {
-
 		this.ea = eaw;  
 		this.kon = kon;
 		this.e = eaw.getAuspraegung();

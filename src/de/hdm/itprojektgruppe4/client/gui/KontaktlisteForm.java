@@ -42,8 +42,6 @@ public class KontaktlisteForm extends VerticalPanel {
 	
 	private VerticalPanel vpanel = new VerticalPanel();
 	private HorizontalPanel hpanel = new HorizontalPanel();
-	private Label lbl_status = new Label();
-	private Label ersteller = new Label();
 	
 	private ScrollPanel scrollPanel = new ScrollPanel();
 	private FlowPanel fpanel = new FlowPanel();
@@ -64,7 +62,6 @@ public class KontaktlisteForm extends VerticalPanel {
 	
 	private Kontaktliste kl = null;
 	private Nutzer nutzer = new Nutzer();
-	private Nutzer kontaktlisteErsteller = null;
 	
 	/**
 	 * Konstruktor, der beim Auswaehlen einer Kontaktliste im Baum eingesetzt wird.
