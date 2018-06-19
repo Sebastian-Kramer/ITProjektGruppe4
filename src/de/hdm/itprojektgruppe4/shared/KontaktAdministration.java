@@ -337,7 +337,7 @@ public interface KontaktAdministration extends RemoteService {
 	 * @return Eigenschafts-Objekt mit gesuchtem Wert
 	 * @throws IllegalArgumentException
 	 */
-	public Eigenschaftauspraegung getAuspraegungByWert(String wert) throws IllegalArgumentException;
+	public Vector<Eigenschaftauspraegung> getAuspraegungByWert(String wert) throws IllegalArgumentException;
 
 	/**
 	 * Eine Eigenschaftsauspraegung anhand der ID auslesen.

@@ -1848,9 +1848,9 @@ public class KontaktAdministrationImpl extends RemoteServiceServlet implements K
 	}
 
 	@Override
-	public Eigenschaftauspraegung getAuspraegungByWert(String wert) throws IllegalArgumentException {
+	public Vector<Eigenschaftauspraegung> getAuspraegungByWert(String wert) throws IllegalArgumentException {
 		// TODO Auto-generated method stub
-		return null;
+		return this.eigenschaftauspraegungMapper.getAuspraegungByWert(wert);
 	}
 
 	@Override
