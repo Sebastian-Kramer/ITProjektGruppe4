@@ -79,7 +79,7 @@ public class NewKontaktForm extends VerticalPanel {
 	private CellTableForm ctf = null;
 	private ClickableTextCell bezeigenschaft = new ClickableTextCell();
 	private EditTextCell wertauspraegung = new EditTextCell();
-	private SingleSelectionModel<EigenschaftAuspraegungWrapper> sm = new SingleSelectionModel<EigenschaftAuspraegungWrapper>();
+//	private SingleSelectionModel<EigenschaftAuspraegungWrapper> sm = new SingleSelectionModel<EigenschaftAuspraegungWrapper>();
 
 	private CellTableForm.ColumnEigenschaft bezEigenschaft = ctf.new ColumnEigenschaft(bezeigenschaft);
 	private CellTableForm.ColumnAuspraegung wertAuspraegung = ctf.new ColumnAuspraegung(wertauspraegung){
@@ -99,8 +99,8 @@ public class NewKontaktForm extends VerticalPanel {
 						object.setAuspraegungValue(value);
 						
 						
-						sm.getSelectedObject().setAuspraegungValue(value);
-						sm.getSelectedObject().setAuspraegungID(object.getAuspraegungID());
+						ctf.getSm().getSelectedObject().setAuspraegungValue(value);
+						ctf.getSm().getSelectedObject().setAuspraegungID(object.getAuspraegungID());
 						
 						eigaus.setWert(object.getAuspraegungValue());
 						eigaus.setID(object.getAuspraegungID());
@@ -108,7 +108,7 @@ public class NewKontaktForm extends VerticalPanel {
 						eigaus.setKontaktID(kontakt1.getID());
 						eigaus.setStatus(0);
 						
-						eigaus.setWert(sm.getSelectedObject().getAuspraegungValue());
+						eigaus.setWert(ctf.getSm().getSelectedObject().getAuspraegungValue());
 						
 						verwaltung.updateAuspraegung(eigaus, new AuspraegungBearbeitenCallback());
 					
@@ -143,7 +143,7 @@ public class NewKontaktForm extends VerticalPanel {
 		ctf.addColumn(bezEigenschaft, "Eigenschaft");
 		ctf.addColumn(wertAuspraegung, "Ausprägung");
 		
-		ctf.setSelectionModel(sm);
+		ctf.setSelectionModel(ctf.getSm());
 
 		hpanelButtonBar.add(cancel);
 
@@ -358,7 +358,7 @@ public class NewKontaktForm extends VerticalPanel {
 		@Override
 		public void onSuccess(Eigenschaftauspraegung result) {
 			eigaus.setWert(result.getWert());
-			sm.setSelected(null, true);
+			ctf.getSm().setSelected(null, true);
 			verwaltung.findHybrid(kontakt1, new ReloadCallback());
 			
 		
