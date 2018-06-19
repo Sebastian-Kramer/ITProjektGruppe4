@@ -222,6 +222,8 @@ public interface KontaktAdministrationAsync {
 
 	void findGeteilteKontakteFromNutzerAndTeilhaber(int nutzerID, int teilhaberID,
 			AsyncCallback<Vector<Kontakt>> callback);
+
+	void findKontakteByEigAus(int NutzerID, String bez, String wert, AsyncCallback<Vector<Kontakt>> callback);
 	
 	
 

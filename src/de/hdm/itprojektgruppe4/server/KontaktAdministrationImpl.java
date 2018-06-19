@@ -1855,5 +1855,56 @@ public class KontaktAdministrationImpl extends RemoteServiceServlet implements K
 		return teilKon;
 
 	}
+	
+	public Vector<Kontakt> findKontakteByEigAus(int NutzerID ,	String bez , String wert) throws IllegalArgumentException {
+		Vector<Kontakt> gepruefteKontakte = new Vector<Kontakt>();
+		Vector<Kontakt> kontakte = findAllKontaktFromNutzer(NutzerID);
+		
+
+
+
+		for (Kontakt kontakt : kontakte) {
+			
+			System.out.println(kontakt.getName());
+			Vector<Eigenschaft> eigenschaften = this.getEigenschaftbyKontaktID(kontakt.getID());
+		
+			for (Eigenschaft eigenschaft : eigenschaften) {
+				if (eigenschaft.getBezeichnung().equals(bez)) {
+				
+					
+					Vector<Eigenschaftauspraegung> auspraegungen = this.getAuspraegungByKontaktID(kontakt.getID());
+					for (Eigenschaftauspraegung eigenschaftauspraegung : auspraegungen) {
+						if (eigenschaftauspraegung.getWert().equals(wert)) {
+							gepruefteKontakte.add(kontakt);
+							}
+					}
+				}
+			}
+		}
+		
+		
+		
+
+		
+		return gepruefteKontakte;
+	}
+	//	Vector<Kontakt> kontakt = findAllKontaktFromNutzer(NutzerID);
+
+		
+		
+		
+//		
+//		Vector<Eigenschaftauspraegung> auspraegungen = findAllEigenschaftsauspraegungByWertAndEigenschaft(auspraegung,
+//				e);
+//		Vector<Kontakt> allContact = new Vector<Kontakt>();
+//
+//		for (Eigenschaftauspraegung eigenschaftsauspraegung : auspraegungen) {
+//			allContact.add(findKontaktByID(eigenschaftsauspraegung.getID()));
+//		}
+//
+//		return allContact;
+//
+//	}
+//	
 
 }

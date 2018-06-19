@@ -12,9 +12,6 @@ import de.hdm.itprojektgruppe4.shared.bo.Eigenschaft;
 import de.hdm.itprojektgruppe4.shared.bo.Eigenschaftauspraegung;
 import de.hdm.itprojektgruppe4.shared.bo.Kontakt;
 import de.hdm.itprojektgruppe4.shared.bo.Nutzer;
-import de.hdm.itprojektgruppe4.shared.report.AllEigeneKontakteReport;
-import de.hdm.itprojektgruppe4.shared.report.KontakteMitBestimmtenEigenschaftsAuspraegungenReport;
-import de.hdm.itprojektgruppe4.shared.report.KontakteMitBestimmterTeilhaberschaftReport;
 @RemoteServiceRelativePath("reportgenerator")
 
 
@@ -44,5 +41,7 @@ public KontakteMitBestimmterTeilhaberschaftReport kontakteMitBestimmterTeilhaber
 
 	public Vector<Eigenschaftauspraegung> findAllEigenschaftsAuspraegungn () throws IllegalArgumentException;
 
+	KontakteMitBestimmtenEigenschaftsAuspraegungen kontakteMitBestimmtenEigenschaftsAuspraegungen(int NutzerID,
+			String bez, String wert);
 
 }
