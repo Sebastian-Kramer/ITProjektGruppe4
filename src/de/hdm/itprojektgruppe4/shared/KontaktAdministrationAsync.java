@@ -242,7 +242,6 @@ public interface KontaktAdministrationAsync {
 
 	void findAllSharedAuspraegungenFromKontaktID(int kontaktID, AsyncCallback<Vector<Eigenschaftauspraegung>> callback);
 
-	
-	
+	void hinzuzufuegendeKontakte(int nutzerID, int kontaktlisteID, AsyncCallback<Vector<Kontakt>> callback);
 
 }

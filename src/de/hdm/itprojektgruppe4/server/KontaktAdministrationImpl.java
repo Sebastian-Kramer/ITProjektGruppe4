@@ -372,6 +372,32 @@ public class KontaktAdministrationImpl extends RemoteServiceServlet implements K
 		}
 		return kontakte;
 	}
+	
+	/**
+	 * Vector mit allen Kontakten, die zu einer Kontaktliste hinzugefügt werden können.
+	 * Dabei sollen nur Kontakte angezeigt werden, die der Nutzer erstellt oder empfangen hat und die noch nicht Teil der Kontaktliste sind
+	 * 
+	 * @param nutzerID die ID des angemeldeten Nutzers
+	 * @param kontaktlisteID die ID der Kontaktliste, zu der Kontakte hinzugefügt werden sollen
+	 * @return Vector mit allen Kontakten, die zu einer Kontaktliste hinzugefuegt werden können.
+	 * @throws IllegalArgumentException
+	 */
+	@Override
+	public Vector<Kontakt> hinzuzufuegendeKontakte(int nutzerID, int kontaktlisteID) throws IllegalArgumentException {
+		Vector<Kontakt> kontakteVonNutzer = findAllKontaktFromNutzer(nutzerID);
+		Vector<Kontakt> kontakteInListe = getAllKontakteFromKontaktliste(kontaktlisteID);
+		Vector<Kontakt>	zuEntfernendeKontakte = new Vector<Kontakt>();
+		
+		for(Kontakt k : kontakteVonNutzer){
+			for(Kontakt kon : kontakteInListe){
+				if(k.getID() == kon.getID()){
+					zuEntfernendeKontakte.add(k);
+				}
+			}
+		}
+		kontakteVonNutzer.removeAll(zuEntfernendeKontakte);
+		return kontakteVonNutzer;
+	}
 
 	/*
 	 * ########################################################## ENDE Methoden
@@ -552,17 +578,21 @@ public class KontaktAdministrationImpl extends RemoteServiceServlet implements K
 		Vector<Nutzer> alleNutzer = findAllNutzer();
 		Vector<Nutzer> alleTeilhaber = findAllTeilhaberFromKontaktliste(kontaktlisteID);
 		Vector<Nutzer> zuEntfernendeNutzer = new Vector<Nutzer>();
+		Nutzer angemeldeterNutzer = findNutzerByID(nutzerID);
 		
 		//Alle Nutzer-Objekte, die sowohl zum Vektor mit allen Nutzern, als auch zum Vektor mit allen Teilhabern gehören, werden asugelesen
 		//und dem Vector <code>zuEntfernendeNutzer</code> hinzugefügt. Die darin enthaltenen Nutzer-Objekte werden anschließend vom Vector
 		//<code>alleNutzer</code> entfernt.
 		for(Nutzer user : alleNutzer){
 			for(Nutzer nutzer : alleTeilhaber){
-				if(user.getID() == nutzer.getID() || user.getID() == nutzerID){
+				if(user.getID() == nutzer.getID()){
+					zuEntfernendeNutzer.add(user);
+				}else if(user.getID() == nutzerID){
 					zuEntfernendeNutzer.add(user);
 				}
 			}
 		}
+		zuEntfernendeNutzer.add(angemeldeterNutzer);
 		alleNutzer.removeAll(zuEntfernendeNutzer);
 		return alleNutzer;
 	}
@@ -1966,6 +1996,8 @@ public class KontaktAdministrationImpl extends RemoteServiceServlet implements K
 	
 		return gepruefteKontakte;
 	}
+
+	
 
 
 		
