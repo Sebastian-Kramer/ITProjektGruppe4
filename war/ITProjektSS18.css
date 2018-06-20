@@ -37,7 +37,7 @@ a.Logout {
 	margin-right: 20px;
 }
 
-a.Startseite{
+a.Startseite {
 	right: 0;
 	position: absolute;
 	margin-right: 160px;
@@ -92,7 +92,6 @@ header {
 	margin-bottom: 15px;
 }
 
-
 [role="banner"] {
 	background:
 		url("http://ducktalk.org/wp-content/uploads/2017/02/people-icons-80620.png")
@@ -143,7 +142,6 @@ div#Navigator {
 	width: 250px;
 	height: 100%;
 	min-height: 500px;
-	
 }
 
 div#Details {
@@ -156,7 +154,6 @@ div#Buttonbar {
 	height: 5%;
 	min-height: 45px;
 	max-height: 45px;
-	margin-bottom: 15px;
 	border-bottom: 1px solid LightSkyBlue;
 }
 
@@ -171,6 +168,21 @@ div.DialogboxBackground {
 	border-width: 1px;
 }
 
+div.ÜberschriftMainForm {
+	margin-left: 235px;
+}
+
+div.ÜberschriftMyContacts {
+	margin-left: 50px;
+	font-family: serif;
+}
+
+div.BegrueßungsText {
+	font-size: 20px;
+	margin-top: 5px;
+	margin-left: 50px;
+}
+
 div.DialogboxBackground1 {
 	background: ghostwhite;
 	left: 271px;
@@ -180,14 +192,10 @@ div.DialogboxBackground1 {
 	overflow: visible;
 	border-width: 1px;
 	max-width: 300px;
-    border-style: groove;
+	border-style: groove;
 }
 
-div.gwt-HTML{
-	
-}
-
-.Flextable{
+.Flextable {
 	
 }
 
@@ -201,24 +209,34 @@ div.cellListKontakte {
 	height: 250px;
 }
 
-.HtmlText{
+img.Startbild {
+	width: 100px;
+}
+
+.HtmlText {
 	margin-bottom: 10px;
 	margin-left: 185px;
 }
 
-.HtmlText1{
-		margin-left: 225px;
+.HtmlText1 {
+	margin-left: 225px;
 }
 
-.TeilhaberschaftVPanel{
+table.HPanel {
+    width: 100%;
+    background-color: aliceblue;
+}
+
+.TeilhaberschaftVPanel {
 	margin: auto;
+	margin-left: 250px;
 }
 
 .TeilhaberschaftButton {
 	margin-right: 35px;
 }
 
-.DropDown{
+.DropDown {
 	margin-left: 185px;
 }
 
@@ -242,7 +260,7 @@ tr {
 	height: 15px;
 }
 
-td{
+td {
 	width: 10%;
 }
 
@@ -251,7 +269,7 @@ table {
 	height: 15px;
 }
 
-.MainFormButtonbar{
+.MainFormButtonbar {
 	margin-right: 20px;
 }
 
@@ -267,9 +285,9 @@ table.CellTableHybrid {
 }
 
 table.CellTableAuspraegung {
-    width: 500px;
-    margin-left: 185px;
-    margin-bottom: 15px;
+	width: 500px;
+	margin-left: 185px;
+	margin-bottom: 15px;
 }
 
 td {

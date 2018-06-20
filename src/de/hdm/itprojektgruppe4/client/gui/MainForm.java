@@ -1,9 +1,8 @@
 package de.hdm.itprojektgruppe4.client.gui;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Vector;
 
+import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.cellview.client.CellList;
@@ -16,7 +15,6 @@ import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwt.user.client.ui.ScrollPanel;
-import com.google.gwt.user.client.ui.TreeItem;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.view.client.SelectionChangeEvent;
 import com.google.gwt.view.client.SingleSelectionModel;
@@ -44,6 +42,7 @@ public class MainForm extends VerticalPanel {
 
 	private VerticalPanel vpanelDetails = new VerticalPanel();
 	private HorizontalPanel hpanelDetails = new HorizontalPanel();
+	private HorizontalPanel hpanel = new HorizontalPanel();
 
 	private FlexTable anordnung = new FlexTable();
 
@@ -51,19 +50,28 @@ public class MainForm extends VerticalPanel {
 	private Button newKontaktliste = new Button("Neue Kontaktliste anlegen");
 	private Button suchen = new Button("Suchen");
 	private HTML greetHTML1 = new HTML("<h2>MyContacts<h2>");
-	private HTML greetHTML2 = new HTML("Herzlich Willkommen auf MyContacts, " + "<br>Ihrer Kontaktverwaltung. "
-			+ "<br> Hier können Sie neue Kontakte anlegen, " + "<br> diese in verschiedene Listen organisieren"
-			+ "<br> und sowohl die einzelnen Kontakte und Kontaktlisten mit anderen Nutzern teilen.");
+	private HTML greetHTML2 = new HTML(
+			"Herzlich Willkommen auf <b>MyContacts</b>, " + "<br>Ihrer <b>Kontaktverwaltung</b>. "
+					+ "<br> Hier können Sie neue Kontakte anlegen, " + "<br> diese in verschiedene Listen organisieren"
+					+ "<br> und sowohl die einzelnen Kontakte und Kontaktlisten mit anderen Nutzern teilen.");
 
-	private HTML html1 = new HTML("<h2>Alle Kontakte</h2>");
+	private HTML html1 = new HTML("<h2>Alle meine Kontakte</h2>");
 
 	private KontaktCell kontaktCell = new KontaktCell();
 	private CellList<Kontakt> cellList = new CellList<Kontakt>(kontaktCell);
 	final SingleSelectionModel<Kontakt> selectionModel = new SingleSelectionModel<Kontakt>();
 	private ScrollPanel scrollPanel = new ScrollPanel();
+	private Image startImage = new Image();
 
 	public MainForm() {
-	
+
+		html1.setStyleName("ÜberschriftMainForm");
+		greetHTML1.setStyleName("ÜberschriftMyContacts");
+		greetHTML2.setStyleName("BegrueßungsText");
+		startImage.setStyleName("Startbild");
+		startImage.setUrl("Image/Startbild.png");
+		hpanelDetails.setStyleName("HPanel");
+
 	}
 
 	public void onLoad() {
@@ -77,7 +85,7 @@ public class MainForm extends VerticalPanel {
 		cellList.setSelectionModel(selectionModel);
 		cellList.setPageSize(100);
 
-		selectionModel.addSelectionChangeHandler(new SelectionChangeHandler()); 
+		selectionModel.addSelectionChangeHandler(new SelectionChangeHandler());
 
 		scrollPanel.setSize("450px", "250px");
 		scrollPanel.setStyleName("scrollPanel");
@@ -88,11 +96,13 @@ public class MainForm extends VerticalPanel {
 		RootPanel.get("Buttonbar").add(newKontakt);
 		RootPanel.get("Buttonbar").add(suchen);
 
-		anordnung.setWidget(0, 0, greetHTML1);
 		anordnung.setWidget(1, 0, greetHTML2);
 		anordnung.setWidget(0, 1, html1);
 		anordnung.setWidget(1, 1, scrollPanel);
 
+		hpanelDetails.add(startImage);
+		hpanelDetails.add(greetHTML1);
+		
 		vpanelDetails.add(hpanelDetails);
 		vpanelDetails.add(anordnung);
 		this.add(vpanelDetails);
@@ -102,7 +112,7 @@ public class MainForm extends VerticalPanel {
 		suchen.addClickHandler(new SuchenClickHandler());
 
 	}
-	
+
 	class SelectionChangeHandler implements SelectionChangeEvent.Handler {
 
 		@Override
@@ -119,9 +129,9 @@ public class MainForm extends VerticalPanel {
 				RootPanel.get("Details").clear();
 				RootPanel.get("Details").add(kf2);
 			}
-			
+
 		}
-		
+
 	}
 
 	class ImpressumButton implements ClickHandler {
@@ -167,23 +177,22 @@ public class MainForm extends VerticalPanel {
 
 		}
 	}
-	
-	class KontakteVonNutzerCallback implements AsyncCallback<Vector<Kontakt>>{
+
+	class KontakteVonNutzerCallback implements AsyncCallback<Vector<Kontakt>> {
 
 		@Override
 		public void onFailure(Throwable caught) {
-			
+
 		}
 
 		@Override
 		public void onSuccess(Vector<Kontakt> result) {
 			cellList.setRowCount(result.size(), true);
 			cellList.setRowData(result);
-			
+
 		}
-		
+
 	}
-	
 
 	class KontaktlisteKontaktCallBack implements AsyncCallback<Kontaktliste> {
 
