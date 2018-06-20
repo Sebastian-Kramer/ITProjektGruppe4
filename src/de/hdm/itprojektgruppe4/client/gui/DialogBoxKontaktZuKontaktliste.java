@@ -18,11 +18,6 @@ import com.google.gwt.view.client.MultiSelectionModel;
 import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwt.user.client.ui.ScrollPanel;
 import com.google.gwt.view.client.DefaultSelectionEventManager;
-import com.google.gwt.view.client.MultiSelectionModel;
-import com.google.gwt.view.client.SelectionModel;
-import com.google.gwt.view.client.SingleSelectionModel;
-import com.google.gwt.view.client.ProvidesKey;
-
 
 import de.hdm.itprojektgruppe4.client.ClientsideSettings;
 import de.hdm.itprojektgruppe4.client.NavigationTree;

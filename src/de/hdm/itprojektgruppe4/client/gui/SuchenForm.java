@@ -169,13 +169,13 @@ public class SuchenForm extends VerticalPanel {
 		@Override
 		public void onFailure(Throwable caught) {
 			// TODO Auto-generated method stub
-			Window.alert("SUCCES");
+		
 		}
 
 		@Override
 		public void onSuccess(Vector<Kontakt> result) {
 			// TODO Auto-generated method stub
-			Window.alert("SUCCES");
+		
 			Kontakt k = new Kontakt();
 			
 			for (Kontakt kontakt : result) {
