@@ -121,7 +121,6 @@ public class KontaktAdministrationImpl extends RemoteServiceServlet implements K
 
 	public Kontakt insertKontakt(String name, Date erzeugungsdatum, Date modifikationsdatum, int status, int nutzerID)
 			throws IllegalArgumentException {
-		// TODO implement here
 
 		Kontakt k = new Kontakt();
 
@@ -632,7 +631,6 @@ public class KontaktAdministrationImpl extends RemoteServiceServlet implements K
 	 * @return Eigenschaft Objekt
 	 * @throws IllegalArgumentException
 	 */
-
 	@Override
 	public Eigenschaft insertEigenschaft(String bez, int status) throws IllegalArgumentException {
 		Eigenschaft e = new Eigenschaft();
@@ -647,30 +645,10 @@ public class KontaktAdministrationImpl extends RemoteServiceServlet implements K
 			return this.eigMapper.insertEigenschaft(e);
 		}
 
-		// return this.findEigByBezeichnung(bez);
-
 		return null;
 	}
 
-	// Kontaktliste k = findKontaktliste(nutzerID, bez);
-	//
-	//
-	// Kontaktliste kontaktliste = new Kontaktliste();
-	//
-	// if (k == null) {
-	// kontaktliste.setBez(bez);
-	// kontaktliste.setStatus(status);
-	// kontaktliste.setNutzerID(nutzerID);
-	//
-	//
-	// return this.konlistMapper.insertKontaktliste(kontaktliste);
-	// }
-	//
-	//
-	//
-	// return null;
-	//
-	// }
+
 
 	/**
 	 * Alle Objekte vom Typ Eigenschaft ausgeben
@@ -681,21 +659,15 @@ public class KontaktAdministrationImpl extends RemoteServiceServlet implements K
 
 	@Override
 	public Vector<Eigenschaft> findAllEigenschaft() throws IllegalArgumentException {
-		// TODO Auto-generated method stub
+		
 		return this.eigMapper.findAllEigenschaft();
 
 	}
 
 	public Vector<Eigenschaftauspraegung> findAllEigenschaftauspraegung() throws IllegalArgumentException {
-		// TODO Auto-generated method stub
+
 		return this.eigenschaftauspraegungMapper.findAllAuspraegungn();
 
-	}
-
-	// pr�fen
-	public Vector<Eigenschaft> getAllEigenschaftVonKontakt(Kontakt k) {
-		// TODO implement here
-		return null;
 	}
 
 	/**
@@ -709,7 +681,7 @@ public class KontaktAdministrationImpl extends RemoteServiceServlet implements K
 
 	@Override
 	public Eigenschaft getEigenschaftByID(int id) throws IllegalArgumentException {
-		// TODO Auto-generated method stub
+	
 		return this.eigMapper.getEigenchaftByID(id);
 	}
 
@@ -724,7 +696,7 @@ public class KontaktAdministrationImpl extends RemoteServiceServlet implements K
 
 	@Override
 	public Eigenschaft updateEigenschaft(Eigenschaft e) throws IllegalArgumentException {
-		// TODO Auto-generated method stub
+
 		return this.eigMapper.updateEigenschaft(e);
 	}
 
@@ -863,48 +835,15 @@ public class KontaktAdministrationImpl extends RemoteServiceServlet implements K
 	}
 
 	/**
-	 * Eine Eigenschaftsauspraegung anhand des Wertes auslesen.
 	 * 
-	 * @param wert,
-	 *            der die Auspraegung beschreibt
-	 * @return Eigenschafts-Objekt mit gesuchtem Wert
-	 * @throws IllegalArgumentException
 	 */
+	@Override
+	public Vector<Eigenschaftauspraegung> findAllSharedAuspraegungenFromKontaktID(int kontaktID)
+			throws IllegalArgumentException {
 
-	// pr�fen
+		return this.eigenschaftauspraegungMapper.findAllSharedAuspraegungenFromKontaktID(kontaktID);
+	}
 
-	// INBEARBEITNG
-
-	// @Override
-	// public Eigenschaftauspraegung getAuspraegungByWert(String wert) throws
-	// IllegalArgumentException {
-	//
-	// return null;
-	// }
-	//
-	//
-	// public Vector<Eigenschaftauspraegung> getAuspraegungByWertVector(String
-	// wert) throws IllegalArgumentException{
-	// return this.eigenschaftauspraegungMapper.findAllAuspraegungnByWert(wert);
-	//
-	//
-	// }
-	//
-	// public Vector<Kontakt> getKontakteByAuspraegung (String wert) throws
-	// IllegalArgumentException{
-	//
-	// Vector<Eigenschaftauspraegung> vecEigaus =
-	// getAuspraegungByWertVector(wert);
-	// Vector<Kontakt> k = new Vector<Kontakt>;
-	//
-	//
-	// for (Eigenschaftauspraegung eigenschaftauspraegung : vecEigaus) {
-	// k = findKontaktByID(eigenschaftauspraegung.getKontaktID());
-	// }
-	// return k;
-	//
-	//
-	// }
 
 	@Override
 	public Vector<Eigenschaftauspraegung> findEigenschaftauspraegungByKontaktID(int kontaktID)
@@ -1207,15 +1146,18 @@ public class KontaktAdministrationImpl extends RemoteServiceServlet implements K
 	 */
 
 	@Override
-	public KontaktKontaktliste insertKontaktKontaktliste(int kontaktID, int kontaktlisteID)
-			throws IllegalArgumentException {
-		KontaktKontaktliste kk = new KontaktKontaktliste();
+	public KontaktKontaktliste insertKontaktKontaktliste(int kontaktID, int kontaktlisteID) throws IllegalArgumentException {
 
+		KontaktKontaktliste kk = new KontaktKontaktliste();
 		kk.setKontaktID(kontaktID);
 		kk.setKontaktlisteID(kontaktlisteID);
 
-		return this.kontaktKontaktlisteMapper.insertKontaktKontaktliste(kk);
+
+		return this.kontaktKontaktlisteMapper.insertKontaktKontaktliste(kk);		
+
+
 	}
+	
 
 	/**
 	 * L�schen eines Kontaktes aus einer Kontaktliste
@@ -1368,7 +1310,7 @@ public class KontaktAdministrationImpl extends RemoteServiceServlet implements K
 	@Override
 	public int insertTeilhaberschaftAuspraegungenKontakt(Kontakt kon, String selectedValue, int id)
 			throws IllegalArgumentException {
-		Teilhaberschaft th = new Teilhaberschaft();
+
 		Nutzer teilnutzer = this.findNutzerByEmail(selectedValue);
 		Kontakt k = this.findKontaktByID(kon.getID());
 		Vector<Eigenschaftauspraegung> allAus = this.getAuspraegungByKontaktID(kon.getID());
@@ -1491,6 +1433,16 @@ public class KontaktAdministrationImpl extends RemoteServiceServlet implements K
 		// TODO Auto-generated method stub
 		return this.teilhaberschaftMapper.findByID(id);
 	}
+	
+	/**
+	 * 
+	 */
+	@Override
+	public Teilhaberschaft findByTeilhaberschaftByKontaktlistIDAndTeilhaberID(int kontaktlisteID, int teilhaberID)
+			throws IllegalArgumentException {
+		return this.teilhaberschaftMapper.findByTeilhaberschaftByKontaktlistIDAndTeilhaberID(kontaktlisteID, teilhaberID);
+	}
+
 
 	/**
 	 * Ausgabe saemtlicher Teilhaberschaften an einer Kontaktliste
@@ -1758,59 +1710,38 @@ public class KontaktAdministrationImpl extends RemoteServiceServlet implements K
 			}
 		}
 		return hybrid;
-	}
+	}	
+
 
 	@Override
-	public Vector<EigenschaftAuspraegungWrapper> findSharedAuspraegung(int nutzerID, int kontaktID)
+	public Vector<EigenschaftAuspraegungWrapper> findSharedAuspraegung(int kontaktID)
 			throws IllegalArgumentException {
-
-		// Nutzer nutzer = findNutzerByID(nutzerID);
-		Vector<Teilhaberschaft> vecTeil = getAllTeilhaberschaftenFromUser(nutzerID);
-		Vector<Eigenschaftauspraegung> auspraegungVector = new Vector<Eigenschaftauspraegung>();
-		Vector<EigenschaftAuspraegungWrapper> wrapper = new Vector<EigenschaftAuspraegungWrapper>();
+		
+		Vector<Eigenschaftauspraegung> eigaus = this.findAllSharedAuspraegungenFromKontaktID(kontaktID);
+		
 		Vector<Eigenschaft> eig = new Vector<Eigenschaft>();
-		Vector<EigenschaftAuspraegungWrapper> wrapperFiltered = new Vector<EigenschaftAuspraegungWrapper>();
-
-		for (Teilhaberschaft teilhaberschaft : vecTeil) {
-			auspraegungVector.add(getAuspraegungByID(teilhaberschaft.getEigenschaftsauspraegungID()));
-		}
-
-		for (Eigenschaftauspraegung eigenschaftauspraegung : auspraegungVector) {
+		
+		for (Eigenschaftauspraegung eigenschaftauspraegung : eigaus) {
 			eig.add(getEigenschaftByID(eigenschaftauspraegung.getEigenschaftsID()));
 		}
+		
+		Vector<EigenschaftAuspraegungWrapper> hybrid = new Vector<EigenschaftAuspraegungWrapper>();
+		
+		for (int i = 0; i < eigaus.size(); i++) {
 
-		// for (int i = 0; i<auspraegungVector.size(); i++){
-		// for(int o = 0; o<auspraegungVector.size(); o++){
-		// if(eig.elementAt(i).getID() ==
-		// auspraegungVector.elementAt(o).getEigenschaftsID()){
-		//
-		// wrapper.add(new EigenschaftAuspraegungWrapper(eig.elementAt(i),
-		// auspraegungVector.elementAt(o)));
-		// break;
-		// }
-		// }
-		// }
+			for (int z = 0; z < eigaus.size(); z++) {
+				if (eigaus.elementAt(i).getEigenschaftsID() == eig.elementAt(z).getID()) {
 
-		for (Eigenschaftauspraegung eigauspraegung : auspraegungVector) {
-			for (Eigenschaft eigenschaft2 : eig) {
-				if (eigauspraegung.getEigenschaftsID() == eigenschaft2.getID()) {
+					hybrid.add(new EigenschaftAuspraegungWrapper(eig.elementAt(z), eigaus.elementAt(i)));
 
-					wrapper.add(new EigenschaftAuspraegungWrapper(eigenschaft2, eigauspraegung));
 					break;
 				}
-			}
 
-		}
-
-		for (EigenschaftAuspraegungWrapper auspraegungwrapper : wrapper) {
-			if (auspraegungwrapper.getAuspraegung().getKontaktID() == kontaktID) {
-
-				wrapperFiltered.add(auspraegungwrapper);
 			}
 		}
+		return hybrid;
 
-		return wrapperFiltered;
-
+	
 	}
 
 	public Nutzer findNutzerByID(String string) {
@@ -1919,8 +1850,8 @@ public class KontaktAdministrationImpl extends RemoteServiceServlet implements K
 	public Kontakt findKontaktByAuspraegungID(int id) throws IllegalArgumentException{
 		
 		
-		Eigenschaftauspraegung eigaus = getAuspraegungByID(id);
-		Kontakt k = findKontaktByID(eigaus.getKontaktID());
+		Eigenschaftauspraegung eigaus = this.getAuspraegungByID(id);
+		Kontakt k = this.findKontaktByID(eigaus.getKontaktID());
 		
 		return k;
 	}
@@ -1937,6 +1868,7 @@ public class KontaktAdministrationImpl extends RemoteServiceServlet implements K
 		Vector<EigenschaftAuspraegungWrapper> liste = eigenschaftauspraegungMapper.getAuspraegungByWert(wert);
 		
 		for (EigenschaftAuspraegungWrapper eigaus : liste){
+			
 //			eigaus.setEigenschaftID(eigaus.getEigenschaftID());
 			eigaus.setEigenschaftValue(getEigenschaftByID(eigaus.getEigenschaftID()).getBezeichnung());
 			
@@ -2034,6 +1966,25 @@ public class KontaktAdministrationImpl extends RemoteServiceServlet implements K
 	
 		return gepruefteKontakte;
 	}
+
+
+		
+		
+		
+//		
+//		Vector<Eigenschaftauspraegung> auspraegungen = findAllEigenschaftsauspraegungByWertAndEigenschaft(auspraegung,
+//				e);
+//		Vector<Kontakt> allContact = new Vector<Kontakt>();
+//
+//		for (Eigenschaftauspraegung eigenschaftsauspraegung : auspraegungen) {
+//			allContact.add(findKontaktByID(eigenschaftsauspraegung.getID()));
+//		}
+//
+//		return allContact;
+//
+//	}
+//	
+
 
 
 

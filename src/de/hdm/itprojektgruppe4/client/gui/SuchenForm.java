@@ -166,12 +166,14 @@ public class SuchenForm extends VerticalPanel {
 		@Override
 		public void onClick(ClickEvent event) {
 			// TODO Auto-generated method stub
-//			Window.alert("hi");
 			
 			EigenschaftAuspraegungWrapper eigaus = new EigenschaftAuspraegungWrapper();
-			eigaus.setAuspraegungID(ssm.getSelectedObject().getAuspraegungID());
-//			Window.alert("funkt");
-//			Window.alert("1.     " + ctAus.getSm().getSelectedObject().getAuspraegungID());
+	
+
+			eigaus.setAuspraegungID(ctAus.getSm().getSelectedObject().getAuspraegungID());
+
+		
+
 			verwaltung.findKontaktByAuspraegungID(eigaus.getAuspraegungID(), new AuspraegungKontaktAnzeigenCallback());
 		}
 		
@@ -249,6 +251,7 @@ public class SuchenForm extends VerticalPanel {
 			EigenschaftAuspraegungWrapper eigaus = new EigenschaftAuspraegungWrapper();
 			
 			eigaus.setAuspraegungValue(tboxAuspraegung.getValue());
+			Window.alert(tboxAuspraegung.getValue());
 			KontaktKontaktAnzeigenButton.setVisible(false);
 			AuspraegungKontaktAnzeigenButton.setVisible(true);
 			verwaltung.getAuspraegungByWert(tboxAuspraegung.getValue(), new FindAuspraegungCallback());
@@ -270,7 +273,7 @@ public class SuchenForm extends VerticalPanel {
 		@Override
 		public void onSuccess(Kontakt result) {
 			// TODO Auto-generated method stub
-			
+			Window.alert("1");
 			KontaktForm kf = new KontaktForm(result);
 			RootPanel.get("Details").clear();
 			RootPanel.get("Details").add(kf);
@@ -289,6 +292,9 @@ public class SuchenForm extends VerticalPanel {
 		@Override
 		public void onSuccess(Vector<EigenschaftAuspraegungWrapper> result) {
 			// TODO Auto-generated method stub
+			for(EigenschaftAuspraegungWrapper eaw : result){
+				Window.alert(eaw.getAuspraegungValue());
+			}
 			ctAus.setRowData(0, result);
 			ctAus.setRowCount(result.size(), true);
 			ctkontakt.setVisible(false);
@@ -306,13 +312,13 @@ public class SuchenForm extends VerticalPanel {
 		@Override
 		public void onFailure(Throwable caught) {
 			// TODO Auto-generated method stub
-			
+
 		}
 
 		@Override
 		public void onSuccess(Vector<Kontakt> result) {
 			// TODO Auto-generated method stub
-			
+
 			Kontakt k = new Kontakt();
 			
 			for (Kontakt kontakt : result) {

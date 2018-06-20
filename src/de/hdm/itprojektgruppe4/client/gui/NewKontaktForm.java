@@ -33,6 +33,7 @@ import com.google.gwt.view.client.SingleSelectionModel;
 import de.hdm.itprojektgruppe4.client.ClientsideSettings;
 
 import de.hdm.itprojektgruppe4.client.EigenschaftAuspraegungWrapper;
+import de.hdm.itprojektgruppe4.client.NavigationTree;
 import de.hdm.itprojektgruppe4.shared.KontaktAdministrationAsync;
 import de.hdm.itprojektgruppe4.shared.bo.Eigenschaft;
 import de.hdm.itprojektgruppe4.shared.bo.Eigenschaftauspraegung;
@@ -249,11 +250,15 @@ public class NewKontaktForm extends VerticalPanel {
 
 		@Override
 		public void onClick(ClickEvent event) {
-			// TODO Auto-generated method stub
 			MainForm getBack = new MainForm();
+			NavigationTree navigationTree = new NavigationTree();
 			RootPanel.get("Buttonbar").clear();
 			RootPanel.get("Details").clear();
 			RootPanel.get("Details").add(getBack);
+			RootPanel.get("Navigator").clear();
+			RootPanel.get("Navigator").add(navigationTree);
+	
+			
 		}
 
 	}

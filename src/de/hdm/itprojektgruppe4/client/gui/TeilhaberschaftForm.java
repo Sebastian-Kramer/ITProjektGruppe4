@@ -1,12 +1,10 @@
 package de.hdm.itprojektgruppe4.client.gui;
 
-import java.util.Date;
 import java.util.Vector;
 
 import com.google.gwt.cell.client.FieldUpdater;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
-import com.google.gwt.i18n.client.DateTimeFormat;
 import com.google.gwt.user.client.Cookies;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
@@ -22,14 +20,12 @@ import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.view.client.DefaultSelectionEventManager;
 import com.google.gwt.view.client.MultiSelectionModel;
 import com.google.gwt.view.client.SelectionChangeEvent;
-import com.google.gwt.view.client.SingleSelectionModel;
 import de.hdm.itprojektgruppe4.client.ClientsideSettings;
 import de.hdm.itprojektgruppe4.client.EigenschaftAuspraegungWrapper;
 import de.hdm.itprojektgruppe4.shared.KontaktAdministrationAsync;
-import de.hdm.itprojektgruppe4.shared.bo.Eigenschaftauspraegung;
 import de.hdm.itprojektgruppe4.shared.bo.Kontakt;
 import de.hdm.itprojektgruppe4.shared.bo.Nutzer;
-import de.hdm.itprojektgruppe4.shared.bo.Teilhaberschaft;
+
 
 /**
  * Mit der Klasse TeilhaberschaftForm lassen sich die Teilhaberschaften aller
@@ -63,10 +59,10 @@ public class TeilhaberschaftForm extends VerticalPanel {
 	private CellTableForm ctf = null;
 
 	private ScrollPanel scrollPanel = new ScrollPanel();
-
-	private Date date = new Date();
-
-	DateTimeFormat fmt = DateTimeFormat.getFormat("dd.MM.yyyy");
+	
+	private MultiWordSuggestOracle  nameoracle = new MultiWordSuggestOracle();
+	
+	private SuggestBox suggestionBox = new SuggestBox(nameoracle);
 
 	private HTML html2 = new HTML(
 			"Sie können auch nur bestimmte <b> Ausprägungen </b> an einen anderen <b> Nutzer </b> teilen, "
@@ -79,14 +75,26 @@ public class TeilhaberschaftForm extends VerticalPanel {
 
 	final MultiSelectionModel<EigenschaftAuspraegungWrapper> selectionModelWrapper = new MultiSelectionModel<EigenschaftAuspraegungWrapper>();
 
+	/**
+	 * Konstruktur:
+	 * Beim Laden der TeilhaberschaftForm wird ein Kontakt-Objekt übergeben, damit alle entsprechenden Ausprägungen 
+	 * zu diesem Kontakt angezeigt werden können.
+	 * @param k
+	 */
 	public TeilhaberschaftForm(Kontakt k) {
 
 		this.kon = k;
 		einzTeilen.setVisible(false);
-		fmt.format(date);
 
 	}
 
+	/**
+	 * Die onLoad()-Methode wird beim Starten der TeilhaberschaftForm geladen.
+	 * Es wird eine neue CellTableForm mit dem übergebenen Kontakt erstellt, die alle benötigten Spalten beinhaltet.
+	 * Diese CellTable wird ein ScrollPanel hinzugefügt.
+	 * Außerdem werden drei Buttons mit den dazugehörigen ClickHandler Klassen angelegt und der Buttonbar hinzugefügt.
+	 * Die verschiedenen HTML-Texte, sowie die CellTable werden am Ende dem Panel hinzugefügt.
+	 */
 	public void onLoad() {
 
 		super.onLoad();
@@ -139,34 +147,11 @@ public class TeilhaberschaftForm extends VerticalPanel {
 
 	}
 
-	class KontaktAusKlistLoeschen implements AsyncCallback<Void> {
-
-		@Override
-		public void onFailure(Throwable caught) {
-
-		}
-
-		@Override
-		public void onSuccess(Void result) {
-
-		}
-
-	}
-
-	class StatusAendernCallback implements AsyncCallback<Kontakt> {
-
-		@Override
-		public void onFailure(Throwable caught) {
-
-		}
-
-		@Override
-		public void onSuccess(Kontakt result) {
-
-		}
-
-	}
-
+	/**
+	 * 
+	 * Diese Service-Klasse
+	 *
+	 */ 
 	class Handler implements SelectionChangeEvent.Handler {
 
 		@Override
@@ -180,7 +165,12 @@ public class TeilhaberschaftForm extends VerticalPanel {
 		}
 
 	}
-
+	
+	/**
+	 * 
+	 * 
+	 *
+	 */
 	class DeleteFieldUpdater implements FieldUpdater<EigenschaftAuspraegungWrapper, String> {
 
 		@Override
@@ -197,6 +187,11 @@ public class TeilhaberschaftForm extends VerticalPanel {
 
 	}
 
+	/**
+	 * 
+	 * 
+	 *
+	 */
 	class AlleNutzer implements AsyncCallback<Vector<Nutzer>> {
 
 		@Override
@@ -220,6 +215,11 @@ public class TeilhaberschaftForm extends VerticalPanel {
 
 	}
 
+	/**
+	 * 
+	 * 
+	 *
+	 */
 	class ZurueckClickHandler implements ClickHandler {
 
 		@Override
