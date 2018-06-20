@@ -215,6 +215,8 @@ public Vector<EigenschaftAuspraegungWrapper> getAuspraegungByWert(String wert){
 			
 	"SELECT * FROM `eigenschaftsauspraegung` WHERE `wert` LIKE " + "'" + wert + "'" +" ORDER by ID");
 	
+	
+	
 			
 	if (rs.next()) {
 		EigenschaftAuspraegungWrapper ea = new EigenschaftAuspraegungWrapper();
@@ -226,7 +228,7 @@ public Vector<EigenschaftAuspraegungWrapper> getAuspraegungByWert(String wert){
 		
 		result.addElement(ea);
 	}
-	
+		
 }catch (SQLException e) {
 	e.printStackTrace();
 	
