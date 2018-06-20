@@ -228,6 +228,10 @@ public interface KontaktAdministrationAsync {
 
 	void updateKontaktlisteStatus(int kontaktlisteID, AsyncCallback<Kontaktliste> callback);
 
+	void findNutzerToShareListWith(int kontaktlisteID, int nutzerID, AsyncCallback<Vector<Nutzer>> callback);
+
+	void deleteTeilhaberschaftAnKontaktliste(int teilhaberID, int kontaktlisteID, AsyncCallback<Void> callback);
+
 
 	
 	

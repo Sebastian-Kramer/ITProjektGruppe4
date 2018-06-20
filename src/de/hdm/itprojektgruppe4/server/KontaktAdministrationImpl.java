@@ -259,7 +259,7 @@ public class KontaktAdministrationImpl extends RemoteServiceServlet implements K
 	}
 
 	/**
-	 * Einen Kontakt l�schen
+	 * Einen Kontakt löschen
 	 * 
 	 * @param k
 	 *            das zu l�schende Kontakt-Objekt
@@ -538,16 +538,46 @@ public class KontaktAdministrationImpl extends RemoteServiceServlet implements K
 
 		return n;
 	}
+	
+	/**
+	 * Auslesen eines Vectors mit allen Nutzern, mit denen eine Kontaktliste noch nicht geteilt wurde.
+	 * 
+	 * @param kontaktlisteID die ID der Kontaktliste, die geteilt werden soll
+	 * @param nutzerID, die ID des angemeldeten Nutzers
+	 * @return Vector mit Nutzer-Objekten, die noch keine Teilhaberschaft an Kontaktliste besitzen.
+	 * @throws IllegalArgumentException
+	 */	
+
+	@Override
+	public Vector<Nutzer> findNutzerToShareListWith(int kontaktlisteID, int nutzerID) throws IllegalArgumentException {
+		Vector<Nutzer> alleNutzer = findAllNutzer();
+		Vector<Nutzer> alleTeilhaber = findAllTeilhaberFromKontaktliste(kontaktlisteID);
+		Vector<Nutzer> zuEntfernendeNutzer = new Vector<Nutzer>();
+		
+		//Alle Nutzer-Objekte, die sowohl zum Vektor mit allen Nutzern, als auch zum Vektor mit allen Teilhabern gehören, werden asugelesen
+		//und dem Vector <code>zuEntfernendeNutzer</code> hinzugefügt. Die darin enthaltenen Nutzer-Objekte werden anschließend vom Vector
+		//<code>alleNutzer</code> entfernt.
+		for(Nutzer user : alleNutzer){
+			for(Nutzer nutzer : alleTeilhaber){
+				if(user.getID() == nutzer.getID() || user.getID() == nutzerID){
+					zuEntfernendeNutzer.add(user);
+				}
+			}
+		}
+		alleNutzer.removeAll(zuEntfernendeNutzer);
+		return alleNutzer;
+	}
+
 
 	/*
-	 * ########################################################## ENDE Methoden
-	 * f�r Nutzer-Objekte
+	 * ##########################################################
+	 * ENDE Methoden für Nutzer-Objekte
 	 * #########################################################
 	 */
 
 	/*
-	 * ########################################################## START Methoden
-	 * f�r Person-Objekte
+	 * ########################################################## 
+	 * START Methoden für Person-Objekte
 	 * #########################################################
 	 */
 
@@ -1656,6 +1686,29 @@ public class KontaktAdministrationImpl extends RemoteServiceServlet implements K
 
 		return this.teilhaberschaftMapper.findTeilhaberschaftByAuspraegungID(auspraegungID);
 	}
+	
+	/**
+	 * Löschen einer Teilhaberschaft an einer Kontaktliste.
+	 * Gleichzeitig wird überprüft, ob noch Teilhaberschaften an der Kontaktliste bestehen, ansonsten wird der Status der Kontaktliste
+	 * auf 0 (= nicht geteilt) gesetzt und die Kontaktliste geupdated.
+	 * 
+	 * @param teilhaberID, die ID des Teilhabers, dessen Teilhaberschaft aufgelöst werden muss
+	 * @param kontaktlisteID, die ID der Liste, an der die Teilhaberschaft gelöscht werden soll
+	 * @throws IllegalArgumentException
+	 */
+	@Override
+	public void deleteTeilhaberschaftAnKontaktliste(int teilhaberID, int kontaktlisteID)
+			throws IllegalArgumentException {
+		deleteTeilhaberschaftByTeilhaberID(teilhaberID);
+		Vector<Teilhaberschaft> teilhaben = findTeilhaberschaftByKontaktlisteID(kontaktlisteID);
+		if(teilhaben.isEmpty()){
+			Kontaktliste kl = findKontaktlisteByID(kontaktlisteID);
+			kl.setStatus(0);
+			updateKontaktliste(kl);
+		}
+		
+	}
+
 
 	/*
 	 * ########################################################## ENDE Methoden
@@ -1931,6 +1984,8 @@ public class KontaktAdministrationImpl extends RemoteServiceServlet implements K
 		return gepruefteKontakte;
 	}
 	//	Vector<Kontakt> kontakt = findAllKontaktFromNutzer(NutzerID);
+	
+
 
 		
 		
