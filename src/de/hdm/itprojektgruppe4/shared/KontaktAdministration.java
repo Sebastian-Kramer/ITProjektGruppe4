@@ -728,19 +728,41 @@ public interface KontaktAdministration extends RemoteService {
 	public Vector<Teilhaberschaft> findTeilhaberschaftByTeilhaberIDAndNutzerID(int teilhaberID, int nutzerID) throws IllegalArgumentException;
 
 	public KontaktKontaktliste findKontaktKontaktlisteByKontaktIDAndKlisteID(int kontaktID, int kListID) throws IllegalArgumentException;
+	
 	public Vector <Kontakt> findGeteilteKontakteFromNutzerAndTeilhaber ( int nutzerID, int teilhaberID) throws IllegalArgumentException;
-
 
 	public Vector<Kontakt> findKontakteByEigAus(int NutzerID ,	String bez , String wert) throws IllegalArgumentException ;
 
 
 	/**
 	 * 
+	 * 
 	 * @param kontaktlisteID
 	 * @return Kontaktliste-Objekt mit geändertem Status
 	 * @throws IllegalArgumentException
 	 */
 	public Kontaktliste updateKontaktlisteStatus (int kontaktlisteID) throws IllegalArgumentException;
+	
+	/**
+	 * Auslesen eines Vectors mit allen Nutzern, mit denen eine Kontaktliste noch nicht geteilt wurde.
+	 * 
+	 * @param kontaktlisteID die ID der Kontaktliste, die geteilt werden soll
+	 * @return Vector mit Nutzer-Objekten
+	 * @throws IllegalArgumentException
+	 */
+	public Vector<Nutzer> findNutzerToShareListWith (int kontaktlisteID, int nutzerID) throws IllegalArgumentException;
+	
+	/**
+	 * Löschen einer Teilhaberschaft an einer Kontaktliste.
+	 * Gleichzeitig wird überprüft, ob noch Teilhaberschaften an der Kontaktliste bestehen, ansonsten wird der Status der Kontaktliste
+	 * auf 0 (= nicht geteilt) gesetzt und die Kontaktliste geupdated.
+	 * 
+	 * @param teilhaberID, die ID des Teilhabers, dessen Teilhaberschaft aufgelöst werden muss
+	 * @param kontaktlisteID, die ID der Liste, an der die Teilhaberschaft gelöscht werden soll
+	 * @throws IllegalArgumentException
+	 */
+	public void deleteTeilhaberschaftAnKontaktliste (int teilhaberID, int kontaktlisteID) throws IllegalArgumentException;
+	
 
 
 }
