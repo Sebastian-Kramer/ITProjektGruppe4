@@ -6,6 +6,7 @@ import java.util.Vector;
 import com.google.gwt.cell.client.ClickableTextCell;
 import com.google.gwt.cell.client.EditTextCell;
 import com.google.gwt.cell.client.FieldUpdater;
+import com.google.gwt.cell.client.ButtonCell;
 import com.google.gwt.cell.client.Cell.Context;
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.dom.client.NativeEvent;
@@ -40,7 +41,9 @@ import de.hdm.itprojektgruppe4.shared.bo.Nutzer;
 
 public class NewKontaktForm extends VerticalPanel {
 
-	KontaktAdministrationAsync verwaltung = ClientsideSettings.getKontaktVerwaltung();
+	//Instanziieren und Deklarieren der benötigten Variablen
+	
+	private KontaktAdministrationAsync verwaltung = ClientsideSettings.getKontaktVerwaltung();
 
 	private HorizontalPanel hpanel = new HorizontalPanel();
 	private VerticalPanel vpanel = new VerticalPanel();
@@ -57,8 +60,7 @@ public class NewKontaktForm extends VerticalPanel {
 	private Button getBack = new Button("Abschliessen und zurück");
 	private HTML html1 = new HTML(
 			"Bitte geben Sie hier die <b> Namen </b> zu ihrem neuen "
-					+ " <b>Kontakt</b>  an und bestätigen Sie mit Enter." + "<span style='font-family:fixed'></span>",
-			true);
+					+ " <b>Kontakt</b>  an und bestätigen Sie mit Enter." + "<span style='font-family:fixed'></span>",true);
 
 	private HTML html2 = new HTML("Bitte geben Sie hier die <b> Eigenschaften </b> und die dazugehörigen"
 			+ " <b>Auspärgungen</b>  zu Ihrem Kontakt an." + "<span style='font-family:fixed'></span>", true);
@@ -76,10 +78,15 @@ public class NewKontaktForm extends VerticalPanel {
 	private Eigenschaftauspraegung eigaus = new Eigenschaftauspraegung();
 	private Nutzer nutzer = new Nutzer();
 	private Eigenschaft eig1 = new Eigenschaft();
+	private EigenschaftAuspraegungWrapper ea = new EigenschaftAuspraegungWrapper();
+	
 	private CellTableForm ctf = null;
+	private ButtonCell deleteBtn = new ButtonCell();
+	private CellTableForm.ColumnDeleteBtn deleteButtonCol = ctf.new ColumnDeleteBtn(deleteBtn);
+	
+	
 	private ClickableTextCell bezeigenschaft = new ClickableTextCell();
 	private EditTextCell wertauspraegung = new EditTextCell();
-//	private SingleSelectionModel<EigenschaftAuspraegungWrapper> sm = new SingleSelectionModel<EigenschaftAuspraegungWrapper>();
 
 	private CellTableForm.ColumnEigenschaft bezEigenschaft = ctf.new ColumnEigenschaft(bezeigenschaft);
 	private CellTableForm.ColumnAuspraegung wertAuspraegung = ctf.new ColumnAuspraegung(wertauspraegung){
@@ -142,13 +149,11 @@ public class NewKontaktForm extends VerticalPanel {
 		ctf = new CellTableForm(kontakt1);
 		ctf.addColumn(bezEigenschaft, "Eigenschaft");
 		ctf.addColumn(wertAuspraegung, "Ausprägung");
+		ctf.addColumn(deleteButtonCol);
 		
 		ctf.setSelectionModel(ctf.getSm());
 
-		hpanelButtonBar.add(cancel);
-
-		RootPanel.get("Buttonbar").clear();
-		RootPanel.get("Buttonbar").add(hpanelButtonBar);
+		hpanelButtonBar.add(cancel);	
 
 		hpanel2.add(eigenschaftName);
 		hpanel2.add(eigenschaftSugBox);
@@ -162,53 +167,54 @@ public class NewKontaktForm extends VerticalPanel {
 
 		hpanel.add(name);
 		hpanel.add(tbName);
-
 		vpanel.add(html1);
 		vpanel.add(hpanel);
 		vpanel.add(html2);
-
+		
+		RootPanel.get("Buttonbar").clear();
+		RootPanel.get("Buttonbar").add(hpanelButtonBar);
+		
 		this.add(vpanel);
 
 		verwaltung.findAllEigenschaft(new AlleEigenschaftCallback());
 
-		// Buttons
+		// Clickhandler den Buttons hinzufügen
 
 		cancel.addClickHandler(new CancelClick());
-
 		getBack.addClickHandler(new GetBackClick());
-
 		addToList.addClickHandler(new AddToListClick());
-
-		// KeyHandler um den Kontaktnamen zu speichern und einen
-		// neuen Kontakt zu erstellen
-
-		KeyDownHandler returnKeyHandler = new KeyDownHandler() {
-
-			@Override
-			public void onKeyDown(KeyDownEvent event) {
-				if (event.getNativeKeyCode() == KeyCodes.KEY_ENTER) {
-
-					verwaltung.insertKontakt(tbName.getValue(), new Date(), new Date(), 0, nutzer.getID(),
-							new KontaktErstellenCallback());
-
-					html2.setVisible(true);
-					cancel.setVisible(false);
-
-				}
-			}
-		};
-
-		tbName.addKeyDownHandler(returnKeyHandler);
-
+		tbName.addKeyDownHandler(new InsertReturn());
 		addRow.addClickHandler(new ClickAddRowHandler());
+		deleteButtonCol.setFieldUpdater(new DeleteFieldUpdater());
 
 	}
+	// Implementierung der Clickhandler- und Asynccallback - Klassen
+	
 
 	/**
-	 * Diese Methode wird aufgerufen, wenn die leeren Ausprägungen erfolgreich
-	 * angelegt wurden. Es wird die CellTable mit 2 Spalten befüllt, und die
-	 * Celltable anschliessend der Klasse hinzugefügt.
+	 * Diese KeyDownHandler Klasse überprüft ob die Enter-Taste gedrückt wurde und 
+	 * stößt den Callback, um einen neuen Kontakt zu erstellen, an.
+	 * @author Nino
+	 *
 	 */
+	
+	class InsertReturn implements KeyDownHandler {
+
+		@Override
+		public void onKeyDown(KeyDownEvent event) {
+			// TODO Auto-generated method stub
+			if (event.getNativeKeyCode() == KeyCodes.KEY_ENTER) {
+
+				verwaltung.insertKontakt(tbName.getValue(), new Date(), new Date(), 0, nutzer.getID(),
+						new KontaktErstellenCallback());
+
+				html2.setVisible(true);
+				cancel.setVisible(false);
+
+			}
+		}
+		
+	}
 
 	/**
 	 * ClickHandler Klasse für den Cancel Button, welcher die Kontakterstellung
@@ -252,6 +258,13 @@ public class NewKontaktForm extends VerticalPanel {
 
 	}
 
+	/**
+	 * Diese Clickhandler Klasse ermöglicht das Erscheinen 
+	 * der DialogBox um den Kontakt direkt beim Erstellen einer Liste hinzuzufügen
+	 * @author Nino
+	 *
+	 */
+	
 	class AddToListClick implements ClickHandler {
 
 		@Override
@@ -264,7 +277,13 @@ public class NewKontaktForm extends VerticalPanel {
 
 	}
 
-	class ClickAddRowHandler implements ClickHandler {
+	/**
+	 * Diese Clickhandler stößt die Callback-aufrufe an um die neue Ausprägung 
+	 * und die zugehörige Eigenschaft anzulegen 
+	 * @author Nino
+	 *
+	 */
+	private class ClickAddRowHandler implements ClickHandler {
 
 		@Override
 		public void onClick(ClickEvent event) {
@@ -286,7 +305,7 @@ public class NewKontaktForm extends VerticalPanel {
 	 *
 	 */
 
-	class KontaktErstellenCallback implements AsyncCallback<Kontakt> {
+	private class KontaktErstellenCallback implements AsyncCallback<Kontakt> {
 
 		@Override
 		public void onFailure(Throwable caught) {
@@ -313,7 +332,7 @@ public class NewKontaktForm extends VerticalPanel {
 	 *
 	 */
 
-	class BasicAuspraegungenCallback implements AsyncCallback<Vector<Eigenschaftauspraegung>> {
+	private class BasicAuspraegungenCallback implements AsyncCallback<Vector<Eigenschaftauspraegung>> {
 
 		@Override
 		public void onFailure(Throwable caught) {
@@ -348,7 +367,7 @@ public class NewKontaktForm extends VerticalPanel {
 	 *
 	 */
 
-	class AuspraegungBearbeitenCallback implements AsyncCallback<Eigenschaftauspraegung> {
+	private class AuspraegungBearbeitenCallback implements AsyncCallback<Eigenschaftauspraegung> {
 
 		@Override
 		public void onFailure(Throwable caught) {
@@ -374,7 +393,7 @@ public class NewKontaktForm extends VerticalPanel {
 	 *
 	 */
 
-	class AlleEigenschaftCallback implements AsyncCallback<Vector<Eigenschaft>> {
+	private class AlleEigenschaftCallback implements AsyncCallback<Vector<Eigenschaft>> {
 
 		@Override
 		public void onFailure(Throwable caught) {
@@ -402,7 +421,7 @@ public class NewKontaktForm extends VerticalPanel {
 	 *
 	 */
 
-	class EigenschaftHinzufuegenCallback implements AsyncCallback<Eigenschaft> {
+	private class EigenschaftHinzufuegenCallback implements AsyncCallback<Eigenschaft> {
 
 		@Override
 		public void onFailure(Throwable caught) {
@@ -436,7 +455,7 @@ public class NewKontaktForm extends VerticalPanel {
 	 *
 	 */
 
-	class AuspraegungHinzufuegenCallback implements AsyncCallback<Eigenschaftauspraegung> {
+	private class AuspraegungHinzufuegenCallback implements AsyncCallback<Eigenschaftauspraegung> {
 
 		@Override
 		public void onFailure(Throwable caught) {
@@ -453,21 +472,14 @@ public class NewKontaktForm extends VerticalPanel {
 
 	}
 
-	class KontaktModifikationsdatumCallback implements AsyncCallback<Kontakt> {
 
-		@Override
-		public void onFailure(Throwable caught) {
-
-		}
-
-		@Override
-		public void onSuccess(Kontakt result) {
-			verwaltung.findHybrid(kontakt1, new ReloadCallback());
-		}
-
-	}
-
-	class FindEigenschaftCallback implements AsyncCallback<Eigenschaft> {
+	/**
+	 * Callback-Klasse um eine neue Ausprägung zu diesem Kontakt hinzuzufügen. 
+	 * Der Wert der Ausprägung wird aus der Textbox entnommen.
+	 * @author Nino
+	 *
+	 */
+	private class FindEigenschaftCallback implements AsyncCallback<Eigenschaft> {
 
 		@Override
 		public void onFailure(Throwable caught) {
@@ -483,8 +495,14 @@ public class NewKontaktForm extends VerticalPanel {
 		}
 
 	}
-
-	class ReloadCallback implements AsyncCallback<Vector<EigenschaftAuspraegungWrapper>> {
+	
+	/**
+	 * Diese Callback Klasse wird immer aufgerufen, wenn sich die CellTable geändert hat.
+	 * @author Nino
+	 *
+	 */
+	
+	private class ReloadCallback implements AsyncCallback<Vector<EigenschaftAuspraegungWrapper>> {
 
 		@Override
 		public void onFailure(Throwable caught) {
@@ -499,6 +517,41 @@ public class NewKontaktForm extends VerticalPanel {
 			ctf.setRowCount(result.size(), true);
 		}
 
+	}
+	
+	
+	private class DeleteFieldUpdater implements FieldUpdater<EigenschaftAuspraegungWrapper, String>{
+
+		@Override
+		public void update(int index, EigenschaftAuspraegungWrapper object, String value) {
+			// TODO Auto-generated method stub
+			ea.setAuspraegung(object.getAuspraegung());
+			ea.setEigenschaft(object.getEigenschaft());
+			verwaltung.deleteEigenschaftUndAuspraegung(ea, new EigAusDeleteCallback());
+		}
+		
+	}
+	
+	/**
+	 *  Diese Callback-Klasse löscht die ausgewählte Ausprägung.
+	 * @author Nino
+	 *
+	 */
+	private class EigAusDeleteCallback implements AsyncCallback<Void>{
+
+		@Override
+		public void onFailure(Throwable caught) {
+			// TODO Auto-generated method stub
+			Window.alert("Die Ausprägung konnte nicht gelöscht werden");
+		}
+
+		@Override
+		public void onSuccess(Void result) {
+			// TODO Auto-generated method stub
+			ctf.deleteRow(ea);
+			verwaltung.findHybrid(kontakt1, new ReloadCallback());
+		}
+		
 	}
 
 }

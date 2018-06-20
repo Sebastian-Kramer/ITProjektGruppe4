@@ -77,11 +77,7 @@ public class KontaktlisteForm extends VerticalPanel {
 	
 	public void onLoad(){
 		super.onLoad();
-		
-		//checkStatus();
-		listShared.setUrl("Image/contactShared.png");
-		listNotShared.setUrl("Image/contactNotShared.png");
-		
+			
 		//Instantiieren des DataProviders, der die Daten fuer die Liste haelt
 		KontakteDataProvider dataProvider = new KontakteDataProvider();
 		dataProvider.addDataDisplay(kontaktCellList);
@@ -90,7 +86,7 @@ public class KontaktlisteForm extends VerticalPanel {
 		scrollPanel.setStyleName("scrollPanel");
 		kontaktCellList.setStyleName("cellListKontakte");
 		scrollPanel.add(kontaktCellList);
-		HTML html1 = new HTML("<h2>" +  kl.getBez()   + "</h2>");
+		HTML html1 = new HTML("<h2> Liste: " +  kl.getBez()   + "</h2>");
 	
 		/*
 		 * Hinzufuegen der Buttons zur Buttonbar
@@ -124,12 +120,12 @@ public class KontaktlisteForm extends VerticalPanel {
 		teilhaberschaften.addClickHandler(new TeilhaberschaftenVerwaltenClickhandler());
 		kontaktlisteBearbeiten.addClickHandler(new KontaktlisteBearbeitenClickhandler());
 		zurStartseite.addClickHandler(new ZurueckZurStartseiteClickhandler());
-
 		
-		if (kl.getStatus() == 0) {
-			hpanel.add(listNotShared);
-			
-		}else if(kl.getStatus() == 1) {
+		/*
+		 * Bedienungen überprüft den Status der Liste und macht den Status "geteilt" sichtbar.
+		 */
+		
+		if (kl.getStatus() == 1) {
 			hpanel.add(listShared);
 			
 		}
@@ -265,9 +261,5 @@ public class KontaktlisteForm extends VerticalPanel {
 		
 	}
 
-
-	
-	
-	
 
 }
