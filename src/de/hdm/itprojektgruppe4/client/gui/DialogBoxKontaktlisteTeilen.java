@@ -3,6 +3,8 @@ package de.hdm.itprojektgruppe4.client.gui;
 import com.google.gwt.user.client.ui.DialogBox;
 import com.google.gwt.user.client.ui.FlexTable;
 import com.google.gwt.user.client.ui.HTML;
+import com.google.gwt.user.client.ui.MultiWordSuggestOracle;
+
 import java.util.Vector;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
@@ -13,6 +15,7 @@ import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.RootPanel;
+import com.google.gwt.user.client.ui.SuggestBox;
 import com.google.gwt.view.client.ListDataProvider;
 import com.google.gwt.view.client.SingleSelectionModel;
 
@@ -39,10 +42,18 @@ public class DialogBoxKontaktlisteTeilen extends DialogBox {
 	private SingleSelectionModel<Nutzer> nutzerSelection = new SingleSelectionModel<Nutzer>();
 	private FlexTable ft = new FlexTable();
 	private ListDataProvider<Nutzer> dataProvider = new ListDataProvider<Nutzer>();
-
+	
+	private MultiWordSuggestOracle nutzerOracle = new MultiWordSuggestOracle();
+	private SuggestBox nutzerSugBox = new SuggestBox(nutzerOracle);
+	
 	DialogBoxKontaktlisteTeilen(Kontaktliste kl) {
 		this.kl = kl;
 		kontaktVerwaltung.findNutzerToShareListWith(kl.getID(), nutzer.getID(), new NutzerAnzeigen());
+		
+		//FÜR RAPHA ALS SUGGBOX
+		//###############
+				kontaktVerwaltung.findNutzerToShareListWith(kl.getID(), nutzer.getID(), new NutzerToSugBox());
+		//#########
 		nutzer.setID(Integer.parseInt(Cookies.getCookie("id")));
 		nutzer.setEmail(Cookies.getCookie("email"));
 		dataProvider.addDataDisplay(nutzerList);
@@ -53,6 +64,8 @@ public class DialogBoxKontaktlisteTeilen extends DialogBox {
 	public void onLoad() {
 		super.onLoad();
 
+		
+		
 		teilen.addClickHandler(new TeilenClickhandler());
 		abbrechen.addClickHandler(new AbbrechenClickhandler());
 
@@ -62,6 +75,12 @@ public class DialogBoxKontaktlisteTeilen extends DialogBox {
 		ft.setStylePrimaryName("Flextable");
 
 		vpanel.add(html);
+		
+		//FÜR RAPHA SUGBOX
+		//##########
+		vpanel.add(nutzerSugBox);
+		//########
+		
 		vpanel.add(ft);
 		this.add(vpanel);
 		this.setStylePrimaryName("DialogboxBackground1");
@@ -173,5 +192,31 @@ public class DialogBoxKontaktlisteTeilen extends DialogBox {
 		}
 
 	}
+	
+	//FÜR RAPHA Nutzer in SugBox
+	//#########################################
+	private class NutzerToSugBox implements AsyncCallback<Vector<Nutzer>> {
+
+		@Override
+		public void onFailure(Throwable caught) {
+			// TODO Auto-generated method stub
+			
+		}
+
+		@Override
+		public void onSuccess(Vector<Nutzer> result) {
+			// TODO Auto-generated method stub
+			for (Nutzer n : result) {
+				if (n.getID() != nutzer.getID() ) {
+					nutzerOracle.add(n.getEmail());
+				} else {
+
+				}
+			}
+		}
+		
+	}
+	
+	//#########################################
 
 }

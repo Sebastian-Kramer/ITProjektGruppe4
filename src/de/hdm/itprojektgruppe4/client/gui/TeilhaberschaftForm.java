@@ -14,8 +14,10 @@ import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.ListBox;
+import com.google.gwt.user.client.ui.MultiWordSuggestOracle;
 import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwt.user.client.ui.ScrollPanel;
+import com.google.gwt.user.client.ui.SuggestBox;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.view.client.DefaultSelectionEventManager;
 import com.google.gwt.view.client.MultiSelectionModel;
@@ -54,7 +56,9 @@ public class TeilhaberschaftForm extends VerticalPanel {
 	private Button allTeilen = new Button("Alle Eigenschaftsausprägung teilen");
 	private Button einzTeilen = new Button("Ausgewählte Eigenschaftsausprägungen teilen");
 
-	private ListBox dropBoxNutzer = new ListBox();
+	private MultiWordSuggestOracle nutzerOracle = new MultiWordSuggestOracle();
+	private SuggestBox nutzerSugBox = new SuggestBox(nutzerOracle);
+	
 
 	private CellTableForm ctf = null;
 
@@ -113,7 +117,8 @@ public class TeilhaberschaftForm extends VerticalPanel {
 		scrollPanel.add(ctf);
 		scrollPanel.setHeight("300px");
 
-		dropBoxNutzer.setStyleName("DropDown");
+		nutzerSugBox.setStyleName("DropDown");
+		
 		html1.setStyleName("HtmlText1");
 		html2.setStyleName("HtmlText");
 		html3.setStyleName("HtmlText");
@@ -124,7 +129,7 @@ public class TeilhaberschaftForm extends VerticalPanel {
 		vpanel.add(html2);
 		vpanel.add(hpanel);
 		vpanel.add(html3);
-		vpanel.add(dropBoxNutzer);
+		vpanel.add(nutzerSugBox);
 
 		RootPanel.get("Buttonbar").clear();
 		RootPanel.get("Buttonbar").add(zurueck);
@@ -205,7 +210,7 @@ public class TeilhaberschaftForm extends VerticalPanel {
 
 			for (Nutzer n : result) {
 				if (n.getID() != nutzer.getID()) {
-					dropBoxNutzer.addItem(n.getEmail());
+					nutzerOracle.add(n.getEmail());
 				} else {
 
 				}
@@ -233,7 +238,7 @@ public class TeilhaberschaftForm extends VerticalPanel {
 		@Override
 		public void onClick(ClickEvent event) {
 
-			verwaltung.insertTeilhaberschaftAuspraegungenKontakt(kon, dropBoxNutzer.getSelectedValue(), nutzer.getID(),
+			verwaltung.insertTeilhaberschaftAuspraegungenKontakt(kon, nutzerSugBox.getValue(), nutzer.getID(),
 					new TeilhaberschaftCallback()); 
 
 		}
@@ -250,7 +255,7 @@ public class TeilhaberschaftForm extends VerticalPanel {
 				ea.add(eaw);
 			}
 			
-			verwaltung.insertTeilhaberschaftAusgewaehlteAuspraegungenKontakt(kon, ea, dropBoxNutzer.getSelectedValue(),
+			verwaltung.insertTeilhaberschaftAusgewaehlteAuspraegungenKontakt(kon, ea, nutzerSugBox.getValue(),
 					nutzer.getID(), new TeilhaberschaftCallback()); 
 
 		}
@@ -269,14 +274,14 @@ public class TeilhaberschaftForm extends VerticalPanel {
 		public void onSuccess(Integer result) {
 
 			if (result == 1) {
-				Window.alert("Die Teilhaberschaft wurden erfolgreich mit dem Nutzer " + dropBoxNutzer.getSelectedValue()
+				Window.alert("Die Teilhaberschaft wurden erfolgreich mit dem Nutzer " + nutzerSugBox.getValue()
 						+ " angelegt");
 				TeilhaberschaftForm tf = new TeilhaberschaftForm(kon);
 				RootPanel.get("Details").clear();
 				RootPanel.get("Details").add(tf);
 			} else {
 				Window.alert(
-						"Mit dem Nutzer " + dropBoxNutzer.getSelectedValue() + " besteht bereits eine Teilhaberschaft");
+						"Mit dem Nutzer " + nutzerSugBox.getValue() + " besteht bereits eine Teilhaberschaft");
 				TeilhaberschaftForm tf = new TeilhaberschaftForm(kon);
 				RootPanel.get("Details").clear();
 				RootPanel.get("Details").add(tf);
