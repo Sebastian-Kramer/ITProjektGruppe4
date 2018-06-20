@@ -228,6 +228,10 @@ public interface KontaktAdministrationAsync {
 
 	void updateKontaktlisteStatus(int kontaktlisteID, AsyncCallback<Kontaktliste> callback);
 
+	void findKontakeByEig(int NutzerID, String bez, AsyncCallback<Vector<Kontakt>> callback);
+
+	void findKontakteByAus(int NutzerID, String wert, AsyncCallback<Vector<Kontakt>> callback);
+
 
 	
 	

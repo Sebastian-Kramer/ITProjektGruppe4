@@ -992,27 +992,21 @@ public class KontaktAdministrationImpl extends RemoteServiceServlet implements K
 	public Kontaktliste updateKontaktliste(Kontaktliste k) throws IllegalArgumentException {
 		// TODO Auto-generated method stub
 		Kontaktliste konliste = this.konlistMapper.findKontaktlistebyID(k.getID());
-		
 
-		
 		if (konliste.getBez().equals("Meine Kontakte") || konliste.getBez().equals("Meine geteilten Kontakte")) {
-			
-			
-			
-			return null ;
-			
+
+			return null;
+
 		} else if ((k.getBez().equals("Meine Kontakte") || k.getBez().equals("Meine geteilten Kontakte"))) {
-			
-						
-			return null ;
+
+			return null;
 		}
 		{
-		
-		return this.konlistMapper.updateKontaktliste(k);
-	}
-		
-		
+
+			return this.konlistMapper.updateKontaktliste(k);
 		}
+
+	}
 
 	/**
 	 * Eine Kontaktliste löschen.
@@ -1139,9 +1133,10 @@ public class KontaktAdministrationImpl extends RemoteServiceServlet implements K
 
 		return this.konlistMapper.findKontaktlisteMeineGeteiltenKontakte(kList, nutzerID);
 	}
-	
+
 	/**
-	 *Gibt es keine Teilhaberschaft an einer Kontaktliste, so wird deren Status auf 0 (= nicht geteilt) gesetzt werden.
+	 * Gibt es keine Teilhaberschaft an einer Kontaktliste, so wird deren Status
+	 * auf 0 (= nicht geteilt) gesetzt werden.
 	 *
 	 * @param kontaktlisteID
 	 * @return Kontaktliste-Objekt mit geändertem Status
@@ -1151,17 +1146,16 @@ public class KontaktAdministrationImpl extends RemoteServiceServlet implements K
 	public Kontaktliste updateKontaktlisteStatus(int kontaktlisteID) throws IllegalArgumentException {
 		Vector<Teilhaberschaft> teilhaberschaften = findTeilhaberschaftByKontaktlisteID(kontaktlisteID);
 		Kontaktliste kontaktliste = findKontaktlisteByID(kontaktlisteID);
-		if(teilhaberschaften.isEmpty()){
+		if (teilhaberschaften.isEmpty()) {
 			kontaktliste.setStatus(0);
 			return this.konlistMapper.updateKontaktliste(kontaktliste);
-		}else return null;
-		
+		} else
+			return null;
+
 	}
 
-
 	/*
-	 * ########################################################## 
-	 * ENDE Methoden
+	 * ########################################################## ENDE Methoden
 	 * fuer Kontaktliste-Objekte
 	 * #########################################################
 	 */
@@ -1875,57 +1869,66 @@ public class KontaktAdministrationImpl extends RemoteServiceServlet implements K
 		return teilKon;
 
 	}
-	
-	public Vector<Kontakt> findKontakteByEigAus(int NutzerID ,	String bez , String wert) throws IllegalArgumentException {
+
+	public Vector<Kontakt> findKontakteByEigAus(int NutzerID, String bez, String wert) throws IllegalArgumentException {
 		Vector<Kontakt> gepruefteKontakte = new Vector<Kontakt>();
 		Vector<Kontakt> kontakte = findAllKontaktFromNutzer(NutzerID);
-		
-
-
 
 		for (Kontakt kontakt : kontakte) {
-			
-			System.out.println(kontakt.getName());
+
 			Vector<Eigenschaft> eigenschaften = this.getEigenschaftbyKontaktID(kontakt.getID());
-		
+
 			for (Eigenschaft eigenschaft : eigenschaften) {
 				if (eigenschaft.getBezeichnung().equals(bez)) {
-				
-					
+
 					Vector<Eigenschaftauspraegung> auspraegungen = this.getAuspraegungByKontaktID(kontakt.getID());
 					for (Eigenschaftauspraegung eigenschaftauspraegung : auspraegungen) {
 						if (eigenschaftauspraegung.getWert().equals(wert)) {
 							gepruefteKontakte.add(kontakt);
-							}
+						}
 					}
 				}
 			}
 		}
-		
-		
-		
 
-		
 		return gepruefteKontakte;
 	}
-	//	Vector<Kontakt> kontakt = findAllKontaktFromNutzer(NutzerID);
 
-		
-		
-		
-//		
-//		Vector<Eigenschaftauspraegung> auspraegungen = findAllEigenschaftsauspraegungByWertAndEigenschaft(auspraegung,
-//				e);
-//		Vector<Kontakt> allContact = new Vector<Kontakt>();
-//
-//		for (Eigenschaftauspraegung eigenschaftsauspraegung : auspraegungen) {
-//			allContact.add(findKontaktByID(eigenschaftsauspraegung.getID()));
-//		}
-//
-//		return allContact;
-//
-//	}
-//	
+	public Vector<Kontakt> findKontakeByEig(int NutzerID, String bez) throws IllegalArgumentException {
+		Vector<Kontakt> gepruefteKontakte = new Vector<Kontakt>();
+		Vector<Kontakt> kontakte = findAllKontaktFromNutzer(NutzerID);
+
+		for (Kontakt kontakt : kontakte) {
+
+			Vector<Eigenschaft> eigenschaften = this.getEigenschaftbyKontaktID(kontakt.getID());
+
+			for (Eigenschaft eigenschaft : eigenschaften) {
+				if (eigenschaft.getBezeichnung().equals(bez)) {
+
+					gepruefteKontakte.add(kontakt);
+				}
+			}
+		}
+
+		return gepruefteKontakte;
+	}
+	public Vector<Kontakt> findKontakteByAus(int NutzerID, String wert) throws IllegalArgumentException {
+		Vector<Kontakt> gepruefteKontakte = new Vector<Kontakt>();
+		Vector<Kontakt> kontakte = findAllKontaktFromNutzer(NutzerID);
+
+		for (Kontakt kontakt : kontakte) {
+
+
+					Vector<Eigenschaftauspraegung> auspraegungen = this.getAuspraegungByKontaktID(kontakt.getID());
+					for (Eigenschaftauspraegung eigenschaftauspraegung : auspraegungen) {
+						if (eigenschaftauspraegung.getWert().equals(wert)) {
+							gepruefteKontakte.add(kontakt);
+						}
+					}
+				}
+	
+		return gepruefteKontakte;
+	}
 
 
 }
