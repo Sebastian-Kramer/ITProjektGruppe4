@@ -15,6 +15,7 @@ import com.google.gwt.user.client.ui.Button;
 
 import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.HorizontalPanel;
+import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.client.ui.VerticalPanel;
@@ -41,8 +42,6 @@ public class KontaktlisteForm extends VerticalPanel {
 	
 	private VerticalPanel vpanel = new VerticalPanel();
 	private HorizontalPanel hpanel = new HorizontalPanel();
-	private Label lbl_status = new Label();
-	private Label ersteller = new Label();
 	
 	private ScrollPanel scrollPanel = new ScrollPanel();
 	private FlowPanel fpanel = new FlowPanel();
@@ -56,12 +55,13 @@ public class KontaktlisteForm extends VerticalPanel {
 	private Button teilhaberschaften = new Button("Teilhaberschaften verwalten");
 	private Button kontaktlisteBearbeiten = new Button("Kontaktliste bearbeiten");
 	private Button zurStartseite = new Button("Zurueck zur Startseite");
+	private Image listNotShared = new Image();
+	private Image listShared = new Image();
 
 	private KontaktAdministrationAsync kontaktVerwaltung = ClientsideSettings.getKontaktverwaltung();
 	
 	private Kontaktliste kl = null;
 	private Nutzer nutzer = new Nutzer();
-	private Nutzer kontaktlisteErsteller = null;
 	
 	/**
 	 * Konstruktor, der beim Auswaehlen einer Kontaktliste im Baum eingesetzt wird.
@@ -79,6 +79,9 @@ public class KontaktlisteForm extends VerticalPanel {
 		super.onLoad();
 		
 		//checkStatus();
+		listShared.setUrl("Image/contactShared.png");
+		listNotShared.setUrl("Image/contactNotShared.png");
+		
 		//Instantiieren des DataProviders, der die Daten fuer die Liste haelt
 		KontakteDataProvider dataProvider = new KontakteDataProvider();
 		dataProvider.addDataDisplay(kontaktCellList);
@@ -122,6 +125,15 @@ public class KontaktlisteForm extends VerticalPanel {
 		kontaktlisteBearbeiten.addClickHandler(new KontaktlisteBearbeitenClickhandler());
 		zurStartseite.addClickHandler(new ZurueckZurStartseiteClickhandler());
 
+		
+		if (kl.getStatus() == 0) {
+			hpanel.add(listNotShared);
+			
+		}else if(kl.getStatus() == 1) {
+			hpanel.add(listShared);
+			
+		}
+		
 	}
 	
 	public void checkStatus(){

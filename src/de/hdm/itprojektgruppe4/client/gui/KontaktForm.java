@@ -8,9 +8,11 @@ import com.google.gwt.i18n.client.DateTimeFormat;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.DialogBox;
+import com.google.gwt.user.client.ui.FlexTable;
 import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Image;
+import com.google.gwt.user.client.ui.ImageBundle.Resource;
 import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwt.user.client.ui.ScrollPanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
@@ -40,9 +42,15 @@ public class KontaktForm extends VerticalPanel {
 
 	private HorizontalPanel hpanel = new HorizontalPanel();
 
+	private HorizontalPanel hpanel2 = new HorizontalPanel();
+
+	private HorizontalPanel hpanel1 = new HorizontalPanel();
+
+
 	private VerticalPanel vpanel = new VerticalPanel();
 	private VerticalPanel vpanelDetails = new VerticalPanel();
 	private VerticalPanel vpanelDetails1 = new VerticalPanel();
+	private VerticalPanel vpanelBearbeitung = new VerticalPanel();
 	DateTimeFormat fmt = DateTimeFormat.getFormat("dd.MM.yyyy");
 
 	private SingleSelectionModel<EigenschaftAuspraegungWrapper> sm = new SingleSelectionModel<EigenschaftAuspraegungWrapper>();
@@ -62,10 +70,16 @@ public class KontaktForm extends VerticalPanel {
 	private CellTableForm.ColumnStatus status = ctf.new ColumnStatus(image);
 	private CellTableForm.ColumnEigenschaft bezEigenschaft = ctf.new ColumnEigenschaft(bezeigenschaft);
 	private CellTableForm.ColumnAuspraegung wertAuspraegung = ctf.new ColumnAuspraegung(wertauspraegung);
-
+	private Image sharedPic = new Image();
+	private Image notSharedPic = new Image();
+	private FlexTable ifShared = new FlexTable();
+	 
+	
 	public KontaktForm(Kontakt k) {
 		this.k = k;
 		ctf = new CellTableForm(k);
+		
+		
 
 	}
 
@@ -84,6 +98,9 @@ public class KontaktForm extends VerticalPanel {
 
 		final Image kontaktbild = new Image();
 		kontaktbild.setUrl("https://ssl.gstatic.com/s2/contacts/images/NoPicture.gif");
+		sharedPic.setUrl("Image/contactShared.png");
+		notSharedPic.setUrl("Image/contactNotShared.png");
+		
 		RootPanel.get("Buttonbar").clear();
 
 		HTML html1 = new HTML("<h2>" + k.getName() + "</h2>");
@@ -95,18 +112,27 @@ public class KontaktForm extends VerticalPanel {
 		ctf.addColumn(status, "Status");
 		ctf.setSelectionModel(sm);
 
-		hpanel.add(vpanelDetails1);
+
 		scrollPanel.setSize("650px", "300px");
 		scrollPanel.add(ctf);
-		hpanel.add(scrollPanel);
-		vpanelDetails1.add(kontaktbild);
-		vpanelDetails1.add(html1);
-		vpanelDetails1.add(html2);
-		vpanelDetails1.add(html3);
-		vpanelDetails.add(hpanel);
+		
+		vpanelBearbeitung.add(html2);
+		vpanelBearbeitung.add(html3);
+		hpanel1.add(kontaktbild);
+		hpanel1.add(html1);
+		hpanel1.add(vpanelBearbeitung);
 
+		vpanelDetails1.add(hpanel1);
+		hpanel.add(scrollPanel);
+
+		vpanelDetails1.add(kontaktbild);
+		vpanelDetails1.add(hpanel2);	
+
+		vpanelDetails.add(hpanel1);
+				
 		vpanel.add(vpanelDetails1);
 		vpanel.add(vpanelDetails);
+		vpanel.add(hpanel);
 		this.add(vpanel);
 
 		RootPanel.get("Buttonbar").add(bearbeitenButton);
@@ -120,9 +146,20 @@ public class KontaktForm extends VerticalPanel {
 		bearbeitenButton.addClickHandler(new ClickearbeitenHandler());
 		kontaktTeilen.addClickHandler(new ClickTeilenHandler());
 		kontaktListehinzufuegen.addClickHandler(new ClickHinzufuegenHandler());
+		
+		if (k.getStatus() == 0) {
+			hpanel1.add(notSharedPic);
+			
+		}else if(k.getStatus() == 1) {
+			hpanel1.add(sharedPic);
+		
+		}
 
 	}
 
+	
+	
+	
 	class ClickLoeschenHandler implements ClickHandler {
 		@Override
 		public void onClick(ClickEvent event) {
