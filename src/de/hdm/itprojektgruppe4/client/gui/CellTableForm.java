@@ -90,7 +90,7 @@ public class CellTableForm extends CellTable<EigenschaftAuspraegungWrapper> {
 		nutzer.setID(Integer.parseInt(Cookies.getCookie("id")));
 		
 		this.setPageSize(100);
-		this.setSelectionModel(sm);
+
 		this.setStyleName("CellTableHyprid");
 		this.setPageSize(100);
 		model.addDataDisplay(this);
