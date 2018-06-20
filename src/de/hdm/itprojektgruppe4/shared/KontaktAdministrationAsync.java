@@ -77,6 +77,10 @@ public interface KontaktAdministrationAsync {
 
 	void deleteEigenschaft(Eigenschaft e, AsyncCallback<Void> callback);
 
+	void insertEigenschaft(String bez, int status, AsyncCallback<Eigenschaft> callback);
+	
+	void findAllEigenschaft(AsyncCallback<Vector<Eigenschaft>> callback);
+	
 	void insertAuspraegung(String wert, int status, int eigenschaftsID, int kontaktID,
 			AsyncCallback<Eigenschaftauspraegung> callback);
 
@@ -109,11 +113,9 @@ public interface KontaktAdministrationAsync {
 
 	void findKontaktlisteByNutzerID(int nutzerID, AsyncCallback<Vector<Kontaktliste>> callback);
 
-	void insertEigenschaft(String bez, int status, AsyncCallback<Eigenschaft> callback);
 
 	void findAllKontakteFromKontaktliste(int i, AsyncCallback<Vector<Integer>> callback);
 
-	void findAllEigenschaft(AsyncCallback<Vector<Eigenschaft>> callback);
 
 	void findKontaktByNutzerID(int nutzerID, AsyncCallback<List<Kontakt>> callback);
 
@@ -209,7 +211,6 @@ public interface KontaktAdministrationAsync {
 
 	void findAllEigenschaftauspraegung(AsyncCallback<Vector<Eigenschaftauspraegung>> callback);
 
-
 	void insertTeilhaberschaftAusgewaehlteAuspraegungenKontakt(Kontakt kon, Vector<EigenschaftAuspraegungWrapper> eaw,
 			String selectedValue, int id, AsyncCallback<Integer> callback);
 
@@ -223,10 +224,19 @@ public interface KontaktAdministrationAsync {
 	void findGeteilteKontakteFromNutzerAndTeilhaber(int nutzerID, int teilhaberID,
 			AsyncCallback<Vector<Kontakt>> callback);
 
-
 	void findKontakteByEigAus(int NutzerID, String bez, String wert, AsyncCallback<Vector<Kontakt>> callback);
 
 	void updateKontaktlisteStatus(int kontaktlisteID, AsyncCallback<Kontaktliste> callback);
+
+
+	void findKontakeByEig(int NutzerID, String bez, AsyncCallback<Vector<Kontakt>> callback);
+
+	void findKontakteByAus(int NutzerID, String wert, AsyncCallback<Vector<Kontakt>> callback);
+
+	void findNutzerToShareListWith(int kontaktlisteID, int nutzerID, AsyncCallback<Vector<Nutzer>> callback);
+
+	void deleteTeilhaberschaftAnKontaktliste(int teilhaberID, int kontaktlisteID, AsyncCallback<Void> callback);
+
 
 
 	

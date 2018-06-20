@@ -11,6 +11,8 @@ import de.hdm.itprojektgruppe4.shared.bo.Kontakt;
 import de.hdm.itprojektgruppe4.shared.bo.Nutzer;
 import de.hdm.itprojektgruppe4.shared.report.AllEigeneKontakteReport;
 import de.hdm.itprojektgruppe4.shared.report.AllNutzerReport;
+import de.hdm.itprojektgruppe4.shared.report.KontakteMitBestimmtenAuspraegungen;
+import de.hdm.itprojektgruppe4.shared.report.KontakteMitBestimmtenEigenschaften;
 import de.hdm.itprojektgruppe4.shared.report.KontakteMitBestimmtenEigenschaftsAuspraegungen;
 import de.hdm.itprojektgruppe4.shared.report.KontakteMitBestimmtenEigenschaftsAuspraegungenReport;
 import de.hdm.itprojektgruppe4.shared.report.KontakteMitBestimmterTeilhaberschaftReport;
@@ -76,6 +78,16 @@ public interface ReportGeneratorAsync {
 
 	void kontakteMitBestimmtenEigenschaftsAuspraegungen(int NutzerID, String bez, String wert,
 			AsyncCallback<KontakteMitBestimmtenEigenschaftsAuspraegungen> asyncCallback);
+
+
+
+	void kontakteMitBestimmtenAuspraegungen(int NutzerID, String wert,
+			AsyncCallback<KontakteMitBestimmtenAuspraegungen> callback);
+
+
+
+	void kontakteMitBestimmtenEigenschaften(int NutzerID, String bez,
+			AsyncCallback<KontakteMitBestimmtenEigenschaften> callback);
 
 
 

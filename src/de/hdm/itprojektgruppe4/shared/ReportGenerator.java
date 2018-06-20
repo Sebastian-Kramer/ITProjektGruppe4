@@ -42,6 +42,12 @@ public KontakteMitBestimmterTeilhaberschaftReport kontakteMitBestimmterTeilhaber
 	public Vector<Eigenschaftauspraegung> findAllEigenschaftsAuspraegungn () throws IllegalArgumentException;
 
 	KontakteMitBestimmtenEigenschaftsAuspraegungen kontakteMitBestimmtenEigenschaftsAuspraegungen(int NutzerID,
-			String bez, String wert);
+			String bez, String wert) throws IllegalArgumentException;
+	
+	public  KontakteMitBestimmtenAuspraegungen kontakteMitBestimmtenAuspraegungen(int NutzerID ,	String wert)
+			throws IllegalArgumentException;
+	
+	public  KontakteMitBestimmtenEigenschaften kontakteMitBestimmtenEigenschaften(int NutzerID ,	String bez)
+			throws IllegalArgumentException;
 
 }
