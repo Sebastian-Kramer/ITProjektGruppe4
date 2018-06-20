@@ -6,6 +6,7 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.Vector;
 
+import de.hdm.itprojektgruppe4.client.EigenschaftAuspraegungWrapper;
 import de.hdm.itprojektgruppe4.shared.bo.Eigenschaft;
 import de.hdm.itprojektgruppe4.shared.bo.Eigenschaftauspraegung;
 import de.hdm.itprojektgruppe4.shared.bo.Kontakt;
@@ -201,8 +202,8 @@ public void deleteAuspraegung(Eigenschaftauspraegung ea){
  */
 
 //pr�fen
-public Vector<Eigenschaftauspraegung> getAuspraegungByWert(String wert){
-	Vector<Eigenschaftauspraegung> result = new Vector<Eigenschaftauspraegung>();
+public Vector<EigenschaftAuspraegungWrapper> getAuspraegungByWert(String wert){
+	Vector<EigenschaftAuspraegungWrapper> result = new Vector<EigenschaftAuspraegungWrapper>();
 	Connection con = DBConnection.connection();
 
 	try {
@@ -216,12 +217,12 @@ public Vector<Eigenschaftauspraegung> getAuspraegungByWert(String wert){
 	
 			
 	if (rs.next()) {
-		Eigenschaftauspraegung ea = new Eigenschaftauspraegung();
-		ea.setID(rs.getInt("ID"));
-		ea.setWert(rs.getString("wert"));
-		ea.setKontaktID(rs.getInt("kontaktID"));
-		ea.setStatus(rs.getInt("status"));
-		ea.setEigenschaftsID(rs.getInt("eigenschaftID"));
+		EigenschaftAuspraegungWrapper ea = new EigenschaftAuspraegungWrapper();
+		ea.setAuspraegungID(rs.getInt("ID"));
+		ea.setAuspraegungValue(rs.getString("wert"));
+//		ea.setKontaktID(rs.getInt("kontaktID"));
+//		ea.setStatus(rs.getInt("status"));
+		ea.setEigenschaftID(rs.getInt("eigenschaftID"));
 		
 		result.addElement(ea);
 	}

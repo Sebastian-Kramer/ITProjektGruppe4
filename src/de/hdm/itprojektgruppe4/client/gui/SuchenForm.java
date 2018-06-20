@@ -3,7 +3,9 @@ package de.hdm.itprojektgruppe4.client.gui;
 import java.util.List;
 import java.util.Vector;
 
+import com.google.gwt.cell.client.ButtonCell;
 import com.google.gwt.cell.client.ClickableTextCell;
+import com.google.gwt.cell.client.EditTextCell;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.cellview.client.CellTable;
@@ -16,13 +18,19 @@ import com.google.gwt.user.client.ui.DecoratorPanel;
 import com.google.gwt.user.client.ui.FlexTable;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.MultiWordSuggestOracle;
+import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwt.user.client.ui.SuggestBox;
 import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.client.ui.VerticalPanel;
+import com.google.gwt.view.client.SingleSelectionModel;
 
 import de.hdm.itprojektgruppe4.client.ClientsideSettings;
 import de.hdm.itprojektgruppe4.client.EigenschaftAuspraegungWrapper;
+import de.hdm.itprojektgruppe4.client.gui.CellTableForm.ColumnAuspraegung;
+import de.hdm.itprojektgruppe4.client.gui.CellTableForm.ColumnEigenschaft;
 import de.hdm.itprojektgruppe4.shared.KontaktAdministrationAsync;
+import de.hdm.itprojektgruppe4.shared.bo.Eigenschaft;
+import de.hdm.itprojektgruppe4.shared.bo.Eigenschaftauspraegung;
 import de.hdm.itprojektgruppe4.shared.bo.Kontakt;
 import de.hdm.itprojektgruppe4.shared.bo.Nutzer;
 
@@ -31,31 +39,52 @@ public class SuchenForm extends VerticalPanel {
 	
 	private static KontaktAdministrationAsync verwaltung = ClientsideSettings.getKontaktVerwaltung();
 	
-	private Label beschreibung = new Label("Bitte Geben sie den Kontatknamen ein");
+	private Label beschreibungKontakt = new Label("Bitte Geben sie den Kontatknamen ein");
+	private Label beschreibungAuspraegung = new Label("Bitte Geben sie eine Ausprägung ein");
+	
 	private TextBox tboxKontaktname = new TextBox();
 	
-	private Button suchen = new Button("Suchen");
+	private TextBox tboxAuspraegung = new TextBox();
+	
+	private Button KontaktSuchen = new Button("Kontakt suchen");
+	
+	private Button AuspraegungSuchen = new Button("Auspraegung suchen"); 
+	
+	private Button KontaktKontaktAnzeigenButton = new Button("Kontakt anzeigen");
+	
+	private Button AuspraegungKontaktAnzeigenButton = new Button("Kontakt anzeigen");
 	
 	private VerticalPanel vpanel = new VerticalPanel();
 	
-	private FlexTable flextable = new FlexTable();
+	private FlexTable flextableKontakt = new FlexTable();
 	
-	private DecoratorPanel suchenPanel = new DecoratorPanel();
+	private FlexTable flextableAuspraegung = new FlexTable();
+	
+	private DecoratorPanel KontaktSuchenPanel = new DecoratorPanel();
+	
+	private DecoratorPanel AuspraegungSuchenPanel = new DecoratorPanel();
 	
 	private VerticalPanel vpanel1 = new VerticalPanel();
 	
-	private MultiWordSuggestOracle  nameoracle = new MultiWordSuggestOracle();
+	private VerticalPanel vpanel2 = new VerticalPanel();
 	
-	private SuggestBox suggestionBox = new SuggestBox(nameoracle);
+	private VerticalPanel vpanel3 = new VerticalPanel();
 	
-	private CellTable<Kontakt> ctfKontakt = new CellTable<Kontakt>();
+	private MultiWordSuggestOracle  KontaktOracle = new MultiWordSuggestOracle();
 	
-	private Vector<Kontakt> gefundene = new Vector<Kontakt>();
-
-	private Kontakt k = new Kontakt();
+	private SuggestBox suggestionKontaktBox = new SuggestBox(KontaktOracle);
 	
-	private CellTable<Kontakt> ct = new CellTable<Kontakt>();
-
+	private MultiWordSuggestOracle  AuspraegungOracle = new MultiWordSuggestOracle();
+	final SingleSelectionModel<Kontakt> sm = new SingleSelectionModel<Kontakt>();
+	final SingleSelectionModel<EigenschaftAuspraegungWrapper> ssm = new SingleSelectionModel<EigenschaftAuspraegungWrapper>();
+	private CellTable<Kontakt> ctkontakt = new CellTable<Kontakt>();
+	
+	private CellTableForm ctAus = null;
+	private ClickableTextCell bezeigenschaft = new ClickableTextCell();
+	private ClickableTextCell wertauspraegung = new ClickableTextCell();
+	private CellTableForm.ColumnEigenschaft bezEigenschaft = ctAus.new ColumnEigenschaft(bezeigenschaft);
+	private CellTableForm.ColumnAuspraegung wertAuspraegung = ctAus.new ColumnAuspraegung(wertauspraegung);
+			 
 	public SuchenForm(){
 	}
 	
@@ -77,32 +106,92 @@ public class SuchenForm extends VerticalPanel {
 			}
 		};
 		
-		ct.addColumn(kontaktname, "Gefundene Kontakte");
 		
-		flextable.setWidget(0, 0, beschreibung);
-		flextable.setWidget(0, 1, suggestionBox);
-		flextable.setWidget(0, 2, suchen);
-		suchenPanel.add(flextable);
+		ctAus = new CellTableForm();
+		ctkontakt.addColumn(kontaktname, "Gefundene Kontakte");
+		ctkontakt.setSelectionModel(sm);
+		ctkontakt.setVisible(false);
+		ctAus.setVisible(false);
+		KontaktKontaktAnzeigenButton.setVisible(false);
+		AuspraegungKontaktAnzeigenButton.setVisible(false);
 		
-		vpanel1.add(ct);
-		suchenPanel.setStyleName("DialogboxBackground");
-		suggestionBox.setStyleName("DialogboxBackground");
+		flextableKontakt.setWidget(0, 0, beschreibungKontakt);
+		flextableKontakt.setWidget(0, 1, suggestionKontaktBox);
+		flextableKontakt.setWidget(0, 2, KontaktSuchen);
+		KontaktSuchenPanel.add(flextableKontakt);
 		
+		flextableAuspraegung.setWidget(0, 0, beschreibungAuspraegung);
+		flextableAuspraegung.setWidget(0, 1, tboxAuspraegung);
+		flextableAuspraegung.setWidget(0, 2, AuspraegungSuchen);
+		AuspraegungSuchenPanel.add(flextableAuspraegung);
+		
+		
+		KontaktSuchenPanel.setStyleName("DialogboxBackground");
+		suggestionKontaktBox.setStyleName("DialogboxBackground");
+		AuspraegungSuchenPanel.setStyleName("DialogboxBackground");
+		tboxAuspraegung.setStyleName("DialogboxBackground");
 
 		
+//		Problem ist:
+//		CellTableForm kann mann nicht erstellen ohne einen Kontakt?
+//		CellTable kann ich nicht Column Eigenschaft hinzufügen
 		
+		ctAus.setSelectionModel(ssm);
 		
-		this.add(suchenPanel);
-	
-		suchen.addClickHandler(new SuchenButton());
+		ctAus.addColumn(bezEigenschaft, "Eig");
+		ctAus.addColumn(wertAuspraegung, "Aus");
+		vpanel2.add(ctAus);
+		vpanel1.add(ctkontakt);
+		vpanel3.add(KontaktKontaktAnzeigenButton);
+		vpanel3.add(AuspraegungKontaktAnzeigenButton);
+		this.add(KontaktSuchenPanel);
+		this.add(AuspraegungSuchenPanel);
+		
+		KontaktSuchen.addClickHandler(new KontaktSuchenButton());
+		AuspraegungSuchen.addClickHandler(new AuspraegungSuchenButton());
 		verwaltung.findAllKontaktFromNutzer(nutzer.getID(), new  AllKontakteCallBack());
 	
 		this.add(vpanel1);
+		this.add(vpanel2);
+		this.add(vpanel3);
 		
+		
+		KontaktKontaktAnzeigenButton.addClickHandler(new KontaktKontaktAnzeigenHandler());
+		AuspraegungKontaktAnzeigenButton.addClickHandler(new AuspraegungKontaktAnzeigenHandler());
 		
 	}
 	
-	class SuchenButton implements ClickHandler{
+	class AuspraegungKontaktAnzeigenHandler implements ClickHandler{
+
+		@Override
+		public void onClick(ClickEvent event) {
+			// TODO Auto-generated method stub
+//			Window.alert("hi");
+			
+			EigenschaftAuspraegungWrapper eigaus = new EigenschaftAuspraegungWrapper();
+			eigaus.setAuspraegungID(ssm.getSelectedObject().getAuspraegungID());
+//			Window.alert("funkt");
+//			Window.alert("1.     " + ctAus.getSm().getSelectedObject().getAuspraegungID());
+			verwaltung.findKontaktByAuspraegungID(eigaus.getAuspraegungID(), new AuspraegungKontaktAnzeigenCallback());
+		}
+		
+	}
+	
+	class KontaktKontaktAnzeigenHandler implements ClickHandler{
+
+		@Override
+		public void onClick(ClickEvent event) {
+			// TODO Auto-generated method stub
+			Kontakt selected = sm.getSelectedObject();
+			KontaktForm kf = new KontaktForm(selected);
+			RootPanel.get("Details").clear();
+			RootPanel.get("Details").add(kf);
+		}
+		
+	}
+	
+	
+	class KontaktSuchenButton implements ClickHandler{
 
 		@Override
 		public void onClick(ClickEvent event) {
@@ -116,13 +205,13 @@ public class SuchenForm extends VerticalPanel {
 			k.setName(tboxKontaktname.getValue());
 			k.setNutzerID(nutzer.getID());
 			
-			
-			
-			
-			k.setName(suggestionBox.getValue());
+			k.setName(suggestionKontaktBox.getValue());
 			k.setNutzerID(nutzer.getID());
 			
-			Window.alert("FLAH" + k.getName() + k.getID() + k.getNutzerID());
+			AuspraegungKontaktAnzeigenButton.setVisible(false);
+			KontaktKontaktAnzeigenButton.setVisible(true);
+			
+		
 			
 			verwaltung.findKontaktByNameAndNutzerID(k, new AsyncCallback<Vector<Kontakt>>() {
 
@@ -135,52 +224,100 @@ public class SuchenForm extends VerticalPanel {
 				@Override
 				public void onSuccess(Vector<Kontakt> result) {
 					// TODO Auto-generated method stub
-					Window.alert(result.toString());
-					ct.setRowData(0, result);
-					ct.setRowCount(result.size(), true);
+					ctkontakt.setRowData(0, result);
+					ctkontakt.setRowCount(result.size(), true);
+					ctAus.setVisible(false);
+					ctkontakt.setVisible(true);
 //					gefundene = result;
 					
 					
-					
-					
+				
 				}
 			});
+		}
+		}
+	
+	class AuspraegungSuchenButton implements ClickHandler{
 
+		@Override
+		public void onClick(ClickEvent event) {
+			// TODO Auto-generated method stub
+			Nutzer nutzer = new Nutzer();
+			nutzer.setID(Integer.parseInt(Cookies.getCookie("id")));
+			nutzer.setEmail(Cookies.getCookie("mail"));
 			
-
+			EigenschaftAuspraegungWrapper eigaus = new EigenschaftAuspraegungWrapper();
+			
+			eigaus.setAuspraegungValue(tboxAuspraegung.getValue());
+			KontaktKontaktAnzeigenButton.setVisible(false);
+			AuspraegungKontaktAnzeigenButton.setVisible(true);
+			verwaltung.getAuspraegungByWert(tboxAuspraegung.getValue(), new FindAuspraegungCallback());
+			
+		}
 		
+	}
+	
+	
+	
+	class AuspraegungKontaktAnzeigenCallback implements AsyncCallback<Kontakt>{
+
+		@Override
+		public void onFailure(Throwable caught) {
+			// TODO Auto-generated method stub
 			
+		}
+
+		@Override
+		public void onSuccess(Kontakt result) {
+			// TODO Auto-generated method stub
 			
+			KontaktForm kf = new KontaktForm(result);
+			RootPanel.get("Details").clear();
+			RootPanel.get("Details").add(kf);
+		}
+		
+	}
+	
+	class FindAuspraegungCallback implements AsyncCallback<Vector<EigenschaftAuspraegungWrapper>>{
+
+		@Override
+		public void onFailure(Throwable caught) {
+			// TODO Auto-generated method stub
+			
+		}
+			
+		@Override
+		public void onSuccess(Vector<EigenschaftAuspraegungWrapper> result) {
+			// TODO Auto-generated method stub
+			ctAus.setRowData(0, result);
+			ctAus.setRowCount(result.size(), true);
+			ctkontakt.setVisible(false);
+			ctAus.setVisible(true);
 			
 			
 			
 		}
 		
-		
-		
-		
-		
-		
-		
 	}
+	
 
 	class AllKontakteCallBack implements AsyncCallback<Vector<Kontakt>> {
 
 		@Override
 		public void onFailure(Throwable caught) {
 			// TODO Auto-generated method stub
-			Window.alert("SUCCES");
+			
 		}
 
 		@Override
 		public void onSuccess(Vector<Kontakt> result) {
 			// TODO Auto-generated method stub
-			Window.alert("SUCCES");
+			
 			Kontakt k = new Kontakt();
 			
 			for (Kontakt kontakt : result) {
 				
-				nameoracle.add(kontakt.getName());
+				KontaktOracle.add(kontakt.getName());
 			}
 			
 			

@@ -1840,6 +1840,15 @@ public class KontaktAdministrationImpl extends RemoteServiceServlet implements K
 		return this.konMapper.findKontaktByNameUndNutzerID(kontakt);
 
 	}
+	
+	public Kontakt findKontaktByAuspraegungID(int id) throws IllegalArgumentException{
+		
+		
+		Eigenschaftauspraegung eigaus = getAuspraegungByID(id);
+		Kontakt k = findKontaktByID(eigaus.getKontaktID());
+		
+		return k;
+	}
 
 	@Override
 	public Eigenschaft findEigByBezeichnung(String bez) throws IllegalArgumentException {
@@ -1848,9 +1857,18 @@ public class KontaktAdministrationImpl extends RemoteServiceServlet implements K
 	}
 
 	@Override
-	public Vector<Eigenschaftauspraegung> getAuspraegungByWert(String wert) throws IllegalArgumentException {
+	public Vector<EigenschaftAuspraegungWrapper> getAuspraegungByWert(String wert) throws IllegalArgumentException {
 		// TODO Auto-generated method stub
-		return this.eigenschaftauspraegungMapper.getAuspraegungByWert(wert);
+		Vector<EigenschaftAuspraegungWrapper> liste = eigenschaftauspraegungMapper.getAuspraegungByWert(wert);
+		
+		for (EigenschaftAuspraegungWrapper eigaus : liste){
+//			eigaus.setEigenschaftID(eigaus.getEigenschaftID());
+			eigaus.setEigenschaftValue(getEigenschaftByID(eigaus.getEigenschaftID()).getBezeichnung());
+			
+		}
+		
+		
+		return liste;
 	}
 
 	@Override

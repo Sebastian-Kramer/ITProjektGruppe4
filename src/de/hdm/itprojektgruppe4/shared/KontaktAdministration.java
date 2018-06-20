@@ -85,7 +85,19 @@ public interface KontaktAdministration extends RemoteService {
 	 * @throws IllegalArgumentException
 	 */
 	public Kontakt findKontaktByName(String name) throws IllegalArgumentException;
-
+	
+	
+	/**
+	 * Einen Kontakt anhand seiner KontaktID in der Auspraegung anzeigen lassen.
+	 * 
+	 * @param id,
+	 *            
+	 * @return Kontakt-Objekt mit der übergebenen kontaktID
+	 * @thro
+	 * */
+	public Kontakt findKontaktByAuspraegungID(int id) throws IllegalArgumentException;
+	
+	
 	/**
 	 * Alle Kontakte auslesen und in einem Vector ausgeben lassen.
 	 * 
@@ -337,7 +349,7 @@ public interface KontaktAdministration extends RemoteService {
 	 * @return Eigenschafts-Objekt mit gesuchtem Wert
 	 * @throws IllegalArgumentException
 	 */
-	public Vector<Eigenschaftauspraegung> getAuspraegungByWert(String wert) throws IllegalArgumentException;
+	public Vector<EigenschaftAuspraegungWrapper> getAuspraegungByWert(String wert) throws IllegalArgumentException;
 
 	/**
 	 * Eine Eigenschaftsauspraegung anhand der ID auslesen.
@@ -737,5 +749,7 @@ public interface KontaktAdministration extends RemoteService {
 	 * @throws IllegalArgumentException
 	 */
 	public Kontaktliste updateKontaktlisteStatus (int kontaktlisteID) throws IllegalArgumentException;
+
+	
 
 }

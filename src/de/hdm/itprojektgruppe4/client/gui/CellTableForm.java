@@ -25,6 +25,7 @@ import de.hdm.itprojektgruppe4.client.ClientsideSettings;
 import de.hdm.itprojektgruppe4.client.EigenschaftAuspraegungWrapper;
 
 import de.hdm.itprojektgruppe4.shared.KontaktAdministrationAsync;
+import de.hdm.itprojektgruppe4.shared.bo.Eigenschaftauspraegung;
 import de.hdm.itprojektgruppe4.shared.bo.Kontakt;
 import de.hdm.itprojektgruppe4.shared.bo.Nutzer;
 
@@ -49,6 +50,10 @@ public class CellTableForm extends CellTable<EigenschaftAuspraegungWrapper> {
 
 	public SingleSelectionModel<EigenschaftAuspraegungWrapper> getSm() {
 		return sm;
+	}
+
+	public CellTableForm() {
+		super();
 	}
 
 	public CellTableForm(Kontakt k, String teilhaberschaft) {
@@ -355,5 +360,10 @@ public class CellTableForm extends CellTable<EigenschaftAuspraegungWrapper> {
 		return addDomHandler(keyDownHandler, KeyDownEvent.getType());
 
 	}
+
+	
+	
+	
+	
 
 }
