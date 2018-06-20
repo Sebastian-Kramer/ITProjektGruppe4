@@ -107,11 +107,18 @@ public class MainForm extends VerticalPanel {
 
 		@Override
 		public void onSelectionChange(SelectionChangeEvent event) {
+
 			Kontakt selected = selectionModel.getSelectedObject();
-			Window.alert("Sie haben folgenden Kontakt ausgewählt: " + selected.getName());
-			KontaktForm kf = new KontaktForm(selected);
-			RootPanel.get("Details").clear();
-			RootPanel.get("Details").add(kf);
+
+			if (selected.getNutzerID() == nutzer.getID()) {
+				KontaktForm kf = new KontaktForm(selected);
+				RootPanel.get("Details").clear();
+				RootPanel.get("Details").add(kf);
+			} else {
+				KontaktForm kf2 = new KontaktForm(selected, "Teilhaberschaft");
+				RootPanel.get("Details").clear();
+				RootPanel.get("Details").add(kf2);
+			}
 			
 		}
 		
@@ -165,7 +172,6 @@ public class MainForm extends VerticalPanel {
 
 		@Override
 		public void onFailure(Throwable caught) {
-			// TODO Auto-generated method stub
 			
 		}
 

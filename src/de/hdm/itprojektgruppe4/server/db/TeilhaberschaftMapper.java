@@ -141,7 +141,7 @@ public class TeilhaberschaftMapper {
 
 		return result;
 	}
-	
+
 	/**
 	 * 
 	 * @param kontaktID
@@ -178,7 +178,7 @@ public class TeilhaberschaftMapper {
 
 		return result;
 	}
-	
+
 	public Vector<Teilhaberschaft> findTeilhaberschaftByTeilhaberIDAndNutzerID(int teilhaberID, int nutzerID) {
 
 		Vector<Teilhaberschaft> result = new Vector<Teilhaberschaft>();
@@ -209,7 +209,6 @@ public class TeilhaberschaftMapper {
 
 		return result;
 	}
-
 
 	/**
 	 * Auslesen eines Teilhaberschaft-Objekts aus der Datenbank anhand der
@@ -256,6 +255,47 @@ public class TeilhaberschaftMapper {
 	}
 
 	/**
+	 * 
+	 * @param kontaktID
+	 * @param kontaktlisteID
+	 * @return
+	 */
+	public Teilhaberschaft findByTeilhaberschaftByKontaktlistIDAndTeilhaberID(int kontaktlisteID, int teilhaberID) {
+
+		Teilhaberschaft th = new Teilhaberschaft();
+		
+		Connection con = DBConnection.connection();
+
+		try {
+
+			Statement stmt = con.createStatement();
+
+			ResultSet rs = stmt.executeQuery(
+
+					"SELECT * FROM `teilhaberschaft` " + "WHERE kontaktlisteID=" + kontaktlisteID + " " + "AND teilhaberID ="
+							+ teilhaberID);
+
+			if (rs.next()) {
+				th.setID(rs.getInt("ID"));
+				th.setKontaktListeID(rs.getInt("kontaktlisteID"));
+				th.setKontaktID(rs.getInt("kontaktID"));
+				th.setEigenschaftsauspraegungID(rs.getInt("eigenschaftsauspraegungID"));
+				th.setTeilhaberID(rs.getInt("teilhaberID"));
+				th.setNutzerID(rs.getInt("nutzerID"));
+
+				return th;
+			}
+		} catch (SQLException e) {
+
+			e.printStackTrace();
+
+			return null;
+		}
+
+		return th;
+	}
+
+	/**
 	 * Auslesen eines Teilhaberschaft-Objekts aus der Datenbank anhand der
 	 * nutzerID und der kontaktlisteID
 	 * 
@@ -299,14 +339,15 @@ public class TeilhaberschaftMapper {
 
 		return null;
 	}
-	
+
 	/**
 	 * 
 	 * @param nutzerID
 	 * @param kontaktlisteID
 	 * @return
 	 */
-	public Vector<Teilhaberschaft> findTeilhaberschaftByAuspraegungIDAndTeilhaberID(int auspraegungID, int teilhaberID) {
+	public Vector<Teilhaberschaft> findTeilhaberschaftByAuspraegungIDAndTeilhaberID(int auspraegungID,
+			int teilhaberID) {
 
 		Vector<Teilhaberschaft> result = new Vector<Teilhaberschaft>();
 
@@ -317,7 +358,8 @@ public class TeilhaberschaftMapper {
 
 			ResultSet rs = stmt.executeQuery(
 					"SELECT `ID`, `kontaktlisteID`, `kontaktID`, `eigenschaftsauspraegungID`, `teilhaberID`, `nutzerID`   FROM teilhaberschaft "
-							+ "WHERE eigenschaftsauspraegungID = " + auspraegungID + " " + "AND teilhaberID = " + teilhaberID);
+							+ "WHERE eigenschaftsauspraegungID = " + auspraegungID + " " + "AND teilhaberID = "
+							+ teilhaberID);
 
 			while (rs.next()) {
 				Teilhaberschaft th = new Teilhaberschaft();
@@ -336,8 +378,6 @@ public class TeilhaberschaftMapper {
 
 		return result;
 	}
-
-
 
 	/**
 	 * Auslesen saemtlicher Teilhaberschaft-Objekte mit den uebergebenen
@@ -395,7 +435,7 @@ public class TeilhaberschaftMapper {
 
 		}
 	}
-	
+
 	/**
 	 * 
 	 * @param kontaktID
@@ -408,14 +448,15 @@ public class TeilhaberschaftMapper {
 
 			Statement stmt = con.createStatement();
 
-			stmt.executeUpdate("DELETE FROM teilhaberschaft " + "WHERE kontaktID = " + kontaktID + " AND teilhaberID = " + teilNutzerID);
+			stmt.executeUpdate("DELETE FROM teilhaberschaft " + "WHERE kontaktID = " + kontaktID + " AND teilhaberID = "
+					+ teilNutzerID);
 
 		} catch (SQLException e) {
 			e.printStackTrace();
 
 		}
 	}
-	
+
 	/**
 	 * 
 	 * @param kontaktID
@@ -428,7 +469,8 @@ public class TeilhaberschaftMapper {
 
 			Statement stmt = con.createStatement();
 
-			stmt.executeUpdate("DELETE FROM teilhaberschaft " + "WHERE kontaktID = " + kontaktID + " AND teilhaberID = " + teilNutzerID);
+			stmt.executeUpdate("DELETE FROM teilhaberschaft " + "WHERE kontaktID = " + kontaktID + " AND teilhaberID = "
+					+ teilNutzerID);
 
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -633,9 +675,8 @@ public class TeilhaberschaftMapper {
 				stmt.executeUpdate(
 
 						" INSERT INTO `teilhaberschaft` (`ID`, `kontaktlisteID`, `kontaktID`, `eigenschaftsauspraegungID`, `teilhaberID`, `nutzerID`) "
-								+ " VALUES (" + t.getID() + ",NULL," + t.getKontaktID() + " ,"
-								+ " NULL " + " ," + t.getTeilhaberID() + " ," + t.getNutzerID()
-								+ ")");
+								+ " VALUES (" + t.getID() + ",NULL," + t.getKontaktID() + " ," + " NULL " + " ,"
+								+ t.getTeilhaberID() + " ," + t.getNutzerID() + ")");
 			}
 		} catch (SQLException e2) {
 			e2.printStackTrace();
@@ -643,7 +684,7 @@ public class TeilhaberschaftMapper {
 
 		return t;
 	}
-	
+
 	/**
 	 * 
 	 * @param t
@@ -820,8 +861,8 @@ public class TeilhaberschaftMapper {
 
 			Statement stmt = con.createStatement();
 
-			stmt.executeUpdate("DELETE FROM `teilhaberschaft` WHERE `eigenschaftsauspraegungID`="
-					+ ea.getID() + " " + "AND `teilhaberID` =" + n.getID());
+			stmt.executeUpdate("DELETE FROM `teilhaberschaft` WHERE `eigenschaftsauspraegungID`=" + ea.getID() + " "
+					+ "AND `teilhaberID` =" + n.getID());
 
 		} catch (SQLException e2) {
 
@@ -857,35 +898,33 @@ public class TeilhaberschaftMapper {
 			e2.printStackTrace();
 
 		}
-		
-		
 
 	}
 
-	public Vector<Teilhaberschaft> findGeteilteKontakteFromNutzerAndTeilhaber(int teilhaberID, int nutzerID){
+	public Vector<Teilhaberschaft> findGeteilteKontakteFromNutzerAndTeilhaber(int teilhaberID, int nutzerID) {
 		Vector<Teilhaberschaft> result = new Vector<Teilhaberschaft>();
 
 		Connection con = DBConnection.connection();
-		 
-		try{
+
+		try {
 			Statement stmt = con.createStatement();
-		ResultSet rs = stmt.executeQuery("SELECT `ID`, `kontaktlisteID`, `kontaktID`, `eigenschaftsauspraegungID`, `teilhaberID`, `nutzerID`   FROM teilhaberschaft "
-				+ "WHERE nutzerID = " + nutzerID + " AND teilhaberID = " + teilhaberID + " AND kontaktID IS NOT NULL");
-				
+			ResultSet rs = stmt.executeQuery(
+					"SELECT `ID`, `kontaktlisteID`, `kontaktID`, `eigenschaftsauspraegungID`, `teilhaberID`, `nutzerID`   FROM teilhaberschaft "
+							+ "WHERE nutzerID = " + nutzerID + " AND teilhaberID = " + teilhaberID
+							+ " AND kontaktID IS NOT NULL");
 
-		
-		while (rs.next()){
-			Teilhaberschaft t = new Teilhaberschaft();
-			t.setID(rs.getInt("ID"));
-			t.setKontaktListeID(rs.getInt("kontaktlisteID"));;
-			t.setKontaktID(rs.getInt("kontaktID"));
-			t.setTeilhaberID(rs.getInt("teilhaberID"));
-			t.setNutzerID(rs.getInt("nutzerID"));
+			while (rs.next()) {
+				Teilhaberschaft t = new Teilhaberschaft();
+				t.setID(rs.getInt("ID"));
+				t.setKontaktListeID(rs.getInt("kontaktlisteID"));
+				;
+				t.setKontaktID(rs.getInt("kontaktID"));
+				t.setTeilhaberID(rs.getInt("teilhaberID"));
+				t.setNutzerID(rs.getInt("nutzerID"));
 
-			result.addElement(t);		
-				}
+				result.addElement(t);
 			}
-		catch(SQLException e2){
+		} catch (SQLException e2) {
 			e2.printStackTrace();
 			return null;
 		}

@@ -28,10 +28,12 @@ import de.hdm.itprojektgruppe4.shared.KontaktAdministrationAsync;
 import de.hdm.itprojektgruppe4.shared.bo.Eigenschaftauspraegung;
 import de.hdm.itprojektgruppe4.shared.bo.Kontakt;
 import de.hdm.itprojektgruppe4.shared.bo.Nutzer;
+import de.hdm.itprojektgruppe4.shared.bo.Teilhaberschaft;
 
 public class CellTableForm extends CellTable<EigenschaftAuspraegungWrapper> {
 
 	private Kontakt kontakt = new Kontakt();
+	private Teilhaberschaft t = new Teilhaberschaft();
 	private ImageCell imageCell = new ImageCell();
 
 	private List<EigenschaftAuspraegungWrapper> eList = new ArrayList<>();
@@ -47,6 +49,7 @@ public class CellTableForm extends CellTable<EigenschaftAuspraegungWrapper> {
 
 	private SingleSelectionModel<EigenschaftAuspraegungWrapper> sm = new SingleSelectionModel<EigenschaftAuspraegungWrapper>();
 	final MultiSelectionModel<EigenschaftAuspraegungWrapper> selectionModelWrapper = new MultiSelectionModel<EigenschaftAuspraegungWrapper>();
+	final MultiSelectionModel<Kontakt> selectionModelKontakt = new MultiSelectionModel<Kontakt>();
 
 	public SingleSelectionModel<EigenschaftAuspraegungWrapper> getSm() {
 		return sm;
@@ -55,32 +58,64 @@ public class CellTableForm extends CellTable<EigenschaftAuspraegungWrapper> {
 	public CellTableForm() {
 		super();
 	}
+	
+	public CellTableForm(Kontakt k) {
+
+		this.kontakt = k;
+		verwaltung.findHybrid(k, new AllAuspraegungToEigenschaftCallback());
+		
+	}
+
+	
+	public CellTableForm(Kontakt k, Teilhaberschaft t){
+		this.kontakt = k;
+		this.t = t;
+		
+		
+	}
 
 	public CellTableForm(Kontakt k, String teilhaberschaft) {
 
-		this.kontakt = k;
+		this.kontakt = k;	
+		verwaltung.findSharedAuspraegung(kontakt.getID(), new AllSharedAuspraegungen());
+	
+		
+	}
+	
+	public void onLoad() {
+
+		super.onLoad();
+		
 		Nutzer nutzer = new Nutzer();
 		nutzer.setID(Integer.parseInt(Cookies.getCookie("id")));
-		verwaltung.findSharedAuspraegung(nutzer.getID(), kontakt.getID(),
-				new AsyncCallback<Vector<EigenschaftAuspraegungWrapper>>() {
-
-					@Override
-					public void onFailure(Throwable caught) {
-
-					}
-
-					@Override
-					public void onSuccess(Vector<EigenschaftAuspraegungWrapper> result) {
-
-						eList.addAll(result);
-						setRowData(0, eList);
-						setRowCount(eList.size(), true);
-					}
-				});
+		
 		this.setPageSize(100);
-		run();
+		this.setSelectionModel(sm);
+		this.setStyleName("CellTableHyprid");
+		this.setPageSize(100);
+		model.addDataDisplay(this);
+
 	}
 
+	
+	class AllSharedAuspraegungen implements AsyncCallback<Vector<EigenschaftAuspraegungWrapper>>{
+
+		@Override
+		public void onFailure(Throwable caught) {
+			
+			
+		}
+
+		@Override
+		public void onSuccess(Vector<EigenschaftAuspraegungWrapper> result) {
+			eList.addAll(result);
+			setRowData(0, eList);
+			setRowCount(eList.size(), true);
+			
+		}
+		
+	}
+	
 	Column<EigenschaftAuspraegungWrapper, String> bezEigenschaft = new Column<EigenschaftAuspraegungWrapper, String>(
 
 			new ClickableTextCell()) {
@@ -109,7 +144,7 @@ public class CellTableForm extends CellTable<EigenschaftAuspraegungWrapper> {
 
 			if (object.getAuspraegungStatus() == 0) {
 
-				return object.getImageUrlContact(object);
+				return "";
 			} else {
 				return object.getImageUrl2Contacts(object);
 			}
@@ -179,69 +214,9 @@ public class CellTableForm extends CellTable<EigenschaftAuspraegungWrapper> {
 		this.deleteBtn = deleteBtn;
 	}
 
-	public CellTableForm(Kontakt k) {
 
-		//
-		// this.setSelectionModel(sm);
-		//
-		// this.setStyleName("CellTableHyprid");
 
-		this.setSelectionModel(sm);
-
-		// Column<EigenschaftAuspraegungHybrid, String> bezEigenschaft = new
-		// Column<EigenschaftAuspraegungHybrid, String>(
-		// new ClickableTextCell()) {
-		//
-		// @Override
-		// public String getValue(EigenschaftAuspraegungHybrid object) {
-		//
-		// return object.getEigenschaft();
-		// }
-		// };
-		// bezEigenschaft.setCellStyleNames("bezEigenschaft");
-		// this.addColumn(bezEigenschaft, "Eigenschaft");
-		//
-		// wertAuspraegung = new Column<EigenschaftAuspraegungHybrid,
-		// String>(new EditTextCell()) {
-		//
-		// @Override
-		// public String getValue(EigenschaftAuspraegungHybrid object) {
-		//
-		// return object.getAuspraegung();
-		// }
-		//
-		// };
-		//
-		// this.addColumn(wertAuspraegung, "Auspraegung");
-		//
-		// // ListDataProvider<EigenschaftAuspraegungHybrid> model = new
-		// // ListDataProvider<EigenschaftAuspraegungHybrid>();
-		// // model.addDataDisplay(this);
-		// bezEigenschaft.setCellStyleNames("add-scrollbar");
-		// bezEigenschaft.setSortable(true);
-		// this.setHeight("300px");
-		// this.setRowCount(getUserList().size());
-		// model.addDataDisplay(this);
-
-		this.setStyleName("CellTableHyprid");
-
-		status.setCellStyleNames("ImageCell");
-
-		verwaltung.findHybrid(k, new AllAuspraegungToEigenschaftCallback());
-
-		this.kontakt = k;
-		run();
-	}
-
-	public void run() {
-
-		this.setSelectionModel(sm);
-		this.setStyleName("CellTableHyprid");
-		this.setPageSize(100);
-		model.addDataDisplay(this);
-
-	}
-
+	
 	public void addRow(String a, String b) {
 		EigenschaftAuspraegungWrapper wrapper = new EigenschaftAuspraegungWrapper();
 
@@ -259,17 +234,15 @@ public class CellTableForm extends CellTable<EigenschaftAuspraegungWrapper> {
 		model.refresh();
 		this.redraw();
 	}
-
+	
 	class ColumnAuspraegung extends Column<EigenschaftAuspraegungWrapper, String> {
 
 		public ColumnAuspraegung(Cell<String> cell) {
 			super(cell);
-			// TODO Auto-generated constructor stub
 		}
 
 		@Override
 		public String getValue(EigenschaftAuspraegungWrapper object) {
-			// TODO Auto-generated method stub
 			return object.getAuspraegungValue();
 		}
 
@@ -324,15 +297,15 @@ public class CellTableForm extends CellTable<EigenschaftAuspraegungWrapper> {
 
 		public ColumnStatus(Cell<String> cell) {
 			super(cell);
-			// TODO Auto-generated constructor stub
+			
 		}
 
 		@Override
 		public String getValue(EigenschaftAuspraegungWrapper object) {
-			// TODO Auto-generated method stub
+
 			if (object.getAuspraegungStatus() == 0) {
 
-				return object.getImageUrlContact(object);
+				return " ";
 			} else {
 				return object.getImageUrl2Contacts(object);
 			}

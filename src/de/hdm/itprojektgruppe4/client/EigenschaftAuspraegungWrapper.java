@@ -96,13 +96,9 @@ public class EigenschaftAuspraegungWrapper implements Serializable {
 	public int getAuspraegungKontaktID(){
 		return this.auspraegung.getKontaktID();
 	}
-
-	public String getImageUrlContact(EigenschaftAuspraegungWrapper object) {
-		return "Image/contact.png";
-	}
 	
 	public String getImageUrl2Contacts(EigenschaftAuspraegungWrapper object) {
-		return "Image/contacts.png";
+		return "Image/contactShared.png";
 	}
 	
 

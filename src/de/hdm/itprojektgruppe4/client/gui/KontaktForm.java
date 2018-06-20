@@ -1,18 +1,16 @@
 package de.hdm.itprojektgruppe4.client.gui;
 
 import com.google.gwt.cell.client.ClickableTextCell;
-import com.google.gwt.cell.client.ImageCell;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.i18n.client.DateTimeFormat;
+import com.google.gwt.user.client.Cookies;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.DialogBox;
-import com.google.gwt.user.client.ui.FlexTable;
 import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Image;
-import com.google.gwt.user.client.ui.ImageBundle.Resource;
 import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwt.user.client.ui.ScrollPanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
@@ -34,18 +32,14 @@ public class KontaktForm extends VerticalPanel {
 
 	KontaktAdministrationAsync verwaltung = ClientsideSettings.getKontaktVerwaltung();
 
-	Kontakt k = new Kontakt();
-	Kontakt kon = null;
-	Kontaktliste kl = new Kontaktliste();
+	private Kontakt k = new Kontakt();
+	private Nutzer nutzer = new Nutzer();
 
 	KontaktlisteKontaktTreeViewModel kktvw = null;
 
 	private HorizontalPanel hpanel = new HorizontalPanel();
 
-	private HorizontalPanel hpanel2 = new HorizontalPanel();
-
 	private HorizontalPanel hpanel1 = new HorizontalPanel();
-
 
 	private VerticalPanel vpanel = new VerticalPanel();
 	private VerticalPanel vpanelDetails = new VerticalPanel();
@@ -61,47 +55,37 @@ public class KontaktForm extends VerticalPanel {
 	private Button loeschenButton = new Button("Kontakt löschen");
 	private Button zurueckBtn = new Button("Zurück");
 	private Button kontaktListehinzufuegen = new Button("Kontakt einer Liste hinzufügen");
-	private Button kontaktTeilen = new Button("Teilhaberschaft verwalten");
+	private Button kontaktTeilen = new Button("Kontakt teilen");
 
 	private CellTableForm ctf = null;
-	private ImageCell image = new ImageCell();
 	private ClickableTextCell bezeigenschaft = new ClickableTextCell();
 	private ClickableTextCell wertauspraegung = new ClickableTextCell();
-	private CellTableForm.ColumnStatus status = ctf.new ColumnStatus(image);
 	private CellTableForm.ColumnEigenschaft bezEigenschaft = ctf.new ColumnEigenschaft(bezeigenschaft);
 	private CellTableForm.ColumnAuspraegung wertAuspraegung = ctf.new ColumnAuspraegung(wertauspraegung);
 	private Image sharedPic = new Image();
-	private Image notSharedPic = new Image();
-	private FlexTable ifShared = new FlexTable();
-	 
-	
+
 	public KontaktForm(Kontakt k) {
 		this.k = k;
 		ctf = new CellTableForm(k);
-		
-		
 
 	}
 
 	public KontaktForm(Kontakt k, String teilhaberschaft) {
+		
 		this.k = k;
-		Window.alert(teilhaberschaft);
 		ctf = new CellTableForm(k, teilhaberschaft);
-	}
-
-	public KontaktForm(Kontaktliste kl, Kontakt k) {
-		this.kl = kl;
-		this.k = k;
+		
 	}
 
 	public void onLoad() {
 
+		super.onLoad();
+		
+		nutzer.setID(Integer.parseInt(Cookies.getCookie("id")));
+		nutzer.setEmail(Cookies.getCookie("email"));
 		final Image kontaktbild = new Image();
 		kontaktbild.setUrl("https://ssl.gstatic.com/s2/contacts/images/NoPicture.gif");
 		sharedPic.setUrl("Image/contactShared.png");
-		notSharedPic.setUrl("Image/contactNotShared.png");
-		
-		RootPanel.get("Buttonbar").clear();
 
 		HTML html1 = new HTML("<h2>" + k.getName() + "</h2>");
 		HTML html2 = new HTML("Erstellt am: " + fmt.format(k.getErzeugungsdatum()));
@@ -109,27 +93,24 @@ public class KontaktForm extends VerticalPanel {
 
 		ctf.addColumn(bezEigenschaft, "Eigenschaft: ");
 		ctf.addColumn(wertAuspraegung, "Wert: ");
-		ctf.addColumn(status, "Status");
+		ctf.addColumn(ctf.getStatus(), "Status");
 		ctf.setSelectionModel(sm);
-
-
+		RootPanel.get("Buttonbar").clear();
+		
 		scrollPanel.setSize("650px", "300px");
 		scrollPanel.add(ctf);
-		
+
 		vpanelBearbeitung.add(html2);
 		vpanelBearbeitung.add(html3);
 		hpanel1.add(kontaktbild);
 		hpanel1.add(html1);
 		hpanel1.add(vpanelBearbeitung);
 
-		vpanelDetails1.add(hpanel1);
 		hpanel.add(scrollPanel);
 
-		vpanelDetails1.add(kontaktbild);
-		vpanelDetails1.add(hpanel2);	
-
+		vpanelDetails1.add(hpanel1);
 		vpanelDetails.add(hpanel1);
-				
+
 		vpanel.add(vpanelDetails1);
 		vpanel.add(vpanelDetails);
 		vpanel.add(hpanel);
@@ -146,20 +127,16 @@ public class KontaktForm extends VerticalPanel {
 		bearbeitenButton.addClickHandler(new ClickearbeitenHandler());
 		kontaktTeilen.addClickHandler(new ClickTeilenHandler());
 		kontaktListehinzufuegen.addClickHandler(new ClickHinzufuegenHandler());
-		
+
 		if (k.getStatus() == 0) {
-			hpanel1.add(notSharedPic);
-			
-		}else if(k.getStatus() == 1) {
+
+		} else if (k.getStatus() == 1) {
 			hpanel1.add(sharedPic);
-		
+
 		}
 
 	}
 
-	
-	
-	
 	class ClickLoeschenHandler implements ClickHandler {
 		@Override
 		public void onClick(ClickEvent event) {
@@ -186,12 +163,21 @@ public class KontaktForm extends VerticalPanel {
 		@Override
 
 		public void onClick(ClickEvent event) {
-			// Kontakt testk = new Kontakt();
-			// testk.setID(2);
-			UpdateKontaktForm ukf = new UpdateKontaktForm(k);
-			RootPanel.get("Details").clear();
-			RootPanel.get("Details").add(ukf);
-			bearbeitenButton.setVisible(false);
+			Window.alert(k.getName());
+			
+			if (k.getNutzerID() == nutzer.getID()) {
+				UpdateKontaktForm ukf = new UpdateKontaktForm(k);
+				RootPanel.get("Details").clear();
+				RootPanel.get("Details").add(ukf);
+				bearbeitenButton.setVisible(false);
+				Window.alert("Test 1");
+			} else {
+				UpdateKontaktForm ukf2 = new UpdateKontaktForm(k, "Teilhaberschaft");
+				RootPanel.get("Details").clear();
+				RootPanel.get("Details").add(ukf2);
+				bearbeitenButton.setVisible(false);
+				Window.alert("Test 2");
+			}
 		}
 	}
 
@@ -216,8 +202,5 @@ public class KontaktForm extends VerticalPanel {
 
 	}
 
-	void setSelected(Kontakt k) {
-		kon = k;
-	}
 
 }

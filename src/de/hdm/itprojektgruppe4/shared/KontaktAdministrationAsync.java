@@ -190,6 +190,8 @@ public interface KontaktAdministrationAsync {
 	
 	void findTeilhaberschaftByKontaktID(int kontaktID, AsyncCallback<Vector<Teilhaberschaft>> callback);
 	
+	void findByTeilhaberschaftByKontaktlistIDAndTeilhaberID(int kontaktlisteID, int teilhaberID, AsyncCallback<Teilhaberschaft> callback);
+	
 	void findTeilhaberschaftByAuspraegungIDAndTeilhaberID(int auspraegungID, int teilhaberID, AsyncCallback<Vector<Teilhaberschaft>> callback);
 
 	void findTeilhaberschaftByKontaktIDAndTeilhaberID(int kontaktID, int teilhaberID, AsyncCallback<Vector<Teilhaberschaft>> callback);
@@ -220,7 +222,7 @@ public interface KontaktAdministrationAsync {
 	
 	void findTeilhaberschaftByAuspraegungID(int auspraegungID, AsyncCallback<Vector<Teilhaberschaft>> callback);
 
-	void findSharedAuspraegung(int nutzerID, int kontaktID,
+	void findSharedAuspraegung(int kontaktID,
 			AsyncCallback<Vector<EigenschaftAuspraegungWrapper>> callback);
 
 	void findGeteilteKontakteFromNutzerAndTeilhaber(int nutzerID, int teilhaberID,
@@ -230,7 +232,6 @@ public interface KontaktAdministrationAsync {
 
 	void updateKontaktlisteStatus(int kontaktlisteID, AsyncCallback<Kontaktliste> callback);
 
-
 	void findKontakeByEig(int NutzerID, String bez, AsyncCallback<Vector<Kontakt>> callback);
 
 	void findKontakteByAus(int NutzerID, String wert, AsyncCallback<Vector<Kontakt>> callback);
@@ -239,7 +240,7 @@ public interface KontaktAdministrationAsync {
 
 	void deleteTeilhaberschaftAnKontaktliste(int teilhaberID, int kontaktlisteID, AsyncCallback<Void> callback);
 
-
+	void findAllSharedAuspraegungenFromKontaktID(int kontaktID, AsyncCallback<Vector<Eigenschaftauspraegung>> callback);
 
 	
 	
