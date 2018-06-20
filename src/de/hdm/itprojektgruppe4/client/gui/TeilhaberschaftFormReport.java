@@ -35,6 +35,9 @@ public class TeilhaberschaftFormReport extends VerticalPanel{
 	public void onLoad() {
 		super.onLoad();
 		
+		nutzerListe.setPixelSize(245, 45);
+
+		
 		nutzer.setID(Integer.parseInt(Cookies.getCookie("id")));
 		nutzer.setEmail(Cookies.getCookie("email"));
 

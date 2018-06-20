@@ -116,7 +116,7 @@ public class TestenMain {
 		
 		System.out.println(KontaktKontaktlisteMapper.kontaktkontaktlistemapper().getKontaktKontaktlisteByKontaktlisteID(1));
 
-		
+		System.out.println(kcre.findTeilhaberschaftByAuspraegungIDAndTeilhaberID(1,31));
 		
 		//System.out.println(kcre.findKontaktByID(5));
 //		
@@ -129,6 +129,9 @@ public class TestenMain {
 		//KontaktMapper.kontaktMapper().findKontaktByName(abc.getName());
 		 
 		//System.out.println(KontaktMapper.kontaktMapper().findKontaktByID(5));
+		
+		System.out.println(kcre.findTeilhaberschaftByKontaktID(166));
+		
 	}
 	
 

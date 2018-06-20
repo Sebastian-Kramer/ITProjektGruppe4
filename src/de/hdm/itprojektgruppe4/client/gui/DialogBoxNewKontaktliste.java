@@ -22,6 +22,10 @@ import de.hdm.itprojektgruppe4.shared.bo.Nutzer;
 
 public class DialogBoxNewKontaktliste extends DialogBox {
 
+	/*
+	 * Erstellen der benötigten Variablen für diese Klasse
+	 * 
+	 */
 	private static KontaktAdministrationAsync verwaltung = ClientsideSettings.getKontaktVerwaltung();
 	KontaktlisteKontaktTreeViewModel kktvm = null;
 
@@ -41,7 +45,11 @@ public class DialogBoxNewKontaktliste extends DialogBox {
 
 	private Nutzer nutzer = new Nutzer();
 	private Kontaktliste kl = new Kontaktliste();
-
+	
+	/*
+	 * Erstellen eines leeren Konstruktors um in anderen Klassen die DialogBox aufzurufen 
+	 */
+	
 	public DialogBoxNewKontaktliste() {
 
 	}
@@ -53,6 +61,10 @@ public class DialogBoxNewKontaktliste extends DialogBox {
 		nutzer.setID(Integer.parseInt(Cookies.getCookie("id")));
 		nutzer.setEmail(Cookies.getCookie("email"));
 
+		/*
+		 * Die FlexTable mit den richtigen Widgets befüllen
+		 */
+		
 		kList.setWidget(0, 0, labelListe);
 		kList.setWidget(2, 0, labelBez);
 		kList.setWidget(2, 1, boxBez);
@@ -65,12 +77,20 @@ public class DialogBoxNewKontaktliste extends DialogBox {
 		this.setStyleName("DialogboxBackground");
 		this.add(vpanel);
 		
+		/* 
+		 * Hinzufügen der Clickhandler zu den Buttons
+		 */
+		
 		anlegen.addClickHandler(new KontaktListeAnlegen());
 		cancel.addClickHandler(new CancelButton());
 	
 	}
-
-	class CancelButton implements ClickHandler {
+		/*
+		 * Erstellen der ClickHandler Klassen und  Asynccallback Klassen
+		 * 
+		 */
+	
+	private class CancelButton implements ClickHandler {
 
 		@Override
 		public void onClick(ClickEvent event) {
@@ -81,27 +101,20 @@ public class DialogBoxNewKontaktliste extends DialogBox {
 		
 	}
 	
-	class KontaktListeAnlegen implements ClickHandler {
+	private class KontaktListeAnlegen implements ClickHandler {
 
 		@Override
 		public void onClick(ClickEvent event) {
 			verwaltung.insertKontaktliste(boxBez.getValue(), 0, nutzer.getID(), new Liste());
 			hide();
-			KontaktlisteForm kf = new KontaktlisteForm(kl);
-			NavigationTree navigation = new NavigationTree();
-			RootPanel.get("Details").clear();
-			RootPanel.get("Navigator").clear();
-			RootPanel.get("Buttonbar").clear();
-			RootPanel.get("Navigator").add(navigation);
-			RootPanel.get("Details").add(kf);						
-			
+
 			
 			
 		}
 
 	}
 
-	class Liste implements AsyncCallback<Kontaktliste> {
+	private class Liste implements AsyncCallback<Kontaktliste> {
 
 		
 		
@@ -117,10 +130,20 @@ public class DialogBoxNewKontaktliste extends DialogBox {
 			kl = result;
 			if(result == null) {
 				Window.alert("Kontaktliste konnte nicht angelegt werden, da dieser Name bereits vorhanden ist");
+				
+				
 			}else{
 			Window.alert("Die Kontaktliste wurde erfolgreich angelegt");
-			}
 			
+			
+			KontaktlisteForm kf = new KontaktlisteForm(kl);
+			NavigationTree navigation = new NavigationTree();
+			RootPanel.get("Details").clear();
+			RootPanel.get("Navigator").clear();
+			RootPanel.get("Buttonbar").clear();
+			RootPanel.get("Navigator").add(navigation);
+			RootPanel.get("Details").add(kf);		
+			}
 		}
 
 	}

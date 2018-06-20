@@ -195,14 +195,10 @@ public class KontaktlisteBearbeitenForm extends VerticalPanel {
 			if (event.getNativeKeyCode() == KeyCodes.KEY_ENTER) {
 				kl.setBez(txt_kontaktliste.getValue());
 				kontaktVerwaltung.updateKontaktliste(kl, new UpdateKontaktlisteCallback());
-				
-				
 				NavigationTree updatedNavTree = new NavigationTree();
-				
 				RootPanel.get("Navigator").clear();
-				
 				RootPanel.get("Navigator").add(updatedNavTree);
-				
+	
 			}
 			
 			

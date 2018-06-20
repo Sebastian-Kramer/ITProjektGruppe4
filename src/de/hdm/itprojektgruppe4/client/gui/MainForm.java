@@ -47,12 +47,12 @@ public class MainForm extends VerticalPanel {
 
 	private FlexTable anordnung = new FlexTable();
 
-	private Button newKontakt = new Button("Neuer Kontakt anlegen");
+	private Button newKontakt = new Button("Neuen Kontakt anlegen");
 	private Button newKontaktliste = new Button("Neue Kontaktliste anlegen");
 	private Button suchen = new Button("Suchen");
-	private HTML greetHTML1 = new HTML("<h2>MyContacs<h2>");
-	private HTML greetHTML2 = new HTML("Herzlich Willkommen auf MyContacts, " + "<br>ihrer Kontaktverwaltung. "
-			+ "<br> Hier können Sie neue Kontakte anlegen, " + "<br> diese in verschiedene Listen organiesieren"
+	private HTML greetHTML1 = new HTML("<h2>MyContacts<h2>");
+	private HTML greetHTML2 = new HTML("Herzlich Willkommen auf MyContacts, " + "<br>Ihrer Kontaktverwaltung. "
+			+ "<br> Hier können Sie neue Kontakte anlegen, " + "<br> diese in verschiedene Listen organisieren"
 			+ "<br> und sowohl die einzelnen Kontakte und Kontaktlisten mit anderen Nutzern teilen.");
 
 	private HTML html1 = new HTML("<h2>Alle Kontakte</h2>");
