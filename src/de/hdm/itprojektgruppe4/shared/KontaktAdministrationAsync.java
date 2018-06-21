@@ -19,6 +19,12 @@ import de.hdm.itprojektgruppe4.shared.bo.Nutzer;
 import de.hdm.itprojektgruppe4.shared.bo.Person;
 import de.hdm.itprojektgruppe4.shared.bo.Teilhaberschaft;
 
+/**
+ * Das asynchrone Gegenstück des Interface.
+ * Es wird teilautomatisiert durch das Google-Plugin erstellt.
+ *
+ */
+
 public interface KontaktAdministrationAsync {
 
 	void init(AsyncCallback<Void> callback);

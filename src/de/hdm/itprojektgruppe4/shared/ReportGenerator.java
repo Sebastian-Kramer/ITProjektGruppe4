@@ -16,8 +16,15 @@ import de.hdm.itprojektgruppe4.shared.bo.Nutzer;
 
 
 public interface ReportGenerator extends RemoteService {
+	
+	/**
+	 * Objekt wird initialisiert. 
+	 * @throws IllegalArgumentException
+	 */
 
 	public void init() throws IllegalArgumentException;
+	
+	
 	
 	
 	 public Nutzer findNutzerByEmail(String email) throws IllegalArgumentException;
@@ -41,6 +48,7 @@ public KontakteMitBestimmterTeilhaberschaftReport kontakteMitBestimmterTeilhaber
 
 	public Vector<Eigenschaftauspraegung> findAllEigenschaftsAuspraegungn () throws IllegalArgumentException;
 
+	
 	KontakteMitBestimmtenEigenschaftsAuspraegungen kontakteMitBestimmtenEigenschaftsAuspraegungen(int NutzerID,
 			String bez, String wert) throws IllegalArgumentException;
 	
