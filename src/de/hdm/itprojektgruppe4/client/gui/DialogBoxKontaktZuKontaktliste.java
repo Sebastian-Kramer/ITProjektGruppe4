@@ -28,7 +28,7 @@ import de.hdm.itprojektgruppe4.shared.bo.Kontakt;
 import de.hdm.itprojektgruppe4.shared.bo.KontaktKontaktliste;
 
 /**
- * Die Klasse <code>DialogBoxKontaktZuKontaktliste</code> erm�glicht das Hinzufuegen eines Kontaktes oder mehrerer Kontakte
+ * Die Klasse <code>DialogBoxKontaktZuKontaktliste</code> ermöglicht das Hinzufuegen eines oder mehrerer Kontakte
  * @author Raphael
  *
  */
@@ -46,7 +46,6 @@ public class DialogBoxKontaktZuKontaktliste extends DialogBox {
 	
 	private Button abbrechen = new Button("Abbrechen");
 	private Button kontakteHinzufuegen = new Button("Hinzufuegen");
-	private Vector<Kontakt> kontakteVonListeVector = new Vector <Kontakt>();
 	private ScrollPanel scrollPanel = new ScrollPanel();
 	
 	/*
@@ -129,7 +128,13 @@ public class DialogBoxKontaktZuKontaktliste extends DialogBox {
 		}
 	}
 	
-
+	/*
+	 * ClickHandler der das Hinzufügen eines oder mehrerer Kontakte ermöglicht.
+	 * Ist kein Kontakt ausgewählt, wird dies mithilfe einer Fehlermeldung dem User mitgeteilt.
+	 * Die Methode <code>kontakteHinzufuegen</code> wird ausgeführt und die DialogBox geschlossen.
+	 * Sowohl die <code>KontaktlisteBearbeitenForm</code> als auch die Baumstruktur werden anschließend
+	 * neu zum RootPanel hinzugefügt, um die hinzugefügten Kontakt-Objekte korrekt anzuzeigen.
+	 */
 	private class kontaktHinzufuegenClickhandler implements ClickHandler{
 
 		@Override
@@ -151,6 +156,11 @@ public class DialogBoxKontaktZuKontaktliste extends DialogBox {
 			}
 	
 	
+	/*
+	 * 
+	 * Ermöglicht das Schließen der Dialogbox
+	 *
+	 */
 	private class AbbrechenClickhandler implements ClickHandler{
 
 		@Override
@@ -186,7 +196,7 @@ public class DialogBoxKontaktZuKontaktliste extends DialogBox {
 	}
 	
 	/**
-	 * Callback-Klasse um beim bet�tigen des Buttons <code>kontakteHinzufuegen</code> die entsprechenden
+	 * Callback-Klasse um beim betätigen des Buttons <code>kontakteHinzufuegen</code> die entsprechenden
 	 * Kontakt-Objekte zu speichern. 
 	 */
 	class KontaktHinzufuegen implements AsyncCallback<KontaktKontaktliste>{

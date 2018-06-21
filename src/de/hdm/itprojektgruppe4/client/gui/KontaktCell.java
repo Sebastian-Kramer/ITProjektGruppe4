@@ -2,10 +2,12 @@ package de.hdm.itprojektgruppe4.client.gui;
 
 import com.google.gwt.cell.client.AbstractCell;
 import com.google.gwt.safehtml.shared.SafeHtmlBuilder;
-import com.google.gwt.cell.client.Cell.Context;
 
 import de.hdm.itprojektgruppe4.shared.bo.Kontakt;
 
+/**
+ * Die Klasse dient zur Aufbereitung von Kontakt-Objekten zur Ansicht in der GUI
+ */
 public class KontaktCell extends AbstractCell<Kontakt>{
 
 	@Override

@@ -27,7 +27,7 @@ import de.hdm.itprojektgruppe4.client.ClientsideSettings;
 import de.hdm.itprojektgruppe4.client.NavigationTree;
 
 /**
- * Diese Klasse dient der Bearbeitung einer Kontaktliste. Hier k�nnen Kontakte
+ * Diese Klasse dient der Bearbeitung einer Kontaktliste. Hier können Kontakte
  * zur Kontaktliste hinzugefuegt oder entfernt werden, der Name der Kontaktliste
  * geaendert werden, sowie die komplette Kontaktliste geloescht werden.
  *
@@ -42,6 +42,7 @@ public class KontaktlisteBearbeitenForm extends VerticalPanel {
 
 	private Nutzer nutzer = new Nutzer();
 	private Kontaktliste kl = null;
+	private KontaktlisteKontaktTreeViewModel kktvw = new KontaktlisteKontaktTreeViewModel();
 
 	private Button kontaktHinzufuegen = new Button("Kontakt hinzufuegen");
 	private Button kontaktlisteLoeschen = new Button("Kontaktliste loeschen");
@@ -49,7 +50,6 @@ public class KontaktlisteBearbeitenForm extends VerticalPanel {
 	private Button zurueck = new Button("Bearbeitung beenden");
 
 	private KeyDownHandler changeListNameHandler = new ChangeListNameHandler(); 
-	
 	private Label lbl_kontaktliste = new Label("Kontaktlistenname:");
 	private TextBox txt_kontaktliste = new TextBox();
 
@@ -57,19 +57,19 @@ public class KontaktlisteBearbeitenForm extends VerticalPanel {
 	private CellList<Kontakt> kontaktCellList = new CellList<Kontakt>(kontaktcell);
 	private SingleSelectionModel<Kontakt> selectionModel = new SingleSelectionModel<Kontakt>();
 	private ListDataProvider<Kontakt> dataProvider = new ListDataProvider<Kontakt>();
-
+	
+	
 	public KontaktlisteBearbeitenForm(Kontaktliste kl) {
 		this.kl = kl;
+		nutzer.setID(Integer.parseInt(Cookies.getCookie("id")));
+		nutzer.setEmail(Cookies.getCookie("email"));
+		kontaktVerwaltung.getAllKontakteFromKontaktliste(kl.getID(), new KontakteVonKontaktlisteCallback());
+		setTreeViewModel(kktvw);
 	}
 
 	public void onLoad() {
 		super.onLoad();
-
-		nutzer.setID(Integer.parseInt(Cookies.getCookie("id")));
-		nutzer.setEmail(Cookies.getCookie("email"));
-		
 		kontaktCellList.setSelectionModel(selectionModel);
-		kontaktVerwaltung.getAllKontakteFromKontaktliste(kl.getID(), new KontakteVonKontaktlisteCallback());
 		dataProvider.addDataDisplay(kontaktCellList);
 
 		/*
@@ -154,7 +154,6 @@ public class KontaktlisteBearbeitenForm extends VerticalPanel {
 			if (selectionModel.getSelectedObject() == null) {
 				Window.alert("Sie muessen einen Kontakt auswaehlen");
 			} else {
-				dataProvider.getList().remove(selectionModel.getSelectedObject());
 				kontaktVerwaltung.deleteKontaktKontaktlisteByKontaktID(selectionModel.getSelectedObject().getID(),
 						new KontaktEntfernenCallback());
 			}
@@ -186,12 +185,14 @@ public class KontaktlisteBearbeitenForm extends VerticalPanel {
 		}
 
 	}
-
+	
+	/**
+	 * KeyDownHandler um den Kontaktlisten-Namen durch Eingabe in der Textbox ändern zu können.
+	 */
 	private class ChangeListNameHandler implements KeyDownHandler{
 
 		@Override
 		public void onKeyDown(KeyDownEvent event) {
-			// TODO Auto-generated method stub
 			if (event.getNativeKeyCode() == KeyCodes.KEY_ENTER) {
 				kl.setBez(txt_kontaktliste.getValue());
 				kontaktVerwaltung.updateKontaktliste(kl, new UpdateKontaktlisteCallback());
@@ -207,7 +208,9 @@ public class KontaktlisteBearbeitenForm extends VerticalPanel {
 		
 	}
 	
-	
+	/**
+	 * Callback-Klasse für das Updaten einer Kontaktliste.
+	 */
 	private class UpdateKontaktlisteCallback implements AsyncCallback<Kontaktliste> {
 
 		@Override
@@ -218,20 +221,15 @@ public class KontaktlisteBearbeitenForm extends VerticalPanel {
 
 		@Override
 		public void onSuccess(Kontaktliste result) {
-			// TODO Auto-generated method stub
-			
 			if (result == null) {
-				Window.alert("Sie dürfen die Namen der Basis-Kontaktlisten nicht verwenden." );
-				
+				Window.alert("Sie dürfen den Namen einer Standardkontaktliste nicht ändern." );
 				KontaktlisteForm kf = new KontaktlisteForm(kl);
 				NavigationTree updatedNavTree = new NavigationTree();
 				RootPanel.get("Details").clear();
 				RootPanel.get("Navigator").clear();
 				RootPanel.get("Details").add(kf);
-				RootPanel.get("Navigator").add(updatedNavTree);
-				
+				RootPanel.get("Navigator").add(updatedNavTree);	
 			}
-			
 			Window.alert("Der Name der Liste wurde erfolgreich zu " + result.getBez() +" geändert." );
 		}
 		
@@ -270,25 +268,16 @@ public class KontaktlisteBearbeitenForm extends VerticalPanel {
 		@Override
 		public void onFailure(Throwable caught) {
 			// TODO Auto-generated method stub
-			Window.alert("Kontaktliste wurde nicht geloescht");
+			Window.alert("Die Kontaktliste konnte nicht gelöscht werden");
 		}
 
 		@Override
 		public void onSuccess(Void result) {
-
 			if (kl.getBez().equals("Meine Kontakte") || kl.getBez().equals("Meine geteilten Kontakte")) {
-				Window.alert("Sie können die Basis Liste Meine Kontakte nicht löschen");
-
+				Window.alert("Dies ist eine Standardkontaktliste und kann nicht gelöscht werden.");
 			}
-
-			// else if (kl.getBez().equals("Meine geteilten Kontakte")) {
-			// Window.alert("Sie können die Basis Liste Meine geteilten
-			// Kontakte nicht löschen");
-			// }
-
 			else {
-
-				Window.alert("Kontaktliste wurde erfolgreich geloescht");
+				Window.alert("Die Kontaktliste wurde erfolgreich gelöscht");
 				MainForm main = new MainForm();
 				NavigationTree updatedTree = new NavigationTree();
 				RootPanel.get("Navigator").clear();
@@ -315,9 +304,13 @@ public class KontaktlisteBearbeitenForm extends VerticalPanel {
 
 		@Override
 		public void onSuccess(Void result) {
-
+			
 		}
 
+	}
+	
+	private void setTreeViewModel (KontaktlisteKontaktTreeViewModel kktvw){
+		this.kktvw = kktvw;
 	}
 
 }

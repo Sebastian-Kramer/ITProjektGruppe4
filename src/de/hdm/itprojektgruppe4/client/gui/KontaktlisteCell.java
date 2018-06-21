@@ -7,10 +7,18 @@ import com.google.gwt.user.client.Cookies;
 import de.hdm.itprojektgruppe4.shared.bo.Kontaktliste;
 import de.hdm.itprojektgruppe4.shared.bo.Nutzer;
 
+/**
+ * Die Klasse dient zur Aufbereitung von Kontaktliste-Objekten zur Ansicht in der GUI.
+ * Die Objekte werden dabei nutzerabhängig gerendert.
+ */
 public class KontaktlisteCell extends AbstractCell<Kontaktliste> {
 
 	private Nutzer nutzer = new Nutzer();
 	
+	/*
+	 * Ist der angemeldete Nutzer Teilhaber einer Kontaktliste, wird diese kursiv dargestellt.
+	 * @see com.google.gwt.cell.client.AbstractCell#render(com.google.gwt.cell.client.Cell.Context, java.lang.Object, com.google.gwt.safehtml.shared.SafeHtmlBuilder)
+	 */
 	@Override
 	public void render(com.google.gwt.cell.client.Cell.Context context, Kontaktliste value, SafeHtmlBuilder sb) {
 		nutzer.setID(Integer.parseInt(Cookies.getCookie("id")));
@@ -26,11 +34,7 @@ public class KontaktlisteCell extends AbstractCell<Kontaktliste> {
 			sb.appendEscaped(value.getBez());
 			sb.appendHtmlConstant("</div>");
 		}
-		/*
-		if(value.getStatus() == 1){
-			sb.appendHtmlConstant("<img src=\"images/contacts.png\">");
-		}
-		*/
+	
 	}
 
 }
