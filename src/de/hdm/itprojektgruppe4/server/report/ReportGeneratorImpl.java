@@ -311,25 +311,14 @@ public class ReportGeneratorImpl extends RemoteServiceServlet implements ReportG
 	public KontakteMitBestimmtenEigenschaften kontakteMitBestimmtenEigenschaften(int NutzerID, String bez)
 			throws IllegalArgumentException {
 		if (this.getAdministration() == null)
-			// TODO Auto-generated method stub
+
 			return null;
 
 		// Leerer Report
 		KontakteMitBestimmtenEigenschaften result = new KontakteMitBestimmtenEigenschaften();
 
 		Vector<Kontakt> kontakt = this.verwaltung.findKontakeByEig(NutzerID, bez);
-		
-		
-		for (Kontakt kontakt2 : kontakt) {
-			Vector<Eigenschaftauspraegung> vecAus = this.verwaltung.getAuspraegungByKontaktID(kontakt2.getID());
-			for (Eigenschaftauspraegung eigenschaftauspraegung : vecAus) {
-				Eigenschaft eig = this.verwaltung.getEigenschaftByID(eigenschaftauspraegung.getEigenschaftsID());
-			}
-			
-		}
-		
-	//	Vector<Eigenschaftauspraegung> eigAus = this.verwaltung.getAuspraegungByKontaktID(kontakt.);
-		
+
 		Vector<Eigenschaft> eig = this.verwaltung.findAllEigenschaft();
 
 		result.setTitle("Kontakte mit bestimmten Eigenschaftsauspraegungen");
@@ -343,40 +332,37 @@ public class ReportGeneratorImpl extends RemoteServiceServlet implements ReportG
 		headline.addColumn(new Column("Auspraegung"));
 
 		result.addRow(headline);
-		
-
 
 		for (Kontakt t : kontakt) {
-			
-			for (Kontakt kontakt2 : kontakt) {
-				Vector<Eigenschaftauspraegung> vecAus = this.verwaltung.getAuspraegungByKontaktID(kontakt2.getID());
-				for (Eigenschaftauspraegung eigenschaftauspraegung : vecAus) {
-					Eigenschaft eig2 = this.verwaltung.getEigenschaftByID(eigenschaftauspraegung.getEigenschaftsID());
+
+				Vector<Eigenschaft> vecEig = this.verwaltung.getEigenschaftbyKontaktID(t.getID());
 				
-				
-			
-			
-			// eine Leere zeile
-			Row kontaktRow = new Row();
+				for (Eigenschaft e : vecEig) {
 
-			kontaktRow.addColumn(new Column(String.valueOf(t.getName())));
-			kontaktRow.addColumn(new Column(String.valueOf(t.getErzeugungsdatum())));
-			kontaktRow.addColumn(new Column(String.valueOf(t.getModifikationsdatum())));
-			kontaktRow.addColumn(new Column(String.valueOf(eig2.getBezeichnung())));
-			kontaktRow.addColumn(new Column(String.valueOf(eigenschaftauspraegung.getWert())));
+					if (e.getBezeichnung().equals(bez)) {
+						
+						Eigenschaftauspraegung ea = this.verwaltung.getAuspraegungByEigID(e.getID());
+					
+						
+					// eine Leere zeile
+					Row kontaktRow = new Row();
 
-			
+					kontaktRow.addColumn(new Column(String.valueOf(t.getName())));
+					kontaktRow.addColumn(new Column(String.valueOf(t.getErzeugungsdatum())));
+					kontaktRow.addColumn(new Column(String.valueOf(t.getModifikationsdatum())));
+					kontaktRow.addColumn(new Column(String.valueOf(e.getBezeichnung())));
+					kontaktRow.addColumn(new Column(String.valueOf(ea.getWert())));
 
-			result.addRow(kontaktRow);
+					result.addRow(kontaktRow);
+					}  
 				}
 
-			}
-			
+	
+
 		}
 
 		return result;
-			}
-	
+	}
 
 	
 	

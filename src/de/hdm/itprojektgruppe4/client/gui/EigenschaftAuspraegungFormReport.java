@@ -94,7 +94,7 @@ public class EigenschaftAuspraegungFormReport extends VerticalPanel {
 				} else if (eigenschafBox.getValue() != null && auspraegungBox.getText().isEmpty()) {
 //					reportverwaltung.kontakteMitBestimmtenAuspraegungen(nutzer.getID(), eigenschafBox.getText(),
 //							new AsyncCallback<KontakteMitBestimmtenAuspraegungen>() {
-					
+					Window.alert(eigenschafBox.getValue());
 					reportverwaltung.kontakteMitBestimmtenEigenschaften(nutzer.getID(), eigenschafBox.getText() , new AsyncCallback<KontakteMitBestimmtenEigenschaften>() {
 
 								@Override
@@ -102,11 +102,11 @@ public class EigenschaftAuspraegungFormReport extends VerticalPanel {
 									RootPanel.get("Details").clear();
 									Window.alert("Fehler Eigenschaft");
 								}
-
+  
 								@Override
 								public void onSuccess(KontakteMitBestimmtenEigenschaften result) {
 									Window.alert("2");
-
+									Window.alert(" "  + result.getTitle());
 									if (result != null) {
 
 										HTMLReportWriter writer = new HTMLReportWriter();

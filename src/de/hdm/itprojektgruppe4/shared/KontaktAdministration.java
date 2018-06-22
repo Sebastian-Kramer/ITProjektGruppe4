@@ -797,6 +797,8 @@ public interface KontaktAdministration extends RemoteService {
 
 	public Teilhaberschaft findTeilhaberschaftByAuspraegungIdAndTeilhaberId(int auspraegungID, int nutzerID) throws IllegalArgumentException;
 
+	public Eigenschaftauspraegung getAuspraegungByEigID(int eigID) throws IllegalArgumentException;
+
 	
 
 }

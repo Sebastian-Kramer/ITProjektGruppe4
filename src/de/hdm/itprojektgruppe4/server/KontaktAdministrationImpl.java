@@ -881,6 +881,12 @@ public class KontaktAdministrationImpl extends RemoteServiceServlet implements K
 
 		return this.eigenschaftauspraegungMapper.findAuspraegungByKontaktID(kontaktID);
 	}
+	
+	@Override
+	public Eigenschaftauspraegung getAuspraegungByEigID(int eigID) throws IllegalArgumentException {
+		// TODO Auto-generated method stub
+		return this.eigenschaftauspraegungMapper.getAuspraegungByEigID(eigID);
+	}
 
 	/*
 	 * ########################################################## ENDE Methoden
@@ -2018,6 +2024,8 @@ public class KontaktAdministrationImpl extends RemoteServiceServlet implements K
 	
 		return gepruefteKontakte;
 	}
+
+
 
 
 	

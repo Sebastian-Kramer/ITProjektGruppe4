@@ -67,6 +67,40 @@ public class EigenschaftauspraegungMapper {
 		return null;
 
 	}
+	
+	/**
+	 * 
+	 * @param id
+	 * @return
+	 */
+	public Eigenschaftauspraegung getAuspraegungByEigID(int eigID) {
+
+		Connection con = DBConnection.connection();
+
+		try {
+
+			Statement stmt = con.createStatement();
+
+			ResultSet rs = stmt.executeQuery("SELECT * FROM eigenschaftsauspraegung WHERE eigenschaftID= " + eigID);
+
+			if (rs.next()) {
+				Eigenschaftauspraegung e = new Eigenschaftauspraegung();
+				e.setID(rs.getInt("ID"));
+				e.setWert(rs.getString("wert"));
+				e.setStatus(rs.getInt("status"));
+				e.setEigenschaftsID(rs.getInt("eigenschaftID"));
+				e.setKontaktID(rs.getInt("kontaktID"));
+
+				return e;
+			}
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+			return null;
+		}
+		return null;
+
+	}
 
 	public Vector<Eigenschaftauspraegung> getAuspraegungByKontaktID(int id) {
 		Vector<Eigenschaftauspraegung> result = new Vector<Eigenschaftauspraegung>();
