@@ -250,7 +250,7 @@ public class UpdateKontaktForm extends VerticalPanel {
 			if (kon.getNutzerID() == nutzer.getID()) {
 				verwaltung.findHybrid(kon, new ReloadCallback());
 			} else {
-				verwaltung.findSharedAuspraegung(kon.getID(), new ReloadCallback());
+				verwaltung.findSharedAuspraegung(kon.getID(), nutzer.getID(), new ReloadCallback());
 			}
 		}
 
@@ -273,12 +273,13 @@ public class UpdateKontaktForm extends VerticalPanel {
 			} else {
 
 				if (kon.getNutzerID() == nutzer.getID()) {
+
 					eig1.setID(result.getID());
 					verwaltung.insertAuspraegung(txt_Auspraegung.getText(), 0, eig1.getID(), kon.getID(),
 							new AuspraegungEinfuegenCallback());
 				} else {
-					eig1.setID(result.getID());
 
+					eig1.setID(result.getID());
 					verwaltung.insertAuspraegung(txt_Auspraegung.getText(), 1, eig1.getID(), kon.getID(),
 							new AuspraegungEinfuegenCallback());
 				}
@@ -320,7 +321,7 @@ public class UpdateKontaktForm extends VerticalPanel {
 		@Override
 		public void onSuccess(Teilhaberschaft result) {
 			Window.alert("Die Ausprägung wurde erfolgreich angelgt. Da der angemeldete Nutzer nicht der Eigentümer ist, wurde eine Teilhaberschaft erstellt");
-			verwaltung.findSharedAuspraegung(kon.getID(), new ReloadCallback());
+			verwaltung.findSharedAuspraegung(kon.getID(), nutzer.getID(), new ReloadCallback());
 		}
 		
 	}
@@ -342,7 +343,7 @@ public class UpdateKontaktForm extends VerticalPanel {
 			if (kon.getNutzerID() == nutzer.getID()) {
 				verwaltung.findHybrid(kon, new ReloadCallback());
 			} else {
-				verwaltung.findSharedAuspraegung(kon.getID(), new ReloadCallback());
+				verwaltung.findSharedAuspraegung(kon.getID(), nutzer.getID(), new ReloadCallback());
 			}
 
 		}
@@ -364,7 +365,7 @@ public class UpdateKontaktForm extends VerticalPanel {
 			if (kon.getNutzerID() == nutzer.getID()) {
 				verwaltung.findHybrid(kon, new ReloadCallback());
 			} else {
-				verwaltung.findSharedAuspraegung(kon.getID(), new ReloadCallback());
+				verwaltung.findSharedAuspraegung(kon.getID(), nutzer.getID(), new ReloadCallback());
 			}
 
 		}
@@ -415,8 +416,17 @@ public class UpdateKontaktForm extends VerticalPanel {
 		@Override
 		public void onSuccess(Eigenschaft result) {
 
-			verwaltung.insertAuspraegung(txt_Auspraegung.getText(), 0, result.getID(), kon.getID(),
-					new AuspraegungEinfuegenCallback());
+			if (kon.getNutzerID() == nutzer.getID()) {
+
+				eig1.setID(result.getID());
+				verwaltung.insertAuspraegung(txt_Auspraegung.getText(), 0, eig1.getID(), kon.getID(),
+						new AuspraegungEinfuegenCallback());
+			} else {
+
+				eig1.setID(result.getID());
+				verwaltung.insertAuspraegung(txt_Auspraegung.getText(), 1, eig1.getID(), kon.getID(),
+						new AuspraegungEinfuegenCallback());
+			}
 		}
 
 	}

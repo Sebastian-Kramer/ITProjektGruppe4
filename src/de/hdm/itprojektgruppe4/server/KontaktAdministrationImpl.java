@@ -1414,7 +1414,7 @@ public class KontaktAdministrationImpl extends RemoteServiceServlet implements K
 
 			if (kl.getBez().equals("Meine geteilten Kontakte")) {
 
-				if (this.findKontaktKontaktlisteByKontaktIDAndKlisteID(k.getID(), kl.getID()).getID() != 1) {
+				if (this.findKontaktKontaktlisteByKontaktIDAndKlisteID(k.getID(), kl.getID()).getID() < 1) {
 					this.insertKontaktKontaktliste(k.getID(), kl.getID());
 					k.setStatus(1);
 					this.updateKontakt(k);
@@ -1690,11 +1690,22 @@ public class KontaktAdministrationImpl extends RemoteServiceServlet implements K
 		}
 		
 	}
+	
+	/**
+	 * 
+	 */
+	@Override
+	public Teilhaberschaft findTeilhaberschaftByAuspraegungIdAndTeilhaberId(int auspraegungID, int nutzerID)
+			throws IllegalArgumentException {
+		
+		return this.teilhaberschaftMapper.findTeilhaberschaftByAuspraegungIdAndTeilhaberId(auspraegungID, nutzerID);
+	}
+
 
 
 	/*
-	 * ########################################################## ENDE Methoden
-	 * fuer Teilhaberschaft-Objekte
+	 * ########################################################## 
+	 * ENDE Methoden fuer Teilhaberschaft-Objekte
 	 * ##########################################################
 	 */
 
@@ -1744,25 +1755,36 @@ public class KontaktAdministrationImpl extends RemoteServiceServlet implements K
 
 
 	@Override
-	public Vector<EigenschaftAuspraegungWrapper> findSharedAuspraegung(int kontaktID)
+	public Vector<EigenschaftAuspraegungWrapper> findSharedAuspraegung(int kontaktID, int nutzerID)
 			throws IllegalArgumentException {
 		
+		Nutzer teilhaber = this.findNutzerByID(nutzerID);
 		Vector<Eigenschaftauspraegung> eigausShared = this.findAllSharedAuspraegungenFromKontaktID(kontaktID);
-		//HIER MÜSSEN ALLE AUSPRÄGUNGEN, DIE AN EINEN NUTZER GETEILT WURDEN SIND HERAUSGSUCHT WERDEN!!	
+		
+		Vector<Eigenschaftauspraegung> eigausSharedFromTeilhaber = new Vector<Eigenschaftauspraegung>();
+		
+		for(Eigenschaftauspraegung e : eigausShared){
+			if(this.findTeilhaberschaftByAuspraegungIdAndTeilhaberId(e.getID(), teilhaber.getID()) == null){
+				
+			}else{
+				eigausSharedFromTeilhaber.add(e);
+			}
+		}
+		
 		Vector<Eigenschaft> eig = new Vector<Eigenschaft>();
 		
-		for (Eigenschaftauspraegung eigenschaftauspraegung : eigausShared) {
+		for (Eigenschaftauspraegung eigenschaftauspraegung : eigausSharedFromTeilhaber) {
 			eig.add(getEigenschaftByID(eigenschaftauspraegung.getEigenschaftsID()));
 		}
 		
 		Vector<EigenschaftAuspraegungWrapper> hybrid = new Vector<EigenschaftAuspraegungWrapper>();
 		
-		for (int i = 0; i < eigausShared.size(); i++) {
+		for (int i = 0; i < eigausSharedFromTeilhaber.size(); i++) {
 
-			for (int z = 0; z < eigausShared.size(); z++) {
-				if (eigausShared.elementAt(i).getEigenschaftsID() == eig.elementAt(z).getID()) {
+			for (int z = 0; z < eigausSharedFromTeilhaber.size(); z++) {
+				if (eigausSharedFromTeilhaber.elementAt(i).getEigenschaftsID() == eig.elementAt(z).getID()) {
 
-					hybrid.add(new EigenschaftAuspraegungWrapper(eig.elementAt(z), eigausShared.elementAt(i)));
+					hybrid.add(new EigenschaftAuspraegungWrapper(eig.elementAt(z), eigausSharedFromTeilhaber.elementAt(i)));
 
 					break;
 				}
@@ -1996,6 +2018,7 @@ public class KontaktAdministrationImpl extends RemoteServiceServlet implements K
 	
 		return gepruefteKontakte;
 	}
+
 
 	
 

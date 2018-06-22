@@ -227,8 +227,10 @@ public interface KontaktAdministrationAsync {
 	void getAllTeilhaberfromAuspraegung(int auspraegungID, AsyncCallback<Vector<Nutzer>> callback);
 	
 	void findTeilhaberschaftByAuspraegungID(int auspraegungID, AsyncCallback<Vector<Teilhaberschaft>> callback);
+	
+	void findTeilhaberschaftByAuspraegungIdAndTeilhaberId(int auspraegungID, int nutzerID, AsyncCallback<Teilhaberschaft> callback);
 
-	void findSharedAuspraegung(int kontaktID,
+	void findSharedAuspraegung(int kontaktID, int nutzerID,
 			AsyncCallback<Vector<EigenschaftAuspraegungWrapper>> callback);
 
 	void findGeteilteKontakteFromNutzerAndTeilhaber(int nutzerID, int teilhaberID,
