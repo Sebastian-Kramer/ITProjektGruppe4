@@ -95,10 +95,10 @@ public class ReportGeneratorImpl extends RemoteServiceServlet implements ReportG
 		Row headline = new Row();
 
 		headline.addColumn(new Column("Kontakt"));
-
 		headline.addColumn(new Column("Erzeugungsdatum"));
-
 		headline.addColumn(new Column("Modifikationsdatum"));
+		headline.addColumn(new Column("Eigenschaft"));
+		headline.addColumn(new Column("Auspraegung"));
 
 		result.addRow(headline);
 
@@ -133,11 +133,6 @@ public class ReportGeneratorImpl extends RemoteServiceServlet implements ReportG
 
 		Row headline = new Row();
 
-		headline.addColumn(new Column("Kontakt"));
-
-		headline.addColumn(new Column("Erzeugungsdatum"));
-
-		headline.addColumn(new Column("Modifikationsdatum"));
 
 		result.addRow(headline);
 
@@ -196,10 +191,10 @@ public class ReportGeneratorImpl extends RemoteServiceServlet implements ReportG
 		Row headline = new Row();
 
 		headline.addColumn(new Column("Kontakt"));
-
 		headline.addColumn(new Column("Erzeugungsdatum"));
-
 		headline.addColumn(new Column("Modifikationsdatum"));
+		headline.addColumn(new Column("Eigenschaft"));
+		headline.addColumn(new Column("Auspraegung"));
 
 		result.addRow(headline);
 
@@ -213,6 +208,9 @@ public class ReportGeneratorImpl extends RemoteServiceServlet implements ReportG
 			kontaktRow.addColumn(new Column(String.valueOf(t.getErzeugungsdatum())));
 
 			kontaktRow.addColumn(new Column(String.valueOf(t.getModifikationsdatum())));
+			
+			
+			
 
 			result.addRow(kontaktRow);
 		}
@@ -238,7 +236,10 @@ public class ReportGeneratorImpl extends RemoteServiceServlet implements ReportG
 		Row headline = new Row();
 
 		headline.addColumn(new Column("Kontakt"));
-
+		headline.addColumn(new Column("Erzeugungsdatum"));
+		headline.addColumn(new Column("Modifikationsdatum"));
+		headline.addColumn(new Column("Eigenschaft"));
+		headline.addColumn(new Column("Auspraegung"));
 		result.addRow(headline);
 
 		for (Kontakt t : kontakt) {
@@ -317,29 +318,68 @@ public class ReportGeneratorImpl extends RemoteServiceServlet implements ReportG
 		KontakteMitBestimmtenEigenschaften result = new KontakteMitBestimmtenEigenschaften();
 
 		Vector<Kontakt> kontakt = this.verwaltung.findKontakeByEig(NutzerID, bez);
+		
+		
+		for (Kontakt kontakt2 : kontakt) {
+			Vector<Eigenschaftauspraegung> vecAus = this.verwaltung.getAuspraegungByKontaktID(kontakt2.getID());
+			for (Eigenschaftauspraegung eigenschaftauspraegung : vecAus) {
+				Eigenschaft eig = this.verwaltung.getEigenschaftByID(eigenschaftauspraegung.getEigenschaftsID());
+			}
+			
+		}
+		
+	//	Vector<Eigenschaftauspraegung> eigAus = this.verwaltung.getAuspraegungByKontaktID(kontakt.);
+		
+		Vector<Eigenschaft> eig = this.verwaltung.findAllEigenschaft();
 
 		result.setTitle("Kontakte mit bestimmten Eigenschaftsauspraegungen");
 
 		Row headline = new Row();
 
 		headline.addColumn(new Column("Kontakt"));
+		headline.addColumn(new Column("Erzeugungsdatum"));
+		headline.addColumn(new Column("Modifikationsdatum"));
+		headline.addColumn(new Column("Eigenschaft"));
+		headline.addColumn(new Column("Auspraegung"));
 
 		result.addRow(headline);
+		
+
 
 		for (Kontakt t : kontakt) {
-
+			
+			for (Kontakt kontakt2 : kontakt) {
+				Vector<Eigenschaftauspraegung> vecAus = this.verwaltung.getAuspraegungByKontaktID(kontakt2.getID());
+				for (Eigenschaftauspraegung eigenschaftauspraegung : vecAus) {
+					Eigenschaft eig2 = this.verwaltung.getEigenschaftByID(eigenschaftauspraegung.getEigenschaftsID());
+				
+				
+			
+			
 			// eine Leere zeile
 			Row kontaktRow = new Row();
 
 			kontaktRow.addColumn(new Column(String.valueOf(t.getName())));
+			kontaktRow.addColumn(new Column(String.valueOf(t.getErzeugungsdatum())));
+			kontaktRow.addColumn(new Column(String.valueOf(t.getModifikationsdatum())));
+			kontaktRow.addColumn(new Column(String.valueOf(eig2.getBezeichnung())));
+			kontaktRow.addColumn(new Column(String.valueOf(eigenschaftauspraegung.getWert())));
+
+			
 
 			result.addRow(kontaktRow);
+				}
+
+			}
+			
 		}
 
 		return result;
+			}
+	
 
-	}
-
+	
+	
 	public KontakteMitBestimmtenAuspraegungen kontakteMitBestimmtenAuspraegungen(int NutzerID, String wert)
 			throws IllegalArgumentException {
 		if (this.getAdministration() == null)
@@ -356,7 +396,10 @@ public class ReportGeneratorImpl extends RemoteServiceServlet implements ReportG
 		Row headline = new Row();
 
 		headline.addColumn(new Column("Kontakt"));
-
+		headline.addColumn(new Column("Erzeugungsdatum"));
+		headline.addColumn(new Column("Modifikationsdatum"));
+		headline.addColumn(new Column("Eigenschaft"));
+		headline.addColumn(new Column("Auspraegung"));
 		result.addRow(headline);
 
 		for (Kontakt t : kontakt) {
@@ -365,6 +408,8 @@ public class ReportGeneratorImpl extends RemoteServiceServlet implements ReportG
 			Row kontaktRow = new Row();
 
 			kontaktRow.addColumn(new Column(String.valueOf(t.getName())));
+			kontaktRow.addColumn(new Column(String.valueOf(t.getErzeugungsdatum())));
+			kontaktRow.addColumn(new Column(String.valueOf(t.getModifikationsdatum())));
 
 			result.addRow(kontaktRow);
 		}
