@@ -36,6 +36,7 @@ import de.hdm.itprojektgruppe4.shared.bo.Eigenschaft;
 import de.hdm.itprojektgruppe4.shared.bo.Eigenschaftauspraegung;
 import de.hdm.itprojektgruppe4.shared.bo.Kontakt;
 import de.hdm.itprojektgruppe4.shared.bo.Nutzer;
+import de.hdm.itprojektgruppe4.shared.bo.Teilhaberschaft;
 
 public class UpdateKontaktForm extends VerticalPanel {
 
@@ -88,8 +89,11 @@ public class UpdateKontaktForm extends VerticalPanel {
 						eigaus.setID(object.getAuspraegungID());
 						eigaus.setEigenschaftsID(object.getEigenschaftID());
 						eigaus.setKontaktID(kon.getID());
-						eigaus.setStatus(0);
-
+						if (object.getAuspraegungStatus() == 1) {
+							eigaus.setStatus(1);
+						} else {
+							eigaus.setStatus(0);
+						}
 						eigaus.setWert(ctf.getSm().getSelectedObject().getAuspraegungValue());
 						verwaltung.updateAuspraegung(eigaus, new AuspraegungBearbeitenCallback());
 						verwaltung.updateKontakt(kon, new KontaktModifikationsdatumCallback());
@@ -119,8 +123,9 @@ public class UpdateKontaktForm extends VerticalPanel {
 
 		this.kon = kon;
 		ctf = new CellTableForm(kon);
+		ctf.addColumn(bezEigenschaft, "Eigenschaft: ");
+		ctf.addColumn(wertAuspraegung, "Wert: ");
 		ctf.addColumn(deleteBtn, "Löschen");
-		deleteBtn.setFieldUpdater(new DeleteFieldUpdater());
 
 	}
 
@@ -128,6 +133,8 @@ public class UpdateKontaktForm extends VerticalPanel {
 
 		this.kon = kon;
 		ctf = new CellTableForm(kon, teilhaberschaft);
+		ctf.addColumn(bezEigenschaft, "Eigenschaft: ");
+		ctf.addColumn(wertAuspraegung, "Wert: ");
 	}
 
 	public void onLoad() {
@@ -158,8 +165,6 @@ public class UpdateKontaktForm extends VerticalPanel {
 		wertAuspraegung.setSortable(true);
 		ctf.setSelectionModel(ctf.getSm());
 		ctf.setStyleName("CellTableBearbeiten");
-		ctf.addColumn(bezEigenschaft, "Eigenschaft: ");
-		ctf.addColumn(wertAuspraegung, "Wert: ");
 
 		scrollPanel.setHeight("400px");
 
@@ -168,6 +173,8 @@ public class UpdateKontaktForm extends VerticalPanel {
 		this.add(vpanelDetails);
 
 		verwaltung.findAllEigenschaft(new AlleEigenschaftCallback());
+
+		deleteBtn.setFieldUpdater(new DeleteFieldUpdater());
 		cancelBtn.addClickHandler(new CancelClick());
 		addRow.addClickHandler(new ClickAddRowHandler());
 		txt_KontaktName.addKeyDownHandler(changeNameHandler);
@@ -179,9 +186,12 @@ public class UpdateKontaktForm extends VerticalPanel {
 		public void update(int index, EigenschaftAuspraegungWrapper object, String value) {
 			ea.setAuspraegung(object.getAuspraegung());
 			ea.setEigenschaft(object.getEigenschaft());
+			if(object.getAuspraegungStatus() == 0){
 			verwaltung.deleteEigenschaftUndAuspraegung(ea, new AuspraegungHybridLoeschenCallback());
 			verwaltung.updateKontakt(kon, new KontaktModifikationsdatumCallback());
-
+			}else{
+				Window.alert("Sie müssen als erstes alle Teilhaberschaften an dieser Ausprägung löschen");
+			}
 		}
 	}
 
@@ -208,6 +218,7 @@ public class UpdateKontaktForm extends VerticalPanel {
 		public void onClick(ClickEvent event) {
 
 			ctf.addRow(eigenschaftSugBox.getValue(), txt_Auspraegung.getValue());
+			
 			verwaltung.insertEigenschaft(eigenschaftSugBox.getText(), 0, new EigenschaftEinfuegenCallback());
 			verwaltung.updateKontakt(kon, new KontaktModifikationsdatumCallback());
 
@@ -236,7 +247,11 @@ public class UpdateKontaktForm extends VerticalPanel {
 
 		@Override
 		public void onSuccess(Kontakt result) {
-			verwaltung.findHybrid(kon, new ReloadCallback());
+			if (kon.getNutzerID() == nutzer.getID()) {
+				verwaltung.findHybrid(kon, new ReloadCallback());
+			} else {
+				verwaltung.findSharedAuspraegung(kon.getID(), new ReloadCallback());
+			}
 		}
 
 	}
@@ -257,9 +272,16 @@ public class UpdateKontaktForm extends VerticalPanel {
 
 			} else {
 
-				eig1.setID(result.getID());
-				verwaltung.insertAuspraegung(txt_Auspraegung.getText(), 0, eig1.getID(), kon.getID(),
-						new AuspraegungEinfuegenCallback());
+				if (kon.getNutzerID() == nutzer.getID()) {
+					eig1.setID(result.getID());
+					verwaltung.insertAuspraegung(txt_Auspraegung.getText(), 0, eig1.getID(), kon.getID(),
+							new AuspraegungEinfuegenCallback());
+				} else {
+					eig1.setID(result.getID());
+
+					verwaltung.insertAuspraegung(txt_Auspraegung.getText(), 1, eig1.getID(), kon.getID(),
+							new AuspraegungEinfuegenCallback());
+				}
 
 			}
 		}
@@ -275,13 +297,34 @@ public class UpdateKontaktForm extends VerticalPanel {
 
 		@Override
 		public void onSuccess(Eigenschaftauspraegung result) {
-			verwaltung.findHybrid(kon, new ReloadCallback());
+			if (kon.getNutzerID() == nutzer.getID()) {
+				verwaltung.findHybrid(kon, new ReloadCallback());
+			} else {
+				verwaltung.insertTeilhaberschaftAuspraegung(result.getID(), nutzer.getID(), kon.getNutzerID(), new TeilhaberschaftKontaktCallback());
+				
+			}
 			eigenschaftSugBox.setText("");
 			txt_Auspraegung.setText("");
 		}
 
 	}
 
+	class TeilhaberschaftKontaktCallback implements AsyncCallback<Teilhaberschaft>{
+
+		@Override
+		public void onFailure(Throwable caught) {
+	
+			
+		}
+
+		@Override
+		public void onSuccess(Teilhaberschaft result) {
+			Window.alert("Die Ausprägung wurde erfolgreich angelgt. Da der angemeldete Nutzer nicht der Eigentümer ist, wurde eine Teilhaberschaft erstellt");
+			verwaltung.findSharedAuspraegung(kon.getID(), new ReloadCallback());
+		}
+		
+	}
+	
 	class AuspraegungBearbeitenCallback implements AsyncCallback<Eigenschaftauspraegung> {
 
 		@Override
@@ -295,7 +338,12 @@ public class UpdateKontaktForm extends VerticalPanel {
 
 			eigaus.setWert(result.getWert());
 			ctf.getSm().setSelected(null, true);
-			verwaltung.findHybrid(kon, new ReloadCallback());
+
+			if (kon.getNutzerID() == nutzer.getID()) {
+				verwaltung.findHybrid(kon, new ReloadCallback());
+			} else {
+				verwaltung.findSharedAuspraegung(kon.getID(), new ReloadCallback());
+			}
 
 		}
 
@@ -312,7 +360,12 @@ public class UpdateKontaktForm extends VerticalPanel {
 		@Override
 		public void onSuccess(Void result) {
 			ctf.deleteRow(ea);
-			verwaltung.findHybrid(kon, new ReloadCallback());
+
+			if (kon.getNutzerID() == nutzer.getID()) {
+				verwaltung.findHybrid(kon, new ReloadCallback());
+			} else {
+				verwaltung.findSharedAuspraegung(kon.getID(), new ReloadCallback());
+			}
 
 		}
 	}

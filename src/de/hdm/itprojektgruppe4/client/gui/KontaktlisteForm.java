@@ -131,6 +131,7 @@ public class KontaktlisteForm extends VerticalPanel {
 		}
 
 	}
+	
 
 	/*
 	 * Clickhandler ermöglicht das Anzeigen eines ausgewaehlten Kontaktes.
@@ -141,10 +142,17 @@ public class KontaktlisteForm extends VerticalPanel {
 		public void onClick(ClickEvent event) {
 			if (selectionModel.getSelectedObject() == null) {
 				Window.alert("Sie muessen einen Kontakt ausw�hlen");
+
 			} else {
-				KontaktForm kf = new KontaktForm(selectionModel.getSelectedObject());
-				RootPanel.get("Details").clear();
-				RootPanel.get("Details").add(kf);
+				if (kl.getID() == nutzer.getID()) {
+					KontaktForm kf = new KontaktForm(selectionModel.getSelectedObject());
+					RootPanel.get("Details").clear();
+					RootPanel.get("Details").add(kf);
+				} else {
+					KontaktForm kf = new KontaktForm(selectionModel.getSelectedObject(), "Teilhaberschaft");
+					RootPanel.get("Details").clear();
+					RootPanel.get("Details").add(kf);
+				}
 			}
 		}
 
@@ -227,7 +235,7 @@ public class KontaktlisteForm extends VerticalPanel {
 
 				@Override
 				public void onFailure(Throwable caught) {
-					// TODO Auto-generated method stub
+
 
 				}
 

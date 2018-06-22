@@ -71,16 +71,16 @@ public class KontaktForm extends VerticalPanel {
 	}
 
 	public KontaktForm(Kontakt k, String teilhaberschaft) {
-		
+
 		this.k = k;
 		ctf = new CellTableForm(k, teilhaberschaft);
-		
+
 	}
 
 	public void onLoad() {
 
 		super.onLoad();
-		
+
 		nutzer.setID(Integer.parseInt(Cookies.getCookie("id")));
 		nutzer.setEmail(Cookies.getCookie("email"));
 		final Image kontaktbild = new Image();
@@ -96,7 +96,7 @@ public class KontaktForm extends VerticalPanel {
 		ctf.addColumn(ctf.getStatus(), "Status");
 		ctf.setSelectionModel(sm);
 		RootPanel.get("Buttonbar").clear();
-		
+
 		scrollPanel.setSize("650px", "300px");
 		scrollPanel.add(ctf);
 
@@ -164,7 +164,7 @@ public class KontaktForm extends VerticalPanel {
 
 		public void onClick(ClickEvent event) {
 			Window.alert(k.getName());
-			
+
 			if (k.getNutzerID() == nutzer.getID()) {
 				UpdateKontaktForm ukf = new UpdateKontaktForm(k);
 				RootPanel.get("Details").clear();
@@ -185,9 +185,15 @@ public class KontaktForm extends VerticalPanel {
 
 		@Override
 		public void onClick(ClickEvent event) {
-			TeilhaberschaftForm tf = new TeilhaberschaftForm(k);
-			RootPanel.get("Details").clear();
-			RootPanel.get("Details").add(tf);
+			if (k.getNutzerID() == nutzer.getID()) {
+				TeilhaberschaftForm tf = new TeilhaberschaftForm(k);
+				RootPanel.get("Details").clear();
+				RootPanel.get("Details").add(tf);
+			} else {
+				TeilhaberschaftForm tf = new TeilhaberschaftForm(k, "Teilhaberschaft");
+				RootPanel.get("Details").clear();
+				RootPanel.get("Details").add(tf);
+			}
 		}
 	}
 
@@ -201,6 +207,5 @@ public class KontaktForm extends VerticalPanel {
 		}
 
 	}
-
 
 }

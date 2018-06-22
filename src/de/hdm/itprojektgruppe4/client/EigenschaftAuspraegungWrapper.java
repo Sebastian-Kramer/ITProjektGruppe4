@@ -7,21 +7,17 @@ import de.hdm.itprojektgruppe4.shared.bo.Eigenschaftauspraegung;
 
 public class EigenschaftAuspraegungWrapper implements Serializable {
 
-	
 	private static final long serialVersionUID = 1L;
-	
-	private Eigenschaft eigenschaft = new Eigenschaft();
-	
-	private Eigenschaftauspraegung auspraegung = new Eigenschaftauspraegung();
-	
 
-	
-	public EigenschaftAuspraegungWrapper(Eigenschaft eigenschaft, Eigenschaftauspraegung auspraegung){
-		
+	private Eigenschaft eigenschaft = new Eigenschaft();
+
+	private Eigenschaftauspraegung auspraegung = new Eigenschaftauspraegung();
+
+	public EigenschaftAuspraegungWrapper(Eigenschaft eigenschaft, Eigenschaftauspraegung auspraegung) {
+
 		this.auspraegung = auspraegung;
 		this.eigenschaft = eigenschaft;
-		
-		
+
 	}
 
 	public Eigenschaft getEigenschaft() {
@@ -40,67 +36,64 @@ public class EigenschaftAuspraegungWrapper implements Serializable {
 		this.auspraegung = auspraegung;
 	}
 
-	public EigenschaftAuspraegungWrapper(){
-		
+	public EigenschaftAuspraegungWrapper() {
+
 	}
-	
-	
-	public void setEigenschaftValue(String bez){
+
+	public void setEigenschaftValue(String bez) {
 		this.eigenschaft.setBezeichnung(bez);
 	}
-	
-	public void setAuspraegungValue(String wert){
+
+	public void setAuspraegungValue(String wert) {
 		this.auspraegung.setWert(wert);
 	}
-	
-	public void setAuspraegungID(int id){
+
+	public void setAuspraegungID(int id) {
 		this.auspraegung.setID(id);
 	}
-	
-	public void setEigenschaftID(int id){
+
+	public void setEigenschaftID(int id) {
 		this.eigenschaft.setID(id);
 	}
-	
-	public void setAuspraegungStatus(int id){
+
+	public void setAuspraegungStatus(int id) {
 		this.auspraegung.setStatus(id);
 	}
-	
-	public String getEigenschaftValue(){
+
+	public String getEigenschaftValue() {
 		return this.eigenschaft.getBezeichnung();
 	}
-	
-	public int getEigenschaftStatus(){
+
+	public int getEigenschaftStatus() {
 		return this.eigenschaft.getStatus();
 	}
-	
-	public int getEigenschaftID(){
-		return this.eigenschaft.getID();	
+
+	public int getEigenschaftID() {
+		return this.eigenschaft.getID();
 	}
-	
-	public String getAuspraegungValue(){
+
+	public String getAuspraegungValue() {
 		return this.auspraegung.getWert();
-	} 
-	
-	public int getAuspraegungStatus(){
+	}
+
+	public int getAuspraegungStatus() {
 		return this.auspraegung.getStatus();
 	}
-	
-	public int getAuspraegungID(){
+
+	public int getAuspraegungID() {
 		return this.auspraegung.getID();
 	}
-	
-	public int getAuspraegungEigenschaftID(){
+
+	public int getAuspraegungEigenschaftID() {
 		return this.auspraegung.getEigenschaftsID();
 	}
-	
-	public int getAuspraegungKontaktID(){
+
+	public int getAuspraegungKontaktID() {
 		return this.auspraegung.getKontaktID();
 	}
-	
+
 	public String getImageUrl2Contacts(EigenschaftAuspraegungWrapper object) {
 		return "Image/contactShared.png";
 	}
-	
 
-	
 }
