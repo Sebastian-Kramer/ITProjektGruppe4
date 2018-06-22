@@ -1706,11 +1706,11 @@ public class KontaktAdministrationImpl extends RemoteServiceServlet implements K
 
 	public void deleteEigenschaftUndAuspraegung(EigenschaftAuspraegungWrapper ea) throws IllegalArgumentException {
 		Eigenschaftauspraegung eaa = new Eigenschaftauspraegung();
-		// Eigenschaft ee = new Eigenschaft();
+
 		eaa.setID(ea.getAuspraegungID());
-		// ee.setID(ea.getEigenschaftID());
+
 		this.eigenschaftauspraegungMapper.deleteAuspraegung(eaa);
-		// this.eigMapper.deleteEigenschaft(ee);
+
 	}
 
 	@Override
@@ -1747,22 +1747,22 @@ public class KontaktAdministrationImpl extends RemoteServiceServlet implements K
 	public Vector<EigenschaftAuspraegungWrapper> findSharedAuspraegung(int kontaktID)
 			throws IllegalArgumentException {
 		
-		Vector<Eigenschaftauspraegung> eigaus = this.findAllSharedAuspraegungenFromKontaktID(kontaktID);
-		
+		Vector<Eigenschaftauspraegung> eigausShared = this.findAllSharedAuspraegungenFromKontaktID(kontaktID);
+		//HIER MÜSSEN ALLE AUSPRÄGUNGEN, DIE AN EINEN NUTZER GETEILT WURDEN SIND HERAUSGSUCHT WERDEN!!	
 		Vector<Eigenschaft> eig = new Vector<Eigenschaft>();
 		
-		for (Eigenschaftauspraegung eigenschaftauspraegung : eigaus) {
+		for (Eigenschaftauspraegung eigenschaftauspraegung : eigausShared) {
 			eig.add(getEigenschaftByID(eigenschaftauspraegung.getEigenschaftsID()));
 		}
 		
 		Vector<EigenschaftAuspraegungWrapper> hybrid = new Vector<EigenschaftAuspraegungWrapper>();
 		
-		for (int i = 0; i < eigaus.size(); i++) {
+		for (int i = 0; i < eigausShared.size(); i++) {
 
-			for (int z = 0; z < eigaus.size(); z++) {
-				if (eigaus.elementAt(i).getEigenschaftsID() == eig.elementAt(z).getID()) {
+			for (int z = 0; z < eigausShared.size(); z++) {
+				if (eigausShared.elementAt(i).getEigenschaftsID() == eig.elementAt(z).getID()) {
 
-					hybrid.add(new EigenschaftAuspraegungWrapper(eig.elementAt(z), eigaus.elementAt(i)));
+					hybrid.add(new EigenschaftAuspraegungWrapper(eig.elementAt(z), eigausShared.elementAt(i)));
 
 					break;
 				}

@@ -55,14 +55,9 @@ public class TeilhaberschaftForm extends VerticalPanel {
 	private MultiWordSuggestOracle nutzerOracle = new MultiWordSuggestOracle();
 	private SuggestBox nutzerSugBox = new SuggestBox(nutzerOracle);
 	
-
 	private CellTableForm ctf = null;
 
 	private ScrollPanel scrollPanel = new ScrollPanel();
-	
-	private MultiWordSuggestOracle  nameoracle = new MultiWordSuggestOracle();
-	
-	private SuggestBox suggestionBox = new SuggestBox(nameoracle);
 
 	private HTML html2 = new HTML(
 			"Sie können auch nur bestimmte <b> Ausprägungen </b> an einen anderen <b> Nutzer </b> teilen, "
@@ -84,9 +79,18 @@ public class TeilhaberschaftForm extends VerticalPanel {
 	public TeilhaberschaftForm(Kontakt k) {
 
 		this.kon = k;
+		ctf = new CellTableForm(kon);
 		einzTeilen.setVisible(false);
 
 	}
+	public TeilhaberschaftForm(Kontakt k, String teilhaberschaft) {
+
+		this.kon = k;
+		ctf = new CellTableForm(kon, teilhaberschaft);
+		einzTeilen.setVisible(false);
+
+	}
+	
 
 	/**
 	 * Die onLoad()-Methode wird beim Starten der TeilhaberschaftForm geladen.
@@ -105,7 +109,7 @@ public class TeilhaberschaftForm extends VerticalPanel {
 
 		verwaltung.findAllNutzer(new AlleNutzer());
 
-		ctf = new CellTableForm(kon);
+		
 		ctf.setSelectionModel(selectionModelWrapper,
 				DefaultSelectionEventManager.<EigenschaftAuspraegungWrapper>createCheckboxManager());
 		selectionModelWrapper.addSelectionChangeHandler(new Handler());
@@ -224,10 +228,18 @@ public class TeilhaberschaftForm extends VerticalPanel {
 
 		@Override
 		public void onClick(ClickEvent event) {
-			KontaktForm kf = new KontaktForm(kon);
-			RootPanel.get("Details").clear();
-			RootPanel.get("Buttonbar").clear();
-			RootPanel.get("Details").add(kf);
+
+			if (kon.getID() == nutzer.getID()) {
+				KontaktForm kf = new KontaktForm(kon);
+				RootPanel.get("Details").clear();
+				RootPanel.get("Buttonbar").clear();
+				RootPanel.get("Details").add(kf);
+			} else {
+				KontaktForm kf = new KontaktForm(kon, "Teilhaberschaft");
+				RootPanel.get("Details").clear();
+				RootPanel.get("Buttonbar").clear();
+				RootPanel.get("Details").add(kf);
+			}
 
 		}
 
@@ -276,15 +288,26 @@ public class TeilhaberschaftForm extends VerticalPanel {
 			if (result == 1) {
 				Window.alert("Die Teilhaberschaft wurden erfolgreich mit dem Nutzer " + nutzerSugBox.getValue()
 						+ " angelegt");
-				TeilhaberschaftForm tf = new TeilhaberschaftForm(kon);
-				RootPanel.get("Details").clear();
-				RootPanel.get("Details").add(tf);
+				if (kon.getNutzerID() == nutzer.getID()) {
+					TeilhaberschaftForm tf = new TeilhaberschaftForm(kon);
+					RootPanel.get("Details").clear();
+					RootPanel.get("Details").add(tf);
+				} else {
+					TeilhaberschaftForm tf = new TeilhaberschaftForm(kon, "Teilhaberschaft");
+					RootPanel.get("Details").clear();
+					RootPanel.get("Details").add(tf);
+				}
 			} else {
-				Window.alert(
-						"Mit dem Nutzer " + nutzerSugBox.getValue() + " besteht bereits eine Teilhaberschaft");
-				TeilhaberschaftForm tf = new TeilhaberschaftForm(kon);
-				RootPanel.get("Details").clear();
-				RootPanel.get("Details").add(tf);
+				Window.alert("Mit dem Nutzer " + nutzerSugBox.getValue() + " besteht bereits eine Teilhaberschaft");
+				if (kon.getNutzerID() == nutzer.getID()) {
+					TeilhaberschaftForm tf = new TeilhaberschaftForm(kon);
+					RootPanel.get("Details").clear();
+					RootPanel.get("Details").add(tf);
+				} else {
+					TeilhaberschaftForm tf = new TeilhaberschaftForm(kon, "Teilhaberschaft");
+					RootPanel.get("Details").clear();
+					RootPanel.get("Details").add(tf);
+				}
 			}
 
 		}

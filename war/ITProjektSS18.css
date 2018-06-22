@@ -173,7 +173,6 @@ div.ÜberschriftMainForm {
 }
 
 div.ÜberschriftMyContacts {
-	margin-left: 50px;
 	font-family: serif;
 }
 
@@ -195,10 +194,6 @@ div.DialogboxBackground1 {
 	border-style: groove;
 }
 
-.Flextable {
-	
-}
-
 div.scrollPanel {
 	border-style: double;
 	border-color: 1px solid LightSkyBlue;
@@ -211,6 +206,7 @@ div.cellListKontakte {
 
 img.Startbild {
 	width: 100px;
+	margin-left: 50px;
 }
 
 .HtmlText {
