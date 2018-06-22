@@ -466,6 +466,10 @@ public interface KontaktAdministration extends RemoteService {
 	 * @return
 	 * @throws IllegalArgumentException
 	 */
+	
+	
+	public Vector<Nutzer> getAllTeilhaberFromKontakt (int kontaktID) throws IllegalArgumentException;
+	
 	public List<Kontakt> findAllKontaktNames() throws IllegalArgumentException;
 
 	/**

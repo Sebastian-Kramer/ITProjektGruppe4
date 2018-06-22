@@ -48,7 +48,9 @@ public class KontaktlisteBearbeitenForm extends VerticalPanel {
 	private Button kontaktlisteLoeschen = new Button("Kontaktliste loeschen");
 	private Button kontaktEntfernen = new Button("Kontakt entfernen");
 	private Button zurueck = new Button("Bearbeitung beenden");
+	private boolean deleteListAlert;
 
+	
 	private KeyDownHandler changeListNameHandler = new ChangeListNameHandler(); 
 	private Label lbl_kontaktliste = new Label("Kontaktlistenname:");
 	private TextBox txt_kontaktliste = new TextBox();
@@ -110,18 +112,25 @@ public class KontaktlisteBearbeitenForm extends VerticalPanel {
 
 		@Override
 		public void onClick(ClickEvent event) {
+			
+			deleteListAlert = Window.confirm("Möchten Sie die Kontaktliste endgültig löschen ?");
 			// Wenn die ausgewaehlte Kontaktliste vom Nutzer erstellt wurde,
 			// wird diese geloescht
-			if (kl.getNutzerID() == nutzer.getID()) {
-				kontaktVerwaltung.deleteKontaktliste(kl, new KontaktlisteloeschenCallback());
+			if (deleteListAlert == true) {
+				
+				if (kl.getNutzerID() == nutzer.getID()) {
+					kontaktVerwaltung.deleteKontaktliste(kl, new KontaktlisteloeschenCallback());
+				}
+				// Wenn nur eine Teilhaberschaft an der Kontaktliste besteht, wird
+				// nur diese aufgel�st
+				else {
+					kontaktVerwaltung.deleteTeilhaberschaftByKontaktlisteID(kl.getID(), new KontaktlisteloeschenCallback());
+				
+				}
+			} else if(deleteListAlert == false) {
+				
 			}
-			// Wenn nur eine Teilhaberschaft an der Kontaktliste besteht, wird
-			// nur diese aufgel�st
-			else {
-				kontaktVerwaltung.deleteTeilhaberschaftByKontaktlisteID(kl.getID(), new KontaktlisteloeschenCallback());
 			
-			}
-
 		}
 	}
 

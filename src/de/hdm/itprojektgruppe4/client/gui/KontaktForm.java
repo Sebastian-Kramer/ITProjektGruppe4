@@ -1,16 +1,24 @@
 package de.hdm.itprojektgruppe4.client.gui;
 
+import java.util.Vector;
+
+import com.google.appengine.api.xmpp.XMPPServicePb.PresenceResponse.SHOW;
 import com.google.gwt.cell.client.ClickableTextCell;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.event.dom.client.MouseOverEvent;
+import com.google.gwt.event.dom.client.MouseOverHandler;
 import com.google.gwt.i18n.client.DateTimeFormat;
 import com.google.gwt.user.client.Cookies;
 import com.google.gwt.user.client.Window;
+import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.DialogBox;
 import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Image;
+import com.google.gwt.user.client.ui.Label;
+import com.google.gwt.user.client.ui.PopupPanel;
 import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwt.user.client.ui.ScrollPanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
@@ -18,6 +26,7 @@ import com.google.gwt.view.client.SingleSelectionModel;
 
 import de.hdm.itprojektgruppe4.client.ClientsideSettings;
 import de.hdm.itprojektgruppe4.client.EigenschaftAuspraegungWrapper;
+import de.hdm.itprojektgruppe4.client.NavigationTree;
 import de.hdm.itprojektgruppe4.shared.KontaktAdministrationAsync;
 import de.hdm.itprojektgruppe4.shared.bo.*;
 
@@ -56,7 +65,7 @@ public class KontaktForm extends VerticalPanel {
 	private Button zurueckBtn = new Button("Zurück");
 	private Button kontaktListehinzufuegen = new Button("Kontakt einer Liste hinzufügen");
 	private Button kontaktTeilen = new Button("Kontakt teilen");
-
+	private boolean deleteKonAlert;
 	private CellTableForm ctf = null;
 	private ClickableTextCell bezeigenschaft = new ClickableTextCell();
 	private ClickableTextCell wertauspraegung = new ClickableTextCell();
@@ -134,6 +143,32 @@ public class KontaktForm extends VerticalPanel {
 			hpanel1.add(sharedPic);
 
 		}
+		
+//		INbeabreitung VON NINO		
+//		sharedPic.addMouseOverHandler(new MouseOverHandler() {
+//			
+//			@Override
+//			public void onMouseOver(MouseOverEvent event) {
+//				// TODO Auto-generated method stub
+//				verwaltung.getAllTeilhaberFromKontakt(k.getID(), new AsyncCallback<Vector<Nutzer>>() {
+//					
+//					@Override
+//					public void onSuccess(Vector<Nutzer> result) {
+//						// TODO Auto-generated method stub
+//						PopupPanel pop = new PopupPanel();
+//						pop.setWidget(new Label("HALLOPOPUP"));
+//						pop.show();
+//						
+//					}
+//					
+//					@Override
+//					public void onFailure(Throwable caught) {
+//						// TODO Auto-generated method stub
+//						
+//					}
+//				});
+//			}
+//		});
 
 	}
 
@@ -141,9 +176,13 @@ public class KontaktForm extends VerticalPanel {
 		@Override
 		public void onClick(ClickEvent event) {
 
-			DialogBox deleteBox = new DialogBoxKontakt(k);
-			deleteBox.center();
-
+			
+			
+			deleteKonAlert = Window.confirm("Möchten Sie den Kontakt endgültig löschen ?");
+			if(deleteKonAlert == true){
+				verwaltung.deleteKontakt(k, new DeleteKontaktCallback());
+			}
+				
 		}
 	}
 
@@ -207,5 +246,32 @@ public class KontaktForm extends VerticalPanel {
 		}
 
 	}
+	
+	private class DeleteKontaktCallback implements AsyncCallback<Void>{
 
+		@Override
+		public void onFailure(Throwable caught) {
+			// TODO Auto-generated method stub
+			
+		}
+
+		@Override
+		public void onSuccess(Void result) {
+			// TODO Auto-generated method stub
+			Window.alert("Sie haben den Kontakt erfolgreich gelöscht." );
+			MainForm mf = new MainForm();
+			NavigationTree updatedTree = new NavigationTree();
+			RootPanel.get("Buttonbar").clear();
+			RootPanel.get("Details").clear();
+			RootPanel.get("Navigator").clear();
+			RootPanel.get("Details").add(mf);
+			RootPanel.get("Navigator").add(updatedTree);
+			
+			
+		}
+		 
+	}
+	 void setKktvw(KontaktlisteKontaktTreeViewModel kktvw) {
+			this.kktvw = kktvw;
+		}
 }

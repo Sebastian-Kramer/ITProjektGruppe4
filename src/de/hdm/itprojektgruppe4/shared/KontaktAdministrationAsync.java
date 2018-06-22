@@ -250,4 +250,8 @@ public interface KontaktAdministrationAsync {
 
 	void hinzuzufuegendeKontakte(int nutzerID, int kontaktlisteID, AsyncCallback<Vector<Kontakt>> callback);
 
+	void getAllTeilhaberFromKontakt(int kontaktID, AsyncCallback<Vector<Nutzer>> callback);
+
+	
+
 }

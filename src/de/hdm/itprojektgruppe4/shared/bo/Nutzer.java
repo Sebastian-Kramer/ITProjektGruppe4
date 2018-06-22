@@ -32,6 +32,12 @@ public class Nutzer extends Person{
 		this.email = email;
 	}
 
+
+	@Override
+	public String toString() {
+		return "Nutzer [email=" + email + "]";
+	}
+
 	
 
 	

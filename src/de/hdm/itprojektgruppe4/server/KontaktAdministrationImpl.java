@@ -564,6 +564,21 @@ public class KontaktAdministrationImpl extends RemoteServiceServlet implements K
 		return n;
 	}
 	
+	
+	public Vector<Nutzer> getAllTeilhaberFromKontakt (int kontaktID) throws IllegalArgumentException{
+		
+		Vector<Teilhaberschaft> t = this.findTeilhaberschaftByKontaktID(kontaktID);
+		Vector<Nutzer> n = new Vector<Nutzer>();
+		
+		for (Teilhaberschaft teil : t) {
+			n.add(this.findNutzerByID(teil.getTeilhaberID()));
+		}
+		
+		return n;
+		
+	}
+	
+	
 	/**
 	 * Auslesen eines Vectors mit allen Nutzern, mit denen eine Kontaktliste noch nicht geteilt wurde.
 	 * 
