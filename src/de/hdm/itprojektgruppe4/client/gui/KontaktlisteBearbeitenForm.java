@@ -50,8 +50,10 @@ public class KontaktlisteBearbeitenForm extends VerticalPanel {
 	private Button zurueck = new Button("Bearbeitung beenden");
 	private boolean deleteListAlert;
 
+
 	
 	private KeyDownHandler changeListNameHandler = new ChangeListNameHandler(); 
+
 	private Label lbl_kontaktliste = new Label("Kontaktlistenname:");
 	private TextBox txt_kontaktliste = new TextBox();
 
@@ -59,8 +61,7 @@ public class KontaktlisteBearbeitenForm extends VerticalPanel {
 	private CellList<Kontakt> kontaktCellList = new CellList<Kontakt>(kontaktcell);
 	private SingleSelectionModel<Kontakt> selectionModel = new SingleSelectionModel<Kontakt>();
 	private ListDataProvider<Kontakt> dataProvider = new ListDataProvider<Kontakt>();
-	
-	
+
 	public KontaktlisteBearbeitenForm(Kontaktliste kl) {
 		this.kl = kl;
 		nutzer.setID(Integer.parseInt(Cookies.getCookie("id")));
@@ -127,10 +128,13 @@ public class KontaktlisteBearbeitenForm extends VerticalPanel {
 					kontaktVerwaltung.deleteTeilhaberschaftByKontaktlisteID(kl.getID(), new KontaktlisteloeschenCallback());
 				
 				}
+
+				
+				
 			} else if(deleteListAlert == false) {
 				
 			}
-			
+
 		}
 	}
 
@@ -163,8 +167,8 @@ public class KontaktlisteBearbeitenForm extends VerticalPanel {
 			if (selectionModel.getSelectedObject() == null) {
 				Window.alert("Sie muessen einen Kontakt auswaehlen");
 			} else {
-				kontaktVerwaltung.deleteKontaktKontaktlisteByKontaktID(selectionModel.getSelectedObject().getID(),
-						new KontaktEntfernenCallback());
+				kontaktVerwaltung.deleteKontaktKontaktlisteByKontaktIDAndByKListID(
+						selectionModel.getSelectedObject().getID(), kl.getID(), new KontaktEntfernenCallback());
 			}
 
 		}
@@ -194,11 +198,12 @@ public class KontaktlisteBearbeitenForm extends VerticalPanel {
 		}
 
 	}
-	
+
 	/**
-	 * KeyDownHandler um den Kontaktlisten-Namen durch Eingabe in der Textbox ändern zu können.
+	 * KeyDownHandler um den Kontaktlisten-Namen durch Eingabe in der Textbox
+	 * ändern zu können.
 	 */
-	private class ChangeListNameHandler implements KeyDownHandler{
+	private class ChangeListNameHandler implements KeyDownHandler {
 
 		@Override
 		public void onKeyDown(KeyDownEvent event) {
@@ -208,15 +213,13 @@ public class KontaktlisteBearbeitenForm extends VerticalPanel {
 				NavigationTree updatedNavTree = new NavigationTree();
 				RootPanel.get("Navigator").clear();
 				RootPanel.get("Navigator").add(updatedNavTree);
-	
+
 			}
-			
-			
+
 		}
-		
-		
+
 	}
-	
+
 	/**
 	 * Callback-Klasse für das Updaten einer Kontaktliste.
 	 */
@@ -225,26 +228,25 @@ public class KontaktlisteBearbeitenForm extends VerticalPanel {
 		@Override
 		public void onFailure(Throwable caught) {
 			// TODO Auto-generated method stub
-			
+
 		}
 
 		@Override
 		public void onSuccess(Kontaktliste result) {
 			if (result == null) {
-				Window.alert("Sie dürfen den Namen einer Standardkontaktliste nicht ändern." );
+				Window.alert("Sie dürfen den Namen einer Standardkontaktliste nicht ändern.");
 				KontaktlisteForm kf = new KontaktlisteForm(kl);
 				NavigationTree updatedNavTree = new NavigationTree();
 				RootPanel.get("Details").clear();
 				RootPanel.get("Navigator").clear();
 				RootPanel.get("Details").add(kf);
-				RootPanel.get("Navigator").add(updatedNavTree);	
+				RootPanel.get("Navigator").add(updatedNavTree);
 			}
-			Window.alert("Der Name der Liste wurde erfolgreich zu " + result.getBez() +" geändert." );
+			Window.alert("Der Name der Liste wurde erfolgreich zu " + result.getBez() + " geändert.");
 		}
-		
+
 	}
-	
-	
+
 	/**
 	 * Callback-Klasse, um alle Kontakte der Kontaktliste auszulesen. Jedes
 	 * Kontakt Object aus dem Vector Result wird zum ListDataProvider
@@ -284,8 +286,7 @@ public class KontaktlisteBearbeitenForm extends VerticalPanel {
 		public void onSuccess(Void result) {
 			if (kl.getBez().equals("Meine Kontakte") || kl.getBez().equals("Meine geteilten Kontakte")) {
 				Window.alert("Dies ist eine Standardkontaktliste und kann nicht gelöscht werden.");
-			}
-			else {
+			} else {
 				Window.alert("Die Kontaktliste wurde erfolgreich gelöscht");
 				MainForm main = new MainForm();
 				NavigationTree updatedTree = new NavigationTree();
@@ -307,18 +308,24 @@ public class KontaktlisteBearbeitenForm extends VerticalPanel {
 
 		@Override
 		public void onFailure(Throwable caught) {
-			// TODO Auto-generated method stub
 
 		}
 
 		@Override
 		public void onSuccess(Void result) {
-			
+			Window.alert("Der Kontakt wurde erfolgreich entfernt");
+			KontaktlisteBearbeitenForm kbf = new KontaktlisteBearbeitenForm(kl);
+			NavigationTree updatedTree = new NavigationTree();
+			RootPanel.get("Navigator").clear();
+			RootPanel.get("Details").clear();
+			RootPanel.get("Buttonbar").clear();
+			RootPanel.get("Details").add(kbf);
+			RootPanel.get("Navigator").add(updatedTree);
 		}
 
 	}
-	
-	private void setTreeViewModel (KontaktlisteKontaktTreeViewModel kktvw){
+
+	private void setTreeViewModel(KontaktlisteKontaktTreeViewModel kktvw) {
 		this.kktvw = kktvw;
 	}
 

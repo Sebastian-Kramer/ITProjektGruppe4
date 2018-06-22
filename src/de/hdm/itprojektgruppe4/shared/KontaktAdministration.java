@@ -720,7 +720,7 @@ public interface KontaktAdministration extends RemoteService {
 
 	public Vector<Teilhaberschaft> findTeilhaberschaftByAuspraegungID(int auspraegungID);
 
-	public Vector<EigenschaftAuspraegungWrapper> findSharedAuspraegung(int kontaktID)
+	public Vector<EigenschaftAuspraegungWrapper> findSharedAuspraegung(int kontaktID, int nutzerID)
 			throws IllegalArgumentException;
 
 	public void deleteUpdateTeilhaberschaft(Eigenschaftauspraegung ea, Nutzer teilhaber, Nutzer n, Kontakt k) throws IllegalArgumentException;
@@ -798,6 +798,10 @@ public interface KontaktAdministration extends RemoteService {
 	 * @throws IllegalArgumentException
 	 */
 	public Vector<Kontakt> hinzuzufuegendeKontakte (int nutzerID, int kontaktlisteID) throws IllegalArgumentException;
+
+	public Teilhaberschaft findTeilhaberschaftByAuspraegungIdAndTeilhaberId(int auspraegungID, int nutzerID) throws IllegalArgumentException;
+
+	public Eigenschaftauspraegung getAuspraegungByEigID(int eigID) throws IllegalArgumentException;
 
 	
 

@@ -65,6 +65,7 @@ public class NavigationReport extends VerticalPanel {
 
 			@Override
 			public void onClick(ClickEvent event) {
+				
 				RootPanel.get("Details").clear();
 				EigenschaftAuspraegungFormReport eigenschaftAuspraegungForm = new EigenschaftAuspraegungFormReport();
 				RootPanel.get("Details").add(eigenschaftAuspraegungForm);

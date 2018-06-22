@@ -229,7 +229,7 @@ public class TeilhaberschaftForm extends VerticalPanel {
 		@Override
 		public void onClick(ClickEvent event) {
 
-			if (kon.getID() == nutzer.getID()) {
+			if (kon.getNutzerID() == nutzer.getID()) {
 				KontaktForm kf = new KontaktForm(kon);
 				RootPanel.get("Details").clear();
 				RootPanel.get("Buttonbar").clear();

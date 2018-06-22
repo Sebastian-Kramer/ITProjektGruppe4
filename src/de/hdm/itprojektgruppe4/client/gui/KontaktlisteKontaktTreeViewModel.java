@@ -88,17 +88,31 @@ public class KontaktlisteKontaktTreeViewModel implements TreeViewModel {
 				setSelectedKontaktliste((Kontaktliste) selection);
 				RootPanel.get("Details").clear();
 				RootPanel.get("Details").add(new KontaktlisteForm(getSelectedKontaktliste()));
-				if(((Kontaktliste) selection).getBez().equals("Meine geteilten Kontakte")){
-					teilhaberschaft = "teilhaberschaft";
-				}
+				
+//				if(((Kontaktliste) selection).getBez().equals("Meine geteilten Kontakte")){
+//					teilhaberschaft = "teilhaberschaft";
+//				}
 			}else if (selection instanceof Kontakt){
-				setSelectedKontakt((Kontakt) selection);
-				RootPanel.get("Details").clear();
-				if(teilhaberschaft.equals("teilhaberschaft")){
-					RootPanel.get("Details").add(new KontaktForm((Kontakt) selection, teilhaberschaft));
-				} else {
-					RootPanel.get("Details").add(new KontaktForm((Kontakt) selection));
+				Kontakt k = ((Kontakt) selection);
+
+				if(((Kontakt) selection).getNutzerID() == nutzer.getID()){
+					KontaktForm kf = new KontaktForm(k);
+					RootPanel.get("Details").clear();
+					RootPanel.get("Details").add(kf);
+				}else{
+					KontaktForm kf = new KontaktForm(k, "Teilhaberschaft");
+					RootPanel.get("Details").clear();
+					RootPanel.get("Details").add(kf);
 				}
+			
+//				setSelectedKontakt((Kontakt) selection);
+//				RootPanel.get("Details").clear();
+//				
+//				if(teilhaberschaft.equals("teilhaberschaft")){
+//					RootPanel.get("Details").add(new KontaktForm((Kontakt) selection, "Teilhaberschaft"));
+//				} else {
+//					RootPanel.get("Details").add(new KontaktForm((Kontakt) selection));
+//				}
 			}
 
 		}
@@ -117,7 +131,7 @@ public class KontaktlisteKontaktTreeViewModel implements TreeViewModel {
 
 	}
 	/*
-	 * Setter für das Nutzer-Objekt
+	 * Setter fï¿½r das Nutzer-Objekt
 	 * Informationen werden aus den Cookie gelesen
 	 * @param nutzer
 	 */
@@ -127,7 +141,7 @@ public class KontaktlisteKontaktTreeViewModel implements TreeViewModel {
 	}
 	
 	/*
-	 * Getter für das Nutzer-Objekt
+	 * Getter fï¿½r das Nutzer-Objekt
 	 */
 	Nutzer getNutzer() {
 		return nutzer;

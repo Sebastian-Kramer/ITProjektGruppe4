@@ -60,7 +60,7 @@ public class CellTableForm extends CellTable<EigenschaftAuspraegungWrapper> {
 	}
 	
 	public CellTableForm(Kontakt k) {
-
+	
 		this.kontakt = k;
 		verwaltung.findHybrid(k, new AllAuspraegungToEigenschaftCallback());
 		
@@ -75,9 +75,10 @@ public class CellTableForm extends CellTable<EigenschaftAuspraegungWrapper> {
 	}
 
 	public CellTableForm(Kontakt k, String teilhaberschaft) {
-
+		Nutzer nutzer = new Nutzer();
+		nutzer.setID(Integer.parseInt(Cookies.getCookie("id")));
 		this.kontakt = k;	
-		verwaltung.findSharedAuspraegung(kontakt.getID(), new AllSharedAuspraegungen());
+		verwaltung.findSharedAuspraegung(kontakt.getID(), nutzer.getID() ,new AllSharedAuspraegungen());
 	
 		
 	}
