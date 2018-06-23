@@ -2,13 +2,19 @@ package de.hdm.itprojektgruppe4.client.gui;
 
 import java.util.Vector;
 
+import org.apache.tools.ant.types.resources.comparators.Size;
+
 import com.google.appengine.api.xmpp.XMPPServicePb.PresenceResponse.SHOW;
 import com.google.gwt.cell.client.ClickableTextCell;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.event.dom.client.MouseOutEvent;
+import com.google.gwt.event.dom.client.MouseOutHandler;
 import com.google.gwt.event.dom.client.MouseOverEvent;
 import com.google.gwt.event.dom.client.MouseOverHandler;
 import com.google.gwt.i18n.client.DateTimeFormat;
+import com.google.gwt.user.cellview.client.CellList;
+import com.google.gwt.user.cellview.client.HasKeyboardSelectionPolicy.KeyboardSelectionPolicy;
 import com.google.gwt.user.client.Cookies;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
@@ -22,6 +28,8 @@ import com.google.gwt.user.client.ui.PopupPanel;
 import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwt.user.client.ui.ScrollPanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
+import com.google.gwt.user.client.ui.Widget;
+import com.google.gwt.view.client.ListDataProvider;
 import com.google.gwt.view.client.SingleSelectionModel;
 
 import de.hdm.itprojektgruppe4.client.ClientsideSettings;
@@ -66,6 +74,13 @@ public class KontaktForm extends VerticalPanel {
 	private Button kontaktListehinzufuegen = new Button("Kontakt einer Liste hinzufügen");
 	private Button kontaktTeilen = new Button("Kontakt teilen");
 	private boolean deleteKonAlert;
+	
+	private NutzerCell nutzerCell = new NutzerCell();
+	private CellList<Nutzer> teilhaberCL = new CellList<Nutzer>(nutzerCell);
+	private VerticalPanel vpanelPopUp = new VerticalPanel();
+	private Label teilInfo = new Label("Mit folgenden Nutzern geteilt: ");
+	
+	
 	private CellTableForm ctf = null;
 	private ClickableTextCell bezeigenschaft = new ClickableTextCell();
 	private ClickableTextCell wertauspraegung = new ClickableTextCell();
@@ -76,7 +91,7 @@ public class KontaktForm extends VerticalPanel {
 	public KontaktForm(Kontakt k) {
 		this.k = k;
 		ctf = new CellTableForm(k);
-
+		
 	}
 
 	public KontaktForm(Kontakt k, String teilhaberschaft) {
@@ -124,7 +139,7 @@ public class KontaktForm extends VerticalPanel {
 		vpanel.add(vpanelDetails);
 		vpanel.add(hpanel);
 		this.add(vpanel);
-
+		
 		RootPanel.get("Buttonbar").add(bearbeitenButton);
 		RootPanel.get("Buttonbar").add(loeschenButton);
 		RootPanel.get("Buttonbar").add(kontaktTeilen);
@@ -144,35 +159,60 @@ public class KontaktForm extends VerticalPanel {
 
 		}
 		
-//		INbeabreitung VON NINO		
-//		sharedPic.addMouseOverHandler(new MouseOverHandler() {
-//			
-//			@Override
-//			public void onMouseOver(MouseOverEvent event) {
-//				// TODO Auto-generated method stub
-//				verwaltung.getAllTeilhaberFromKontakt(k.getID(), new AsyncCallback<Vector<Nutzer>>() {
-//					
-//					@Override
-//					public void onSuccess(Vector<Nutzer> result) {
-//						// TODO Auto-generated method stub
-//						PopupPanel pop = new PopupPanel();
-//						pop.setWidget(new Label("HALLOPOPUP"));
-//						pop.show();
-//						
-//					}
-//					
-//					@Override
-//					public void onFailure(Throwable caught) {
-//						// TODO Auto-generated method stub
-//						
-//					}
-//				});
-//			}
-//		});
+
+
+		
+		
+		sharedPic.addMouseOverHandler(new MouseOverHandler() {
+			
+			@Override
+			public void onMouseOver(MouseOverEvent event) {
+				// TODO Auto-generated method stub
+				verwaltung.getAllTeilhaberFromKontakt(k.getID(), new TeilhaberFromKontaktCallback());
+
+			
+				
+			}
+		});
+		
+		sharedPic.addMouseOutHandler(new MouseOutHandler() {
+			
+			@Override
+			public void onMouseOut(MouseOutEvent event) {
+				// TODO Auto-generated method stub
+				PopUpInfo pop = new PopUpInfo();
+				//pop.add(lbl);
+				pop.hide();
+			}
+		});
 
 	}
+	
+	
+	
+	
+	private class PopUpInfo extends PopupPanel {
+		
+		public PopUpInfo(){
+			
+			super(true);
+			
+			addDomHandler(new MouseOutHandler() {
+				
+				@Override
+				public void onMouseOut(MouseOutEvent event) {
+					// TODO Auto-generated method stub
+					hide();
+				}
+			}, MouseOutEvent.getType());
+			
+			setPopupPosition(sharedPic.getAbsoluteLeft(), sharedPic.getAbsoluteTop());
+			
+		}
+		
+	}
 
-	class ClickLoeschenHandler implements ClickHandler {
+	private class ClickLoeschenHandler implements ClickHandler {
 		@Override
 		public void onClick(ClickEvent event) {
 
@@ -247,6 +287,33 @@ public class KontaktForm extends VerticalPanel {
 
 	}
 	
+	
+	private class TeilhaberFromKontaktCallback implements AsyncCallback<Vector<Nutzer>>{
+
+		@Override
+		public void onFailure(Throwable caught) {
+			// TODO Auto-generated method stub
+			
+		}
+
+		@Override
+		public void onSuccess(Vector<Nutzer> result) {
+			// TODO Auto-generated method stub
+			teilhaberCL.setRowCount(result.size(), true);
+			teilhaberCL.setRowData(result);
+			teilhaberCL.setKeyboardSelectionPolicy(KeyboardSelectionPolicy.DISABLED);
+			vpanelPopUp.add(teilInfo);
+			vpanelPopUp.add(teilhaberCL);
+			
+			Label lbl = new Label("Geteilt mit: "+result+"");
+			PopUpInfo pop = new PopUpInfo();
+			pop.setWidget(vpanelPopUp);
+			pop.show();
+		}
+
+	
+		
+	}
 	private class DeleteKontaktCallback implements AsyncCallback<Void>{
 
 		@Override

@@ -544,6 +544,32 @@ public class TeilhaberschaftMapper {
 
 		}
 	}
+	
+	/**
+	 *  Teilhaberschaft anhand der übergebenen EigenschaftsausprägungID löschen.
+	 * @param eigenschaftsauspraegungID
+	 * 
+	 * 			die ID Eigenschaftsausprägung an der die Teilhaberschaft geloescht werden soll
+	 * 
+	 */
+	
+	public void deleteTeilhaberschaftByAuspreaegungID(int eigenschaftsauspraegungID) {
+		Connection con = DBConnection.connection();
+
+		try {
+
+			Statement stmt = con.createStatement();
+
+			stmt.executeUpdate("DELETE FROM teilhaberschaft " + "WHERE eigenschaftsauspraegungID = " + eigenschaftsauspraegungID);
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+
+		}
+	}
+	
+	
+	
 
 	/**
 	 * Ausgabe von Teilhaberschaft-Objekten anhand der TeilhaberID

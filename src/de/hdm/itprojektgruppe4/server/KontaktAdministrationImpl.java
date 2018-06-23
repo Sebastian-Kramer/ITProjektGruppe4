@@ -272,6 +272,14 @@ public class KontaktAdministrationImpl extends RemoteServiceServlet implements K
 		List<KontaktKontaktliste> kontaktKontakliste = kontaktKontaktlisteMapper
 				.findKontaktKontaktlisteByKontaktID(k.getID());
 		List<Teilhaberschaft> teilhaberschaft = teilhaberschaftMapper.findTeilhaberschaftByKontaktID(k.getID());
+		List<Eigenschaftauspraegung> eigauspraegung = eigenschaftauspraegungMapper.findAllSharedAuspraegungenFromKontaktID(k.getID());
+		
+		
+			for (Eigenschaftauspraegung eigenschaftauspraegung : eigauspraegung) {
+				teilhaberschaftMapper.deleteTeilhaberschaftByAuspreaegungID(eigenschaftauspraegung.getID());
+			}
+		 
+		
 
 		if (eaList != null) {
 			for (Eigenschaftauspraegung ea : eaList) {
