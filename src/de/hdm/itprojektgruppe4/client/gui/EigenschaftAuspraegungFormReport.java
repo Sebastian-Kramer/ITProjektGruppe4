@@ -71,7 +71,7 @@ public class EigenschaftAuspraegungFormReport extends VerticalPanel {
 
 								@Override
 								public void onSuccess(KontakteMitBestimmtenAuspraegungen result) {
-									Window.alert("1");
+									Window.alert("Alle Kontakte mit der eingegebenen Ausprägung wurden geladen");
 
 									if (result != null) {
 
@@ -84,7 +84,7 @@ public class EigenschaftAuspraegungFormReport extends VerticalPanel {
 
 								@Override
 								public void onFailure(Throwable caught) {
-									RootPanel.get("Details").clear();
+									RootPanel.get("Details").clear();   
 									Window.alert("Fehler Auspraegung");
 								}
 
@@ -92,9 +92,8 @@ public class EigenschaftAuspraegungFormReport extends VerticalPanel {
 							});
 
 				} else if (eigenschafBox.getValue() != null && auspraegungBox.getText().isEmpty()) {
-//					reportverwaltung.kontakteMitBestimmtenAuspraegungen(nutzer.getID(), eigenschafBox.getText(),
-//							new AsyncCallback<KontakteMitBestimmtenAuspraegungen>() {
-					Window.alert(eigenschafBox.getValue());
+
+					
 					reportverwaltung.kontakteMitBestimmtenEigenschaften(nutzer.getID(), eigenschafBox.getText() , new AsyncCallback<KontakteMitBestimmtenEigenschaften>() {
 
 								@Override
@@ -105,15 +104,14 @@ public class EigenschaftAuspraegungFormReport extends VerticalPanel {
   
 								@Override
 								public void onSuccess(KontakteMitBestimmtenEigenschaften result) {
-									Window.alert("2");
-									Window.alert(" "  + result.getTitle());
+									Window.alert("Alle Kontakte mit der eingegebenen Eigenschaft wurden geladen");
 									if (result != null) {
 
 										HTMLReportWriter writer = new HTMLReportWriter();
 										writer.process(result);
 										RootPanel.get("Details").clear();
 										RootPanel.get("Details").add(new HTML(writer.getReportText()));
-									}
+									}   
 								}
 							});
 				} else if (eigenschafBox.getValue() != null && auspraegungBox != null) {
@@ -130,7 +128,7 @@ public class EigenschaftAuspraegungFormReport extends VerticalPanel {
 								@Override
 								public void onSuccess(KontakteMitBestimmtenEigenschaftsAuspraegungen result) {
 
-									Window.alert("3");
+									Window.alert("Alle Kontakte mit der eingegebenen Eigenschaft und Ausprägung wurden geladen");
 
 									if (result != null) {
 
@@ -144,7 +142,7 @@ public class EigenschaftAuspraegungFormReport extends VerticalPanel {
 
 							});
 
-				}else if (auspraegungBox.getText().isEmpty() && eigenschafBox.getText().isEmpty()){
+				}else if (auspraegungBox.getText() == null && eigenschafBox.getText() == null){
 					Window.alert("Bitte Daten eingeben");
 				}
 

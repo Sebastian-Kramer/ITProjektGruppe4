@@ -801,7 +801,7 @@ public interface KontaktAdministration extends RemoteService {
 
 	public Teilhaberschaft findTeilhaberschaftByAuspraegungIdAndTeilhaberId(int auspraegungID, int nutzerID) throws IllegalArgumentException;
 
-	public Eigenschaftauspraegung getAuspraegungByEigID(int eigID) throws IllegalArgumentException;
+	public Eigenschaftauspraegung getAuspraegungByEigID(int eigID, int kontaktID) throws IllegalArgumentException;
 
 	
 
