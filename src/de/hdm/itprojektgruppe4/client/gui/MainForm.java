@@ -42,7 +42,6 @@ public class MainForm extends VerticalPanel {
 
 	private VerticalPanel vpanelDetails = new VerticalPanel();
 	private HorizontalPanel hpanelDetails = new HorizontalPanel();
-	private HorizontalPanel hpanel = new HorizontalPanel();
 
 	private FlexTable anordnung = new FlexTable();
 

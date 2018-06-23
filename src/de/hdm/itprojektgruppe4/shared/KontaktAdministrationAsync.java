@@ -96,7 +96,7 @@ public interface KontaktAdministrationAsync {
 
 	void getAuspraegungByWert(String wert, AsyncCallback<Vector<EigenschaftAuspraegungWrapper>> callback);
 	
-	void getAuspraegungByEigID(int eigID, AsyncCallback<Eigenschaftauspraegung> callback);
+	void getAuspraegungByEigID(int eigID, int kontaktID, AsyncCallback<Eigenschaftauspraegung> callback);
 
 	void getAuspraegungByID(int id, AsyncCallback<Eigenschaftauspraegung> callback);
 

@@ -73,7 +73,7 @@ public class EigenschaftauspraegungMapper {
 	 * @param id
 	 * @return
 	 */
-	public Eigenschaftauspraegung getAuspraegungByEigID(int eigID) {
+	public Eigenschaftauspraegung getAuspraegungByEigID(int eigID, int kontaktID) {
 
 		Connection con = DBConnection.connection();
 
@@ -81,7 +81,7 @@ public class EigenschaftauspraegungMapper {
 
 			Statement stmt = con.createStatement();
 
-			ResultSet rs = stmt.executeQuery("SELECT * FROM eigenschaftsauspraegung WHERE eigenschaftID= " + eigID);
+			ResultSet rs = stmt.executeQuery("SELECT * FROM eigenschaftsauspraegung WHERE eigenschaftID = " + eigID + " AND kontaktID = " + kontaktID);
 
 			if (rs.next()) {
 				Eigenschaftauspraegung e = new Eigenschaftauspraegung();

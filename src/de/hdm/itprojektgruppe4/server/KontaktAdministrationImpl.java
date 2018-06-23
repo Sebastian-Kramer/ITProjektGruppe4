@@ -384,8 +384,8 @@ public class KontaktAdministrationImpl extends RemoteServiceServlet implements K
 	 */
 	@Override
 	public Vector<Kontakt> hinzuzufuegendeKontakte(int nutzerID, int kontaktlisteID) throws IllegalArgumentException {
-		Vector<Kontakt> kontakteVonNutzer = findAllKontaktFromNutzer(nutzerID);
-		Vector<Kontakt> kontakteInListe = getAllKontakteFromKontaktliste(kontaktlisteID);
+		Vector<Kontakt> kontakteVonNutzer = this.findAllKontaktFromNutzer(nutzerID);
+		Vector<Kontakt> kontakteInListe = this.getAllKontakteFromKontaktliste(kontaktlisteID);
 		Vector<Kontakt>	zuEntfernendeKontakte = new Vector<Kontakt>();
 		
 		for(Kontakt k : kontakteVonNutzer){
@@ -883,9 +883,9 @@ public class KontaktAdministrationImpl extends RemoteServiceServlet implements K
 	}
 	
 	@Override
-	public Eigenschaftauspraegung getAuspraegungByEigID(int eigID) throws IllegalArgumentException {
+	public Eigenschaftauspraegung getAuspraegungByEigID(int eigID, int kontaktID) throws IllegalArgumentException {
 		// TODO Auto-generated method stub
-		return this.eigenschaftauspraegungMapper.getAuspraegungByEigID(eigID);
+		return this.eigenschaftauspraegungMapper.getAuspraegungByEigID(eigID, kontaktID);
 	}
 
 	/*

@@ -1,18 +1,11 @@
 package de.hdm.itprojektgruppe4.client;
 
 import de.hdm.itprojektgruppe4.client.gui.MainForm;
-import de.hdm.itprojektgruppe4.client.gui.Startseite;
-import de.hdm.itprojektgruppe4.shared.FieldVerifier;
 import de.hdm.itprojektgruppe4.shared.KontaktAdministrationAsync;
 import de.hdm.itprojektgruppe4.shared.LoginService;
 import de.hdm.itprojektgruppe4.shared.LoginServiceAsync;
-import de.hdm.itprojektgruppe4.shared.bo.Kontakt;
 import de.hdm.itprojektgruppe4.shared.bo.Nutzer;
-import de.hdm.itprojektgruppe4.client.gui.KontaktlisteKontaktTreeViewModel;
 import de.hdm.itprojektgruppe4.client.NavigationTree;
-
-import java.util.Date;
-import java.util.Vector;
 
 import com.google.gwt.core.client.EntryPoint;
 import com.google.gwt.core.client.GWT;
@@ -22,16 +15,10 @@ import com.google.gwt.user.client.Cookies;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Anchor;
-import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
 
-import de.hdm.itprojektgruppe4.client.gui.MainForm;
-import de.hdm.itprojektgruppe4.shared.KontaktAdministrationAsync;
-import de.hdm.itprojektgruppe4.shared.LoginService;
-import de.hdm.itprojektgruppe4.shared.LoginServiceAsync;
-import de.hdm.itprojektgruppe4.shared.bo.Nutzer;
 import de.hdm.itprojektgruppe4.shared.bo.Kontaktliste;
 
 public class ITProjektSS18 implements EntryPoint {
