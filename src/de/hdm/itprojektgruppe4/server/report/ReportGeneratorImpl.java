@@ -4,28 +4,22 @@ import java.util.Vector;
 
 import com.google.gwt.user.server.rpc.RemoteServiceServlet;
 
+import de.hdm.itprojektgruppe4.client.EigenschaftAuspraegungWrapper;
 import de.hdm.itprojektgruppe4.server.KontaktAdministrationImpl;
 import de.hdm.itprojektgruppe4.server.db.KontaktMapper;
 import de.hdm.itprojektgruppe4.server.db.NutzerMapper;
-import de.hdm.itprojektgruppe4.server.db.TeilhaberschaftMapper;
 import de.hdm.itprojektgruppe4.shared.KontaktAdministration;
 import de.hdm.itprojektgruppe4.shared.ReportGenerator;
 import de.hdm.itprojektgruppe4.shared.bo.Eigenschaft;
 import de.hdm.itprojektgruppe4.shared.bo.Eigenschaftauspraegung;
 import de.hdm.itprojektgruppe4.shared.bo.Kontakt;
 import de.hdm.itprojektgruppe4.shared.bo.Nutzer;
-import de.hdm.itprojektgruppe4.shared.bo.Teilhaberschaft;
 import de.hdm.itprojektgruppe4.shared.report.AllEigeneKontakteReport;
-import de.hdm.itprojektgruppe4.shared.report.AllNutzerReport;
 import de.hdm.itprojektgruppe4.shared.report.Column;
 import de.hdm.itprojektgruppe4.shared.report.CompositeParagraph;
-import de.hdm.itprojektgruppe4.shared.report.FindAllEigenschaftReport;
-import de.hdm.itprojektgruppe4.shared.report.FindAllEigenschaftsAuspraegungn;
-import de.hdm.itprojektgruppe4.shared.report.FindEigenschaftByBezeichnung;
 import de.hdm.itprojektgruppe4.shared.report.KontakteMitBestimmtenAuspraegungen;
 import de.hdm.itprojektgruppe4.shared.report.KontakteMitBestimmtenEigenschaften;
 import de.hdm.itprojektgruppe4.shared.report.KontakteMitBestimmtenEigenschaftsAuspraegungen;
-import de.hdm.itprojektgruppe4.shared.report.KontakteMitBestimmtenEigenschaftsAuspraegungenReport;
 import de.hdm.itprojektgruppe4.shared.report.KontakteMitBestimmterTeilhaberschaftReport;
 import de.hdm.itprojektgruppe4.shared.report.Report;
 import de.hdm.itprojektgruppe4.shared.report.Row;
@@ -37,7 +31,6 @@ public class ReportGeneratorImpl extends RemoteServiceServlet implements ReportG
 
 	private KontaktAdministration verwaltung = null;
 	private NutzerMapper nutzerMapper = null;
-	private TeilhaberschaftMapper teilhaberschaftMapper = null;
 	private KontaktMapper kontaktMapper = null;
 
 	public ReportGeneratorImpl() throws IllegalArgumentException {
@@ -64,7 +57,7 @@ public class ReportGeneratorImpl extends RemoteServiceServlet implements ReportG
 		// 1. Zeile
 		imprint.addSubParagraph(new SimpleParagraph("Kontaktverwaltung"));
 
-		// Das Hinzufügen des Impressum zum Report
+		// Das Hinzufï¿½gen des Impressum zum Report
 		r.setImprint(imprint);
 
 	}
@@ -84,33 +77,40 @@ public class ReportGeneratorImpl extends RemoteServiceServlet implements ReportG
 		if (this.getAdministration() == null)
 			return null;
 
-		// Leerer Report
 		AllEigeneKontakteReport result = new AllEigeneKontakteReport();
 
-		//
 		Vector<Kontakt> kontakt = this.verwaltung.findAllKontaktFromNutzer(nutzerID);
 
-		result.setTitle("Meine Kontakte");
+		Vector<EigenschaftAuspraegungWrapper> auspraegung = new Vector<EigenschaftAuspraegungWrapper>();
+
+		result.setTitle("Meine Kontakte und mir geteilte Kontakte");
 
 		Row headline = new Row();
 
 		headline.addColumn(new Column("Kontakt"));
-		headline.addColumn(new Column("Erzeugungsdatum"));
-		headline.addColumn(new Column("Modifikationsdatum"));
-		headline.addColumn(new Column("Eigenschaft"));
-		headline.addColumn(new Column("Auspraegung"));
+		headline.addColumn(new Column("Status"));
+		headline.addColumn(new Column("Erstellt von"));
+		headline.addColumn(new Column("Eigenschaft: Auspraegung"));
 
 		result.addRow(headline);
 
 		for (Kontakt k : kontakt) {
-			// eine Leere zeile
+
 			Row kontaktRow = new Row();
+
+			auspraegung = this.verwaltung.findHybrid(k);
 
 			kontaktRow.addColumn(new Column(String.valueOf(k.getName())));
 
-			kontaktRow.addColumn(new Column(String.valueOf(k.getErzeugungsdatum())));
+			if (k.getStatus() == 0) {
+				kontaktRow.addColumn(new Column(String.valueOf("Nicht Geteilt")));
+			} else {
+				kontaktRow.addColumn(new Column(String.valueOf("geteilt")));
+			}
 
-			kontaktRow.addColumn(new Column(String.valueOf(k.getModifikationsdatum())));
+			kontaktRow.addColumn(new Column(String.valueOf(this.verwaltung.findNutzerByID(k.getNutzerID()).getEmail())));
+
+			kontaktRow.addColumn(new Column(auspraegung.toString().replace("[", "").replace("]", "").replace(",", "")));
 
 			result.addRow(kontaktRow);
 		}
@@ -132,7 +132,6 @@ public class ReportGeneratorImpl extends RemoteServiceServlet implements ReportG
 		result.setTitle("Meine Kontakte");
 
 		Row headline = new Row();
-
 
 		result.addRow(headline);
 
@@ -158,7 +157,6 @@ public class ReportGeneratorImpl extends RemoteServiceServlet implements ReportG
 			return null;
 
 		// Leerer Report
-		AllNutzerReport result = new AllNutzerReport();
 
 		Vector<Nutzer> nutzer = this.verwaltung.findAllNutzer();
 
@@ -168,54 +166,57 @@ public class ReportGeneratorImpl extends RemoteServiceServlet implements ReportG
 
 	@Override
 	public Nutzer findNutzerByEmail(String email) throws IllegalArgumentException {
-		// TODO Auto-generated method stub
 
 		return this.verwaltung.findNutzerByEmail(email);
 
-		// return this.nutzerMapper.findNutzerByEmail(email);
+
 	}
 
 	public KontakteMitBestimmterTeilhaberschaftReport kontakteMitBestimmterTeilhaberschaftReport(int nutzerID,
 			int teilhaberID) throws IllegalArgumentException {
 		if (this.getAdministration() == null)
-			// TODO Auto-generated method stub
+
 			return null;
 
 		// Leerer Report
 		KontakteMitBestimmterTeilhaberschaftReport result = new KontakteMitBestimmterTeilhaberschaftReport();
 
 		Vector<Kontakt> teilhaben = this.verwaltung.findGeteilteKontakteFromNutzerAndTeilhaber(nutzerID, teilhaberID);
+		
+		Vector<EigenschaftAuspraegungWrapper> auspraegung = new Vector<EigenschaftAuspraegungWrapper>();
 
 		result.setTitle("Geteilte Kontakte");
 
 		Row headline = new Row();
 
 		headline.addColumn(new Column("Kontakt"));
-		headline.addColumn(new Column("Erzeugungsdatum"));
-		headline.addColumn(new Column("Modifikationsdatum"));
-		headline.addColumn(new Column("Eigenschaft"));
-		headline.addColumn(new Column("Auspraegung"));
+		headline.addColumn(new Column("Status"));
+		headline.addColumn(new Column("Erstellt von"));
+		headline.addColumn(new Column("Eigenschaft: Auspraegung"));
 
 		result.addRow(headline);
 
-		for (Kontakt t : teilhaben) {
+		for (Kontakt k : teilhaben) {
 
-			// eine Leere zeile
 			Row kontaktRow = new Row();
 
-			kontaktRow.addColumn(new Column(String.valueOf(t.getName())));
+			auspraegung = this.verwaltung.findSharedAuspraegung(k.getID(), teilhaberID);
 
-			kontaktRow.addColumn(new Column(String.valueOf(t.getErzeugungsdatum())));
+			kontaktRow.addColumn(new Column(String.valueOf(k.getName())));
 
-			kontaktRow.addColumn(new Column(String.valueOf(t.getModifikationsdatum())));
-			
-			
-			
+			if (k.getStatus() == 0) {
+				kontaktRow.addColumn(new Column(String.valueOf("Nicht Geteilt")));
+			} else {
+				kontaktRow.addColumn(new Column(String.valueOf("geteilt")));
+			}
+
+			kontaktRow.addColumn(new Column(String.valueOf(this.verwaltung.findNutzerByID(k.getNutzerID()).getEmail())));
+
+			kontaktRow.addColumn(new Column(auspraegung.toString().replace("[", "").replace("]", "").replace(",", "")));
 
 			result.addRow(kontaktRow);
 		}
 
-		System.out.println(teilhaben);
 		return result;
 
 	}
@@ -223,7 +224,7 @@ public class ReportGeneratorImpl extends RemoteServiceServlet implements ReportG
 	public KontakteMitBestimmtenEigenschaftsAuspraegungen kontakteMitBestimmtenEigenschaftsAuspraegungen(int NutzerID,
 			String bez, String wert) throws IllegalArgumentException {
 		if (this.getAdministration() == null)
-			// TODO Auto-generated method stub
+
 			return null;
 
 		// Leerer Report
@@ -244,12 +245,33 @@ public class ReportGeneratorImpl extends RemoteServiceServlet implements ReportG
 
 		for (Kontakt t : kontakt) {
 
-			// eine Leere zeile
-			Row kontaktRow = new Row();
+			Vector<Eigenschaft> vecEig = this.verwaltung.getEigenschaftbyKontaktID(t.getID());
 
-			kontaktRow.addColumn(new Column(String.valueOf(t.getName())));
+			for (Eigenschaft e : vecEig) {
+				
+				Eigenschaftauspraegung ea = this.verwaltung.getAuspraegungByEigID(e.getID(), t.getID());
 
-			result.addRow(kontaktRow);
+				if (e.getBezeichnung().equals(bez) && ea.getWert().equals(wert)) {
+
+					// eine Leere zeile
+					Row kontaktRow = new Row();
+
+					kontaktRow.addColumn(new Column(String.valueOf(t.getName())));
+					if (t.getStatus() == 0) {
+						kontaktRow.addColumn(new Column(String.valueOf("Nicht Geteilt")));
+					} else {
+						kontaktRow.addColumn(new Column(String.valueOf("geteilt")));
+					}
+					kontaktRow.addColumn(new Column(String.valueOf(this.verwaltung.findNutzerByID(t.getNutzerID()).getEmail())));
+					
+					kontaktRow.addColumn(new Column(String.valueOf(e.getBezeichnung())));
+					
+					kontaktRow.addColumn(new Column(String.valueOf(ea.getWert())));
+
+					result.addRow(kontaktRow);
+				}
+			}
+
 		}
 
 		return result;
@@ -269,7 +291,6 @@ public class ReportGeneratorImpl extends RemoteServiceServlet implements ReportG
 			return null;
 
 		// Leerer Report
-		FindAllEigenschaftReport result = new FindAllEigenschaftReport();
 
 		Vector<Eigenschaft> eigenschaft = this.verwaltung.findAllEigenschaft();
 
@@ -281,8 +302,6 @@ public class ReportGeneratorImpl extends RemoteServiceServlet implements ReportG
 		if (this.getAdministration() == null)
 			return null;
 
-		FindEigenschaftByBezeichnung findEigenschaftByBezeichnung = new FindEigenschaftByBezeichnung();
-
 		Vector<Eigenschaft> eigenschaft = this.verwaltung.getEigenschaftByBezeichnung(bez);
 
 		return eigenschaft;
@@ -293,8 +312,6 @@ public class ReportGeneratorImpl extends RemoteServiceServlet implements ReportG
 		if (this.getAdministration() == null)
 			return null;
 
-		FindAllEigenschaftsAuspraegungn findAllEigenschaftsAuspraegungn = new FindAllEigenschaftsAuspraegungn();
-
 		Vector<Eigenschaftauspraegung> eigenschaftauspraegung = this.verwaltung.findAllEigenschaftauspraegung();
 
 		return eigenschaftauspraegung;
@@ -302,9 +319,8 @@ public class ReportGeneratorImpl extends RemoteServiceServlet implements ReportG
 	}
 
 	@Override
-	public de.hdm.itprojektgruppe4.shared.report.AllEigeneKontakteReport AlleKontakteByNutzer(int nutzerID,
-			int teilhaberID) throws IllegalArgumentException {
-		// TODO Auto-generated method stub
+	public AllEigeneKontakteReport AlleKontakteByNutzer(int nutzerID, int teilhaberID) throws IllegalArgumentException {
+
 		return null;
 	}
 
@@ -319,15 +335,13 @@ public class ReportGeneratorImpl extends RemoteServiceServlet implements ReportG
 
 		Vector<Kontakt> kontakt = this.verwaltung.findKontakeByEig(NutzerID, bez);
 
-		Vector<Eigenschaft> eig = this.verwaltung.findAllEigenschaft();
-
 		result.setTitle("Kontakte mit bestimmten Eigenschaftsauspraegungen");
 
 		Row headline = new Row();
 
 		headline.addColumn(new Column("Kontakt"));
-		headline.addColumn(new Column("Erzeugungsdatum"));
-		headline.addColumn(new Column("Modifikationsdatum"));
+		headline.addColumn(new Column("Status"));
+		headline.addColumn(new Column("Erstellt von"));
 		headline.addColumn(new Column("Eigenschaft"));
 		headline.addColumn(new Column("Auspraegung"));
 
@@ -335,41 +349,41 @@ public class ReportGeneratorImpl extends RemoteServiceServlet implements ReportG
 
 		for (Kontakt t : kontakt) {
 
-				Vector<Eigenschaft> vecEig = this.verwaltung.getEigenschaftbyKontaktID(t.getID());
-				
-				for (Eigenschaft e : vecEig) {
+			Vector<Eigenschaft> vecEig = this.verwaltung.getEigenschaftbyKontaktID(t.getID());
 
-					if (e.getBezeichnung().equals(bez)) {
-						
-						Eigenschaftauspraegung ea = this.verwaltung.getAuspraegungByEigID(e.getID());
-					
-						
+			for (Eigenschaft e : vecEig) {
+
+				if (e.getBezeichnung().equals(bez)) {
+
+					Eigenschaftauspraegung ea = this.verwaltung.getAuspraegungByEigID(e.getID(), t.getID());
+
 					// eine Leere zeile
 					Row kontaktRow = new Row();
 
 					kontaktRow.addColumn(new Column(String.valueOf(t.getName())));
-					kontaktRow.addColumn(new Column(String.valueOf(t.getErzeugungsdatum())));
-					kontaktRow.addColumn(new Column(String.valueOf(t.getModifikationsdatum())));
+					if (t.getStatus() == 0) {
+						kontaktRow.addColumn(new Column(String.valueOf("Nicht Geteilt")));
+					} else {
+						kontaktRow.addColumn(new Column(String.valueOf("geteilt")));
+					}
+					kontaktRow.addColumn(new Column(String.valueOf(this.verwaltung.findNutzerByID(t.getNutzerID()).getEmail())));
+					
 					kontaktRow.addColumn(new Column(String.valueOf(e.getBezeichnung())));
+					
 					kontaktRow.addColumn(new Column(String.valueOf(ea.getWert())));
 
 					result.addRow(kontaktRow);
-					}  
 				}
-
-	
+			}
 
 		}
 
 		return result;
 	}
 
-	
-	
 	public KontakteMitBestimmtenAuspraegungen kontakteMitBestimmtenAuspraegungen(int NutzerID, String wert)
 			throws IllegalArgumentException {
 		if (this.getAdministration() == null)
-			// TODO Auto-generated method stub
 			return null;
 
 		// Leerer Report
@@ -390,14 +404,32 @@ public class ReportGeneratorImpl extends RemoteServiceServlet implements ReportG
 
 		for (Kontakt t : kontakt) {
 
-			// eine Leere zeile
-			Row kontaktRow = new Row();
+			Vector<Eigenschaftauspraegung> vecAus = this.verwaltung.getAuspraegungByKontaktID(t.getID());
 
-			kontaktRow.addColumn(new Column(String.valueOf(t.getName())));
-			kontaktRow.addColumn(new Column(String.valueOf(t.getErzeugungsdatum())));
-			kontaktRow.addColumn(new Column(String.valueOf(t.getModifikationsdatum())));
+			for (Eigenschaftauspraegung ea : vecAus) {
 
-			result.addRow(kontaktRow);
+				if (ea.getWert().equals(wert)) {
+					
+					Eigenschaft e = this.verwaltung.getEigenschaftByID(ea.getEigenschaftsID());
+
+					// eine Leere zeile
+					Row kontaktRow = new Row();
+
+					kontaktRow.addColumn(new Column(String.valueOf(t.getName())));
+					if (t.getStatus() == 0) {
+						kontaktRow.addColumn(new Column(String.valueOf("Nicht Geteilt")));
+					} else {
+						kontaktRow.addColumn(new Column(String.valueOf("geteilt")));
+					}
+					kontaktRow.addColumn(new Column(String.valueOf(this.verwaltung.findNutzerByID(t.getNutzerID()).getEmail())));
+					
+					kontaktRow.addColumn(new Column(String.valueOf(e.getBezeichnung())));
+					
+					kontaktRow.addColumn(new Column(String.valueOf(ea.getWert())));
+
+					result.addRow(kontaktRow);
+				}
+			}
 		}
 
 		return result;

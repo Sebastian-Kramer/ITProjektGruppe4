@@ -2,22 +2,16 @@ package de.hdm.itprojektgruppe4.client;
 
 import com.google.gwt.core.client.EntryPoint;
 import com.google.gwt.core.client.GWT;
-import com.google.gwt.event.dom.client.ClickEvent;
-import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.Cookies;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Anchor;
-import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
 
-
-import de.hdm.itprojektgruppe4.client.gui.MainForm;
 import de.hdm.itprojektgruppe4.client.gui.MainFormReport;
 import de.hdm.itprojektgruppe4.client.gui.NavigationReport;
-import de.hdm.itprojektgruppe4.shared.KontaktAdministrationAsync;
 import de.hdm.itprojektgruppe4.shared.LoginService;
 import de.hdm.itprojektgruppe4.shared.LoginServiceAsync;
 import de.hdm.itprojektgruppe4.shared.ReportGeneratorAsync;
@@ -38,7 +32,7 @@ public class ITProjektSS18Report   implements EntryPoint{
 
 	public void onModuleLoad() {
 
-				
+		signOutLink.setStyleName("Logout");
 		LoginServiceAsync loginService = GWT.create(LoginService.class);
 		loginService.login(GWT.getHostPageBaseURL() + editorHtmlName, new AsyncCallback<LoginInfo>() {
 
@@ -126,9 +120,10 @@ public class ITProjektSS18Report   implements EntryPoint{
 			NavigationReport navigationReport = new NavigationReport();
 			MainFormReport mfReport = new MainFormReport();
 			signOutLink.setHref(loginInfo.getLogoutUrl());
-			RootPanel.get("Buttonbar").add(signOutLink);
+			RootPanel.get("Header").add(signOutLink);
 			RootPanel.get("Details").add(mfReport);
 			RootPanel.get("Navigator").add(navigationReport);
 		}
+	
 
 }

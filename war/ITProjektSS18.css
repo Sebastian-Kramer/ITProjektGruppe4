@@ -136,6 +136,13 @@ div#Navigationsseite {
 	margin-bottom: 15px;
 }
 
+div#NavigationsseiteR {
+	background: white;
+	width: 100%;
+	height: 100%;
+	margin-bottom: 15px;
+}
+
 div#Navigator {
 	border: 1px solid LightSkyBlue;
 	background: rgba(230, 230, 250, 0.14);
@@ -211,11 +218,10 @@ img.Startbild {
 
 .HtmlText {
 	margin-bottom: 10px;
-	margin-left: 185px;
 }
 
 .HtmlText1 {
-	margin-left: 225px;
+
 }
 
 table.HPanel {
@@ -233,7 +239,7 @@ table.HPanel {
 }
 
 .DropDown {
-	margin-left: 185px;
+
 }
 
 a, .akzentfarbe1 {

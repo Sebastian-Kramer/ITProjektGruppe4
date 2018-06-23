@@ -129,11 +129,11 @@ public class KontaktKontaktlisteMapper {
 	}
 
 	/**
-	 * 
-	 * @param i
-	 * @return
+	 * Auslesen eines Vectors mit KontaktKontaktliste-Objekten, die die übergebene kontaktID als Fremdschlüssel besitzen
+	 * @param kontaktID
+	 * @return Vector result mit KontaktKontaktliste-Objekten, die die übergebene kontaktID als Fremdschlüssel besitzen
 	 */
-	public Vector<KontaktKontaktliste> findKontaktKontaktlisteByKontaktID(int i) {
+	public Vector<KontaktKontaktliste> findKontaktKontaktlisteByKontaktID(int kontaktID) {
 
 		Vector<KontaktKontaktliste> result = new Vector<KontaktKontaktliste>();
 
@@ -143,7 +143,7 @@ public class KontaktKontaktlisteMapper {
 			Statement stmt = con.createStatement();
 
 			ResultSet rs = stmt.executeQuery(
-					"SELECT ID, kontaktID, kontaktlisteID FROM kontaktkontaktliste " + "WHERE kontaktID = " + i);
+					"SELECT ID, kontaktID, kontaktlisteID FROM kontaktkontaktliste " + "WHERE kontaktID = " + kontaktID);
 
 			while (rs.next()) {
 				KontaktKontaktliste kk = new KontaktKontaktliste();
@@ -228,8 +228,8 @@ public class KontaktKontaktlisteMapper {
 	}
 
 	/**
-	 * Erm�glicht das L�schen eines Objekts der Klasse KontaktKontaktliste
-	 * anhand des Fremdschl�ssels KontaktlisteID
+	 * Ermöglicht das Löschen eines Objekts der Klasse KontaktKontaktliste
+	 * anhand des Fremdschlüssels KontaktlisteID
 	 * 
 	 * @param k
 	 */
@@ -251,11 +251,11 @@ public class KontaktKontaktlisteMapper {
 
 	/**
 	 * Ausgabe eines Vectors mit allen KontaktKontaktlisten-Objekten mit dem
-	 * Fremdschl�ssel der �bergebenen KontaktlisteID
+	 * Fremdschlüssel derübergebenen KontaktlisteID
 	 * 
 	 * @param kontaktlisteID
 	 * @return Vector result mit allen KontaktKontaktlisten-Objekten mit der
-	 *         �bergebenen KontaktlistenID als Fremdschl�ssel
+	 *         übergebenen KontaktlistenID als Fremdschlüssel
 	 */
 	public Vector<KontaktKontaktliste> getKontaktKontaktlisteByKontaktlisteID(int kontaktlisteID) {
 		Vector<KontaktKontaktliste> result = new Vector<KontaktKontaktliste>();

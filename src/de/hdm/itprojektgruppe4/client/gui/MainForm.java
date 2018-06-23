@@ -42,7 +42,6 @@ public class MainForm extends VerticalPanel {
 
 	private VerticalPanel vpanelDetails = new VerticalPanel();
 	private HorizontalPanel hpanelDetails = new HorizontalPanel();
-	private HorizontalPanel hpanel = new HorizontalPanel();
 
 	private FlexTable anordnung = new FlexTable();
 
@@ -194,29 +193,7 @@ public class MainForm extends VerticalPanel {
 
 	}
 
-	class KontaktlisteKontaktCallBack implements AsyncCallback<Kontaktliste> {
-
-		@Override
-		public void onFailure(Throwable caught) {
-			Window.alert("Beim Laden der Kontakte ist ein Fehler aufgetreten");
-
-		}
-
-		@Override
-		public void onSuccess(Kontaktliste result) {
-
-			konList = result;
-			Window.alert(
-					" Bezeichnung der Liste: " + konList.getBez() + "\n" + " und ID der Liste: " + konList.getID());
-
-			AllKontakteForm allKontakts = new AllKontakteForm(konList);
-			RootPanel.get("Details").clear();
-			RootPanel.get("Details").add(allKontakts);
-
-		}
-
-	}
-
+	
 	class KontakteVonKontaktlisteAnzeigenCallBack implements AsyncCallback<Kontakt> {
 
 		@Override

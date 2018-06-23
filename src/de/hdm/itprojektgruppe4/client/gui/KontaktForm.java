@@ -126,6 +126,7 @@ public class KontaktForm extends VerticalPanel {
 
 		vpanelBearbeitung.add(html2);
 		vpanelBearbeitung.add(html3);
+		hpanel1.setWidth("700px");
 		hpanel1.add(kontaktbild);
 		hpanel1.add(html1);
 		hpanel1.add(vpanelBearbeitung);
@@ -281,6 +282,7 @@ public class KontaktForm extends VerticalPanel {
 		@Override
 		public void onClick(ClickEvent event) {
 
+			
 			DialogBoxAddContactToList dbkl = new DialogBoxAddContactToList(k);
 			dbkl.center();
 		}
@@ -318,13 +320,13 @@ public class KontaktForm extends VerticalPanel {
 
 		@Override
 		public void onFailure(Throwable caught) {
-			// TODO Auto-generated method stub
+
 			
 		}
 
 		@Override
 		public void onSuccess(Void result) {
-			// TODO Auto-generated method stub
+
 			Window.alert("Sie haben den Kontakt erfolgreich gelöscht." );
 			MainForm mf = new MainForm();
 			NavigationTree updatedTree = new NavigationTree();

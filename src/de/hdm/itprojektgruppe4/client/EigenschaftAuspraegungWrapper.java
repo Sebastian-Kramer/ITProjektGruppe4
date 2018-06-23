@@ -95,5 +95,10 @@ public class EigenschaftAuspraegungWrapper implements Serializable {
 	public String getImageUrl2Contacts(EigenschaftAuspraegungWrapper object) {
 		return "Image/contactShared.png";
 	}
+	
+	public String toString(){
+		return "<table><tr><td>"+this.eigenschaft.getBezeichnung() + ": " + this.auspraegung.getWert() +"</td></tr></table>";
+				
+	}
 
 }
