@@ -44,14 +44,12 @@ public class KontaktlisteBearbeitenForm extends VerticalPanel {
 	private Kontaktliste kl = null;
 	private KontaktlisteKontaktTreeViewModel kktvw = new KontaktlisteKontaktTreeViewModel();
 
-	private Button kontaktHinzufuegen = new Button("Kontakt hinzufuegen");
-	private Button kontaktlisteLoeschen = new Button("Kontaktliste loeschen");
+	private Button kontaktHinzufuegen = new Button("Kontakt hinzufügen");
+	private Button kontaktlisteLoeschen = new Button("Kontaktliste löschen");
 	private Button kontaktEntfernen = new Button("Kontakt entfernen");
 	private Button zurueck = new Button("Bearbeitung beenden");
 	private boolean deleteListAlert;
 
-
-	
 	private KeyDownHandler changeListNameHandler = new ChangeListNameHandler(); 
 
 	private Label lbl_kontaktliste = new Label("Kontaktlistenname:");
@@ -60,7 +58,7 @@ public class KontaktlisteBearbeitenForm extends VerticalPanel {
 	private KontaktCell kontaktcell = new KontaktCell();
 	private CellList<Kontakt> kontaktCellList = new CellList<Kontakt>(kontaktcell);
 	private SingleSelectionModel<Kontakt> selectionModel = new SingleSelectionModel<Kontakt>();
-	private ListDataProvider<Kontakt> dataProvider = new ListDataProvider<Kontakt>();
+	ListDataProvider<Kontakt> dataProvider = new ListDataProvider<Kontakt>();
 
 	public KontaktlisteBearbeitenForm(Kontaktliste kl) {
 		this.kl = kl;
@@ -68,6 +66,7 @@ public class KontaktlisteBearbeitenForm extends VerticalPanel {
 		nutzer.setEmail(Cookies.getCookie("email"));
 		kontaktVerwaltung.getAllKontakteFromKontaktliste(kl.getID(), new KontakteVonKontaktlisteCallback());
 		setTreeViewModel(kktvw);
+		kktvw.setSelectedKontaktliste(kl);
 	}
 
 	public void onLoad() {
@@ -118,19 +117,16 @@ public class KontaktlisteBearbeitenForm extends VerticalPanel {
 			// Wenn die ausgewaehlte Kontaktliste vom Nutzer erstellt wurde,
 			// wird diese geloescht
 			if (deleteListAlert == true) {
-				
 				if (kl.getNutzerID() == nutzer.getID()) {
 					kontaktVerwaltung.deleteKontaktliste(kl, new KontaktlisteloeschenCallback());
 				}
 				// Wenn nur eine Teilhaberschaft an der Kontaktliste besteht, wird
-				// nur diese aufgel�st
+				// nur diese aufgelöst
 				else {
 					kontaktVerwaltung.deleteTeilhaberschaftByKontaktlisteID(kl.getID(), new KontaktlisteloeschenCallback());
 				
 				}
 
-				
-				
 			} else if(deleteListAlert == false) {
 				
 			}
@@ -167,6 +163,7 @@ public class KontaktlisteBearbeitenForm extends VerticalPanel {
 			if (selectionModel.getSelectedObject() == null) {
 				Window.alert("Sie muessen einen Kontakt auswaehlen");
 			} else {
+				kktvw.removeKontaktFromKontaktliste(selectionModel.getSelectedObject(), kl);
 				kontaktVerwaltung.deleteKontaktKontaktlisteByKontaktIDAndByKListID(
 						selectionModel.getSelectedObject().getID(), kl.getID(), new KontaktEntfernenCallback());
 			}
@@ -315,12 +312,12 @@ public class KontaktlisteBearbeitenForm extends VerticalPanel {
 		public void onSuccess(Void result) {
 			Window.alert("Der Kontakt wurde erfolgreich entfernt");
 			KontaktlisteBearbeitenForm kbf = new KontaktlisteBearbeitenForm(kl);
-			NavigationTree updatedTree = new NavigationTree();
-			RootPanel.get("Navigator").clear();
+			//NavigationTree updatedTree = new NavigationTree();
+			//RootPanel.get("Navigator").clear();
 			RootPanel.get("Details").clear();
 			RootPanel.get("Buttonbar").clear();
 			RootPanel.get("Details").add(kbf);
-			RootPanel.get("Navigator").add(updatedTree);
+			//RootPanel.get("Navigator").add(updatedTree);
 		}
 
 	}

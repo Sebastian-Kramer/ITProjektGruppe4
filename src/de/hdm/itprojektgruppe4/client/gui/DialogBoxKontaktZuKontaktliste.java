@@ -55,8 +55,7 @@ public class DialogBoxKontaktZuKontaktliste extends DialogBox {
 		this.kl = kl;
 		nutzer.setID(Integer.parseInt(Cookies.getCookie("id")));
 		nutzer.setEmail(Cookies.getCookie("email"));
-		kontaktVerwaltung.hinzuzufuegendeKontakte(nutzer.getID(), kl.getID(), new AlleKontakteVonNutzer() );
-		
+		kontaktVerwaltung.hinzuzufuegendeKontakte(nutzer.getID(), kl.getID(), new AlleKontakteVonNutzer());
 	}
 	
 	public void onLoad(){
@@ -145,11 +144,11 @@ public class DialogBoxKontaktZuKontaktliste extends DialogBox {
 			}else{
 				kontakteHinzufuegen(kl);
 				DialogBoxKontaktZuKontaktliste.this.hide();
-				KontaktlisteBearbeitenForm kontaktlisteForm = new KontaktlisteBearbeitenForm(kl);
+				KontaktlisteForm kf = new KontaktlisteForm(kl);
 				NavigationTree updatedNavigation = new NavigationTree();
 				RootPanel.get("Details").clear();
 				RootPanel.get("Navigator").clear();
-				RootPanel.get("Details").add(kontaktlisteForm);
+				RootPanel.get("Details").add(kf);
 				RootPanel.get("Navigator").add(updatedNavigation);
 		}
 		}
