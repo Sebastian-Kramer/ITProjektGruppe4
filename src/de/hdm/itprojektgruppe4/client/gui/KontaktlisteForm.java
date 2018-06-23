@@ -1,7 +1,5 @@
 package de.hdm.itprojektgruppe4.client.gui;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Vector;
 
 import com.google.gwt.event.dom.client.ClickEvent;

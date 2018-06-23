@@ -72,7 +72,7 @@ public class DialogBoxAddContactToList extends DialogBox {
 
 		@Override
 		public void onClick(ClickEvent event) {
-			// TODO Auto-generated method stub
+			
 			verwaltung.insertKontaktKontaktliste(kon.getID(), Integer.parseInt(dropBoxKontaktlisten.getSelectedValue()),
 					new InsertKontaktKontaktlisteBeziehung());
 		}
@@ -83,7 +83,7 @@ public class DialogBoxAddContactToList extends DialogBox {
 
 		@Override
 		public void onClick(ClickEvent event) {
-			// TODO Auto-generated method stub
+
 			hide();
 		}
 
@@ -93,16 +93,16 @@ public class DialogBoxAddContactToList extends DialogBox {
 
 		@Override
 		public void onFailure(Throwable caught) {
-			// TODO Auto-generated method stub
+
 
 		}
 
 		@Override
 		public void onSuccess(Vector<Kontaktliste> result) {
-			// TODO Auto-generated method stub
+
 
 			for (Kontaktliste kl : result) {
-				// dropBoxKontaktlisten.addItem(kl.getBez(), kl.getID());
+
 				dropBoxKontaktlisten.addItem(kl.getBez(), Integer.toString(kl.getID()));
 
 				kliste.setID(kl.getID());
@@ -126,14 +126,7 @@ public class DialogBoxAddContactToList extends DialogBox {
 				NavigationTree navigationTree = new NavigationTree();
 				RootPanel.get("Navigator").clear();
 				RootPanel.get("Navigator").add(navigationTree);
-				hide();
-			
-//				Window.alert("Der Kontakt ist bereits in der ausgwählten Kontaktliste vorhanden");
-//				NavigationTree navigationTree = new NavigationTree();
-//				RootPanel.get("Navigator").clear();
-//				RootPanel.get("Navigator").add(navigationTree);
-//				hide();
-//			
+				hide();		
 
 		}
 

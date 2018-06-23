@@ -11,7 +11,6 @@ import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.HorizontalPanel;
-import com.google.gwt.user.client.ui.ListBox;
 import com.google.gwt.user.client.ui.MultiWordSuggestOracle;
 import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwt.user.client.ui.ScrollPanel;
@@ -26,14 +25,13 @@ import de.hdm.itprojektgruppe4.shared.KontaktAdministrationAsync;
 import de.hdm.itprojektgruppe4.shared.bo.Kontakt;
 import de.hdm.itprojektgruppe4.shared.bo.Nutzer;
 
-
 /**
  * Mit der Klasse TeilhaberschaftForm lassen sich die Teilhaberschaften aller
  * Ausprägungnen eines Kontakt verwalten. Dazu gehört das Anlegen und Löschen
  * von Teilhaberschaften. Die Ausprägungen eines Kontakts können komplett oder
- * nur teilweise an einen anderen, im System angemeldeten, Nutzer geteilt werden.
- * Außerdem kann der Eigentümer der Teilhaberschaft oder der teilhabende Nutzer
- * die Teilhabschaft entfernen
+ * nur teilweise an einen anderen, im System angemeldeten, Nutzer geteilt
+ * werden. Außerdem kann der Eigentümer der Teilhaberschaft oder der teilhabende
+ * Nutzer die Teilhabschaft entfernen
  * 
  * @author Sebi_0107
  *
@@ -54,7 +52,7 @@ public class TeilhaberschaftForm extends VerticalPanel {
 
 	private MultiWordSuggestOracle nutzerOracle = new MultiWordSuggestOracle();
 	private SuggestBox nutzerSugBox = new SuggestBox(nutzerOracle);
-	
+
 	private CellTableForm ctf = null;
 
 	private ScrollPanel scrollPanel = new ScrollPanel();
@@ -71,9 +69,12 @@ public class TeilhaberschaftForm extends VerticalPanel {
 	final MultiSelectionModel<EigenschaftAuspraegungWrapper> selectionModelWrapper = new MultiSelectionModel<EigenschaftAuspraegungWrapper>();
 
 	/**
-	 * Konstruktur:
-	 * Beim Laden der TeilhaberschaftForm wird ein Kontakt-Objekt übergeben, damit alle entsprechenden Ausprägungen 
-	 * zu diesem Kontakt angezeigt werden können.
+	 * Konstruktur: Beim Laden der TeilhaberschaftForm wird ein Kontakt-Objekt
+	 * übergeben, damit alle entsprechenden Ausprägungen zu diesem Kontakt
+	 * angezeigt werden können. Ist der angemeldete Nutzer der Eigentümer des
+	 * Kontakts, werden alle Details des Kontakts (z.B. Ausprägungen und
+	 * Teilhaberschaften) angezeigt.
+	 * 
 	 * @param k
 	 */
 	public TeilhaberschaftForm(Kontakt k) {
@@ -83,6 +84,19 @@ public class TeilhaberschaftForm extends VerticalPanel {
 		einzTeilen.setVisible(false);
 
 	}
+
+	/**
+	 * Konstruktur: Beim Laden der TeilhaberschaftForm wird ein Kontakt-Objekt
+	 * und eine Teilhaberschaft übergeben, damit alle entsprechenden
+	 * Ausprägungen zu diesem Kontakt angezeigt werden können. Dieser
+	 * Kontstruktur wird verwendet, wenn der angemeldete Nutzer Teilhaber an
+	 * diesem Kontakt ist. Er kann nur die Ausprägungen, die ihm geteilt wurden
+	 * bearbeiten oder weiterteilen. Außerdem kann er nur eine Teilhaberschaft
+	 * löschen, wenn er eine Ausprägung geteilt hat.
+	 * 
+	 * @param k
+	 * @param teilhaberschaft
+	 */
 	public TeilhaberschaftForm(Kontakt k, String teilhaberschaft) {
 
 		this.kon = k;
@@ -90,14 +104,15 @@ public class TeilhaberschaftForm extends VerticalPanel {
 		einzTeilen.setVisible(false);
 
 	}
-	
 
 	/**
 	 * Die onLoad()-Methode wird beim Starten der TeilhaberschaftForm geladen.
-	 * Es wird eine neue CellTableForm mit dem übergebenen Kontakt erstellt, die alle benötigten Spalten beinhaltet.
-	 * Diese CellTable wird ein ScrollPanel hinzugefügt.
-	 * Außerdem werden drei Buttons mit den dazugehörigen ClickHandler Klassen angelegt und der Buttonbar hinzugefügt.
-	 * Die verschiedenen HTML-Texte, sowie die CellTable werden am Ende dem Panel hinzugefügt.
+	 * Es wird eine neue CellTableForm mit dem übergebenen Kontakt erstellt, die
+	 * alle benötigten Spalten beinhaltet. Diese CellTable wird ein ScrollPanel
+	 * hinzugefügt. Außerdem werden drei Buttons mit den dazugehörigen
+	 * ClickHandler Klassen angelegt und der Buttonbar hinzugefügt. Die
+	 * verschiedenen HTML-Texte, sowie die CellTable werden am Ende dem Panel
+	 * hinzugefügt.
 	 */
 	public void onLoad() {
 
@@ -109,39 +124,51 @@ public class TeilhaberschaftForm extends VerticalPanel {
 
 		verwaltung.findAllNutzer(new AlleNutzer());
 
-		
-		ctf.setSelectionModel(selectionModelWrapper,
-				DefaultSelectionEventManager.<EigenschaftAuspraegungWrapper>createCheckboxManager());
 		selectionModelWrapper.addSelectionChangeHandler(new Handler());
 
 		zurueck.addClickHandler(new ZurueckClickHandler());
 		allTeilen.addClickHandler(new AllAuspraegungenTeilenClickHandler());
 		einzTeilen.addClickHandler(new AusgewaehlteAuspraegungenTeilenClickHandler());
 
+		/*
+		 * Hier wird der CellTable eine Selection Model für die Auswahl von
+		 * mehreren Ausprägungen angelegt. Außerdem werden der Tabelle die
+		 * benötigten Spalten über die Methoden der Klasse CellTableForm
+		 * hinzugefügt. Am Ende wird die Tabelle einem scrollbaren-Panel
+		 * hinzugefügt.
+		 */
+		ctf.setSelectionModel(selectionModelWrapper,
+				DefaultSelectionEventManager.<EigenschaftAuspraegungWrapper>createCheckboxManager());
+		ctf.addColumn(ctf.getCheckBox());
 		ctf.addColumn(ctf.getBezEigenschaft(), "Eigenschaft");
 		ctf.addColumn(ctf.getWertAuspraegung(), "Wert");
 		ctf.addColumn(ctf.getStatus(), "Status");
-		ctf.addColumn(ctf.getCheckBox());
 		ctf.addColumn(ctf.getDeleteBtn(), "Teilhaberschaft löschen");
 		ctf.setStyleName("CellTableAuspraegung");
-		ctf.setWidth("700px");
+		ctf.setWidth("600px");
+		ctf.setStyleName("CellTableTeilhaberschaft");
 		ctf.getDeleteBtn().setFieldUpdater(new DeleteFieldUpdater());
 		scrollPanel.add(ctf);
 		scrollPanel.setHeight("300px");
 
 		nutzerSugBox.setStyleName("DropDown");
-		
+		nutzerSugBox.setHeight("20px");
+
 		html1.setStyleName("HtmlText1");
 		html2.setStyleName("HtmlText");
 		html3.setStyleName("HtmlText");
-		vpanel.setStyleName("TeilhaberschaftVPanel");
 
+		/*
+		 * Hier werden die zuvor angelegten Widgets dem VerticalPanel und dem
+		 * HorizontelPanel hinzugefügt
+		 */
+		vpanel.setStyleName("TeilhaberschaftVPanel");
 		hpanel.add(scrollPanel);
 		vpanel.add(html1);
 		vpanel.add(html2);
-		vpanel.add(hpanel);
 		vpanel.add(html3);
 		vpanel.add(nutzerSugBox);
+		vpanel.add(hpanel);
 
 		RootPanel.get("Buttonbar").clear();
 		RootPanel.get("Buttonbar").add(zurueck);
@@ -151,11 +178,18 @@ public class TeilhaberschaftForm extends VerticalPanel {
 
 	}
 
+	/*
+	 * Nasted AsyncCallback - Classes, Click/Selection - Handler und
+	 * FieldUpdater - Classes.
+	 */
+
 	/**
 	 * 
-	 * Diese Service-Klasse
+	 * Dieses SelectionChangeEvent wird ausgeführt, wenn der Nutzer mind. eine
+	 * Ausprägung, die er teilen möchte ausgewählt. Der Button 'Ausgewählte
+	 * Eigenschaftsausprägungen teilen' wird in diesem Fall sichtbar gemacht.
 	 *
-	 */ 
+	 */
 	class Handler implements SelectionChangeEvent.Handler {
 
 		@Override
@@ -169,10 +203,12 @@ public class TeilhaberschaftForm extends VerticalPanel {
 		}
 
 	}
-	
+
 	/**
 	 * 
-	 * 
+	 * Die Klasse DeleteFieldUpdater wird ausgeführt, wenn der Nutzer auf den
+	 * deleteButton 'X' drückt. Dementsprechend wird die Dialogbox
+	 * TeilhaberschaftVerwalten aktiviert.
 	 *
 	 */
 	class DeleteFieldUpdater implements FieldUpdater<EigenschaftAuspraegungWrapper, String> {
@@ -193,7 +229,10 @@ public class TeilhaberschaftForm extends VerticalPanel {
 
 	/**
 	 * 
-	 * 
+	 * Diese Klasse wird beim Laden der onLoad()-Methode ausgeführt, um alle
+	 * Nutzer, die auf dem System angemeldet sind, zu suchen. Alle Nutzer die
+	 * auf dem System sind werden dann dem NutzerOracle hinzugefügt, damit sie
+	 * über die Eingabe in die Suggest gefunden werden können.
 	 *
 	 */
 	class AlleNutzer implements AsyncCallback<Vector<Nutzer>> {
@@ -221,7 +260,11 @@ public class TeilhaberschaftForm extends VerticalPanel {
 
 	/**
 	 * 
-	 * 
+	 * Diese ClickHandler-Klasse wird ausgeführt wenn der Nutzer auf den
+	 * 'zurück' - Button klickt. Dadurch kommt der angemeldete Nutzer auf die
+	 * KontaktForm zurück. Es wird geprüft, ob der angemeldete Nutzer der
+	 * Eigentümer oder Teilhaber des Kontakts ist, dementsprechend werden die
+	 * Werte an den Konstruktur weitergegeben.
 	 *
 	 */
 	class ZurueckClickHandler implements ClickHandler {
@@ -245,18 +288,37 @@ public class TeilhaberschaftForm extends VerticalPanel {
 
 	}
 
+	/**
+	 * 
+	 * Diese ClickHandler-Klasse wird ausgeführt wenn der Nutzer auf den 'Alle
+	 * Eigenschaftsausprägung teilen' - Button klickt. Hier findet der Aufruf
+	 * der Methode insertTeilhaberschaftAuspraegungenKontakt statt. Der Methode
+	 * werden der Kontakt, der ausgewählte Nutzer und die eigene NutzerID
+	 * übergeben
+	 *
+	 */
 	class AllAuspraegungenTeilenClickHandler implements ClickHandler {
 
 		@Override
 		public void onClick(ClickEvent event) {
 
 			verwaltung.insertTeilhaberschaftAuspraegungenKontakt(kon, nutzerSugBox.getValue(), nutzer.getID(),
-					new TeilhaberschaftCallback()); 
+					new TeilhaberschaftCallback());
 
 		}
 
 	}
 
+	/**
+	 * 
+	 * Diese ClickHandler-Klasse wird ausgeführt wenn der Nutzer auf den
+	 * 'Ausgewählte Eigenschaftsausprägungen teilen' - Button klickt. Hier
+	 * findet der Aufruf der Methode
+	 * insertTeilhaberschaftAusgewaehlteAuspraegungenKontakt statt. Der Methode
+	 * werden der Kontakt, ein Vector mit allen EigenschaftAuspraegung, der
+	 * ausgewählte Nutzer und die eigene NutzerID übergeben.
+	 *
+	 */
 	class AusgewaehlteAuspraegungenTeilenClickHandler implements ClickHandler {
 
 		@Override
@@ -266,14 +328,21 @@ public class TeilhaberschaftForm extends VerticalPanel {
 			for (EigenschaftAuspraegungWrapper eaw : selectionModelWrapper.getSelectedSet()) {
 				ea.add(eaw);
 			}
-			
+
 			verwaltung.insertTeilhaberschaftAusgewaehlteAuspraegungenKontakt(kon, ea, nutzerSugBox.getValue(),
-					nutzer.getID(), new TeilhaberschaftCallback()); 
+					nutzer.getID(), new TeilhaberschaftCallback());
 
 		}
 
 	}
 
+	/**
+	 * 
+	 * Die AsyncCallback-Klasse wird aufgerufen, sobald einer der beiden Methoden insertTeilhaberschaftAusgewaehlteAuspraegungenKontakt/
+	 * insertTeilhaberschaftAuspraegungenKontakt erfolgreich ausgeführt wurden. Es wird geprüft, ob bereits eine Teilhaberschaft besteht oder nicht,
+	 * dementsprechend werden die Window.alert - Ausgaben ausgeführt die TeilhaberschaftForm wird neu geladen   
+	 *
+	 */
 	class TeilhaberschaftCallback implements AsyncCallback<Integer> {
 
 		@Override
