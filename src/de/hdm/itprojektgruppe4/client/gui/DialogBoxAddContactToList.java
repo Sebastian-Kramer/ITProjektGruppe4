@@ -41,16 +41,13 @@ public class DialogBoxAddContactToList extends DialogBox {
 
 	public DialogBoxAddContactToList(Kontakt k) {
 		this.kon = k;
+		nutzer.setID(Integer.parseInt(Cookies.getCookie("id")));
+		nutzer.setEmail(Cookies.getCookie("email"));
+		verwaltung.findKontaktlistenToAddKontakt(kon.getID(), nutzer.getID(), new AllKontaktlisteByNutzerCallback());
 	}
 
 	public void onLoad() {
-
 		super.onLoad();
-
-		nutzer.setID(Integer.parseInt(Cookies.getCookie("id")));
-		nutzer.setEmail(Cookies.getCookie("email"));
-		
-		verwaltung.findKontaktlisteByNutzerIDexceptBasicList(nutzer.getID(), new AllKontaktlisteByNutzerCallback());
 
 		hpanel.add(addKontakt);
 		hpanel.add(cancel);

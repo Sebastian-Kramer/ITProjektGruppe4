@@ -1,7 +1,5 @@
 package de.hdm.itprojektgruppe4.client.gui;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Vector;
 
 import com.google.gwt.event.dom.client.ClickEvent;
@@ -34,7 +32,7 @@ import de.hdm.itprojektgruppe4.client.NavigationTree;
 
 
 /**
- * Die Klasse dient zur Darstellung und Verwaltung von Kontaktlisten.
+ * Die Klasse dient zur Darstellung, Verwaltung und Bearbeitung von Kontaktlisten.
  * 
  * @author Raphael
  *
@@ -85,6 +83,7 @@ public class KontaktlisteForm extends VerticalPanel {
 		nutzer.setID(Integer.parseInt(Cookies.getCookie("id")));
 		nutzer.setEmail(Cookies.getCookie("email"));
 		kontaktVerwaltung.getAllKontakteFromKontaktliste(kl.getID(), new KontakteVonKontaktlisteCallback());
+		listShared.setUrl("Image/contactShared.png");
 
 	}
 
@@ -123,6 +122,16 @@ public class KontaktlisteForm extends VerticalPanel {
 		 * Hinzufuegen der Ueberschrift und der CellList zum Vertical Panel
 		 */
 		hpanel.add(html1);
+		/*
+		 * if-clause überprüft den Status der Liste. Ist dieser auf 1
+		 * (=geteilt), so wird dieser visuell sichtbar gemacht, indem ein
+		 * entsprechendes Symbol angefügt wird.
+		 */
+		if (kl.getStatus() == 1) {
+			hpanel.add(listShared);
+
+		}
+		
 		vpanel.add(hpanel);
 		vpanel.add(scrollPanel);
 		RootPanel.get("Details").add(vpanel);
@@ -140,15 +149,7 @@ public class KontaktlisteForm extends VerticalPanel {
 		kontaktlisteLoeschen.addClickHandler(new KontaktlisteloeschenClickhandler());
 		zurueck.addClickHandler(new BearbeitenBeendenClickhandler());
 		txt_kontaktliste.addKeyDownHandler(changeListNameHandler);
-		/*
-		 * if-clause überprüft den Status der Liste. Ist dieser auf 1
-		 * (=geteilt), so wird dieser visuell sichtbar gemacht, indem ein
-		 * entsprechendes Symbol angefügt wird.
-		 */
-		if (kl.getStatus() == 1) {
-			hpanel.add(listShared);
-
-		}
+	
 
 	}
 	
@@ -180,7 +181,7 @@ public class KontaktlisteForm extends VerticalPanel {
 		@Override
 		public void onClick(ClickEvent event) {
 			if (selectionModel.getSelectedObject() == null) {
-				Window.alert("Sie muessen einen Kontakt ausw�hlen");
+				Window.alert("Sie muessen einen Kontakt auswählen");
 
 			} else {
 				if (kl.getID() == nutzer.getID()) {
@@ -236,7 +237,11 @@ public class KontaktlisteForm extends VerticalPanel {
 
 		@Override
 		public void onClick(ClickEvent event) {
+			if(kl.getBez().equals("Meine Kontakte") || kl.getBez().equals("Meine geteilten Kontakte")){
+				Window.alert("Dies ist eine Standardkontaktliste und kann nicht bearbeitet werden");
+			}else{
 			setEditable();
+			}
 		}
 
 	}
@@ -279,7 +284,7 @@ public class KontaktlisteForm extends VerticalPanel {
 				// Wenn nur eine Teilhaberschaft an der Kontaktliste besteht, wird
 				// nur diese aufgelöst
 				else {
-					kontaktVerwaltung.deleteTeilhaberschaftByKontaktlisteID(kl.getID(), new KontaktlisteloeschenCallback());
+					kontaktVerwaltung.deleteTeilhaberschaftAnKontaktliste(nutzer.getID(), kl.getID(), new KontaktlisteloeschenCallback());
 				
 				}
 

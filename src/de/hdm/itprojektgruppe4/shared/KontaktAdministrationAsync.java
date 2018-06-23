@@ -174,7 +174,7 @@ public interface KontaktAdministrationAsync {
 
 	void findAllSharedKontakteVonNutzer(int nutzerID, AsyncCallback<Vector<Kontakt>> callback);
 
-	void insertTeilhaberschaftKontaktliste(int kontaktlisteID, int teilhaberID, int nutzerID,
+	void insertTeilhaberschaftKontaktliste(int kontaktlisteID, String email, int nutzerID,
 			AsyncCallback<Teilhaberschaft> callback);
 	
 	void insertTeilhaberschaftAuspraegung(int eigenschaftauspraegungID, int teilhaberID, int nutzerID,
@@ -255,6 +255,10 @@ public interface KontaktAdministrationAsync {
 	void hinzuzufuegendeKontakte(int nutzerID, int kontaktlisteID, AsyncCallback<Vector<Kontakt>> callback);
 
 	void getAllTeilhaberFromKontakt(int kontaktID, AsyncCallback<Vector<Nutzer>> callback);
+
+	void findKontaktKontaktlisteByKontaktID(int kontaktID, AsyncCallback<Vector<KontaktKontaktliste>> callback);
+
+	void findKontaktlistenToAddKontakt(int kontaktID, int nutzerID, AsyncCallback<Vector<Kontaktliste>> callback);
 
 	
 
