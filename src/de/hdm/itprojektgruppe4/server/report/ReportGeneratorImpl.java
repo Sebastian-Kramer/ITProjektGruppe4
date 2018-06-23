@@ -1,5 +1,7 @@
 package de.hdm.itprojektgruppe4.server.report;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.Vector;
 
 import com.google.gwt.user.server.rpc.RemoteServiceServlet;
@@ -84,7 +86,8 @@ public class ReportGeneratorImpl extends RemoteServiceServlet implements ReportG
 		Vector<EigenschaftAuspraegungWrapper> auspraegung = new Vector<EigenschaftAuspraegungWrapper>();
 
 		result.setTitle("Meine Kontakte und mir geteilte Kontakte");
-
+		SimpleDateFormat simpleDateFormat = new SimpleDateFormat("EEE, d MMM yyyy HH:mm:ss ");
+		result.setCreated(simpleDateFormat.format(new Date()));
 		Row headline = new Row();
 
 		headline.addColumn(new Column("Kontakt"));
@@ -130,7 +133,10 @@ public class ReportGeneratorImpl extends RemoteServiceServlet implements ReportG
 		Vector<Kontakt> kontakt = this.verwaltung.findAllKontaktFromNutzer(nutzerID);
 
 		result.setTitle("Meine Kontakte");
-
+		SimpleDateFormat simpleDateFormat = new SimpleDateFormat("EEE, d MMM yyyy HH:mm:ss ");
+		result.setCreated(simpleDateFormat.format(new Date()));
+		
+		
 		Row headline = new Row();
 
 		result.addRow(headline);
@@ -184,14 +190,19 @@ public class ReportGeneratorImpl extends RemoteServiceServlet implements ReportG
 		Vector<Kontakt> teilhaben = this.verwaltung.findGeteilteKontakteFromNutzerAndTeilhaber(nutzerID, teilhaberID);
 		
 		Vector<EigenschaftAuspraegungWrapper> auspraegung = new Vector<EigenschaftAuspraegungWrapper>();
+		
+		Nutzer teilhaber = this.verwaltung.findNutzerByID(teilhaberID);
 
 		result.setTitle("Geteilte Kontakte");
-
+		SimpleDateFormat simpleDateFormat = new SimpleDateFormat("EEE, d MMM yyyy HH:mm:ss ");
+		result.setCreated(simpleDateFormat.format(new Date()));
+		
 		Row headline = new Row();
 
 		headline.addColumn(new Column("Kontakt"));
 		headline.addColumn(new Column("Status"));
 		headline.addColumn(new Column("Erstellt von"));
+		headline.addColumn(new Column("Teilhaber"));
 		headline.addColumn(new Column("Eigenschaft: Auspraegung"));
 
 		result.addRow(headline);
@@ -211,6 +222,8 @@ public class ReportGeneratorImpl extends RemoteServiceServlet implements ReportG
 			}
 
 			kontaktRow.addColumn(new Column(String.valueOf(this.verwaltung.findNutzerByID(k.getNutzerID()).getEmail())));
+			
+			kontaktRow.addColumn(new Column(String.valueOf(teilhaber.getEmail())));
 
 			kontaktRow.addColumn(new Column(auspraegung.toString().replace("[", "").replace("]", "").replace(",", "")));
 
@@ -233,7 +246,9 @@ public class ReportGeneratorImpl extends RemoteServiceServlet implements ReportG
 		Vector<Kontakt> kontakt = this.verwaltung.findKontakteByEigAus(NutzerID, bez, wert);
 
 		result.setTitle("Kontakte mit bestimmten Eigenschaftsauspraegungen");
-
+		SimpleDateFormat simpleDateFormat = new SimpleDateFormat("EEE, d MMM yyyy HH:mm:ss ");
+		result.setCreated(simpleDateFormat.format(new Date()));
+			
 		Row headline = new Row();
 
 		headline.addColumn(new Column("Kontakt"));
@@ -336,7 +351,9 @@ public class ReportGeneratorImpl extends RemoteServiceServlet implements ReportG
 		Vector<Kontakt> kontakt = this.verwaltung.findKontakeByEig(NutzerID, bez);
 
 		result.setTitle("Kontakte mit bestimmten Eigenschaftsauspraegungen");
-
+		SimpleDateFormat simpleDateFormat = new SimpleDateFormat("EEE, d MMM yyyy HH:mm:ss ");
+		result.setCreated(simpleDateFormat.format(new Date()));
+			
 		Row headline = new Row();
 
 		headline.addColumn(new Column("Kontakt"));
@@ -392,7 +409,10 @@ public class ReportGeneratorImpl extends RemoteServiceServlet implements ReportG
 		Vector<Kontakt> kontakt = this.verwaltung.findKontakteByAus(NutzerID, wert);
 
 		result.setTitle("Kontakte mit bestimmten Eigenschaftsauspraegungen");
-
+		SimpleDateFormat simpleDateFormat = new SimpleDateFormat("EEE, d MMM yyyy HH:mm:ss ");
+		result.setCreated(simpleDateFormat.format(new Date()));
+		
+		
 		Row headline = new Row();
 
 		headline.addColumn(new Column("Kontakt"));

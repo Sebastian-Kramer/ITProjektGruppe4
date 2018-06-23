@@ -162,30 +162,20 @@ public class KontaktForm extends VerticalPanel {
 		
 
 
-		
-		
-		sharedPic.addMouseOverHandler(new MouseOverHandler() {
+		if (k.getNutzerID()== nutzer.getID()) {
 			
-			@Override
-			public void onMouseOver(MouseOverEvent event) {
-				// TODO Auto-generated method stub
-				verwaltung.getAllTeilhaberFromKontakt(k.getID(), new TeilhaberFromKontaktCallback());
-
-			
+			sharedPic.addMouseOverHandler(new MouseOverHandler() {
 				
-			}
-		});
+				@Override
+				public void onMouseOver(MouseOverEvent event) {
+					// TODO Auto-generated method stub
+					verwaltung.getAllTeilhaberFromKontakt(k.getID(), new TeilhaberFromKontaktCallback());
+					
+				}
+			});
+		}
 		
-		sharedPic.addMouseOutHandler(new MouseOutHandler() {
-			
-			@Override
-			public void onMouseOut(MouseOutEvent event) {
-				// TODO Auto-generated method stub
-				PopUpInfo pop = new PopUpInfo();
-				//pop.add(lbl);
-				pop.hide();
-			}
-		});
+
 
 	}
 	

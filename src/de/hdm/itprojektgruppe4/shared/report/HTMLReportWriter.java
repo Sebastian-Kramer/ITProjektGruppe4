@@ -125,11 +125,11 @@ public class HTMLReportWriter extends ReportWriter {
 	   
 		  
 		  result.append("<h3>"+ p.getTitle() + "</h3>");
-		  result.append("<table style=\"width:1300px;border:1px solid silver\"><tr>");
+		  result.append("<table style=\"width:900px;border:1px solid silver\"><tr>");
 		  result.append("</tr><tr><td></td><td>" + p.getCreated().toString() + "</td></tr></table>");
 
 		  	 Vector<Row> rows = p.getRows();
-		     result.append("<table style=\"width:1300px\">");
+		     result.append("<table style=\"width:900px\">");
 		     for (int i = 0; i < rows.size(); i++) {
 		         Row row = rows.elementAt(i);
 		         result.append("<tr>");
@@ -164,11 +164,11 @@ public class HTMLReportWriter extends ReportWriter {
 	    StringBuffer result = new StringBuffer();
 	    
 	    result.append("<h3>"+ p.getTitle() + "</h3>");
-		  result.append("<table style=\"width:1300px;border:1px solid silver\"><tr>");
+		  result.append("<table style=\"width:900px;border:1px solid silver\"><tr>");
 		  result.append("</tr><tr><td></td><td>" + p.getCreated().toString() + "</td></tr></table>");
 
 		  	 Vector<Row> rows = p.getRows();
-		     result.append("<table style=\"width:1300px\">");
+		     result.append("<table style=\"width:900px\">");
 		     for (int i = 0; i < rows.size(); i++) {
 		         Row row = rows.elementAt(i);
 		         result.append("<tr>");
@@ -244,11 +244,11 @@ public class HTMLReportWriter extends ReportWriter {
 	    StringBuffer result = new StringBuffer();
 	    
 	    result.append("<h3>"+ p.getTitle() + "</h3>");
-		  result.append("<table style=\"width:1300px;border:1px solid silver\"><tr>");
+		  result.append("<table style=\"width:900px;border:1px solid silver\"><tr>");
 		  result.append("</tr><tr><td></td><td>" + p.getCreated().toString() + "</td></tr></table>");
 
 		  	 Vector<Row> rows = p.getRows();
-		     result.append("<table style=\"width:1300px\">");
+		     result.append("<table style=\"width:900px\">");
 		     for (int i = 0; i < rows.size(); i++) {
 		         Row row = rows.elementAt(i);
 		         result.append("<tr>");
@@ -291,11 +291,11 @@ public class HTMLReportWriter extends ReportWriter {
 	   
 		  
 		  result.append("<h3>"+ p.getTitle() + "</h3>");
-		  result.append("<table style=\"width:1300px;border:1px solid silver\"><tr>");
+		  result.append("<table style=\"width:900px;border:1px solid silver\"><tr>");
 		  result.append("</tr><tr><td></td><td>" + p.getCreated().toString() + "</td></tr></table>");
 
 		  	 Vector<Row> rows = p.getRows();
-		     result.append("<table style=\"width:1300px\">");
+		     result.append("<table style=\"width:900px\">");
 		     for (int i = 0; i < rows.size(); i++) {
 		         Row row = rows.elementAt(i);
 		         result.append("<tr>");
@@ -331,11 +331,11 @@ public class HTMLReportWriter extends ReportWriter {
 	   
 		  
 		  result.append("<h3>"+ p.getTitle() + "</h3>");
-		  result.append("<table style=\"width:1300px;border:1px solid silver\"><tr>");
+		  result.append("<table style=\"width:900px;border:1px solid silver\"><tr>");
 		  result.append("</tr><tr><td></td><td>" + p.getCreated().toString() + "</td></tr></table>");
 
 		  	 Vector<Row> rows = p.getRows();
-		     result.append("<table style=\"width:1300px\">");
+		     result.append("<table style=\"width:900px\">");
 		     for (int i = 0; i < rows.size(); i++) {
 		         Row row = rows.elementAt(i);
 		         result.append("<tr>");
@@ -377,11 +377,11 @@ public class HTMLReportWriter extends ReportWriter {
 	   
 		  
 		  result.append("<h3>"+ p.getTitle() + "</h3>");
-		  result.append("<table style=\"width:1300px;border:1px solid silver\"><tr>");
+		  result.append("<table style=\"width:900px;border:1px solid silver\"><tr>");
 		  result.append("</tr><tr><td></td><td>" + p.getCreated().toString() + "</td></tr></table>");
 
 		  	 Vector<Row> rows = p.getRows();
-		     result.append("<table style=\"width:1300px\">");
+		     result.append("<table style=\"width:900px\">");
 		     for (int i = 0; i < rows.size(); i++) {
 		         Row row = rows.elementAt(i);
 		         result.append("<tr>");
@@ -422,11 +422,11 @@ public class HTMLReportWriter extends ReportWriter {
 	   
 		  
 		  result.append("<h3>"+ p.getTitle() + "</h3>");
-		  result.append("<table style=\"width:1300px;border:1px solid silver\"><tr>");
+		  result.append("<table style=\"width:900px;border:1px solid silver\"><tr>");
 		  result.append("</tr><tr><td></td><td>" + p.getCreated().toString() + "</td></tr></table>");
 
 		  	 Vector<Row> rows = p.getRows();
-		     result.append("<table style=\"width:1300px\">");
+		     result.append("<table style=\"width:900px\">");
 		     for (int i = 0; i < rows.size(); i++) {
 		         Row row = rows.elementAt(i);
 		         result.append("<tr>");
@@ -467,11 +467,11 @@ public class HTMLReportWriter extends ReportWriter {
 	   
 		  
 		  result.append("<h3>"+ p.getTitle() + "</h3>");
-		  result.append("<table style=\"width:1300px;border:1px solid silver\"><tr>");
+		  result.append("<table style=\"width:900px;border:1px solid silver\"><tr>");
 		  result.append("</tr><tr><td></td><td>" + p.getCreated().toString() + "</td></tr></table>");
 
 		  	 Vector<Row> rows = p.getRows();
-		     result.append("<table style=\"width:1300px\">");
+		     result.append("<table style=\"width:900px\">");
 		     for (int i = 0; i < rows.size(); i++) {
 		         Row row = rows.elementAt(i);
 		         result.append("<tr>");

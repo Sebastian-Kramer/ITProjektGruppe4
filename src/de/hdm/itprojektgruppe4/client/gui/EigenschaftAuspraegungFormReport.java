@@ -142,7 +142,7 @@ public class EigenschaftAuspraegungFormReport extends VerticalPanel {
 
 							});
 
-				}else if (auspraegungBox.getText() == null && eigenschafBox.getText() == null){
+				}else if (auspraegungBox.getText().isEmpty() && eigenschafBox.getText().isEmpty()){
 					Window.alert("Bitte Daten eingeben");
 				}
 
