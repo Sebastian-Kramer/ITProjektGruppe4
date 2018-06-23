@@ -1,6 +1,8 @@
 package de.hdm.itprojektgruppe4.client;
 
 import de.hdm.itprojektgruppe4.client.gui.MainForm;
+
+import de.hdm.itprojektgruppe4.shared.FieldVerifier;
 import de.hdm.itprojektgruppe4.shared.KontaktAdministrationAsync;
 import de.hdm.itprojektgruppe4.shared.LoginService;
 import de.hdm.itprojektgruppe4.shared.LoginServiceAsync;
@@ -138,9 +140,9 @@ public class ITProjektSS18 implements EntryPoint {
 	}
 
 	/*
-	 * Meldet sich ein Nutzer neu auf der Plattform an, soll sofort eine
-	 * Kontaktliste "Meinte Kontakte" erstellt werden. Hierf�r wird diese
-	 * Callback-Klasse ben�tigt.
+	 * Meldet sich ein Nutzer neu auf der Plattform an, sollwn sofort die
+	 * Kontaktlisten "Meine Kontakte" und "Meine geteilten Kontakte" erstellt werden. Hierfür wird diese
+	 * Callback-Klasse benötigt. Die Kontaktlisten stellen Standardkontaktliste da.
 	 */
 	private class MeineKontakteAnlegen implements AsyncCallback<Kontaktliste> {
 

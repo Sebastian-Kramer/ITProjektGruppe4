@@ -20,6 +20,7 @@ import com.google.gwt.view.client.ListDataProvider;
 import com.google.gwt.view.client.SingleSelectionModel;
 
 import de.hdm.itprojektgruppe4.client.ClientsideSettings;
+import de.hdm.itprojektgruppe4.client.NavigationTree;
 import de.hdm.itprojektgruppe4.shared.KontaktAdministrationAsync;
 import de.hdm.itprojektgruppe4.shared.bo.Kontaktliste;
 import de.hdm.itprojektgruppe4.shared.bo.Nutzer;
@@ -46,41 +47,31 @@ public class DialogBoxKontaktlisteTeilen extends DialogBox {
 	private MultiWordSuggestOracle nutzerOracle = new MultiWordSuggestOracle();
 	private SuggestBox nutzerSugBox = new SuggestBox(nutzerOracle);
 	
+	/*
+	 * Konstruktur, der beim Aufruf der Klasse zum Einsatz kommt.
+	 */
 	DialogBoxKontaktlisteTeilen(Kontaktliste kl) {
 		this.kl = kl;
-		kontaktVerwaltung.findNutzerToShareListWith(kl.getID(), nutzer.getID(), new NutzerAnzeigen());
-		
-		//FÜR RAPHA ALS SUGGBOX
-		//###############
-				kontaktVerwaltung.findNutzerToShareListWith(kl.getID(), nutzer.getID(), new NutzerToSugBox());
-		//#########
+		kontaktVerwaltung.findNutzerToShareListWith(kl.getID(), nutzer.getID(), new NutzerToSugBox());
 		nutzer.setID(Integer.parseInt(Cookies.getCookie("id")));
 		nutzer.setEmail(Cookies.getCookie("email"));
 		dataProvider.addDataDisplay(nutzerList);
 		nutzerList.setSelectionModel(nutzerSelection);
-		html = new HTML("Wählen Sie einen Nutzer, mit dem Sie die Kontaktliste teilen möchten:");
+		html = new HTML("Geben Sie die Mail-Adresse des Nutzers ein, mit dem Sie die Kontaktliste teilen möchten:");
 	}
 
 	public void onLoad() {
 		super.onLoad();
-
-		
 		
 		teilen.addClickHandler(new TeilenClickhandler());
 		abbrechen.addClickHandler(new AbbrechenClickhandler());
 
-		ft.setWidget(1, 0, nutzerList);
 		ft.setWidget(2, 0, teilen);
 		ft.setWidget(2, 1, abbrechen);
 		ft.setStylePrimaryName("Flextable");
 
 		vpanel.add(html);
-		
-		//FÜR RAPHA SUGBOX
-		//##########
 		vpanel.add(nutzerSugBox);
-		//########
-		
 		vpanel.add(ft);
 		this.add(vpanel);
 		this.setStylePrimaryName("DialogboxBackground1");
@@ -98,18 +89,14 @@ public class DialogBoxKontaktlisteTeilen extends DialogBox {
 
 		@Override
 		public void onClick(ClickEvent event) {
-			// ist kein Nutzer ausgew�hlt, wird dies mithilfe eines
+			// ist kein Nutzer ausgewählt, wird dies mithilfe eines
 			// Window-Alerts dem User kenntlich gemacht.
-			if (nutzerSelection.getSelectedObject() == null) {
-				Window.alert("Sie muessen einen Nutzer auswählen");
+			if (nutzerSugBox.getValue().isEmpty() == true) {
+				Window.alert("Bitte suchen Sie nach einem Nutzer, mit dem Sie die Kontaktliste teilen wollen.");
 			} else {
-				Nutzer n = nutzerSelection.getSelectedObject();
-				kontaktVerwaltung.insertTeilhaberschaftKontaktliste(kl.getID(), n.getID(), nutzer.getID(),
+				kontaktVerwaltung.insertTeilhaberschaftKontaktliste(kl.getID(), nutzerSugBox.getValue(), nutzer.getID(),
 						new TeilhaberschaftErstellenCallback());
-				DialogBoxKontaktlisteTeilen.this.hide();
-				KontaktlisteForm kontaktlisteForm = new KontaktlisteForm(kl);
-				RootPanel.get("Details").clear();
-				RootPanel.get("Details").add(kontaktlisteForm);
+			
 			}
 		}
 	}
@@ -128,7 +115,7 @@ public class DialogBoxKontaktlisteTeilen extends DialogBox {
 
 	}
 
-	/*
+	/**
 	 * Callback-Klasse um eine Teilhaberschaft zu erstellen. Wird eine
 	 * Teilhaberschaft erstellt, wird auch gleichzeitig der Status der
 	 * Kontaktliste auf 1 (= geteilt) gesetzt.
@@ -147,54 +134,26 @@ public class DialogBoxKontaktlisteTeilen extends DialogBox {
 				Window.alert("Sie koennen diese Liste nicht teilen");
 			} else {
 				Window.alert("Die Liste wurde erfolgreich geteilt");
-				kl.setStatus(1);
-				kontaktVerwaltung.updateKontaktliste(kl, new KontaktlisteUpdatenCallback());
-
+				DialogBoxKontaktlisteTeilen.this.hide();
+				KontaktlisteForm kontaktlisteForm = new KontaktlisteForm(kl);
+				NavigationTree updatedTree = new NavigationTree();
+				RootPanel.get("Navigator").clear();
+				RootPanel.get("Details").clear();
+				RootPanel.get("Details").add(kontaktlisteForm);
+				RootPanel.get("Navigator").add(updatedTree);
 			}
 
 		}
 
 	}
 
-	private class KontaktlisteUpdatenCallback implements AsyncCallback<Kontaktliste> {
 
-		@Override
-		public void onFailure(Throwable caught) {
-			// TODO Auto-generated method stub
-
-		}
-
-		@Override
-		public void onSuccess(Kontaktliste result) {
-
-		}
-
-	}
-
-	/*
-	 * Callback-Klasse um alle Nutzer zu erhalten, mit denen die Kontaktliste
-	 * geteilt werden kann. Der Ergebnisvektor <code>result</code> wird der
-	 * CellList <code>nutzerList</code> hinzugefügt.
-	 */
-	private class NutzerAnzeigen implements AsyncCallback<Vector<Nutzer>> {
-
-		@Override
-		public void onFailure(Throwable caught) {
-			// TODO Auto-generated method stub
-
-		}
-
-		@Override
-		public void onSuccess(Vector<Nutzer> result) {
-			nutzerList.setRowCount(result.size());
-			nutzerList.setRowData(result);
-
-		}
-
-	}
 	
-	//FÜR RAPHA Nutzer in SugBox
-	//#########################################
+	/**
+	 * Callback-Klasse um alle Nutzer, mit denen die Kontaktliste geteilt werden kann zu erhalten.
+	 * Alle Objekte des Ergebnisvektors werden dem MultiSuggestOracle der SuggestBox hinzugefügt, damit diese
+	 * als Vorschläge bei der Eingabe erscheinen.
+	 */
 	private class NutzerToSugBox implements AsyncCallback<Vector<Nutzer>> {
 
 		@Override
@@ -217,6 +176,6 @@ public class DialogBoxKontaktlisteTeilen extends DialogBox {
 		
 	}
 	
-	//#########################################
+
 
 }

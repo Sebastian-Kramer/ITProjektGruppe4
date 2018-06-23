@@ -617,20 +617,7 @@ public interface KontaktAdministration extends RemoteService {
 	 */
 	public Vector<Kontakt> findAllSharedKontakteVonNutzer(int nutzerID) throws IllegalArgumentException;
 
-	/**
-	 * Erstellen einer Teilhaberschaft zu einer Kontaktliste
-	 * 
-	 * @param kontaktlisteID
-	 *            die ID der Kontaktliste die geteilt werden soll
-	 * @param teilhaberID
-	 *            die ID des Nutzers, mit dem die Kontaktliste geteilt wird
-	 * @param nutzerID
-	 *            die ID des Nutzers, der die Kontaktliste teilt
-	 * @return Teilhaberschaft-Objekt
-	 * @throws IllegalArgumentException
-	 */
-	public Teilhaberschaft insertTeilhaberschaftKontaktliste(int kontaktlisteID, int teilhaberID, int nutzerID)
-			throws IllegalArgumentException;
+	Teilhaberschaft insertTeilhaberschaftKontaktliste(int kontaktlisteID, String email, int nutzerID);
 
 	/**
 	 * Ausgabe s�mtlicher Teilhaberschaften an einer Kontaktliste
@@ -801,7 +788,32 @@ public interface KontaktAdministration extends RemoteService {
 
 	public Teilhaberschaft findTeilhaberschaftByAuspraegungIdAndTeilhaberId(int auspraegungID, int nutzerID) throws IllegalArgumentException;
 
+
 	public Eigenschaftauspraegung getAuspraegungByEigID(int eigID, int kontaktID) throws IllegalArgumentException;
+
+
+	
+	/**
+	 * Auslesen eines Vectors mit KontaktKontaktliste-Objekten, die die übergebene kontaktID als Fremdschlüssel besitzen
+	 * 
+	 * @param kontaktID die ID eines Kontaktes, dessen Zugehörigkeiten an Kontaktlisten ausgelesen werden sollen
+	 * @return Vector mit KontaktKontaktliste-Objekten, die die übergebene kontaktID als Fremdschlüssel besitzen
+	 * @throws IllegalArgumentException
+	 */
+	public Vector<KontaktKontaktliste> findKontaktKontaktlisteByKontaktID(int kontaktID) throws IllegalArgumentException;
+	
+	
+	/**
+	 * Auslesen eines Vectors mit allen Kontaktlisten, zu denen ein Kontakt hinzugefügt werden kann.
+	 * 
+	 * @param kontaktID die ID des Kontaktes der zu einer Kontaktliste hinzugefügt werden soll
+	 * @param nutzerID die ID des angemeldeten Nutzers
+	 * @return	Vector mit allen Kontaktlisten-Objekten, zu denen der Kontakt noch nicht hinzugefügt wurde
+	 * @throws IllegalArgumentException
+	 */
+	public Vector<Kontaktliste> findKontaktlistenToAddKontakt (int kontaktID, int nutzerID) throws IllegalArgumentException;
+
+
 
 	
 
