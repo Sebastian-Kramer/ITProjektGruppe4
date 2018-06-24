@@ -4,6 +4,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.Vector;
 
+import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.rpc.RemoteService;
 import com.google.gwt.user.client.rpc.RemoteServiceRelativePath;
 
@@ -96,6 +97,16 @@ public interface KontaktAdministration extends RemoteService {
 	 * @thro
 	 * */
 	public Kontakt findKontaktByAuspraegungID(int id) throws IllegalArgumentException;
+	
+	/**
+	 * Einen Kontaktnamen anhand seiner KontaktID in der Auspraegung anzeigen lassen.
+	 * 
+	 * @param id,
+	 *            
+	 * @return Kontakt-Objekt mit der übergebenen kontaktID
+	 * @thro
+	 * */
+	public String findEinenKontaktByAuspraegungID(int id) throws IllegalArgumentException;
 	
 	
 	/**
