@@ -77,7 +77,7 @@ public class CellTableForm extends CellTable<EigenschaftAuspraegungWrapper> {
 	public CellTableForm(Kontakt k, String teilhaberschaft) {
 		Nutzer nutzer = new Nutzer();
 		nutzer.setID(Integer.parseInt(Cookies.getCookie("id")));
-		this.kontakt = k;	
+		this.kontakt = k;
 		verwaltung.findSharedAuspraegung(kontakt.getID(), nutzer.getID() ,new AllSharedAuspraegungen());
 	
 		

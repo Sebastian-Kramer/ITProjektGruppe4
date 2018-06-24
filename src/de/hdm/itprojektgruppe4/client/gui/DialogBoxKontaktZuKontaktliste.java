@@ -188,7 +188,14 @@ public class DialogBoxKontaktZuKontaktliste extends DialogBox {
 		public void onSuccess(Vector<Kontakt> result) {
 			kontaktTable.setRowCount(result.size());
 			kontaktTable.setRowData(0, result);
+			if (kl.getNutzerID() != nutzer.getID()) {
 			
+		
+				
+			}else{
+				
+				
+			}
 			
 		}
 		

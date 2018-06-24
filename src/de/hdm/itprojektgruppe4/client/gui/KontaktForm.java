@@ -72,7 +72,7 @@ public class KontaktForm extends VerticalPanel {
 	private Button loeschenButton = new Button("Kontakt löschen");
 	private Button zurueckBtn = new Button("Zurück");
 	private Button kontaktListehinzufuegen = new Button("Kontakt einer Liste hinzufügen");
-	private Button kontaktTeilen = new Button("Kontakt teilen");
+	private Button kontaktTeilen = new Button("Teilhaberschaft verwalten");
 	private boolean deleteKonAlert;
 	
 	private NutzerCell nutzerCell = new NutzerCell();
@@ -97,9 +97,27 @@ public class KontaktForm extends VerticalPanel {
 	public KontaktForm(Kontakt k, String teilhaberschaft) {
 
 		this.k = k;
+		loeschenButton.setVisible(false);
 		ctf = new CellTableForm(k, teilhaberschaft);
 
 	}
+	
+	/**
+	 * Konsturktor für Kontakte die in einer geteilten Liste sind
+	 * -> Read ONLY
+	 * @param k
+	 * @param shared
+	 */
+	public KontaktForm(Kontakt k, int shared) {
+		this.k = k;
+		ctf = new CellTableForm(k);
+		bearbeitenButton.setVisible(false);
+		loeschenButton.setVisible(false);
+		kontaktTeilen.setVisible(false);
+		kontaktListehinzufuegen.setVisible(false);
+	}
+	
+
 
 	public void onLoad() {
 
@@ -221,9 +239,12 @@ public class KontaktForm extends VerticalPanel {
 		@Override
 		public void onClick(ClickEvent event) {
 			MainForm mf = new MainForm();
+			NavigationTree nf = new NavigationTree();
+			RootPanel.get("Navigator").clear();
 			RootPanel.get("Buttonbar").clear();
 			RootPanel.get("Details").clear();
 			RootPanel.get("Details").add(mf);
+			RootPanel.get("Navigator").add(nf);
 			bearbeitenButton.setVisible(false);
 
 		}

@@ -7,7 +7,12 @@ import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.dom.client.KeyCodes;
 import com.google.gwt.event.dom.client.KeyDownEvent;
 import com.google.gwt.event.dom.client.KeyDownHandler;
+import com.google.gwt.event.dom.client.MouseMoveEvent;
+import com.google.gwt.event.dom.client.MouseMoveHandler;
+import com.google.gwt.event.dom.client.MouseOutEvent;
+import com.google.gwt.event.dom.client.MouseOutHandler;
 import com.google.gwt.user.cellview.client.CellList;
+import com.google.gwt.user.cellview.client.HasKeyboardSelectionPolicy.KeyboardSelectionPolicy;
 import com.google.gwt.user.client.Cookies;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
@@ -17,6 +22,7 @@ import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.Label;
+import com.google.gwt.user.client.ui.PopupPanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.view.client.SingleSelectionModel;
 import com.google.gwt.user.client.ui.RootPanel;
@@ -49,7 +55,12 @@ public class KontaktlisteForm extends VerticalPanel {
 	private Label lbl_kontaktliste = new Label("Kontaktlistenname:");
 	private TextBox txt_kontaktliste = new TextBox();
 	private KeyDownHandler changeListNameHandler = new ChangeListNameHandler(); 
-
+	
+	private NutzerCell nutzerCell = new NutzerCell();
+	private CellList<Nutzer> teilhaberCL = new CellList<Nutzer>(nutzerCell);
+	private VerticalPanel vpanelPopUp = new VerticalPanel();
+	private Label teilInfo = new Label("Mit folgenden Nutzern geteilt: ");
+	
 	private KontaktCell kontaktcell = new KontaktCell();
 	private CellList<Kontakt> kontaktCellList = new CellList<Kontakt>(kontaktcell);
 	private SingleSelectionModel<Kontakt> selectionModel = new SingleSelectionModel<Kontakt>();
@@ -80,16 +91,26 @@ public class KontaktlisteForm extends VerticalPanel {
 	 */
 	public KontaktlisteForm(Kontaktliste kontaktliste) {
 		this.kl = kontaktliste;
-		nutzer.setID(Integer.parseInt(Cookies.getCookie("id")));
-		nutzer.setEmail(Cookies.getCookie("email"));
+		
 		kontaktVerwaltung.getAllKontakteFromKontaktliste(kl.getID(), new KontakteVonKontaktlisteCallback());
 		listShared.setUrl("Image/contactShared.png");
 
 	}
+	
+	
+	public KontaktlisteForm (Kontaktliste kontaktliste, String teilhaberschaft){
+		
+		this.kl = kontaktliste;
+		
+	}
+	
 
 	public void onLoad() {
 		super.onLoad();
 
+		nutzer.setID(Integer.parseInt(Cookies.getCookie("id")));
+		nutzer.setEmail(Cookies.getCookie("email"));
+		
 		// Instantiieren des DataProviders, der die Daten fuer die Liste haelt
 		kontaktCellList.setSelectionModel(selectionModel);
 		dataProvider.addDataDisplay(kontaktCellList);
@@ -110,6 +131,10 @@ public class KontaktlisteForm extends VerticalPanel {
 		// Kontaktliste ist
 		if (kl.getNutzerID() == nutzer.getID()) {
 			fpanel.add(kontaktlisteBearbeiten);
+			listShared.addMouseMoveHandler(new SharedListeMouseHandler());
+		}else{
+			fpanel.add(kontaktHinzufuegen);
+
 		}
 
 		fpanel.add(kontaktAnzeigen);
@@ -172,7 +197,39 @@ public class KontaktlisteForm extends VerticalPanel {
 		txt_kontaktliste.setText(kl.getBez());
 	}
 	
+	private class PopUpInfo extends PopupPanel {
+		
+		public PopUpInfo(){
+			
+			super(true);
+			
+			addDomHandler(new MouseOutHandler() {
+				
+				@Override
+				public void onMouseOut(MouseOutEvent event) {
+					// TODO Auto-generated method stub
+					hide();
+				}
+			}, MouseOutEvent.getType());
+			
+			setPopupPosition(listShared.getAbsoluteLeft(), listShared.getAbsoluteTop());
+		}
+		
+	}
+		
+	
+	private class SharedListeMouseHandler implements MouseMoveHandler{
 
+		@Override
+		public void onMouseMove(MouseMoveEvent event) {
+			// TODO Auto-generated method stub
+			kontaktVerwaltung.findAllTeilhaberFromKontaktliste(kl.getID(), new TeilhaberFromListeCallback());
+		}
+		
+		
+	}
+	
+	
 	/*
 	 * Clickhandler ermöglicht das Anzeigen eines ausgewaehlten Kontaktes.
 	 */
@@ -184,11 +241,19 @@ public class KontaktlisteForm extends VerticalPanel {
 				Window.alert("Sie muessen einen Kontakt auswählen");
 
 			} else {
-				if (kl.getID() == nutzer.getID()) {
+				if (kl.getNutzerID() == nutzer.getID()) {
 					KontaktForm kf = new KontaktForm(selectionModel.getSelectedObject());
 					RootPanel.get("Details").clear();
 					RootPanel.get("Details").add(kf);
-				} else {
+					
+				}else if (selectionModel.getSelectedObject().getNutzerID() != nutzer.getID() ) {
+					KontaktForm kf = new KontaktForm(selectionModel.getSelectedObject(), 1 );
+					RootPanel.get("Details").clear();
+					RootPanel.get("Details").add(kf);
+				}
+				
+				
+				else {
 					KontaktForm kf = new KontaktForm(selectionModel.getSelectedObject(), "Teilhaberschaft");
 					RootPanel.get("Details").clear();
 					RootPanel.get("Details").add(kf);
@@ -484,6 +549,32 @@ public class KontaktlisteForm extends VerticalPanel {
 			RootPanel.get("Navigator").add(updatedTree);
 		}
 
+	}
+	
+	
+	private class TeilhaberFromListeCallback implements AsyncCallback<Vector<Nutzer>>{
+
+		@Override
+		public void onFailure(Throwable caught) {
+			// TODO Auto-generated method stub
+			
+		}
+
+		@Override
+		public void onSuccess(Vector<Nutzer> result) {
+			// TODO Auto-generated method stub
+			teilhaberCL.setRowCount(result.size());
+			teilhaberCL.setRowData(result);
+			teilhaberCL.setKeyboardSelectionPolicy(KeyboardSelectionPolicy.DISABLED);
+			vpanelPopUp.add(teilInfo);
+			vpanelPopUp.add(teilhaberCL);
+			
+			PopUpInfo pop = new PopUpInfo();
+			pop.setWidget(vpanelPopUp);
+			pop.show();
+			
+		}
+		
 	}
 
 

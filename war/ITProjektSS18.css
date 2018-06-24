@@ -25,6 +25,12 @@ h2#Kontakt {
 	text-align: left;
 }
 
+a.LoggedNutzer {
+	right: 0;
+	position: absolute;
+	margin-right: 160px;
+}
+
 a.Impressum {
 	right: 0;
 	position: absolute;
