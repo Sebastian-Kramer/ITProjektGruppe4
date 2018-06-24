@@ -122,6 +122,8 @@ public interface KontaktAdministrationAsync {
 	void findKontaktByNutzerID(int nutzerID, AsyncCallback<List<Kontakt>> callback);
 
 	void findKontaktByAuspraegungID(int id, AsyncCallback<Kontakt> callback);
+	
+	void findEinenKontaktByAuspraegungID(int id, AsyncCallback<String> callback);
 
 	void findEigenschaftauspraegungByKontaktID(int kontaktID, AsyncCallback<Vector<Eigenschaftauspraegung>> callback);
 

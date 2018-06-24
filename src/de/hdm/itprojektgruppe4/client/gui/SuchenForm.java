@@ -6,6 +6,7 @@ import java.util.Vector;
 import com.google.gwt.cell.client.ButtonCell;
 import com.google.gwt.cell.client.ClickableTextCell;
 import com.google.gwt.cell.client.EditTextCell;
+import com.google.gwt.cell.client.FieldUpdater;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.cellview.client.CellTable;
@@ -16,6 +17,7 @@ import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.DecoratorPanel;
 import com.google.gwt.user.client.ui.FlexTable;
+import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.MultiWordSuggestOracle;
 import com.google.gwt.user.client.ui.RootPanel;
@@ -41,6 +43,9 @@ public class SuchenForm extends VerticalPanel {
 	
 	private Label beschreibungKontakt = new Label("Bitte Geben sie den Kontatknamen ein");
 	private Label beschreibungAuspraegung = new Label("Bitte Geben sie eine Ausprägung ein");
+	private HTML HTMLForm = new HTML(
+			"Sie können auf dieser Seite nach Kontakten anhand von ihrem Namen suchen, "
+			+ "<br>oder indem Sie eine Eigenschaftsausprägung eingeben, welche der gesuchte Kontakt beinhaltet</br>");
 	
 	private TextBox tboxKontaktname = new TextBox();
 	
@@ -52,7 +57,7 @@ public class SuchenForm extends VerticalPanel {
 	
 	private Button KontaktKontaktAnzeigenButton = new Button("Kontakt anzeigen");
 	
-	private Button AuspraegungKontaktAnzeigenButton = new Button("Kontakt anzeigen");
+	private Button AuspraegungKontaktAnzeigenButton = new Button("Zugehörigen Kontakt anzeigen");
 	
 	private VerticalPanel vpanel = new VerticalPanel();
 	
@@ -85,6 +90,7 @@ public class SuchenForm extends VerticalPanel {
 	private CellTableForm.ColumnEigenschaft bezEigenschaft = ctAus.new ColumnEigenschaft(bezeigenschaft);
 	private CellTableForm.ColumnAuspraegung wertAuspraegung = ctAus.new ColumnAuspraegung(wertauspraegung);
 			 
+	private Kontakt test = new Kontakt();
 	public SuchenForm(){
 	}
 	
@@ -104,7 +110,22 @@ public class SuchenForm extends VerticalPanel {
 				// TODO Auto-generated method stub
 				return object.getName();
 			}
+			
 		};
+		
+		Column<EigenschaftAuspraegungWrapper, String> kontaktnameAuspraegung = new Column<EigenschaftAuspraegungWrapper, String>(
+				new ClickableTextCell()){
+
+					@Override
+					public String getValue(EigenschaftAuspraegungWrapper object) {
+						// TODO Auto-generated method stub
+						String a = new String();
+//						verwaltung.findEinenKontaktByAuspraegungID(object.getAuspraegungID(), new KontaktNameCallback());
+						return a;
+					}
+			
+		};
+		
 		
 		
 		ctAus = new CellTableForm();
@@ -131,26 +152,25 @@ public class SuchenForm extends VerticalPanel {
 		AuspraegungSuchenPanel.setStyleName("DialogboxBackground");
 		tboxAuspraegung.setStyleName("DialogboxBackground");
 
-		
-//		Problem ist:
-//		CellTableForm kann mann nicht erstellen ohne einen Kontakt?
-//		CellTable kann ich nicht Column Eigenschaft hinzufügen
-		
 		ctAus.setSelectionModel(ssm);
 		
 		ctAus.addColumn(bezEigenschaft, "Eig");
 		ctAus.addColumn(wertAuspraegung, "Aus");
+		ctAus.addColumn(kontaktnameAuspraegung, "Zugehöriger Kontakt");
+		vpanel.add(HTMLForm);
 		vpanel2.add(ctAus);
 		vpanel1.add(ctkontakt);
 		vpanel3.add(KontaktKontaktAnzeigenButton);
 		vpanel3.add(AuspraegungKontaktAnzeigenButton);
+		this.add(vpanel);
 		this.add(KontaktSuchenPanel);
 		this.add(AuspraegungSuchenPanel);
 		
 		KontaktSuchen.addClickHandler(new KontaktSuchenButton());
 		AuspraegungSuchen.addClickHandler(new AuspraegungSuchenButton());
 		verwaltung.findAllKontaktFromNutzer(nutzer.getID(), new  AllKontakteCallBack());
-	
+		
+		
 		this.add(vpanel1);
 		this.add(vpanel2);
 		this.add(vpanel3);
@@ -161,16 +181,44 @@ public class SuchenForm extends VerticalPanel {
 		
 	}
 	
+//	class KontaktNameCallback implements AsyncCallback<String>{
+//
+//		@Override
+//		public void onFailure(Throwable caught) {
+//			// TODO Auto-generated method stub
+//			
+//		}
+//
+//		@Override
+//		public void onSuccess(String result) {
+//			// TODO Auto-generated method stub
+//			Window.alert(""+result);
+//			ctAus.getColumn(3).setFieldUpdater(new FieldUpdater<EigenschaftAuspraegungWrapper, String>() {
+//
+//				@Override
+//				public void update(int index, EigenschaftAuspraegungWrapper object, String value) {
+//					// TODO Auto-generated method stub
+//					
+//				}
+//				
+//			});
+//		}
+//		
+//	}
+	
+	
 	class AuspraegungKontaktAnzeigenHandler implements ClickHandler{
 
 		@Override
 		public void onClick(ClickEvent event) {
 			// TODO Auto-generated method stub
 			
+			
+			KontaktKontaktAnzeigenButton.setVisible(false);
 			EigenschaftAuspraegungWrapper eigaus = new EigenschaftAuspraegungWrapper();
 	
 
-			eigaus.setAuspraegungID(ctAus.getSm().getSelectedObject().getAuspraegungID());
+			eigaus.setAuspraegungID(ssm.getSelectedObject().getAuspraegungID());
 
 		
 
@@ -251,7 +299,7 @@ public class SuchenForm extends VerticalPanel {
 			EigenschaftAuspraegungWrapper eigaus = new EigenschaftAuspraegungWrapper();
 			
 			eigaus.setAuspraegungValue(tboxAuspraegung.getValue());
-			Window.alert(tboxAuspraegung.getValue());
+		
 			KontaktKontaktAnzeigenButton.setVisible(false);
 			AuspraegungKontaktAnzeigenButton.setVisible(true);
 			verwaltung.getAuspraegungByWert(tboxAuspraegung.getValue(), new FindAuspraegungCallback());
@@ -273,7 +321,6 @@ public class SuchenForm extends VerticalPanel {
 		@Override
 		public void onSuccess(Kontakt result) {
 			// TODO Auto-generated method stub
-			Window.alert("1");
 			KontaktForm kf = new KontaktForm(result);
 			RootPanel.get("Details").clear();
 			RootPanel.get("Details").add(kf);
@@ -292,9 +339,7 @@ public class SuchenForm extends VerticalPanel {
 		@Override
 		public void onSuccess(Vector<EigenschaftAuspraegungWrapper> result) {
 			// TODO Auto-generated method stub
-			for(EigenschaftAuspraegungWrapper eaw : result){
-				Window.alert(eaw.getAuspraegungValue());
-			}
+		
 			ctAus.setRowData(0, result);
 			ctAus.setRowCount(result.size(), true);
 			ctkontakt.setVisible(false);

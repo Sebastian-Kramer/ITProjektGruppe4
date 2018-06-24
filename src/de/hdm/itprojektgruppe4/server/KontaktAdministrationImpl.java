@@ -1947,6 +1947,16 @@ public class KontaktAdministrationImpl extends RemoteServiceServlet implements K
 		
 		return k;
 	}
+	
+	public String findEinenKontaktByAuspraegungID(int id) throws IllegalArgumentException{
+		
+		
+		Eigenschaftauspraegung eigaus = this.getAuspraegungByID(id);
+		Kontakt k = this.findKontaktByID(eigaus.getKontaktID());
+		
+		return k.getName();
+	}
+	
 
 	@Override
 	public Eigenschaft findEigByBezeichnung(String bez) throws IllegalArgumentException {
