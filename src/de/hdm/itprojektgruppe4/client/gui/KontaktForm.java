@@ -99,6 +99,7 @@ public class KontaktForm extends VerticalPanel {
 		this.k = k;
 		loeschenButton.setVisible(false);
 		ctf = new CellTableForm(k, teilhaberschaft);
+		
 
 	}
 	
@@ -116,6 +117,8 @@ public class KontaktForm extends VerticalPanel {
 		kontaktTeilen.setVisible(false);
 		kontaktListehinzufuegen.setVisible(false);
 	}
+	
+
 	
 
 

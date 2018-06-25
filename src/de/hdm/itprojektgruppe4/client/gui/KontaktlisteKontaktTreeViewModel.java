@@ -94,7 +94,7 @@ public class KontaktlisteKontaktTreeViewModel implements TreeViewModel {
 //				}
 			}else if (selection instanceof Kontakt){
 				Kontakt k = ((Kontakt) selection);
-
+				
 				if(((Kontakt) selection).getNutzerID() == nutzer.getID()){
 					KontaktForm kf = new KontaktForm(k);
 					RootPanel.get("Details").clear();

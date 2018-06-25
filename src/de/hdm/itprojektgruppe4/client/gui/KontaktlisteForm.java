@@ -240,27 +240,45 @@ public class KontaktlisteForm extends VerticalPanel {
 			if (selectionModel.getSelectedObject() == null) {
 				Window.alert("Sie muessen einen Kontakt auswählen");
 
-			} else {
+			} else {  
 				if (kl.getNutzerID() == nutzer.getID()) {
-					KontaktForm kf = new KontaktForm(selectionModel.getSelectedObject());
-					RootPanel.get("Details").clear();
-					RootPanel.get("Details").add(kf);
+					if (selectionModel.getSelectedObject().getNutzerID() == nutzer.getID()) {
+						KontaktForm kf = new KontaktForm(selectionModel.getSelectedObject());
+						RootPanel.get("Details").clear();
+						RootPanel.get("Details").add(kf);
+					} else {
+						KontaktForm kf = new KontaktForm(selectionModel.getSelectedObject(), "Teilhaberschaft");
+						RootPanel.get("Details").clear();
+						RootPanel.get("Details").add(kf);
+					}					
 					
-				}else if (selectionModel.getSelectedObject().getNutzerID() != nutzer.getID() ) {
-					KontaktForm kf = new KontaktForm(selectionModel.getSelectedObject(), 1 );
-					RootPanel.get("Details").clear();
-					RootPanel.get("Details").add(kf);
-				}
+				}else{
+					if (selectionModel.getSelectedObject().getNutzerID() != nutzer.getID()){
+						KontaktForm kf = new KontaktForm(selectionModel.getSelectedObject(), 1 );
+						RootPanel.get("Details").clear();
+						RootPanel.get("Details").add(kf);
+					}else{
+						KontaktForm kf = new KontaktForm(selectionModel.getSelectedObject());
+						RootPanel.get("Details").clear();
+						RootPanel.get("Details").add(kf);
+					}
+					
+						
+						
+//					}
+//					KontaktForm kf = new KontaktForm(selectionModel.getSelectedObject(), 1 );
+//					RootPanel.get("Details").clear();
+//					RootPanel.get("Details").add(kf);
 				
 				
-				else {
-					KontaktForm kf = new KontaktForm(selectionModel.getSelectedObject(), "Teilhaberschaft");
-					RootPanel.get("Details").clear();
-					RootPanel.get("Details").add(kf);
-				}
+//				else {
+//					KontaktForm kf = new KontaktForm(selectionModel.getSelectedObject(), "Teilhaberschaft");
+//					RootPanel.get("Details").clear();
+//					RootPanel.get("Details").add(kf);
+//				}
 			}
 		}
-
+		}
 	}
 
 	/**
