@@ -178,6 +178,38 @@ public class TeilhaberschaftMapper {
 
 		return result;
 	}
+	
+	public Vector<Teilhaberschaft> findTeilhaberschaftByKontaktlisteIDAndTeilhaberID(int kontaktlisteID, int teilhaberID) {
+
+		Vector<Teilhaberschaft> result = new Vector<Teilhaberschaft>();
+
+		Connection con = DBConnection.connection();
+
+		try {
+			Statement stmt = con.createStatement();
+
+			ResultSet rs = stmt.executeQuery(
+					"SELECT `ID`, `kontaktlisteID`, `kontaktID`, `eigenschaftsauspraegungID`, `teilhaberID`, `nutzerID`   FROM teilhaberschaft "
+							+ "WHERE kontaktID = " + kontaktlisteID + " AND teilhaberID = " + teilhaberID);
+
+			while (rs.next()) {
+				Teilhaberschaft th = new Teilhaberschaft();
+				th.setID(rs.getInt("ID"));
+				th.setKontaktListeID(rs.getInt("kontaktlisteID"));
+				th.setKontaktID(rs.getInt("kontaktID"));
+				th.setEigenschaftsauspraegungID(rs.getInt("eigenschaftsauspraegungID"));
+				th.setTeilhaberID(rs.getInt("teilhaberID"));
+				th.setNutzerID(rs.getInt("nutzerID"));
+				result.addElement(th);
+
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+
+		return result;
+	}
+
 
 	public Vector<Teilhaberschaft> findTeilhaberschaftByTeilhaberIDAndNutzerID(int teilhaberID, int nutzerID) {
 
