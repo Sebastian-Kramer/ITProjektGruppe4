@@ -852,10 +852,84 @@ public class KontaktAdministrationImpl extends RemoteServiceServlet implements K
 
 	@Override
 	public void deleteAuspraegung(Eigenschaftauspraegung ea) throws IllegalArgumentException {
+		List<Teilhaberschaft> teilhaberschaft = teilhaberschaftMapper.findTeilhaberschaftByAuspraegungID(ea.getID());
+		if (teilhaberschaft != null) {
+			for (Teilhaberschaft th : teilhaberschaft) {
+				teilhaberschaftMapper.deleteTeilhaberschaftByAuspreaegungID(ea.getID());
+			}
+		}
+
+	 
 		this.eigenschaftauspraegungMapper.deleteAuspraegung(ea);
 
 	}
 
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+//	@Override
+//	public void deleteKontakt(Kontakt k) throws IllegalArgumentException {
+//
+//		List<Eigenschaftauspraegung> eaList = eigenschaftauspraegungMapper.findAuspraegungByKontaktID(k.getID());
+//		List<KontaktKontaktliste> kontaktKontakliste = kontaktKontaktlisteMapper
+//				.findKontaktKontaktlisteByKontaktID(k.getID());
+//		List<Teilhaberschaft> teilhaberschaft = teilhaberschaftMapper.findTeilhaberschaftByKontaktID(k.getID());
+//		List<Eigenschaftauspraegung> eigauspraegung = eigenschaftauspraegungMapper.findAllSharedAuspraegungenFromKontaktID(k.getID());
+//		
+//		
+//			for (Eigenschaftauspraegung eigenschaftauspraegung : eigauspraegung) {
+//				teilhaberschaftMapper.deleteTeilhaberschaftByAuspreaegungID(eigenschaftauspraegung.getID());
+//			}
+//		 
+//		
+//
+//		if (eaList != null) {
+//			for (Eigenschaftauspraegung ea : eaList) {
+//
+//				eigenschaftauspraegungMapper.deleteAuspraegung(ea);
+//			}
+//		}
+//
+//		if (kontaktKontakliste != null) {
+//			for (KontaktKontaktliste kkliste : kontaktKontakliste) {
+//				kontaktKontaktlisteMapper.deleteKontaktKontaktlisteByKontaktID(kkliste.getKontaktID());
+//			}
+//		}
+//
+//		if (teilhaberschaft != null) {
+//			for (Teilhaberschaft th : teilhaberschaft) {
+//				teilhaberschaftMapper.deleteTeilhaberschaftByKontaktID(th.getKontaktID());
+//			}
+//		}
+//
+//		this.konMapper.deleteKontakt(k);
+//		this.persMapper.deletePerson(this.persMapper.findPersonByID(k.getID()));
+//
+//	}
+	
+	
+	
 	/**
 	 * Eine Eigenschaftsauspraegung anhand der ID auslesen.
 	 * 
@@ -1762,12 +1836,37 @@ public class KontaktAdministrationImpl extends RemoteServiceServlet implements K
 
 	public void deleteEigenschaftUndAuspraegung(EigenschaftAuspraegungWrapper ea) throws IllegalArgumentException {
 		Eigenschaftauspraegung eaa = new Eigenschaftauspraegung();
-
 		eaa.setID(ea.getAuspraegungID());
+		List<Teilhaberschaft> teilhaberschaft = teilhaberschaftMapper.findTeilhaberschaftByAuspraegungID(eaa.getID());
+		if (teilhaberschaft != null) {
+			for (Teilhaberschaft th : teilhaberschaft) {
+				teilhaberschaftMapper.deleteTeilhaberschaftByAuspreaegungID(eaa.getID());
+			}
+		}
+
+		
 
 		this.eigenschaftauspraegungMapper.deleteAuspraegung(eaa);
 
 	}
+	
+	
+	
+//	@Override
+//	public void deleteAuspraegung(Eigenschaftauspraegung ea) throws IllegalArgumentException {
+//		List<Teilhaberschaft> teilhaberschaft = teilhaberschaftMapper.findTeilhaberschaftByAuspraegungID(ea.getID());
+//		if (teilhaberschaft != null) {
+//			for (Teilhaberschaft th : teilhaberschaft) {
+//				teilhaberschaftMapper.deleteTeilhaberschaftByAuspreaegungID(ea.getID());
+//			}
+//		}
+//
+//	 
+//		this.eigenschaftauspraegungMapper.deleteAuspraegung(ea);
+//
+//	}
+
+	
 
 	@Override
 

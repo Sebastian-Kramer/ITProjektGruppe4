@@ -68,7 +68,7 @@ public class UpdateKontaktForm extends VerticalPanel {
 	private Label lbl_NewAuspraegung = new Label("Auspraegung: ");
 	private TextBox txt_Auspraegung = new TextBox();
 	private Date date = new Date();
-
+	private boolean deleteAuspraegung;
 	private KeyDownHandler changeNameHandler = new ChangeNameHandler();
 
 	private ScrollPanel scrollPanel = new ScrollPanel();
@@ -235,7 +235,13 @@ public class UpdateKontaktForm extends VerticalPanel {
 			verwaltung.deleteEigenschaftUndAuspraegung(ea, new AuspraegungHybridLoeschenCallback());
 			verwaltung.updateKontakt(kon, new KontaktModifikationsdatumCallback());
 			}else{
-				Window.alert("Sie müssen als erstes alle Teilhaberschaften an dieser Ausprägung löschen");
+				
+				deleteAuspraegung = Window.confirm("Diese Ausprägung ist mit jemand geteilt, möchten Sie diese Ausprägung dennoch löschen ?");
+				if(deleteAuspraegung == true){
+					verwaltung.deleteEigenschaftUndAuspraegung(ea, new AuspraegungHybridLoeschenCallback());
+					
+				}
+				//Window.alert("Sie müssen als erstes alle Teilhaberschaften an dieser Ausprägung löschen");
 			}
 		}
 	}
