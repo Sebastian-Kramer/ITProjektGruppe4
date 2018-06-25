@@ -43,10 +43,10 @@ public class DialogBoxKontaktlisteTeilen extends DialogBox {
 	private SingleSelectionModel<Nutzer> nutzerSelection = new SingleSelectionModel<Nutzer>();
 	private FlexTable ft = new FlexTable();
 	private ListDataProvider<Nutzer> dataProvider = new ListDataProvider<Nutzer>();
-	
+
 	private MultiWordSuggestOracle nutzerOracle = new MultiWordSuggestOracle();
 	private SuggestBox nutzerSugBox = new SuggestBox(nutzerOracle);
-	
+
 	/*
 	 * Konstruktur, der beim Aufruf der Klasse zum Einsatz kommt.
 	 */
@@ -62,7 +62,7 @@ public class DialogBoxKontaktlisteTeilen extends DialogBox {
 
 	public void onLoad() {
 		super.onLoad();
-		
+
 		teilen.addClickHandler(new TeilenClickhandler());
 		abbrechen.addClickHandler(new AbbrechenClickhandler());
 
@@ -96,7 +96,7 @@ public class DialogBoxKontaktlisteTeilen extends DialogBox {
 			} else {
 				kontaktVerwaltung.insertTeilhaberschaftKontaktliste(kl.getID(), nutzerSugBox.getValue(), nutzer.getID(),
 						new TeilhaberschaftErstellenCallback());
-			
+
 			}
 		}
 	}
@@ -124,7 +124,6 @@ public class DialogBoxKontaktlisteTeilen extends DialogBox {
 
 		@Override
 		public void onFailure(Throwable caught) {
-			// TODO Auto-generated method stub
 
 		}
 
@@ -147,35 +146,31 @@ public class DialogBoxKontaktlisteTeilen extends DialogBox {
 
 	}
 
-
-	
 	/**
-	 * Callback-Klasse um alle Nutzer, mit denen die Kontaktliste geteilt werden kann zu erhalten.
-	 * Alle Objekte des Ergebnisvektors werden dem MultiSuggestOracle der SuggestBox hinzugefügt, damit diese
-	 * als Vorschläge bei der Eingabe erscheinen.
+	 * Callback-Klasse um alle Nutzer, mit denen die Kontaktliste geteilt werden
+	 * kann zu erhalten. Alle Objekte des Ergebnisvektors werden dem
+	 * MultiSuggestOracle der SuggestBox hinzugefügt, damit diese als Vorschläge
+	 * bei der Eingabe erscheinen.
 	 */
 	private class NutzerToSugBox implements AsyncCallback<Vector<Nutzer>> {
 
 		@Override
 		public void onFailure(Throwable caught) {
-			// TODO Auto-generated method stub
-			
+
 		}
 
 		@Override
 		public void onSuccess(Vector<Nutzer> result) {
-			// TODO Auto-generated method stub
+
 			for (Nutzer n : result) {
-				if (n.getID() != nutzer.getID() ) {
+				if (n.getID() != nutzer.getID()) {
 					nutzerOracle.add(n.getEmail());
 				} else {
 
 				}
 			}
 		}
-		
-	}
-	
 
+	}
 
 }

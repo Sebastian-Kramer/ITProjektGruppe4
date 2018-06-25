@@ -78,11 +78,12 @@ public class CellTableForm extends CellTable<EigenschaftAuspraegungWrapper> {
 		Nutzer nutzer = new Nutzer();
 		nutzer.setID(Integer.parseInt(Cookies.getCookie("id")));
 		this.kontakt = k;
+
 		verwaltung.findSharedAuspraegung(kontakt.getID(), nutzer.getID() ,new AllSharedAuspraegungen());
 	
 		
 	}
-	
+		
 	public void onLoad() {
 
 		super.onLoad();
