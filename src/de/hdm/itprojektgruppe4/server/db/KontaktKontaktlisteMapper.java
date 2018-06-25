@@ -9,7 +9,6 @@ package de.hdm.itprojektgruppe4.server.db;
 import java.sql.*;
 import java.util.Vector;
 
-import de.hdm.itprojektgruppe4.shared.bo.Kontakt;
 import de.hdm.itprojektgruppe4.shared.bo.KontaktKontaktliste;
 
 public class KontaktKontaktlisteMapper {
@@ -49,15 +48,9 @@ public class KontaktKontaktlisteMapper {
 
 				k.setID(rs.getInt("maxID") + 1);
 
-				// stmt = con.createStatement();
-
 				stmt.executeUpdate(
 						"INSERT INTO `kontaktkontaktliste`(`ID`, `kontaktID`," + " `kontaktlisteID`) " + "VALUES ('"
 								+ k.getID() + "', '" + k.getKontaktID() + "', '" + "" + k.getKontaktlisteID() + "')");
-
-				// INSERT INTO kontaktkontaktliste (ID, kontaktID,
-				// kontaktlisteID) " + "VALUES (" + k.getID() + " ,'" +
-				// k.getKontaktID() + " ,'" + k.getKontaktlisteID() + "')");
 
 			}
 		} catch (SQLException e) {
@@ -66,7 +59,6 @@ public class KontaktKontaktlisteMapper {
 		return k;
 	}
 
-	//
 
 	public Vector<KontaktKontaktliste> findKontaktKontaktlisteByKontaktlisteID(int i) {
 
@@ -110,11 +102,11 @@ public class KontaktKontaktlisteMapper {
 		try {
 			Statement stmt = con.createStatement();
 
-			ResultSet rs = stmt.executeQuery(
-					"SELECT ID, kontaktID, kontaktlisteID FROM kontaktkontaktliste " + "WHERE kontaktID = " + kontaktID + " AND kontaktlisteID = " + kListID);
+			ResultSet rs = stmt.executeQuery("SELECT ID, kontaktID, kontaktlisteID FROM kontaktkontaktliste "
+					+ "WHERE kontaktID = " + kontaktID + " AND kontaktlisteID = " + kListID);
 
 			while (rs.next()) {
-		
+
 				kk.setID(rs.getInt("ID"));
 				kk.setKontaktID(rs.getInt("kontaktID"));
 				kk.setKontaktlisteID(rs.getInt("kontaktlisteID"));
@@ -129,9 +121,12 @@ public class KontaktKontaktlisteMapper {
 	}
 
 	/**
-	 * Auslesen eines Vectors mit KontaktKontaktliste-Objekten, die die übergebene kontaktID als Fremdschlüssel besitzen
+	 * Auslesen eines Vectors mit KontaktKontaktliste-Objekten, die die
+	 * übergebene kontaktID als Fremdschlüssel besitzen
+	 * 
 	 * @param kontaktID
-	 * @return Vector result mit KontaktKontaktliste-Objekten, die die übergebene kontaktID als Fremdschlüssel besitzen
+	 * @return Vector result mit KontaktKontaktliste-Objekten, die die
+	 *         übergebene kontaktID als Fremdschlüssel besitzen
 	 */
 	public Vector<KontaktKontaktliste> findKontaktKontaktlisteByKontaktID(int kontaktID) {
 
@@ -142,8 +137,8 @@ public class KontaktKontaktlisteMapper {
 		try {
 			Statement stmt = con.createStatement();
 
-			ResultSet rs = stmt.executeQuery(
-					"SELECT ID, kontaktID, kontaktlisteID FROM kontaktkontaktliste " + "WHERE kontaktID = " + kontaktID);
+			ResultSet rs = stmt.executeQuery("SELECT ID, kontaktID, kontaktlisteID FROM kontaktkontaktliste "
+					+ "WHERE kontaktID = " + kontaktID);
 
 			while (rs.next()) {
 				KontaktKontaktliste kk = new KontaktKontaktliste();

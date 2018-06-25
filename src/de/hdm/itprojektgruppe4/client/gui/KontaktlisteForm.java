@@ -36,9 +36,9 @@ import de.hdm.itprojektgruppe4.shared.bo.*;
 import de.hdm.itprojektgruppe4.client.ClientsideSettings;
 import de.hdm.itprojektgruppe4.client.NavigationTree;
 
-
 /**
- * Die Klasse dient zur Darstellung, Verwaltung und Bearbeitung von Kontaktlisten.
+ * Die Klasse dient zur Darstellung, Verwaltung und Bearbeitung von
+ * Kontaktlisten.
  * 
  * @author Raphael
  *
@@ -51,16 +51,16 @@ public class KontaktlisteForm extends VerticalPanel {
 	private ScrollPanel scrollPanel = new ScrollPanel();
 	private FlowPanel fpanel = new FlowPanel();
 	private FlowPanel fpanelEdit = new FlowPanel();
-	
+
 	private Label lbl_kontaktliste = new Label("Kontaktlistenname:");
 	private TextBox txt_kontaktliste = new TextBox();
-	private KeyDownHandler changeListNameHandler = new ChangeListNameHandler(); 
-	
+	private KeyDownHandler changeListNameHandler = new ChangeListNameHandler();
+
 	private NutzerCell nutzerCell = new NutzerCell();
 	private CellList<Nutzer> teilhaberCL = new CellList<Nutzer>(nutzerCell);
 	private VerticalPanel vpanelPopUp = new VerticalPanel();
 	private Label teilInfo = new Label("Mit folgenden Nutzern geteilt: ");
-	
+
 	private KontaktCell kontaktcell = new KontaktCell();
 	private CellList<Kontakt> kontaktCellList = new CellList<Kontakt>(kontaktcell);
 	private SingleSelectionModel<Kontakt> selectionModel = new SingleSelectionModel<Kontakt>();
@@ -91,26 +91,24 @@ public class KontaktlisteForm extends VerticalPanel {
 	 */
 	public KontaktlisteForm(Kontaktliste kontaktliste) {
 		this.kl = kontaktliste;
-		
+
 		kontaktVerwaltung.getAllKontakteFromKontaktliste(kl.getID(), new KontakteVonKontaktlisteCallback());
 		listShared.setUrl("Image/contactShared.png");
 
 	}
-	
-	
-	public KontaktlisteForm (Kontaktliste kontaktliste, String teilhaberschaft){
-		
+
+	public KontaktlisteForm(Kontaktliste kontaktliste, String teilhaberschaft) {
+
 		this.kl = kontaktliste;
-		
+
 	}
-	
 
 	public void onLoad() {
 		super.onLoad();
 
 		nutzer.setID(Integer.parseInt(Cookies.getCookie("id")));
 		nutzer.setEmail(Cookies.getCookie("email"));
-		
+
 		// Instantiieren des DataProviders, der die Daten fuer die Liste haelt
 		kontaktCellList.setSelectionModel(selectionModel);
 		dataProvider.addDataDisplay(kontaktCellList);
@@ -132,7 +130,7 @@ public class KontaktlisteForm extends VerticalPanel {
 		if (kl.getNutzerID() == nutzer.getID()) {
 			fpanel.add(kontaktlisteBearbeiten);
 			listShared.addMouseMoveHandler(new SharedListeMouseHandler());
-		}else{
+		} else {
 			fpanel.add(kontaktHinzufuegen);
 
 		}
@@ -156,13 +154,14 @@ public class KontaktlisteForm extends VerticalPanel {
 			hpanel.add(listShared);
 
 		}
-		
+
 		vpanel.add(hpanel);
 		vpanel.add(scrollPanel);
 		RootPanel.get("Details").add(vpanel);
 
 		/*
-		 * Hinzufuegen der Clickhandler zu den Buttons, sowie des KeyDownHandlers zur Textbox
+		 * Hinzufuegen der Clickhandler zu den Buttons, sowie des
+		 * KeyDownHandlers zur Textbox
 		 */
 		kontaktAnzeigen.addClickHandler(new KontaktAnzeigenClickhandler());
 		kontaktlisteTeilen.addClickHandler(new KontaktlisteTeilenClickhandler());
@@ -174,62 +173,59 @@ public class KontaktlisteForm extends VerticalPanel {
 		kontaktlisteLoeschen.addClickHandler(new KontaktlisteloeschenClickhandler());
 		zurueck.addClickHandler(new BearbeitenBeendenClickhandler());
 		txt_kontaktliste.addKeyDownHandler(changeListNameHandler);
-	
 
 	}
-	
+
 	/*
-	 * Die Methode <code>setEditable</code> ermöglicht den Wechsel in den Bearbeitungsmodus.
-	 * Dabei werden die Buttons der Kontaktlistenansicht entfernt und dafür Buttons in das RootPanel <code>Buttonbar</code> geladen,
-	 * die das Bearbeiten einer Kontaktliste möglich machen.
+	 * Die Methode <code>setEditable</code> ermöglicht den Wechsel in den
+	 * Bearbeitungsmodus. Dabei werden die Buttons der Kontaktlistenansicht
+	 * entfernt und dafür Buttons in das RootPanel <code>Buttonbar</code>
+	 * geladen, die das Bearbeiten einer Kontaktliste möglich machen.
 	 */
-	private void setEditable(){
+	private void setEditable() {
 		RootPanel.get("Buttonbar").clear();
 		fpanelEdit.add(kontaktHinzufuegen);
 		fpanelEdit.add(kontaktEntfernen);
 		fpanelEdit.add(kontaktlisteLoeschen);
 		fpanelEdit.add(zurueck);
 		RootPanel.get("Buttonbar").add(fpanelEdit);
-		
+
 		hpanel.clear();
 		hpanel.add(lbl_kontaktliste);
 		hpanel.add(txt_kontaktliste);
 		txt_kontaktliste.setText(kl.getBez());
 	}
-	
+
 	private class PopUpInfo extends PopupPanel {
-		
-		public PopUpInfo(){
-			
+
+		public PopUpInfo() {
+
 			super(true);
-			
+
 			addDomHandler(new MouseOutHandler() {
-				
+
 				@Override
 				public void onMouseOut(MouseOutEvent event) {
-					// TODO Auto-generated method stub
+
 					hide();
 				}
 			}, MouseOutEvent.getType());
-			
+
 			setPopupPosition(listShared.getAbsoluteLeft(), listShared.getAbsoluteTop());
 		}
-		
+
 	}
-		
-	
-	private class SharedListeMouseHandler implements MouseMoveHandler{
+
+	private class SharedListeMouseHandler implements MouseMoveHandler {
 
 		@Override
 		public void onMouseMove(MouseMoveEvent event) {
-			// TODO Auto-generated method stub
+
 			kontaktVerwaltung.findAllTeilhaberFromKontaktliste(kl.getID(), new TeilhaberFromListeCallback());
 		}
-		
-		
+
 	}
-	
-	
+
 	/*
 	 * Clickhandler ermöglicht das Anzeigen eines ausgewaehlten Kontaktes.
 	 */
@@ -240,7 +236,7 @@ public class KontaktlisteForm extends VerticalPanel {
 			if (selectionModel.getSelectedObject() == null) {
 				Window.alert("Sie muessen einen Kontakt auswählen");
 
-			} else {  
+			} else {
 				if (kl.getNutzerID() == nutzer.getID()) {
 					if (selectionModel.getSelectedObject().getNutzerID() == nutzer.getID()) {
 						KontaktForm kf = new KontaktForm(selectionModel.getSelectedObject());
@@ -250,34 +246,34 @@ public class KontaktlisteForm extends VerticalPanel {
 						KontaktForm kf = new KontaktForm(selectionModel.getSelectedObject(), "Teilhaberschaft");
 						RootPanel.get("Details").clear();
 						RootPanel.get("Details").add(kf);
-					}					
-					
-				}else{
-					if (selectionModel.getSelectedObject().getNutzerID() != nutzer.getID()){
-						KontaktForm kf = new KontaktForm(selectionModel.getSelectedObject(), 1 );
+					}
+
+				} else {
+					if (selectionModel.getSelectedObject().getNutzerID() != nutzer.getID()) {
+						KontaktForm kf = new KontaktForm(selectionModel.getSelectedObject(), 1);
 						RootPanel.get("Details").clear();
 						RootPanel.get("Details").add(kf);
-					}else{
+					} else {
 						KontaktForm kf = new KontaktForm(selectionModel.getSelectedObject());
 						RootPanel.get("Details").clear();
 						RootPanel.get("Details").add(kf);
 					}
-					
-						
-						
-//					}
-//					KontaktForm kf = new KontaktForm(selectionModel.getSelectedObject(), 1 );
-//					RootPanel.get("Details").clear();
-//					RootPanel.get("Details").add(kf);
-				
-				
-//				else {
-//					KontaktForm kf = new KontaktForm(selectionModel.getSelectedObject(), "Teilhaberschaft");
-//					RootPanel.get("Details").clear();
-//					RootPanel.get("Details").add(kf);
-//				}
+
+					// }
+					// KontaktForm kf = new
+					// KontaktForm(selectionModel.getSelectedObject(), 1 );
+					// RootPanel.get("Details").clear();
+					// RootPanel.get("Details").add(kf);
+
+					// else {
+					// KontaktForm kf = new
+					// KontaktForm(selectionModel.getSelectedObject(),
+					// "Teilhaberschaft");
+					// RootPanel.get("Details").clear();
+					// RootPanel.get("Details").add(kf);
+					// }
+				}
 			}
-		}
 		}
 	}
 
@@ -314,16 +310,17 @@ public class KontaktlisteForm extends VerticalPanel {
 
 	/*
 	 * ClickHandler um in den Bearbeitungsmodus einer Kontaktliste zu gelangen.
-	 * Hier wird lediglich die Methode setEditable ausgeführt, welche die Buttons zur Bearbeitung zur Verfügung stellt.
+	 * Hier wird lediglich die Methode setEditable ausgeführt, welche die
+	 * Buttons zur Bearbeitung zur Verfügung stellt.
 	 */
 	private class KontaktlisteBearbeitenClickhandler implements ClickHandler {
 
 		@Override
 		public void onClick(ClickEvent event) {
-			if(kl.getBez().equals("Meine Kontakte") || kl.getBez().equals("Meine geteilten Kontakte")){
+			if (kl.getBez().equals("Meine Kontakte") || kl.getBez().equals("Meine geteilten Kontakte")) {
 				Window.alert("Dies ist eine Standardkontaktliste und kann nicht bearbeitet werden");
-			}else{
-			setEditable();
+			} else {
+				setEditable();
 			}
 		}
 
@@ -344,7 +341,7 @@ public class KontaktlisteForm extends VerticalPanel {
 		}
 
 	}
-	
+
 	/**
 	 * Clickhandler, der das Loeschen von Kontaktlisten bzw. die Aufloesung
 	 * einer Teilhaberschaft bei Klick ermoeglicht Ist der Loeschende der
@@ -356,7 +353,7 @@ public class KontaktlisteForm extends VerticalPanel {
 
 		@Override
 		public void onClick(ClickEvent event) {
-			
+
 			deleteListAlert = Window.confirm("Möchten Sie die Kontaktliste endgültig löschen ?");
 			// Wenn die ausgewaehlte Kontaktliste vom Nutzer erstellt wurde,
 			// wird diese geloescht
@@ -364,15 +361,17 @@ public class KontaktlisteForm extends VerticalPanel {
 				if (kl.getNutzerID() == nutzer.getID()) {
 					kontaktVerwaltung.deleteKontaktliste(kl, new KontaktlisteloeschenCallback());
 				}
-				// Wenn nur eine Teilhaberschaft an der Kontaktliste besteht, wird
+				// Wenn nur eine Teilhaberschaft an der Kontaktliste besteht,
+				// wird
 				// nur diese aufgelöst
 				else {
-					kontaktVerwaltung.deleteTeilhaberschaftAnKontaktliste(nutzer.getID(), kl.getID(), new KontaktlisteloeschenCallback());
-				
+					kontaktVerwaltung.deleteTeilhaberschaftAnKontaktliste(nutzer.getID(), kl.getID(),
+							new KontaktlisteloeschenCallback());
+
 				}
 
-			} else if(deleteListAlert == false) {
-				
+			} else if (deleteListAlert == false) {
+
 			}
 
 		}
@@ -439,7 +438,7 @@ public class KontaktlisteForm extends VerticalPanel {
 		}
 
 	}
-	
+
 	/**
 	 * Callback-Klasse für das Updaten einer Kontaktliste.
 	 */
@@ -447,7 +446,6 @@ public class KontaktlisteForm extends VerticalPanel {
 
 		@Override
 		public void onFailure(Throwable caught) {
-			// TODO Auto-generated method stub
 
 		}
 
@@ -461,17 +459,16 @@ public class KontaktlisteForm extends VerticalPanel {
 				RootPanel.get("Navigator").clear();
 				RootPanel.get("Details").add(kf);
 				RootPanel.get("Navigator").add(updatedNavTree);
-			}
-			else{
+			} else {
 				NavigationTree updatedNavTree = new NavigationTree();
 				RootPanel.get("Navigator").clear();
 				RootPanel.get("Navigator").add(updatedNavTree);
-			Window.alert("Der Name der Liste wurde erfolgreich zu " + result.getBez() + " geändert.");
-		}
+				Window.alert("Der Name der Liste wurde erfolgreich zu " + result.getBez() + " geändert.");
+			}
 		}
 
 	}
-	
+
 	/**
 	 * KeyDownHandler um den Kontaktlisten-Namen durch Eingabe in der Textbox
 	 * ändern zu können.
@@ -481,11 +478,11 @@ public class KontaktlisteForm extends VerticalPanel {
 		@Override
 		public void onKeyDown(KeyDownEvent event) {
 			if (event.getNativeKeyCode() == KeyCodes.KEY_ENTER) {
-				if(txt_kontaktliste.getText().isEmpty()){
+				if (txt_kontaktliste.getText().isEmpty()) {
 					Window.alert("Sie müssen der Kontaktliste einen Namen geben");
-				}else{
-				kl.setBez(txt_kontaktliste.getValue());
-				kontaktVerwaltung.updateKontaktliste(kl, new UpdateKontaktlisteCallback());
+				} else {
+					kl.setBez(txt_kontaktliste.getValue());
+					kontaktVerwaltung.updateKontaktliste(kl, new UpdateKontaktlisteCallback());
 				}
 
 			}
@@ -503,7 +500,7 @@ public class KontaktlisteForm extends VerticalPanel {
 
 		@Override
 		public void onFailure(Throwable caught) {
-			// 
+			//
 
 		}
 
@@ -517,7 +514,6 @@ public class KontaktlisteForm extends VerticalPanel {
 
 	}
 
-
 	/**
 	 * Callback-Klasse fuer die Loeschung der Kontaktliste
 	 *
@@ -526,7 +522,7 @@ public class KontaktlisteForm extends VerticalPanel {
 
 		@Override
 		public void onFailure(Throwable caught) {
-			// TODO Auto-generated method stub
+
 			Window.alert("Die Kontaktliste konnte nicht gelöscht werden");
 		}
 
@@ -568,68 +564,61 @@ public class KontaktlisteForm extends VerticalPanel {
 		}
 
 	}
-	
-	
-	private class TeilhaberFromListeCallback implements AsyncCallback<Vector<Nutzer>>{
+
+	private class TeilhaberFromListeCallback implements AsyncCallback<Vector<Nutzer>> {
 
 		@Override
 		public void onFailure(Throwable caught) {
-			// TODO Auto-generated method stub
-			
+
 		}
 
 		@Override
 		public void onSuccess(Vector<Nutzer> result) {
-			// TODO Auto-generated method stub
+
 			teilhaberCL.setRowCount(result.size());
 			teilhaberCL.setRowData(result);
 			teilhaberCL.setKeyboardSelectionPolicy(KeyboardSelectionPolicy.DISABLED);
 			vpanelPopUp.add(teilInfo);
 			vpanelPopUp.add(teilhaberCL);
-			
+
 			PopUpInfo pop = new PopUpInfo();
 			pop.setWidget(vpanelPopUp);
 			pop.show();
-			
-		}
-		
-	}
 
+		}
+
+	}
 
 	/**
 	 * Hier wird der DataProvider mit den entsprechenden Daten fuer die CellList
-	 * erstellt. Dabei wird der DataProvider mithilfe eines RPC-Callbacks, der alle Kontakte einer Kontaktliste enthält, befüllt.
-	 
-	private class KontakteDataProvider extends AsyncDataProvider<Kontakt> {
-
-		@Override
-		protected void onRangeChanged(HasData<Kontakt> display) {
-			final Range range = display.getVisibleRange();
-
-			kontaktVerwaltung.getAllKontakteFromKontaktliste(kl.getID(), new AsyncCallback<Vector<Kontakt>>() {
-				int start = range.getStart();
-
-				@Override
-				public void onFailure(Throwable caught) {
-
-
-				}
-
-				@Override
-				public void onSuccess(Vector<Kontakt> result) {
-
-					List<Kontakt> list = new ArrayList<Kontakt>();
-					for (Kontakt k : result) {
-						list.add(k);
-					}
-					updateRowData(start, list);
-
-				}
-
-			});
-
-		}
-
-	}
- */
+	 * erstellt. Dabei wird der DataProvider mithilfe eines RPC-Callbacks, der
+	 * alle Kontakte einer Kontaktliste enthält, befüllt.
+	 * 
+	 * private class KontakteDataProvider extends AsyncDataProvider<Kontakt> {
+	 * 
+	 * @Override protected void onRangeChanged(HasData<Kontakt> display) { final
+	 *           Range range = display.getVisibleRange();
+	 * 
+	 *           kontaktVerwaltung.getAllKontakteFromKontaktliste(kl.getID(),
+	 *           new AsyncCallback<Vector<Kontakt>>() { int start =
+	 *           range.getStart();
+	 * 
+	 * @Override public void onFailure(Throwable caught) {
+	 * 
+	 * 
+	 *           }
+	 * 
+	 * @Override public void onSuccess(Vector<Kontakt> result) {
+	 * 
+	 *           List<Kontakt> list = new ArrayList<Kontakt>(); for (Kontakt k :
+	 *           result) { list.add(k); } updateRowData(start, list);
+	 * 
+	 *           }
+	 * 
+	 *           });
+	 * 
+	 *           }
+	 * 
+	 *           }
+	 */
 }

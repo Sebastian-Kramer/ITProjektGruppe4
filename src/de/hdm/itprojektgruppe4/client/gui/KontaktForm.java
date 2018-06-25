@@ -100,8 +100,8 @@ public class KontaktForm extends VerticalPanel {
 		loeschenButton.setVisible(false);
 		ctf = new CellTableForm(k, teilhaberschaft);
 		
-
 	}
+	
 	
 	/**
 	 * Konsturktor für Kontakte die in einer geteilten Liste sind
