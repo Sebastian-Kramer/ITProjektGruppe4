@@ -102,6 +102,7 @@ public class KontaktlisteForm extends VerticalPanel {
 		
 		this.kl = kontaktliste;
 		
+		
 	}
 	
 

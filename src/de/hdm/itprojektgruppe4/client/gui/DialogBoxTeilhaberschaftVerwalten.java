@@ -241,11 +241,17 @@ public class DialogBoxTeilhaberschaftVerwalten extends DialogBox {
 		@Override
 		public void onSuccess(Void result) {
 			hide();
-			Window.alert("Die Teilhaberschaft wurde erfolgreich geloescht");
-			KontaktlisteForm kf = new KontaktlisteForm(k);
-			RootPanel.get("Details").clear();
-			RootPanel.get("Details").add(kf);
-			
+			if (k.getNutzerID() == nutzer.getID()) {
+				Window.alert("Die Teilhaberschaft wurde erfolgreich geloescht");
+				KontaktlisteForm kf = new KontaktlisteForm(k);
+				RootPanel.get("Details").clear();
+				RootPanel.get("Details").add(kf);
+			} else {
+				Window.alert("Die Teilhaberschaft wurde erfolgreich geloescht");
+				KontaktlisteForm kf = new KontaktlisteForm(k, "Teilhaberschaft");
+				RootPanel.get("Details").clear();
+				RootPanel.get("Details").add(kf);
+			}
 
 		}
 
@@ -263,9 +269,15 @@ public class DialogBoxTeilhaberschaftVerwalten extends DialogBox {
 		public void onSuccess(Void result) {
 			Window.alert("Die Teilhaberschaft wurde erfolgreich geloescht");
 			hide();
+			if (k.getNutzerID() == nutzer.getID()) {
 			TeilhaberschaftForm tf = new TeilhaberschaftForm(kon);
 			RootPanel.get("Details").clear();
 			RootPanel.get("Details").add(tf);
+			} else {
+				TeilhaberschaftForm tf = new TeilhaberschaftForm(kon, "Teilhaberschaft");
+				RootPanel.get("Details").clear();
+				RootPanel.get("Details").add(tf);
+			}
 			
 			
 		}
