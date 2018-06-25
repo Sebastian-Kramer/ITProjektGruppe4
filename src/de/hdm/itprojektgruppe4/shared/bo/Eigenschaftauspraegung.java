@@ -103,10 +103,11 @@ public class Eigenschaftauspraegung extends BusinessObject{
 		this.kontaktID = kontaktID;
 	}
 	
-	  /**
-	   * Erzeugen einer einfachen textuellen Repräsentation der jeweiligen
-	   * Kontoinstanz.
+	 /**
+	   * Es wird eine einfache textuelle Darstellung der Eigenschaftsausprägung erzeugt.
 	   */
+	
+	
 
 	@Override
 	public String toString() {

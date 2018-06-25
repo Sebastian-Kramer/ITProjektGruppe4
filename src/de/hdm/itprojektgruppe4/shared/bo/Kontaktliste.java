@@ -8,15 +8,7 @@ import java.util.*;
 
 public class Kontaktliste extends BusinessObject {
 	
-	  /**
-	   * Erzeugen einer einfachen textuellen Repräsentation der jeweiligen
-	   * Kontoinstanz.
-	   */
 	
-	 @Override
-	public String toString() {
-		return "Kontaktliste [bez=" + bez + ", status=" + status + ", nutzerID=" + nutzerID + "]";
-	}
 
 	
 	private static final long serialVersionUID = 1L;
@@ -89,7 +81,14 @@ public class Kontaktliste extends BusinessObject {
 		this.status = status;
 	}
 
+	 /**
+	   * Es wird eine einfache textuelle Darstellung der Kontaktliste erzeugt.
+	   */
 	
+	 @Override
+	public String toString() {
+		return "Kontaktliste [bez=" + bez + ", status=" + status + ", nutzerID=" + nutzerID + "]";
+	}
     
     
 }

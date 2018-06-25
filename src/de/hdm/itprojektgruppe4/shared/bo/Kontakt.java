@@ -155,10 +155,10 @@ public class Kontakt extends Person{
 		this.nutzerID = nutzerID;
 	}
 
-	  /**
-	   * Erzeugen einer einfachen textuellen Repräsentation der jeweiligen
-	   * Kontoinstanz.
+	 /**
+	   * Es wird eine einfache textuelle Darstellung des Kontaktes erzeugt.
 	   */
+	
 
 	@Override
 	public String toString() {

@@ -136,8 +136,8 @@ public class EigenschaftauspraegungMapper {
 	}
 
 	/**
-	 * Einf�gen eines neuen Objktes vom Typ Eigenschaftauspraegung in die DB der
-	 * PK wird �berpr�ft und korrigiert -> maxID +1
+	 * Einfuegen eines neuen Objktes vom Typ Eigenschaftauspraegung in die DB der
+	 * PK wird ueberprueft und korrigiert -> maxID +1
 	 * 
 	 * @param ea
 	 *            die zu speichernde Eigenschaftauspraegung
@@ -177,7 +177,7 @@ public class EigenschaftauspraegungMapper {
 	}
 
 	/**
-	 * �berschreiben eines <code>Eigenschaftauspraegung</code>-Objekts.
+	 * Ueberschreiben eines <code>Eigenschaftauspraegung</code>-Objekts.
 	 * 
 	 * @param ea
 	 * @return ea
@@ -204,10 +204,10 @@ public class EigenschaftauspraegungMapper {
 	}
 
 	/**
-	 * ein Objekt vom Typ Eigenschaftauspraegung wird aus der DB gel�scht
+	 * ein Objekt vom Typ Eigenschaftauspraegung wird aus der DB geloescht
 	 * 
 	 * @param ea
-	 *            die zu l�schende Eigenschaftauspraegung
+	 *            die zu loeschende Eigenschaftauspraegung
 	 * 
 	 */
 	public void deleteAuspraegung(Eigenschaftauspraegung ea) {

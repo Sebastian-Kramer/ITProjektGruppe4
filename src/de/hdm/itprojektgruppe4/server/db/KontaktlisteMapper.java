@@ -271,6 +271,12 @@ public class KontaktlisteMapper {
 		
 		}
 		
+		/**
+		 *  Die Basis Kontaktliste "Meine Kontakte" des Nutzers, in welcher alle Kontakte gepsiechert werden, finden.
+		 * @param nutzerID
+		 * @return "Meine Kontakte" Liste des Nutzers
+		 */
+		
 		public Kontaktliste findBasicKontaktliste(int nutzerID){
 			
 			Connection con = DBConnection.connection();

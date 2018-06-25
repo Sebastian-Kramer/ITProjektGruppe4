@@ -61,10 +61,11 @@ public class Eigenschaft extends BusinessObject {
 		return this.status;
 	}
 
-	  /**
-	   * Erzeugen einer einfachen textuellen Repräsentation der jeweiligen
-	   * Kontoinstanz.
+	 /**
+	   * Es wird eine einfache textuelle Darstellung der Eigenschaft erzeugt.
 	   */
+	
+	
 	
 	@Override
 	public String toString() {

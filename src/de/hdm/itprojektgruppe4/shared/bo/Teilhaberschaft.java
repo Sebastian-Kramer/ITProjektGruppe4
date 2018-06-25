@@ -133,8 +133,8 @@ public class Teilhaberschaft extends BusinessObject{
 
 	
 	  /**
-	   * Erzeugen einer einfachen textuellen Repräsentation der jeweiligen
-	   * Kontoinstanz.
+	   * Es wird eine einfache textuelle Darstellung der Teilhaberschaft erzeugt.
+	   * 
 	   */
 	
 	@Override

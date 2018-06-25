@@ -11,8 +11,7 @@ public class Person  extends BusinessObject{
 	private static final long serialVersionUID = 1L;
 	
 	  /**
-	   * Erzeugen einer einfachen textuellen Repräsentation der jeweiligen
-	   * Kontoinstanz.
+	   * Es wird eine einfache textuelle Darstellung der Person erzeugt.
 	   */
 
 	@Override

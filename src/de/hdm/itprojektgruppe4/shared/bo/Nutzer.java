@@ -32,7 +32,10 @@ public class Nutzer extends Person{
 		this.email = email;
 	}
 
-
+	 /**
+	   * Es wird eine einfache textuelle Darstellung des Nutzers erzeugt.
+	   */
+	
 	@Override
 	public String toString() {
 		return "Nutzer [email=" + email + "]";

@@ -38,6 +38,16 @@ import de.hdm.itprojektgruppe4.shared.bo.Kontakt;
 import de.hdm.itprojektgruppe4.shared.bo.Nutzer;
 import de.hdm.itprojektgruppe4.shared.bo.Teilhaberschaft;
 
+/**
+ * Mit dieser Klasse UpdateKontaktForm lassen sich Kontakte bearbeiten.
+ * Zum einen lässt sich der Kontaktname und die jeweiligen Auspraegungen des Kontaktes ändern.
+ * Es können neue Ausprägungen hinzugefügt werden oder gelöscht werden.
+ * Bei jeder Bearbeitung wird das Modifikationsdatum des Kontaktes aktualisiert.
+ * @author Nino
+ *
+ */
+
+
 public class UpdateKontaktForm extends VerticalPanel {
 
 	private static KontaktAdministrationAsync verwaltung = ClientsideSettings.getKontaktVerwaltung();
@@ -119,6 +129,14 @@ public class UpdateKontaktForm extends VerticalPanel {
 
 	private CellTableForm.ColumnDeleteBtn deleteBtn = ctf.new ColumnDeleteBtn(deletebtn);
 
+	/**
+	 * Konstruktor: Beim Laden der UpdateKontaktForm wirde ein Kontakt-Objekt
+	 * übergeben. Wenn der Nutzer der Eigentümer des Kontaktes ist, 
+	 * werden alle Ausprägungen des Kontaktes angezeigt.
+	 * Der CellTable werden die entsprechenden Spalten hinzugefügt.
+	 * @param kon
+	 */
+	
 	public UpdateKontaktForm(Kontakt kon) {
 
 		this.kon = kon;
@@ -129,6 +147,13 @@ public class UpdateKontaktForm extends VerticalPanel {
 
 	}
 
+	/**
+	 * Konstruktor: In diesem Fall is der Nutzer jediglich der Teilhaber des Kontaktes,
+	 * es wird ein Kontakt-Objekt und ein String teilhaberschaft übergeben.
+	 * Der CellTable werden die entsprechenden Spalten hinzugefügt.
+	 * @param kon
+	 * @param teilhaberschaft
+	 */
 	public UpdateKontaktForm(Kontakt kon, String teilhaberschaft) {
 
 		this.kon = kon;
@@ -137,6 +162,13 @@ public class UpdateKontaktForm extends VerticalPanel {
 		ctf.addColumn(wertAuspraegung, "Wert: ");
 	}
 
+	/**
+	 * Die onLoad()-Methode wird beim Starten der UpdateKontaktForm geladen.
+	 * Es wird eine neue CellTableForm mit dem übergebenen Kontakt erstellt, die
+	 * alle benötigten Spalten beinhaltet. Des weiteren werden den Buttons die zugehörigen Clickhandler 
+	 * hinzugefügt und die verschiedenen Widgets den Panel hinzugefügt.
+	 */
+	
 	public void onLoad() {
 
 		super.onLoad();
@@ -180,8 +212,21 @@ public class UpdateKontaktForm extends VerticalPanel {
 		txt_KontaktName.addKeyDownHandler(changeNameHandler);
 
 	}
+	
+	
 
-	class DeleteFieldUpdater implements FieldUpdater<EigenschaftAuspraegungWrapper, String> {
+	/*
+	 * Nasted AsyncCallback - Classes, Click/Selection - Handler und
+	 * FieldUpdater - Classes.
+	 */
+	
+	/**
+	 * 
+	 * @author Nino
+	 *
+	 */
+	
+	private class DeleteFieldUpdater implements FieldUpdater<EigenschaftAuspraegungWrapper, String> {
 		@Override
 		public void update(int index, EigenschaftAuspraegungWrapper object, String value) {
 			ea.setAuspraegung(object.getAuspraegung());
@@ -194,8 +239,12 @@ public class UpdateKontaktForm extends VerticalPanel {
 			}
 		}
 	}
-
-	class CancelClick implements ClickHandler {
+	/**
+	 *  Diese Clickhandler Klasse bricht die Bearbeitung des Kontaktes ab.
+	 * @author Nino
+	 *
+	 */
+	private class CancelClick implements ClickHandler {
 
 		@Override
 		public void onClick(ClickEvent event) {
@@ -213,7 +262,13 @@ public class UpdateKontaktForm extends VerticalPanel {
 		}
 	}
 
-	class ClickAddRowHandler implements ClickHandler {
+	/**
+	 * Diese CLickhandler Klasse fügt eine neue Asprägung dem Kontakt hinzu.
+	 * @author Nino
+	 *
+	 */
+	
+	private class ClickAddRowHandler implements ClickHandler {
 		@Override
 		public void onClick(ClickEvent event) {
 
@@ -225,7 +280,14 @@ public class UpdateKontaktForm extends VerticalPanel {
 		}
 	}
 
-	class ChangeNameHandler implements KeyDownHandler {
+	/**
+	 * Diese KeyDownHandler Klasse erlaut dem Nutzer den Kontaktnamen zu ändern und 
+	 * per Bestätigung der Enter Taste zu speichern.
+	 * @author Nino
+	 *
+	 */
+	
+	private class ChangeNameHandler implements KeyDownHandler {
 
 		@Override
 		public void onKeyDown(KeyDownEvent event) {
@@ -238,7 +300,13 @@ public class UpdateKontaktForm extends VerticalPanel {
 
 	}
 
-	class KontaktModifikationsdatumCallback implements AsyncCallback<Kontakt> {
+	/**
+	 * Diese Callback Klasse aktualisiert das Modifikationsdatum des Kontaktes.
+	 * @author Nino
+	 *
+	 */
+	
+	private class KontaktModifikationsdatumCallback implements AsyncCallback<Kontakt> {
 
 		@Override
 		public void onFailure(Throwable caught) {
@@ -256,7 +324,16 @@ public class UpdateKontaktForm extends VerticalPanel {
 
 	}
 
-	class EigenschaftEinfuegenCallback implements AsyncCallback<Eigenschaft> {
+	/**
+	 *  Diese Callback Klasse erstellt und wählt die Eigenschaft aus zu der eine 
+	 *  neue Ausprägung erstellt wird.
+	 *  Sofern diese Eigenschaft bereits vorhanden ist, wird diese verwendet.
+	 *  Wenn diese Eigenschaft im System noch nicht vorhanden ist wird diese neu angelegt.
+	 * @author Nino
+	 *
+	 */
+	
+	private class EigenschaftEinfuegenCallback implements AsyncCallback<Eigenschaft> {
 
 		@Override
 		public void onFailure(Throwable caught) {
@@ -289,7 +366,14 @@ public class UpdateKontaktForm extends VerticalPanel {
 
 	}
 
-	class AuspraegungEinfuegenCallback implements AsyncCallback<Eigenschaftauspraegung> {
+	/**
+	 * Diese Callback Klasse erstellt eine neue Ausprägung zu diesem Kontakt,
+	 * die Eigenschaft auf diese sich die Ausprägung bezieht wurde zuvor ausgewählt.
+	 * @author Nino
+	 *
+	 */
+	
+	private class AuspraegungEinfuegenCallback implements AsyncCallback<Eigenschaftauspraegung> {
 
 		@Override
 		public void onFailure(Throwable caught) {
@@ -309,8 +393,15 @@ public class UpdateKontaktForm extends VerticalPanel {
 		}
 
 	}
+	
+	/**
+	 * Diese Callback Klasse wird ausgeführt wenn der Teilhaber eine neue Ausprägung erstellt.
+	 * Es wird direkt ein Objekt vom Typ Teilhaberschaft zu dieser Ausprägung erstellt.
+	 * @author Nino
+	 *
+	 */
 
-	class TeilhaberschaftKontaktCallback implements AsyncCallback<Teilhaberschaft>{
+	private class TeilhaberschaftKontaktCallback implements AsyncCallback<Teilhaberschaft>{
 
 		@Override
 		public void onFailure(Throwable caught) {
@@ -326,7 +417,15 @@ public class UpdateKontaktForm extends VerticalPanel {
 		
 	}
 	
-	class AuspraegungBearbeitenCallback implements AsyncCallback<Eigenschaftauspraegung> {
+	/**
+	 * Diese Callback Klasse wird ausgeführt wenn eine bestehende Ausprägung bearbeitet wird.
+	 * Je nach dem ob der Nutzer der Eigentümer oder nur Teilhaber ist werden alle 
+	 * oder nur getielte Ausprägungen angezeigt.
+	 * @author Nino
+	 *
+	 */
+	
+	private class AuspraegungBearbeitenCallback implements AsyncCallback<Eigenschaftauspraegung> {
 
 		@Override
 		public void onFailure(Throwable caught) {
@@ -349,8 +448,16 @@ public class UpdateKontaktForm extends VerticalPanel {
 		}
 
 	}
-
-	class AuspraegungHybridLoeschenCallback implements AsyncCallback<Void> {
+	
+	/**
+	 * Diese Callback Klasse wird ausgeführt wenn eine Ausprägung gelöscht wird.
+	 * Je nach dem ob der Nutzer der Eigentümer oder nur Teilhaber ist werden alle 
+	 * oder nur getielte Ausprägungen angezeigt.
+	 * @author Nino
+	 *
+	 */
+	
+	private class AuspraegungHybridLoeschenCallback implements AsyncCallback<Void> {
 
 		@Override
 		public void onFailure(Throwable caught) {
@@ -371,7 +478,13 @@ public class UpdateKontaktForm extends VerticalPanel {
 		}
 	}
 
-	class ReloadCallback implements AsyncCallback<Vector<EigenschaftAuspraegungWrapper>> {
+	/**
+	 * Diese Callback Klasse wird immer aufgerufen, wenn sich die CellTable geändert hat
+	 * und ein Refresh notendig ist.
+	 * @author Nino
+	 *
+	 */
+	private class ReloadCallback implements AsyncCallback<Vector<EigenschaftAuspraegungWrapper>> {
 
 		@Override
 		public void onFailure(Throwable caught) {
@@ -387,7 +500,14 @@ public class UpdateKontaktForm extends VerticalPanel {
 
 	}
 
-	class AlleEigenschaftCallback implements AsyncCallback<Vector<Eigenschaft>> {
+	/**
+	 * Diese Callback Klasse wird ausgeführt um die Suggestbox mit bereits vorhandenen 
+	 * Eigenschaften zu befüllen.
+	 * @author Nino
+	 *
+	 */
+	
+	private class AlleEigenschaftCallback implements AsyncCallback<Vector<Eigenschaft>> {
 
 		@Override
 		public void onFailure(Throwable caught) {
@@ -406,7 +526,14 @@ public class UpdateKontaktForm extends VerticalPanel {
 
 	}
 
-	class FindEigenschaftCallBack implements AsyncCallback<Eigenschaft> {
+	/**
+	 * Diese Callback Klasse wird aufgerufen um eine Eigenschaft anhand ihrer Bezeichnung 
+	 * zu identifizieren.
+	 * @author Nino
+	 *
+	 */
+	
+	private class FindEigenschaftCallBack implements AsyncCallback<Eigenschaft> {
 
 		@Override
 		public void onFailure(Throwable caught) {

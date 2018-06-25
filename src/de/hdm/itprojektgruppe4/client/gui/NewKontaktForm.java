@@ -40,6 +40,18 @@ import de.hdm.itprojektgruppe4.shared.bo.Eigenschaftauspraegung;
 import de.hdm.itprojektgruppe4.shared.bo.Kontakt;
 import de.hdm.itprojektgruppe4.shared.bo.Nutzer;
 
+/**
+ * Mit der Klasse NewKontaktForm lassen sich neue Kontakte anlegen.
+ * Beim Anlegen eines neuen Kontaktes werden automatisch vier leere Auspraegungen
+ * fuer die vier Basis-Eigenschaften "Vorname", "Nachname", "E-Mail" und "Telefonnummer" anggelegt.
+ * Die leeren Auspraegungen können bearbeitet, gelöscht und neue hinzugefuegt werden.
+ * Nach dem Anlegen kann der Kontakt direkt zu einer bestehenden Kontaktliste hinzugefuegt werden.
+ * 
+ * @author Nino
+ *
+ */
+
+
 public class NewKontaktForm extends VerticalPanel {
 
 	//Instanziieren und Deklarieren der benötigten Variablen
@@ -132,7 +144,13 @@ public class NewKontaktForm extends VerticalPanel {
 	};
 
 	KontaktlisteKontaktTreeViewModel kktvw = null;
-
+	
+	/**
+	 * Die onLoad()-Methode wird beim Starten der NewKontaktForm geladen.
+	 * Es wird eine neue CellTableForm mit dem übergebenen Kontakt erstellt, die
+	 * alle benötigten Spalten beinhaltet. Des weiteren werden den Buttons die zugehörigen Clickhandler 
+	 * hinzugefügt und die verschiedenen Widgets den Panel hinzugefügt.
+	 */
 	
 	public void onLoad() {
 
@@ -147,15 +165,22 @@ public class NewKontaktForm extends VerticalPanel {
 		eigenschaftName.setVisible(false);
 		auspraegungName.setVisible(false);
 		addRow.setVisible(false);
+		
+		/**
+		 * Hier wird der CellTable ein SelectionModel und die benötigten Columns hinzugefügt.
+		 */
+		
 		ctf = new CellTableForm(kontakt1);
 		ctf.addColumn(bezEigenschaft, "Eigenschaft");
 		ctf.addColumn(wertAuspraegung, "Ausprägung");
 		ctf.addColumn(deleteButtonCol);
-		
 		ctf.setSelectionModel(ctf.getSm());
 
+		/**
+		 * Die erstellten Widgets werden den entsprechenden Panel hinzugefügt.
+		 */
+		
 		hpanelButtonBar.add(cancel);	
-
 		hpanel2.add(eigenschaftName);
 		hpanel2.add(eigenschaftSugBox);
 		hpanel2.add(auspraegungName);
@@ -179,7 +204,9 @@ public class NewKontaktForm extends VerticalPanel {
 
 		verwaltung.findAllEigenschaft(new AlleEigenschaftCallback());
 
-		// Clickhandler den Buttons hinzufügen
+		/**
+		 * Den erstellten Button werden die entsprechenden Clickhandler hinzugefügt.
+		 */
 
 		cancel.addClickHandler(new CancelClick());
 		getBack.addClickHandler(new GetBackClick());
@@ -189,8 +216,11 @@ public class NewKontaktForm extends VerticalPanel {
 		deleteButtonCol.setFieldUpdater(new DeleteFieldUpdater());
 
 	}
-	// Implementierung der Clickhandler- und Asynccallback - Klassen
 	
+	/*
+	 * Nasted AsyncCallback - Classes, Click/Selection - Handler und
+	 * FieldUpdater - Classes.
+	 */
 
 	/**
 	 * Diese KeyDownHandler Klasse überprüft ob die Enter-Taste gedrückt wurde und 
@@ -199,7 +229,7 @@ public class NewKontaktForm extends VerticalPanel {
 	 *
 	 */
 	
-	class InsertReturn implements KeyDownHandler {
+	private class InsertReturn implements KeyDownHandler {
 
 		@Override
 		public void onKeyDown(KeyDownEvent event) {
@@ -225,7 +255,7 @@ public class NewKontaktForm extends VerticalPanel {
 	 *
 	 */
 
-	class CancelClick implements ClickHandler {
+	private class CancelClick implements ClickHandler {
 
 		@Override
 		public void onClick(ClickEvent event) {
@@ -246,7 +276,7 @@ public class NewKontaktForm extends VerticalPanel {
 	 *
 	 */
 
-	class GetBackClick implements ClickHandler {
+	private class GetBackClick implements ClickHandler {
 
 		@Override
 		public void onClick(ClickEvent event) {
@@ -270,7 +300,7 @@ public class NewKontaktForm extends VerticalPanel {
 	 *
 	 */
 	
-	class AddToListClick implements ClickHandler {
+	private class AddToListClick implements ClickHandler {
 
 		@Override
 		public void onClick(ClickEvent event) {
@@ -419,7 +449,7 @@ public class NewKontaktForm extends VerticalPanel {
 	}
 
 	/**
-	 * CallBack Klasse um anahnd der SuggestionBox eine neue Eigenschaft für den
+	 * CallBack Klasse um anahnd der SuggestBox eine neue Auspraegung für den
 	 * neuen Kontakt zu erstellen.
 	 * 
 	 * @author nino
@@ -502,7 +532,8 @@ public class NewKontaktForm extends VerticalPanel {
 	}
 	
 	/**
-	 * Diese Callback Klasse wird immer aufgerufen, wenn sich die CellTable geändert hat.
+	 * Diese Callback Klasse wird immer aufgerufen, wenn sich die CellTable geändert hat
+	 * und ein Refresh notendig ist.
 	 * @author Nino
 	 *
 	 */
