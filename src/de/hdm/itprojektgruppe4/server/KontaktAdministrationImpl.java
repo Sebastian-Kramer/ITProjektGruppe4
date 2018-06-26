@@ -2124,17 +2124,21 @@ public class KontaktAdministrationImpl extends RemoteServiceServlet implements K
 	@Override
 	public Vector<EigenschaftAuspraegungWrapper> getAuspraegungByWert(String wert) throws IllegalArgumentException {
 		// TODO Auto-generated method stub
-		Vector<EigenschaftAuspraegungWrapper> liste = eigenschaftauspraegungMapper.getAuspraegungByWert(wert);
+		Vector<Eigenschaftauspraegung> liste = eigenschaftauspraegungMapper.getAuspraegungByWert(wert);
+		Vector<EigenschaftAuspraegungWrapper> wrapper = new Vector<EigenschaftAuspraegungWrapper>();
 		
-		for (EigenschaftAuspraegungWrapper eigaus : liste){
-			
-//			eigaus.setEigenschaftID(eigaus.getEigenschaftID());
-			eigaus.setEigenschaftValue(getEigenschaftByID(eigaus.getEigenschaftID()).getBezeichnung());
-			
+		for (Eigenschaftauspraegung eigenschaftauspraegung : liste) {
+			wrapper.add(new EigenschaftAuspraegungWrapper(getEigenschaftByID(eigenschaftauspraegung.getEigenschaftsID()), eigenschaftauspraegung, findKontaktByID(eigenschaftauspraegung.getKontaktID())));
 		}
+//		for (Eigenschaftauspraegung eigaus : liste){
+//			
+////			eigaus.setEigenschaftID(eigaus.getEigenschaftID());
+//			eigaus.setEigenschaftValue(getEigenschaftByID(eigaus.getEigenschaftID()).getBezeichnung());
+//			
+//		}
 		
 		
-		return liste;
+		return wrapper;
 	}
 
 	@Override

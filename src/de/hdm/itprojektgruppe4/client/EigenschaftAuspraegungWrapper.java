@@ -4,6 +4,7 @@ import java.io.Serializable;
 
 import de.hdm.itprojektgruppe4.shared.bo.Eigenschaft;
 import de.hdm.itprojektgruppe4.shared.bo.Eigenschaftauspraegung;
+import de.hdm.itprojektgruppe4.shared.bo.Kontakt;
 
 public class EigenschaftAuspraegungWrapper implements Serializable {
 
@@ -13,11 +14,27 @@ public class EigenschaftAuspraegungWrapper implements Serializable {
 
 	private Eigenschaftauspraegung auspraegung = new Eigenschaftauspraegung();
 
+	private Kontakt kontakt = new Kontakt();
+	
 	public EigenschaftAuspraegungWrapper(Eigenschaft eigenschaft, Eigenschaftauspraegung auspraegung) {
 
 		this.auspraegung = auspraegung;
 		this.eigenschaft = eigenschaft;
 
+	}
+	
+	public EigenschaftAuspraegungWrapper(Eigenschaft eigenschaft, Eigenschaftauspraegung auspraegung, Kontakt kontakt){
+		this.auspraegung = auspraegung;
+		this.eigenschaft = eigenschaft;
+		this.kontakt = kontakt;
+	}
+
+	public Kontakt getKontakt() {
+		return kontakt;
+	}
+
+	public void setKontakt(Kontakt kontakt) {
+		this.kontakt = kontakt;
 	}
 
 	public Eigenschaft getEigenschaft() {

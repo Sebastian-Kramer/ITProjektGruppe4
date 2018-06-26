@@ -33,7 +33,7 @@ public class CellTableForm extends CellTable<EigenschaftAuspraegungWrapper> {
 	private Kontakt kontakt = new Kontakt();
 	private Teilhaberschaft t = new Teilhaberschaft();
 	private ImageCell imageCell = new ImageCell();
-
+	Kontakt kontaktname = new Kontakt();
 	private List<EigenschaftAuspraegungWrapper> eList = new ArrayList<>();
 	KontaktAdministrationAsync verwaltung = ClientsideSettings.getKontaktVerwaltung();
 
@@ -298,10 +298,13 @@ public class CellTableForm extends CellTable<EigenschaftAuspraegungWrapper> {
 		@Override
 		public String getValue(EigenschaftAuspraegungWrapper object) {
 			// TODO Auto-generated method stub
-			return null;
+			
+			
+			return object.getKontakt().getName();
 		}
 		
 	}
+	
 
 	class ColumnStatus extends Column<EigenschaftAuspraegungWrapper, String> {
 

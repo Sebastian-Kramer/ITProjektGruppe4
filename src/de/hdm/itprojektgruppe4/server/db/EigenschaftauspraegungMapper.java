@@ -249,8 +249,8 @@ public class EigenschaftauspraegungMapper {
  */
 
 //pr�fen
-public Vector<EigenschaftAuspraegungWrapper> getAuspraegungByWert(String wert){
-	Vector<EigenschaftAuspraegungWrapper> result = new Vector<EigenschaftAuspraegungWrapper>();
+public Vector<Eigenschaftauspraegung> getAuspraegungByWert(String wert){
+	Vector<Eigenschaftauspraegung> result = new Vector<Eigenschaftauspraegung>();
 	Connection con = DBConnection.connection();
 
 	try {
@@ -265,13 +265,14 @@ public Vector<EigenschaftAuspraegungWrapper> getAuspraegungByWert(String wert){
 	
 	
 			
-	if (rs.next()) {
-		EigenschaftAuspraegungWrapper ea = new EigenschaftAuspraegungWrapper();
-		ea.setAuspraegungID(rs.getInt("ID"));
-		ea.setAuspraegungValue(rs.getString("wert"));
-//		ea.setKontaktID(rs.getInt("kontaktID"));
-//		ea.setStatus(rs.getInt("status"));
-		ea.setEigenschaftID(rs.getInt("eigenschaftID"));
+	while (rs.next()) {
+		Eigenschaftauspraegung ea = new Eigenschaftauspraegung();
+		ea.setID(rs.getInt("ID"));
+		ea.setEigenschaftsID(rs.getInt("eigenschaftID"));
+		ea.setKontaktID(rs.getInt("kontaktID"));
+		ea.setWert(rs.getString("wert"));
+		ea.setStatus(rs.getInt("status"));
+	
 		
 		result.addElement(ea);
 	}

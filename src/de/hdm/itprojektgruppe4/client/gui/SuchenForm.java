@@ -1,20 +1,12 @@
 package de.hdm.itprojektgruppe4.client.gui;
 
-import java.util.List;
 import java.util.Vector;
 
-import com.google.gwt.cell.client.ButtonCell;
 import com.google.gwt.cell.client.ClickableTextCell;
-import com.google.gwt.cell.client.EditTextCell;
-import com.google.gwt.cell.client.FieldUpdater;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
-import com.google.gwt.event.dom.client.MouseOutEvent;
-import com.google.gwt.event.dom.client.MouseOutHandler;
 import com.google.gwt.user.cellview.client.CellTable;
 import com.google.gwt.user.cellview.client.Column;
-import com.google.gwt.user.cellview.client.RowHoverEvent;
-import com.google.gwt.user.cellview.client.RowHoverEvent.Handler;
 import com.google.gwt.user.client.Cookies;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
@@ -24,7 +16,6 @@ import com.google.gwt.user.client.ui.FlexTable;
 import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.MultiWordSuggestOracle;
-import com.google.gwt.user.client.ui.PopupPanel;
 import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwt.user.client.ui.SuggestBox;
 import com.google.gwt.user.client.ui.TextBox;
@@ -33,13 +24,22 @@ import com.google.gwt.view.client.SingleSelectionModel;
 
 import de.hdm.itprojektgruppe4.client.ClientsideSettings;
 import de.hdm.itprojektgruppe4.client.EigenschaftAuspraegungWrapper;
-import de.hdm.itprojektgruppe4.client.gui.CellTableForm.ColumnAuspraegung;
-import de.hdm.itprojektgruppe4.client.gui.CellTableForm.ColumnEigenschaft;
 import de.hdm.itprojektgruppe4.shared.KontaktAdministrationAsync;
-import de.hdm.itprojektgruppe4.shared.bo.Eigenschaft;
-import de.hdm.itprojektgruppe4.shared.bo.Eigenschaftauspraegung;
 import de.hdm.itprojektgruppe4.shared.bo.Kontakt;
 import de.hdm.itprojektgruppe4.shared.bo.Nutzer;
+
+/**
+ * In der Klasse SuchenForm kann nach Kontakten oder Ausprägungen gesucht werden.
+ * Die Suche nach Kontakten wird duch eine Suggestbox unterstützt.
+ * Es werden Kontakte während der Eingabe vorgeschlagen.
+ * Die Suche ergibt eine CellTable mit den gefundenen Kontakten.
+ * Wenn der jeweilige Kontakt angeklickt wurde kann durch einen Button die Kontaktform des Kontaktes geöffnet werden.
+ * Die Suche nach Ausprägungen enthält keine Suggestbox.
+ * Bei Klick auf die Ausprägung kann durch einen Button der jeweilige Kontakt in seiner Kontaktform aufgerufen werden.
+ * @author Clirim
+ *
+ */
+
 
 public class SuchenForm extends VerticalPanel {
 
@@ -51,46 +51,23 @@ public class SuchenForm extends VerticalPanel {
 	private HTML HTMLForm = new HTML(
 			"Sie können auf dieser Seite nach Kontakten anhand von ihrem Namen suchen, "
 			+ "<br>oder indem Sie eine Eigenschaftsausprägung eingeben, welche der gesuchte Kontakt beinhaltet</br>");
-	private Label teilInfo = new Label("Die Ausprägung gehört zu folgendem Kontakt: ");
-	private Label teilInfo2 = new Label("");
-	
 	private TextBox tboxKontaktname = new TextBox();
-	
 	private TextBox tboxAuspraegung = new TextBox();
-	
 	private Button KontaktSuchen = new Button("Kontakt suchen");
-	
 	private Button AuspraegungSuchen = new Button("Auspraegung suchen"); 
-	
 	private Button KontaktKontaktAnzeigenButton = new Button("Kontakt anzeigen");
-	
 	private Button AuspraegungKontaktAnzeigenButton = new Button("Zugehörigen Kontakt anzeigen");
-	
 	private VerticalPanel vpanel = new VerticalPanel();
-	
 	private FlexTable flextableKontakt = new FlexTable();
-	
 	private FlexTable flextableAuspraegung = new FlexTable();
-	
 	private DecoratorPanel KontaktSuchenPanel = new DecoratorPanel();
-	
 	private DecoratorPanel AuspraegungSuchenPanel = new DecoratorPanel();
-	
 	private VerticalPanel vpanel1 = new VerticalPanel();
-	
 	private VerticalPanel vpanel2 = new VerticalPanel();
-	
 	private VerticalPanel vpanel3 = new VerticalPanel();
-	
-	private VerticalPanel vpanelPopUp = new VerticalPanel();
-	
 	private MultiWordSuggestOracle  KontaktOracle = new MultiWordSuggestOracle();
-	
 	private SuggestBox suggestionKontaktBox = new SuggestBox(KontaktOracle);
 	
-	
-	
-	private MultiWordSuggestOracle  AuspraegungOracle = new MultiWordSuggestOracle();
 	final SingleSelectionModel<Kontakt> sm = new SingleSelectionModel<Kontakt>();
 	final SingleSelectionModel<EigenschaftAuspraegungWrapper> ssm = new SingleSelectionModel<EigenschaftAuspraegungWrapper>();
 	private CellTable<Kontakt> ctkontakt = new CellTable<Kontakt>();
@@ -101,13 +78,21 @@ public class SuchenForm extends VerticalPanel {
 	private ClickableTextCell AusKontaktname = new ClickableTextCell();
 	private CellTableForm.ColumnEigenschaft bezEigenschaft = ctAus.new ColumnEigenschaft(bezeigenschaft);
 	private CellTableForm.ColumnAuspraegung wertAuspraegung = ctAus.new ColumnAuspraegung(wertauspraegung);
-	private CellTableForm.ColumnKontaktName kontaktname = ctAus.new ColumnKontaktName(AusKontaktname);
+	private CellTableForm.ColumnKontaktName kontaktName = ctAus.new ColumnKontaktName(AusKontaktname);
 			 
 	
 	
-	private Kontakt test = new Kontakt();
 	public SuchenForm(){
 	}
+	
+	/**
+	 * Die onLoad()-Methode wird beim Starten der SuchenForm geladen.
+	 * Es werden zwei CellTables erstellt. "ctAus" wird mit den Eigenschaften und Ausprägungen befüllt,
+	 * während "ctKontakt" mit Kontaktobjekten befüllt wird.
+	 * Des weiteren werden den Buttons die zugehörigen Clickhandler 
+	 * hinzugefügt und die verschiedenen Widgets den Panel hinzugefügt.
+	 */
+	
 	
 	public void onLoad(){
 		
@@ -117,6 +102,12 @@ public class SuchenForm extends VerticalPanel {
 		nutzer.setID(Integer.parseInt(Cookies.getCookie("id")));
 		nutzer.setEmail(Cookies.getCookie("mail"));
 		
+		/**
+		 * Die Column (Spalte) "kontaktname" wird bei der Suche nach Kontakten befüllt mit Kontaktobjekten,
+		 * welche durch das Selectionmodel anwählbar sind.
+		 * @author Clirim
+		 *
+		 */
 		Column<Kontakt, String> kontaktname = new Column<Kontakt, String>(
 				new ClickableTextCell()) {
 		
@@ -127,36 +118,6 @@ public class SuchenForm extends VerticalPanel {
 			}
 		
 		};
-		
-		Column<EigenschaftAuspraegungWrapper, String> kontaktnameAuspraegung = new Column<EigenschaftAuspraegungWrapper, String>(
-				new ClickableTextCell()){
-		
-					@Override
-					public String getValue(EigenschaftAuspraegungWrapper object) {
-						// TODO Auto-generated method stub
-//						verwaltung.findEinenKontaktByAuspraegungID(object.getAuspraegungID(), new KontaktNameCallback());
-						final Kontakt kk = new Kontakt();
-						verwaltung.findKontaktByID(object.getAuspraegungKontaktID(),new AsyncCallback<Kontakt>() {
-
-							@Override
-							public void onFailure(Throwable caught) {
-								// TODO Auto-generated method stub
-								Window.alert("fail");
-							}
-
-							@Override
-							public void onSuccess(Kontakt result) {
-								// TODO Auto-generated method stub
-								Window.alert(""+result.getName());
-								kk.setName(result.getName());
-							}
-						});
-						return kk.getName();
-					}
-		
-		};
-		
-		
 		
 		ctAus = new CellTableForm();
 		ctkontakt.addColumn(kontaktname, "Gefundene Kontakte");
@@ -186,7 +147,8 @@ public class SuchenForm extends VerticalPanel {
 		
 		ctAus.addColumn(bezEigenschaft, "Eig");
 		ctAus.addColumn(wertAuspraegung, "Aus");
-		ctAus.addColumn(kontaktnameAuspraegung, "Zugehöriger Kontakt");
+		ctAus.addColumn(kontaktName, "Zugehöriger Kontakt");
+		
 		vpanel.add(HTMLForm);
 		vpanel2.add(ctAus);
 		vpanel1.add(ctkontakt);
@@ -198,94 +160,30 @@ public class SuchenForm extends VerticalPanel {
 		
 		KontaktSuchen.addClickHandler(new KontaktSuchenButton());
 		AuspraegungSuchen.addClickHandler(new AuspraegungSuchenButton());
-		verwaltung.findAllKontaktFromNutzer(nutzer.getID(), new  AllKontakteCallBack());
-		
-		
+
 		this.add(vpanel1);
 		this.add(vpanel2);
 		this.add(vpanel3);
 		
-		
 		KontaktKontaktAnzeigenButton.addClickHandler(new KontaktKontaktAnzeigenHandler());
 		AuspraegungKontaktAnzeigenButton.addClickHandler(new AuspraegungKontaktAnzeigenHandler());
-		
-		
-		
-		ctAus.addRowHoverHandler(new Handler() {
-			
-			@Override
-			public void onRowHover(RowHoverEvent event) {
-				// TODO Auto-generated method stub
-				int id;
-				id = ssm.getSelectedObject().getAuspraegungKontaktID();
-				verwaltung.findKontaktByID(id,new KontaktHoverCallback());
-			}
-		});
-	}
-	
-	
-	
-	private class PopUpInfo extends PopupPanel {
-		
-		public PopUpInfo(){
-			
-			super(true);
-			
-			addDomHandler(new MouseOutHandler() {
-				
-				@Override
-				public void onMouseOut(MouseOutEvent event) {
-					// TODO Auto-generated method stub
-					hide();
-				}
-			}, MouseOutEvent.getType());
-			
-			setPopupPosition(ctAus.getAbsoluteLeft(), ctAus.getAbsoluteTop());
-			
-		}
-		
-	}
-	
-	class KontaktHoverCallback implements AsyncCallback<Kontakt>{
 
-		@Override
-		public void onFailure(Throwable caught) {
-			// TODO Auto-generated method stub
-			
-		}
-
-		@Override
-		public void onSuccess(Kontakt result) {
-			// TODO Auto-generated method stub
-			teilInfo2.setText(result.getName());
-			vpanelPopUp.add(teilInfo);
-			vpanelPopUp.add(teilInfo2);
-			PopUpInfo pop = new PopUpInfo();
-			pop.setWidget(vpanelPopUp);
-			pop.show();
-		}
-		
 	}
-	
-	
-	class KontaktNameCallback implements AsyncCallback<Kontakt>{
 
-		@Override
-		public void onFailure(Throwable caught) {
-			// TODO Auto-generated method stub
-			
-		}
-
-		@Override
-		public void onSuccess(Kontakt result) {
-			// TODO Auto-generated method stub
-			Window.alert(""+result);
-//			kk.setName(result.getName());
-			
-		}
-		
-	}
+	/**
+	 * 
+	 * @author Clirim
+	 *
+	 */
 	
+	/**
+	 * Der ClickHandler bezieht sich auf den AuspraegungKontaktAnzeigenButton. 
+	 * Ein Wrapper-Objekt wird gesetzt mit der AusprägungID durch einen Klick in die CellTable mit dem
+	 * SelectionModel.
+	 * Mit dem AsyncCallback wird ein Kontakt in der Datenbank durch die übergebene AusprägungID gefunden.
+	 * @author Clirim
+	 *
+	 */
 	
 	class AuspraegungKontaktAnzeigenHandler implements ClickHandler{
 
@@ -297,16 +195,21 @@ public class SuchenForm extends VerticalPanel {
 			KontaktKontaktAnzeigenButton.setVisible(false);
 			EigenschaftAuspraegungWrapper eigaus = new EigenschaftAuspraegungWrapper();
 	
-
 			eigaus.setAuspraegungID(ssm.getSelectedObject().getAuspraegungID());
-
-		
 
 			verwaltung.findKontaktByAuspraegungID(eigaus.getAuspraegungID(), new AuspraegungKontaktAnzeigenCallback());
 		}
 		
 	}
 	
+	
+	/**
+	 * In dem KlickHandler der sich auf den Button "Kontakt anzeigen" bezieht wird ein neues 
+	 * KontaktFormular erstellt mit dem (durch das selectionmodel 
+	 * ausgewählten Kontakt. 
+	 * @author Clirim
+	 *
+	 */
 	class KontaktKontaktAnzeigenHandler implements ClickHandler{
 
 		@Override
@@ -321,7 +224,13 @@ public class SuchenForm extends VerticalPanel {
 		
 	}
 	
-	
+	/**
+	 * Der ClickHandler befüllt ein Kontaktobjekt mit dem String der in der Textbox eingegeben wird.
+	 * Mit diesem Kontaktobjekt wird der AsyncCallback aufgerufen,
+	 *  welcher die folgende Kontaktform erzeugt.
+	 * @author Clirim
+	 *
+	 */
 	class KontaktSuchenButton implements ClickHandler{
 
 		@Override
@@ -342,31 +251,16 @@ public class SuchenForm extends VerticalPanel {
 			AuspraegungKontaktAnzeigenButton.setVisible(false);
 			KontaktKontaktAnzeigenButton.setVisible(true);
 			
+			verwaltung.findKontaktByNameAndNutzerID(k, new FindKontaktCallback());
+
+			}}
 		
-			
-			verwaltung.findKontaktByNameAndNutzerID(k, new AsyncCallback<Vector<Kontakt>>() {
-
-				@Override
-				public void onFailure(Throwable caught) {
-					// TODO Auto-generated method stub
-					
-				}
-
-				@Override
-				public void onSuccess(Vector<Kontakt> result) {
-					// TODO Auto-generated method stub
-					ctkontakt.setRowData(0, result);
-					ctkontakt.setRowCount(result.size(), true);
-					ctAus.setVisible(false);
-					ctkontakt.setVisible(true);
-//					gefundene = result;
-					
-					
-				
-				}
-			});
-		}
-		}
+	/**
+	 * In dem ClickHandler wird ein Wrapperobjekt mit der Eingabe der Textbox befüllt. 
+	 * Mit der Eingabe der Textbox wird der Callback aufgerufen,
+	 * der Objekte für die Ausprägunng CellTable findet. 
+	 * @author Clirim
+	 */
 	
 	class AuspraegungSuchenButton implements ClickHandler{
 
@@ -390,7 +284,37 @@ public class SuchenForm extends VerticalPanel {
 	}
 	
 	
-	
+	/**
+	 * Der Callback befüllt die CellTable mit Wrapper-Objekten.
+	 * @author Clirim
+	 *
+	 */
+	class FindKontaktCallback implements AsyncCallback<Vector<Kontakt>>{
+
+		@Override
+		public void onFailure(Throwable caught) {
+			// TODO Auto-generated method stub
+			
+		}
+
+		@Override
+		public void onSuccess(Vector<Kontakt> result) {
+			// TODO Auto-generated method stub
+			ctkontakt.setRowData(0, result);
+			ctkontakt.setRowCount(result.size(), true);
+			ctAus.setVisible(false);
+			ctkontakt.setVisible(true);
+			
+		}
+		
+	}
+	/**
+	 * Der Callback erzeugt eine neue KontaktForm für den Kontakt,
+	 * welcher durch die Ausprägungssuche angezeigt und danach durch das 
+	 * selectionmodel ausgewählt wurde.
+	 * @author Clirim
+	 *
+	 */
 	class AuspraegungKontaktAnzeigenCallback implements AsyncCallback<Kontakt>{
 
 		@Override
@@ -409,6 +333,13 @@ public class SuchenForm extends VerticalPanel {
 		
 	}
 	
+	/**
+	 * Der Callback befüllt die CellTable "ctAus" mit Wrapperobjekten (ein Vector),
+	 * welche anschließend mit dem selectionmodel ausgewählt werden können.
+	 * @author Clirim
+	 *
+	 */
+	
 	class FindAuspraegungCallback implements AsyncCallback<Vector<EigenschaftAuspraegungWrapper>>{
 
 		@Override
@@ -425,39 +356,10 @@ public class SuchenForm extends VerticalPanel {
 			ctAus.setRowCount(result.size(), true);
 			ctkontakt.setVisible(false);
 			ctAus.setVisible(true);
-			
-			
-			
-		}
-		
-	}
-	
-
-	class AllKontakteCallBack implements AsyncCallback<Vector<Kontakt>> {
-
-		@Override
-		public void onFailure(Throwable caught) {
-			// TODO Auto-generated method stub
-
-		}
-
-		@Override
-		public void onSuccess(Vector<Kontakt> result) {
-			// TODO Auto-generated method stub
-
-			Kontakt k = new Kontakt();
-			
-			for (Kontakt kontakt : result) {
 				
-				KontaktOracle.add(kontakt.getName());
-			}
-			
-			
-			}
 		}
-
-		
 	}
+}
 	
 	
 
