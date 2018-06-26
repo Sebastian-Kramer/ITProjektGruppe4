@@ -100,7 +100,7 @@ header {
 
 [role="banner"] {
 	background:
-		url("http://ducktalk.org/wp-content/uploads/2017/02/people-icons-80620.png")
+		url("Image/Logo.png")
 		no-repeat right, #000
 		repeating-linear-gradient(-45deg, LightSkyBlue, DodgerBlue, DeepSkyBlue,
 		LightSkyBlue, DodgerBlue, DeepSkyBlue);
@@ -208,9 +208,9 @@ div.DialogboxBackground1 {
 }
 
 div.scrollPanel {
-	border-style: double;
+	border-style: groove;
 	border-color: 1px solid LightSkyBlue;
-	background: aliceblue;
+	background: white;
 }
 
 div.cellListKontakte {
@@ -367,6 +367,19 @@ button.gwt-Button {
 	cursor: hand;
 	font-size: small;
 	background: url(images/hborder.png) repeat-x 0px -2077px;
+	border: 1px solid #bbb;
+	border-bottom: 1px solid #a0a0a0;
+	border-radius: 3px;
+}
+
+button.edit-Button {
+	margin: 5px;
+	padding: 5px 7px;
+	text-decoration: none;
+	cursor: pointer;
+	cursor: hand;
+	font-size: small;
+	background: url(Image/Bearbeiten.png) no repeat left center;
 	border: 1px solid #bbb;
 	border-bottom: 1px solid #a0a0a0;
 	border-radius: 3px;
