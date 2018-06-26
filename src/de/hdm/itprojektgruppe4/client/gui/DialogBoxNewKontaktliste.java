@@ -9,6 +9,7 @@ import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.DialogBox;
 import com.google.gwt.user.client.ui.FlexTable;
 import com.google.gwt.user.client.ui.HTML;
+import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.RootPanel;
@@ -37,6 +38,7 @@ public class DialogBoxNewKontaktliste extends DialogBox {
 	private HTML labelListe = new HTML("<h3>Neue Kontaktliste anlegen</h3>");
 	private Label infolabel = new Label("Bitte beachten Sie, dass Sie keine Kontaktliste mit dem gleichen Namen einer anderen Liste anlegen können");
 	
+	private Image list = new Image("Image/Neue_Liste_2.png");
 
 	private Label labelBez = new Label("Bezeichnung: ");
 	private TextBox boxBez = new TextBox();
@@ -66,6 +68,7 @@ public class DialogBoxNewKontaktliste extends DialogBox {
 		 */
 		
 		kList.setWidget(0, 0, labelListe);
+		kList.setWidget(0, 1, list);
 		kList.setWidget(2, 0, labelBez);
 		kList.setWidget(2, 1, boxBez);
 		kList.setWidget(4, 0, anlegen);
