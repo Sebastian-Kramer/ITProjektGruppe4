@@ -23,7 +23,7 @@ public abstract class ReportWriter {
 	 * @param c
 	 */
 	
-	public abstract void process(KontakteMitBestimmtenEigenschaftsAuspraegungenReport c);
+	public abstract void process(KontakteMitBestimmtenEigenschaftsAuspraegungen c);
 	
 	/**
 	 * Übersetzt einen <code>AllEigeneKontakteReport</code> in das Zielformat

@@ -8,8 +8,6 @@ import com.google.gwt.user.server.rpc.RemoteServiceServlet;
 
 import de.hdm.itprojektgruppe4.client.EigenschaftAuspraegungWrapper;
 import de.hdm.itprojektgruppe4.server.KontaktAdministrationImpl;
-import de.hdm.itprojektgruppe4.server.db.KontaktMapper;
-import de.hdm.itprojektgruppe4.server.db.NutzerMapper;
 import de.hdm.itprojektgruppe4.shared.KontaktAdministration;
 import de.hdm.itprojektgruppe4.shared.ReportGenerator;
 import de.hdm.itprojektgruppe4.shared.bo.Eigenschaft;
@@ -32,8 +30,6 @@ public class ReportGeneratorImpl extends RemoteServiceServlet implements ReportG
 	private static final long serialVersionUID = 1L;
 
 	private KontaktAdministration verwaltung = null;
-	private NutzerMapper nutzerMapper = null;
-	private KontaktMapper kontaktMapper = null;
 
 	public ReportGeneratorImpl() throws IllegalArgumentException {
 
@@ -53,7 +49,6 @@ public class ReportGeneratorImpl extends RemoteServiceServlet implements ReportG
 
 	protected void addImprint(Report r) {
 
-		// Das Impressum kann mehrere Seiten haben
 		CompositeParagraph imprint = new CompositeParagraph();
 
 		// 1. Zeile
@@ -61,11 +56,6 @@ public class ReportGeneratorImpl extends RemoteServiceServlet implements ReportG
 
 		// Das Hinzuf�gen des Impressum zum Report
 		r.setImprint(imprint);
-
-	}
-
-	public Kontakt findKontaktByID(int id) throws IllegalArgumentException {
-		return this.kontaktMapper.findKontaktByID(id);
 
 	}
 
@@ -111,7 +101,8 @@ public class ReportGeneratorImpl extends RemoteServiceServlet implements ReportG
 				kontaktRow.addColumn(new Column(String.valueOf("geteilt")));
 			}
 
-			kontaktRow.addColumn(new Column(String.valueOf(this.verwaltung.findNutzerByID(k.getNutzerID()).getEmail())));
+			kontaktRow
+					.addColumn(new Column(String.valueOf(this.verwaltung.findNutzerByID(k.getNutzerID()).getEmail())));
 
 			kontaktRow.addColumn(new Column(auspraegung.toString().replace("[", "").replace("]", "").replace(",", "")));
 
@@ -122,61 +113,13 @@ public class ReportGeneratorImpl extends RemoteServiceServlet implements ReportG
 
 	}
 
-	public AllEigeneKontakteReport AlleKontakteByNutzer(int nutzerID) throws IllegalArgumentException {
-		if (this.getAdministration() == null)
-			return null;
-
-		// Leerer Report
-		AllEigeneKontakteReport result = new AllEigeneKontakteReport();
-
-		//
-		Vector<Kontakt> kontakt = this.verwaltung.findAllKontaktFromNutzer(nutzerID);
-
-		result.setTitle("Meine Kontakte");
-		SimpleDateFormat simpleDateFormat = new SimpleDateFormat("EEE, d MMM yyyy HH:mm:ss ");
-		result.setCreated(simpleDateFormat.format(new Date()));
-		
-		
-		Row headline = new Row();
-
-		result.addRow(headline);
-
-		for (Kontakt k : kontakt) {
-			// eine Leere zeile
-			Row kontaktRow = new Row();
-
-			kontaktRow.addColumn(new Column(String.valueOf(k.getName())));
-
-			kontaktRow.addColumn(new Column(String.valueOf(k.getErzeugungsdatum())));
-
-			kontaktRow.addColumn(new Column(String.valueOf(k.getModifikationsdatum())));
-
-			result.addRow(kontaktRow);
-		}
-
-		return result;
-
-	}
-
-	public Vector<Nutzer> allNutzerReport() throws IllegalArgumentException {
-		if (this.getAdministration() == null)
-			return null;
-
-		// Leerer Report
-
-		Vector<Nutzer> nutzer = this.verwaltung.findAllNutzer();
-
-		return nutzer;
-
-	}
-
-	@Override
-	public Nutzer findNutzerByEmail(String email) throws IllegalArgumentException {
-
-		return this.verwaltung.findNutzerByEmail(email);
 
 
-	}
+
+	
+	/*
+	 * REPORT 
+	 */
 
 	public KontakteMitBestimmterTeilhaberschaftReport kontakteMitBestimmterTeilhaberschaftReport(int nutzerID,
 			int teilhaberID) throws IllegalArgumentException {
@@ -188,15 +131,15 @@ public class ReportGeneratorImpl extends RemoteServiceServlet implements ReportG
 		KontakteMitBestimmterTeilhaberschaftReport result = new KontakteMitBestimmterTeilhaberschaftReport();
 
 		Vector<Kontakt> teilhaben = this.verwaltung.findGeteilteKontakteFromNutzerAndTeilhaber(nutzerID, teilhaberID);
-		
+
 		Vector<EigenschaftAuspraegungWrapper> auspraegung = new Vector<EigenschaftAuspraegungWrapper>();
-		
+
 		Nutzer teilhaber = this.verwaltung.findNutzerByID(teilhaberID);
 
 		result.setTitle("Geteilte Kontakte");
 		SimpleDateFormat simpleDateFormat = new SimpleDateFormat("EEE, d MMM yyyy HH:mm:ss ");
 		result.setCreated(simpleDateFormat.format(new Date()));
-		
+
 		Row headline = new Row();
 
 		headline.addColumn(new Column("Kontakt"));
@@ -221,8 +164,9 @@ public class ReportGeneratorImpl extends RemoteServiceServlet implements ReportG
 				kontaktRow.addColumn(new Column(String.valueOf("geteilt")));
 			}
 
-			kontaktRow.addColumn(new Column(String.valueOf(this.verwaltung.findNutzerByID(k.getNutzerID()).getEmail())));
-			
+			kontaktRow
+					.addColumn(new Column(String.valueOf(this.verwaltung.findNutzerByID(k.getNutzerID()).getEmail())));
+
 			kontaktRow.addColumn(new Column(String.valueOf(teilhaber.getEmail())));
 
 			kontaktRow.addColumn(new Column(auspraegung.toString().replace("[", "").replace("]", "").replace(",", "")));
@@ -233,6 +177,14 @@ public class ReportGeneratorImpl extends RemoteServiceServlet implements ReportG
 		return result;
 
 	}
+	
+	
+	/*
+	 * 
+	 * 
+	 * 
+	 * REPORT
+	 */
 
 	public KontakteMitBestimmtenEigenschaftsAuspraegungen kontakteMitBestimmtenEigenschaftsAuspraegungen(int NutzerID,
 			String bez, String wert) throws IllegalArgumentException {
@@ -248,7 +200,7 @@ public class ReportGeneratorImpl extends RemoteServiceServlet implements ReportG
 		result.setTitle("Kontakte mit bestimmten Eigenschaftsauspraegungen");
 		SimpleDateFormat simpleDateFormat = new SimpleDateFormat("EEE, d MMM yyyy HH:mm:ss ");
 		result.setCreated(simpleDateFormat.format(new Date()));
-			
+
 		Row headline = new Row();
 
 		headline.addColumn(new Column("Kontakt"));
@@ -263,7 +215,7 @@ public class ReportGeneratorImpl extends RemoteServiceServlet implements ReportG
 			Vector<Eigenschaft> vecEig = this.verwaltung.getEigenschaftbyKontaktID(t.getID());
 
 			for (Eigenschaft e : vecEig) {
-				
+
 				Eigenschaftauspraegung ea = this.verwaltung.getAuspraegungByEigID(e.getID(), t.getID());
 
 				if (e.getBezeichnung().equals(bez) && ea.getWert().equals(wert)) {
@@ -277,10 +229,11 @@ public class ReportGeneratorImpl extends RemoteServiceServlet implements ReportG
 					} else {
 						kontaktRow.addColumn(new Column(String.valueOf("geteilt")));
 					}
-					kontaktRow.addColumn(new Column(String.valueOf(this.verwaltung.findNutzerByID(t.getNutzerID()).getEmail())));
-					
+					kontaktRow.addColumn(
+							new Column(String.valueOf(this.verwaltung.findNutzerByID(t.getNutzerID()).getEmail())));
+
 					kontaktRow.addColumn(new Column(String.valueOf(e.getBezeichnung())));
-					
+
 					kontaktRow.addColumn(new Column(String.valueOf(ea.getWert())));
 
 					result.addRow(kontaktRow);
@@ -293,51 +246,6 @@ public class ReportGeneratorImpl extends RemoteServiceServlet implements ReportG
 
 	}
 
-	@Override
-	public Nutzer insertNutzer(String mail) throws IllegalArgumentException {
-		Nutzer nutzer = new Nutzer();
-		nutzer.setEmail(mail);
-		return this.nutzerMapper.insertNutzer(nutzer);
-
-	}
-
-	public Vector<Eigenschaft> findAllEigenschaft() throws IllegalArgumentException {
-		if (this.getAdministration() == null)
-			return null;
-
-		// Leerer Report
-
-		Vector<Eigenschaft> eigenschaft = this.verwaltung.findAllEigenschaft();
-
-		return eigenschaft;
-
-	}
-
-	public Vector<Eigenschaft> findEigenschaftByBezeichnung(String bez) throws IllegalArgumentException {
-		if (this.getAdministration() == null)
-			return null;
-
-		Vector<Eigenschaft> eigenschaft = this.verwaltung.getEigenschaftByBezeichnung(bez);
-
-		return eigenschaft;
-
-	}
-
-	public Vector<Eigenschaftauspraegung> findAllEigenschaftsAuspraegungn() throws IllegalArgumentException {
-		if (this.getAdministration() == null)
-			return null;
-
-		Vector<Eigenschaftauspraegung> eigenschaftauspraegung = this.verwaltung.findAllEigenschaftauspraegung();
-
-		return eigenschaftauspraegung;
-
-	}
-
-	@Override
-	public AllEigeneKontakteReport AlleKontakteByNutzer(int nutzerID, int teilhaberID) throws IllegalArgumentException {
-
-		return null;
-	}
 
 	public KontakteMitBestimmtenEigenschaften kontakteMitBestimmtenEigenschaften(int NutzerID, String bez)
 			throws IllegalArgumentException {
@@ -353,7 +261,7 @@ public class ReportGeneratorImpl extends RemoteServiceServlet implements ReportG
 		result.setTitle("Kontakte mit bestimmten Eigenschaftsauspraegungen");
 		SimpleDateFormat simpleDateFormat = new SimpleDateFormat("EEE, d MMM yyyy HH:mm:ss ");
 		result.setCreated(simpleDateFormat.format(new Date()));
-			
+
 		Row headline = new Row();
 
 		headline.addColumn(new Column("Kontakt"));
@@ -383,10 +291,11 @@ public class ReportGeneratorImpl extends RemoteServiceServlet implements ReportG
 					} else {
 						kontaktRow.addColumn(new Column(String.valueOf("geteilt")));
 					}
-					kontaktRow.addColumn(new Column(String.valueOf(this.verwaltung.findNutzerByID(t.getNutzerID()).getEmail())));
-					
+					kontaktRow.addColumn(
+							new Column(String.valueOf(this.verwaltung.findNutzerByID(t.getNutzerID()).getEmail())));
+
 					kontaktRow.addColumn(new Column(String.valueOf(e.getBezeichnung())));
-					
+
 					kontaktRow.addColumn(new Column(String.valueOf(ea.getWert())));
 
 					result.addRow(kontaktRow);
@@ -411,8 +320,7 @@ public class ReportGeneratorImpl extends RemoteServiceServlet implements ReportG
 		result.setTitle("Kontakte mit bestimmten Eigenschaftsauspraegungen");
 		SimpleDateFormat simpleDateFormat = new SimpleDateFormat("EEE, d MMM yyyy HH:mm:ss ");
 		result.setCreated(simpleDateFormat.format(new Date()));
-		
-		
+
 		Row headline = new Row();
 
 		headline.addColumn(new Column("Kontakt"));
@@ -429,7 +337,7 @@ public class ReportGeneratorImpl extends RemoteServiceServlet implements ReportG
 			for (Eigenschaftauspraegung ea : vecAus) {
 
 				if (ea.getWert().equals(wert)) {
-					
+
 					Eigenschaft e = this.verwaltung.getEigenschaftByID(ea.getEigenschaftsID());
 
 					// eine Leere zeile
@@ -441,10 +349,11 @@ public class ReportGeneratorImpl extends RemoteServiceServlet implements ReportG
 					} else {
 						kontaktRow.addColumn(new Column(String.valueOf("geteilt")));
 					}
-					kontaktRow.addColumn(new Column(String.valueOf(this.verwaltung.findNutzerByID(t.getNutzerID()).getEmail())));
-					
+					kontaktRow.addColumn(
+							new Column(String.valueOf(this.verwaltung.findNutzerByID(t.getNutzerID()).getEmail())));
+
 					kontaktRow.addColumn(new Column(String.valueOf(e.getBezeichnung())));
-					
+
 					kontaktRow.addColumn(new Column(String.valueOf(ea.getWert())));
 
 					result.addRow(kontaktRow);
@@ -455,5 +364,23 @@ public class ReportGeneratorImpl extends RemoteServiceServlet implements ReportG
 		return result;
 
 	}
+	
+	public Vector<Nutzer> allNutzerReport() throws IllegalArgumentException {
+		if (this.getAdministration() == null)
+			return null;
 
+
+		Vector<Nutzer> nutzer = this.verwaltung.findAllNutzer();
+
+		return nutzer;
+
+	}
+	
+	
+	public Nutzer findNutzerByEmail(String email) throws IllegalArgumentException {
+
+		return this.verwaltung.findNutzerByEmail(email);
+
+	}
+	
 }
