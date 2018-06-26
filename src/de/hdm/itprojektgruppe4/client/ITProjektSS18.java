@@ -32,6 +32,7 @@ public class ITProjektSS18 implements EntryPoint {
 	private Anchor signOutLink = new Anchor("Logout");
 	private Anchor impressum = new Anchor("Impressum");
 	private Anchor startseite = new Anchor("Startseite");
+	private Anchor loggedNutzer;
 
 	Nutzer n = new Nutzer();
 
@@ -88,6 +89,7 @@ public class ITProjektSS18 implements EntryPoint {
 					Window.alert(
 							"Hallo " + result.getEmail() + " wir konnten dich erfolgreich aus der Datenbank lesen.");
 					ClientsideSettings.setAktuellerNutzer(result);
+					loggedNutzer = new Anchor(result.getEmail());
 					Cookies.setCookie("email", result.getEmail());
 					Cookies.setCookie("id", result.getID() + "");
 					loadStartseite();
@@ -106,6 +108,7 @@ public class ITProjektSS18 implements EntryPoint {
 							Window.alert("Nutzer " + finalLog.getEmailAddress() + " wurde erfolgreich angelegt.");
 							Cookies.setCookie("email", result.getEmail());
 							Cookies.setCookie("id", result.getID() + "");
+							loggedNutzer = new Anchor(result.getEmail());
 							verwaltung.insertMeineKontakte("Meine Kontakte", 0, result.getID(),
 									new MeineKontakteAnlegen());
 							n = result;
@@ -134,6 +137,7 @@ public class ITProjektSS18 implements EntryPoint {
 		NavigationTree navigationTree = new NavigationTree();
 		signOutLink.setHref(loginInfo.getLogoutUrl());
 		RootPanel.get("Header").add(eingeloggt);
+		RootPanel.get("Header").add(loggedNutzer);
 		RootPanel.get("Header").add(signOutLink);
 		RootPanel.get("Header").add(impressum);
 		RootPanel.get("Header").add(startseite);

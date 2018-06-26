@@ -515,7 +515,7 @@ public class KontaktAdministrationImpl extends RemoteServiceServlet implements K
 		// Vector, in dem die gesuchten Nutzer-Objekte gespeichert werden sollen
 		Vector<Nutzer> nutzerVector = new Vector<Nutzer>();
 		// Vector mit saemtlichen Teilhaberschaften an einer Kontaktliste
-		Vector<Teilhaberschaft> teilhabe = teilhaberschaftMapper.findTeilhaberschaftByKontaktlisteID(kontaktlisteID);
+		Vector<Teilhaberschaft> teilhabe = this.findTeilhaberschaftByKontaktlisteID(kontaktlisteID);
 
 		/*
 		 * Jedes Teilhaberschaft-Objekt wird ausgelesen und mit Hilfe der

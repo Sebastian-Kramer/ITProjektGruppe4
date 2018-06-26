@@ -85,7 +85,7 @@ public class DialogBoxTeilhaberschaftVerwalten extends DialogBox {
 		 * Celllist hizugefuegt. Hierzu dient der Aufruf der Methode
 		 * <code>findSharedWithNutzer</code>
 		 */
-		if (nutzer.getID() == k.getID()) {
+		if (nutzer.getID() == k.getNutzerID()) {
 			kontaktVerwaltung.findAllTeilhaberFromKontaktliste(k.getID(), new TeilhaberVonKontaktliste());
 			dataProvider.addDataDisplay(nutzerList);
 		} else {

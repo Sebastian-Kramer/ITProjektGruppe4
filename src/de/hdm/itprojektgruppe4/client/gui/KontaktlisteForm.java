@@ -91,9 +91,8 @@ public class KontaktlisteForm extends VerticalPanel {
 	 */
 	public KontaktlisteForm(Kontaktliste kontaktliste) {
 		this.kl = kontaktliste;
-
 		kontaktVerwaltung.getAllKontakteFromKontaktliste(kl.getID(), new KontakteVonKontaktlisteCallback());
-		listShared.setUrl("Image/Teilen.png");
+		listShared.setUrl("Image/contactShared.png");
 
 	}
 
