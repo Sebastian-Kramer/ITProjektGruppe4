@@ -35,6 +35,7 @@ import de.hdm.itprojektgruppe4.shared.KontaktAdministrationAsync;
 import de.hdm.itprojektgruppe4.shared.bo.*;
 import de.hdm.itprojektgruppe4.client.ClientsideSettings;
 import de.hdm.itprojektgruppe4.client.NavigationTree;
+import de.hdm.itprojektgruppe4.client.gui.KontaktlisteKontaktTreeViewModel.TeilhaberschaftKontaktCallback;
 
 /**
  * Die Klasse dient zur Darstellung, Verwaltung und Bearbeitung von
@@ -60,6 +61,7 @@ public class KontaktlisteForm extends VerticalPanel {
 	private CellList<Nutzer> teilhaberCL = new CellList<Nutzer>(nutzerCell);
 	private VerticalPanel vpanelPopUp = new VerticalPanel();
 	private Label teilInfo = new Label("Mit folgenden Nutzern geteilt: ");
+	private Vector<Teilhaberschaft> th = new Vector<Teilhaberschaft>();
 
 	private KontaktCell kontaktcell = new KontaktCell();
 	private CellList<Kontakt> kontaktCellList = new CellList<Kontakt>(kontaktcell);
@@ -100,6 +102,8 @@ public class KontaktlisteForm extends VerticalPanel {
 	public KontaktlisteForm(Kontaktliste kontaktliste, String teilhaberschaft) {
 
 		this.kl = kontaktliste;
+		kontaktVerwaltung.getAllKontakteFromKontaktliste(kl.getID(), new KontakteVonKontaktlisteCallback());
+		listShared.setUrl("Image/contactShared.png");
 
 	}
 
@@ -249,15 +253,8 @@ public class KontaktlisteForm extends VerticalPanel {
 					}
 
 				} else {
-					if (selectionModel.getSelectedObject().getNutzerID() != nutzer.getID()) {
-						KontaktForm kf = new KontaktForm(selectionModel.getSelectedObject(), 1);
-						RootPanel.get("Details").clear();
-						RootPanel.get("Details").add(kf);
-					} else {
-						KontaktForm kf = new KontaktForm(selectionModel.getSelectedObject());
-						RootPanel.get("Details").clear();
-						RootPanel.get("Details").add(kf);
-					}
+					kontaktVerwaltung.findTeilhaberschaftByKontaktIDAndTeilhaberID(selectionModel.getSelectedObject().getID(), nutzer.getID(), new TeilhaberschaftKontaktCallback());
+
 
 					// }
 					// KontaktForm kf = new
@@ -275,6 +272,31 @@ public class KontaktlisteForm extends VerticalPanel {
 				}
 			}
 		}
+	}
+	
+	class TeilhaberschaftKontaktCallback implements AsyncCallback<Vector<Teilhaberschaft>>{
+
+		@Override
+		public void onFailure(Throwable caught) {
+			
+			
+		}
+
+		@Override
+		public void onSuccess(Vector<Teilhaberschaft> result) {
+			
+			if (selectionModel.getSelectedObject().getNutzerID() != nutzer.getID() && result.size() < 1) {
+				KontaktForm kf = new KontaktForm(selectionModel.getSelectedObject(), 1);
+				RootPanel.get("Details").clear();
+				RootPanel.get("Details").add(kf);
+			} else {
+				KontaktForm kf = new KontaktForm(selectionModel.getSelectedObject(), "Teilhaberschaft");
+				RootPanel.get("Details").clear();
+				RootPanel.get("Details").add(kf);
+			}
+			
+		}
+		
 	}
 
 	/**

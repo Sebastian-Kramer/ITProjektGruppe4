@@ -576,6 +576,27 @@ public class TeilhaberschaftMapper {
 	}
 
 	/**
+	 * Teilhaberschaft anhand der uebergebenen KontaktlisteID und teilhaberID loeschen.
+	 * 
+	 * @param kontaktlisteID
+	 * @param teilhaberID
+	 */
+	public void deleteTeilhaberschaftByKontaktlisteIDAndTeilhaberID(int kontaktlisteID, int teilhaberID) {
+		Connection con = DBConnection.connection();
+
+		try {
+
+			Statement stmt = con.createStatement();
+
+			stmt.executeUpdate("DELETE FROM teilhaberschaft " + "WHERE kontaktlisteID = " + kontaktlisteID + " AND teilhaberID = " +  teilhaberID);
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+
+		}
+	}
+
+	/**
 	 * Teilhaberschaft anhand der übergebenen EigenschaftsausprägungID löschen.
 	 * 
 	 * @param eigenschaftsauspraegungID
