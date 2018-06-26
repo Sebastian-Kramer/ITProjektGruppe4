@@ -114,6 +114,7 @@ public class KontaktForm extends VerticalPanel {
 		loeschenButton.setVisible(false);
 		kontaktTeilen.setVisible(false);
 		kontaktListehinzufuegen.setVisible(false);
+		sharedPic.setVisible(false);
 	}
 
 	public void onLoad() {
