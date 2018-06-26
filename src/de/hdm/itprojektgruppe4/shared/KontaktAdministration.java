@@ -835,6 +835,14 @@ public interface KontaktAdministration extends RemoteService {
 	 */
 	public Vector<Nutzer> getAllTeilhaberfromAuspraegungBerechtigung(int auspraegung, int teilhaberID) throws IllegalArgumentException;
 
+	/**
+	 * Methode zum Löschen einer Teilhaberschaft eines Kontakts und aller vorhandenen Teilhaberschaften an den Ausprägungen 
+	 * 
+	 * @param kontaktID
+	 * @param teilhaberID
+	 */
+	public void deleteTeilhaberschaftAllByKontaktIDAndTeilhaberID(int kontaktID, int teilhaberID) throws IllegalArgumentException;
+
 
 
 	
