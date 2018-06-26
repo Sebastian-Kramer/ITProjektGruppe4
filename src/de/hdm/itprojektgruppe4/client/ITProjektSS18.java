@@ -32,7 +32,6 @@ public class ITProjektSS18 implements EntryPoint {
 	private Anchor signOutLink = new Anchor("Logout");
 	private Anchor impressum = new Anchor("Impressum");
 	private Anchor startseite = new Anchor("Startseite");
-	private Anchor loggedNutzer;
 
 	Nutzer n = new Nutzer();
 
@@ -77,6 +76,7 @@ public class ITProjektSS18 implements EntryPoint {
 
 			@Override
 			public void onFailure(Throwable caught) {
+				
 				Window.alert("Nutzer konnte nicht aus der Datenbank gelsesen werden." + " Daher wird "
 						+ finalLog.getEmailAddress() + "angelegt");
 
@@ -88,7 +88,6 @@ public class ITProjektSS18 implements EntryPoint {
 					Window.alert(
 							"Hallo " + result.getEmail() + " wir konnten dich erfolgreich aus der Datenbank lesen.");
 					ClientsideSettings.setAktuellerNutzer(result);
-					loggedNutzer = new Anchor(result.getEmail());
 					Cookies.setCookie("email", result.getEmail());
 					Cookies.setCookie("id", result.getID() + "");
 					loadStartseite();
@@ -107,7 +106,6 @@ public class ITProjektSS18 implements EntryPoint {
 							Window.alert("Nutzer " + finalLog.getEmailAddress() + " wurde erfolgreich angelegt.");
 							Cookies.setCookie("email", result.getEmail());
 							Cookies.setCookie("id", result.getID() + "");
-							loggedNutzer = new Anchor(result.getEmail());
 							verwaltung.insertMeineKontakte("Meine Kontakte", 0, result.getID(),
 									new MeineKontakteAnlegen());
 							n = result;
@@ -136,7 +134,6 @@ public class ITProjektSS18 implements EntryPoint {
 		NavigationTree navigationTree = new NavigationTree();
 		signOutLink.setHref(loginInfo.getLogoutUrl());
 		RootPanel.get("Header").add(eingeloggt);
-		RootPanel.get("Header").add(loggedNutzer);
 		RootPanel.get("Header").add(signOutLink);
 		RootPanel.get("Header").add(impressum);
 		RootPanel.get("Header").add(startseite);
@@ -147,10 +144,16 @@ public class ITProjektSS18 implements EntryPoint {
 	}
 
 	/*
+<<<<<<< HEAD
 	 * Meldet sich ein Nutzer neu auf der Plattform an, sollwn sofort die
 	 * Kontaktlisten "Meine Kontakte" und "Meine geteilten Kontakte" erstellt
 	 * werden. Hierfür wird diese Callback-Klasse benötigt. Die Kontaktlisten
 	 * stellen Standardkontaktliste da.
+=======
+	 * Meldet sich ein Nutzer neu auf der Plattform an, sollwe sofort die
+	 * Kontaktlisten "Meine Kontakte" und "Meine geteilten Kontakte" erstellt werden. Hierfür wird diese
+	 * Callback-Klasse benötigt. Die Kontaktlisten stellen Standardkontaktliste dar.
+>>>>>>> refs/heads/Raphael
 	 */
 	private class MeineKontakteAnlegen implements AsyncCallback<Kontaktliste> {
 
@@ -172,12 +175,10 @@ public class ITProjektSS18 implements EntryPoint {
 		@Override
 		public void onClick(ClickEvent event) {
 			MainForm mf = new MainForm();
-			NavigationTree nf = new NavigationTree();
 			RootPanel.get("Buttonbar").clear();
-			RootPanel.get("Navigator").clear();
 			RootPanel.get("Details").clear();
 			RootPanel.get("Details").add(mf);
-			RootPanel.get("Navigator").add(nf);
+
 		}
 
 	}
