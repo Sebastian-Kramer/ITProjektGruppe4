@@ -61,7 +61,10 @@ public class MainForm extends VerticalPanel {
 	final SingleSelectionModel<Kontakt> selectionModel = new SingleSelectionModel<Kontakt>();
 	private ScrollPanel scrollPanel = new ScrollPanel();
 	private Image startImage = new Image();
-
+	private Image newKonPic = new Image();
+	private Image newKonlistPic = new Image();
+	private Image suchenPic = new Image();
+	
 	public MainForm() {
 
 		html1.setStyleName("ÜberschriftMainForm");
@@ -70,9 +73,14 @@ public class MainForm extends VerticalPanel {
 		startImage.setStyleName("Startbild");
 		startImage.setUrl("Image/Startbild.png");
 		hpanelDetails.setStyleName("HPanel");
-
+		newKonPic.setStyleName("ButtonICON");
+		newKonlistPic.setStyleName("ButtonICON");
+		suchenPic.setStyleName("ButtonICON");
+		newKonPic.setUrl("Image/Neuer_Kontakt.png");
+		newKonlistPic.setUrl("Image/Neue_Liste_2.png");
+		suchenPic.setUrl("Image/Suchen.png");
 	}
-
+ 
 	public void onLoad() {
 
 		super.onLoad();
@@ -105,7 +113,9 @@ public class MainForm extends VerticalPanel {
 		vpanelDetails.add(hpanelDetails);
 		vpanelDetails.add(anordnung);
 		this.add(vpanelDetails);
-
+		newKontakt.getElement().appendChild(newKonPic.getElement());
+		newKontaktliste.getElement().appendChild(newKonlistPic.getElement());
+		suchen.getElement().appendChild(suchenPic.getElement());
 		newKontaktliste.addClickHandler(new NewListClickHandler());
 		newKontakt.addClickHandler(new NewKontaktClickHandler());
 		suchen.addClickHandler(new SuchenClickHandler());

@@ -86,8 +86,12 @@ public class KontaktForm extends VerticalPanel {
 	private ClickableTextCell wertauspraegung = new ClickableTextCell();
 	private CellTableForm.ColumnEigenschaft bezEigenschaft = ctf.new ColumnEigenschaft(bezeigenschaft);
 	private CellTableForm.ColumnAuspraegung wertAuspraegung = ctf.new ColumnAuspraegung(wertauspraegung);
-	private Image sharedPic = new Image();
-
+	private Image sharedPic = new Image("Image/contactShared.png");
+	private Image loeschenPic = new Image("Image/Löschen.png");
+	private Image bearbeitenPic = new Image("Image/Bearbeiten.png");
+	private Image konZuListPic = new Image("Image/Kontakt_Zu_Liste.png");
+	private Image zurueckZuHome = new Image("Image/Startseite.png");
+	
 	public KontaktForm(Kontakt k) {
 		this.k = k;
 		ctf = new CellTableForm(k);
@@ -128,9 +132,13 @@ public class KontaktForm extends VerticalPanel {
 
 		nutzer.setID(Integer.parseInt(Cookies.getCookie("id")));
 		nutzer.setEmail(Cookies.getCookie("email"));
-		final Image kontaktbild = new Image();
-		kontaktbild.setUrl("https://ssl.gstatic.com/s2/contacts/images/NoPicture.gif");
-		sharedPic.setUrl("Image/contactShared.png");
+		final Image kontaktbild = new Image("Image/Visitenkarte_2.png");
+		
+		kontaktbild.setStyleName("Kontaktbild");
+		loeschenPic.setStyleName("ButtonICON");
+		bearbeitenPic.setStyleName("ButtonICON");
+		konZuListPic.setStyleName("ButtonICON");
+		zurueckZuHome.setStyleName("ButtonICON");
 
 		HTML html1 = new HTML("<h2>" + k.getName() + "</h2>");
 		HTML html2 = new HTML("Erstellt am: " + fmt.format(k.getErzeugungsdatum()));
@@ -167,7 +175,11 @@ public class KontaktForm extends VerticalPanel {
 		RootPanel.get("Buttonbar").add(kontaktTeilen);
 		RootPanel.get("Buttonbar").add(kontaktListehinzufuegen);
 		RootPanel.get("Buttonbar").add(zurueckBtn);
-
+		
+		loeschenButton.getElement().appendChild(loeschenPic.getElement());
+		bearbeitenButton.getElement().appendChild(bearbeitenPic.getElement());
+		kontaktListehinzufuegen.getElement().appendChild(konZuListPic.getElement());
+		zurueckBtn.getElement().appendChild(zurueckZuHome.getElement());
 		loeschenButton.addClickHandler(new ClickLoeschenHandler());
 		zurueckBtn.addClickHandler(new ClickZurueckHandler());
 		bearbeitenButton.addClickHandler(new ClickearbeitenHandler());

@@ -49,6 +49,18 @@ a.Startseite {
 	margin-right: 160px;
 }
 
+
+.ButtonICON {
+	
+	height: 15px;
+	width: 15px;
+}
+
+.Kontaktbild {
+	height: 87px;
+	width: 100px;
+}
+
 .sendButton {
 	display: block;
 	font-size: 16pt;
