@@ -22,6 +22,7 @@ import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.FlexTable;
 import com.google.gwt.user.client.ui.HorizontalPanel;
+import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.MultiWordSuggestOracle;
 import com.google.gwt.user.client.ui.RootPanel;
@@ -120,8 +121,9 @@ public class UpdateKontaktForm extends VerticalPanel {
 	private SuggestBox eigenschaftSugBox = new SuggestBox(eigenschaftOracle);
 
 	DateTimeFormat fmt = DateTimeFormat.getFormat("dd.MM.yyyy");
-	private Button cancelBtn = new Button("Cancel");
-
+	private Button cancelBtn = new Button("Zurück");
+	private Image zurueckZuHomePic = new Image("Image/Startseite.png");
+	private Image deletePic = new Image("Image/Löschen.png");
 	private EigenschaftAuspraegungWrapper ea = new EigenschaftAuspraegungWrapper();
 
 	private Eigenschaft eig1 = new Eigenschaft();
@@ -197,6 +199,8 @@ public class UpdateKontaktForm extends VerticalPanel {
 		wertAuspraegung.setSortable(true);
 		ctf.setSelectionModel(ctf.getSm());
 		ctf.setStyleName("CellTableBearbeiten");
+		zurueckZuHomePic.setStyleName("ButtonICON");
+		deletePic.setStyleName("ButtonICON");
 
 		scrollPanel.setHeight("400px");
 
@@ -206,8 +210,11 @@ public class UpdateKontaktForm extends VerticalPanel {
 
 		verwaltung.findAllEigenschaft(new AlleEigenschaftCallback());
 
+		
 		deleteBtn.setFieldUpdater(new DeleteFieldUpdater());
+		cancelBtn.getElement().appendChild(zurueckZuHomePic.getElement());
 		cancelBtn.addClickHandler(new CancelClick());
+		
 		addRow.addClickHandler(new ClickAddRowHandler());
 		txt_KontaktName.addKeyDownHandler(changeNameHandler);
 

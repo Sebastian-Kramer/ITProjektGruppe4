@@ -76,6 +76,12 @@ public class KontaktlisteForm extends VerticalPanel {
 	private Button kontaktEntfernen = new Button("Kontakt entfernen");
 	private Button zurueck = new Button("Bearbeitung beenden");
 	private Image listShared = new Image();
+	private Image bearbeitenPic = new Image("Image/Bearbeiten.png");
+	private Image kontaktAnzeigenPic = new Image("Image/Kontakt.png");
+	private Image teilPic = new Image("Image/contactShared.png");
+	private Image teilVerwaltPic = new Image("Image/Teilen.png");
+	private Image zurueckPic = new Image("Image/Startseite.png");
+	
 	private boolean deleteListAlert;
 
 	private KontaktAdministrationAsync kontaktVerwaltung = ClientsideSettings.getKontaktverwaltung();
@@ -93,7 +99,7 @@ public class KontaktlisteForm extends VerticalPanel {
 		this.kl = kontaktliste;
 
 		kontaktVerwaltung.getAllKontakteFromKontaktliste(kl.getID(), new KontakteVonKontaktlisteCallback());
-		listShared.setUrl("Image/Teilen.png");
+		listShared.setUrl("Image/contactShared.png");
 
 	}
 
@@ -115,6 +121,12 @@ public class KontaktlisteForm extends VerticalPanel {
 		kontaktCellList.setSelectionModel(selectionModel);
 		dataProvider.addDataDisplay(kontaktCellList);
 
+		bearbeitenPic.setStyleName("ButtonICON");
+		kontaktAnzeigenPic.setStyleName("ButtonICON");
+		teilPic.setStyleName("ButtonICON");
+		teilVerwaltPic.setStyleName("ButtonICON");
+		zurueckPic.setStyleName("ButtonICON");
+		
 		kontaktCellList.setSelectionModel(selectionModel);
 		scrollPanel.setStyleName("scrollPanel");
 		kontaktCellList.setStyleName("cellListKontakte");
@@ -165,10 +177,15 @@ public class KontaktlisteForm extends VerticalPanel {
 		 * Hinzufuegen der Clickhandler zu den Buttons, sowie des
 		 * KeyDownHandlers zur Textbox
 		 */
+		kontaktAnzeigen.getElement().appendChild(kontaktAnzeigenPic.getElement());
 		kontaktAnzeigen.addClickHandler(new KontaktAnzeigenClickhandler());
+		kontaktlisteTeilen.getElement().appendChild(teilPic.getElement());
 		kontaktlisteTeilen.addClickHandler(new KontaktlisteTeilenClickhandler());
+		teilhaberschaften.getElement().appendChild(teilVerwaltPic.getElement());
 		teilhaberschaften.addClickHandler(new TeilhaberschaftenVerwaltenClickhandler());
+		kontaktlisteBearbeiten.getElement().appendChild(bearbeitenPic.getElement());
 		kontaktlisteBearbeiten.addClickHandler(new KontaktlisteBearbeitenClickhandler());
+		zurStartseite.getElement().appendChild(zurueckPic.getElement());
 		zurStartseite.addClickHandler(new ZurueckZurStartseiteClickhandler());
 		kontaktHinzufuegen.addClickHandler(new KontaktHinzufuegenClickhandler());
 		kontaktEntfernen.addClickHandler(new KontaktEntfernenClickhandler());
