@@ -3,6 +3,7 @@ package de.hdm.itprojektgruppe4.client.gui;
 import com.google.gwt.user.client.ui.DialogBox;
 import com.google.gwt.user.client.ui.FlexTable;
 import com.google.gwt.user.client.ui.HTML;
+import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.MultiWordSuggestOracle;
 
 import java.util.Vector;
@@ -38,6 +39,7 @@ public class DialogBoxKontaktlisteTeilen extends DialogBox {
 	private HTML html = null;
 	private Button teilen = new Button("Kontaktliste teilen");
 	private Button abbrechen = new Button("abbrechen");
+	private Image klTeilen = new Image();
 
 	private CellList<Nutzer> nutzerList = new CellList<Nutzer>(nutzerCell);
 	private SingleSelectionModel<Nutzer> nutzerSelection = new SingleSelectionModel<Nutzer>();
@@ -58,6 +60,7 @@ public class DialogBoxKontaktlisteTeilen extends DialogBox {
 		dataProvider.addDataDisplay(nutzerList);
 		nutzerList.setSelectionModel(nutzerSelection);
 		html = new HTML("Geben Sie die Mail-Adresse des Nutzers ein, mit dem Sie die Kontaktliste teilen möchten:");
+		klTeilen.setUrl("Image/Teilen.png");
 	}
 
 	public void onLoad() {
@@ -69,7 +72,8 @@ public class DialogBoxKontaktlisteTeilen extends DialogBox {
 		ft.setWidget(2, 0, teilen);
 		ft.setWidget(2, 1, abbrechen);
 		ft.setStylePrimaryName("Flextable");
-
+		
+		vpanel.add(klTeilen);
 		vpanel.add(html);
 		vpanel.add(nutzerSugBox);
 		vpanel.add(ft);
@@ -130,7 +134,7 @@ public class DialogBoxKontaktlisteTeilen extends DialogBox {
 		@Override
 		public void onSuccess(Teilhaberschaft result) {
 			if (result == null) {
-				Window.alert("Sie koennen diese Liste nicht teilen");
+				Window.alert("Dies ist Ihre Standardkontaktliste und kann nicht geteilt werden.");
 			} else {
 				Window.alert("Die Liste wurde erfolgreich geteilt");
 				DialogBoxKontaktlisteTeilen.this.hide();
@@ -161,7 +165,6 @@ public class DialogBoxKontaktlisteTeilen extends DialogBox {
 
 		@Override
 		public void onSuccess(Vector<Nutzer> result) {
-
 			for (Nutzer n : result) {
 				if (n.getID() != nutzer.getID()) {
 					nutzerOracle.add(n.getEmail());
