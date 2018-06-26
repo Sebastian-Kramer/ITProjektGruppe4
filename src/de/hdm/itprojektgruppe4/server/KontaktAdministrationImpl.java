@@ -572,6 +572,21 @@ public class KontaktAdministrationImpl extends RemoteServiceServlet implements K
 		return n;
 	}
 	
+	public Vector<Nutzer> getAllTeilhaberfromAuspraegungBerechtigung(int auspraegung, int teilhaberID) throws IllegalArgumentException {
+		
+		Vector<Teilhaberschaft> t = this.findTeilhaberschaftByAuspraegungID(auspraegung);
+		Vector<Nutzer> n = new Vector<Nutzer>();
+		
+		for (Teilhaberschaft teil : t) {
+			if(teil.getTeilhaberID() == teilhaberID || teil.getNutzerID() == teilhaberID){
+				n.add(this.findNutzerByID(teil.getTeilhaberID()));
+			}
+		}
+		
+		return n;
+		
+	}
+	
 	
 	public Vector<Nutzer> getAllTeilhaberFromKontakt (int kontaktID) throws IllegalArgumentException{
 		

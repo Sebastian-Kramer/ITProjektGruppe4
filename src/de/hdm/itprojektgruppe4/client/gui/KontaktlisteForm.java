@@ -35,7 +35,6 @@ import de.hdm.itprojektgruppe4.shared.KontaktAdministrationAsync;
 import de.hdm.itprojektgruppe4.shared.bo.*;
 import de.hdm.itprojektgruppe4.client.ClientsideSettings;
 import de.hdm.itprojektgruppe4.client.NavigationTree;
-import de.hdm.itprojektgruppe4.client.gui.KontaktlisteKontaktTreeViewModel.TeilhaberschaftKontaktCallback;
 
 /**
  * Die Klasse dient zur Darstellung, Verwaltung und Bearbeitung von
@@ -61,7 +60,6 @@ public class KontaktlisteForm extends VerticalPanel {
 	private CellList<Nutzer> teilhaberCL = new CellList<Nutzer>(nutzerCell);
 	private VerticalPanel vpanelPopUp = new VerticalPanel();
 	private Label teilInfo = new Label("Mit folgenden Nutzern geteilt: ");
-	private Vector<Teilhaberschaft> th = new Vector<Teilhaberschaft>();
 
 	private KontaktCell kontaktcell = new KontaktCell();
 	private CellList<Kontakt> kontaktCellList = new CellList<Kontakt>(kontaktcell);
@@ -253,38 +251,25 @@ public class KontaktlisteForm extends VerticalPanel {
 					}
 
 				} else {
-					kontaktVerwaltung.findTeilhaberschaftByKontaktIDAndTeilhaberID(selectionModel.getSelectedObject().getID(), nutzer.getID(), new TeilhaberschaftKontaktCallback());
+					kontaktVerwaltung.findTeilhaberschaftByKontaktIDAndTeilhaberID(
+							selectionModel.getSelectedObject().getID(), nutzer.getID(),
+							new TeilhaberschaftKontaktCallback());
 
-
-					// }
-					// KontaktForm kf = new
-					// KontaktForm(selectionModel.getSelectedObject(), 1 );
-					// RootPanel.get("Details").clear();
-					// RootPanel.get("Details").add(kf);
-
-					// else {
-					// KontaktForm kf = new
-					// KontaktForm(selectionModel.getSelectedObject(),
-					// "Teilhaberschaft");
-					// RootPanel.get("Details").clear();
-					// RootPanel.get("Details").add(kf);
-					// }
 				}
 			}
 		}
 	}
-	
-	class TeilhaberschaftKontaktCallback implements AsyncCallback<Vector<Teilhaberschaft>>{
+
+	class TeilhaberschaftKontaktCallback implements AsyncCallback<Vector<Teilhaberschaft>> {
 
 		@Override
 		public void onFailure(Throwable caught) {
-			
-			
+
 		}
 
 		@Override
 		public void onSuccess(Vector<Teilhaberschaft> result) {
-			
+
 			if (selectionModel.getSelectedObject().getNutzerID() != nutzer.getID() && result.size() < 1) {
 				KontaktForm kf = new KontaktForm(selectionModel.getSelectedObject(), 1);
 				RootPanel.get("Details").clear();
@@ -294,9 +279,9 @@ public class KontaktlisteForm extends VerticalPanel {
 				RootPanel.get("Details").clear();
 				RootPanel.get("Details").add(kf);
 			}
-			
+
 		}
-		
+
 	}
 
 	/**
@@ -611,36 +596,4 @@ public class KontaktlisteForm extends VerticalPanel {
 
 	}
 
-	/**
-	 * Hier wird der DataProvider mit den entsprechenden Daten fuer die CellList
-	 * erstellt. Dabei wird der DataProvider mithilfe eines RPC-Callbacks, der
-	 * alle Kontakte einer Kontaktliste enthält, befüllt.
-	 * 
-	 * private class KontakteDataProvider extends AsyncDataProvider<Kontakt> {
-	 * 
-	 * @Override protected void onRangeChanged(HasData<Kontakt> display) { final
-	 *           Range range = display.getVisibleRange();
-	 * 
-	 *           kontaktVerwaltung.getAllKontakteFromKontaktliste(kl.getID(),
-	 *           new AsyncCallback<Vector<Kontakt>>() { int start =
-	 *           range.getStart();
-	 * 
-	 * @Override public void onFailure(Throwable caught) {
-	 * 
-	 * 
-	 *           }
-	 * 
-	 * @Override public void onSuccess(Vector<Kontakt> result) {
-	 * 
-	 *           List<Kontakt> list = new ArrayList<Kontakt>(); for (Kontakt k :
-	 *           result) { list.add(k); } updateRowData(start, list);
-	 * 
-	 *           }
-	 * 
-	 *           });
-	 * 
-	 *           }
-	 * 
-	 *           }
-	 */
 }

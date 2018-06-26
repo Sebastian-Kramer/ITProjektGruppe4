@@ -23,9 +23,7 @@ import com.google.gwt.event.dom.client.KeyDownHandler;
 
 import de.hdm.itprojektgruppe4.client.ClientsideSettings;
 import de.hdm.itprojektgruppe4.client.EigenschaftAuspraegungWrapper;
-
 import de.hdm.itprojektgruppe4.shared.KontaktAdministrationAsync;
-import de.hdm.itprojektgruppe4.shared.bo.Eigenschaftauspraegung;
 import de.hdm.itprojektgruppe4.shared.bo.Kontakt;
 import de.hdm.itprojektgruppe4.shared.bo.Nutzer;
 import de.hdm.itprojektgruppe4.shared.bo.Teilhaberschaft;
@@ -58,20 +56,18 @@ public class CellTableForm extends CellTable<EigenschaftAuspraegungWrapper> {
 	public CellTableForm() {
 		super();
 	}
-	
+
 	public CellTableForm(Kontakt k) {
-	
+
 		this.kontakt = k;
 		verwaltung.findHybrid(k, new AllAuspraegungToEigenschaftCallback());
-		
+
 	}
 
-	
-	public CellTableForm(Kontakt k, Teilhaberschaft t){
+	public CellTableForm(Kontakt k, Teilhaberschaft t) {
 		this.kontakt = k;
 		this.t = t;
-		
-		
+
 	}
 
 	public CellTableForm(Kontakt k, String teilhaberschaft) {
@@ -79,18 +75,17 @@ public class CellTableForm extends CellTable<EigenschaftAuspraegungWrapper> {
 		nutzer.setID(Integer.parseInt(Cookies.getCookie("id")));
 		this.kontakt = k;
 
-		verwaltung.findSharedAuspraegung(kontakt.getID(), nutzer.getID() ,new AllSharedAuspraegungen());
-	
-		
+		verwaltung.findSharedAuspraegung(kontakt.getID(), nutzer.getID(), new AllSharedAuspraegungen());
+
 	}
-		
+
 	public void onLoad() {
 
 		super.onLoad();
-		
+
 		Nutzer nutzer = new Nutzer();
 		nutzer.setID(Integer.parseInt(Cookies.getCookie("id")));
-		
+
 		this.setPageSize(100);
 
 		this.setStyleName("CellTableHyprid");
@@ -99,13 +94,11 @@ public class CellTableForm extends CellTable<EigenschaftAuspraegungWrapper> {
 
 	}
 
-	
-	class AllSharedAuspraegungen implements AsyncCallback<Vector<EigenschaftAuspraegungWrapper>>{
+	class AllSharedAuspraegungen implements AsyncCallback<Vector<EigenschaftAuspraegungWrapper>> {
 
 		@Override
 		public void onFailure(Throwable caught) {
-			
-			
+
 		}
 
 		@Override
@@ -113,11 +106,11 @@ public class CellTableForm extends CellTable<EigenschaftAuspraegungWrapper> {
 			eList.addAll(result);
 			setRowData(0, eList);
 			setRowCount(eList.size(), true);
-			
+
 		}
-		
+
 	}
-	
+
 	Column<EigenschaftAuspraegungWrapper, String> bezEigenschaft = new Column<EigenschaftAuspraegungWrapper, String>(
 
 			new ClickableTextCell()) {
@@ -216,9 +209,6 @@ public class CellTableForm extends CellTable<EigenschaftAuspraegungWrapper> {
 		this.deleteBtn = deleteBtn;
 	}
 
-
-
-	
 	public void addRow(String a, String b) {
 		EigenschaftAuspraegungWrapper wrapper = new EigenschaftAuspraegungWrapper();
 
@@ -236,7 +226,7 @@ public class CellTableForm extends CellTable<EigenschaftAuspraegungWrapper> {
 		model.refresh();
 		this.redraw();
 	}
-	
+
 	class ColumnAuspraegung extends Column<EigenschaftAuspraegungWrapper, String> {
 
 		public ColumnAuspraegung(Cell<String> cell) {
@@ -254,12 +244,12 @@ public class CellTableForm extends CellTable<EigenschaftAuspraegungWrapper> {
 
 		public ColumnCeckBox(Cell<Boolean> cell) {
 			super(cell);
-			// TODO Auto-generated constructor stub
+
 		}
 
 		@Override
 		public Boolean getValue(EigenschaftAuspraegungWrapper object) {
-			// TODO Auto-generated method stub
+			
 			return selectionModelWrapper.isSelected(object);
 		}
 
@@ -269,12 +259,12 @@ public class CellTableForm extends CellTable<EigenschaftAuspraegungWrapper> {
 
 		public ColumnDeleteBtn(Cell<String> cell) {
 			super(cell);
-			// TODO Auto-generated constructor stub
+		
 		}
 
 		@Override
 		public String getValue(EigenschaftAuspraegungWrapper object) {
-			// TODO Auto-generated method stub
+			
 			return "x";
 		}
 
@@ -284,12 +274,12 @@ public class CellTableForm extends CellTable<EigenschaftAuspraegungWrapper> {
 
 		public ColumnEigenschaft(Cell<String> cell) {
 			super(cell);
-			// TODO Auto-generated constructor stub
+			
 		}
 
 		@Override
 		public String getValue(EigenschaftAuspraegungWrapper object) {
-			// TODO Auto-generated method stub
+			
 			return object.getEigenschaftValue();
 		}
 
@@ -299,7 +289,7 @@ public class CellTableForm extends CellTable<EigenschaftAuspraegungWrapper> {
 
 		public ColumnStatus(Cell<String> cell) {
 			super(cell);
-			
+
 		}
 
 		@Override
@@ -335,10 +325,5 @@ public class CellTableForm extends CellTable<EigenschaftAuspraegungWrapper> {
 		return addDomHandler(keyDownHandler, KeyDownEvent.getType());
 
 	}
-
-	
-	
-	
-	
 
 }

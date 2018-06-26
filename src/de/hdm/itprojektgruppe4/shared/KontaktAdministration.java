@@ -824,6 +824,17 @@ public interface KontaktAdministration extends RemoteService {
 	 */
 	public Vector<Kontaktliste> findKontaktlistenToAddKontakt (int kontaktID, int nutzerID) throws IllegalArgumentException;
 
+	
+	/**
+	 * Auslesen aller Nutzer, die eine Berechtigung haben eine Teilhaberschaft zu verwalten
+	 * 
+	 * @param auspraegung
+	 * @param telhaberID
+	 * @return
+	 * @throws IllegalArgumentException
+	 */
+	public Vector<Nutzer> getAllTeilhaberfromAuspraegungBerechtigung(int auspraegung, int teilhaberID) throws IllegalArgumentException;
+
 
 
 	

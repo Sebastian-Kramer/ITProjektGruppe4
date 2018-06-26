@@ -2,7 +2,6 @@ package de.hdm.itprojektgruppe4.client;
 
 import de.hdm.itprojektgruppe4.client.gui.MainForm;
 
-import de.hdm.itprojektgruppe4.shared.FieldVerifier;
 import de.hdm.itprojektgruppe4.shared.KontaktAdministrationAsync;
 import de.hdm.itprojektgruppe4.shared.LoginService;
 import de.hdm.itprojektgruppe4.shared.LoginServiceAsync;
@@ -28,6 +27,7 @@ public class ITProjektSS18 implements EntryPoint {
 	private LoginInfo loginInfo = null;
 	private VerticalPanel loginPanel = new VerticalPanel();
 	private Label loginLabel = new Label("Bitte melde dich mit deinem Google-Konto an");
+	private Label eingeloggt = new Label("Momentan in WYNWYN angemeldet: ");
 	private Anchor signInLink = new Anchor("Anmelden");
 	private Anchor signOutLink = new Anchor("Logout");
 	private Anchor impressum = new Anchor("Impressum");
@@ -42,11 +42,12 @@ public class ITProjektSS18 implements EntryPoint {
 	private static String editorHtmlName = "ITProjektSS18.html";
 
 	public void onModuleLoad() {
-		
-		
+
 		impressum.setStyleName("Impressum");
 		signOutLink.setStyleName("Logout");
 		startseite.setStyleName("Startseite");
+		eingeloggt.setStyleName("AktiverUser");
+		
 		LoginServiceAsync loginService = GWT.create(LoginService.class);
 		loginService.login(GWT.getHostPageBaseURL() + editorHtmlName, new AsyncCallback<LoginInfo>() {
 
@@ -134,6 +135,7 @@ public class ITProjektSS18 implements EntryPoint {
 		MainForm mainForm = new MainForm();
 		NavigationTree navigationTree = new NavigationTree();
 		signOutLink.setHref(loginInfo.getLogoutUrl());
+		RootPanel.get("Header").add(eingeloggt);
 		RootPanel.get("Header").add(loggedNutzer);
 		RootPanel.get("Header").add(signOutLink);
 		RootPanel.get("Header").add(impressum);
@@ -146,8 +148,9 @@ public class ITProjektSS18 implements EntryPoint {
 
 	/*
 	 * Meldet sich ein Nutzer neu auf der Plattform an, sollwn sofort die
-	 * Kontaktlisten "Meine Kontakte" und "Meine geteilten Kontakte" erstellt werden. Hierfür wird diese
-	 * Callback-Klasse benötigt. Die Kontaktlisten stellen Standardkontaktliste da.
+	 * Kontaktlisten "Meine Kontakte" und "Meine geteilten Kontakte" erstellt
+	 * werden. Hierfür wird diese Callback-Klasse benötigt. Die Kontaktlisten
+	 * stellen Standardkontaktliste da.
 	 */
 	private class MeineKontakteAnlegen implements AsyncCallback<Kontaktliste> {
 

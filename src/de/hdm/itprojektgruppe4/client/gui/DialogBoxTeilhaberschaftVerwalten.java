@@ -112,18 +112,20 @@ public class DialogBoxTeilhaberschaftVerwalten extends DialogBox {
 	 * @param kon
 	 */
 	DialogBoxTeilhaberschaftVerwalten(EigenschaftAuspraegungWrapper eaw, Kontakt kon) {
-		this.ea = eaw;  
+		this.ea = eaw;
 		this.kon = kon;
 		this.e = eaw.getAuspraegung();
-		
-		Window.alert(e.getWert()); 
 
 		html1 = new HTML("Diese <b> Nutzer </b> haben eine <b> Teilhaberschaft </b> an der Ausprägung");
 
 		nutzer.setID(Integer.parseInt(Cookies.getCookie("id")));
 		nutzer.setEmail(Cookies.getCookie("email"));
-
-		kontaktVerwaltung.getAllTeilhaberfromAuspraegung(ea.getAuspraegungID(), new AllTeilhaberschaften());
+		if (kon.getNutzerID() == nutzer.getID()) {
+			kontaktVerwaltung.getAllTeilhaberfromAuspraegung(ea.getAuspraegungID(), new AllTeilhaberschaften());
+		} else {
+			kontaktVerwaltung.getAllTeilhaberfromAuspraegungBerechtigung(e.getID(), nutzer.getID(),
+					new AllTeilhaberschaften());
+		}
 		dataProvider.addDataDisplay(nutzerList);
 
 		abbrechen.addClickHandler(new AbbrechenClickhandler());
@@ -176,7 +178,7 @@ public class DialogBoxTeilhaberschaftVerwalten extends DialogBox {
 		@Override
 		public void onSuccess(Vector<Nutzer> result) {
 			for (Nutzer n : result) {
-				Window.alert(n.getEmail());
+				
 				dataProvider.getList().add(n);
 			}
 
@@ -218,7 +220,7 @@ public class DialogBoxTeilhaberschaftVerwalten extends DialogBox {
 
 		@Override
 		public void onClick(ClickEvent event) {
-			Window.alert(e.getWert());
+			
 			kontaktVerwaltung.deleteUpdateTeilhaberschaft(e, selectionModel.getSelectedObject(), nutzer, kon,
 					new TeilhaberschaftAuspraegungLoeschenCallback());
 		}
