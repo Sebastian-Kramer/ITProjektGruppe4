@@ -22,6 +22,7 @@ import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.HorizontalPanel;
+import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.MultiWordSuggestOracle;
 import com.google.gwt.user.client.ui.RootPanel;
@@ -68,8 +69,10 @@ public class NewKontaktForm extends VerticalPanel {
 	private TextBox tbName = new TextBox();
 	private Label eigenschaftName = new Label("Eigenschaft");
 	private Label auspraegungName = new Label("Ausprägung");
+	
+	private Image kontaktVisit = new Image("Image/Visitenkarte_2.png");
 
-	private Button cancel = new Button("Cancel");
+	private Button cancel = new Button("Abbrechen");
 	private Button getBack = new Button("Abschliessen und zurück");
 	private HTML html1 = new HTML(
 			"Bitte geben Sie hier die <b> Namen </b> zu ihrem neuen "
@@ -179,8 +182,8 @@ public class NewKontaktForm extends VerticalPanel {
 		/**
 		 * Die erstellten Widgets werden den entsprechenden Panel hinzugefügt.
 		 */
-		
-		hpanelButtonBar.add(cancel);	
+		kontaktVisit.setStyleName("Kontaktbild");
+		hpanelButtonBar.add(cancel);
 		hpanel2.add(eigenschaftName);
 		hpanel2.add(eigenschaftSugBox);
 		hpanel2.add(auspraegungName);
@@ -190,16 +193,18 @@ public class NewKontaktForm extends VerticalPanel {
 		vpanel2.add(hpanel2);
 		vpanel2.add(addToList);
 		vpanel2.add(getBack);
-
+		
 		hpanel.add(name);
 		hpanel.add(tbName);
 		vpanel.add(html1);
 		vpanel.add(hpanel);
 		vpanel.add(html2);
+		vpanel.setStyleName("HtmlPanel");
 		
 		RootPanel.get("Buttonbar").clear();
 		RootPanel.get("Buttonbar").add(hpanelButtonBar);
 		
+		this.add(kontaktVisit);
 		this.add(vpanel);
 
 		verwaltung.findAllEigenschaft(new AlleEigenschaftCallback());

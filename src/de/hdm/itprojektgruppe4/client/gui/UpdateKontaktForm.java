@@ -186,7 +186,7 @@ public class UpdateKontaktForm extends VerticalPanel {
 		hpanelDetails.setHeight("35px");
 		hpanelDetails.add(lbl_KontaktName);
 		hpanelDetails.add(txt_KontaktName);
-
+		eigenschaftSugBox.getElement().setAttribute("placeholder", "Eigenschaft");
 		scrollPanel.add(ctf);
 		vpanelDetails.add(hpanelDetails);
 		vpanelDetails.add(scrollPanel);
@@ -210,7 +210,6 @@ public class UpdateKontaktForm extends VerticalPanel {
 
 		verwaltung.findAllEigenschaft(new AlleEigenschaftCallback());
 
-		
 		deleteBtn.setFieldUpdater(new DeleteFieldUpdater());
 		cancelBtn.getElement().appendChild(zurueckZuHomePic.getElement());
 		cancelBtn.addClickHandler(new CancelClick());
