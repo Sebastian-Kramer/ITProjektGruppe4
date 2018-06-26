@@ -60,7 +60,7 @@ public class DialogBoxKontaktlisteTeilen extends DialogBox {
 		dataProvider.addDataDisplay(nutzerList);
 		nutzerList.setSelectionModel(nutzerSelection);
 		html = new HTML("Geben Sie die Mail-Adresse des Nutzers ein, mit dem Sie die Kontaktliste teilen möchten:");
-		klTeilen.setUrl("Image/Teilen.png");
+		klTeilen.setUrl("Image/Teilen2.png");
 	}
 
 	public void onLoad() {
@@ -79,6 +79,7 @@ public class DialogBoxKontaktlisteTeilen extends DialogBox {
 		vpanel.add(ft);
 		this.add(vpanel);
 		this.setStylePrimaryName("DialogboxBackground1");
+		klTeilen.setStylePrimaryName("ButtonKontaktlisteTeilen");
 	}
 
 	/**

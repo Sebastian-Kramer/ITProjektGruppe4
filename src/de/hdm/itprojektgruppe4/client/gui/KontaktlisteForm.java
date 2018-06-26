@@ -17,7 +17,6 @@ import com.google.gwt.user.client.Cookies;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Button;
-
 import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Image;
@@ -126,11 +125,14 @@ public class KontaktlisteForm extends VerticalPanel {
 		teilVerwaltPic.setStyleName("ButtonICON");
 		zurueckPic.setStyleName("ButtonICON");
 		
+		
 		kontaktCellList.setSelectionModel(selectionModel);
 		scrollPanel.setStyleName("scrollPanel");
 		kontaktCellList.setStyleName("cellListKontakte");
 		scrollPanel.add(kontaktCellList);
 		HTML html1 = new HTML("<h2> Liste: " + kl.getBez() + "</h2>");
+		
+		
 
 		/*
 		 * Hinzufuegen der Buttons zur Buttonbar
@@ -158,6 +160,8 @@ public class KontaktlisteForm extends VerticalPanel {
 		 * Hinzufuegen der Ueberschrift und der CellList zum Vertical Panel
 		 */
 		hpanel.add(html1);
+	
+		
 		/*
 		 * if-clause überprüft den Status der Liste. Ist dieser auf 1
 		 * (=geteilt), so wird dieser visuell sichtbar gemacht, indem ein
@@ -167,6 +171,8 @@ public class KontaktlisteForm extends VerticalPanel {
 			hpanel.add(listShared);
 
 		}
+		
+		
 
 		vpanel.add(hpanel);
 		vpanel.add(scrollPanel);
@@ -212,7 +218,7 @@ public class KontaktlisteForm extends VerticalPanel {
 		hpanel.add(lbl_kontaktliste);
 		hpanel.add(txt_kontaktliste);
 		txt_kontaktliste.setText(kl.getBez());
-	}
+	} 
 
 	private class PopUpInfo extends PopupPanel {
 
@@ -244,8 +250,11 @@ public class KontaktlisteForm extends VerticalPanel {
 
 	}
 
-	/*
+	/**
 	 * Clickhandler ermöglicht das Anzeigen eines ausgewaehlten Kontaktes.
+	 * Es wird unterschieden, ob der angemeldete Nutzer Eigentümer, Teilhaber oder den Kontakt im Rahmen
+	 * einer Kontaktlistenteilung erhalten hat, da dies ausschlaggebend für die Berechtigungen an der
+	 * Bearbeitung des Kontaktes ist.
 	 */
 	private class KontaktAnzeigenClickhandler implements ClickHandler {
 
