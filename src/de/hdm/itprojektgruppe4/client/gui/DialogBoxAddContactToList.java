@@ -31,7 +31,7 @@ public class DialogBoxAddContactToList extends DialogBox {
 	private HorizontalPanel hpanel = new HorizontalPanel();
 
 	private Label pickList = new Label("Wählen Sie die gewünschte Liste aus");
-	private Button addKontakt = new Button("Dieser Liste Hinzufügen");
+	private Button addKontakt = new Button("Hinzufügen");
 	private Button cancel = new Button("Abbrechen");
 	private Nutzer nutzer = new Nutzer();
 	private Kontaktliste kliste = new Kontaktliste();

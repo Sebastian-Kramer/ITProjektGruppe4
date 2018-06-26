@@ -56,9 +56,14 @@ a.Startseite {
 	width: 15px;
 }
 
+.ButtonKontaktlisteTeilen {
+	height: 80px;
+	width: 80px;
+}
+
 .Kontaktbild {
-	height: 87px;
-	width: 100px;
+	height: 110px;
+	width: 130px;
 }
 
 .sendButton {
