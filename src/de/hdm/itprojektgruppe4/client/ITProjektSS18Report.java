@@ -17,7 +17,7 @@ import de.hdm.itprojektgruppe4.shared.LoginServiceAsync;
 import de.hdm.itprojektgruppe4.shared.ReportGeneratorAsync;
 import de.hdm.itprojektgruppe4.shared.bo.Nutzer;
 
-public class ITProjektSS18Report   implements EntryPoint{
+public class ITProjektSS18Report implements EntryPoint {
 
 	private LoginInfo loginInfo = null;
 	private VerticalPanel loginPanel = new VerticalPanel();
@@ -26,6 +26,10 @@ public class ITProjektSS18Report   implements EntryPoint{
 	private Anchor signOutLink = new Anchor("Logout");
 
 	LoginServiceAsync loginService = GWT.create(LoginService.class);
+	
+	/*
+	 * Reportgenerator wird instanziiert um dessen Methoden zu verwenden 
+	 */
 	private static ReportGeneratorAsync reportverwaltung = ClientsideSettings.getReportVerwaltung();
 
 	private static String editorHtmlName = "ITProjektSS18Report.html";
@@ -36,94 +40,79 @@ public class ITProjektSS18Report   implements EntryPoint{
 		LoginServiceAsync loginService = GWT.create(LoginService.class);
 		loginService.login(GWT.getHostPageBaseURL() + editorHtmlName, new AsyncCallback<LoginInfo>() {
 
-		
-			
 			public void onFailure(Throwable error) {
-				
-			}
-			public void onSuccess(LoginInfo result) {
-			ClientsideSettings.setCurrentUser(result);
 
-			loginInfo = result;
-			if(loginInfo.isLoggedIn()) {
-				checkNewNutzer(loginInfo);
-				
-			} else {
-				loadLogin();
 			}
+
+			public void onSuccess(LoginInfo result) {
+				ClientsideSettings.setCurrentUser(result);
+
+				loginInfo = result;
+				if (loginInfo.isLoggedIn()) {
+					checkNewNutzer(loginInfo);
+
+				} else {
+					loadLogin();
+				}
 			}
 		});
-		}
-		
-
-		private Nutzer checkNewNutzer(LoginInfo result) {
-			final LoginInfo finalLog = result;
-			
-			Nutzer nutzer = null;
-			reportverwaltung.findNutzerByEmail(result.getEmailAddress(), new AsyncCallback<Nutzer>() {
-
-				@Override
-				public void onFailure(Throwable caught) {
-					Window.alert("Nutzer konnte nicht aus der Datenbank gelsesen werden." + " Daher wird "
-							+ finalLog.getEmailAddress() + "angelegt");
-
-				}
-
-				@Override
-				public void onSuccess(Nutzer result) {
-					if (!result.getEmail().equals(null)) {
-						Window.alert(
-								"Hallo " + result.getEmail() + " wir konnten dich erfolgreich aus der Datenbank lesen.");
-						ClientsideSettings.setAktuellerNutzer(result);
-						Cookies.setCookie("email", result.getEmail());
-						Cookies.setCookie("id", result.getID() + "");
-						loadStartseite();
-
-					} else {
-							
-		
-						reportverwaltung.insertNutzer(loginInfo.getEmailAddress(), new AsyncCallback<Nutzer>() {
-				
-
-							@Override
-							public void onFailure(Throwable caught) {
-								Window.alert("Fehler beim anlegen");
-							}
-
-							@Override
-							public void onSuccess(Nutzer result) {
-								Window.alert("Nutzer " + finalLog.getEmailAddress() + " wurde erfolgreich angelegt.");
-								Cookies.setCookie("email", result.getEmail());
-								Cookies.setCookie("id", result.getID()+"");
-								loadStartseite();
-							}
-
-						});
-
-					}
-
-				}
-			});
-			return nutzer;
-		}
-
-		private void loadLogin() {
-
-			signInLink.setHref(loginInfo.getLoginUrl());
-			loginPanel.add(loginLabel);
-			loginPanel.add(signInLink);
-			RootPanel.get("Details").add(loginPanel);
-
-		}
-
-		private void loadStartseite() {
-			NavigationReport navigationReport = new NavigationReport();
-			MainFormReport mfReport = new MainFormReport();
-			signOutLink.setHref(loginInfo.getLogoutUrl());
-			RootPanel.get("Header").add(signOutLink);
-			RootPanel.get("Details").add(mfReport);
-			RootPanel.get("Navigator").add(navigationReport);
-		}
+	}
 	
+	/*
+	 * Die checkNewNutzer Methode überprüft ob der Nutzer in der Datenbank vorhanden ist
+	 */
+
+	private Nutzer checkNewNutzer(LoginInfo result) {
+		final LoginInfo finalLog = result;
+
+		Nutzer nutzer = null;
+		reportverwaltung.findNutzerByEmail(result.getEmailAddress(), new AsyncCallback<Nutzer>() {
+
+			@Override
+			public void onFailure(Throwable caught) {
+				Window.alert("Nutzer konnte nicht aus der Datenbank gelsesen werden." + " Daher wird "
+						+ finalLog.getEmailAddress() + "angelegt");
+
+			}
+
+			@Override
+			public void onSuccess(Nutzer result) {
+				if (!result.getEmail().equals(null)) {
+					Window.alert(
+							"Hallo " + result.getEmail() + " wir konnten dich erfolgreich aus der Datenbank lesen.");
+					ClientsideSettings.setAktuellerNutzer(result);
+					Cookies.setCookie("email", result.getEmail());
+					Cookies.setCookie("id", result.getID() + "");
+					loadStartseite();
+
+				}
+			}
+		});
+		return nutzer;
+	}
+
+	/*
+	 * Die loadlogin Methode verweist auf
+	 */
+	private void loadLogin() {
+
+		signInLink.setHref(loginInfo.getLoginUrl());
+		loginPanel.add(loginLabel);
+		loginPanel.add(signInLink);
+		RootPanel.get("Details").add(loginPanel);
+
+	}
+	
+	/*
+	 * Die loadStartseite Methode verweist auf die Klasse navigationReport
+	 */
+	private void loadStartseite() {
+		NavigationReport navigationReport = new NavigationReport();
+		MainFormReport mfReport = new MainFormReport();
+		signOutLink.setHref(loginInfo.getLogoutUrl());
+		RootPanel.get("Header").add(signOutLink);
+		RootPanel.get("Details").add(mfReport);
+		RootPanel.get("Navigator").add(navigationReport);
+	}
 
 }

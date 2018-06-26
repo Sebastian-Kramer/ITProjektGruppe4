@@ -116,7 +116,7 @@ public class KontaktlisteKontaktTreeViewModel implements TreeViewModel {
 
 		@Override
 		public void onSuccess(Vector<Teilhaberschaft> result) {
-			if (selectedKontakt.getNutzerID() != nutzer.getID() && th.isEmpty() && selectedKontakt.getStatus() == 0){
+			if (selectedKontakt.getNutzerID() != nutzer.getID() && result.isEmpty()){
 				KontaktForm kf = new KontaktForm(selectedKontakt, 1);
 				RootPanel.get("Details").clear();
 				RootPanel.get("Details").add(kf);

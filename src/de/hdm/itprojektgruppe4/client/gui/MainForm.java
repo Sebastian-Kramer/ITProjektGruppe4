@@ -130,12 +130,10 @@ public class MainForm extends VerticalPanel {
 			Kontakt selected = selectionModel.getSelectedObject();
 
 			if (selected.getNutzerID() == nutzer.getID()) {
-				Window.alert("test konstruktor NIX OHNE LISTE");
 				KontaktForm kf = new KontaktForm(selected);
 				RootPanel.get("Details").clear();
 				RootPanel.get("Details").add(kf);
 			} else {
-				Window.alert("test konstruktor TEILHABRSCHAFT OHNE LISTE");
 				KontaktForm kf2 = new KontaktForm(selected, "Teilhaberschaft");
 				RootPanel.get("Details").clear();
 				RootPanel.get("Details").add(kf2);

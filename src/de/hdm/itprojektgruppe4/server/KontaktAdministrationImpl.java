@@ -572,6 +572,21 @@ public class KontaktAdministrationImpl extends RemoteServiceServlet implements K
 		return n;
 	}
 	
+	public Vector<Nutzer> getAllTeilhaberfromAuspraegungBerechtigung(int auspraegung, int teilhaberID) throws IllegalArgumentException {
+		
+		Vector<Teilhaberschaft> t = this.findTeilhaberschaftByAuspraegungID(auspraegung);
+		Vector<Nutzer> n = new Vector<Nutzer>();
+		
+		for (Teilhaberschaft teil : t) {
+			if(teil.getTeilhaberID() == teilhaberID || teil.getNutzerID() == teilhaberID){
+				n.add(this.findNutzerByID(teil.getTeilhaberID()));
+			}
+		}
+		
+		return n;
+		
+	}
+	
 	
 	public Vector<Nutzer> getAllTeilhaberFromKontakt (int kontaktID) throws IllegalArgumentException{
 		
@@ -1735,6 +1750,47 @@ public class KontaktAdministrationImpl extends RemoteServiceServlet implements K
 		this.teilhaberschaftMapper.deleteTeilhaberschaftByKontaktIDAndNutzerID(kontaktID, teilNutzerID);
 
 	}
+	
+	/**
+	 * 
+	 */
+	@Override
+	public void deleteTeilhaberschaftAllByKontaktIDAndTeilhaberID(int kontaktID, int teilhaberID)
+			throws IllegalArgumentException {
+		
+		Kontakt k = this.findKontaktByID(kontaktID);
+		Nutzer teilhaber = this.findNutzerByID(teilhaberID);
+		Kontaktliste kList = this.konlistMapper.findKontaktliste(teilhaber.getID(), "Meine geteilten Kontakte");
+		this.teilhaberschaftMapper.deleteTeilhaberschaftByKontaktIDAndNutzerID(k.getID(), teilhaber.getID());
+		
+		this.deleteKontaktKontaktlisteByKontaktIDAndByKListID(k.getID(), kList.getID());
+	
+		Vector<EigenschaftAuspraegungWrapper> ea = this.findSharedAuspraegung(k.getID(), teilhaber.getID());
+		
+		for(EigenschaftAuspraegungWrapper eaw : ea){
+			
+			Eigenschaftauspraegung e = eaw.getAuspraegung();
+			
+			this.teilhaberschaftMapper.deleteTeilhaberschaftByAuspraegungIDAndTeilhaberID(e.getID(), teilhaber.getID());
+			
+			if(this.findTeilhaberschaftByAuspraegungID(e.getID()).size() < 1){
+				
+				e.setStatus(0);
+				this.eigenschaftauspraegungMapper.updateAuspraegung(e);
+			}
+		}
+		
+		if(this.findTeilhaberschaftByKontaktID(k.getID()).size() < 1){
+			
+			k.setStatus(0);
+			this.updateKontakt(k);
+		}
+		
+		
+		
+	}
+	
+	
 
 	/**
 	 * Eine Teilhaberschaft an einer Kontaktliste loeschen.
@@ -1743,7 +1799,6 @@ public class KontaktAdministrationImpl extends RemoteServiceServlet implements K
 	 *            das zu loe�schende Teilhaberschaft-Objekt
 	 * @throws IllegalArgumentException
 	 */
-
 	@Override
 	public void deleteKontaktlisteFromTeilhaberschaft(Teilhaberschaft t) throws IllegalArgumentException {
 		this.teilhaberschaftMapper.deleteKontaktlisteFromTeilhaberschaft(t);
@@ -2213,7 +2268,8 @@ public class KontaktAdministrationImpl extends RemoteServiceServlet implements K
 		return listenVonNutzer;
 		
 	}
-	
+
+
 	
 
 

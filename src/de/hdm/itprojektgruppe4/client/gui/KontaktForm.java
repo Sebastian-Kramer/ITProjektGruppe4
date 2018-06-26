@@ -74,13 +74,12 @@ public class KontaktForm extends VerticalPanel {
 	private Button kontaktListehinzufuegen = new Button("Kontakt einer Liste hinzufügen");
 	private Button kontaktTeilen = new Button("Teilhaberschaft verwalten");
 	private boolean deleteKonAlert;
-	
+
 	private NutzerCell nutzerCell = new NutzerCell();
 	private CellList<Nutzer> teilhaberCL = new CellList<Nutzer>(nutzerCell);
 	private VerticalPanel vpanelPopUp = new VerticalPanel();
 	private Label teilInfo = new Label("Mit folgenden Nutzern geteilt: ");
-	
-	
+
 	private CellTableForm ctf = null;
 	private ClickableTextCell bezeigenschaft = new ClickableTextCell();
 	private ClickableTextCell wertauspraegung = new ClickableTextCell();
@@ -95,21 +94,20 @@ public class KontaktForm extends VerticalPanel {
 	public KontaktForm(Kontakt k) {
 		this.k = k;
 		ctf = new CellTableForm(k);
-		
+
 	}
 
 	public KontaktForm(Kontakt k, String teilhaberschaft) {
 
 		this.k = k;
-		loeschenButton.setVisible(false);
+//		loeschenButton.setVisible(false);
 		ctf = new CellTableForm(k, teilhaberschaft);
-		
+
 	}
-	
-	
+
 	/**
-	 * Konsturktor für Kontakte die in einer geteilten Liste sind
-	 * -> Read ONLY
+	 * Konsturktor für Kontakte die in einer geteilten Liste sind -> Read ONLY
+	 * 
 	 * @param k
 	 * @param shared
 	 */
@@ -120,11 +118,8 @@ public class KontaktForm extends VerticalPanel {
 		loeschenButton.setVisible(false);
 		kontaktTeilen.setVisible(false);
 		kontaktListehinzufuegen.setVisible(false);
+		sharedPic.setVisible(false);
 	}
-	
-
-	
-
 
 	public void onLoad() {
 
@@ -169,7 +164,7 @@ public class KontaktForm extends VerticalPanel {
 		vpanel.add(vpanelDetails);
 		vpanel.add(hpanel);
 		this.add(vpanel);
-		
+
 		RootPanel.get("Buttonbar").add(bearbeitenButton);
 		RootPanel.get("Buttonbar").add(loeschenButton);
 		RootPanel.get("Buttonbar").add(kontaktTeilen);
@@ -192,61 +187,59 @@ public class KontaktForm extends VerticalPanel {
 			hpanel1.add(sharedPic);
 
 		}
-		
 
+		if (k.getNutzerID() == nutzer.getID()) {
 
-		if (k.getNutzerID()== nutzer.getID()) {
-			
 			sharedPic.addMouseOverHandler(new MouseOverHandler() {
-				
+
 				@Override
 				public void onMouseOver(MouseOverEvent event) {
 					// TODO Auto-generated method stub
 					verwaltung.getAllTeilhaberFromKontakt(k.getID(), new TeilhaberFromKontaktCallback());
-					
+
 				}
 			});
 		}
-		
-
 
 	}
-	
-	
-	
-	
+
 	private class PopUpInfo extends PopupPanel {
-		
-		public PopUpInfo(){
-			
+
+		public PopUpInfo() {
+
 			super(true);
-			
+
 			addDomHandler(new MouseOutHandler() {
-				
+
 				@Override
 				public void onMouseOut(MouseOutEvent event) {
 					// TODO Auto-generated method stub
 					hide();
 				}
 			}, MouseOutEvent.getType());
-			
+
 			setPopupPosition(sharedPic.getAbsoluteLeft(), sharedPic.getAbsoluteTop());
-			
+
 		}
-		
+
 	}
 
 	private class ClickLoeschenHandler implements ClickHandler {
 		@Override
 		public void onClick(ClickEvent event) {
 
-			
-			
-			deleteKonAlert = Window.confirm("Möchten Sie den Kontakt endgültig löschen ?");
-			if(deleteKonAlert == true){
-				verwaltung.deleteKontakt(k, new DeleteKontaktCallback());
+			if (nutzer.getID() == k.getID()) {
+				deleteKonAlert = Window.confirm("Möchten Sie den Kontakt endgültig löschen?");
+				if (deleteKonAlert == true) {
+					verwaltung.deleteKontakt(k, new DeleteKontaktCallback());
+				}
+			} else {
+				deleteKonAlert = Window.confirm("Möchten Sie Ihre Teilhaberschaft entfernen?");
+				if (deleteKonAlert == true) {
+					verwaltung.deleteTeilhaberschaftAllByKontaktIDAndTeilhaberID(k.getID(), nutzer.getID(),
+							new DeleteKontaktTeilhaberschaftCallback());
+				}
 			}
-				
 		}
 	}
 
@@ -308,20 +301,18 @@ public class KontaktForm extends VerticalPanel {
 		@Override
 		public void onClick(ClickEvent event) {
 
-			
 			DialogBoxAddContactToList dbkl = new DialogBoxAddContactToList(k);
 			dbkl.center();
 		}
 
 	}
-	
-	
-	private class TeilhaberFromKontaktCallback implements AsyncCallback<Vector<Nutzer>>{
+
+	private class TeilhaberFromKontaktCallback implements AsyncCallback<Vector<Nutzer>> {
 
 		@Override
 		public void onFailure(Throwable caught) {
 			// TODO Auto-generated method stub
-			
+
 		}
 
 		@Override
@@ -332,28 +323,26 @@ public class KontaktForm extends VerticalPanel {
 			teilhaberCL.setKeyboardSelectionPolicy(KeyboardSelectionPolicy.DISABLED);
 			vpanelPopUp.add(teilInfo);
 			vpanelPopUp.add(teilhaberCL);
-			
-			Label lbl = new Label("Geteilt mit: "+result+"");
+
+			Label lbl = new Label("Geteilt mit: " + result + "");
 			PopUpInfo pop = new PopUpInfo();
 			pop.setWidget(vpanelPopUp);
 			pop.show();
 		}
 
-	
-		
 	}
-	private class DeleteKontaktCallback implements AsyncCallback<Void>{
+
+	private class DeleteKontaktCallback implements AsyncCallback<Void> {
 
 		@Override
 		public void onFailure(Throwable caught) {
 
-			
 		}
 
 		@Override
 		public void onSuccess(Void result) {
 
-			Window.alert("Sie haben den Kontakt erfolgreich gelöscht." );
+			Window.alert("Sie haben den Kontakt erfolgreich gelöscht.");
 			MainForm mf = new MainForm();
 			NavigationTree updatedTree = new NavigationTree();
 			RootPanel.get("Buttonbar").clear();
@@ -361,12 +350,34 @@ public class KontaktForm extends VerticalPanel {
 			RootPanel.get("Navigator").clear();
 			RootPanel.get("Details").add(mf);
 			RootPanel.get("Navigator").add(updatedTree);
-			
-			
+
 		}
-		 
+
 	}
-	 void setKktvw(KontaktlisteKontaktTreeViewModel kktvw) {
-			this.kktvw = kktvw;
+
+	class DeleteKontaktTeilhaberschaftCallback implements AsyncCallback<Void> {
+
+		@Override
+		public void onFailure(Throwable caught) {
+
 		}
+
+		@Override
+		public void onSuccess(Void result) {
+			Window.alert("Sie haben Ihre Teilhaberschaft erfolgreich gelöscht.");
+			MainForm mf = new MainForm();
+			NavigationTree updatedTree = new NavigationTree();
+			RootPanel.get("Buttonbar").clear();
+			RootPanel.get("Details").clear();
+			RootPanel.get("Navigator").clear();
+			RootPanel.get("Details").add(mf);
+			RootPanel.get("Navigator").add(updatedTree);
+
+		}
+
+	}
+
+	void setKktvw(KontaktlisteKontaktTreeViewModel kktvw) {
+		this.kktvw = kktvw;
+	}
 }
