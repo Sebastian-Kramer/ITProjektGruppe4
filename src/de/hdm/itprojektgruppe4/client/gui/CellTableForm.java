@@ -217,7 +217,6 @@ public class CellTableForm extends CellTable<EigenschaftAuspraegungWrapper> {
 	}
 
 
-
 	
 	public void addRow(String a, String b) {
 		EigenschaftAuspraegungWrapper wrapper = new EigenschaftAuspraegungWrapper();
@@ -293,6 +292,21 @@ public class CellTableForm extends CellTable<EigenschaftAuspraegungWrapper> {
 			return object.getEigenschaftValue();
 		}
 
+	}
+	
+	class ColumnKontaktName extends Column<EigenschaftAuspraegungWrapper, String>{
+		
+		public ColumnKontaktName(Cell<String> cell) {
+			super(cell);
+			// TODO Auto-generated constructor stub
+		}
+		
+		@Override
+		public String getValue(EigenschaftAuspraegungWrapper object) {
+			// TODO Auto-generated method stub
+			return null;
+		}
+		
 	}
 
 	class ColumnStatus extends Column<EigenschaftAuspraegungWrapper, String> {

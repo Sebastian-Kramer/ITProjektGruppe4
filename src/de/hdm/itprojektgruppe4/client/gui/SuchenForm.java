@@ -9,8 +9,12 @@ import com.google.gwt.cell.client.EditTextCell;
 import com.google.gwt.cell.client.FieldUpdater;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.event.dom.client.MouseOutEvent;
+import com.google.gwt.event.dom.client.MouseOutHandler;
 import com.google.gwt.user.cellview.client.CellTable;
 import com.google.gwt.user.cellview.client.Column;
+import com.google.gwt.user.cellview.client.RowHoverEvent;
+import com.google.gwt.user.cellview.client.RowHoverEvent.Handler;
 import com.google.gwt.user.client.Cookies;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
@@ -20,6 +24,7 @@ import com.google.gwt.user.client.ui.FlexTable;
 import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.MultiWordSuggestOracle;
+import com.google.gwt.user.client.ui.PopupPanel;
 import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwt.user.client.ui.SuggestBox;
 import com.google.gwt.user.client.ui.TextBox;
@@ -46,6 +51,8 @@ public class SuchenForm extends VerticalPanel {
 	private HTML HTMLForm = new HTML(
 			"Sie können auf dieser Seite nach Kontakten anhand von ihrem Namen suchen, "
 			+ "<br>oder indem Sie eine Eigenschaftsausprägung eingeben, welche der gesuchte Kontakt beinhaltet</br>");
+	private Label teilInfo = new Label("Die Ausprägung gehört zu folgendem Kontakt: ");
+	private Label teilInfo2 = new Label("");
 	
 	private TextBox tboxKontaktname = new TextBox();
 	
@@ -75,9 +82,13 @@ public class SuchenForm extends VerticalPanel {
 	
 	private VerticalPanel vpanel3 = new VerticalPanel();
 	
+	private VerticalPanel vpanelPopUp = new VerticalPanel();
+	
 	private MultiWordSuggestOracle  KontaktOracle = new MultiWordSuggestOracle();
 	
 	private SuggestBox suggestionKontaktBox = new SuggestBox(KontaktOracle);
+	
+	
 	
 	private MultiWordSuggestOracle  AuspraegungOracle = new MultiWordSuggestOracle();
 	final SingleSelectionModel<Kontakt> sm = new SingleSelectionModel<Kontakt>();
@@ -87,9 +98,13 @@ public class SuchenForm extends VerticalPanel {
 	private CellTableForm ctAus = null;
 	private ClickableTextCell bezeigenschaft = new ClickableTextCell();
 	private ClickableTextCell wertauspraegung = new ClickableTextCell();
+	private ClickableTextCell AusKontaktname = new ClickableTextCell();
 	private CellTableForm.ColumnEigenschaft bezEigenschaft = ctAus.new ColumnEigenschaft(bezeigenschaft);
 	private CellTableForm.ColumnAuspraegung wertAuspraegung = ctAus.new ColumnAuspraegung(wertauspraegung);
+	private CellTableForm.ColumnKontaktName kontaktname = ctAus.new ColumnKontaktName(AusKontaktname);
 			 
+	
+	
 	private Kontakt test = new Kontakt();
 	public SuchenForm(){
 	}
@@ -104,26 +119,41 @@ public class SuchenForm extends VerticalPanel {
 		
 		Column<Kontakt, String> kontaktname = new Column<Kontakt, String>(
 				new ClickableTextCell()) {
-
+		
 			@Override
 			public String getValue(Kontakt object) {
 				// TODO Auto-generated method stub
 				return object.getName();
 			}
-			
+		
 		};
 		
 		Column<EigenschaftAuspraegungWrapper, String> kontaktnameAuspraegung = new Column<EigenschaftAuspraegungWrapper, String>(
 				new ClickableTextCell()){
-
+		
 					@Override
 					public String getValue(EigenschaftAuspraegungWrapper object) {
 						// TODO Auto-generated method stub
-						String a = new String();
 //						verwaltung.findEinenKontaktByAuspraegungID(object.getAuspraegungID(), new KontaktNameCallback());
-						return a;
+						final Kontakt kk = new Kontakt();
+						verwaltung.findKontaktByID(object.getAuspraegungKontaktID(),new AsyncCallback<Kontakt>() {
+
+							@Override
+							public void onFailure(Throwable caught) {
+								// TODO Auto-generated method stub
+								Window.alert("fail");
+							}
+
+							@Override
+							public void onSuccess(Kontakt result) {
+								// TODO Auto-generated method stub
+								Window.alert(""+result.getName());
+								kk.setName(result.getName());
+							}
+						});
+						return kk.getName();
 					}
-			
+		
 		};
 		
 		
@@ -179,32 +209,82 @@ public class SuchenForm extends VerticalPanel {
 		KontaktKontaktAnzeigenButton.addClickHandler(new KontaktKontaktAnzeigenHandler());
 		AuspraegungKontaktAnzeigenButton.addClickHandler(new AuspraegungKontaktAnzeigenHandler());
 		
+		
+		
+		ctAus.addRowHoverHandler(new Handler() {
+			
+			@Override
+			public void onRowHover(RowHoverEvent event) {
+				// TODO Auto-generated method stub
+				int id;
+				id = ssm.getSelectedObject().getAuspraegungKontaktID();
+				verwaltung.findKontaktByID(id,new KontaktHoverCallback());
+			}
+		});
 	}
 	
-//	class KontaktNameCallback implements AsyncCallback<String>{
-//
-//		@Override
-//		public void onFailure(Throwable caught) {
-//			// TODO Auto-generated method stub
-//			
-//		}
-//
-//		@Override
-//		public void onSuccess(String result) {
-//			// TODO Auto-generated method stub
-//			Window.alert(""+result);
-//			ctAus.getColumn(3).setFieldUpdater(new FieldUpdater<EigenschaftAuspraegungWrapper, String>() {
-//
-//				@Override
-//				public void update(int index, EigenschaftAuspraegungWrapper object, String value) {
-//					// TODO Auto-generated method stub
-//					
-//				}
-//				
-//			});
-//		}
-//		
-//	}
+	
+	
+	private class PopUpInfo extends PopupPanel {
+		
+		public PopUpInfo(){
+			
+			super(true);
+			
+			addDomHandler(new MouseOutHandler() {
+				
+				@Override
+				public void onMouseOut(MouseOutEvent event) {
+					// TODO Auto-generated method stub
+					hide();
+				}
+			}, MouseOutEvent.getType());
+			
+			setPopupPosition(ctAus.getAbsoluteLeft(), ctAus.getAbsoluteTop());
+			
+		}
+		
+	}
+	
+	class KontaktHoverCallback implements AsyncCallback<Kontakt>{
+
+		@Override
+		public void onFailure(Throwable caught) {
+			// TODO Auto-generated method stub
+			
+		}
+
+		@Override
+		public void onSuccess(Kontakt result) {
+			// TODO Auto-generated method stub
+			teilInfo2.setText(result.getName());
+			vpanelPopUp.add(teilInfo);
+			vpanelPopUp.add(teilInfo2);
+			PopUpInfo pop = new PopUpInfo();
+			pop.setWidget(vpanelPopUp);
+			pop.show();
+		}
+		
+	}
+	
+	
+	class KontaktNameCallback implements AsyncCallback<Kontakt>{
+
+		@Override
+		public void onFailure(Throwable caught) {
+			// TODO Auto-generated method stub
+			
+		}
+
+		@Override
+		public void onSuccess(Kontakt result) {
+			// TODO Auto-generated method stub
+			Window.alert(""+result);
+//			kk.setName(result.getName());
+			
+		}
+		
+	}
 	
 	
 	class AuspraegungKontaktAnzeigenHandler implements ClickHandler{
@@ -213,7 +293,7 @@ public class SuchenForm extends VerticalPanel {
 		public void onClick(ClickEvent event) {
 			// TODO Auto-generated method stub
 			
-			
+			AuspraegungKontaktAnzeigenButton.setText("");
 			KontaktKontaktAnzeigenButton.setVisible(false);
 			EigenschaftAuspraegungWrapper eigaus = new EigenschaftAuspraegungWrapper();
 	
@@ -232,6 +312,7 @@ public class SuchenForm extends VerticalPanel {
 		@Override
 		public void onClick(ClickEvent event) {
 			// TODO Auto-generated method stub
+			KontaktKontaktAnzeigenButton.setText("");
 			Kontakt selected = sm.getSelectedObject();
 			KontaktForm kf = new KontaktForm(selected);
 			RootPanel.get("Details").clear();
