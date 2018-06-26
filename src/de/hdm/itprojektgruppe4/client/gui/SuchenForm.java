@@ -25,6 +25,7 @@ import com.google.gwt.view.client.SingleSelectionModel;
 import de.hdm.itprojektgruppe4.client.ClientsideSettings;
 import de.hdm.itprojektgruppe4.client.EigenschaftAuspraegungWrapper;
 import de.hdm.itprojektgruppe4.shared.KontaktAdministrationAsync;
+import de.hdm.itprojektgruppe4.shared.bo.Eigenschaft;
 import de.hdm.itprojektgruppe4.shared.bo.Kontakt;
 import de.hdm.itprojektgruppe4.shared.bo.Nutzer;
 
@@ -167,7 +168,7 @@ public class SuchenForm extends VerticalPanel {
 		
 		KontaktKontaktAnzeigenButton.addClickHandler(new KontaktKontaktAnzeigenHandler());
 		AuspraegungKontaktAnzeigenButton.addClickHandler(new AuspraegungKontaktAnzeigenHandler());
-
+		verwaltung.findAllKontaktFromNutzer(nutzer.getID(), new  AllKontakteCallBack());
 	}
 
 	/**
@@ -359,6 +360,29 @@ public class SuchenForm extends VerticalPanel {
 				
 		}
 	}
+	
+	class AllKontakteCallBack implements AsyncCallback<Vector<Kontakt>> {
+
+		@Override
+		public void onFailure(Throwable caught) {
+			// TODO Auto-generated method stub
+		}
+
+		@Override
+		public void onSuccess(Vector<Kontakt> result) {
+			// TODO Auto-generated method stub
+	
+			
+			for (Kontakt kontakt : result) {
+				
+				KontaktOracle.add(kontakt.getName());
+			}
+			
+			
+			}
+		}
+	
+	
 }
 	
 	
