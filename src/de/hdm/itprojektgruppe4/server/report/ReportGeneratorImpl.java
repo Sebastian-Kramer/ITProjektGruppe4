@@ -25,16 +25,33 @@ import de.hdm.itprojektgruppe4.shared.report.Report;
 import de.hdm.itprojektgruppe4.shared.report.Row;
 import de.hdm.itprojektgruppe4.shared.report.SimpleParagraph;
 
+/*
+ * Implementierung des ReportGenerator-Interface
+ */
+
 public class ReportGeneratorImpl extends RemoteServiceServlet implements ReportGenerator {
 
 	private static final long serialVersionUID = 1L;
-
+	
+	
+/*
+ * Der Report benötigt den Zugriff auf die Administration 
+ */
 	private KontaktAdministration verwaltung = null;
 
+	/*
+	 * NO-Argument-Konstruktor 
+	 */
+	
 	public ReportGeneratorImpl() throws IllegalArgumentException {
 
 	}
 
+	
+/*
+ * Initialisierung des Objekts. Diese Methode ist vor dem Hintergrund von
+ * GWT RPC zusätzlich zum No Argument Constructor notwendig.
+ */
 	public void init() throws IllegalArgumentException {
 
 		KontaktAdministrationImpl k = new KontaktAdministrationImpl();
@@ -42,11 +59,19 @@ public class ReportGeneratorImpl extends RemoteServiceServlet implements ReportG
 		this.verwaltung = k;
 
 	}
-
+	
+	/*
+	 * Auslesen der Administration 
+	 */
 	protected KontaktAdministration getAdministration() {
 		return this.verwaltung;
 	}
 
+	/*
+	 * Diese Methode soll den Reportgenerator ein Impressum hinzufügen
+	 * 
+	 * @param r
+	 */
 	protected void addImprint(Report r) {
 
 		CompositeParagraph imprint = new CompositeParagraph();
