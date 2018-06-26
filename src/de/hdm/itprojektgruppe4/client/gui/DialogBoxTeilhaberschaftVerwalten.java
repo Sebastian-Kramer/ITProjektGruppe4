@@ -74,7 +74,7 @@ public class DialogBoxTeilhaberschaftVerwalten extends DialogBox {
 		html1 = new HTML("Diese <b> Nutzer </b> haben eine <b> Teilhaberschaft </b> an der Kontaktliste");
 
 		/*
-		 * Ist der angemeldete User Eigentuemer der gew�hlten Kontaktliste,
+		 * Ist der angemeldete User Eigentuemer der gewählten Kontaktliste,
 		 * werden alle Teilhaber der Kontaktliste der Celllist hinzugef�gt. Der
 		 * Eigentuemer soll in der Lage sein, jegliche Teilhaberschaften an
 		 * einer Kontaktliste aufzul�sen.
@@ -85,7 +85,7 @@ public class DialogBoxTeilhaberschaftVerwalten extends DialogBox {
 		 * Celllist hizugefuegt. Hierzu dient der Aufruf der Methode
 		 * <code>findSharedWithNutzer</code>
 		 */
-		if (nutzer.getID() == k.getID()) {
+		if (nutzer.getID() == k.getNutzerID()) {
 			kontaktVerwaltung.findAllTeilhaberFromKontaktliste(k.getID(), new TeilhaberVonKontaktliste());
 			dataProvider.addDataDisplay(nutzerList);
 		} else {
@@ -98,7 +98,7 @@ public class DialogBoxTeilhaberschaftVerwalten extends DialogBox {
 		teilhaberschaftAufloesen.addClickHandler(new TeilhaberschaftAufloesenClickhandler());
 
 		// Anordnen der Buttons und der Celllist mithilfe einer Flextable und
-		// anschlie�endes Hinzufuegen der Flextable zum VerticalPanel
+		// anschließendes Hinzufuegen der Flextable zum VerticalPanel
 
 	}
 
@@ -163,9 +163,6 @@ public class DialogBoxTeilhaberschaftVerwalten extends DialogBox {
 	/**
 	 * Callback - Klasse um alle Teilhaberschaften an einer Ausprägung in die
 	 * Celllist zu speichern.
-	 * 
-	 * @author Sebi_0107
-	 *
 	 */
 	private class AllTeilhaberschaften implements AsyncCallback<Vector<Nutzer>> {
 
@@ -205,7 +202,7 @@ public class DialogBoxTeilhaberschaftVerwalten extends DialogBox {
 	 * asynchrone Callback-Methode
 	 * <code>deleteTeilhaberschaftByTeilhaberID</code> wird aufgerufen, um die
 	 * Teilhaberschaft anhand der ID des gew�hlten Nutzer-Objekts zu entfernen.
-	 * Aschlie�end wird die DialogBox geschlossen.
+	 * Anschließend wird die DialogBox geschlossen.
 	 */
 	private class TeilhaberschaftAufloesenClickhandler implements ClickHandler {
 

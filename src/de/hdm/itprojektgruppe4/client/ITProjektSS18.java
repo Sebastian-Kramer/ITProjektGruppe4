@@ -77,6 +77,7 @@ public class ITProjektSS18 implements EntryPoint {
 
 			@Override
 			public void onFailure(Throwable caught) {
+				
 				Window.alert("Nutzer konnte nicht aus der Datenbank gelsesen werden." + " Daher wird "
 						+ finalLog.getEmailAddress() + "angelegt");
 
@@ -147,10 +148,16 @@ public class ITProjektSS18 implements EntryPoint {
 	}
 
 	/*
+<<<<<<< HEAD
 	 * Meldet sich ein Nutzer neu auf der Plattform an, sollwn sofort die
-	 * Kontaktlisten "Meine Kontakte" und "Meine geteilten Kontakte" erstellt
+	 * Kontaktlisten "Meine Kontakte" und "Mit mir geteilte Kontakte" erstellt
 	 * werden. Hierfür wird diese Callback-Klasse benötigt. Die Kontaktlisten
 	 * stellen Standardkontaktliste da.
+=======
+	 * Meldet sich ein Nutzer neu auf der Plattform an, sollwe sofort die
+	 * Kontaktlisten "Meine Kontakte" und "Mit mir geteilte Kontakte" erstellt werden. Hierfür wird diese
+	 * Callback-Klasse benötigt. Die Kontaktlisten stellen Standardkontaktliste dar.
+>>>>>>> refs/heads/Raphael
 	 */
 	private class MeineKontakteAnlegen implements AsyncCallback<Kontaktliste> {
 
@@ -161,7 +168,7 @@ public class ITProjektSS18 implements EntryPoint {
 
 		@Override
 		public void onSuccess(Kontaktliste result) {
-			verwaltung.insertKontaktliste("Meine geteilten Kontakte", 0, n.getID(), new GeteilteKontakteAnlegen());
+			verwaltung.insertKontaktliste("Mit mir geteilte Kontakte", 0, n.getID(), new GeteilteKontakteAnlegen());
 
 		}
 
@@ -174,8 +181,8 @@ public class ITProjektSS18 implements EntryPoint {
 			MainForm mf = new MainForm();
 			NavigationTree nf = new NavigationTree();
 			RootPanel.get("Buttonbar").clear();
-			RootPanel.get("Navigator").clear();
 			RootPanel.get("Details").clear();
+			RootPanel.get("Navigator").clear();
 			RootPanel.get("Details").add(mf);
 			RootPanel.get("Navigator").add(nf);
 		}

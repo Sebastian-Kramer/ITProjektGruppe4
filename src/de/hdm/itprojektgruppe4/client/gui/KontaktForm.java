@@ -90,6 +90,7 @@ public class KontaktForm extends VerticalPanel {
 	private Image bearbeitenPic = new Image("Image/Bearbeiten.png");
 	private Image konZuListPic = new Image("Image/Kontakt_Zu_Liste.png");
 	private Image zurueckZuHome = new Image("Image/Startseite.png");
+	private Image teilVerwaltenPic = new Image("Image/Teilen.png");
 	
 	public KontaktForm(Kontakt k) {
 		this.k = k;
@@ -134,6 +135,7 @@ public class KontaktForm extends VerticalPanel {
 		bearbeitenPic.setStyleName("ButtonICON");
 		konZuListPic.setStyleName("ButtonICON");
 		zurueckZuHome.setStyleName("ButtonICON");
+		teilVerwaltenPic.setStyleName("ButtonICON");
 
 		HTML html1 = new HTML("<h2>" + k.getName() + "</h2>");
 		HTML html2 = new HTML("Erstellt am: " + fmt.format(k.getErzeugungsdatum()));
@@ -175,6 +177,7 @@ public class KontaktForm extends VerticalPanel {
 		bearbeitenButton.getElement().appendChild(bearbeitenPic.getElement());
 		kontaktListehinzufuegen.getElement().appendChild(konZuListPic.getElement());
 		zurueckBtn.getElement().appendChild(zurueckZuHome.getElement());
+		kontaktTeilen.getElement().appendChild(teilVerwaltenPic.getElement());
 		loeschenButton.addClickHandler(new ClickLoeschenHandler());
 		zurueckBtn.addClickHandler(new ClickZurueckHandler());
 		bearbeitenButton.addClickHandler(new ClickearbeitenHandler());

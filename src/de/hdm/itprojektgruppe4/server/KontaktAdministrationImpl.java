@@ -248,7 +248,7 @@ public class KontaktAdministrationImpl extends RemoteServiceServlet implements K
 		Kontakt kon = this.findKontaktByID(k.getID());
 		Nutzer teilNutzer = this.findNutzerByID(n.getID());
 		this.deleteKontaktKontaktlisteByKontaktIDAndByKListID(kon.getID(),
-				this.findKontaktliste(teilNutzer.getID(), "Meine geteilten Kontakte").getID());
+				this.findKontaktliste(teilNutzer.getID(), "Mit mir geteilte Kontakte").getID());
 
 		if (this.findTeilhaberschaftByKontaktID(kon.getID()).size() < 1) {
 			kon.setID(0);
@@ -515,7 +515,7 @@ public class KontaktAdministrationImpl extends RemoteServiceServlet implements K
 		// Vector, in dem die gesuchten Nutzer-Objekte gespeichert werden sollen
 		Vector<Nutzer> nutzerVector = new Vector<Nutzer>();
 		// Vector mit saemtlichen Teilhaberschaften an einer Kontaktliste
-		Vector<Teilhaberschaft> teilhabe = teilhaberschaftMapper.findTeilhaberschaftByKontaktlisteID(kontaktlisteID);
+		Vector<Teilhaberschaft> teilhabe = this.findTeilhaberschaftByKontaktlisteID(kontaktlisteID);
 
 		/*
 		 * Jedes Teilhaberschaft-Objekt wird ausgelesen und mit Hilfe der
@@ -1112,11 +1112,11 @@ public class KontaktAdministrationImpl extends RemoteServiceServlet implements K
 		// TODO Auto-generated method stub
 		Kontaktliste konliste = this.konlistMapper.findKontaktlistebyID(k.getID());
 
-		if (konliste.getBez().equals("Meine Kontakte") || konliste.getBez().equals("Meine geteilten Kontakte")) {
+		if (konliste.getBez().equals("Meine Kontakte") || konliste.getBez().equals("Mit mir geteilte Kontakte")) {
 
 			return null;
 
-		} else if ((k.getBez().equals("Meine Kontakte") || k.getBez().equals("Meine geteilten Kontakte"))) {
+		} else if ((k.getBez().equals("Meine Kontakte") || k.getBez().equals("Mit mir geteilte Kontakte"))) {
 
 			return null;
 		}
@@ -1147,7 +1147,7 @@ public class KontaktAdministrationImpl extends RemoteServiceServlet implements K
 				.findTeilhaberschaftByKontaktlisteID(kliste.getID());
 		Kontaktliste konliste = this.konlistMapper.findKontaktlistebyID(kliste.getID());
 
-		if (konliste.getBez().equals("Meine Kontakte") || konliste.getBez().equals("Meine geteilten Kontakte")) {
+		if (konliste.getBez().equals("Meine Kontakte") || konliste.getBez().equals("Mit mir geteilte Kontakte")) {
 
 		} else {
 
@@ -1456,7 +1456,7 @@ public class KontaktAdministrationImpl extends RemoteServiceServlet implements K
 			this.updateKontaktliste(kl);
 		}
 
-		if (kl.getBez().equals("Meine Kontakte") || kl.getBez().equals("Meine geteilten Kontakte")) {
+		if (kl.getBez().equals("Meine Kontakte") || kl.getBez().equals("Mit mir geteilte Kontakte")) {
 			return null;
 		}
 		Teilhaberschaft t = new Teilhaberschaft();
@@ -1498,7 +1498,7 @@ public class KontaktAdministrationImpl extends RemoteServiceServlet implements K
 
 		for (Kontaktliste kl : allListsFromTeilNutzer) {
 
-			if (kl.getBez().equals("Meine geteilten Kontakte")) {
+			if (kl.getBez().equals("Mit mir geteilte Kontakte")) {
 				this.insertKontaktKontaktliste(k.getID(), kl.getID());
 				k.setStatus(1);
 				this.updateKontakt(k);
@@ -1546,7 +1546,7 @@ public class KontaktAdministrationImpl extends RemoteServiceServlet implements K
 
 		for (Kontaktliste kl : allListsFromTeilNutzer) {
 
-			if (kl.getBez().equals("Meine geteilten Kontakte")) {
+			if (kl.getBez().equals("Mit mir geteilte Kontakte")) {
 
 				if (this.findKontaktKontaktlisteByKontaktIDAndKlisteID(k.getID(), kl.getID()).getID() < 1) {
 					this.insertKontaktKontaktliste(k.getID(), kl.getID());
@@ -1760,7 +1760,7 @@ public class KontaktAdministrationImpl extends RemoteServiceServlet implements K
 		
 		Kontakt k = this.findKontaktByID(kontaktID);
 		Nutzer teilhaber = this.findNutzerByID(teilhaberID);
-		Kontaktliste kList = this.konlistMapper.findKontaktliste(teilhaber.getID(), "Meine geteilten Kontakte");
+		Kontaktliste kList = this.konlistMapper.findKontaktliste(teilhaber.getID(), "Mit mir geteilte Kontakte");
 		this.teilhaberschaftMapper.deleteTeilhaberschaftByKontaktIDAndNutzerID(k.getID(), teilhaber.getID());
 		
 		this.deleteKontaktKontaktlisteByKontaktIDAndByKListID(k.getID(), kList.getID());
@@ -2053,7 +2053,7 @@ public class KontaktAdministrationImpl extends RemoteServiceServlet implements K
 		for (Kontaktliste kontaktliste : alleListen) {
 
 			if (kontaktliste.getBez().equals("Meine Kontakte")
-					|| kontaktliste.getBez().equals("Meine geteilten Kontakte")) {
+					|| kontaktliste.getBez().equals("Mit mir geteilte Kontakte")) {
 
 				alleListen.remove(kontaktliste);
 
@@ -2256,7 +2256,7 @@ public class KontaktAdministrationImpl extends RemoteServiceServlet implements K
 		//Wenn eine Kontaktliste in beiden Vectoren vorkommt, wird diese dem Vector mit den zu entfernenden Kontaktlisten hinzugefügt
 		for(Kontaktliste liste : listenVonNutzer){
 			//Die Standardkontaklisten sollen ebenfalls nicht angezeigt werden, da die Kontakte hier automatisch hinzugefügt werden
-			if(liste.getBez().equals("Meine Kontakte") || liste.getBez().equals("Meine geteilten Kontakte")){
+			if(liste.getBez().equals("Meine Kontakte") || liste.getBez().equals("Mit mir geteilte Kontakte")){
 				zuEntfernendeKontaktlisten.add(liste);
 			}
 			for(Kontaktliste liste2 : listenVonKontakt){

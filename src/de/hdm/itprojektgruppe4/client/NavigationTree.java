@@ -14,7 +14,7 @@ public class NavigationTree extends VerticalPanel {
 
 		CellTree navigationTree = new CellTree(kontaktNavigationTree, null);
 
-		HTML html = new HTML("<h2>Meine Kontaktlisten</h2>");
+		HTML html = new HTML("<h1>Meine Kontaktlisten</h1>");
 
 		this.add(html);
 		this.add(navigationTree);

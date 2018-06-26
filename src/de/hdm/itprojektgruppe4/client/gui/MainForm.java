@@ -48,11 +48,9 @@ public class MainForm extends VerticalPanel {
 	private Button newKontakt = new Button("Neuen Kontakt anlegen");
 	private Button newKontaktliste = new Button("Neue Kontaktliste anlegen");
 	private Button suchen = new Button("Suchen");
-	private HTML greetHTML1 = new HTML("<h2>MyContacts<h2>");
 	private HTML greetHTML2 = new HTML(
-			"Herzlich Willkommen auf <b>MyContacts</b>, " + "<br>Ihrer <b>Kontaktverwaltung</b>. "
-					+ "<br> Hier können Sie neue Kontakte anlegen, " + "<br> diese in verschiedene Listen organisieren"
-					+ "<br> und sowohl die einzelnen Kontakte und Kontaktlisten mit anderen Nutzern teilen.");
+			"Herzlich Willkommen auf <b>WYNWYN</b>, Ihrer <b>Kontaktverwaltung</b>. "
+					+ "<br> Hier können Sie neue Kontakte anlegen, diese in verschiedene Listen organisieren und sowohl Kontakte als auch Kontaktlisten mit anderen Nutzern teilen.");
 
 	private HTML html1 = new HTML("<h2>Alle meine Kontakte</h2>");
 
@@ -68,10 +66,7 @@ public class MainForm extends VerticalPanel {
 	public MainForm() {
 
 		html1.setStyleName("ÜberschriftMainForm");
-		greetHTML1.setStyleName("ÜberschriftMyContacts");
 		greetHTML2.setStyleName("BegrueßungsText");
-		startImage.setStyleName("Startbild");
-		startImage.setUrl("Image/Startbild.png");
 		hpanelDetails.setStyleName("HPanel");
 		newKonPic.setStyleName("ButtonICON");
 		newKonlistPic.setStyleName("ButtonICON");
@@ -103,12 +98,12 @@ public class MainForm extends VerticalPanel {
 		RootPanel.get("Buttonbar").add(newKontakt);
 		RootPanel.get("Buttonbar").add(suchen);
 
-		anordnung.setWidget(1, 0, greetHTML2);
-		anordnung.setWidget(0, 1, html1);
-		anordnung.setWidget(1, 1, scrollPanel);
+		anordnung.setWidget(0, 0, greetHTML2);
+		anordnung.setWidget(1, 0, html1);
+		anordnung.setWidget(2, 0, scrollPanel);
 
 		hpanelDetails.add(startImage);
-		hpanelDetails.add(greetHTML1);
+		
 		
 		vpanelDetails.add(hpanelDetails);
 		vpanelDetails.add(anordnung);
