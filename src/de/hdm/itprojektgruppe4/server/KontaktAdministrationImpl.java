@@ -1434,22 +1434,6 @@ public class KontaktAdministrationImpl extends RemoteServiceServlet implements K
 		//anhand der E-Mail wird der entsprechende Nutzer ausgelesen
 		Nutzer n = this.findNutzerByEmail(email);
 		Kontaktliste kl = this.konlistMapper.findKontaktlistebyID(kontaktlisteID);
-		Vector<KontaktKontaktliste> kkl = this.kontaktKontaktlisteMapper.findKontaktKontaktlisteByKontaktlisteID(kl.getID());
-		
-		for(KontaktKontaktliste kk : kkl){
-			Kontakt k = this.findKontaktByID(kk.getKontaktID());
-			this.insertTeilhaberschaftKontakt(k.getID(), n.getID(), nutzerID);
-			k.setStatus(1);
-			this.updateKontakt(k);
-			
-			Vector<Eigenschaftauspraegung> allAus = this.getAuspraegungByKontaktID(k.getID());
-			for(Eigenschaftauspraegung e : allAus){
-				this.insertTeilhaberschaftAuspraegung(e.getID(), n.getID(), nutzerID);
-				Eigenschaftauspraegung ea = this.getAuspraegungByID(e.getID());
-				ea.setStatus(1);
-				this.updateAuspraegung(ea);
-			}
-		}
 		
 		//Ist der Status der zu teilenden Kontaktliste auf 0(= nicht geteilt) wird der Status auf 1 (=geteilt) gesetzt
 		if(kl.getStatus() == 0){
@@ -1595,7 +1579,7 @@ public class KontaktAdministrationImpl extends RemoteServiceServlet implements K
 
 	@Override
 	public Teilhaberschaft findByID(int id) throws IllegalArgumentException {
-		// TODO Auto-generated method stub
+	
 		return this.teilhaberschaftMapper.findByID(id);
 	}
 	
@@ -1818,29 +1802,13 @@ public class KontaktAdministrationImpl extends RemoteServiceServlet implements K
 			throws IllegalArgumentException {
 		Nutzer teilhaber = this.findNutzerByID(teilhaberID);
 		Kontaktliste kla = this.findKontaktlisteByID(kontaktlisteID);
-		deleteTeilhaberschaftByTeilhaberID(teilhaberID);
+		this.teilhaberschaftMapper.deleteTeilhaberschaftByKontaktlisteIDAndTeilhaberID(kla.getID(), teilhaber.getID());
+		
 		Vector<Teilhaberschaft> teilhaben = findTeilhaberschaftByKontaktlisteID(kontaktlisteID);
 		if (teilhaben.isEmpty()) {
 			Kontaktliste kl = findKontaktlisteByID(kontaktlisteID);
 			kl.setStatus(0);
 			updateKontaktliste(kl);
-		}
-		Vector<KontaktKontaktliste> kkl = this.kontaktKontaktlisteMapper
-				.findKontaktKontaktlisteByKontaktlisteID(kla.getID());
-
-		for (KontaktKontaktliste kk : kkl) {
-			Kontakt k = this.findKontaktByID(kk.getKontaktID());
-			this.teilhaberschaftMapper.deleteTeilhaberschaftByKontaktIDAndNutzerID(k.getID(), teilhaberID);
-			k.setStatus(0);
-			this.updateKontakt(k);
-			
-			Vector<Eigenschaftauspraegung> allAus = this.getAuspraegungByKontaktID(k.getID());
-			for(Eigenschaftauspraegung e : allAus){
-				this.teilhaberschaftMapper.deleteEigenschaftsauspraegungFromTeilhaberschaft(e, teilhaber);
-				Eigenschaftauspraegung ea = this.getAuspraegungByID(e.getID());
-				ea.setStatus(0);
-				this.updateAuspraegung(ea);
-			}
 		}
 		
 	}

@@ -6,6 +6,7 @@ import java.util.Map;
 import java.util.Vector;
 
 import com.google.gwt.user.client.Cookies;
+import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwt.view.client.ListDataProvider;
@@ -36,6 +37,8 @@ public class KontaktlisteKontaktTreeViewModel implements TreeViewModel {
 	private ListDataProvider<Kontaktliste> kontaktlisteDataProvider = null;
 
 	private Map<Kontaktliste, ListDataProvider<Kontakt>> kontaktDataProvider = null;
+	
+	private Vector<Teilhaberschaft> th = new Vector<Teilhaberschaft>();
 
 	/**
 	 * Diese Nested Class soll den BusinessObjects im Baum eindeutige Schl�ssel
@@ -65,11 +68,11 @@ public class KontaktlisteKontaktTreeViewModel implements TreeViewModel {
 
 	/**
 	 * Nested Class fuer das Setzen von Selektionsereignissen. Ist das
-	 * ausgew�hlte Objekt in der Baumstruktur ein Objekt vom Typ Kontaktliste,
-	 * wird die <code>KontaktlisteForm</code> ge�ffnet, die die Verwaltung und
-	 * Bearbeitung der Kontaktliste erm�glicht. Ist das selektierte Objekt vom
-	 * Typ Kontakt, wird die <code>KontaktForm</code> ge�ffnet, die die
-	 * Verwaltung und Bearbeitung eines Kontakte erm�glicht.
+	 * ausgewählte Objekt in der Baumstruktur ein Objekt vom Typ Kontaktliste,
+	 * wird die <code>KontaktlisteForm</code> geöffnet, die die Verwaltung und
+	 * Bearbeitung der Kontaktliste ermöglicht. Ist das selektierte Objekt vom
+	 * Typ Kontakt, wird die <code>KontaktForm</code> geöffnet, die die
+	 * Verwaltung und Bearbeitung eines Kontakte ermöglicht.
 	 * 
 	 * @author Raphael
 	 *
@@ -78,30 +81,54 @@ public class KontaktlisteKontaktTreeViewModel implements TreeViewModel {
 
 		@Override
 		public void onSelectionChange(SelectionChangeEvent event) {
+			
 			BusinessObject selection = selectionModel.getSelectedObject();
-			Kontakt k = new Kontakt();
 			if (selection instanceof Kontaktliste) {
 				setSelectedKontaktliste((Kontaktliste) selection);
 				RootPanel.get("Details").clear();
 				RootPanel.get("Details").add(new KontaktlisteForm(getSelectedKontaktliste()));
 
-			} else if (selection instanceof Kontakt) {
-				k = ((Kontakt) selection);
-
+			} else if (selection instanceof Kontakt) {			
+				
 				if (((Kontakt) selection).getNutzerID() == nutzer.getID()) {
-					KontaktForm kf = new KontaktForm(k);
+					KontaktForm kf = new KontaktForm(((Kontakt) selection));
 					RootPanel.get("Details").clear();
 					RootPanel.get("Details").add(kf);
-				} else {
-					KontaktForm kf = new KontaktForm(k, "Teilhaberschaft");
-					RootPanel.get("Details").clear();
-					RootPanel.get("Details").add(kf);
+				
+				}else{
+					selectedKontakt = ((Kontakt) selection);
+					kontaktVerwaltung.findTeilhaberschaftByKontaktIDAndTeilhaberID(((Kontakt) selection).getID(), nutzer.getID(), new TeilhaberschaftKontaktCallback());
 				}
-
+				
 			}
 
 		}
 
+	}
+	
+	class TeilhaberschaftKontaktCallback implements AsyncCallback<Vector<Teilhaberschaft>>{
+
+		@Override
+		public void onFailure(Throwable caught) {
+			
+			
+		}
+
+		@Override
+		public void onSuccess(Vector<Teilhaberschaft> result) {
+			if (selectedKontakt.getNutzerID() != nutzer.getID() && th.isEmpty() && selectedKontakt.getStatus() == 0){
+				KontaktForm kf = new KontaktForm(selectedKontakt, 1);
+				RootPanel.get("Details").clear();
+				RootPanel.get("Details").add(kf);
+			}else{
+				KontaktForm kf = new KontaktForm(selectedKontakt, "Teilhaberschaft");
+				RootPanel.get("Details").clear();
+				RootPanel.get("Details").add(kf);
+			}
+
+			
+		}
+		
 	}
 
 	/*
