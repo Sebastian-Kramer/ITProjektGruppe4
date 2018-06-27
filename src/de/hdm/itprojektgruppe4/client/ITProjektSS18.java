@@ -41,6 +41,10 @@ public class ITProjektSS18 implements EntryPoint {
 	Nutzer n = new Nutzer();
 
 	LoginServiceAsync loginService = GWT.create(LoginService.class);
+	/**
+	 * Administration wird instanziiert um dessen Methoden zu verwenden 
+	 */
+	
 	private static KontaktAdministrationAsync verwaltung = ClientsideSettings.getKontaktVerwaltung();
 
 	private static String editorHtmlName = "ITProjektSS18.html";
