@@ -318,6 +318,14 @@ td {
 	width: 200px;
 }
 
+td#tdEigenschaftReport{
+	text-align: left;
+}
+
+td#tdAuspraegungReport{
+	text-align: right;
+}
+
 div#Linie {
 	width: 100%;
 	text-align: middle;

@@ -38,7 +38,7 @@ public class Nutzer extends Person{
 	
 	@Override
 	public String toString() {
-		return "Nutzer [email=" + email + "]";
+		return this.getEmail();
 	}
 
 	

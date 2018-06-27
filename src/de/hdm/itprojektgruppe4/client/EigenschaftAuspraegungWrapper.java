@@ -1,6 +1,7 @@
 package de.hdm.itprojektgruppe4.client;
 
 import java.io.Serializable;
+import java.util.Vector;
 
 import de.hdm.itprojektgruppe4.shared.bo.Eigenschaft;
 import de.hdm.itprojektgruppe4.shared.bo.Eigenschaftauspraegung;
@@ -114,7 +115,7 @@ public class EigenschaftAuspraegungWrapper implements Serializable {
 	}
 	
 	public String toString(){
-		return "<table><tr><td>"+this.eigenschaft.getBezeichnung() + ": " + this.auspraegung.getWert() +"</td></tr></table>";
+		return "<table id =" + "'tableReport'" + "><tr><td id = 'tdEigenschaftReport'>" + this.eigenschaft.getBezeichnung() + ": " + "</td><td id = 'tdAuspraegungReport'>" + this.auspraegung.getWert() +"</td></tr></table>";
 				
 	}
 

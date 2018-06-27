@@ -8,8 +8,9 @@ import com.google.gwt.user.client.Cookies;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.HTML;
-import com.google.gwt.user.client.ui.ListBox;
+import com.google.gwt.user.client.ui.MultiWordSuggestOracle;
 import com.google.gwt.user.client.ui.RootPanel;
+import com.google.gwt.user.client.ui.SuggestBox;
 import com.google.gwt.user.client.ui.VerticalPanel;
 
 import de.hdm.itprojektgruppe4.client.ClientsideSettings;
@@ -21,8 +22,8 @@ import de.hdm.itprojektgruppe4.shared.report.KontakteMitBestimmterTeilhaberschaf
 public class TeilhaberschaftFormReport extends VerticalPanel {
 
 	private static ReportGeneratorAsync reportverwaltung = ClientsideSettings.getReportVerwaltung();
-
-	private ListBox nutzerListe = new ListBox();
+	private MultiWordSuggestOracle nutzerOracle = new MultiWordSuggestOracle();
+	private SuggestBox nutzerBox = new SuggestBox(nutzerOracle);
 
 	private Button reportAnzeigen = new Button("Kontakte anzeigen");
 
@@ -33,7 +34,7 @@ public class TeilhaberschaftFormReport extends VerticalPanel {
 	public void onLoad() {
 		super.onLoad();
 
-		nutzerListe.setPixelSize(245, 35);
+		nutzerBox.setPixelSize(245, 35);
 
 		nutzer.setID(Integer.parseInt(Cookies.getCookie("id")));
 		nutzer.setEmail(Cookies.getCookie("email"));
@@ -41,22 +42,22 @@ public class TeilhaberschaftFormReport extends VerticalPanel {
 		RootPanel.get("Details").clear();
 		RootPanel.get("Buttonbar").clear();
 
-		RootPanel.get("Buttonbar").add(nutzerListe);
+		RootPanel.get("Buttonbar").add(nutzerBox);
 		RootPanel.get("Buttonbar").add(reportAnzeigen);
 
 		reportverwaltung.allNutzerReport(new AllNutzerCallback());
 		reportAnzeigen.addClickHandler(new NutzerlisteClickHandler());
 
 	}
-	
-	class NutzerlisteClickHandler implements ClickHandler{
+
+	class NutzerlisteClickHandler implements ClickHandler {
 
 		@Override
 		public void onClick(ClickEvent event) {
-			reportverwaltung.findNutzerByEmail(nutzerListe.getSelectedValue(), new FindNutzerCallBack());
-			
+			reportverwaltung.findNutzerByEmail(nutzerBox.getValue(), new FindNutzerCallBack());
+
 		}
-		
+
 	}
 
 	class AllNutzerCallback implements AsyncCallback<Vector<Nutzer>> {
@@ -72,7 +73,7 @@ public class TeilhaberschaftFormReport extends VerticalPanel {
 			for (Nutzer n : result) {
 
 				if (n.getID() != nutzer.getID()) {
-					nutzerListe.addItem(n.getEmail());
+					nutzerOracle.add(n.getEmail());
 				} else {
 
 				}

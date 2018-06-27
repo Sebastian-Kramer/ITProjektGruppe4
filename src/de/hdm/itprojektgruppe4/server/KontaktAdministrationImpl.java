@@ -1823,6 +1823,15 @@ public class KontaktAdministrationImpl extends RemoteServiceServlet implements K
 		return this.teilhaberschaftMapper.findTeilhaberschaftenByKontaktlisteIDNutzerID(nutzerID, kontaktlisteID);
 
 	}
+	
+	/**
+	 * 
+	 */
+	@Override
+	public Vector<Teilhaberschaft> findTeilhaberschaftByKontaktIDAndNutzerID(int kontaktID, int nutzerID)
+			throws IllegalArgumentException {
+		return this.teilhaberschaftMapper.findTeilhaberschaftByKontaktIDAndNutzerID(kontaktID, nutzerID);
+	}
 
 	/**
 	 * 

@@ -91,7 +91,7 @@ public class KontaktForm extends VerticalPanel {
 	private Image konZuListPic = new Image("Image/Kontakt_Zu_Liste.png");
 	private Image zurueckZuHome = new Image("Image/Startseite.png");
 	private Image teilVerwaltenPic = new Image("Image/Teilen.png");
-	
+
 	public KontaktForm(Kontakt k) {
 		this.k = k;
 		ctf = new CellTableForm(k);
@@ -101,7 +101,7 @@ public class KontaktForm extends VerticalPanel {
 	public KontaktForm(Kontakt k, String teilhaberschaft) {
 
 		this.k = k;
-//		loeschenButton.setVisible(false);
+		// loeschenButton.setVisible(false);
 		ctf = new CellTableForm(k, teilhaberschaft);
 
 	}
@@ -129,7 +129,7 @@ public class KontaktForm extends VerticalPanel {
 		nutzer.setID(Integer.parseInt(Cookies.getCookie("id")));
 		nutzer.setEmail(Cookies.getCookie("email"));
 		final Image kontaktbild = new Image("Image/Visitenkarte_2.png");
-		
+
 		kontaktbild.setStyleName("Kontaktbild");
 		loeschenPic.setStyleName("ButtonICON");
 		bearbeitenPic.setStyleName("ButtonICON");
@@ -172,7 +172,7 @@ public class KontaktForm extends VerticalPanel {
 		RootPanel.get("Buttonbar").add(kontaktTeilen);
 		RootPanel.get("Buttonbar").add(kontaktListehinzufuegen);
 		RootPanel.get("Buttonbar").add(zurueckBtn);
-		
+
 		loeschenButton.getElement().appendChild(loeschenPic.getElement());
 		bearbeitenButton.getElement().appendChild(bearbeitenPic.getElement());
 		kontaktListehinzufuegen.getElement().appendChild(konZuListPic.getElement());
@@ -197,7 +197,7 @@ public class KontaktForm extends VerticalPanel {
 
 				@Override
 				public void onMouseOver(MouseOverEvent event) {
-					// TODO Auto-generated method stub
+				
 					verwaltung.getAllTeilhaberFromKontakt(k.getID(), new TeilhaberFromKontaktCallback());
 
 				}
@@ -216,7 +216,7 @@ public class KontaktForm extends VerticalPanel {
 
 				@Override
 				public void onMouseOut(MouseOutEvent event) {
-					// TODO Auto-generated method stub
+		
 					hide();
 				}
 			}, MouseOutEvent.getType());
@@ -231,7 +231,7 @@ public class KontaktForm extends VerticalPanel {
 		@Override
 		public void onClick(ClickEvent event) {
 
-			if (nutzer.getID() == k.getID()) {
+			if (nutzer.getID() == k.getNutzerID()) {
 				deleteKonAlert = Window.confirm("Möchten Sie den Kontakt endgültig löschen?");
 				if (deleteKonAlert == true) {
 					verwaltung.deleteKontakt(k, new DeleteKontaktCallback());
@@ -265,20 +265,19 @@ public class KontaktForm extends VerticalPanel {
 		@Override
 
 		public void onClick(ClickEvent event) {
-			Window.alert(k.getName());
 
 			if (k.getNutzerID() == nutzer.getID()) {
 				UpdateKontaktForm ukf = new UpdateKontaktForm(k);
 				RootPanel.get("Details").clear();
 				RootPanel.get("Details").add(ukf);
 				bearbeitenButton.setVisible(false);
-				Window.alert("Test 1");
+
 			} else {
 				UpdateKontaktForm ukf2 = new UpdateKontaktForm(k, "Teilhaberschaft");
 				RootPanel.get("Details").clear();
 				RootPanel.get("Details").add(ukf2);
 				bearbeitenButton.setVisible(false);
-				Window.alert("Test 2");
+
 			}
 		}
 	}
@@ -314,13 +313,12 @@ public class KontaktForm extends VerticalPanel {
 
 		@Override
 		public void onFailure(Throwable caught) {
-			// TODO Auto-generated method stub
 
 		}
 
 		@Override
 		public void onSuccess(Vector<Nutzer> result) {
-			// TODO Auto-generated method stub
+
 			teilhaberCL.setRowCount(result.size(), true);
 			teilhaberCL.setRowData(result);
 			teilhaberCL.setKeyboardSelectionPolicy(KeyboardSelectionPolicy.DISABLED);

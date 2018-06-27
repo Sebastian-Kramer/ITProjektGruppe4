@@ -265,5 +265,8 @@ public interface KontaktAdministrationAsync {
 	void getAllTeilhaberfromAuspraegungBerechtigung(int auspraegung, int teilhaberID, AsyncCallback<Vector<Nutzer>> callback);
 	
 	void deleteTeilhaberschaftAllByKontaktIDAndTeilhaberID(int kontaktID, int teilhaberID, AsyncCallback<Void> callback);
+	
+	void findTeilhaberschaftByKontaktIDAndNutzerID(int kontaktID, int nutzerID,
+			AsyncCallback<Vector<Teilhaberschaft>> callback);  
 
 }

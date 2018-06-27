@@ -4,6 +4,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Vector;
 
+import com.google.gwt.thirdparty.javascript.jscomp.parsing.parser.trees.ThisExpressionTree;
 import com.google.gwt.user.server.rpc.RemoteServiceServlet;
 
 import de.hdm.itprojektgruppe4.client.EigenschaftAuspraegungWrapper;
@@ -14,6 +15,7 @@ import de.hdm.itprojektgruppe4.shared.bo.Eigenschaft;
 import de.hdm.itprojektgruppe4.shared.bo.Eigenschaftauspraegung;
 import de.hdm.itprojektgruppe4.shared.bo.Kontakt;
 import de.hdm.itprojektgruppe4.shared.bo.Nutzer;
+import de.hdm.itprojektgruppe4.shared.bo.Teilhaberschaft;
 import de.hdm.itprojektgruppe4.shared.report.AllEigeneKontakteReport;
 import de.hdm.itprojektgruppe4.shared.report.Column;
 import de.hdm.itprojektgruppe4.shared.report.CompositeParagraph;
@@ -35,7 +37,7 @@ public class ReportGeneratorImpl extends RemoteServiceServlet implements ReportG
 	
 	
 /*
- * Der Report benötigt den Zugriff auf die Administration 
+ * Der Report benï¿½tigt den Zugriff auf die Administration 
  */
 	private KontaktAdministration verwaltung = null;
 
@@ -50,7 +52,7 @@ public class ReportGeneratorImpl extends RemoteServiceServlet implements ReportG
 	
 /*
  * Initialisierung des Objekts. Diese Methode ist vor dem Hintergrund von
- * GWT RPC zusätzlich zum No Argument Constructor notwendig.
+ * GWT RPC zusï¿½tzlich zum No Argument Constructor notwendig.
  */
 	public void init() throws IllegalArgumentException {
 
@@ -68,7 +70,7 @@ public class ReportGeneratorImpl extends RemoteServiceServlet implements ReportG
 	}
 
 	/*
-	 * Diese Methode soll den Reportgenerator ein Impressum hinzufügen
+	 * Diese Methode soll den Reportgenerator ein Impressum hinzufï¿½gen
 	 * 
 	 * @param r
 	 */
@@ -99,6 +101,8 @@ public class ReportGeneratorImpl extends RemoteServiceServlet implements ReportG
 		Vector<Kontakt> kontakt = this.verwaltung.findAllKontaktFromNutzer(nutzerID);
 
 		Vector<EigenschaftAuspraegungWrapper> auspraegung = new Vector<EigenschaftAuspraegungWrapper>();
+		
+		EigenschaftAuspraegungWrapper ea = new EigenschaftAuspraegungWrapper();
 
 		result.setTitle("Meine Kontakte und mir geteilte Kontakte");
 		SimpleDateFormat simpleDateFormat = new SimpleDateFormat("EEE, d MMM yyyy HH:mm:ss ");
@@ -106,13 +110,21 @@ public class ReportGeneratorImpl extends RemoteServiceServlet implements ReportG
 		Row headline = new Row();
 
 		headline.addColumn(new Column("Kontakt"));
-		headline.addColumn(new Column("Status"));
+		headline.addColumn(new Column("Geteilt mit"));
 		headline.addColumn(new Column("Erstellt von"));
-		headline.addColumn(new Column("Eigenschaft: Auspraegung"));
+		headline.addColumn(new Column("Eigenschaften"));
 
 		result.addRow(headline);
 
 		for (Kontakt k : kontakt) {
+			
+			Vector<Teilhaberschaft> t = this.verwaltung.findTeilhaberschaftByKontaktIDAndNutzerID(k.getID(), nutzerID);
+			
+			Vector<Nutzer> n = new Vector<Nutzer>();
+			
+			for(Teilhaberschaft th: t){
+				n.add(this.verwaltung.findNutzerByID(th.getTeilhaberID()));
+			}
 
 			Row kontaktRow = new Row();
 
@@ -121,16 +133,15 @@ public class ReportGeneratorImpl extends RemoteServiceServlet implements ReportG
 			kontaktRow.addColumn(new Column(String.valueOf(k.getName())));
 
 			if (k.getStatus() == 0) {
-				kontaktRow.addColumn(new Column(String.valueOf("Nicht Geteilt")));
+				kontaktRow.addColumn(new Column(String.valueOf("keine Teilhaberschaften vorhanden")));
 			} else {
-				kontaktRow.addColumn(new Column(String.valueOf("geteilt")));
+				kontaktRow.addColumn(new Column(n.toString().replace("[", "").replace("]", "").replace(",", "")));
 			}
 
-			kontaktRow
-					.addColumn(new Column(String.valueOf(this.verwaltung.findNutzerByID(k.getNutzerID()).getEmail())));
+			kontaktRow.addColumn(new Column(String.valueOf(this.verwaltung.findNutzerByID(k.getNutzerID()).getEmail())));
 
 			kontaktRow.addColumn(new Column(auspraegung.toString().replace("[", "").replace("]", "").replace(",", "")));
-
+			
 			result.addRow(kontaktRow);
 		}
 
@@ -171,7 +182,7 @@ public class ReportGeneratorImpl extends RemoteServiceServlet implements ReportG
 		headline.addColumn(new Column("Status"));
 		headline.addColumn(new Column("Erstellt von"));
 		headline.addColumn(new Column("Teilhaber"));
-		headline.addColumn(new Column("Eigenschaft: Auspraegung"));
+		headline.addColumn(new Column("Eigenschaft"));
 
 		result.addRow(headline);
 
