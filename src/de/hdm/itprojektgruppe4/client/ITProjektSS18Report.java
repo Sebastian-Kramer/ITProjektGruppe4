@@ -28,9 +28,9 @@ public class ITProjektSS18Report implements EntryPoint {
 	private Anchor loggedNutzer;
 
 	LoginServiceAsync loginService = GWT.create(LoginService.class);
-	
-	/*
-	 * Reportgenerator wird instanziiert um dessen Methoden zu verwenden 
+
+	/**
+	 * Reportgenerator wird instanziiert um dessen Methoden zu verwenden
 	 */
 	private static ReportGeneratorAsync reportverwaltung = ClientsideSettings.getReportVerwaltung();
 
@@ -39,7 +39,13 @@ public class ITProjektSS18Report implements EntryPoint {
 	public void onModuleLoad() {
 
 		signOutLink.setStyleName("Logout");
+
 		eingeloggt.setStyleName("AktiverUser");
+
+		/**
+		 * Loginstatus wird anhand des LoginService �berpr�ft
+		 */
+
 		LoginServiceAsync loginService = GWT.create(LoginService.class);
 		loginService.login(GWT.getHostPageBaseURL() + editorHtmlName, new AsyncCallback<LoginInfo>() {
 
@@ -47,6 +53,11 @@ public class ITProjektSS18Report implements EntryPoint {
 
 			}
 
+			/**
+			 * Aktueller Nutzer wird gesetzt Anhand der If Else bedinung wir
+			 * entschieden ob die CheckNewNutzer Methode oder die LoadLogin
+			 * Methode aufgerufen wird
+			 */
 			public void onSuccess(LoginInfo result) {
 				ClientsideSettings.setCurrentUser(result);
 
@@ -60,11 +71,21 @@ public class ITProjektSS18Report implements EntryPoint {
 			}
 		});
 	}
+
 	
 	/*
 	 * Die checkNewNutzer Methode �berpr�ft ob der Nutzer in der Datenbank vorhanden ist
 	 */
 
+
+	/**
+	 * Die CheckNewNutzer Methode hat den Zweck, zu Pr�fen: Den Aktuellen Nutzer
+	 * aus der Datenbank zu finden Sollte der Nutzer in der Datenbank vorhanden
+	 * sein, so wird die LoadStartseite Methode aufgerufen
+	 * 
+	 * @param result
+	 * @return
+	 */
 	private Nutzer checkNewNutzer(LoginInfo result) {
 		final LoginInfo finalLog = result;
 
@@ -95,8 +116,8 @@ public class ITProjektSS18Report implements EntryPoint {
 		return nutzer;
 	}
 
-	/*
-	 * Die loadlogin Methode verweist auf
+	/**
+	 * Die Loadlogin Methode ruft die von Google vordefinierten Login auf
 	 */
 	private void loadLogin() {
 
@@ -106,9 +127,10 @@ public class ITProjektSS18Report implements EntryPoint {
 		RootPanel.get("Details").add(loginPanel);
 
 	}
-	
-	/*
-	 * Die loadStartseite Methode verweist auf die Klasse navigationReport
+
+	/**
+	 * Die Methode loadStartseite verweist auf die Klasse MainForm und
+	 * navigationTree Zudem beinhaltet die Methode diverse Widget f�r das GUI
 	 */
 	private void loadStartseite() {
 		NavigationReport navigationReport = new NavigationReport();

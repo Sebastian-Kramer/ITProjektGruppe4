@@ -4,8 +4,6 @@ import java.util.Vector;
 
 import com.google.gwt.user.client.rpc.AsyncCallback;
 
-import de.hdm.itprojektgruppe4.shared.bo.Eigenschaft;
-import de.hdm.itprojektgruppe4.shared.bo.Eigenschaftauspraegung;
 import de.hdm.itprojektgruppe4.shared.bo.Nutzer;
 import de.hdm.itprojektgruppe4.shared.report.AllEigeneKontakteReport;
 import de.hdm.itprojektgruppe4.shared.report.KontakteMitBestimmtenAuspraegungen;
@@ -13,6 +11,12 @@ import de.hdm.itprojektgruppe4.shared.report.KontakteMitBestimmtenEigenschaften;
 import de.hdm.itprojektgruppe4.shared.report.KontakteMitBestimmtenEigenschaftsAuspraegungen;
 import de.hdm.itprojektgruppe4.shared.report.KontakteMitBestimmterTeilhaberschaftReport;
 
+/**
+ * Das Asynchrone Interface des Reportgenerator
+ * Dies wird semiautomatisch durch das Google Plugin erstellt 
+ * @author Georg
+ *
+ */
 public interface ReportGeneratorAsync {
 
 	void init(AsyncCallback<Void> callback);
