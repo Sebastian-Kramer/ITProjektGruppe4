@@ -22,6 +22,10 @@ import com.google.gwt.user.client.ui.VerticalPanel;
 
 import de.hdm.itprojektgruppe4.shared.bo.Kontaktliste;
 
+/**
+ * @author Georg
+ *EntryPoint wird definiert
+ */
 public class ITProjektSS18 implements EntryPoint {
 
 	private LoginInfo loginInfo = null;
@@ -48,6 +52,9 @@ public class ITProjektSS18 implements EntryPoint {
 		startseite.setStyleName("Startseite");
 		eingeloggt.setStyleName("AktiverUser");
 		
+		/**
+		 * Loginstatus wird anhand des LoginService überprüft
+		 */
 		LoginServiceAsync loginService = GWT.create(LoginService.class);
 		loginService.login(GWT.getHostPageBaseURL() + editorHtmlName, new AsyncCallback<LoginInfo>() {
 
@@ -55,6 +62,11 @@ public class ITProjektSS18 implements EntryPoint {
 
 			}
 
+			/**
+			 * Aktueller Nutzer wird gesetzt
+			 * Anhand der If Else bedinung wir entschieden
+			 * ob die CheckNewNutzer Methode oder die LoadLogin Methode aufgerufen wird
+			 */
 			public void onSuccess(LoginInfo result) {
 				ClientsideSettings.setCurrentUser(result);
 
@@ -69,6 +81,16 @@ public class ITProjektSS18 implements EntryPoint {
 		});
 	}
 
+	/**
+	 * Die CheckNewNutzer Methode hat den Zweck, zu Prüfen:
+	 * Den Aktuellen Nutzer aus der Datenbank zu finden 
+	 * Sollte der Nutzer nicht in der Datenbank vorhanden sein, 
+	 * wird dieser angelegt und anschließend wird die LoadLogin Methode aufgerufen 
+	 * Sollte der Nutzer in der Datenbank vorhanden sein, so wird  die LoadStartseite Methode aufgerufen
+	 * Zudem werden bei einem Neuangelegten Nutzer Zwei Kontaktlisten Angelegt
+	 * @param result
+	 * @return
+	 */
 	private Nutzer checkNewNutzer(LoginInfo result) {
 		final LoginInfo finalLog = result;
 
@@ -123,6 +145,9 @@ public class ITProjektSS18 implements EntryPoint {
 		return nutzer;
 	}
 
+	/**
+	 * Die Loadlogin Methode ruft die von Google vordefinierten Login auf
+	 */
 	private void loadLogin() {
 
 		signInLink.setHref(loginInfo.getLoginUrl());
@@ -132,6 +157,10 @@ public class ITProjektSS18 implements EntryPoint {
 
 	}
 
+	/**
+	 * Die Methode loadStartseite verweist auf die Klasse MainForm und navigationTree
+	 * Zudem beinhaltet die Methode diverse Widget für das GUI
+	 */
 	private void loadStartseite() {
 		MainForm mainForm = new MainForm();
 		NavigationTree navigationTree = new NavigationTree();
@@ -147,17 +176,14 @@ public class ITProjektSS18 implements EntryPoint {
 		RootPanel.get("Navigator").add(navigationTree);
 	}
 
-	/*
-<<<<<<< HEAD
-	 * Meldet sich ein Nutzer neu auf der Plattform an, sollwn sofort die
+	/**
+	 * Meldet sich ein Nutzer neu auf der Plattform an, sollen sofort die
 	 * Kontaktlisten "Meine Kontakte" und "Mit mir geteilte Kontakte" erstellt
 	 * werden. HierfÃ¼r wird diese Callback-Klasse benÃ¶tigt. Die Kontaktlisten
 	 * stellen Standardkontaktliste da.
-=======
 	 * Meldet sich ein Nutzer neu auf der Plattform an, sollwe sofort die
 	 * Kontaktlisten "Meine Kontakte" und "Mit mir geteilte Kontakte" erstellt werden. HierfÃ¼r wird diese
 	 * Callback-Klasse benÃ¶tigt. Die Kontaktlisten stellen Standardkontaktliste dar.
->>>>>>> refs/heads/Raphael
 	 */
 	private class MeineKontakteAnlegen implements AsyncCallback<Kontaktliste> {
 
@@ -174,6 +200,11 @@ public class ITProjektSS18 implements EntryPoint {
 
 	}
 
+	/**
+	 * 
+	 * Clickhandler Klasse für die Startseite 
+	 *
+	 */
 	class StartseiteClickHandler implements ClickHandler {
 
 		@Override
@@ -189,6 +220,11 @@ public class ITProjektSS18 implements EntryPoint {
 
 	}
 
+	/**
+	 * 
+	 * Clickhandler für das Impressum 
+	 *
+	 */
 	class ImpressumClickHandler implements ClickHandler {
 
 		@Override
@@ -202,6 +238,12 @@ public class ITProjektSS18 implements EntryPoint {
 
 	}
 
+	/**
+	 * 
+	 * AsyncCallback für das Anlegen geteilter Kontakte 
+	 * Die Methode verweist zudem auf die loadStartseite() Methode
+	 *
+	 */
 	class GeteilteKontakteAnlegen implements AsyncCallback<Kontaktliste> {
 
 		@Override
