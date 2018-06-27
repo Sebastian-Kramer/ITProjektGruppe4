@@ -26,9 +26,9 @@ public class ITProjektSS18Report implements EntryPoint {
 	private Anchor signOutLink = new Anchor("Logout");
 
 	LoginServiceAsync loginService = GWT.create(LoginService.class);
-	
+
 	/**
-	 * Reportgenerator wird instanziiert um dessen Methoden zu verwenden 
+	 * Reportgenerator wird instanziiert um dessen Methoden zu verwenden
 	 */
 	private static ReportGeneratorAsync reportverwaltung = ClientsideSettings.getReportVerwaltung();
 
@@ -46,11 +46,11 @@ public class ITProjektSS18Report implements EntryPoint {
 			public void onFailure(Throwable error) {
 
 			}
-			
+
 			/**
-			 * Aktueller Nutzer wird gesetzt
-			 * Anhand der If Else bedinung wir entschieden
-			 * ob die CheckNewNutzer Methode oder die LoadLogin Methode aufgerufen wird
+			 * Aktueller Nutzer wird gesetzt Anhand der If Else bedinung wir
+			 * entschieden ob die CheckNewNutzer Methode oder die LoadLogin
+			 * Methode aufgerufen wird
 			 */
 			public void onSuccess(LoginInfo result) {
 				ClientsideSettings.setCurrentUser(result);
@@ -65,11 +65,12 @@ public class ITProjektSS18Report implements EntryPoint {
 			}
 		});
 	}
-	
+
 	/**
-	 * Die CheckNewNutzer Methode hat den Zweck, zu Prüfen:
-	 * Den Aktuellen Nutzer aus der Datenbank zu finden 
-	 * Sollte der Nutzer in der Datenbank vorhanden sein, so wird  die LoadStartseite Methode aufgerufen
+	 * Die CheckNewNutzer Methode hat den Zweck, zu Prüfen: Den Aktuellen Nutzer
+	 * aus der Datenbank zu finden Sollte der Nutzer in der Datenbank vorhanden
+	 * sein, so wird die LoadStartseite Methode aufgerufen
+	 * 
 	 * @param result
 	 * @return
 	 */
@@ -113,10 +114,10 @@ public class ITProjektSS18Report implements EntryPoint {
 		RootPanel.get("Details").add(loginPanel);
 
 	}
-	
+
 	/**
-	 * Die Methode loadStartseite verweist auf die Klasse MainForm und navigationTree
-	 * Zudem beinhaltet die Methode diverse Widget für das GUI
+	 * Die Methode loadStartseite verweist auf die Klasse MainForm und
+	 * navigationTree Zudem beinhaltet die Methode diverse Widget für das GUI
 	 */
 	private void loadStartseite() {
 		NavigationReport navigationReport = new NavigationReport();

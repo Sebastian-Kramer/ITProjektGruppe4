@@ -544,7 +544,7 @@ public class ReportGeneratorImpl extends RemoteServiceServlet implements ReportG
 	}
 
 	/**
-	 * Alle Nutzer des Systems werden ausgelesen 
+	 * Alle Nutzer des Systems werden ausgelesen
 	 */
 	public Vector<Nutzer> allNutzerReport() throws IllegalArgumentException {
 		if (this.getAdministration() == null)
@@ -558,6 +558,7 @@ public class ReportGeneratorImpl extends RemoteServiceServlet implements ReportG
 
 	/**
 	 * Der Nutzer wird in dieser Methode anhand seiner Email ausgelesen
+	 * 
 	 * @param email
 	 */
 	public Nutzer findNutzerByEmail(String email) throws IllegalArgumentException {
