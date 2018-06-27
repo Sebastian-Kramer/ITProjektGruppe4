@@ -2,6 +2,7 @@ package de.hdm.itprojektgruppe4.client.gui;
 
 import java.util.Date;
 import java.util.Vector;
+
 import com.google.gwt.cell.client.ButtonCell;
 import com.google.gwt.cell.client.Cell.Context;
 import com.google.gwt.cell.client.ClickableTextCell;
@@ -30,6 +31,7 @@ import com.google.gwt.user.client.ui.ScrollPanel;
 import com.google.gwt.user.client.ui.SuggestBox;
 import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.client.ui.VerticalPanel;
+
 import de.hdm.itprojektgruppe4.client.ClientsideSettings;
 import de.hdm.itprojektgruppe4.client.EigenschaftAuspraegungWrapper;
 import de.hdm.itprojektgruppe4.shared.KontaktAdministrationAsync;
@@ -40,14 +42,15 @@ import de.hdm.itprojektgruppe4.shared.bo.Nutzer;
 import de.hdm.itprojektgruppe4.shared.bo.Teilhaberschaft;
 
 /**
- * Mit dieser Klasse UpdateKontaktForm lassen sich Kontakte bearbeiten.
- * Zum einen lässt sich der Kontaktname und die jeweiligen Auspraegungen des Kontaktes ändern.
- * Es können neue Ausprägungen hinzugefügt werden oder gelöscht werden.
- * Bei jeder Bearbeitung wird das Modifikationsdatum des Kontaktes aktualisiert.
+ * Mit dieser Klasse UpdateKontaktForm lassen sich Kontakte bearbeiten. Zum
+ * einen lässt sich der Kontaktname und die jeweiligen Auspraegungen des
+ * Kontaktes ändern. Es können neue Ausprägungen hinzugefügt werden oder
+ * gelöscht werden. Bei jeder Bearbeitung wird das Modifikationsdatum des
+ * Kontaktes aktualisiert.
+ * 
  * @author Nino
  *
  */
-
 
 public class UpdateKontaktForm extends VerticalPanel {
 
@@ -65,8 +68,7 @@ public class UpdateKontaktForm extends VerticalPanel {
 	private Label lbl_KontaktName = new Label("Kontaktname: ");
 	private TextBox txt_KontaktName = new TextBox();
 	private Button addRow = new Button("Hinzufügen");
-	private Label lbl_NewEigenschaft = new Label("Eigenschaft: ");
-	private Label lbl_NewAuspraegung = new Label("Auspraegung: ");
+
 	private TextBox txt_Auspraegung = new TextBox();
 	private Date date = new Date();
 	private boolean deleteAuspraegung;
@@ -133,26 +135,28 @@ public class UpdateKontaktForm extends VerticalPanel {
 
 	/**
 	 * Konstruktor: Beim Laden der UpdateKontaktForm wirde ein Kontakt-Objekt
-	 * übergeben. Wenn der Nutzer der Eigentümer des Kontaktes ist, 
-	 * werden alle Ausprägungen des Kontaktes angezeigt.
-	 * Der CellTable werden die entsprechenden Spalten hinzugefügt.
+	 * übergeben. Wenn der Nutzer der Eigentümer des Kontaktes ist, werden alle
+	 * Ausprägungen des Kontaktes angezeigt. Der CellTable werden die
+	 * entsprechenden Spalten hinzugefügt.
+	 * 
 	 * @param kon
 	 */
-	
+
 	public UpdateKontaktForm(Kontakt kon) {
 
 		this.kon = kon;
 		ctf = new CellTableForm(kon);
-		ctf.addColumn(bezEigenschaft, "Eigenschaft: ");
-		ctf.addColumn(wertAuspraegung, "Wert: ");
-		ctf.addColumn(deleteBtn, "Löschen");
+		ctf.addColumn(bezEigenschaft, "Kontakteigenschaften: ");
+		ctf.addColumn(wertAuspraegung);
+		ctf.addColumn(deleteBtn);
 
 	}
 
 	/**
-	 * Konstruktor: In diesem Fall is der Nutzer jediglich der Teilhaber des Kontaktes,
-	 * es wird ein Kontakt-Objekt und ein String teilhaberschaft übergeben.
-	 * Der CellTable werden die entsprechenden Spalten hinzugefügt.
+	 * Konstruktor: In diesem Fall is der Nutzer jediglich der Teilhaber des
+	 * Kontaktes, es wird ein Kontakt-Objekt und ein String teilhaberschaft
+	 * übergeben. Der CellTable werden die entsprechenden Spalten hinzugefügt.
+	 * 
 	 * @param kon
 	 * @param teilhaberschaft
 	 */
@@ -160,17 +164,18 @@ public class UpdateKontaktForm extends VerticalPanel {
 
 		this.kon = kon;
 		ctf = new CellTableForm(kon, teilhaberschaft);
-		ctf.addColumn(bezEigenschaft, "Eigenschaft: ");
-		ctf.addColumn(wertAuspraegung, "Wert: ");
+		ctf.addColumn(bezEigenschaft, "Kontakteigenschaften: ");
+		ctf.addColumn(wertAuspraegung);
 	}
 
 	/**
-	 * Die onLoad()-Methode wird beim Starten der UpdateKontaktForm geladen.
-	 * Es wird eine neue CellTableForm mit dem übergebenen Kontakt erstellt, die
-	 * alle benötigten Spalten beinhaltet. Des weiteren werden den Buttons die zugehörigen Clickhandler 
-	 * hinzugefügt und die verschiedenen Widgets den Panel hinzugefügt.
+	 * Die onLoad()-Methode wird beim Starten der UpdateKontaktForm geladen. Es
+	 * wird eine neue CellTableForm mit dem übergebenen Kontakt erstellt, die
+	 * alle benötigten Spalten beinhaltet. Des weiteren werden den Buttons die
+	 * zugehörigen Clickhandler hinzugefügt und die verschiedenen Widgets den
+	 * Panel hinzugefügt.
 	 */
-	
+
 	public void onLoad() {
 
 		super.onLoad();
@@ -187,13 +192,14 @@ public class UpdateKontaktForm extends VerticalPanel {
 		hpanelDetails.add(lbl_KontaktName);
 		hpanelDetails.add(txt_KontaktName);
 		eigenschaftSugBox.getElement().setAttribute("placeholder", "Eigenschaft");
+		txt_Auspraegung.getElement().setAttribute("placeholder", "Ausprägung");
 		scrollPanel.add(ctf);
 		vpanelDetails.add(hpanelDetails);
 		vpanelDetails.add(scrollPanel);
 		vpanelDetails.add(hpanelAdd);
-		hpanelAdd.add(lbl_NewEigenschaft);
+
 		hpanelAdd.add(eigenschaftSugBox);
-		hpanelAdd.add(lbl_NewAuspraegung);
+
 		hpanelAdd.add(txt_Auspraegung);
 		hpanelAdd.add(addRow);
 		wertAuspraegung.setSortable(true);
@@ -213,46 +219,48 @@ public class UpdateKontaktForm extends VerticalPanel {
 		deleteBtn.setFieldUpdater(new DeleteFieldUpdater());
 		cancelBtn.getElement().appendChild(zurueckZuHomePic.getElement());
 		cancelBtn.addClickHandler(new CancelClick());
-		
+
 		addRow.addClickHandler(new ClickAddRowHandler());
 		txt_KontaktName.addKeyDownHandler(changeNameHandler);
 
 	}
-	
-	
 
 	/*
 	 * Nasted AsyncCallback - Classes, Click/Selection - Handler und
 	 * FieldUpdater - Classes.
 	 */
-	
+
 	/**
 	 * 
 	 * @author Nino
 	 *
 	 */
-	
+
 	private class DeleteFieldUpdater implements FieldUpdater<EigenschaftAuspraegungWrapper, String> {
 		@Override
 		public void update(int index, EigenschaftAuspraegungWrapper object, String value) {
 			ea.setAuspraegung(object.getAuspraegung());
 			ea.setEigenschaft(object.getEigenschaft());
-			if(object.getAuspraegungStatus() == 0){
-			verwaltung.deleteEigenschaftUndAuspraegung(ea, new AuspraegungHybridLoeschenCallback());
-			verwaltung.updateKontakt(kon, new KontaktModifikationsdatumCallback());
-			}else{
-				
-				deleteAuspraegung = Window.confirm("Diese Ausprägung ist mit jemand geteilt, möchten Sie diese Ausprägung dennoch löschen ?");
-				if(deleteAuspraegung == true){
+			if (object.getAuspraegungStatus() == 0) {
+				verwaltung.deleteEigenschaftUndAuspraegung(ea, new AuspraegungHybridLoeschenCallback());
+				verwaltung.updateKontakt(kon, new KontaktModifikationsdatumCallback());
+			} else {
+
+				deleteAuspraegung = Window.confirm(
+						"Diese Ausprägung ist mit jemand geteilt, möchten Sie diese Ausprägung dennoch löschen ?");
+				if (deleteAuspraegung == true) {
 					verwaltung.deleteEigenschaftUndAuspraegung(ea, new AuspraegungHybridLoeschenCallback());
-					
+
 				}
-				//Window.alert("Sie müssen als erstes alle Teilhaberschaften an dieser Ausprägung löschen");
+				// Window.alert("Sie müssen als erstes alle Teilhaberschaften an
+				// dieser Ausprägung löschen");
 			}
 		}
 	}
+
 	/**
-	 *  Diese Clickhandler Klasse bricht die Bearbeitung des Kontaktes ab.
+	 * Diese Clickhandler Klasse bricht die Bearbeitung des Kontaktes ab.
+	 * 
 	 * @author Nino
 	 *
 	 */
@@ -276,16 +284,17 @@ public class UpdateKontaktForm extends VerticalPanel {
 
 	/**
 	 * Diese CLickhandler Klasse fügt eine neue Asprägung dem Kontakt hinzu.
+	 * 
 	 * @author Nino
 	 *
 	 */
-	
+
 	private class ClickAddRowHandler implements ClickHandler {
 		@Override
 		public void onClick(ClickEvent event) {
 
 			ctf.addRow(eigenschaftSugBox.getValue(), txt_Auspraegung.getValue());
-			
+
 			verwaltung.insertEigenschaft(eigenschaftSugBox.getText(), 0, new EigenschaftEinfuegenCallback());
 			verwaltung.updateKontakt(kon, new KontaktModifikationsdatumCallback());
 
@@ -293,12 +302,13 @@ public class UpdateKontaktForm extends VerticalPanel {
 	}
 
 	/**
-	 * Diese KeyDownHandler Klasse erlaut dem Nutzer den Kontaktnamen zu ändern und 
-	 * per Bestätigung der Enter Taste zu speichern.
+	 * Diese KeyDownHandler Klasse erlaut dem Nutzer den Kontaktnamen zu ändern
+	 * und per Bestätigung der Enter Taste zu speichern.
+	 * 
 	 * @author Nino
 	 *
 	 */
-	
+
 	private class ChangeNameHandler implements KeyDownHandler {
 
 		@Override
@@ -314,10 +324,11 @@ public class UpdateKontaktForm extends VerticalPanel {
 
 	/**
 	 * Diese Callback Klasse aktualisiert das Modifikationsdatum des Kontaktes.
+	 * 
 	 * @author Nino
 	 *
 	 */
-	
+
 	private class KontaktModifikationsdatumCallback implements AsyncCallback<Kontakt> {
 
 		@Override
@@ -337,14 +348,15 @@ public class UpdateKontaktForm extends VerticalPanel {
 	}
 
 	/**
-	 *  Diese Callback Klasse erstellt und wählt die Eigenschaft aus zu der eine 
-	 *  neue Ausprägung erstellt wird.
-	 *  Sofern diese Eigenschaft bereits vorhanden ist, wird diese verwendet.
-	 *  Wenn diese Eigenschaft im System noch nicht vorhanden ist wird diese neu angelegt.
+	 * Diese Callback Klasse erstellt und wählt die Eigenschaft aus zu der eine
+	 * neue Ausprägung erstellt wird. Sofern diese Eigenschaft bereits vorhanden
+	 * ist, wird diese verwendet. Wenn diese Eigenschaft im System noch nicht
+	 * vorhanden ist wird diese neu angelegt.
+	 * 
 	 * @author Nino
 	 *
 	 */
-	
+
 	private class EigenschaftEinfuegenCallback implements AsyncCallback<Eigenschaft> {
 
 		@Override
@@ -380,11 +392,13 @@ public class UpdateKontaktForm extends VerticalPanel {
 
 	/**
 	 * Diese Callback Klasse erstellt eine neue Ausprägung zu diesem Kontakt,
-	 * die Eigenschaft auf diese sich die Ausprägung bezieht wurde zuvor ausgewählt.
+	 * die Eigenschaft auf diese sich die Ausprägung bezieht wurde zuvor
+	 * ausgewählt.
+	 * 
 	 * @author Nino
 	 *
 	 */
-	
+
 	private class AuspraegungEinfuegenCallback implements AsyncCallback<Eigenschaftauspraegung> {
 
 		@Override
@@ -397,46 +411,50 @@ public class UpdateKontaktForm extends VerticalPanel {
 			if (kon.getNutzerID() == nutzer.getID()) {
 				verwaltung.findHybrid(kon, new ReloadCallback());
 			} else {
-				verwaltung.insertTeilhaberschaftAuspraegung(result.getID(), nutzer.getID(), kon.getNutzerID(), new TeilhaberschaftKontaktCallback());
-				
+				verwaltung.insertTeilhaberschaftAuspraegung(result.getID(), nutzer.getID(), kon.getNutzerID(),
+						new TeilhaberschaftKontaktCallback());
+
 			}
 			eigenschaftSugBox.setText("");
 			txt_Auspraegung.setText("");
 		}
 
 	}
-	
+
 	/**
-	 * Diese Callback Klasse wird ausgeführt wenn der Teilhaber eine neue Ausprägung erstellt.
-	 * Es wird direkt ein Objekt vom Typ Teilhaberschaft zu dieser Ausprägung erstellt.
+	 * Diese Callback Klasse wird ausgeführt wenn der Teilhaber eine neue
+	 * Ausprägung erstellt. Es wird direkt ein Objekt vom Typ Teilhaberschaft zu
+	 * dieser Ausprägung erstellt.
+	 * 
 	 * @author Nino
 	 *
 	 */
 
-	private class TeilhaberschaftKontaktCallback implements AsyncCallback<Teilhaberschaft>{
+	private class TeilhaberschaftKontaktCallback implements AsyncCallback<Teilhaberschaft> {
 
 		@Override
 		public void onFailure(Throwable caught) {
-	
-			
+
 		}
 
 		@Override
 		public void onSuccess(Teilhaberschaft result) {
-			Window.alert("Die Ausprägung wurde erfolgreich angelgt. Da der angemeldete Nutzer nicht der Eigentümer ist, wurde eine Teilhaberschaft erstellt");
+			Window.alert(
+					"Die Ausprägung wurde erfolgreich angelgt. Da der angemeldete Nutzer nicht der Eigentümer ist, wurde eine Teilhaberschaft erstellt");
 			verwaltung.findSharedAuspraegung(kon.getID(), nutzer.getID(), new ReloadCallback());
 		}
-		
+
 	}
-	
+
 	/**
-	 * Diese Callback Klasse wird ausgeführt wenn eine bestehende Ausprägung bearbeitet wird.
-	 * Je nach dem ob der Nutzer der Eigentümer oder nur Teilhaber ist werden alle 
-	 * oder nur getielte Ausprägungen angezeigt.
+	 * Diese Callback Klasse wird ausgeführt wenn eine bestehende Ausprägung
+	 * bearbeitet wird. Je nach dem ob der Nutzer der Eigentümer oder nur
+	 * Teilhaber ist werden alle oder nur getielte Ausprägungen angezeigt.
+	 * 
 	 * @author Nino
 	 *
 	 */
-	
+
 	private class AuspraegungBearbeitenCallback implements AsyncCallback<Eigenschaftauspraegung> {
 
 		@Override
@@ -460,15 +478,16 @@ public class UpdateKontaktForm extends VerticalPanel {
 		}
 
 	}
-	
+
 	/**
 	 * Diese Callback Klasse wird ausgeführt wenn eine Ausprägung gelöscht wird.
-	 * Je nach dem ob der Nutzer der Eigentümer oder nur Teilhaber ist werden alle 
-	 * oder nur getielte Ausprägungen angezeigt.
+	 * Je nach dem ob der Nutzer der Eigentümer oder nur Teilhaber ist werden
+	 * alle oder nur getielte Ausprägungen angezeigt.
+	 * 
 	 * @author Nino
 	 *
 	 */
-	
+
 	private class AuspraegungHybridLoeschenCallback implements AsyncCallback<Void> {
 
 		@Override
@@ -491,8 +510,9 @@ public class UpdateKontaktForm extends VerticalPanel {
 	}
 
 	/**
-	 * Diese Callback Klasse wird immer aufgerufen, wenn sich die CellTable geändert hat
-	 * und ein Refresh notendig ist.
+	 * Diese Callback Klasse wird immer aufgerufen, wenn sich die CellTable
+	 * geändert hat und ein Refresh notendig ist.
+	 * 
 	 * @author Nino
 	 *
 	 */
@@ -513,12 +533,13 @@ public class UpdateKontaktForm extends VerticalPanel {
 	}
 
 	/**
-	 * Diese Callback Klasse wird ausgeführt um die Suggestbox mit bereits vorhandenen 
-	 * Eigenschaften zu befüllen.
+	 * Diese Callback Klasse wird ausgeführt um die Suggestbox mit bereits
+	 * vorhandenen Eigenschaften zu befüllen.
+	 * 
 	 * @author Nino
 	 *
 	 */
-	
+
 	private class AlleEigenschaftCallback implements AsyncCallback<Vector<Eigenschaft>> {
 
 		@Override
@@ -539,12 +560,13 @@ public class UpdateKontaktForm extends VerticalPanel {
 	}
 
 	/**
-	 * Diese Callback Klasse wird aufgerufen um eine Eigenschaft anhand ihrer Bezeichnung 
-	 * zu identifizieren.
+	 * Diese Callback Klasse wird aufgerufen um eine Eigenschaft anhand ihrer
+	 * Bezeichnung zu identifizieren.
+	 * 
 	 * @author Nino
 	 *
 	 */
-	
+
 	private class FindEigenschaftCallBack implements AsyncCallback<Eigenschaft> {
 
 		@Override

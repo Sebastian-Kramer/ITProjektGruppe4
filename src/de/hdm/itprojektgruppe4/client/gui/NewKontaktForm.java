@@ -3,11 +3,11 @@ package de.hdm.itprojektgruppe4.client.gui;
 import java.util.Date;
 import java.util.Vector;
 
+import com.google.gwt.cell.client.ButtonCell;
+import com.google.gwt.cell.client.Cell.Context;
 import com.google.gwt.cell.client.ClickableTextCell;
 import com.google.gwt.cell.client.EditTextCell;
 import com.google.gwt.cell.client.FieldUpdater;
-import com.google.gwt.cell.client.ButtonCell;
-import com.google.gwt.cell.client.Cell.Context;
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.dom.client.NativeEvent;
 import com.google.gwt.event.dom.client.ClickEvent;
@@ -29,10 +29,8 @@ import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwt.user.client.ui.SuggestBox;
 import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.client.ui.VerticalPanel;
-import com.google.gwt.view.client.SingleSelectionModel;
 
 import de.hdm.itprojektgruppe4.client.ClientsideSettings;
-
 import de.hdm.itprojektgruppe4.client.EigenschaftAuspraegungWrapper;
 import de.hdm.itprojektgruppe4.client.NavigationTree;
 import de.hdm.itprojektgruppe4.shared.KontaktAdministrationAsync;
@@ -42,41 +40,43 @@ import de.hdm.itprojektgruppe4.shared.bo.Kontakt;
 import de.hdm.itprojektgruppe4.shared.bo.Nutzer;
 
 /**
- * Mit der Klasse NewKontaktForm lassen sich neue Kontakte anlegen.
- * Beim Anlegen eines neuen Kontaktes werden automatisch vier leere Auspraegungen
- * fuer die vier Basis-Eigenschaften "Vorname", "Nachname", "E-Mail" und "Telefonnummer" anggelegt.
- * Die leeren Auspraegungen können bearbeitet, gelöscht und neue hinzugefuegt werden.
- * Nach dem Anlegen kann der Kontakt direkt zu einer bestehenden Kontaktliste hinzugefuegt werden.
+ * Mit der Klasse NewKontaktForm lassen sich neue Kontakte anlegen. Beim Anlegen
+ * eines neuen Kontaktes werden automatisch vier leere Auspraegungen fuer die
+ * vier Basis-Eigenschaften "Vorname", "Nachname", "E-Mail" und "Telefonnummer"
+ * anggelegt. Die leeren Auspraegungen können bearbeitet, gelöscht und neue
+ * hinzugefuegt werden. Nach dem Anlegen kann der Kontakt direkt zu einer
+ * bestehenden Kontaktliste hinzugefuegt werden.
  * 
  * @author Nino
  *
  */
 
-
 public class NewKontaktForm extends VerticalPanel {
 
-	//Instanziieren und Deklarieren der benötigten Variablen
-	
+	// Instanziieren und Deklarieren der benötigten Variablen
+
 	private KontaktAdministrationAsync verwaltung = ClientsideSettings.getKontaktVerwaltung();
 
 	private HorizontalPanel hpanel = new HorizontalPanel();
 	private VerticalPanel vpanel = new VerticalPanel();
 	private HorizontalPanel hpanelButtonBar = new HorizontalPanel();
 	private HorizontalPanel hpanel2 = new HorizontalPanel();
+	private HorizontalPanel hpanel3 = new HorizontalPanel();
 	private VerticalPanel vpanel2 = new VerticalPanel();
 
 	private Label name = new Label("Name: ");
 	private TextBox tbName = new TextBox();
-	private Label eigenschaftName = new Label("Eigenschaft");
-	private Label auspraegungName = new Label("Ausprägung");
-	
+	private Image addKonToListPic = new Image("Image/Kontakt_zu_Liste.png");
+	private Image homePic = new Image("Image/Startseite.png");
+
 	private Image kontaktVisit = new Image("Image/Visitenkarte_2.png");
 
 	private Button cancel = new Button("Abbrechen");
 	private Button getBack = new Button("Abschliessen und zurück");
 	private HTML html1 = new HTML(
 			"Bitte geben Sie hier die <b> Namen </b> zu ihrem neuen "
-					+ " <b>Kontakt</b>  an und bestätigen Sie mit Enter." + "<span style='font-family:fixed'></span>",true);
+					+ " <b>Kontakt</b>  an und bestätigen Sie mit Enter." + "<span style='font-family:fixed'></span>",
+			true);
 
 	private HTML html2 = new HTML("Bitte geben Sie hier die <b> Eigenschaften </b> und die dazugehörigen"
 			+ " <b>Auspärgungen</b>  zu Ihrem Kontakt an." + "<span style='font-family:fixed'></span>", true);
@@ -95,48 +95,46 @@ public class NewKontaktForm extends VerticalPanel {
 	private Nutzer nutzer = new Nutzer();
 	private Eigenschaft eig1 = new Eigenschaft();
 	private EigenschaftAuspraegungWrapper ea = new EigenschaftAuspraegungWrapper();
-	
+
 	private CellTableForm ctf = null;
 	private ButtonCell deleteBtn = new ButtonCell();
 	private CellTableForm.ColumnDeleteBtn deleteButtonCol = ctf.new ColumnDeleteBtn(deleteBtn);
-	
-	
+
 	private ClickableTextCell bezeigenschaft = new ClickableTextCell();
 	private EditTextCell wertauspraegung = new EditTextCell();
 
 	private CellTableForm.ColumnEigenschaft bezEigenschaft = ctf.new ColumnEigenschaft(bezeigenschaft);
-	private CellTableForm.ColumnAuspraegung wertAuspraegung = ctf.new ColumnAuspraegung(wertauspraegung){
+	private CellTableForm.ColumnAuspraegung wertAuspraegung = ctf.new ColumnAuspraegung(wertauspraegung) {
 
-		public void onBrowserEvent(Context context, Element elem, EigenschaftAuspraegungWrapper object, NativeEvent event) {
-			
+		public void onBrowserEvent(Context context, Element elem, EigenschaftAuspraegungWrapper object,
+				NativeEvent event) {
+
 			super.onBrowserEvent(context, elem, object, event);
 			ctf.setKeyboardSelectionPolicy(KeyboardSelectionPolicy.DISABLED);
 			if (event.getKeyCode() == KeyCodes.KEY_ENTER) {
-				
-				
+
 				setFieldUpdater(new FieldUpdater<EigenschaftAuspraegungWrapper, String>() {
 
 					@Override
 					public void update(int index, EigenschaftAuspraegungWrapper object, String value) {
-						
+
 						object.setAuspraegungValue(value);
-						
-						
+
 						ctf.getSm().getSelectedObject().setAuspraegungValue(value);
 						ctf.getSm().getSelectedObject().setAuspraegungID(object.getAuspraegungID());
-						
+
 						eigaus.setWert(object.getAuspraegungValue());
 						eigaus.setID(object.getAuspraegungID());
 						eigaus.setEigenschaftsID(object.getEigenschaftID());
 						eigaus.setKontaktID(kontakt1.getID());
 						eigaus.setStatus(0);
-						
+
 						eigaus.setWert(ctf.getSm().getSelectedObject().getAuspraegungValue());
-						
+
 						verwaltung.updateAuspraegung(eigaus, new AuspraegungBearbeitenCallback());
-					
+
 						verwaltung.findHybrid(kontakt1, new ReloadCallback());
-						
+
 					}
 
 				});
@@ -147,14 +145,15 @@ public class NewKontaktForm extends VerticalPanel {
 	};
 
 	KontaktlisteKontaktTreeViewModel kktvw = null;
-	
+
 	/**
-	 * Die onLoad()-Methode wird beim Starten der NewKontaktForm geladen.
-	 * Es wird eine neue CellTableForm mit dem übergebenen Kontakt erstellt, die
-	 * alle benötigten Spalten beinhaltet. Des weiteren werden den Buttons die zugehörigen Clickhandler 
-	 * hinzugefügt und die verschiedenen Widgets den Panel hinzugefügt.
+	 * Die onLoad()-Methode wird beim Starten der NewKontaktForm geladen. Es
+	 * wird eine neue CellTableForm mit dem übergebenen Kontakt erstellt, die
+	 * alle benötigten Spalten beinhaltet. Des weiteren werden den Buttons die
+	 * zugehörigen Clickhandler hinzugefügt und die verschiedenen Widgets den
+	 * Panel hinzugefügt.
 	 */
-	
+
 	public void onLoad() {
 
 		super.onLoad();
@@ -165,17 +164,17 @@ public class NewKontaktForm extends VerticalPanel {
 		html2.setVisible(false);
 		eigenschaftSugBox.setVisible(false);
 		txt_Auspraegung.setVisible(false);
-		eigenschaftName.setVisible(false);
-		auspraegungName.setVisible(false);
+
 		addRow.setVisible(false);
-		
+
 		/**
-		 * Hier wird der CellTable ein SelectionModel und die benötigten Columns hinzugefügt.
+		 * Hier wird der CellTable ein SelectionModel und die benötigten Columns
+		 * hinzugefügt.
 		 */
-		
+
 		ctf = new CellTableForm(kontakt1);
-		ctf.addColumn(bezEigenschaft, "Eigenschaft");
-		ctf.addColumn(wertAuspraegung, "Ausprägung");
+		ctf.addColumn(bezEigenschaft, "Kontakteigenschaften: ");
+		ctf.addColumn(wertAuspraegung);
 		ctf.addColumn(deleteButtonCol);
 		ctf.setSelectionModel(ctf.getSm());
 
@@ -184,33 +183,37 @@ public class NewKontaktForm extends VerticalPanel {
 		 */
 		kontaktVisit.setStyleName("Kontaktbild");
 		hpanelButtonBar.add(cancel);
-		hpanel2.add(eigenschaftName);
+
+		eigenschaftSugBox.getElement().setAttribute("placeholder", "Eigenschaft");
+		txt_Auspraegung.getElement().setAttribute("placeholder", "Ausprägung");
 		hpanel2.add(eigenschaftSugBox);
-		hpanel2.add(auspraegungName);
 		hpanel2.add(txt_Auspraegung);
 		hpanel2.add(addRow);
 
 		vpanel2.add(hpanel2);
-		vpanel2.add(addToList);
-		vpanel2.add(getBack);
-		
+		hpanel3.add(addToList);
+		hpanel3.add(getBack);
+		vpanel2.add(hpanel3);
 		hpanel.add(name);
 		hpanel.add(tbName);
 		vpanel.add(html1);
 		vpanel.add(hpanel);
 		vpanel.add(html2);
 		vpanel.setStyleName("HtmlPanel");
-		
+		addKonToListPic.setStyleName("ButtonICON");
+		homePic.setStyleName("ButtonICON");
+
 		RootPanel.get("Buttonbar").clear();
 		RootPanel.get("Buttonbar").add(hpanelButtonBar);
-		
+
 		this.add(kontaktVisit);
 		this.add(vpanel);
 
 		verwaltung.findAllEigenschaft(new AlleEigenschaftCallback());
 
 		/**
-		 * Den erstellten Button werden die entsprechenden Clickhandler hinzugefügt.
+		 * Den erstellten Button werden die entsprechenden Clickhandler
+		 * hinzugefügt.
 		 */
 
 		cancel.addClickHandler(new CancelClick());
@@ -219,21 +222,24 @@ public class NewKontaktForm extends VerticalPanel {
 		tbName.addKeyDownHandler(new InsertReturn());
 		addRow.addClickHandler(new ClickAddRowHandler());
 		deleteButtonCol.setFieldUpdater(new DeleteFieldUpdater());
+		addToList.getElement().appendChild(addKonToListPic.getElement());
+		getBack.getElement().appendChild(homePic.getElement());
 
 	}
-	
+
 	/*
 	 * Nasted AsyncCallback - Classes, Click/Selection - Handler und
 	 * FieldUpdater - Classes.
 	 */
 
 	/**
-	 * Diese KeyDownHandler Klasse überprüft ob die Enter-Taste gedrückt wurde und 
-	 * stößt den Callback, um einen neuen Kontakt zu erstellen, an.
+	 * Diese KeyDownHandler Klasse überprüft ob die Enter-Taste gedrückt wurde
+	 * und stößt den Callback, um einen neuen Kontakt zu erstellen, an.
+	 * 
 	 * @author Nino
 	 *
 	 */
-	
+
 	private class InsertReturn implements KeyDownHandler {
 
 		@Override
@@ -249,7 +255,7 @@ public class NewKontaktForm extends VerticalPanel {
 
 			}
 		}
-		
+
 	}
 
 	/**
@@ -292,19 +298,19 @@ public class NewKontaktForm extends VerticalPanel {
 			RootPanel.get("Details").add(getBack);
 			RootPanel.get("Navigator").clear();
 			RootPanel.get("Navigator").add(navigationTree);
-	
-			
+
 		}
 
 	}
 
 	/**
-	 * Diese Clickhandler Klasse ermöglicht das Erscheinen 
-	 * der DialogBox um den Kontakt direkt beim Erstellen einer Liste hinzuzufügen
+	 * Diese Clickhandler Klasse ermöglicht das Erscheinen der DialogBox um den
+	 * Kontakt direkt beim Erstellen einer Liste hinzuzufügen
+	 * 
 	 * @author Nino
 	 *
 	 */
-	
+
 	private class AddToListClick implements ClickHandler {
 
 		@Override
@@ -318,8 +324,9 @@ public class NewKontaktForm extends VerticalPanel {
 	}
 
 	/**
-	 * Diese Clickhandler stößt die Callback-aufrufe an um die neue Ausprägung 
-	 * und die zugehörige Eigenschaft anzulegen 
+	 * Diese Clickhandler stößt die Callback-aufrufe an um die neue Ausprägung
+	 * und die zugehörige Eigenschaft anzulegen
+	 * 
 	 * @author Nino
 	 *
 	 */
@@ -383,17 +390,14 @@ public class NewKontaktForm extends VerticalPanel {
 		public void onSuccess(Vector<Eigenschaftauspraegung> result) {
 			// Window.alert("die leeren ausprägungen wurden erstellt ");
 			html2.setVisible(true);
-			eigenschaftName.setVisible(true);
-			auspraegungName.setVisible(true);
+
 			eigenschaftSugBox.setVisible(true);
 			txt_Auspraegung.setVisible(true);
 			addRow.setVisible(true);
 
-
 			add(ctf);
 			add(vpanel2);
 			verwaltung.findHybrid(kontakt1, new ReloadCallback());
-			
 
 		}
 
@@ -419,8 +423,7 @@ public class NewKontaktForm extends VerticalPanel {
 			eigaus.setWert(result.getWert());
 			ctf.getSm().setSelected(null, true);
 			verwaltung.findHybrid(kontakt1, new ReloadCallback());
-			
-		
+
 		}
 
 	}
@@ -512,10 +515,10 @@ public class NewKontaktForm extends VerticalPanel {
 
 	}
 
-
 	/**
-	 * Callback-Klasse um eine neue Ausprägung zu diesem Kontakt hinzuzufügen. 
+	 * Callback-Klasse um eine neue Ausprägung zu diesem Kontakt hinzuzufügen.
 	 * Der Wert der Ausprägung wird aus der Textbox entnommen.
+	 * 
 	 * @author Nino
 	 *
 	 */
@@ -535,14 +538,15 @@ public class NewKontaktForm extends VerticalPanel {
 		}
 
 	}
-	
+
 	/**
-	 * Diese Callback Klasse wird immer aufgerufen, wenn sich die CellTable geändert hat
-	 * und ein Refresh notendig ist.
+	 * Diese Callback Klasse wird immer aufgerufen, wenn sich die CellTable
+	 * geändert hat und ein Refresh notendig ist.
+	 * 
 	 * @author Nino
 	 *
 	 */
-	
+
 	private class ReloadCallback implements AsyncCallback<Vector<EigenschaftAuspraegungWrapper>> {
 
 		@Override
@@ -559,9 +563,8 @@ public class NewKontaktForm extends VerticalPanel {
 		}
 
 	}
-	
-	
-	private class DeleteFieldUpdater implements FieldUpdater<EigenschaftAuspraegungWrapper, String>{
+
+	private class DeleteFieldUpdater implements FieldUpdater<EigenschaftAuspraegungWrapper, String> {
 
 		@Override
 		public void update(int index, EigenschaftAuspraegungWrapper object, String value) {
@@ -570,15 +573,16 @@ public class NewKontaktForm extends VerticalPanel {
 			ea.setEigenschaft(object.getEigenschaft());
 			verwaltung.deleteEigenschaftUndAuspraegung(ea, new EigAusDeleteCallback());
 		}
-		
+
 	}
-	
+
 	/**
-	 *  Diese Callback-Klasse löscht die ausgewählte Ausprägung.
+	 * Diese Callback-Klasse löscht die ausgewählte Ausprägung.
+	 * 
 	 * @author Nino
 	 *
 	 */
-	private class EigAusDeleteCallback implements AsyncCallback<Void>{
+	private class EigAusDeleteCallback implements AsyncCallback<Void> {
 
 		@Override
 		public void onFailure(Throwable caught) {
@@ -592,7 +596,7 @@ public class NewKontaktForm extends VerticalPanel {
 			ctf.deleteRow(ea);
 			verwaltung.findHybrid(kontakt1, new ReloadCallback());
 		}
-		
+
 	}
 
 }

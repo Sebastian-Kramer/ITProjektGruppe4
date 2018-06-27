@@ -50,22 +50,28 @@ public class MainForm extends VerticalPanel {
 	private Button suchen = new Button("Suchen");
 	private HTML greetHTML2 = new HTML(
 			"Herzlich Willkommen auf <b>WYNWYN</b>, Ihrer <b>Kontaktverwaltung</b>. "
-					+ "<br> Hier können Sie neue Kontakte anlegen, diese in verschiedene Listen organisieren und sowohl Kontakte als auch Kontaktlisten mit anderen Nutzern teilen.");
+					+ "<br> Hier können Sie neue Kontakte anlegen, "
+					+ "<br> diese in verschiedene Listen organisieren und "
+					+ "<br> sowohl Kontakte als auch Kontaktlisten mit anderen Nutzern teilen.");
 
-	private HTML html1 = new HTML("<h2>Alle meine Kontakte</h2>");
-
-	private KontaktCell kontaktCell = new KontaktCell();
-	private CellList<Kontakt> cellList = new CellList<Kontakt>(kontaktCell);
-	final SingleSelectionModel<Kontakt> selectionModel = new SingleSelectionModel<Kontakt>();
-	private ScrollPanel scrollPanel = new ScrollPanel();
+	
+//	private KontaktCell kontaktCell = new KontaktCell();
+//	private CellList<Kontakt> cellList = new CellList<Kontakt>(kontaktCell);
+//	final SingleSelectionModel<Kontakt> selectionModel = new SingleSelectionModel<Kontakt>();
+//	private ScrollPanel scrollPanel = new ScrollPanel();
 	private Image startImage = new Image();
 	private Image newKonPic = new Image();
 	private Image newKonlistPic = new Image();
 	private Image suchenPic = new Image();
 	
+	
+	
+	
+	
+	
 	public MainForm() {
 
-		html1.setStyleName("ÜberschriftMainForm");
+		
 		greetHTML2.setStyleName("BegrueßungsText");
 		hpanelDetails.setStyleName("HPanel");
 		newKonPic.setStyleName("ButtonICON");
@@ -82,25 +88,15 @@ public class MainForm extends VerticalPanel {
 		nutzer.setID(Integer.parseInt(Cookies.getCookie("id")));
 		nutzer.setEmail(Cookies.getCookie("email"));
 
-		verwaltung.findAllKontaktFromNutzer(nutzer.getID(), new KontakteVonNutzerCallback());
+		
 
-		cellList.setSelectionModel(selectionModel);
-		cellList.setPageSize(100);
-
-		selectionModel.addSelectionChangeHandler(new SelectionChangeHandler());
-
-		scrollPanel.setSize("450px", "250px");
-		scrollPanel.setStyleName("scrollPanel");
-		cellList.setStyleName("cellListKontakte");
-		scrollPanel.add(cellList);
+		
 
 		RootPanel.get("Buttonbar").add(newKontaktliste);
 		RootPanel.get("Buttonbar").add(newKontakt);
 		RootPanel.get("Buttonbar").add(suchen);
 
 		anordnung.setWidget(0, 0, greetHTML2);
-		anordnung.setWidget(1, 0, html1);
-		anordnung.setWidget(2, 0, scrollPanel);
 
 		hpanelDetails.add(startImage);
 		
@@ -117,26 +113,6 @@ public class MainForm extends VerticalPanel {
 
 	}
 
-	class SelectionChangeHandler implements SelectionChangeEvent.Handler {
-
-		@Override
-		public void onSelectionChange(SelectionChangeEvent event) {
-
-			Kontakt selected = selectionModel.getSelectedObject();
-
-			if (selected.getNutzerID() == nutzer.getID()) {
-				KontaktForm kf = new KontaktForm(selected);
-				RootPanel.get("Details").clear();
-				RootPanel.get("Details").add(kf);
-			} else {
-				KontaktForm kf2 = new KontaktForm(selected, "Teilhaberschaft");
-				RootPanel.get("Details").clear();
-				RootPanel.get("Details").add(kf2);
-			}
-
-		}
-
-	}
 
 	class ImpressumButton implements ClickHandler {
 
@@ -182,21 +158,7 @@ public class MainForm extends VerticalPanel {
 		}
 	}
 
-	class KontakteVonNutzerCallback implements AsyncCallback<Vector<Kontakt>> {
 
-		@Override
-		public void onFailure(Throwable caught) {
-
-		}
-
-		@Override
-		public void onSuccess(Vector<Kontakt> result) {
-			cellList.setRowCount(result.size(), true);
-			cellList.setRowData(result);
-
-		}
-
-	}
 
 	
 	class KontakteVonKontaktlisteAnzeigenCallBack implements AsyncCallback<Kontakt> {

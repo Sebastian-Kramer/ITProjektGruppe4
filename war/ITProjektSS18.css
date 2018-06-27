@@ -52,8 +52,8 @@ a.Startseite {
 
 .ButtonICON {
 	
-	height: 15px;
-	width: 15px;
+	height: 18px;
+	width: 18px;
 }
 
 .ButtonKontaktlisteTeilen {
@@ -258,13 +258,7 @@ table.HPanel {
 
 }
 
-a, .akzentfarbe1 {
-	color: #28729a;
-}
 
-.akzentfarbe2 {
-	color: #ccc;
-}
 
 h1 {
     color: black;

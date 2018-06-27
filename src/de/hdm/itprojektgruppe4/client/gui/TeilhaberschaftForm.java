@@ -11,6 +11,7 @@ import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.HorizontalPanel;
+import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.MultiWordSuggestOracle;
 import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwt.user.client.ui.ScrollPanel;
@@ -140,9 +141,9 @@ public class TeilhaberschaftForm extends VerticalPanel {
 		ctf.setSelectionModel(selectionModelWrapper,
 				DefaultSelectionEventManager.<EigenschaftAuspraegungWrapper>createCheckboxManager());
 		ctf.addColumn(ctf.getCheckBox());
-		ctf.addColumn(ctf.getBezEigenschaft(), "Eigenschaft");
-		ctf.addColumn(ctf.getWertAuspraegung(), "Wert");
-		ctf.addColumn(ctf.getStatus(), "Status");
+		ctf.addColumn(ctf.getBezEigenschaft(), "Kontakteigenschaften: ");
+		ctf.addColumn(ctf.getWertAuspraegung());
+		ctf.addColumn(ctf.getStatus());
 		ctf.addColumn(ctf.getDeleteBtn(), "Teilhaberschaft löschen");
 		ctf.setStyleName("CellTableAuspraegung");
 		ctf.setWidth("600px");
@@ -163,12 +164,14 @@ public class TeilhaberschaftForm extends VerticalPanel {
 		 * HorizontelPanel hinzugefügt
 		 */
 		vpanel.setStyleName("TeilhaberschaftVPanel");
-		hpanel.add(scrollPanel);
+		//hpanel.add(scrollPanel);
+		
 		vpanel.add(html1);
 		vpanel.add(html2);
 		vpanel.add(html3);
 		vpanel.add(nutzerSugBox);
-		vpanel.add(hpanel);
+		vpanel.add(scrollPanel);
+	
 
 		RootPanel.get("Buttonbar").clear();
 		RootPanel.get("Buttonbar").add(zurueck);

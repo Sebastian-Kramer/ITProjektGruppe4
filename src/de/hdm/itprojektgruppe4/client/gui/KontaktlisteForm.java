@@ -17,23 +17,26 @@ import com.google.gwt.user.client.Cookies;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Button;
+import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.PopupPanel;
-import com.google.gwt.user.client.ui.VerticalPanel;
-import com.google.gwt.view.client.SingleSelectionModel;
 import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwt.user.client.ui.ScrollPanel;
 import com.google.gwt.user.client.ui.TextBox;
+import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.view.client.ListDataProvider;
-import com.google.gwt.user.client.ui.FlowPanel;
+import com.google.gwt.view.client.SingleSelectionModel;
 
-import de.hdm.itprojektgruppe4.shared.KontaktAdministrationAsync;
-import de.hdm.itprojektgruppe4.shared.bo.*;
 import de.hdm.itprojektgruppe4.client.ClientsideSettings;
 import de.hdm.itprojektgruppe4.client.NavigationTree;
+import de.hdm.itprojektgruppe4.shared.KontaktAdministrationAsync;
+import de.hdm.itprojektgruppe4.shared.bo.Kontakt;
+import de.hdm.itprojektgruppe4.shared.bo.Kontaktliste;
+import de.hdm.itprojektgruppe4.shared.bo.Nutzer;
+import de.hdm.itprojektgruppe4.shared.bo.Teilhaberschaft;
 
 /**
  * Die Klasse dient zur Darstellung, Verwaltung und Bearbeitung von
@@ -80,7 +83,9 @@ public class KontaktlisteForm extends VerticalPanel {
 	private Image teilPic = new Image("Image/contactShared.png");
 	private Image teilVerwaltPic = new Image("Image/Teilen.png");
 	private Image zurueckPic = new Image("Image/Startseite.png");
-	
+	private Image deletePic = new Image("Image/Löschen.png");
+	private Image konZuListPic = new Image("Image/Kontakt_zu_Liste.png");
+
 	private boolean deleteListAlert;
 
 	private KontaktAdministrationAsync kontaktVerwaltung = ClientsideSettings.getKontaktverwaltung();
@@ -124,15 +129,14 @@ public class KontaktlisteForm extends VerticalPanel {
 		teilPic.setStyleName("ButtonICON");
 		teilVerwaltPic.setStyleName("ButtonICON");
 		zurueckPic.setStyleName("ButtonICON");
-		
-		
+		deletePic.setStyleName("ButtonICON");
+		konZuListPic.setStyleName("ButtonICON");
+
 		kontaktCellList.setSelectionModel(selectionModel);
 		scrollPanel.setStyleName("scrollPanel");
 		kontaktCellList.setStyleName("cellListKontakte");
 		scrollPanel.add(kontaktCellList);
 		HTML html1 = new HTML("<h2> Liste: " + kl.getBez() + "</h2>");
-		
-		
 
 		/*
 		 * Hinzufuegen der Buttons zur Buttonbar
@@ -160,8 +164,7 @@ public class KontaktlisteForm extends VerticalPanel {
 		 * Hinzufuegen der Ueberschrift und der CellList zum Vertical Panel
 		 */
 		hpanel.add(html1);
-	
-		
+
 		/*
 		 * if-clause überprüft den Status der Liste. Ist dieser auf 1
 		 * (=geteilt), so wird dieser visuell sichtbar gemacht, indem ein
@@ -171,8 +174,6 @@ public class KontaktlisteForm extends VerticalPanel {
 			hpanel.add(listShared);
 
 		}
-		
-		
 
 		vpanel.add(hpanel);
 		vpanel.add(scrollPanel);
@@ -192,9 +193,13 @@ public class KontaktlisteForm extends VerticalPanel {
 		kontaktlisteBearbeiten.addClickHandler(new KontaktlisteBearbeitenClickhandler());
 		zurStartseite.getElement().appendChild(zurueckPic.getElement());
 		zurStartseite.addClickHandler(new ZurueckZurStartseiteClickhandler());
+		kontaktHinzufuegen.getElement().appendChild(konZuListPic.getElement());
 		kontaktHinzufuegen.addClickHandler(new KontaktHinzufuegenClickhandler());
+		kontaktEntfernen.getElement().appendChild(deletePic.getElement());
 		kontaktEntfernen.addClickHandler(new KontaktEntfernenClickhandler());
+		kontaktlisteLoeschen.getElement().appendChild(deletePic.getElement());
 		kontaktlisteLoeschen.addClickHandler(new KontaktlisteloeschenClickhandler());
+		zurueck.getElement().appendChild(zurueckPic.getElement());
 		zurueck.addClickHandler(new BearbeitenBeendenClickhandler());
 		txt_kontaktliste.addKeyDownHandler(changeListNameHandler);
 
@@ -218,7 +223,7 @@ public class KontaktlisteForm extends VerticalPanel {
 		hpanel.add(lbl_kontaktliste);
 		hpanel.add(txt_kontaktliste);
 		txt_kontaktliste.setText(kl.getBez());
-	} 
+	}
 
 	private class PopUpInfo extends PopupPanel {
 
@@ -251,10 +256,11 @@ public class KontaktlisteForm extends VerticalPanel {
 	}
 
 	/**
-	 * Clickhandler ermöglicht das Anzeigen eines ausgewaehlten Kontaktes.
-	 * Es wird unterschieden, ob der angemeldete Nutzer Eigentümer, Teilhaber oder den Kontakt im Rahmen
-	 * einer Kontaktlistenteilung erhalten hat, da dies ausschlaggebend für die Berechtigungen an der
-	 * Bearbeitung des Kontaktes ist.
+	 * Clickhandler ermöglicht das Anzeigen eines ausgewaehlten Kontaktes. Es
+	 * wird unterschieden, ob der angemeldete Nutzer Eigentümer, Teilhaber oder
+	 * den Kontakt im Rahmen einer Kontaktlistenteilung erhalten hat, da dies
+	 * ausschlaggebend für die Berechtigungen an der Bearbeitung des Kontaktes
+	 * ist.
 	 */
 	private class KontaktAnzeigenClickhandler implements ClickHandler {
 

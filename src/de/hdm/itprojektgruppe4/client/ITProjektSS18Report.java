@@ -23,7 +23,9 @@ public class ITProjektSS18Report implements EntryPoint {
 	private VerticalPanel loginPanel = new VerticalPanel();
 	private Label loginLabel = new Label("Bitte melde dich mit deinem Google-Konto an");
 	private Anchor signInLink = new Anchor("Anmelden");
+	private Label eingeloggt = new Label("Momentan in WYNWYN angemeldet: ");
 	private Anchor signOutLink = new Anchor("Logout");
+	private Anchor loggedNutzer;
 
 	LoginServiceAsync loginService = GWT.create(LoginService.class);
 	
@@ -37,6 +39,7 @@ public class ITProjektSS18Report implements EntryPoint {
 	public void onModuleLoad() {
 
 		signOutLink.setStyleName("Logout");
+		eingeloggt.setStyleName("AktiverUser");
 		LoginServiceAsync loginService = GWT.create(LoginService.class);
 		loginService.login(GWT.getHostPageBaseURL() + editorHtmlName, new AsyncCallback<LoginInfo>() {
 
@@ -59,7 +62,7 @@ public class ITProjektSS18Report implements EntryPoint {
 	}
 	
 	/*
-	 * Die checkNewNutzer Methode überprüft ob der Nutzer in der Datenbank vorhanden ist
+	 * Die checkNewNutzer Methode ï¿½berprï¿½ft ob der Nutzer in der Datenbank vorhanden ist
 	 */
 
 	private Nutzer checkNewNutzer(LoginInfo result) {
@@ -81,6 +84,7 @@ public class ITProjektSS18Report implements EntryPoint {
 					Window.alert(
 							"Hallo " + result.getEmail() + " wir konnten dich erfolgreich aus der Datenbank lesen.");
 					ClientsideSettings.setAktuellerNutzer(result);
+					loggedNutzer = new Anchor(result.getEmail());
 					Cookies.setCookie("email", result.getEmail());
 					Cookies.setCookie("id", result.getID() + "");
 					loadStartseite();
@@ -110,6 +114,8 @@ public class ITProjektSS18Report implements EntryPoint {
 		NavigationReport navigationReport = new NavigationReport();
 		MainFormReport mfReport = new MainFormReport();
 		signOutLink.setHref(loginInfo.getLogoutUrl());
+		RootPanel.get("Header").add(eingeloggt);
+		RootPanel.get("Header").add(loggedNutzer);
 		RootPanel.get("Header").add(signOutLink);
 		RootPanel.get("Details").add(mfReport);
 		RootPanel.get("Navigator").add(navigationReport);

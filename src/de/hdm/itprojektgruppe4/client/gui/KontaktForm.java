@@ -141,9 +141,9 @@ public class KontaktForm extends VerticalPanel {
 		HTML html2 = new HTML("Erstellt am: " + fmt.format(k.getErzeugungsdatum()));
 		HTML html3 = new HTML("Zuletzt geändert am: " + fmt.format(k.getModifikationsdatum()));
 
-		ctf.addColumn(bezEigenschaft, "Eigenschaft: ");
-		ctf.addColumn(wertAuspraegung, "Wert: ");
-		ctf.addColumn(ctf.getStatus(), "Status");
+		ctf.addColumn(bezEigenschaft, "Kontakteigenschaften: ");
+		ctf.addColumn(wertAuspraegung);
+		ctf.addColumn(ctf.getStatus());
 		ctf.setSelectionModel(sm);
 		RootPanel.get("Buttonbar").clear();
 
