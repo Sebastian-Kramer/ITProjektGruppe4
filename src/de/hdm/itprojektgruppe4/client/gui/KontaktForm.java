@@ -101,7 +101,6 @@ public class KontaktForm extends VerticalPanel {
 	public KontaktForm(Kontakt k, String teilhaberschaft) {
 
 		this.k = k;
-		// loeschenButton.setVisible(false);
 		ctf = new CellTableForm(k, teilhaberschaft);
 
 	}

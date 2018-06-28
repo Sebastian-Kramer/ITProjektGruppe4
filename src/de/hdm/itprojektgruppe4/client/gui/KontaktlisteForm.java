@@ -54,7 +54,7 @@ public class KontaktlisteForm extends VerticalPanel {
 	private FlowPanel fpanel = new FlowPanel();
 	private FlowPanel fpanelEdit = new FlowPanel();
 
-	private Label lbl_kontaktliste = new Label("Kontaktlistenname:");
+	private Label lbl_kontaktliste = new Label("Bezeichnung:");
 	private TextBox txt_kontaktliste = new TextBox();
 	private KeyDownHandler changeListNameHandler = new ChangeListNameHandler();
 
@@ -222,6 +222,9 @@ public class KontaktlisteForm extends VerticalPanel {
 		hpanel.clear();
 		hpanel.add(lbl_kontaktliste);
 		hpanel.add(txt_kontaktliste);
+		hpanel.setStyleName("HpanelKlist");
+		lbl_kontaktliste.setStyleName("KlistBezeichnung");
+		
 		txt_kontaktliste.setText(kl.getBez());
 	}
 

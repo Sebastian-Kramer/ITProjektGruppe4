@@ -44,7 +44,7 @@ public class MainForm extends VerticalPanel {
 	private HorizontalPanel hpanelDetails = new HorizontalPanel();
 
 	private FlexTable anordnung = new FlexTable();
-
+	private Image logo = new Image("Image/Logo.png");
 	private Button newKontakt = new Button("Neuen Kontakt anlegen");
 	private Button newKontaktliste = new Button("Neue Kontaktliste anlegen");
 	private Button suchen = new Button("Suchen");
@@ -88,10 +88,6 @@ public class MainForm extends VerticalPanel {
 		nutzer.setID(Integer.parseInt(Cookies.getCookie("id")));
 		nutzer.setEmail(Cookies.getCookie("email"));
 
-		
-
-		
-
 		RootPanel.get("Buttonbar").add(newKontaktliste);
 		RootPanel.get("Buttonbar").add(newKontakt);
 		RootPanel.get("Buttonbar").add(suchen);
@@ -99,10 +95,11 @@ public class MainForm extends VerticalPanel {
 		anordnung.setWidget(0, 0, greetHTML2);
 
 		hpanelDetails.add(startImage);
-		
+		logo.setStyleName("LogoStartseite");
 		
 		vpanelDetails.add(hpanelDetails);
 		vpanelDetails.add(anordnung);
+		this.add(logo);
 		this.add(vpanelDetails);
 		newKontakt.getElement().appendChild(newKonPic.getElement());
 		newKontaktliste.getElement().appendChild(newKonlistPic.getElement());

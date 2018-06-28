@@ -31,6 +31,10 @@ a.LoggedNutzer {
 	margin-right: 160px;
 }
 
+table.TableButton {
+	width: 60%;
+}
+
 a.Impressum {
 	right: 0;
 	position: absolute;
@@ -49,9 +53,7 @@ a.Startseite {
 	margin-right: 160px;
 }
 
-
 .ButtonICON {
-	
 	height: 18px;
 	width: 18px;
 }
@@ -113,14 +115,13 @@ body {
 header {
 	border-radius: 20px;
 	margin-bottom: 15px;
-	
 }
 
 [role="banner"] {
-    background: url(Image/Logo.png) no-repeat right, #000 repeating-linear-gradient(-45deg, SeaGreen, LimeGreen, Gainsboro);
-    background-size: contain, auto;
-    padding: 0 0 0.5em;
-
+	background: url(Image/Logo.png) no-repeat right, #000
+		repeating-linear-gradient(-45deg, SeaGreen, LimeGreen, Gainsboro);
+	background-size: contain, auto;
+	padding: 0 0 0.5em;
 }
 
 @media screen and (max-width: 40em) {
@@ -165,10 +166,10 @@ div#NavigationsseiteR {
 }
 
 div#Navigator {
-    background: rgb(255, 255, 255);
-    width: 250px;
-    height: 100%;
-    min-height: 500px
+	background: rgb(255, 255, 255);
+	width: 250px;
+	height: 100%;
+	min-height: 500px
 }
 
 div#Details {
@@ -185,14 +186,19 @@ div#Buttonbar {
 }
 
 div.DialogboxBackground {
-	background: ghostwhite;
-	left: 271px;
-	top: 187px;
-	visibility: visible;
-	position: absolute;
-	overflow: visible;
-	border-style: solid;
-	border-width: 1px;
+    left: 465px;
+    top: 279px;
+    visibility: visible;
+    position: absolute;
+    overflow: visible;
+    width: 30%;
+    border-radius: 15px;
+    border-style: double;
+    background: #000 repeating-linear-gradient(-45deg, SeaGreen, LimeGreen, Gainsboro);
+}
+
+div.cellListKontakte{
+	background-color: limegreen;
 }
 
 div.ÜberschriftMyContacts {
@@ -200,9 +206,8 @@ div.ÜberschriftMyContacts {
 }
 
 div.BegrueßungsText {
-	font-size: 20px;
-	margin-top: 5px;
-	margin-left: 50px;
+    text-align: -webkit-center;
+    font-size: 25px;
 }
 
 div.DialogboxBackground1 {
@@ -221,6 +226,8 @@ div.scrollPanel {
 	border-style: groove;
 	border-color: 1px solid LightSkyBlue;
 	background: white;
+	width: 60%;
+	margin-top: 40px;
 }
 
 div.cellListKontakte {
@@ -232,17 +239,57 @@ img.Startbild {
 	margin-left: 50px;
 }
 
+table.HpanelKlist{
+	margin-top: 3%;
+    width: 23%;
+    margin-left: 30%;
+}
+
+div.KlistBezeichnung {
+    font-size: 17px;
+}
+
 .HtmlText {
 	margin-bottom: 10px;
 }
 
 .HtmlText1 {
-
+	
 }
 
 table.HPanel {
-    width: 100%;
+	width: 100%;
+}
 
+table.HpanelTop {
+	width: 800px;
+	border-bottom-style: dashed;
+	border-bottom-color: black;
+}
+
+input.KontaktName {
+	margin-bottom: 10px;
+}
+
+div.KontaktAnlegenHTML1 {
+	white-space: normal;
+	margin-bottom: 10px;
+	font-size: 20px;
+}
+
+div.KontaktAnlegenHTML2 {
+	font-size: 17px;
+    margin-bottom: 24px;
+	
+}
+img.LogoStartseite {
+    width: 40%;
+    border-bottom-style: dashed;
+    margin-left: 30%;
+}
+
+table.PanelButton{
+	width: 66%;
 }
 
 .TeilhaberschaftVPanel {
@@ -255,17 +302,15 @@ table.HPanel {
 }
 
 .DropDown {
-
+	
 }
 
-
-
 h1 {
-    color: black;
-    font-size: 1.5em;
-    font-weight: bold;
-    font-family: Arial Unicode MS, Arial, sans-serif;
-    text-transform: uppercase;
+	color: black;
+	font-size: 1.5em;
+	font-weight: bold;
+	font-family: Arial Unicode MS, Arial, sans-serif;
+	text-transform: uppercase;
 }
 
 tr {
@@ -290,11 +335,15 @@ table#MainTable {
 	height: 100%;
 }
 
+table.TableButton{
+	width: 60%;
+}
+
+
 table.CellTableHyprid {
 	height: 250px;
 	margin-bottom: 35px;
-	margin: auto;
-	width: 600px;
+	width: 525px;
 }
 
 table.CellTableAuspraegung {
@@ -302,7 +351,7 @@ table.CellTableAuspraegung {
 	margin: auto;
 }
 
-img.ButtonICON{
+img.ButtonICON {
 	margin-left: 7px;
 }
 
@@ -312,11 +361,11 @@ td {
 	width: 200px;
 }
 
-td#tdEigenschaftReport{
+td#tdEigenschaftReport {
 	text-align: left;
 }
 
-td#tdAuspraegungReport{
+td#tdAuspraegungReport {
 	text-align: right;
 }
 
@@ -349,10 +398,11 @@ bezEigenschaft {
 }
 
 footer {
-    padding: 0.5em 1em 0;
-    color: white;
-    border-radius: 20px;
-    background: #000 repeating-linear-gradient(-45deg, SeaGreen, LimeGreen, Gainsboro);
+	padding: 0.5em 1em 0;
+	color: white;
+	border-radius: 20px;
+	background: #000
+		repeating-linear-gradient(-45deg, SeaGreen, LimeGreen, Gainsboro);
 }
 
 footer>* {
@@ -380,8 +430,7 @@ button.gwt-Button {
 	cursor: pointer;
 	cursor: hand;
 	font-size: medium;
-	background: white
-	border: 1px solid #333;
+	background: white border: 1px solid #333;
 	border-bottom: 1px solid #333;
 	border-radius: 3px;
 }

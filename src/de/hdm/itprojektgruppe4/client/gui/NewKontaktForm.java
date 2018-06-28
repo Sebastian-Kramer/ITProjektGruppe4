@@ -3,6 +3,7 @@ package de.hdm.itprojektgruppe4.client.gui;
 import java.util.Date;
 import java.util.Vector;
 
+import com.google.appengine.labs.repackaged.com.google.common.collect.Table;
 import com.google.gwt.cell.client.ButtonCell;
 import com.google.gwt.cell.client.Cell.Context;
 import com.google.gwt.cell.client.ClickableTextCell;
@@ -58,13 +59,15 @@ public class NewKontaktForm extends VerticalPanel {
 	private KontaktAdministrationAsync verwaltung = ClientsideSettings.getKontaktVerwaltung();
 
 	private HorizontalPanel hpanel = new HorizontalPanel();
+	private HorizontalPanel hpanelTop = new HorizontalPanel();
+	private VerticalPanel ueberschriftBox = new VerticalPanel();
 	private VerticalPanel vpanel = new VerticalPanel();
+	private VerticalPanel backSafeButton = new VerticalPanel();
+	private HorizontalPanel tableAndButtons = new HorizontalPanel();
 	private HorizontalPanel hpanelButtonBar = new HorizontalPanel();
 	private HorizontalPanel hpanel2 = new HorizontalPanel();
-	private HorizontalPanel hpanel3 = new HorizontalPanel();
 	private VerticalPanel vpanel2 = new VerticalPanel();
 
-	private Label name = new Label("Name: ");
 	private TextBox tbName = new TextBox();
 	private Image addKonToListPic = new Image("Image/Kontakt_zu_Liste.png");
 	private Image homePic = new Image("Image/Startseite.png");
@@ -183,22 +186,30 @@ public class NewKontaktForm extends VerticalPanel {
 		 */
 		kontaktVisit.setStyleName("Kontaktbild");
 		hpanelButtonBar.add(cancel);
-
+		tbName.setStyleName("KontaktName");
+		html1.setStyleName("KontaktAnlegenHTML1");
+		tableAndButtons.setStyleName("TableButton");
+		vpanel2.setStyleName("PanelBottom");
+		html2.setStyleName("KontaktAnlegenHTML2");
+		
 		eigenschaftSugBox.getElement().setAttribute("placeholder", "Eigenschaft");
 		txt_Auspraegung.getElement().setAttribute("placeholder", "Ausprägung");
 		hpanel2.add(eigenschaftSugBox);
 		hpanel2.add(txt_Auspraegung);
 		hpanel2.add(addRow);
-
-		vpanel2.add(hpanel2);
-		hpanel3.add(addToList);
-		hpanel3.add(getBack);
-		vpanel2.add(hpanel3);
-		hpanel.add(name);
+		hpanelTop.setStyleName("HpanelTop");
+		vpanel2.add(hpanel2);	
+		backSafeButton.add(addToList);
+		backSafeButton.add(getBack);
 		hpanel.add(tbName);
-		vpanel.add(html1);
+		ueberschriftBox.add(html1);
+		ueberschriftBox.add(tbName);
+		hpanelTop.add(kontaktVisit);
+		hpanelTop.add(ueberschriftBox);
+//		vpanel.add(vpanelTop);
 		vpanel.add(hpanel);
 		vpanel.add(html2);
+		vpanel.add(tableAndButtons);
 		vpanel.setStyleName("HtmlPanel");
 		addKonToListPic.setStyleName("ButtonICON");
 		homePic.setStyleName("ButtonICON");
@@ -206,7 +217,7 @@ public class NewKontaktForm extends VerticalPanel {
 		RootPanel.get("Buttonbar").clear();
 		RootPanel.get("Buttonbar").add(hpanelButtonBar);
 
-		this.add(kontaktVisit);
+		this.add(hpanelTop);
 		this.add(vpanel);
 
 		verwaltung.findAllEigenschaft(new AlleEigenschaftCallback());
@@ -395,7 +406,9 @@ public class NewKontaktForm extends VerticalPanel {
 			txt_Auspraegung.setVisible(true);
 			addRow.setVisible(true);
 
-			add(ctf);
+			
+			tableAndButtons.add(ctf);
+			tableAndButtons.add(backSafeButton);
 			add(vpanel2);
 			verwaltung.findHybrid(kontakt1, new ReloadCallback());
 
