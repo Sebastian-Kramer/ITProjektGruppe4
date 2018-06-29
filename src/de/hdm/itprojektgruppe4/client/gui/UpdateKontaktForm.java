@@ -132,6 +132,7 @@ public class UpdateKontaktForm extends VerticalPanel {
 	private Eigenschaftauspraegung eigaus = new Eigenschaftauspraegung();
 
 	private CellTableForm.ColumnDeleteBtn deleteBtn = ctf.new ColumnDeleteBtn(deletebtn);
+	
 
 	/**
 	 * Konstruktor: Beim Laden der UpdateKontaktForm wirde ein Kontakt-Objekt
@@ -148,6 +149,7 @@ public class UpdateKontaktForm extends VerticalPanel {
 		ctf = new CellTableForm(kon);
 		ctf.addColumn(bezEigenschaft, "Kontakteigenschaften: ");
 		ctf.addColumn(wertAuspraegung);
+		ctf.addColumn(ctf.deleteCell);
 		ctf.addColumn(deleteBtn);
 
 	}
@@ -219,6 +221,9 @@ public class UpdateKontaktForm extends VerticalPanel {
 		deleteBtn.setFieldUpdater(new DeleteFieldUpdater());
 		cancelBtn.getElement().appendChild(zurueckZuHomePic.getElement());
 		cancelBtn.addClickHandler(new CancelClick());
+		
+//		##### nachschauen
+//		ctf.deleteCell.setFieldUpdater(new DeleteFieldUpdater());
 
 		addRow.addClickHandler(new ClickAddRowHandler());
 		txt_KontaktName.addKeyDownHandler(changeNameHandler);
@@ -237,8 +242,10 @@ public class UpdateKontaktForm extends VerticalPanel {
 	 */
 
 	private class DeleteFieldUpdater implements FieldUpdater<EigenschaftAuspraegungWrapper, String> {
+		
 		@Override
 		public void update(int index, EigenschaftAuspraegungWrapper object, String value) {
+			
 			ea.setAuspraegung(object.getAuspraegung());
 			ea.setEigenschaft(object.getEigenschaft());
 			if (object.getAuspraegungStatus() == 0) {

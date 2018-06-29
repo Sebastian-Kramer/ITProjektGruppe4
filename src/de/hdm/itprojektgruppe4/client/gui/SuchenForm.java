@@ -55,10 +55,10 @@ public class SuchenForm extends VerticalPanel {
 	private Image suchenIcon = new Image("Image/Suchen.png");
 	private TextBox tboxKontaktname = new TextBox();
 	private TextBox tboxAuspraegung = new TextBox();
-	private Button KontaktSuchen = new Button("Kontakt suchen");
-	private Button AuspraegungSuchen = new Button("Auspraegung suchen");
-	private Button KontaktKontaktAnzeigenButton = new Button("Kontakt anzeigen");
-	private Button AuspraegungKontaktAnzeigenButton = new Button("Zugehörigen Kontakt anzeigen");
+	private Button kontaktSuchen = new Button("Kontakt suchen");
+	private Button auspraegungSuchen = new Button("Auspraegung suchen");
+	private Button kontaktKontaktAnzeigenButton = new Button("Kontakt anzeigen");
+	private Button auspraegungKontaktAnzeigenButton = new Button("Zugehörigen Kontakt anzeigen");
 	private VerticalPanel vpanel = new VerticalPanel();
 	private VerticalPanel vpanelTop = new VerticalPanel(); 
 	private HorizontalPanel hpanelRechts = new HorizontalPanel();
@@ -73,7 +73,9 @@ public class SuchenForm extends VerticalPanel {
 	private VerticalPanel vpanel3 = new VerticalPanel();
 	private MultiWordSuggestOracle KontaktOracle = new MultiWordSuggestOracle();
 	private SuggestBox suggestionKontaktBox = new SuggestBox(KontaktOracle);
-
+	private Image suchenKonPic = new Image("Image/Suchen.png");
+	private Image suchenAusPic = new Image("Image/Suchen.png");
+	
 	final SingleSelectionModel<Kontakt> sm = new SingleSelectionModel<Kontakt>();
 	final SingleSelectionModel<EigenschaftAuspraegungWrapper> ssm = new SingleSelectionModel<EigenschaftAuspraegungWrapper>();
 	private CellTable<Kontakt> ctkontakt = new CellTable<Kontakt>();
@@ -139,17 +141,17 @@ public class SuchenForm extends VerticalPanel {
 		ctkontakt.setStyleName("TableKontakte"); 
 		ctkontakt.setVisible(false);
 		ctAus.setVisible(false);
-		KontaktKontaktAnzeigenButton.setVisible(false);
-		AuspraegungKontaktAnzeigenButton.setVisible(false);
+		kontaktKontaktAnzeigenButton.setVisible(false);
+		auspraegungKontaktAnzeigenButton.setVisible(false);
 
 		flextableKontakt.setWidget(0, 0, beschreibungKontakt);
 		flextableKontakt.setWidget(0, 1, suggestionKontaktBox);
-		flextableKontakt.setWidget(1, 0, KontaktSuchen);
+		flextableKontakt.setWidget(1, 0, kontaktSuchen);
 		KontaktSuchenPanel.add(flextableKontakt);
 
 		flextableAuspraegung.setWidget(0, 0, beschreibungAuspraegung);
 		flextableAuspraegung.setWidget(0, 1, tboxAuspraegung);
-		flextableAuspraegung.setWidget(1, 0, AuspraegungSuchen);
+		flextableAuspraegung.setWidget(1, 0, auspraegungSuchen);
 		AuspraegungSuchenPanel.add(flextableAuspraegung);
 
 		KontaktSuchenPanel.setStyleName("DialogboxBackground");
@@ -162,6 +164,8 @@ public class SuchenForm extends VerticalPanel {
 		ctAus.addColumn(wertAuspraegung, "Aus");
 		ctAus.addColumn(kontaktName, "Zugehöriger Kontakt");
 		ctAus.setStyleName("TableAuspraegung");
+		suchenKonPic.setStyleName("ButtonICON");
+		suchenAusPic.setStyleName("ButtonICON");
 		
 		hpanel.add(suchenIcon);
 		hpanel.add(ueberschrift);
@@ -171,23 +175,28 @@ public class SuchenForm extends VerticalPanel {
 		vpanel2.add(ctAus);
 		vpanel1.add(ctkontakt);
 		hpanelRechts.add(ctAus);
-		hpanelRechts.add(AuspraegungKontaktAnzeigenButton);
-		vpanel3.add(KontaktKontaktAnzeigenButton);
+		hpanelRechts.add(auspraegungKontaktAnzeigenButton);
+		vpanel3.add(kontaktKontaktAnzeigenButton);
 //		vpanel3.add(AuspraegungKontaktAnzeigenButton);
 		this.add(vpanelTop);
 		this.add(HTMLForm);
 		this.add(hpanelLinks);
 		this.add(vpanel);
 
-		KontaktSuchen.addClickHandler(new KontaktSuchenButton());
-		AuspraegungSuchen.addClickHandler(new AuspraegungSuchenButton());
+		suggestionKontaktBox.getElement().setAttribute("placeholder", "Kontaktname");
+		tboxAuspraegung.getElement().setAttribute("placeholder", "Ausprägung");
+		kontaktSuchen.addClickHandler(new KontaktSuchenButton());
+		kontaktSuchen.getElement().appendChild(suchenKonPic.getElement());
+		auspraegungSuchen.addClickHandler(new AuspraegungSuchenButton());
+		auspraegungSuchen.getElement().appendChild(suchenAusPic.getElement());
 
 		this.add(vpanel1);
 		this.add(vpanel2);
 		this.add(hpanelRechts);
 
-		KontaktKontaktAnzeigenButton.addClickHandler(new KontaktKontaktAnzeigenHandler());
-		AuspraegungKontaktAnzeigenButton.addClickHandler(new AuspraegungKontaktAnzeigenHandler());
+		kontaktKontaktAnzeigenButton.addClickHandler(new KontaktKontaktAnzeigenHandler());
+		
+		auspraegungKontaktAnzeigenButton.addClickHandler(new AuspraegungKontaktAnzeigenHandler());
 		verwaltung.findAllKontaktFromNutzer(nutzer.getID(), new AllKontakteCallBack());
 	}
 
@@ -212,8 +221,8 @@ public class SuchenForm extends VerticalPanel {
 		@Override
 		public void onClick(ClickEvent event) {
 
-			AuspraegungKontaktAnzeigenButton.setText("");
-			KontaktKontaktAnzeigenButton.setVisible(false);
+			auspraegungKontaktAnzeigenButton.setText("");
+			kontaktKontaktAnzeigenButton.setVisible(false);
 			EigenschaftAuspraegungWrapper eigaus = new EigenschaftAuspraegungWrapper();
 
 			eigaus.setAuspraegungID(ssm.getSelectedObject().getAuspraegungID());
@@ -236,7 +245,7 @@ public class SuchenForm extends VerticalPanel {
 		@Override
 		public void onClick(ClickEvent event) {
 
-			KontaktKontaktAnzeigenButton.setText("");
+			kontaktKontaktAnzeigenButton.setText("");
 			Kontakt selected = sm.getSelectedObject();
 			KontaktForm kf = new KontaktForm(selected);
 			RootPanel.get("Details").clear();
@@ -270,8 +279,8 @@ public class SuchenForm extends VerticalPanel {
 			k.setName(suggestionKontaktBox.getValue());
 			k.setNutzerID(nutzer.getID());
 
-			AuspraegungKontaktAnzeigenButton.setVisible(false);
-			KontaktKontaktAnzeigenButton.setVisible(true);
+			auspraegungKontaktAnzeigenButton.setVisible(false);
+			kontaktKontaktAnzeigenButton.setVisible(true);
 
 			verwaltung.findKontaktByNameAndNutzerID(k, new FindKontaktCallback());
 
@@ -299,8 +308,8 @@ public class SuchenForm extends VerticalPanel {
 
 			eigaus.setAuspraegungValue(tboxAuspraegung.getValue());
 
-			KontaktKontaktAnzeigenButton.setVisible(false);
-			AuspraegungKontaktAnzeigenButton.setVisible(true);
+			kontaktKontaktAnzeigenButton.setVisible(false);
+			auspraegungKontaktAnzeigenButton.setVisible(true);
 			verwaltung.getAuspraegungByWert(tboxAuspraegung.getValue(), new FindAuspraegungCallback());
 
 		}

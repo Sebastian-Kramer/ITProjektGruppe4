@@ -40,7 +40,7 @@ public class DialogBoxNewKontaktliste extends DialogBox {
 	
 	private Image list = new Image("Image/Neue_Liste_2.png");
 
-	private Label labelBez = new Label("Bezeichnung: ");
+	
 	private TextBox boxBez = new TextBox();
 
 	private FlexTable kList = new FlexTable();
@@ -69,10 +69,11 @@ public class DialogBoxNewKontaktliste extends DialogBox {
 		
 		kList.setWidget(0, 0, labelListe);
 		kList.setWidget(0, 1, list);
-		kList.setWidget(2, 0, labelBez);
-		kList.setWidget(2, 1, boxBez);
+		kList.setWidget(2, 0, boxBez);
+		
 		kList.setWidget(4, 0, anlegen);
 		kList.setWidget(4, 1, cancel);
+		boxBez.getElement().setAttribute("placeholder", "Bezeichnung");
 		
 		vpanel.add(kList);
 		vpanel.add(infolabel);

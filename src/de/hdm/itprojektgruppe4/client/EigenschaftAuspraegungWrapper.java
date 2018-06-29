@@ -21,6 +21,7 @@ public class EigenschaftAuspraegungWrapper implements Serializable {
 
 		this.auspraegung = auspraegung;
 		this.eigenschaft = eigenschaft;
+		
 
 	}
 	
@@ -112,6 +113,10 @@ public class EigenschaftAuspraegungWrapper implements Serializable {
 
 	public String getImageUrl2Contacts(EigenschaftAuspraegungWrapper object) {
 		return "Image/contactShared.png";
+	}
+	
+	public String getDelete(EigenschaftAuspraegungWrapper object) {
+		return "Image/DeleteSmall.png";
 	}
 	
 	public String toString(){

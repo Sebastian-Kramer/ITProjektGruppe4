@@ -187,6 +187,7 @@ public class NewKontaktForm extends VerticalPanel {
 		kontaktVisit.setStyleName("Kontaktbild");
 		hpanelButtonBar.add(cancel);
 		tbName.setStyleName("KontaktName");
+		tbName.getElement().setAttribute("placeholder", "Name");
 		html1.setStyleName("KontaktAnlegenHTML1");
 		tableAndButtons.setStyleName("TableButton");
 		vpanel2.setStyleName("PanelBottom");

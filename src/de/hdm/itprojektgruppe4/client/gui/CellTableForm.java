@@ -8,6 +8,7 @@ import java.util.Vector;
 import com.google.gwt.user.cellview.client.CellTable;
 import com.google.gwt.user.cellview.client.Column;
 import com.google.gwt.user.client.Cookies;
+import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.view.client.ListDataProvider;
 import com.google.gwt.view.client.MultiSelectionModel;
@@ -16,7 +17,10 @@ import com.google.gwt.cell.client.ButtonCell;
 import com.google.gwt.cell.client.Cell;
 import com.google.gwt.cell.client.CheckboxCell;
 import com.google.gwt.cell.client.ClickableTextCell;
+import com.google.gwt.cell.client.FieldUpdater;
 import com.google.gwt.cell.client.ImageCell;
+import com.google.gwt.dom.client.NativeEvent;
+import com.google.gwt.event.dom.client.KeyCodes;
 import com.google.gwt.event.dom.client.KeyDownEvent;
 import com.google.gwt.event.shared.HandlerRegistration;
 import com.google.gwt.event.dom.client.KeyDownHandler;
@@ -33,6 +37,7 @@ public class CellTableForm extends CellTable<EigenschaftAuspraegungWrapper> {
 	private Kontakt kontakt = new Kontakt();
 	private Teilhaberschaft t = new Teilhaberschaft();
 	private ImageCell imageCell = new ImageCell();
+	private ImageCell imageCellDelete = new ImageCell();
 	Kontakt kontaktname = new Kontakt();
 	private List<EigenschaftAuspraegungWrapper> eList = new ArrayList<>();
 	KontaktAdministrationAsync verwaltung = ClientsideSettings.getKontaktVerwaltung();
@@ -91,6 +96,7 @@ public class CellTableForm extends CellTable<EigenschaftAuspraegungWrapper> {
 		this.setStyleName("CellTableHyprid");
 		this.setPageSize(100);
 		model.addDataDisplay(this);
+		
 
 	}
 
@@ -147,6 +153,23 @@ public class CellTableForm extends CellTable<EigenschaftAuspraegungWrapper> {
 		}
 
 	};
+	
+	
+	Column<EigenschaftAuspraegungWrapper, String> deleteCell = new Column<EigenschaftAuspraegungWrapper, String>(
+			imageCellDelete) {
+
+		
+		@Override
+		public String getValue(EigenschaftAuspraegungWrapper object) {
+
+			
+				return object.getDelete(object);
+			}
+
+		
+
+	};
+	
 
 	Column<EigenschaftAuspraegungWrapper, Boolean> checkBox = new Column<EigenschaftAuspraegungWrapper, Boolean>(
 			new CheckboxCell(true, false)) {
@@ -192,7 +215,17 @@ public class CellTableForm extends CellTable<EigenschaftAuspraegungWrapper> {
 	public void setStatus(Column<EigenschaftAuspraegungWrapper, String> status) {
 		this.status = status;
 	}
+	
+	
+	public Column<EigenschaftAuspraegungWrapper, String> getDeleteCell() {
+		return deleteCell;
+	}
 
+	public void getDeleteCell(Column<EigenschaftAuspraegungWrapper, String> deleteCell) {
+		this.deleteCell = deleteCell;
+	}
+	
+	
 	public Column<EigenschaftAuspraegungWrapper, Boolean> getCheckBox() {
 		return checkBox;
 	}
