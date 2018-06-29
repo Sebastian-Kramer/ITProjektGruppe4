@@ -31,9 +31,52 @@ a.LoggedNutzer {
 	margin-right: 160px;
 }
 
-table.TableButton {
-	width: 60%;
+table.SuchenVpanelTop {
+	width: 800px;
+	min-height: 65px;
+	margin-top: 1%;
+	border-bottom-style: dashed;
+	border-bottom-color: black;
 }
+
+table.SuchenHpanelTop {
+	width: 600px;
+}
+
+table.hpanelLinks {
+	width: 800px;
+}
+
+td.middleLeft {
+	width: 1%;
+}
+
+div.SuchenText {
+    margin-top: 2%;
+    margin-bottom: 5%;
+    font-size: 17px;
+    margin-left: 5px;
+}
+
+div.SuchenBeschreibenKontakt {
+	width: 150px;
+	margin-bottom: 10px;
+	font-size: 15px;
+	margin-left: 5px;
+}
+
+div.SuchenBeschreibenAuspraegung {
+	width: 150px;
+	margin-bottom: 10px;
+	font-size: 15px;
+	margin-left: 5px;
+}
+
+input.DialogboxBackground{
+    height: 30px;
+    width: 150px;
+}
+
 
 a.Impressum {
 	right: 0;
@@ -186,18 +229,19 @@ div#Buttonbar {
 }
 
 div.DialogboxBackground {
-    left: 465px;
-    top: 279px;
-    visibility: visible;
-    position: absolute;
-    overflow: visible;
-    width: 30%;
-    border-radius: 15px;
-    border-style: double;
-    background: #000 repeating-linear-gradient(-45deg, SeaGreen, LimeGreen, Gainsboro);
+	left: 465px;
+	top: 279px;
+	visibility: visible;
+	position: absolute;
+	overflow: visible;
+	width: 30%;
+	border-radius: 15px;
+	border-style: double;
+	background: #000
+		repeating-linear-gradient(-45deg, SeaGreen, LimeGreen, Gainsboro);
 }
 
-div.cellListKontakte{
+div.cellListKontakte {
 	background-color: limegreen;
 }
 
@@ -206,8 +250,8 @@ div.ÜberschriftMyContacts {
 }
 
 div.BegrueßungsText {
-    text-align: -webkit-center;
-    font-size: 25px;
+	text-align: -webkit-center;
+	font-size: 25px;
 }
 
 div.DialogboxBackground1 {
@@ -239,14 +283,14 @@ img.Startbild {
 	margin-left: 50px;
 }
 
-table.HpanelKlist{
+table.HpanelKlist {
 	margin-top: 3%;
-    width: 23%;
-    margin-left: 30%;
+	width: 23%;
+	margin-left: 30%;
 }
 
 div.KlistBezeichnung {
-    font-size: 17px;
+	font-size: 17px;
 }
 
 .HtmlText {
@@ -279,17 +323,17 @@ div.KontaktAnlegenHTML1 {
 
 div.KontaktAnlegenHTML2 {
 	font-size: 17px;
-    margin-bottom: 24px;
-	
-}
-img.LogoStartseite {
-    width: 40%;
-    border-bottom-style: dashed;
-    margin-left: 30%;
+	margin-bottom: 24px;
 }
 
-table.PanelButton{
-	width: 66%;
+img.LogoStartseite {
+	width: 40%;
+	border-bottom-style: dashed;
+	margin-left: 30%;
+}
+
+table.PanelButton {
+	width: 600px;
 }
 
 .TeilhaberschaftVPanel {
@@ -335,15 +379,18 @@ table#MainTable {
 	height: 100%;
 }
 
-table.TableButton{
-	width: 60%;
+table.TableButton {
+	width: 62%;
 }
 
+table.hpanelRechts{
+	width: 800px;
+}
 
 table.CellTableHyprid {
-	height: 250px;
-	margin-bottom: 35px;
-	width: 525px;
+    margin-bottom: 35px;
+    width: 525px;
+    max-height: 400px;
 }
 
 table.CellTableAuspraegung {
