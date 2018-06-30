@@ -3,6 +3,7 @@ package de.hdm.itprojektgruppe4.client.gui;
 import com.google.gwt.user.client.ui.DialogBox;
 import com.google.gwt.user.client.ui.FlexTable;
 import com.google.gwt.user.client.ui.HTML;
+import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.MultiWordSuggestOracle;
 
@@ -16,6 +17,7 @@ import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.RootPanel;
+import com.google.gwt.user.client.ui.ScrollPanel;
 import com.google.gwt.user.client.ui.SuggestBox;
 import com.google.gwt.view.client.ListDataProvider;
 import com.google.gwt.view.client.SingleSelectionModel;
@@ -36,14 +38,16 @@ public class DialogBoxKontaktlisteTeilen extends DialogBox {
 	private NutzerCell nutzerCell = new NutzerCell();
 
 	private VerticalPanel vpanel = new VerticalPanel();
+	private HorizontalPanel hpanel = new HorizontalPanel();
 	private HTML html = null;
+	private HTML überschrift = null;
 	private Button teilen = new Button("Kontaktliste teilen");
 	private Button abbrechen = new Button("abbrechen");
 	private Image klTeilen = new Image();
 
 	private CellList<Nutzer> nutzerList = new CellList<Nutzer>(nutzerCell);
 	private SingleSelectionModel<Nutzer> nutzerSelection = new SingleSelectionModel<Nutzer>();
-	private FlexTable ft = new FlexTable();
+	
 	private ListDataProvider<Nutzer> dataProvider = new ListDataProvider<Nutzer>();
 
 	private MultiWordSuggestOracle nutzerOracle = new MultiWordSuggestOracle();
@@ -59,8 +63,9 @@ public class DialogBoxKontaktlisteTeilen extends DialogBox {
 		nutzer.setEmail(Cookies.getCookie("email"));
 		dataProvider.addDataDisplay(nutzerList);
 		nutzerList.setSelectionModel(nutzerSelection);
+		überschrift = new HTML("<h3> Kontaktliste teilen</h3>");
 		html = new HTML("Geben Sie die Mail-Adresse des Nutzers ein, mit dem Sie die Kontaktliste teilen möchten:");
-		klTeilen.setUrl("Image/Teilen2.png");
+		klTeilen.setUrl("Image/Teilen_Kontaktliste.png");
 	}
 
 	public void onLoad() {
@@ -69,17 +74,23 @@ public class DialogBoxKontaktlisteTeilen extends DialogBox {
 		teilen.addClickHandler(new TeilenClickhandler());
 		abbrechen.addClickHandler(new AbbrechenClickhandler());
 
-		ft.setWidget(2, 0, teilen);
-		ft.setWidget(2, 1, abbrechen);
-		ft.setStylePrimaryName("Flextable");
+		
+		klTeilen.setStylePrimaryName("kontaktlisteTeilenIcon");
+		nutzerSugBox.setStylePrimaryName("nutzerSuggestBox");
+		html.setStylePrimaryName("klTeilenText");
+		abbrechen.setHeight("55px");
+		
 		
 		vpanel.add(klTeilen);
+		vpanel.add(überschrift);
 		vpanel.add(html);
 		vpanel.add(nutzerSugBox);
-		vpanel.add(ft);
+		hpanel.add(teilen);
+		hpanel.add(abbrechen);
+		vpanel.add(hpanel);
 		this.add(vpanel);
-		this.setStylePrimaryName("DialogboxBackground1");
-		klTeilen.setStylePrimaryName("ButtonKontaktlisteTeilen");
+		this.setStylePrimaryName("DialogboxBackground");
+		
 	}
 
 	/**

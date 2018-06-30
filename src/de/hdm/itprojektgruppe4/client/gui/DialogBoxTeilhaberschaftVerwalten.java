@@ -12,7 +12,9 @@ import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.DialogBox;
 import com.google.gwt.user.client.ui.FlexTable;
 import com.google.gwt.user.client.ui.HTML;
+import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.RootPanel;
+import com.google.gwt.user.client.ui.ScrollPanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.view.client.SelectionChangeEvent;
 import com.google.gwt.view.client.ListDataProvider;
@@ -20,6 +22,7 @@ import com.google.gwt.view.client.SingleSelectionModel;
 import com.google.gwt.view.client.SelectionChangeEvent.Handler;
 import de.hdm.itprojektgruppe4.client.ClientsideSettings;
 import de.hdm.itprojektgruppe4.client.EigenschaftAuspraegungWrapper;
+import de.hdm.itprojektgruppe4.client.NavigationTree;
 import de.hdm.itprojektgruppe4.shared.KontaktAdministrationAsync;
 import de.hdm.itprojektgruppe4.shared.bo.Kontaktliste;
 import de.hdm.itprojektgruppe4.shared.bo.Nutzer;
@@ -50,13 +53,13 @@ public class DialogBoxTeilhaberschaftVerwalten extends DialogBox {
 	private Button abbrechen = new Button("abbrechen");
 
 	private HTML html1 = null;
-
-	private FlexTable flextable = new FlexTable();
 	private NutzerCell nutzerCell = new NutzerCell();
 	private CellList<Nutzer> nutzerList = new CellList<Nutzer>(nutzerCell);
 	private SingleSelectionModel<Nutzer> selectionModel = new SingleSelectionModel<Nutzer>();
 	private ListDataProvider<Nutzer> dataProvider = new ListDataProvider<Nutzer>();
 	private VerticalPanel vpanel = new VerticalPanel();
+	private HorizontalPanel hpanel = new HorizontalPanel();
+	private ScrollPanel scrollPanel = new ScrollPanel();
 
 	/**
 	 * Dieser Konstruktor wird verwendet, wenn der angemeldete Nutzer im System
@@ -130,7 +133,6 @@ public class DialogBoxTeilhaberschaftVerwalten extends DialogBox {
 
 		abbrechen.addClickHandler(new AbbrechenClickhandler());
 		teilhaberschaftAufloesen.addClickHandler(new LoeschenClickHandler());
-
 	}
 
 	/**
@@ -145,17 +147,17 @@ public class DialogBoxTeilhaberschaftVerwalten extends DialogBox {
 		super.onLoad();
 
 		nutzerList.setSelectionModel(selectionModel);
-
-		flextable.setWidget(0, 0, nutzerList);
-		flextable.setWidget(1, 0, abbrechen);
-		flextable.setWidget(1, 1, teilhaberschaftAufloesen);
-
-		flextable.setStylePrimaryName("Flextable");
+		scrollPanel.add(nutzerList);
+		scrollPanel.setStyleName("scrollPanelTeilhaber");
+		html1.setStyleName("TeilhaberschaftText");
 
 		vpanel.add(html1);
-		vpanel.add(flextable);
-
-		this.setStylePrimaryName("DialogboxBackground1");
+		vpanel.add(scrollPanel);
+		hpanel.add(teilhaberschaftAufloesen);
+		hpanel.add(abbrechen);
+		vpanel.add(hpanel);
+		this.setStylePrimaryName("DialogboxBackground");
+		abbrechen.setHeight("53px");
 		this.add(vpanel);
 
 	}
@@ -239,18 +241,24 @@ public class DialogBoxTeilhaberschaftVerwalten extends DialogBox {
 
 		@Override
 		public void onSuccess(Void result) {
-			hide();
 			if (k.getNutzerID() == nutzer.getID() ) {
 				Window.alert("Die Teilhaberschaft wurde erfolgreich geloescht");
 				KontaktlisteForm kf = new KontaktlisteForm(k);
+				NavigationTree nt = new NavigationTree();
 				RootPanel.get("Details").clear();
+				RootPanel.get("Navigator").clear();
+				RootPanel.get("Navigator").add(nt);
 				RootPanel.get("Details").add(kf);
 			} else {
 				Window.alert("Die Teilhaberschaft wurde erfolgreich geloescht");
 				KontaktlisteForm kf = new KontaktlisteForm(k, "Teilhaberschaft");
+				NavigationTree nt = new NavigationTree();
 				RootPanel.get("Details").clear();
+				RootPanel.get("Navigator").clear();
+				RootPanel.get("Navigator").add(nt);
 				RootPanel.get("Details").add(kf);
 			}
+			hide();
 
 		}
 
@@ -343,13 +351,6 @@ public class DialogBoxTeilhaberschaftVerwalten extends DialogBox {
 
 	}
 
-	class ChangeHandler implements Handler {
 
-		@Override
-		public void onSelectionChange(SelectionChangeEvent event) {
-
-		}
-
-	}
 
 }
