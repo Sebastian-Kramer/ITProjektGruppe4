@@ -78,22 +78,30 @@ input.DialogboxBackground{
 }
 
 
-a.Impressum {
-	right: 0;
-	position: absolute;
-	margin-right: 75px;
-}
-
 a.Logout {
 	right: 0;
 	position: absolute;
-	margin-right: 20px;
+	margin-right: 110px;
 }
 
-a.Startseite {
+a.KontoLoeschen {
+	right: 0;
+	position: absolute;
+	margin-right: 20px;
+	 color: red;
+}
+
+a.Impressum {
 	right: 0;
 	position: absolute;
 	margin-right: 160px;
+}
+
+a.Startseite {
+	
+    right: 0;
+    position: absolute;
+    margin-right: 230px;
 }
 
 .ButtonICON {

@@ -32,8 +32,11 @@ public class ITProjektSS18 implements EntryPoint {
 	private Anchor signOutLink = new Anchor("Logout");
 	private Anchor impressum = new Anchor("Impressum");
 	private Anchor startseite = new Anchor("Startseite");
+	private Anchor deleteNutzer = new Anchor("Konto lÃ¶schen");
 	private Anchor loggedNutzer;
-
+	private boolean sureDelete;
+	
+	Nutzer n1 = new Nutzer();
 	Nutzer n = new Nutzer();
 
 	LoginServiceAsync loginService = GWT.create(LoginService.class);
@@ -44,6 +47,12 @@ public class ITProjektSS18 implements EntryPoint {
 	private static KontaktAdministrationAsync verwaltung = ClientsideSettings.getKontaktVerwaltung();
 
 	private static String editorHtmlName = "ITProjektSS18.html";
+	
+	
+	public ITProjektSS18() {
+		
+		
+	}
 
 	public void onModuleLoad() {
 
@@ -51,9 +60,12 @@ public class ITProjektSS18 implements EntryPoint {
 		signOutLink.setStyleName("Logout");
 		startseite.setStyleName("Startseite");
 		eingeloggt.setStyleName("AktiverUser");
+		deleteNutzer.setStyleName("KontoLoeschen");
+	
+		
 
 		/**
-		 * Loginstatus wird anhand des LoginService überprüft
+		 * Loginstatus wird anhand des LoginService ï¿½berprï¿½ft
 		 */
 		LoginServiceAsync loginService = GWT.create(LoginService.class);
 		loginService.login(GWT.getHostPageBaseURL() + editorHtmlName, new AsyncCallback<LoginInfo>() {
@@ -82,9 +94,9 @@ public class ITProjektSS18 implements EntryPoint {
 	}
 
 	/**
-	 * Die CheckNewNutzer Methode hat den Zweck, zu Prüfen: Den Aktuellen Nutzer
+	 * Die CheckNewNutzer Methode hat den Zweck, zu Prï¿½fen: Den Aktuellen Nutzer
 	 * aus der Datenbank zu finden Sollte der Nutzer nicht in der Datenbank
-	 * vorhanden sein, wird dieser angelegt und anschließend wird die LoadLogin
+	 * vorhanden sein, wird dieser angelegt und anschlieï¿½end wird die LoadLogin
 	 * Methode aufgerufen Sollte der Nutzer in der Datenbank vorhanden sein, so
 	 * wird die LoadStartseite Methode aufgerufen Zudem werden bei einem
 	 * Neuangelegten Nutzer Zwei Kontaktlisten Angelegt
@@ -160,7 +172,7 @@ public class ITProjektSS18 implements EntryPoint {
 
 	/**
 	 * Die Methode loadStartseite verweist auf die Klasse MainForm und
-	 * navigationTree Zudem beinhaltet die Methode diverse Widget für das GUI
+	 * navigationTree Zudem beinhaltet die Methode diverse Widget fï¿½r das GUI
 	 */
 	private void loadStartseite() {
 		MainForm mainForm = new MainForm();
@@ -168,13 +180,18 @@ public class ITProjektSS18 implements EntryPoint {
 		signOutLink.setHref(loginInfo.getLogoutUrl());
 		RootPanel.get("Header").add(eingeloggt);
 		RootPanel.get("Header").add(loggedNutzer);
+		RootPanel.get("Header").add(deleteNutzer);
 		RootPanel.get("Header").add(signOutLink);
 		RootPanel.get("Header").add(impressum);
 		RootPanel.get("Header").add(startseite);
 		impressum.addClickHandler(new ImpressumClickHandler());
 		startseite.addClickHandler(new StartseiteClickHandler());
+		deleteNutzer.addClickHandler(new DeleteNutzerClickHandler());
 		RootPanel.get("Details").add(mainForm);
 		RootPanel.get("Navigator").add(navigationTree);
+	
+	
+	
 	}
 
 	/**
@@ -204,7 +221,7 @@ public class ITProjektSS18 implements EntryPoint {
 
 	/**
 	 * 
-	 * Clickhandler Klasse für die Startseite
+	 * Clickhandler Klasse fï¿½r die Startseite
 	 *
 	 */
 	class StartseiteClickHandler implements ClickHandler {
@@ -224,7 +241,7 @@ public class ITProjektSS18 implements EntryPoint {
 
 	/**
 	 * 
-	 * Clickhandler für das Impressum
+	 * Clickhandler fï¿½r das Impressum
 	 *
 	 */
 	class ImpressumClickHandler implements ClickHandler {
@@ -239,10 +256,60 @@ public class ITProjektSS18 implements EntryPoint {
 		}
 
 	}
+	
+	
+	 class DeleteNutzerClickHandler implements ClickHandler {
+
+		@Override
+		public void onClick(ClickEvent event) {
+			// TODO Auto-generated method stub
+			
+			
+			n1.setID(Integer.parseInt(Cookies.getCookie("id")));
+			n1.setEmail(Cookies.getCookie("email"));
+			
+			
+			
+			Window.alert( n1+"   <---- NUTZER LÃ–SCHEN "  );
+			sureDelete = Window.confirm("MÃ¶chten Sie Ihr Nutzerprofil vollstÃ¤ndig lÃ¶schen?");
+			if (sureDelete == true) {
+				
+				verwaltung.deleteNutzer(n1, new DeleteNutzerCallBack());
+			}
+		}
+		 
+	 }
+	
+	
+	 class DeleteNutzerCallBack implements AsyncCallback<Void> {
+
+		@Override
+		public void onFailure(Throwable caught) {
+			// TODO Auto-generated method stub
+			Window.alert("Beim LÃ¶schen Ihrers Profils ist etwas schief gegangen" + caught);
+		}
+
+		@Override
+		public void onSuccess(Void result) {
+			Window.alert("hallo");
+			RootPanel.get("Buttonbar").clear();
+			RootPanel.get("Navigator").clear();
+			RootPanel.get("Details").clear();
+			RootPanel.get("Header").clear();
+			
+			Cookies.removeCookie("id");
+			Cookies.removeCookie("email");
+			
+			onModuleLoad();
+		
+		}
+		 
+		 
+	 }
 
 	/**
 	 * 
-	 * AsyncCallback für das Anlegen geteilter Kontakte Die Methode verweist
+	 * AsyncCallback fï¿½r das Anlegen geteilter Kontakte Die Methode verweist
 	 * zudem auf die loadStartseite() Methode
 	 *
 	 */

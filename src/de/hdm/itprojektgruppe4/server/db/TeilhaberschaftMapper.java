@@ -783,6 +783,51 @@ public class TeilhaberschaftMapper {
 		return result;
 
 	}
+	
+	
+	/**
+	 *  Alle Teilhaberschaften finden, welche eine bestimmte NutzerID haben
+	 *  sprich alle Teilhaberschaften die ein Nutzer erstellt hat.
+	 * @param nutzerID
+	 * @return Vector<Teilhaberschaften>
+	 */
+	
+	public Vector<Teilhaberschaft> findTeilhaberschaftenByNutzerID(int nutzerID) {
+		Vector<Teilhaberschaft> result = new Vector<Teilhaberschaft>();
+
+		Connection con = DBConnection.connection();
+
+		try {
+			Statement stmt = con.createStatement();
+
+			ResultSet rs = stmt.executeQuery("SELECT * FROM teilhaberschaft WHERE nutzerID = " + nutzerID);
+
+			while (rs.next()) {
+				Teilhaberschaft teilhaberschaft = new Teilhaberschaft();
+				teilhaberschaft.setID(rs.getInt("ID"));
+				teilhaberschaft.setKontaktListeID(rs.getInt("kontaktlisteID"));
+				teilhaberschaft.setKontaktID(rs.getInt("kontaktID"));
+				teilhaberschaft.setEigenschaftsauspraegungID(rs.getInt("eigenschaftsauspraegungID"));
+				teilhaberschaft.setTeilhaberID(rs.getInt("teilhaberID"));
+				teilhaberschaft.setNutzerID(rs.getInt("nutzerID"));
+
+				result.addElement(teilhaberschaft);
+
+			}
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+
+		return result;
+
+	}
+	
+	
+	
+	
+	
+	
 
 	/**
 	 * Einfuegen eines neuen Objektes vom Typ Teilhaberschaft in die DB der PK
@@ -961,6 +1006,34 @@ public class TeilhaberschaftMapper {
 		}
 
 	}
+	
+	
+	/**
+	 *  ein Objekt vom Typ Teilhaberschaft wird anhand der NutzerID aus der DB geloescht
+	 * @param t
+	 */
+	public void deleteTeilhaberschaftByNutzerID(Teilhaberschaft t) {
+
+		Connection con = DBConnection.connection();
+
+		try {
+
+			Statement stmt = con.createStatement();
+
+			stmt.executeUpdate(
+
+					"DELETE FROM teilhaberschaft " + "WHERE nutzerID=" + t.getNutzerID());
+
+		} catch (SQLException e2) {
+
+			e2.printStackTrace();
+
+		}
+
+	}
+	
+	
+	
 
 	/**
 	 * Eine Teilhaberschaft an einem Kontakt loeschen.

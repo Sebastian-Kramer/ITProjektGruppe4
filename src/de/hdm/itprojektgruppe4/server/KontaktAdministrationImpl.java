@@ -94,6 +94,10 @@ public class KontaktAdministrationImpl extends RemoteServiceServlet implements K
 		this.kontaktKontaktlisteMapper = KontaktKontaktlisteMapper.kontaktkontaktlistemapper();
 		this.teilhaberschaftMapper = TeilhaberschaftMapper.teilhaberschaftMapper();
 	}
+	
+	
+	
+	
 
 	/*
 	 * ########################################################## START Methoden
@@ -444,8 +448,40 @@ public class KontaktAdministrationImpl extends RemoteServiceServlet implements K
 
 	@Override
 	public void deleteNutzer(Nutzer n) throws IllegalArgumentException {
+		
+		Vector<Teilhaberschaft> alleTeilAsTeilhaber = this.getAllTeilhaberschaftenFromUser(n.getID());
+		Vector<Teilhaberschaft> alleTeilanKontakten = new Vector<Teilhaberschaft>();
+//		Vector<Teilhaberschaft> alle = new Vector<Teilhaberschaft>();
+		for (Teilhaberschaft teilhaberschaft : alleTeilAsTeilhaber) {
+			alleTeilanKontakten = (this.findTeilhaberschaftByKontaktIDAndNutzerID(teilhaberschaft.getKontaktID(), n.getID()));
+			for (Teilhaberschaft t : alleTeilanKontakten ){
+//				alle.add(t);
+				if(this.findTeilhaberschaftByKontaktID(t.getKontaktID()).size() < 1){
+					Kontakt k = this.findKontaktByID(t.getKontaktID());
+					k.setStatus(0);
+					updateKontakt(k);
+				}
+			}
+			this.deleteTeilhaberschaft(teilhaberschaft);
+		}
+		
+		
+		Vector<Kontakt> alleKon = this.findAllKontaktFromNutzer(n.getID());
+		for (Kontakt kontakt : alleKon) {
+			this.deleteKontakt(kontakt);
+		}
+		
+		
+		Vector<Kontaktliste> alleList = this.findKontaktlisteByNutzerID(n.getID());
+		for (Kontaktliste kontaktliste : alleList) {
+			this.deleteKontaktlisteWhenUserDelte(kontaktliste);
+			
+		}
+		
 		this.nutzerMapper.deleteNutzer(n);
 		this.persMapper.deletePerson(this.persMapper.findPersonByID(n.getID()));
+		
+		
 	}
 
 	/**
@@ -1135,7 +1171,7 @@ public class KontaktAdministrationImpl extends RemoteServiceServlet implements K
 	 * @throws IllegalArgumentException
 	 */
 
-	// IN ARBEIT VON NINO
+	
 
 	@Override
 	public void deleteKontaktliste(Kontaktliste kliste) throws IllegalArgumentException {
@@ -1168,6 +1204,38 @@ public class KontaktAdministrationImpl extends RemoteServiceServlet implements K
 		}
 
 	}
+	
+	
+	public void deleteKontaktlisteWhenUserDelte(Kontaktliste kliste) throws IllegalArgumentException {
+		// this.konlistMapper.deleteKontaktliste(k);
+
+		List<KontaktKontaktliste> kkliste = kontaktKontaktlisteMapper
+				.findKontaktKontaktlisteByKontaktlisteID(kliste.getID());
+		List<Teilhaberschaft> teilhaberschaft = teilhaberschaftMapper
+				.findTeilhaberschaftByKontaktlisteID(kliste.getID());
+		Kontaktliste konliste = this.konlistMapper.findKontaktlistebyID(kliste.getID());
+
+		
+
+			if (kkliste != null) {
+				for (KontaktKontaktliste kkl : kkliste) {
+
+					kontaktKontaktlisteMapper.deleteKontaktKontaktliste(kkl);
+				}
+			}
+
+			if (teilhaberschaft != null) {
+				for (Teilhaberschaft th : teilhaberschaft) {
+					teilhaberschaftMapper.deleteTeilhaberschaftByKontaktlisteID(th.getKontaktListeID());
+				}
+			}
+
+			this.konlistMapper.deleteKontaktliste(kliste);
+
+	}
+	
+	
+	
 
 	/**
 	 * Alle Kontaktlisten auslesen.
