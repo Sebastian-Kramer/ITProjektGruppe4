@@ -91,9 +91,11 @@ public class KontaktlisteMapper {
 	}
 
 	/**
+	 * Auslesen der Standardkontaktliste "Meine geteilten Kontakte"
 	 * 
 	 * @param bezeichnung
-	 * @return
+	 * @param nutzerID die ID des Nutzers, dessen Standardkontaktliste gesucht ist
+	 * @return Kontaktliste-Objekt mit den übergebenen Parametern
 	 */
 	public Kontaktliste findKontaktlisteMeineGeteiltenKontakte(String bezeichnung, int nutzerID) {
 		Connection con = DBConnection.connection();
@@ -157,8 +159,8 @@ public class KontaktlisteMapper {
 	/**
 	 * Ein Objekt vom Typ Kontaktliste wird in der Datenbank ueberschrieben
 	 * 
-	 * @param k
-	 * @return K
+	 * @param k die zu überschreibende Kontaktliste
+	 * @return K das überschriebene Kontaktliste-Objekt
 	 */
 
 	public Kontaktliste updateKontaktliste(Kontaktliste k) {
@@ -180,7 +182,7 @@ public class KontaktlisteMapper {
 	/**
 	 * Ein Objekt vom Typ Kontaktliste wird aus der Datenbank geloescht
 	 * 
-	 * @param k
+	 * @param k das zu löschende Kontaktliste-Objekt
 	 * 
 	 */
 
@@ -233,8 +235,7 @@ public class KontaktlisteMapper {
 	/**
 	 * Alle erstellten Kontaktlisten eines Nutzers auslesen
 	 * 
-	 * @param int
-	 *            nutzer ID
+	 * @param int nutzerID die ID des Nutzers, desse Kontaktlisten ausgelesen werden sollen
 	 * @return Vector mit allen erstellten Kontaktlisten eines Nutzers
 	 */
 

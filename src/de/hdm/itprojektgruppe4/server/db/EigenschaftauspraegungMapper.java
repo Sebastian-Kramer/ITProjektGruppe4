@@ -34,8 +34,7 @@ public class EigenschaftauspraegungMapper {
 	/**
 	 * Suchen einer Eigenschaftauspraegung mit vorgegebener ID.
 	 * 
-	 * @param id
-	 *            der Eigenschaftauspraegung
+	 * @param id der Eigenschaftauspraegung
 	 * @return die gesuchte Eigenschaftauspraegung
 	 */
 
@@ -69,9 +68,11 @@ public class EigenschaftauspraegungMapper {
 	}
 	
 	/**
+	 * Eine Eigenschaftsausprägung anhand der Fremdschlüssel eigenschaftID und kontaktID auslesen
 	 * 
-	 * @param id
-	 * @return
+	 * @param eigID Fremdschlüssel zur Tabelle Eigenschaft
+	 * @param kontaktID Fremdschlüssel zur Tabelle Kontakt
+	 * @return Eigenschaftauspraegung Objekt
 	 */
 	public Eigenschaftauspraegung getAuspraegungByEigID(int eigID, int kontaktID) {
 
@@ -139,9 +140,8 @@ public class EigenschaftauspraegungMapper {
 	 * Einfuegen eines neuen Objktes vom Typ Eigenschaftauspraegung in die DB der
 	 * PK wird ueberprueft und korrigiert -> maxID +1
 	 * 
-	 * @param ea
-	 *            die zu speichernde Eigenschaftauspraegung
-	 * @return die bereits �bergebene Eigenschaftauspraegung
+	 * @param ea die zu speichernde Eigenschaftauspraegung
+	 * @return die bereits  übergebene Eigenschaftauspraegung
 	 */
 
 	public Eigenschaftauspraegung insertAuspraegung(Eigenschaftauspraegung ea) {
@@ -350,10 +350,10 @@ return result;
 	}
 	
 	/**
-	 * Auslesen aller geteilten Eigenschaftsausprägungen eines bestimmten Kontakts
+	* Auslesen aller geteilten Eigenschaftsausprägungen eines bestimmten Kontakts
 	 * 
-	 * @param kontaktID
-	 * @return Vector
+	 * @param kontaktID die ID des Kontaktes
+	 * @return Vector mit sämtlichen geteilten Eigenschaftsausprägungen des Kontaktes
 	 */
 	public Vector<Eigenschaftauspraegung> findAllSharedAuspraegungenFromKontaktID(int kontaktID) {
 
