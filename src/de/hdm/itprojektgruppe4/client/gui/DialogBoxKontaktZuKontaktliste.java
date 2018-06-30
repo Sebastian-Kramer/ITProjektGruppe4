@@ -119,20 +119,16 @@ public class DialogBoxKontaktZuKontaktliste extends DialogBox {
 	 * Bei Methodenaufruf wird ein asynchroner Callback aufgerufen, der es ermöglicht, ein KontaktKontaktliste-Objekt der Datenbank hinzuzufuegen.
 	 */
 	private void kontakteHinzufuegen(Kontaktliste kl){
-		for(Kontakt kon : kontaktSelection.getSelectedSet()){
-		Window.alert("Kontakt " + kon.getName() + " wurde erfolgreich hinzugefuegt");
-		kontaktVerwaltung.insertKontaktKontaktliste(kon.getID(), kl.getID(), new KontaktHinzufuegen());
-		kontaktSelection.getSelectedSet().remove(kon);
-		
-		}
+		Vector<Kontakt> kontakte = new Vector<Kontakt>();
+		kontakte.addAll(kontaktSelection.getSelectedSet());
+		kontaktVerwaltung.addKontakteToKontaktliste(kontakte, kl.getID(), new KontaktHinzufuegen());
 	}
 	
-	/*
+	/**
 	 * ClickHandler der das Hinzufügen eines oder mehrerer Kontakte ermöglicht.
 	 * Ist kein Kontakt ausgewählt, wird dies mithilfe einer Fehlermeldung dem User mitgeteilt.
 	 * Die Methode <code>kontakteHinzufuegen</code> wird ausgeführt und die DialogBox geschlossen.
-	 * Sowohl die <code>KontaktlisteBearbeitenForm</code> als auch die Baumstruktur werden anschließend
-	 * neu zum RootPanel hinzugefügt, um die hinzugefügten Kontakt-Objekte korrekt anzuzeigen.
+	 * 
 	 */
 	private class kontaktHinzufuegenClickhandler implements ClickHandler{
 
@@ -143,13 +139,7 @@ public class DialogBoxKontaktZuKontaktliste extends DialogBox {
 				Window.alert("Sie müssen mindestens einen Kontakt auswählen");
 			}else{
 				kontakteHinzufuegen(kl);
-				DialogBoxKontaktZuKontaktliste.this.hide();
-				KontaktlisteForm kf = new KontaktlisteForm(kl);
-				NavigationTree updatedNavigation = new NavigationTree();
-				RootPanel.get("Details").clear();
-				RootPanel.get("Navigator").clear();
-				RootPanel.get("Details").add(kf);
-				RootPanel.get("Navigator").add(updatedNavigation);
+				
 		}
 		}
 			}
@@ -203,19 +193,30 @@ public class DialogBoxKontaktZuKontaktliste extends DialogBox {
 	
 	/**
 	 * Callback-Klasse um beim betätigen des Buttons <code>kontakteHinzufuegen</code> die entsprechenden
-	 * Kontakt-Objekte zu speichern. 
+	 * Kontakt-Objekte zu speichern.
+	 * Sowohl die <code>KontaktlisteBearbeitenForm</code> als auch die Baumstruktur werden anschließend
+	 * neu zum RootPanel hinzugefügt, um die hinzugefügten Kontakt-Objekte korrekt anzuzeigen. Um den Bearbeitungsmodus
+	 * weiterhin aufrechtzuerhalten wird die Methode <code>setEditable</code> augeführt. 
 	 */
 	class KontaktHinzufuegen implements AsyncCallback<KontaktKontaktliste>{
 
 		@Override
 		public void onFailure(Throwable caught) {
-			// TODO Auto-generated method stub
+
 			
 		}
 
 		@Override
 		public void onSuccess(KontaktKontaktliste result) {
-			
+			Window.alert("Der Kontakt/die Kontakte wurden erfolgreich zur Kontaktliste " + kl.getBez() + " hinzugefügt");
+			DialogBoxKontaktZuKontaktliste.this.hide();
+			KontaktlisteForm kf = new KontaktlisteForm(kl);
+			NavigationTree updatedNavigation = new NavigationTree();
+			RootPanel.get("Details").clear();
+			RootPanel.get("Navigator").clear();
+			RootPanel.get("Details").add(kf);
+			RootPanel.get("Navigator").add(updatedNavigation);
+			kf.setEditable();
 		}
 		
 	}
