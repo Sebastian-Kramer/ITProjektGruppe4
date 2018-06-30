@@ -1,7 +1,6 @@
 package de.hdm.itprojektgruppe4.client.gui;
 
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 import java.util.Vector;
 
@@ -16,7 +15,11 @@ import com.google.gwt.view.client.TreeViewModel;
 
 import de.hdm.itprojektgruppe4.client.ClientsideSettings;
 import de.hdm.itprojektgruppe4.shared.KontaktAdministrationAsync;
-import de.hdm.itprojektgruppe4.shared.bo.*;
+import de.hdm.itprojektgruppe4.shared.bo.BusinessObject;
+import de.hdm.itprojektgruppe4.shared.bo.Kontakt;
+import de.hdm.itprojektgruppe4.shared.bo.Kontaktliste;
+import de.hdm.itprojektgruppe4.shared.bo.Nutzer;
+import de.hdm.itprojektgruppe4.shared.bo.Teilhaberschaft;
 
 /**
  * Die Klasse <code>KontaktlisteKontaktTreeViewModel</code> dient zur Verwaltung
@@ -36,13 +39,11 @@ public class KontaktlisteKontaktTreeViewModel implements TreeViewModel {
 	private ListDataProvider<Kontaktliste> kontaktlisteDataProvider = null;
 
 	private Map<Kontaktliste, ListDataProvider<Kontakt>> kontaktDataProvider = null;
-	
-	private Vector<Teilhaberschaft> th = new Vector<Teilhaberschaft>();
 
 	/**
-	 * Diese Nested Class soll den BusinessObjects im Baum eindeutige Schl�ssel
-	 * zuweisen. Hierdurch k�nnnen Kontaktlisten-Objekte von Kontakt-Objekten
-	 * unterschieden werden. der Schl�ssel f�r Kontaktliste-Objekte ist ein
+	 * Diese Nested Class soll den BusinessObjects im Baum eindeutige Schlüssel
+	 * zuweisen. Hierdurch könnnen Kontaktlisten-Objekte von Kontakt-Objekten
+	 * unterschieden werden. der Schlüssel für Kontaktliste-Objekte ist ein
 	 * positiver, der von Kontakt-Objekten ein negativer. (siehe Prof. Rathke,
 	 * BankProjekt, 2018)
 	 */
@@ -71,7 +72,11 @@ public class KontaktlisteKontaktTreeViewModel implements TreeViewModel {
 	 * wird die <code>KontaktlisteForm</code> geöffnet, die die Verwaltung und
 	 * Bearbeitung der Kontaktliste ermöglicht. Ist das selektierte Objekt vom
 	 * Typ Kontakt, wird die <code>KontaktForm</code> geöffnet, die die
-	 * Verwaltung und Bearbeitung eines Kontakte ermöglicht.
+	 * Verwaltung und Bearbeitung eines Kontakte ermöglicht. Bei der Auswahl
+	 * eines Kontaktes muss differenziert werden, ob der angemeldete Nutzer der
+	 * Ersteller des Kontaktes ist (Vollzugriff), ob er Teilhaber ist
+	 * (Vollzugriff auf geteilte Elemente) oder ob ihm der Kontakt nur im Rahmen
+	 * einer Kontaktlistenteilung geteilt wurde (Read only).
 	 * 
 	 * @author Raphael
 	 *
@@ -80,54 +85,66 @@ public class KontaktlisteKontaktTreeViewModel implements TreeViewModel {
 
 		@Override
 		public void onSelectionChange(SelectionChangeEvent event) {
-			
+
 			BusinessObject selection = selectionModel.getSelectedObject();
 			if (selection instanceof Kontaktliste) {
 				setSelectedKontaktliste((Kontaktliste) selection);
 				RootPanel.get("Details").clear();
 				RootPanel.get("Details").add(new KontaktlisteForm(getSelectedKontaktliste()));
 
-			} else if (selection instanceof Kontakt) {			
-				
+			} else if (selection instanceof Kontakt) {
+
 				if (((Kontakt) selection).getNutzerID() == nutzer.getID()) {
 					KontaktForm kf = new KontaktForm(((Kontakt) selection));
 					RootPanel.get("Details").clear();
 					RootPanel.get("Details").add(kf);
-				
-				}else{
+
+				} else {
 					selectedKontakt = ((Kontakt) selection);
-					kontaktVerwaltung.findTeilhaberschaftByKontaktIDAndTeilhaberID(((Kontakt) selection).getID(), nutzer.getID(), new TeilhaberschaftKontaktCallback());
+					// Prüfe, ob am gewählten Kontakt eine Teilhaberschaft
+					// besteht. Weitere Vorgehensweise wird in der
+					// Callback-Klasse
+					kontaktVerwaltung.findTeilhaberschaftByKontaktIDAndTeilhaberID(((Kontakt) selection).getID(),
+							nutzer.getID(), new TeilhaberschaftKontaktCallback());
 				}
-				
+
 			}
 
 		}
 
 	}
-	
-	class TeilhaberschaftKontaktCallback implements AsyncCallback<Vector<Teilhaberschaft>>{
+
+	/**
+	 * Callback-Klasse, die die Teilhaber an einem in der Baumstruktur
+	 * ausgewählten Kontakt zurückgibt. Wird zur Differenzierung benötigt,
+	 * welchen Zugriff der User auf einen Kontakt bekommt, je nachdem ob er
+	 * Teilhaber an einem Kontakt ist oder den Kontakt lediglich im Rahmen einer
+	 * Kontaktlistenteilung erhalten hat.
+	 *
+	 */
+	class TeilhaberschaftKontaktCallback implements AsyncCallback<Vector<Teilhaberschaft>> {
 
 		@Override
 		public void onFailure(Throwable caught) {
-			
-			
+
 		}
 
 		@Override
 		public void onSuccess(Vector<Teilhaberschaft> result) {
-			if (selectedKontakt.getNutzerID() != nutzer.getID() && result.isEmpty()){
+			// Ist der User weder Eigentümer noch Teilhaber am Kontakt, so wird
+			// die KontakAnsicht auf ReadOnly gestellt
+			if (selectedKontakt.getNutzerID() != nutzer.getID() && result.isEmpty()) {
 				KontaktForm kf = new KontaktForm(selectedKontakt, 1);
 				RootPanel.get("Details").clear();
 				RootPanel.get("Details").add(kf);
-			}else{
+			} else {
 				KontaktForm kf = new KontaktForm(selectedKontakt, "Teilhaberschaft");
 				RootPanel.get("Details").clear();
 				RootPanel.get("Details").add(kf);
 			}
 
-			
 		}
-		
+
 	}
 
 	/*
@@ -143,7 +160,7 @@ public class KontaktlisteKontaktTreeViewModel implements TreeViewModel {
 	}
 
 	/*
-	 * Setter f�r das Nutzer-Objekt Informationen werden aus den Cookie gelesen
+	 * Setter fur das Nutzer-Objekt Informationen werden aus den Cookie gelesen
 	 * 
 	 * @param nutzer
 	 */
@@ -153,77 +170,43 @@ public class KontaktlisteKontaktTreeViewModel implements TreeViewModel {
 	}
 
 	/*
-	 * Getter f�r das Nutzer-Objekt
+	 * Getter für das Nutzer-Objekt
 	 */
 	Nutzer getNutzer() {
 		return nutzer;
 	}
 
+	/*
+	 * Getter für die ausgewählte Kontaktliste
+	 */
 	Kontaktliste getSelectedKontaktliste() {
 		return selectedKontaktliste;
 	}
 
+	/*
+	 * Setter der ausgewählten Kontaktliste
+	 */
 	void setSelectedKontaktliste(Kontaktliste kl) {
 		selectedKontaktliste = kl;
 	}
 
+	/*
+	 * Getter für den ausgewählten Kontakt
+	 */
 	Kontakt getSelectedKontakt() {
 		return selectedKontakt;
 	}
 
+	/*
+	 * Setter für den ausgewählten Kontakt
+	 */
 	void setSelectedKontakt(Kontakt k) {
 		selectedKontakt = k;
 	}
 
-	void addKontaktliste(Kontaktliste kontaktliste) {
-		kontaktlisteDataProvider.getList().add(kontaktliste);
-		selectionModel.setSelected(kontaktliste, true);
-	}
-
-	void updateKontaktliste(Kontaktliste kontaktliste) {
-		List<Kontaktliste> kontaktlisteList = kontaktlisteDataProvider.getList();
-		int i = 0;
-		for (Kontaktliste kl : kontaktlisteList) {
-			if (kl.getID() == kl.getID()) {
-				kontaktlisteList.set(i, kontaktliste);
-				break;
-			} else {
-				i++;
-			}
-		}
-		kontaktlisteDataProvider.refresh();
-	}
-
-	void removeKontaktliste(Kontaktliste kontaktliste) {
-		kontaktlisteDataProvider.getList().remove(kontaktliste);
-		kontaktDataProvider.remove(kontaktliste);
-	}
-
-	void addKontaktToKontaktliste(Kontakt kontakt, Kontaktliste kontaktliste) {
-		if (!kontaktDataProvider.containsKey(kontaktliste)) {
-			return;
-		}
-		ListDataProvider<Kontakt> kontaktProvider = kontaktDataProvider.get(kontaktliste);
-		if (!kontaktProvider.getList().contains(kontakt)) {
-			kontaktProvider.getList().add(kontakt);
-		}
-		selectionModel.setSelected(kontakt, true);
-	}
-
-	void removeKontaktFromKontaktliste(Kontakt kontakt, Kontaktliste kontaktliste) {
-		if (!kontaktDataProvider.containsKey(kontaktliste)) {
-			return;
-		}
-		kontaktDataProvider.get(kontaktliste).getList().remove(kontakt);
-		selectionModel.setSelected(kontaktliste, true);
-	}
-
-	/**
-	 * void updateKontakt(Kontakt k){ kontaktVerwaltung.findKontaktlisteByID(id,
-	 * callback); }
-	 */
 	/*
-	 * 
+	 * In der Methode getNodeInfo werden dem Baum sein Inhalt und dessen
+	 * Kindknoten mitgeteilt
 	 */
 	@Override
 	public <T> NodeInfo<?> getNodeInfo(T value) {

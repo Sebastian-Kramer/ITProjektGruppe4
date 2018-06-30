@@ -1,13 +1,7 @@
 package de.hdm.itprojektgruppe4.client.gui;
 
-import com.google.gwt.user.client.ui.DialogBox;
-import com.google.gwt.user.client.ui.FlexTable;
-import com.google.gwt.user.client.ui.HTML;
-import com.google.gwt.user.client.ui.HorizontalPanel;
-import com.google.gwt.user.client.ui.Image;
-import com.google.gwt.user.client.ui.MultiWordSuggestOracle;
-
 import java.util.Vector;
+
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.cellview.client.CellList;
@@ -15,10 +9,14 @@ import com.google.gwt.user.client.Cookies;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Button;
-import com.google.gwt.user.client.ui.VerticalPanel;
+import com.google.gwt.user.client.ui.DialogBox;
+import com.google.gwt.user.client.ui.HTML;
+import com.google.gwt.user.client.ui.HorizontalPanel;
+import com.google.gwt.user.client.ui.Image;
+import com.google.gwt.user.client.ui.MultiWordSuggestOracle;
 import com.google.gwt.user.client.ui.RootPanel;
-import com.google.gwt.user.client.ui.ScrollPanel;
 import com.google.gwt.user.client.ui.SuggestBox;
+import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.view.client.ListDataProvider;
 import com.google.gwt.view.client.SingleSelectionModel;
 
@@ -47,7 +45,7 @@ public class DialogBoxKontaktlisteTeilen extends DialogBox {
 
 	private CellList<Nutzer> nutzerList = new CellList<Nutzer>(nutzerCell);
 	private SingleSelectionModel<Nutzer> nutzerSelection = new SingleSelectionModel<Nutzer>();
-	
+
 	private ListDataProvider<Nutzer> dataProvider = new ListDataProvider<Nutzer>();
 
 	private MultiWordSuggestOracle nutzerOracle = new MultiWordSuggestOracle();
@@ -71,16 +69,18 @@ public class DialogBoxKontaktlisteTeilen extends DialogBox {
 	public void onLoad() {
 		super.onLoad();
 
+		// Hinzufügen der ClickHandler zu den Buttons
 		teilen.addClickHandler(new TeilenClickhandler());
 		abbrechen.addClickHandler(new AbbrechenClickhandler());
 
-		
+		// Stylen der Widgets
 		klTeilen.setStylePrimaryName("kontaktlisteTeilenIcon");
 		nutzerSugBox.setStylePrimaryName("nutzerSuggestBox");
 		html.setStylePrimaryName("klTeilenText");
 		abbrechen.setHeight("55px");
-		
-		
+		this.setStylePrimaryName("DialogboxBackground");
+
+		// Hinzufügen der Widgets und Buttons zum VerticalPanel
 		vpanel.add(klTeilen);
 		vpanel.add(überschrift);
 		vpanel.add(html);
@@ -88,9 +88,10 @@ public class DialogBoxKontaktlisteTeilen extends DialogBox {
 		hpanel.add(teilen);
 		hpanel.add(abbrechen);
 		vpanel.add(hpanel);
+
+		// Hinzufügen des Vertical Panels zur DialogBox
 		this.add(vpanel);
-		this.setStylePrimaryName("DialogboxBackground");
-		
+
 	}
 
 	/**

@@ -10,24 +10,22 @@ import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.DialogBox;
-import com.google.gwt.user.client.ui.FlexTable;
 import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwt.user.client.ui.ScrollPanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
-import com.google.gwt.view.client.SelectionChangeEvent;
 import com.google.gwt.view.client.ListDataProvider;
 import com.google.gwt.view.client.SingleSelectionModel;
-import com.google.gwt.view.client.SelectionChangeEvent.Handler;
+
 import de.hdm.itprojektgruppe4.client.ClientsideSettings;
 import de.hdm.itprojektgruppe4.client.EigenschaftAuspraegungWrapper;
 import de.hdm.itprojektgruppe4.client.NavigationTree;
 import de.hdm.itprojektgruppe4.shared.KontaktAdministrationAsync;
-import de.hdm.itprojektgruppe4.shared.bo.Kontaktliste;
-import de.hdm.itprojektgruppe4.shared.bo.Nutzer;
 import de.hdm.itprojektgruppe4.shared.bo.Eigenschaftauspraegung;
 import de.hdm.itprojektgruppe4.shared.bo.Kontakt;
+import de.hdm.itprojektgruppe4.shared.bo.Kontaktliste;
+import de.hdm.itprojektgruppe4.shared.bo.Nutzer;
 
 /**
  * Die DialogboxTeilhaberschaft zeigt die jeweiligen Nutzer an, die eine
@@ -177,7 +175,7 @@ public class DialogBoxTeilhaberschaftVerwalten extends DialogBox {
 		@Override
 		public void onSuccess(Vector<Nutzer> result) {
 			for (Nutzer n : result) {
-				
+
 				dataProvider.getList().add(n);
 			}
 
@@ -210,7 +208,8 @@ public class DialogBoxTeilhaberschaftVerwalten extends DialogBox {
 
 		@Override
 		public void onClick(ClickEvent event) {
-		kontaktVerwaltung.deleteTeilhaberschaftAnKontaktliste(selectionModel.getSelectedObject().getID(), k.getID(), new TeilhaberschaftLoeschenCallback() );	
+			kontaktVerwaltung.deleteTeilhaberschaftAnKontaktliste(selectionModel.getSelectedObject().getID(), k.getID(),
+					new TeilhaberschaftLoeschenCallback());
 		}
 
 	}
@@ -219,7 +218,7 @@ public class DialogBoxTeilhaberschaftVerwalten extends DialogBox {
 
 		@Override
 		public void onClick(ClickEvent event) {
-			
+
 			kontaktVerwaltung.deleteUpdateTeilhaberschaft(e, selectionModel.getSelectedObject(), nutzer, kon,
 					new TeilhaberschaftAuspraegungLoeschenCallback());
 		}
@@ -241,7 +240,7 @@ public class DialogBoxTeilhaberschaftVerwalten extends DialogBox {
 
 		@Override
 		public void onSuccess(Void result) {
-			if (k.getNutzerID() == nutzer.getID() ) {
+			if (k.getNutzerID() == nutzer.getID()) {
 				Window.alert("Die Teilhaberschaft wurde erfolgreich geloescht");
 				KontaktlisteForm kf = new KontaktlisteForm(k);
 				NavigationTree nt = new NavigationTree();
@@ -263,13 +262,13 @@ public class DialogBoxTeilhaberschaftVerwalten extends DialogBox {
 		}
 
 	}
-	
-	private class TeilhaberschaftAuspraegungLoeschenCallback implements AsyncCallback<Void>{
+
+	private class TeilhaberschaftAuspraegungLoeschenCallback implements AsyncCallback<Void> {
 
 		@Override
 		public void onFailure(Throwable caught) {
 			Window.alert("Die Teilhaberschaft konnte nicht gelöscht werden");
-			
+
 		}
 
 		@Override
@@ -277,18 +276,17 @@ public class DialogBoxTeilhaberschaftVerwalten extends DialogBox {
 			Window.alert("Die Teilhaberschaft wurde erfolgreich geloescht");
 			hide();
 			if (k.getNutzerID() == nutzer.getID()) {
-			TeilhaberschaftForm tf = new TeilhaberschaftForm(kon);
-			RootPanel.get("Details").clear();
-			RootPanel.get("Details").add(tf);
+				TeilhaberschaftForm tf = new TeilhaberschaftForm(kon);
+				RootPanel.get("Details").clear();
+				RootPanel.get("Details").add(tf);
 			} else {
 				TeilhaberschaftForm tf = new TeilhaberschaftForm(kon, "Teilhaberschaft");
 				RootPanel.get("Details").clear();
 				RootPanel.get("Details").add(tf);
 			}
-			
-			
+
 		}
-		
+
 	}
 
 	/**
@@ -350,7 +348,5 @@ public class DialogBoxTeilhaberschaftVerwalten extends DialogBox {
 		}
 
 	}
-
-
 
 }

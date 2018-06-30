@@ -17,7 +17,6 @@ public class KontaktlisteCell extends AbstractCell<Kontaktliste> {
 	
 	/*
 	 * Ist der angemeldete Nutzer Teilhaber einer Kontaktliste, wird diese kursiv dargestellt.
-	 * @see com.google.gwt.cell.client.AbstractCell#render(com.google.gwt.cell.client.Cell.Context, java.lang.Object, com.google.gwt.safehtml.shared.SafeHtmlBuilder)
 	 */
 	@Override
 	public void render(com.google.gwt.cell.client.Cell.Context context, Kontaktliste value, SafeHtmlBuilder sb) {

@@ -107,6 +107,10 @@ public class KontaktlisteForm extends VerticalPanel {
 
 	}
 
+	/*
+	 * Konstruktor, der zum Einsatz kommt, wenn der angemeldete User Teilhaber
+	 * an einer Kontaktliste ist
+	 */
 	public KontaktlisteForm(Kontaktliste kontaktliste, String teilhaberschaft) {
 
 		this.kl = kontaktliste;
@@ -125,6 +129,7 @@ public class KontaktlisteForm extends VerticalPanel {
 		kontaktCellList.setSelectionModel(selectionModel);
 		dataProvider.addDataDisplay(kontaktCellList);
 
+		// Stylen der Buttons und Widgets
 		bearbeitenPic.setStyleName("ButtonICON");
 		kontaktAnzeigenPic.setStyleName("ButtonICON");
 		teilPic.setStyleName("ButtonICON");
@@ -133,7 +138,6 @@ public class KontaktlisteForm extends VerticalPanel {
 		deletePic.setStyleName("ButtonICON");
 		konZuListPic.setStyleName("ButtonICON");
 		kontaktlisteIcon.setPixelSize(200, 120);
-
 		kontaktCellList.setSelectionModel(selectionModel);
 		scrollPanel.setStyleName("scrollPanel1");
 		kontaktCellList.setStyleName("cellListKontakte");
@@ -153,9 +157,8 @@ public class KontaktlisteForm extends VerticalPanel {
 		// Kontaktliste ist
 		if (kl.getNutzerID() == nutzer.getID()) {
 			listShared.addMouseMoveHandler(new SharedListeMouseHandler());
-		} 
+		}
 
-		
 		fpanel.add(kontaktlisteBearbeiten);
 		fpanel.add(kontaktAnzeigen);
 		fpanel.add(kontaktlisteTeilen);
@@ -164,11 +167,11 @@ public class KontaktlisteForm extends VerticalPanel {
 		RootPanel.get("Buttonbar").add(fpanel);
 
 		/*
-		 * Hinzufuegen des Icons, der Überschrift und der CellList zum Vertical Panel
+		 * Hinzufuegen des Icons, der Überschrift und der CellList zum Vertical
+		 * Panel
 		 */
 		hpanel.add(kontaktlisteIcon);
 		hpanel.add(html1);
-		
 
 		/*
 		 * if-clause überprüft den Status der Liste. Ist dieser auf 1
@@ -229,25 +232,21 @@ public class KontaktlisteForm extends VerticalPanel {
 		hpanel.add(txt_kontaktliste);
 		hpanel.setStyleName("HpanelKlist");
 		lbl_kontaktliste.setStyleName("KlistBezeichnung");
-		
+
 		txt_kontaktliste.setText(kl.getBez());
 	}
 
 	private class PopUpInfo extends PopupPanel {
 
 		public PopUpInfo() {
-
 			super(true);
-
 			addDomHandler(new MouseOutHandler() {
 
 				@Override
 				public void onMouseOut(MouseOutEvent event) {
-
 					hide();
 				}
 			}, MouseOutEvent.getType());
-
 			setPopupPosition(listShared.getAbsoluteLeft(), listShared.getAbsoluteTop());
 		}
 
@@ -257,7 +256,6 @@ public class KontaktlisteForm extends VerticalPanel {
 
 		@Override
 		public void onMouseMove(MouseMoveEvent event) {
-
 			kontaktVerwaltung.findAllTeilhaberFromKontaktliste(kl.getID(), new TeilhaberFromListeCallback());
 		}
 
@@ -299,6 +297,14 @@ public class KontaktlisteForm extends VerticalPanel {
 		}
 	}
 
+	/**
+	 * Callback-Klasse, die die Teilhaber an einem ausgewählten Kontakt
+	 * zurückgibt. Wird zur Differenzierung benötigt, welchen Zugriff der User
+	 * auf einen Kontakt bekommt, je nachdem ob er Teilhaber an einem Kontakt
+	 * ist oder den Kontakt lediglich im Rahmen einer Kontaktlistenteilung
+	 * erhalten hat.
+	 *
+	 */
 	class TeilhaberschaftKontaktCallback implements AsyncCallback<Vector<Teilhaberschaft>> {
 
 		@Override
@@ -308,7 +314,6 @@ public class KontaktlisteForm extends VerticalPanel {
 
 		@Override
 		public void onSuccess(Vector<Teilhaberschaft> result) {
-
 			if (selectionModel.getSelectedObject().getNutzerID() != nutzer.getID() && result.size() < 1) {
 				KontaktForm kf = new KontaktForm(selectionModel.getSelectedObject(), 1);
 				RootPanel.get("Details").clear();
@@ -339,7 +344,7 @@ public class KontaktlisteForm extends VerticalPanel {
 
 	}
 
-	/*
+	/**
 	 * Clickhandler, der das Anwählen des Buttons "Teilhaberschaft verwalten"
 	 * ermöglicht. Bei Aktivierung des Clickhandlers wird eine DialogBox mit den
 	 * Teilhaberschaften an einer Kontaktliste geöffnet
@@ -354,10 +359,11 @@ public class KontaktlisteForm extends VerticalPanel {
 
 	}
 
-	/*
+	/**
 	 * ClickHandler um in den Bearbeitungsmodus einer Kontaktliste zu gelangen.
 	 * Hier wird lediglich die Methode setEditable ausgeführt, welche die
-	 * Buttons zur Bearbeitung zur Verfügung stellt.
+	 * Buttons zur Bearbeitung zur Verfügung stellt. Die Standardkontaktlisten
+	 * können nicht bearbeitet werden.
 	 */
 	private class KontaktlisteBearbeitenClickhandler implements ClickHandler {
 
@@ -372,7 +378,7 @@ public class KontaktlisteForm extends VerticalPanel {
 
 	}
 
-	/*
+	/**
 	 * ClickHandler um auf die Startseite zurückzugelangen.
 	 */
 	private class ZurueckZurStartseiteClickhandler implements ClickHandler {
@@ -626,7 +632,6 @@ public class KontaktlisteForm extends VerticalPanel {
 			teilhaberCL.setKeyboardSelectionPolicy(KeyboardSelectionPolicy.DISABLED);
 			vpanelPopUp.add(teilInfo);
 			vpanelPopUp.add(teilhaberCL);
-
 			PopUpInfo pop = new PopUpInfo();
 			pop.setWidget(vpanelPopUp);
 			pop.show();

@@ -294,7 +294,7 @@ img.Startbild {
 table.HpanelKlist {
 	margin-top: 3%;
 	width: 23%;
-	margin-left: 30%;
+    margin-left: 4px;
 }
 
 div.KlistBezeichnung {

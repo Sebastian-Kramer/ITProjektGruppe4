@@ -29,6 +29,7 @@ import de.hdm.itprojektgruppe4.shared.bo.KontaktKontaktliste;
 
 /**
  * Die Klasse <code>DialogBoxKontaktZuKontaktliste</code> ermöglicht das Hinzufuegen eines oder mehrerer Kontakte
+ * zu einer Kontaktliste
  * @author Raphael
  *
  */
@@ -64,7 +65,7 @@ public class DialogBoxKontaktZuKontaktliste extends DialogBox {
 		kontaktTable.setSelectionModel(kontaktSelection, DefaultSelectionEventManager.<Kontakt>createCheckboxManager());
 		
 		/*
-		 * Erstellen einer Checkbox um Kontakte in der CellTable ausw�hlen zu k�nnen
+		 *Erstellen einer Checkbox um Kontakte in der CellTable auswählen zu können
 		 */
 		Column<Kontakt, Boolean> checkBox = new Column<Kontakt, Boolean>(new CheckboxCell(true, false)){
 
@@ -86,11 +87,15 @@ public class DialogBoxKontaktZuKontaktliste extends DialogBox {
 			
 		};
 		
+		/*
+		 * Stylen der Widgets
+		 */
 		kontaktTable.setPageSize(100);
 		scrollPanel.setHeight("250px");
 		scrollPanel.setWidth("250px");
 		scrollPanel.setStyleName("scrollPanel");
 		scrollPanel.add(kontaktTable);
+		this.setStyleName("DialogboxBackground");
 		
 		
 		kontakteHinzufuegen.addClickHandler(new kontaktHinzufuegenClickhandler());
@@ -108,7 +113,7 @@ public class DialogBoxKontaktZuKontaktliste extends DialogBox {
 		vpanel.add(scrollPanel);
 		vpanel.add(kontakteHinzufuegen);
 		vpanel.add(abbrechen);
-		this.setStyleName("DialogboxBackground");
+		
 		this.add(vpanel);
 	}
 	
@@ -145,8 +150,7 @@ public class DialogBoxKontaktZuKontaktliste extends DialogBox {
 			}
 	
 	
-	/*
-	 * 
+	/**
 	 * Ermöglicht das Schließen der Dialogbox
 	 *
 	 */
