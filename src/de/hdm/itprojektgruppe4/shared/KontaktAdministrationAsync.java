@@ -37,8 +37,6 @@ public interface KontaktAdministrationAsync {
 
 	void findAllKontakte(AsyncCallback<Vector<Kontakt>> callback);
 
-	void findAllKontaktNames(AsyncCallback<List<Kontakt>> callback);
-
 	void updateKontakt(Kontakt k, AsyncCallback<Kontakt> callback);
 
 	void updateKontaktStatus(Kontakt k, Nutzer n, AsyncCallback<Void> callback);
@@ -116,8 +114,6 @@ public interface KontaktAdministrationAsync {
 			AsyncCallback<Void> callback);
 
 	void findKontaktlisteByNutzerID(int nutzerID, AsyncCallback<Vector<Kontaktliste>> callback);
-
-	void findAllKontakteFromKontaktliste(int i, AsyncCallback<Vector<Integer>> callback);
 
 	void findKontaktByNutzerID(int nutzerID, AsyncCallback<List<Kontakt>> callback);
 
@@ -211,8 +207,6 @@ public interface KontaktAdministrationAsync {
 	void findKontaktByNameAndNutzerID(Kontakt kontakt, AsyncCallback<Vector<Kontakt>> callback);
 
 	void findEigByBezeichnung(String bez, AsyncCallback<Eigenschaft> callback);
-
-	void insertKontaktinMeineGeteiltenKontakte(int konID, int kListID, AsyncCallback<KontaktKontaktliste> callback);
 
 	void findSharedWithNutzer(int nutzerID, int kontaktlisteID, AsyncCallback<Vector<Nutzer>> callback);
 
