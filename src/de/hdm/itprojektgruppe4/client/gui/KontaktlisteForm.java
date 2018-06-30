@@ -72,7 +72,7 @@ public class KontaktlisteForm extends VerticalPanel {
 	private Button kontaktlisteTeilen = new Button("Kontaktliste teilen");
 	private Button teilhaberschaften = new Button("Teilhaberschaften verwalten");
 	private Button kontaktlisteBearbeiten = new Button("Kontaktliste bearbeiten");
-	private Button zurStartseite = new Button("Zurueck zur Startseite");
+	private Button zurStartseite = new Button("Zurück zur Startseite");
 	private Button kontaktHinzufuegen = new Button("Kontakt hinzufügen");
 	private Button kontaktlisteLoeschen = new Button("Kontaktliste löschen");
 	private Button kontaktEntfernen = new Button("Kontakt entfernen");
@@ -135,10 +135,13 @@ public class KontaktlisteForm extends VerticalPanel {
 		kontaktlisteIcon.setPixelSize(200, 120);
 
 		kontaktCellList.setSelectionModel(selectionModel);
-		scrollPanel.setStyleName("scrollPanel");
+		scrollPanel.setStyleName("scrollPanel1");
 		kontaktCellList.setStyleName("cellListKontakte");
+		hpanel.setStyleName("HpanelTop");
 		scrollPanel.add(kontaktCellList);
-		HTML html1 = new HTML("<h2> Liste: " + kl.getBez() + "</h2>");
+		HTML html1 = new HTML(kl.getBez());
+		html1.setStyleName("headlineKontaktliste");
+		listShared.setStyleName("klStatus");
 
 		/*
 		 * Hinzufuegen der Buttons zur Buttonbar
@@ -165,6 +168,7 @@ public class KontaktlisteForm extends VerticalPanel {
 		 */
 		hpanel.add(kontaktlisteIcon);
 		hpanel.add(html1);
+		
 
 		/*
 		 * if-clause überprüft den Status der Liste. Ist dieser auf 1

@@ -270,6 +270,8 @@ public interface KontaktAdministrationAsync {
 			AsyncCallback<Vector<Teilhaberschaft>> callback);
 
 	void addKontakteToKontaktliste(Vector<Kontakt> kontakt, int kontaktlisteID,
-			AsyncCallback<KontaktKontaktliste> callback);  
+			AsyncCallback<KontaktKontaktliste> callback);
+
+
 
 }
