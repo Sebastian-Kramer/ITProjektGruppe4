@@ -34,35 +34,26 @@ import de.hdm.itprojektgruppe4.shared.bo.Kontakt;
 import de.hdm.itprojektgruppe4.shared.bo.Nutzer;
 
 /**
- * Die Klasse <code>KontaktFrom</code> dient zur Darstellung des selektierten
- * Kontaktes
- * 
+ * * Die Klasse <code>KontaktFrom</code> dient zur Darstellung des selektierten Kontaktes
+ * @author Sebi_0107
  *
  */
-
 public class KontaktForm extends VerticalPanel {
 
-	KontaktAdministrationAsync verwaltung = ClientsideSettings.getKontaktVerwaltung();
+	private KontaktAdministrationAsync verwaltung = ClientsideSettings.getKontaktVerwaltung();
 
 	private Kontakt k = new Kontakt();
 	private Nutzer nutzer = new Nutzer();
 
-	KontaktlisteKontaktTreeViewModel kktvw = null;
-
 	private HorizontalPanel hpanel = new HorizontalPanel();
-
 	private HorizontalPanel hpanel1 = new HorizontalPanel();
-
 	private VerticalPanel vpanel = new VerticalPanel();
-	private VerticalPanel vpanelDetails = new VerticalPanel();
 	private VerticalPanel vpanelDetails1 = new VerticalPanel();
 	private VerticalPanel vpanelBearbeitung = new VerticalPanel();
-	DateTimeFormat fmt = DateTimeFormat.getFormat("dd.MM.yyyy");
+	private DateTimeFormat fmt = DateTimeFormat.getFormat("dd.MM.yyyy");
 
 	private SingleSelectionModel<EigenschaftAuspraegungWrapper> sm = new SingleSelectionModel<EigenschaftAuspraegungWrapper>();
-
 	private ScrollPanel scrollPanel = new ScrollPanel();
-
 	private Button bearbeitenButton = new Button("Kontakt bearbeiten");
 	private Button loeschenButton = new Button("Kontakt löschen");
 	private Button zurueckBtn = new Button("Zurück");
@@ -93,7 +84,7 @@ public class KontaktForm extends VerticalPanel {
 		if (k.getStatus() == 0) {
 
 		} else if (k.getStatus() == 1) {
-			hpanel1.add(sharedPic);
+			sharedPic.setVisible(true);
 
 		}
 
@@ -106,7 +97,7 @@ public class KontaktForm extends VerticalPanel {
 		if (k.getStatus() == 0) {
 
 		} else if (k.getStatus() == 1) {
-			hpanel1.add(sharedPic);
+			sharedPic.setVisible(true);
 
 		}
 
@@ -135,7 +126,7 @@ public class KontaktForm extends VerticalPanel {
 		nutzer.setID(Integer.parseInt(Cookies.getCookie("id")));
 		nutzer.setEmail(Cookies.getCookie("email"));
 		final Image kontaktbild = new Image("Image/Visitenkarte_2.png");
-
+		sharedPic.setStyleName("sharedPic");
 		kontaktbild.setStyleName("Kontaktbild");
 		loeschenPic.setStyleName("ButtonICON");
 		bearbeitenPic.setStyleName("ButtonICON");
@@ -164,6 +155,7 @@ public class KontaktForm extends VerticalPanel {
 		hpanel1.setWidth("700px");
 		hpanel1.add(kontaktbild);
 		hpanel1.add(html1);
+		hpanel1.add(sharedPic);
 		hpanel1.add(vpanelBearbeitung);
 		hpanel.add(scrollPanel);
 		vpanelDetails1.add(hpanel1);
@@ -189,9 +181,9 @@ public class KontaktForm extends VerticalPanel {
 		kontaktListehinzufuegen.addClickHandler(new ClickHinzufuegenHandler());
 
 		if (k.getStatus() == 0) {
-
+			sharedPic.setVisible(false);
 		} else if (k.getStatus() == 1) {
-			hpanel1.add(sharedPic);
+			sharedPic.setVisible(true);
 
 		}
 
@@ -328,8 +320,6 @@ public class KontaktForm extends VerticalPanel {
 			teilhaberCL.setKeyboardSelectionPolicy(KeyboardSelectionPolicy.DISABLED);
 			vpanelPopUp.add(teilInfo);
 			vpanelPopUp.add(teilhaberCL);
-
-			Label lbl = new Label("Geteilt mit: " + result + "");
 			PopUpInfo pop = new PopUpInfo();
 			pop.setWidget(vpanelPopUp);
 			pop.show();
@@ -381,8 +371,5 @@ public class KontaktForm extends VerticalPanel {
 		}
 
 	}
-
-	void setKktvw(KontaktlisteKontaktTreeViewModel kktvw) {
-		this.kktvw = kktvw;
-	}
+	
 }

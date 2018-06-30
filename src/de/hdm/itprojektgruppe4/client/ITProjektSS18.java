@@ -35,7 +35,7 @@ public class ITProjektSS18 implements EntryPoint {
 	private Anchor deleteNutzer = new Anchor("Konto löschen");
 	private Anchor loggedNutzer;
 	private boolean sureDelete;
-	
+
 	Nutzer n1 = new Nutzer();
 	Nutzer n = new Nutzer();
 
@@ -47,11 +47,9 @@ public class ITProjektSS18 implements EntryPoint {
 	private static KontaktAdministrationAsync verwaltung = ClientsideSettings.getKontaktVerwaltung();
 
 	private static String editorHtmlName = "ITProjektSS18.html";
-	
-	
+
 	public ITProjektSS18() {
-		
-		
+
 	}
 
 	public void onModuleLoad() {
@@ -61,8 +59,6 @@ public class ITProjektSS18 implements EntryPoint {
 		startseite.setStyleName("Startseite");
 		eingeloggt.setStyleName("AktiverUser");
 		deleteNutzer.setStyleName("KontoLoeschen");
-	
-		
 
 		/**
 		 * Loginstatus wird anhand des LoginService �berpr�ft
@@ -189,9 +185,7 @@ public class ITProjektSS18 implements EntryPoint {
 		deleteNutzer.addClickHandler(new DeleteNutzerClickHandler());
 		RootPanel.get("Details").add(mainForm);
 		RootPanel.get("Navigator").add(navigationTree);
-	
-	
-	
+
 	}
 
 	/**
@@ -256,32 +250,27 @@ public class ITProjektSS18 implements EntryPoint {
 		}
 
 	}
-	
-	
-	 class DeleteNutzerClickHandler implements ClickHandler {
+
+	class DeleteNutzerClickHandler implements ClickHandler {
 
 		@Override
 		public void onClick(ClickEvent event) {
 			// TODO Auto-generated method stub
-			
-			
+
 			n1.setID(Integer.parseInt(Cookies.getCookie("id")));
 			n1.setEmail(Cookies.getCookie("email"));
-			
-			
-			
-			Window.alert( n1+"   <---- NUTZER LÖSCHEN "  );
+
+			Window.alert(n1 + "   <---- NUTZER LÖSCHEN ");
 			sureDelete = Window.confirm("Möchten Sie Ihr Nutzerprofil vollständig löschen?");
 			if (sureDelete == true) {
-				
+
 				verwaltung.deleteNutzer(n1, new DeleteNutzerCallBack());
 			}
 		}
-		 
-	 }
-	
-	
-	 class DeleteNutzerCallBack implements AsyncCallback<Void> {
+
+	}
+
+	class DeleteNutzerCallBack implements AsyncCallback<Void> {
 
 		@Override
 		public void onFailure(Throwable caught) {
@@ -296,16 +285,15 @@ public class ITProjektSS18 implements EntryPoint {
 			RootPanel.get("Navigator").clear();
 			RootPanel.get("Details").clear();
 			RootPanel.get("Header").clear();
-			
+
 			Cookies.removeCookie("id");
 			Cookies.removeCookie("email");
-			
+
 			onModuleLoad();
-		
+
 		}
-		 
-		 
-	 }
+
+	}
 
 	/**
 	 * 

@@ -6,10 +6,7 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.Vector;
 
-import de.hdm.itprojektgruppe4.client.EigenschaftAuspraegungWrapper;
-import de.hdm.itprojektgruppe4.shared.bo.Eigenschaft;
 import de.hdm.itprojektgruppe4.shared.bo.Eigenschaftauspraegung;
-import de.hdm.itprojektgruppe4.shared.bo.Kontakt;
 
 /**
  * Mapper Klassen, die <code>Eigenschaftauspraegung</code>-Objekte auf einer
@@ -67,7 +64,7 @@ public class EigenschaftauspraegungMapper {
 		return null;
 
 	}
-	
+
 	/**
 	 * 
 	 * @param id
@@ -81,7 +78,8 @@ public class EigenschaftauspraegungMapper {
 
 			Statement stmt = con.createStatement();
 
-			ResultSet rs = stmt.executeQuery("SELECT * FROM eigenschaftsauspraegung WHERE eigenschaftID = " + eigID + " AND kontaktID = " + kontaktID);
+			ResultSet rs = stmt.executeQuery("SELECT * FROM eigenschaftsauspraegung WHERE eigenschaftID = " + eigID
+					+ " AND kontaktID = " + kontaktID);
 
 			if (rs.next()) {
 				Eigenschaftauspraegung e = new Eigenschaftauspraegung();
@@ -136,8 +134,8 @@ public class EigenschaftauspraegungMapper {
 	}
 
 	/**
-	 * Einfuegen eines neuen Objktes vom Typ Eigenschaftauspraegung in die DB der
-	 * PK wird ueberprueft und korrigiert -> maxID +1
+	 * Einfuegen eines neuen Objktes vom Typ Eigenschaftauspraegung in die DB
+	 * der PK wird ueberprueft und korrigiert -> maxID +1
 	 * 
 	 * @param ea
 	 *            die zu speichernde Eigenschaftauspraegung
@@ -232,60 +230,54 @@ public class EigenschaftauspraegungMapper {
 	 *         vorhandenem DB-Tulpel
 	 */
 
+	/**
+	 * ein Objekt vom Typ Eigenschaftauspraegung wird aus der DB gel�scht
+	 * 
+	 * @param ea
+	 *            die zu l�schende Eigenschaftauspraegung
+	 * 
+	 */
 
-/**
- *  ein Objekt vom Typ Eigenschaftauspraegung wird aus der DB gel�scht 
- * @param ea
- * 	die zu l�schende Eigenschaftauspraegung
- * 
- */
+	/**
+	 * Eine Eigenschaftsauspraegung anhand des Wertes auslesen.
+	 * 
+	 * @param wert,
+	 *            der die Auspraegung beschreibt
+	 * @return Eigenschafts-Objekt mit gesuchtem Wert, null bei nicht
+	 *         vorhandenem DB-Tulpel
+	 */
 
+	// pr�fen
+	public Vector<Eigenschaftauspraegung> getAuspraegungByWert(String wert) {
+		Vector<Eigenschaftauspraegung> result = new Vector<Eigenschaftauspraegung>();
+		Connection con = DBConnection.connection();
 
-/**
- * Eine Eigenschaftsauspraegung anhand des Wertes auslesen.
- * 
- * @param wert, der die Auspraegung beschreibt
- * @return Eigenschafts-Objekt mit gesuchtem Wert, null bei nicht vorhandenem DB-Tulpel
- */
+		try {
 
-//pr�fen
-public Vector<Eigenschaftauspraegung> getAuspraegungByWert(String wert){
-	Vector<Eigenschaftauspraegung> result = new Vector<Eigenschaftauspraegung>();
-	Connection con = DBConnection.connection();
+			Statement stmt = con.createStatement();
 
-	try {
-		
-	
-	Statement stmt = con.createStatement();
-	
-	ResultSet rs = stmt.executeQuery(
-			
-	"SELECT * FROM `eigenschaftsauspraegung` WHERE `wert` LIKE " + "'" + wert + "'" +" ORDER by ID");
-	
-	
-	
-			
-	while (rs.next()) {
-		Eigenschaftauspraegung ea = new Eigenschaftauspraegung();
-		ea.setID(rs.getInt("ID"));
-		ea.setEigenschaftsID(rs.getInt("eigenschaftID"));
-		ea.setKontaktID(rs.getInt("kontaktID"));
-		ea.setWert(rs.getString("wert"));
-		ea.setStatus(rs.getInt("status"));
-	
-		
-		result.addElement(ea);
+			ResultSet rs = stmt.executeQuery(
+
+					"SELECT * FROM `eigenschaftsauspraegung` WHERE `wert` LIKE " + "'" + wert + "'" + " ORDER by ID");
+
+			while (rs.next()) {
+				Eigenschaftauspraegung ea = new Eigenschaftauspraegung();
+				ea.setID(rs.getInt("ID"));
+				ea.setEigenschaftsID(rs.getInt("eigenschaftID"));
+				ea.setKontaktID(rs.getInt("kontaktID"));
+				ea.setWert(rs.getString("wert"));
+				ea.setStatus(rs.getInt("status"));
+
+				result.addElement(ea);
+			}
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+
+		}
+		return result;
+
 	}
-		
-}catch (SQLException e) {
-	e.printStackTrace();
-	
-}
-return result;
-
-}
-
-
 
 	public Vector<Eigenschaftauspraegung> findAuspraegungByKontaktID(int kontaktID) {
 
@@ -348,9 +340,10 @@ return result;
 		return result;
 
 	}
-	
+
 	/**
-	 * Auslesen aller geteilten Eigenschaftsausprägungen eines bestimmten Kontakts
+	 * Auslesen aller geteilten Eigenschaftsausprägungen eines bestimmten
+	 * Kontakts
 	 * 
 	 * @param kontaktID
 	 * @return Vector
@@ -366,7 +359,7 @@ return result;
 
 			ResultSet rs = stmt
 					.executeQuery("SELECT ID, wert, status, eigenschaftID, kontaktID FROM eigenschaftsauspraegung "
-							+ " WHERE status = 1 "  + " AND kontaktID = " + kontaktID);
+							+ " WHERE status = 1 " + " AND kontaktID = " + kontaktID);
 
 			while (rs.next()) {
 				Eigenschaftauspraegung e = new Eigenschaftauspraegung();

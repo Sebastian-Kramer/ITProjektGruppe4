@@ -160,6 +160,16 @@ a.Startseite {
 	margin: 15px 6px 6px;
 }
 
+img.sharedPic {
+    width: 45px;
+    margin-top: 36px;
+    margin-left: 50px;
+}
+
+div.AktiverUser {
+	font-size: 15px;
+}
+
 body {
 	margin: 0;
 	height: 100%;
@@ -174,7 +184,7 @@ header {
 
 [role="banner"] {
 	background: url(Image/Logo.png) no-repeat right, #000
-		repeating-linear-gradient(-45deg, SeaGreen, LimeGreen, Gainsboro);
+		repeating-linear-gradient(-45deg, Gainsboro, LimeGreen, SeaGreen);
 	background-size: contain, auto;
 	padding: 0 0 0.5em;
 }
@@ -303,6 +313,15 @@ table.HpanelKlist {
 
 div.KlistBezeichnung {
 	font-size: 17px;
+	margin-top: 47px;
+    text-align: right;
+    margin-right: 30px;
+}
+
+input.klistBox{
+	margin-top: 45px;
+	height: 25px;
+	font-size: 15px;
 }
 
 .HtmlText {
@@ -363,12 +382,11 @@ table.KontaktDaten {
 }
 
 input.KontaktName {
-	margin-bottom: 10px;
+	height: 30px;
 }
 
 div.KontaktAnlegenHTML1 {
 	white-space: normal;
-	margin-bottom: 10px;
 	font-size: 20px;
 }
 
@@ -503,8 +521,9 @@ footer {
 	padding: 0.5em 1em 0;
 	color: white;
 	border-radius: 20px;
-	background: #000
-		repeating-linear-gradient(-45deg, SeaGreen, LimeGreen, Gainsboro);
+	background: url(Image/HdM.png) no-repeat right, #000
+		repeating-linear-gradient(-45deg, Gainsboro, LimeGreen, SeaGreen);
+		
 }
 
 footer>* {
@@ -579,6 +598,7 @@ button.edit-Button {
     border-style: groove;
     background: white;
     font-size: 15px;
+    min-height: 30px;
 }
 
 .TeilhaberschaftText {

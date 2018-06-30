@@ -12,7 +12,6 @@ import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Image;
-import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.MultiWordSuggestOracle;
 import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwt.user.client.ui.ScrollPanel;
@@ -21,6 +20,7 @@ import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.view.client.DefaultSelectionEventManager;
 import com.google.gwt.view.client.MultiSelectionModel;
 import com.google.gwt.view.client.SelectionChangeEvent;
+
 import de.hdm.itprojektgruppe4.client.ClientsideSettings;
 import de.hdm.itprojektgruppe4.client.EigenschaftAuspraegungWrapper;
 import de.hdm.itprojektgruppe4.shared.KontaktAdministrationAsync;
@@ -46,7 +46,6 @@ public class TeilhaberschaftForm extends VerticalPanel {
 	private Nutzer nutzer = new Nutzer();
 
 	private VerticalPanel vpanel = new VerticalPanel();
-	private VerticalPanel vpanelTop = new VerticalPanel();
 	private HorizontalPanel hpanelTop = new HorizontalPanel();
 	private HorizontalPanel nutzerSuchenPanel = new HorizontalPanel();
 
@@ -54,7 +53,6 @@ public class TeilhaberschaftForm extends VerticalPanel {
 	private Button allTeilen = new Button("Alle Eigenschaftsausprägung teilen");
 	private Button einzTeilen = new Button("Ausgewählte Eigenschaftsausprägungen teilen");
 	private Button allLoeschen = new Button("Alle Teilhaberschaften löschen");
-	private Button alleigenenloeschen = new Button("Meine Teilhaberschaften entfernen");
 
 	private MultiWordSuggestOracle nutzerOracle = new MultiWordSuggestOracle();
 	private SuggestBox nutzerSugBox = new SuggestBox(nutzerOracle);
@@ -151,7 +149,6 @@ public class TeilhaberschaftForm extends VerticalPanel {
 		allTeilen.addClickHandler(new AllAuspraegungenTeilenClickHandler());
 		einzTeilen.addClickHandler(new AusgewaehlteAuspraegungenTeilenClickHandler());
 		allLoeschen.addClickHandler(new AllAuspraegungenLoeschenClickHandler()); 
-		alleigenenloeschen.addClickHandler( new AllEigeneAuspraegungenLoeschenClickHandler());
 
 		/*
 		 * Hier wird der CellTable eine Selection Model für die Auswahl von
@@ -250,6 +247,12 @@ public class TeilhaberschaftForm extends VerticalPanel {
 
 	}
 	
+	/**
+	 * 
+	 * ClickHandler Klasse mit der alle Teilhaberschaften von allen Ausprägungen eines Kontakts entfernt werden.
+	 * Dafür werden das Kontakt-Objekt und das Nutzer-Objekt übergeben.
+	 *
+	 */
 	class AllAuspraegungenLoeschenClickHandler implements ClickHandler {
 
 		@Override
@@ -261,18 +264,8 @@ public class TeilhaberschaftForm extends VerticalPanel {
 		
 	}
 	
-	class AllEigeneAuspraegungenLoeschenClickHandler implements ClickHandler {
-
-		@Override
-		public void onClick(ClickEvent event) {
-			
-			
-		}
-		
-	}
-	
 	/**
-	 * 
+	 * Callback - Klasse
 	 * @author Sebi_0107
 	 *
 	 */
@@ -287,6 +280,7 @@ public class TeilhaberschaftForm extends VerticalPanel {
 		@Override
 		public void onSuccess(Void result) {
 			Window.alert("Sie haben alle Teilhaberschaften an diesem Kontakt gelöscht.");
+			kon.setStatus(0);
 			TeilhaberschaftForm tf = new TeilhaberschaftForm(kon);
 			RootPanel.get("Details").clear();
 			RootPanel.get("Details").add(tf);
@@ -436,6 +430,7 @@ public class TeilhaberschaftForm extends VerticalPanel {
 				Window.alert("Die Teilhaberschaft wurden erfolgreich mit dem Nutzer " + nutzerSugBox.getValue()
 						+ " angelegt");
 				if (kon.getNutzerID() == nutzer.getID()) {
+					kon.setStatus(1);
 					TeilhaberschaftForm tf = new TeilhaberschaftForm(kon);
 					RootPanel.get("Details").clear();
 					RootPanel.get("Details").add(tf);

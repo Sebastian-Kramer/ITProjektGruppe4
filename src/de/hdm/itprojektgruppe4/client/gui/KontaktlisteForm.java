@@ -228,10 +228,12 @@ public class KontaktlisteForm extends VerticalPanel {
 		RootPanel.get("Buttonbar").add(fpanelEdit);
 
 		hpanel.clear();
+		hpanel.add(kontaktlisteIcon);
 		hpanel.add(lbl_kontaktliste);
 		hpanel.add(txt_kontaktliste);
-		hpanel.setStyleName("HpanelKlist");
+		hpanel.setStyleName("HpanelTop");
 		lbl_kontaktliste.setStyleName("KlistBezeichnung");
+		txt_kontaktliste.setStyleName("klistBox");
 
 		txt_kontaktliste.setText(kl.getBez());
 	}

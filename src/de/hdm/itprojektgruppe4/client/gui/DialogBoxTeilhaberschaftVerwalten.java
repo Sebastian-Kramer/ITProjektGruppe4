@@ -214,6 +214,16 @@ public class DialogBoxTeilhaberschaftVerwalten extends DialogBox {
 
 	}
 
+	/**
+	 * 
+	 * ClickHandler, um das Löschen einer Teilhaberschaft an einer Ausprägung zu ermöglichen.
+	 * Die asynchrone Callback-Methode
+	 * <code>deleteUpdateTeilhaberschaft</code> wird aufgerufen, um die
+	 * Teilhaberschaft anhand der entsprechenden Eigenschaftausprägung, des Teilhabers und des Kontakts zu entfernen.
+	 * Anschließend wird die DialogBox geschlossen.
+	 *  
+	 *
+	 */
 	private class LoeschenClickHandler implements ClickHandler {
 
 		@Override
@@ -263,6 +273,12 @@ public class DialogBoxTeilhaberschaftVerwalten extends DialogBox {
 
 	}
 
+	/**
+	 * 
+	 * Callback fuer die Loeschung der Teilhaberschaft an eine Eigenschaftsausprägung. Nach erfolgreicher
+	 * Loeschung wird die Dialogbox geschlossen und die TeilhaberschaftForm wird wieder geladen.
+	 *
+	 */
 	private class TeilhaberschaftAuspraegungLoeschenCallback implements AsyncCallback<Void> {
 
 		@Override
