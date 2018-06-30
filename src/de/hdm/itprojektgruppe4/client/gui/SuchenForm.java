@@ -97,6 +97,8 @@ public class SuchenForm extends VerticalPanel {
 		beschreibungAuspraegung.setStyleName("SuchenBeschreibenAuspraegung");
 		tboxKontaktname.setStyleName("SuchenBoxKontakt");
 		tboxAuspraegung.setStyleName("SuchenBoxAuspraegung");
+		KontaktSuchen.setHeight("60px");
+		
 	}
 
 	/**
@@ -173,7 +175,6 @@ public class SuchenForm extends VerticalPanel {
 		hpanelRechts.add(ctAus);
 		hpanelRechts.add(AuspraegungKontaktAnzeigenButton);
 		vpanel3.add(KontaktKontaktAnzeigenButton);
-//		vpanel3.add(AuspraegungKontaktAnzeigenButton);
 		this.add(vpanelTop);
 		this.add(HTMLForm);
 		this.add(hpanelLinks);

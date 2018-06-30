@@ -11,6 +11,7 @@ import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.HorizontalPanel;
+import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.MultiWordSuggestOracle;
 import com.google.gwt.user.client.ui.RootPanel;
@@ -45,27 +46,35 @@ public class TeilhaberschaftForm extends VerticalPanel {
 	private Nutzer nutzer = new Nutzer();
 
 	private VerticalPanel vpanel = new VerticalPanel();
-	private HorizontalPanel hpanel = new HorizontalPanel();
+	private VerticalPanel vpanelTop = new VerticalPanel();
+	private HorizontalPanel hpanelTop = new HorizontalPanel();
+	private HorizontalPanel nutzerSuchenPanel = new HorizontalPanel();
 
 	private Button zurueck = new Button("Zurück");
 	private Button allTeilen = new Button("Alle Eigenschaftsausprägung teilen");
 	private Button einzTeilen = new Button("Ausgewählte Eigenschaftsausprägungen teilen");
+	private Button allLoeschen = new Button("Alle Teilhaberschaften löschen");
+	private Button alleigenenloeschen = new Button("Meine Teilhaberschaften entfernen");
 
 	private MultiWordSuggestOracle nutzerOracle = new MultiWordSuggestOracle();
 	private SuggestBox nutzerSugBox = new SuggestBox(nutzerOracle);
 
 	private CellTableForm ctf = null;
+	private Image kontaktbild = new Image("Image/Visitenkarte_2.png");
+	private Image teilen = new Image("Image/Teilen2.png");
 
 	private ScrollPanel scrollPanel = new ScrollPanel();
-
+	private HTML html1 = null;
 	private HTML html2 = new HTML(
 			"Sie können auch nur bestimmte <b> Ausprägungen </b> an einen anderen <b> Nutzer </b> teilen, "
 					+ " </br> wählen Sie dafür die entsprechenden <b> Ausprägungen </b>  mit den Checkboxen aus."
 					+ "<span style='font-family:fixed'></span>",
 			true);
 
-	private HTML html3 = new HTML("Bitte wählen Sie hier den <b> Nutzer </b> aus dem der "
-			+ " <b>Kontakt</b>  geteilt werden soll." + "<span style='font-family:fixed'></span>", true);
+	private HTML html3 = new HTML(
+			"Bitte wählen Sie hier den <b> Nutzer </b> aus dem der <b>Kontakt</b>  geteilt werden soll."
+					+ "<span style='font-family:fixed'></span>",
+			true);
 
 	final MultiSelectionModel<EigenschaftAuspraegungWrapper> selectionModelWrapper = new MultiSelectionModel<EigenschaftAuspraegungWrapper>();
 
@@ -83,6 +92,13 @@ public class TeilhaberschaftForm extends VerticalPanel {
 		this.kon = k;
 		ctf = new CellTableForm(kon);
 		einzTeilen.setVisible(false);
+
+		RootPanel.get("Buttonbar").clear();
+		RootPanel.get("Buttonbar").add(zurueck);
+		RootPanel.get("Buttonbar").add(allLoeschen);
+		RootPanel.get("Buttonbar").add(allTeilen);
+		RootPanel.get("Buttonbar").add(einzTeilen);
+		
 
 	}
 
@@ -104,6 +120,11 @@ public class TeilhaberschaftForm extends VerticalPanel {
 		ctf = new CellTableForm(kon, teilhaberschaft);
 		einzTeilen.setVisible(false);
 
+		RootPanel.get("Buttonbar").clear();
+		RootPanel.get("Buttonbar").add(zurueck);
+		RootPanel.get("Buttonbar").add(allTeilen);
+		RootPanel.get("Buttonbar").add(einzTeilen);
+
 	}
 
 	/**
@@ -118,18 +139,19 @@ public class TeilhaberschaftForm extends VerticalPanel {
 	public void onLoad() {
 
 		super.onLoad();
-
-		HTML html1 = new HTML("<h2>" + kon.getName() + "</h2>");
 		nutzer.setID(Integer.parseInt(Cookies.getCookie("id")));
 		nutzer.setEmail(Cookies.getCookie("email"));
 
 		verwaltung.findAllNutzer(new AlleNutzer());
-
+		nutzerSugBox.setStyleName("teilBox");
+		teilen.setStyleName("teilLogo");
 		selectionModelWrapper.addSelectionChangeHandler(new Handler());
-
+		html1 = new HTML("<h2>Kontakt " + kon.getName() + " teilen</h2>");
 		zurueck.addClickHandler(new ZurueckClickHandler());
 		allTeilen.addClickHandler(new AllAuspraegungenTeilenClickHandler());
 		einzTeilen.addClickHandler(new AusgewaehlteAuspraegungenTeilenClickHandler());
+		allLoeschen.addClickHandler(new AllAuspraegungenLoeschenClickHandler()); 
+		alleigenenloeschen.addClickHandler( new AllEigeneAuspraegungenLoeschenClickHandler());
 
 		/*
 		 * Hier wird der CellTable eine Selection Model für die Auswahl von
@@ -146,37 +168,35 @@ public class TeilhaberschaftForm extends VerticalPanel {
 		ctf.addColumn(ctf.getStatus());
 		ctf.addColumn(ctf.getDeleteBtn(), "Teilhaberschaft löschen");
 		ctf.setStyleName("CellTableAuspraegung");
-		ctf.setWidth("600px");
 		ctf.setStyleName("CellTableTeilhaberschaft");
 		ctf.getDeleteBtn().setFieldUpdater(new DeleteFieldUpdater());
 		scrollPanel.add(ctf);
-		scrollPanel.setHeight("300px");
-
+		nutzerSugBox.getElement().setAttribute("placeholder", "Nutzer");
 		nutzerSugBox.setStyleName("DropDown");
 		nutzerSugBox.setHeight("20px");
+		kontaktbild.setStyleName("Kontaktbild");
 
 		html1.setStyleName("HtmlText1");
-		html2.setStyleName("HtmlText");
+		html2.setStyleName("HtmlText2");
 		html3.setStyleName("HtmlText");
 
 		/*
 		 * Hier werden die zuvor angelegten Widgets dem VerticalPanel und dem
 		 * HorizontelPanel hinzugefügt
 		 */
-		vpanel.setStyleName("TeilhaberschaftVPanel");
-		//hpanel.add(scrollPanel);
-		
-		vpanel.add(html1);
-		vpanel.add(html2);
-		vpanel.add(html3);
-		vpanel.add(nutzerSugBox);
-		vpanel.add(scrollPanel);
-	
+		hpanelTop.setStyleName("HpanelTop");
+		hpanelTop.add(kontaktbild);
+		hpanelTop.add(html1);
+		hpanelTop.add(teilen);
 
-		RootPanel.get("Buttonbar").clear();
-		RootPanel.get("Buttonbar").add(zurueck);
-		RootPanel.get("Buttonbar").add(allTeilen);
-		RootPanel.get("Buttonbar").add(einzTeilen);
+		vpanel.add(hpanelTop);
+		vpanel.add(html2);
+		nutzerSuchenPanel.setStyleName("nutzerSuchenPanel");
+		nutzerSuchenPanel.add(html3);
+		nutzerSuchenPanel.add(nutzerSugBox);
+		vpanel.add(nutzerSuchenPanel);
+		vpanel.add(scrollPanel);
+
 		this.add(vpanel);
 
 	}
@@ -228,6 +248,51 @@ public class TeilhaberschaftForm extends VerticalPanel {
 
 		}
 
+	}
+	
+	class AllAuspraegungenLoeschenClickHandler implements ClickHandler {
+
+		@Override
+		public void onClick(ClickEvent event) {
+			
+				verwaltung.deleteAllTeilhaberschaftenKontakt(kon, nutzer, new AlleTeilhaberschaftenEntferntCallback());
+			
+		}
+		
+	}
+	
+	class AllEigeneAuspraegungenLoeschenClickHandler implements ClickHandler {
+
+		@Override
+		public void onClick(ClickEvent event) {
+			
+			
+		}
+		
+	}
+	
+	/**
+	 * 
+	 * @author Sebi_0107
+	 *
+	 */
+	class AlleTeilhaberschaftenEntferntCallback implements AsyncCallback<Void>{
+
+		@Override
+		public void onFailure(Throwable caught) {
+			Window.alert("Die Teilhaberschaften an diesem Kontakt konnten nicht gelöscht werden!");
+			
+		}
+
+		@Override
+		public void onSuccess(Void result) {
+			Window.alert("Sie haben alle Teilhaberschaften an diesem Kontakt gelöscht.");
+			TeilhaberschaftForm tf = new TeilhaberschaftForm(kon);
+			RootPanel.get("Details").clear();
+			RootPanel.get("Details").add(tf);
+			
+		}
+		
 	}
 
 	/**
@@ -305,9 +370,12 @@ public class TeilhaberschaftForm extends VerticalPanel {
 		@Override
 		public void onClick(ClickEvent event) {
 
+			if(nutzerSugBox.getText().isEmpty()){
+				Window.alert("Sie haben keinen Nutzer ausgewählt"); 
+			}else{
 			verwaltung.insertTeilhaberschaftAuspraegungenKontakt(kon, nutzerSugBox.getValue(), nutzer.getID(),
 					new TeilhaberschaftCallback());
-
+			}
 		}
 
 	}
@@ -332,8 +400,12 @@ public class TeilhaberschaftForm extends VerticalPanel {
 				ea.add(eaw);
 			}
 
+			if(nutzerSugBox.getText().isEmpty()){
+				Window.alert("Sie haben keinen Nutzer ausgewählt"); 
+			}else{
 			verwaltung.insertTeilhaberschaftAusgewaehlteAuspraegungenKontakt(kon, ea, nutzerSugBox.getValue(),
 					nutzer.getID(), new TeilhaberschaftCallback());
+			}
 
 		}
 
@@ -341,9 +413,12 @@ public class TeilhaberschaftForm extends VerticalPanel {
 
 	/**
 	 * 
-	 * Die AsyncCallback-Klasse wird aufgerufen, sobald einer der beiden Methoden insertTeilhaberschaftAusgewaehlteAuspraegungenKontakt/
-	 * insertTeilhaberschaftAuspraegungenKontakt erfolgreich ausgeführt wurden. Es wird geprüft, ob bereits eine Teilhaberschaft besteht oder nicht,
-	 * dementsprechend werden die Window.alert - Ausgaben ausgeführt die TeilhaberschaftForm wird neu geladen   
+	 * Die AsyncCallback-Klasse wird aufgerufen, sobald einer der beiden
+	 * Methoden insertTeilhaberschaftAusgewaehlteAuspraegungenKontakt/
+	 * insertTeilhaberschaftAuspraegungenKontakt erfolgreich ausgeführt wurden.
+	 * Es wird geprüft, ob bereits eine Teilhaberschaft besteht oder nicht,
+	 * dementsprechend werden die Window.alert - Ausgaben ausgeführt die
+	 * TeilhaberschaftForm wird neu geladen
 	 *
 	 */
 	class TeilhaberschaftCallback implements AsyncCallback<Integer> {

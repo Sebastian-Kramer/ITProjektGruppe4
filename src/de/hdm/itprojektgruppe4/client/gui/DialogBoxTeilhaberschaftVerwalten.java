@@ -256,31 +256,30 @@ public class DialogBoxTeilhaberschaftVerwalten extends DialogBox {
 
 	}
 	
-	private class TeilhaberschaftAuspraegungLoeschenCallback implements AsyncCallback<Void>{
+	private class TeilhaberschaftAuspraegungLoeschenCallback implements AsyncCallback<Void> {
 
 		@Override
 		public void onFailure(Throwable caught) {
 			Window.alert("Die Teilhaberschaft konnte nicht gelöscht werden");
-			
+
 		}
 
 		@Override
 		public void onSuccess(Void result) {
 			Window.alert("Die Teilhaberschaft wurde erfolgreich geloescht");
 			hide();
-			if (k.getNutzerID() == nutzer.getID()) {
-			TeilhaberschaftForm tf = new TeilhaberschaftForm(kon);
-			RootPanel.get("Details").clear();
-			RootPanel.get("Details").add(tf);
+			if (kon.getNutzerID() == nutzer.getID()) {
+				TeilhaberschaftForm tf = new TeilhaberschaftForm(kon);
+				RootPanel.get("Details").clear();
+				RootPanel.get("Details").add(tf);
 			} else {
 				TeilhaberschaftForm tf = new TeilhaberschaftForm(kon, "Teilhaberschaft");
 				RootPanel.get("Details").clear();
 				RootPanel.get("Details").add(tf);
 			}
-			
-			
+
 		}
-		
+
 	}
 
 	/**

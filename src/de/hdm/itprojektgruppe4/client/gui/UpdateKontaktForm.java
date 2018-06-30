@@ -149,6 +149,7 @@ public class UpdateKontaktForm extends VerticalPanel {
 		ctf.addColumn(bezEigenschaft, "Kontakteigenschaften: ");
 		ctf.addColumn(wertAuspraegung);
 		ctf.addColumn(deleteBtn);
+		ctf.setStyleName("CellTableHyprid");
 
 	}
 
@@ -166,6 +167,7 @@ public class UpdateKontaktForm extends VerticalPanel {
 		ctf = new CellTableForm(kon, teilhaberschaft);
 		ctf.addColumn(bezEigenschaft, "Kontakteigenschaften: ");
 		ctf.addColumn(wertAuspraegung);
+		ctf.setStyleName("CellTableHyprid");
 	}
 
 	/**

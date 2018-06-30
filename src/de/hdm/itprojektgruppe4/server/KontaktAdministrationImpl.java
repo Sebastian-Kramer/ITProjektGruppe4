@@ -1790,6 +1790,31 @@ public class KontaktAdministrationImpl extends RemoteServiceServlet implements K
 		
 	}
 	
+	/**
+	 * 
+	 */
+	@Override
+	public void deleteAllTeilhaberschaftenKontakt(Kontakt k, Nutzer n) throws IllegalArgumentException {
+		
+		Kontakt kon = this.findKontaktByID(k.getID());
+		Vector<Teilhaberschaft> t = this.findTeilhaberschaftByKontaktID(k.getID());
+		this.teilhaberschaftMapper.deleteTeilhaberschaftByKontaktID(k.getID());
+		
+		Vector<Eigenschaftauspraegung> a = this.findAllSharedAuspraegungenFromKontaktID(kon.getID());
+		for (Eigenschaftauspraegung ae : a){
+			this.teilhaberschaftMapper.deleteTeilhaberschaftByAuspraegungID(ae.getID());
+			ae.setStatus(0);
+			this.updateAuspraegung(ae);
+		}
+		for (Teilhaberschaft th: t){
+			Kontaktliste kList = this.konlistMapper.findKontaktliste(th.getTeilhaberID(), "Mit mir geteilte Kontakte");
+			this.deleteKontaktKontaktlisteByKontaktIDAndByKListID(kon.getID(), kList.getID());
+		}
+		kon.setStatus(0);
+		this.updateKontakt(kon);
+		
+	}
+	
 	
 
 	/**
@@ -2281,32 +2306,6 @@ public class KontaktAdministrationImpl extends RemoteServiceServlet implements K
 		return listenVonNutzer;
 		
 	}
-
-
-	
-
-
-
-
-	
-
-
-		
-		
-		
-//		
-//		Vector<Eigenschaftauspraegung> auspraegungen = findAllEigenschaftsauspraegungByWertAndEigenschaft(auspraegung,
-//				e);
-//		Vector<Kontakt> allContact = new Vector<Kontakt>();
-//
-//		for (Eigenschaftauspraegung eigenschaftsauspraegung : auspraegungen) {
-//			allContact.add(findKontaktByID(eigenschaftsauspraegung.getID()));
-//		}
-//
-//		return allContact;
-//
-//	}
-//	
 
 
 

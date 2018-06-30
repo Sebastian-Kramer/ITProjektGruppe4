@@ -543,6 +543,21 @@ public class TeilhaberschaftMapper {
 
 		}
 	}
+	
+	public void deleteTeilhaberschaftByAuspraegungID(int auspraegungID) {
+		Connection con = DBConnection.connection();
+
+		try {
+
+			Statement stmt = con.createStatement();
+
+			stmt.executeUpdate("DELETE FROM teilhaberschaft " + "WHERE eigenschaftsauspraegungID = " + auspraegungID);
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+
+		}
+	}
 
 	/**
 	 * 

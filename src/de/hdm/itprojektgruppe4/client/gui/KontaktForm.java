@@ -2,9 +2,6 @@ package de.hdm.itprojektgruppe4.client.gui;
 
 import java.util.Vector;
 
-import org.apache.tools.ant.types.resources.comparators.Size;
-
-import com.google.appengine.api.xmpp.XMPPServicePb.PresenceResponse.SHOW;
 import com.google.gwt.cell.client.ClickableTextCell;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
@@ -19,7 +16,6 @@ import com.google.gwt.user.client.Cookies;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Button;
-import com.google.gwt.user.client.ui.DialogBox;
 import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Image;
@@ -28,15 +24,14 @@ import com.google.gwt.user.client.ui.PopupPanel;
 import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwt.user.client.ui.ScrollPanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
-import com.google.gwt.user.client.ui.Widget;
-import com.google.gwt.view.client.ListDataProvider;
 import com.google.gwt.view.client.SingleSelectionModel;
 
 import de.hdm.itprojektgruppe4.client.ClientsideSettings;
 import de.hdm.itprojektgruppe4.client.EigenschaftAuspraegungWrapper;
 import de.hdm.itprojektgruppe4.client.NavigationTree;
 import de.hdm.itprojektgruppe4.shared.KontaktAdministrationAsync;
-import de.hdm.itprojektgruppe4.shared.bo.*;
+import de.hdm.itprojektgruppe4.shared.bo.Kontakt;
+import de.hdm.itprojektgruppe4.shared.bo.Nutzer;
 
 /**
  * Die Klasse <code>KontaktFrom</code> dient zur Darstellung des selektierten
@@ -95,6 +90,12 @@ public class KontaktForm extends VerticalPanel {
 	public KontaktForm(Kontakt k) {
 		this.k = k;
 		ctf = new CellTableForm(k);
+		if (k.getStatus() == 0) {
+
+		} else if (k.getStatus() == 1) {
+			hpanel1.add(sharedPic);
+
+		}
 
 	}
 
@@ -102,6 +103,12 @@ public class KontaktForm extends VerticalPanel {
 
 		this.k = k;
 		ctf = new CellTableForm(k, teilhaberschaft);
+		if (k.getStatus() == 0) {
+
+		} else if (k.getStatus() == 1) {
+			hpanel1.add(sharedPic);
+
+		}
 
 	}
 
@@ -137,6 +144,7 @@ public class KontaktForm extends VerticalPanel {
 		teilVerwaltenPic.setStyleName("ButtonICON");
 
 		HTML html1 = new HTML("<h2>" + k.getName() + "</h2>");
+		html1.setStyleName("KontaktUeberschrift");
 		HTML html2 = new HTML("Erstellt am: " + fmt.format(k.getErzeugungsdatum()));
 		HTML html3 = new HTML("Zuletzt geändert am: " + fmt.format(k.getModifikationsdatum()));
 
@@ -144,25 +152,22 @@ public class KontaktForm extends VerticalPanel {
 		ctf.addColumn(wertAuspraegung);
 		ctf.addColumn(ctf.getStatus());
 		ctf.setSelectionModel(sm);
+		ctf.setStyleName("CellTableKontakt");
 		RootPanel.get("Buttonbar").clear();
 
-		scrollPanel.setSize("650px", "300px");
 		scrollPanel.add(ctf);
 
 		vpanelBearbeitung.add(html2);
 		vpanelBearbeitung.add(html3);
+		vpanelBearbeitung.setStyleName("KontaktDaten");
+		hpanel1.setStyleName("HpanelTop");
 		hpanel1.setWidth("700px");
 		hpanel1.add(kontaktbild);
 		hpanel1.add(html1);
 		hpanel1.add(vpanelBearbeitung);
-
 		hpanel.add(scrollPanel);
-
 		vpanelDetails1.add(hpanel1);
-		vpanelDetails.add(hpanel1);
-
 		vpanel.add(vpanelDetails1);
-		vpanel.add(vpanelDetails);
 		vpanel.add(hpanel);
 		this.add(vpanel);
 

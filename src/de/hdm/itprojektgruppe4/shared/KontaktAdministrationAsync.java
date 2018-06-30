@@ -268,5 +268,7 @@ public interface KontaktAdministrationAsync {
 	
 	void findTeilhaberschaftByKontaktIDAndNutzerID(int kontaktID, int nutzerID,
 			AsyncCallback<Vector<Teilhaberschaft>> callback);  
+	
+	void deleteAllTeilhaberschaftenKontakt(Kontakt k, Nutzer n, AsyncCallback<Void> callback);
 
 }
