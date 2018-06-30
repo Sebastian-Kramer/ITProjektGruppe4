@@ -97,13 +97,16 @@ public class DialogBoxAddContactToList extends DialogBox {
 		@Override
 		public void onSuccess(Vector<Kontaktliste> result) {
 
-
+			if(result == null){
+				
+			}else{
+			
 			for (Kontaktliste kl : result) {
 
 				dropBoxKontaktlisten.addItem(kl.getBez(), Integer.toString(kl.getID()));
 
 				kliste.setID(kl.getID());
-			}
+			}}
 
 		}
 	}

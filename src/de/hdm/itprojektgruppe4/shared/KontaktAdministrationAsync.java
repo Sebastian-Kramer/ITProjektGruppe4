@@ -271,7 +271,8 @@ public interface KontaktAdministrationAsync {
 
 	void addKontakteToKontaktliste(Vector<Kontakt> kontakt, int kontaktlisteID,
 			AsyncCallback<KontaktKontaktliste> callback);
-
+	
+	void deleteAllTeilhaberschaftenKontakt(Kontakt k, Nutzer n, AsyncCallback<Void> callback);
 
 
 }

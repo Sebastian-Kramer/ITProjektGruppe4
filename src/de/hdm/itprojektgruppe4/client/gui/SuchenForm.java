@@ -99,6 +99,8 @@ public class SuchenForm extends VerticalPanel {
 		beschreibungAuspraegung.setStyleName("SuchenBeschreibenAuspraegung");
 		tboxKontaktname.setStyleName("SuchenBoxKontakt");
 		tboxAuspraegung.setStyleName("SuchenBoxAuspraegung");
+		kontaktSuchen.setHeight("60px");
+		
 	}
 
 	/**
@@ -175,9 +177,13 @@ public class SuchenForm extends VerticalPanel {
 		vpanel2.add(ctAus);
 		vpanel1.add(ctkontakt);
 		hpanelRechts.add(ctAus);
+
 		hpanelRechts.add(auspraegungKontaktAnzeigenButton);
 		vpanel3.add(kontaktKontaktAnzeigenButton);
-//		vpanel3.add(AuspraegungKontaktAnzeigenButton);
+
+		hpanelRechts.add(auspraegungKontaktAnzeigenButton);
+		vpanel3.add(kontaktKontaktAnzeigenButton);
+
 		this.add(vpanelTop);
 		this.add(HTMLForm);
 		this.add(hpanelLinks);
@@ -195,7 +201,6 @@ public class SuchenForm extends VerticalPanel {
 		this.add(hpanelRechts);
 
 		kontaktKontaktAnzeigenButton.addClickHandler(new KontaktKontaktAnzeigenHandler());
-		
 		auspraegungKontaktAnzeigenButton.addClickHandler(new AuspraegungKontaktAnzeigenHandler());
 		verwaltung.findAllKontaktFromNutzer(nutzer.getID(), new AllKontakteCallBack());
 	}

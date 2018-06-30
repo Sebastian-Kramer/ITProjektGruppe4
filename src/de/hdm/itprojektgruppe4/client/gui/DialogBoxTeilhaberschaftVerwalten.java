@@ -275,7 +275,7 @@ public class DialogBoxTeilhaberschaftVerwalten extends DialogBox {
 		public void onSuccess(Void result) {
 			Window.alert("Die Teilhaberschaft wurde erfolgreich geloescht");
 			hide();
-			if (k.getNutzerID() == nutzer.getID()) {
+			if (kon.getNutzerID() == nutzer.getID()) {
 				TeilhaberschaftForm tf = new TeilhaberschaftForm(kon);
 				RootPanel.get("Details").clear();
 				RootPanel.get("Details").add(tf);

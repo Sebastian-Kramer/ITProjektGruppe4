@@ -35,6 +35,7 @@ import de.hdm.itprojektgruppe4.shared.bo.Teilhaberschaft;
 public class CellTableForm extends CellTable<EigenschaftAuspraegungWrapper> {
 
 	private Kontakt kontakt = new Kontakt();
+	Nutzer nutzer = new Nutzer();
 	private Teilhaberschaft t = new Teilhaberschaft();
 	private ImageCell imageCell = new ImageCell();
 	private ImageCell imageCellDelete = new ImageCell();
@@ -76,8 +77,9 @@ public class CellTableForm extends CellTable<EigenschaftAuspraegungWrapper> {
 	}
 
 	public CellTableForm(Kontakt k, String teilhaberschaft) {
-		Nutzer nutzer = new Nutzer();
+
 		nutzer.setID(Integer.parseInt(Cookies.getCookie("id")));
+		nutzer.setEmail(Cookies.getCookie("email"));
 		this.kontakt = k;
 
 		verwaltung.findSharedAuspraegung(kontakt.getID(), nutzer.getID(), new AllSharedAuspraegungen());
@@ -88,12 +90,11 @@ public class CellTableForm extends CellTable<EigenschaftAuspraegungWrapper> {
 
 		super.onLoad();
 
-		Nutzer nutzer = new Nutzer();
+	
 		nutzer.setID(Integer.parseInt(Cookies.getCookie("id")));
+		nutzer.setEmail(Cookies.getCookie("email"));
 
 		this.setPageSize(100);
-
-		this.setStyleName("CellTableHyprid");
 		this.setPageSize(100);
 		model.addDataDisplay(this);
 		

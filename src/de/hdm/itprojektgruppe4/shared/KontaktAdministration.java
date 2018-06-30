@@ -844,6 +844,7 @@ public interface KontaktAdministration extends RemoteService {
 	public void deleteTeilhaberschaftAllByKontaktIDAndTeilhaberID(int kontaktID, int teilhaberID) throws IllegalArgumentException;
 
 	public Vector<Teilhaberschaft> findTeilhaberschaftByKontaktIDAndNutzerID(int kontaktID, int nutzerID) throws IllegalArgumentException;
+
 	
 	/**
 	 * Hinzufügen eines oder mehrerer Kontakte zu einer Kontaktliste.
@@ -856,6 +857,10 @@ public interface KontaktAdministration extends RemoteService {
 	 * @throws IllegalArgumentException
 	 */
 	public KontaktKontaktliste addKontakteToKontaktliste (Vector<Kontakt> kontakt, int kontaktlisteID) throws IllegalArgumentException;
+
+	public void deleteAllTeilhaberschaftenKontakt(Kontakt k, Nutzer n) throws IllegalArgumentException;
+
+
 
 	
 

@@ -3,7 +3,6 @@ package de.hdm.itprojektgruppe4.client.gui;
 import java.util.Date;
 import java.util.Vector;
 
-import com.google.appengine.labs.repackaged.com.google.common.collect.Table;
 import com.google.gwt.cell.client.ButtonCell;
 import com.google.gwt.cell.client.Cell.Context;
 import com.google.gwt.cell.client.ClickableTextCell;
@@ -24,7 +23,6 @@ import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Image;
-import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.MultiWordSuggestOracle;
 import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwt.user.client.ui.SuggestBox;
@@ -34,10 +32,12 @@ import com.google.gwt.user.client.ui.VerticalPanel;
 import de.hdm.itprojektgruppe4.client.ClientsideSettings;
 import de.hdm.itprojektgruppe4.client.EigenschaftAuspraegungWrapper;
 import de.hdm.itprojektgruppe4.client.NavigationTree;
+import de.hdm.itprojektgruppe4.client.gui.DialogBoxAddContactToList.AllKontaktlisteByNutzerCallback;
 import de.hdm.itprojektgruppe4.shared.KontaktAdministrationAsync;
 import de.hdm.itprojektgruppe4.shared.bo.Eigenschaft;
 import de.hdm.itprojektgruppe4.shared.bo.Eigenschaftauspraegung;
 import de.hdm.itprojektgruppe4.shared.bo.Kontakt;
+import de.hdm.itprojektgruppe4.shared.bo.Kontaktliste;
 import de.hdm.itprojektgruppe4.shared.bo.Nutzer;
 
 /**
@@ -82,7 +82,7 @@ public class NewKontaktForm extends VerticalPanel {
 			true);
 
 	private HTML html2 = new HTML("Bitte geben Sie hier die <b> Eigenschaften </b> und die dazugehörigen"
-			+ " <b>Auspärgungen</b>  zu Ihrem Kontakt an." + "<span style='font-family:fixed'></span>", true);
+			+ " <b>Ausprägungen</b>  zu Ihrem Kontakt an." + "<span style='font-family:fixed'></span>", true);
 
 	private Button addRow = new Button("Eigenschaft hinzufügen");
 
@@ -93,6 +93,7 @@ public class NewKontaktForm extends VerticalPanel {
 	private MultiWordSuggestOracle eigenschaftOracle = new MultiWordSuggestOracle();
 	private SuggestBox eigenschaftSugBox = new SuggestBox(eigenschaftOracle);
 
+	private Vector<Kontaktliste> kList = new Vector<Kontaktliste>();
 	private Kontakt kontakt1 = new Kontakt();
 	private Eigenschaftauspraegung eigaus = new Eigenschaftauspraegung();
 	private Nutzer nutzer = new Nutzer();
@@ -180,6 +181,7 @@ public class NewKontaktForm extends VerticalPanel {
 		ctf.addColumn(wertAuspraegung);
 		ctf.addColumn(deleteButtonCol);
 		ctf.setSelectionModel(ctf.getSm());
+		ctf.setStyleName("CellTableHyprid");
 
 		/**
 		 * Die erstellten Widgets werden den entsprechenden Panel hinzugefügt.
@@ -190,24 +192,21 @@ public class NewKontaktForm extends VerticalPanel {
 		tbName.getElement().setAttribute("placeholder", "Name");
 		html1.setStyleName("KontaktAnlegenHTML1");
 		tableAndButtons.setStyleName("TableButton");
-		vpanel2.setStyleName("PanelBottom");
+		hpanel2.setStyleName("PanelBottom");
 		html2.setStyleName("KontaktAnlegenHTML2");
-		
+
 		eigenschaftSugBox.getElement().setAttribute("placeholder", "Eigenschaft");
 		txt_Auspraegung.getElement().setAttribute("placeholder", "Ausprägung");
 		hpanel2.add(eigenschaftSugBox);
 		hpanel2.add(txt_Auspraegung);
 		hpanel2.add(addRow);
 		hpanelTop.setStyleName("HpanelTop");
-		vpanel2.add(hpanel2);	
-		backSafeButton.add(addToList);
-		backSafeButton.add(getBack);
+		vpanel2.add(hpanel2);
 		hpanel.add(tbName);
 		ueberschriftBox.add(html1);
 		ueberschriftBox.add(tbName);
 		hpanelTop.add(kontaktVisit);
 		hpanelTop.add(ueberschriftBox);
-//		vpanel.add(vpanelTop);
 		vpanel.add(hpanel);
 		vpanel.add(html2);
 		vpanel.add(tableAndButtons);
@@ -222,6 +221,7 @@ public class NewKontaktForm extends VerticalPanel {
 		this.add(vpanel);
 
 		verwaltung.findAllEigenschaft(new AlleEigenschaftCallback());
+		verwaltung.findKontaktlistenToAddKontakt(kontakt1.getID(), nutzer.getID(), new AllKontaktlisteByNutzerCallback());
 
 		/**
 		 * Den erstellten Button werden die entsprechenden Clickhandler
@@ -244,6 +244,20 @@ public class NewKontaktForm extends VerticalPanel {
 	 * FieldUpdater - Classes.
 	 */
 
+	private class AllKontaktlisteByNutzerCallback implements AsyncCallback<Vector<Kontaktliste>> {
+
+		@Override
+		public void onFailure(Throwable caught) {
+			
+		}
+
+		@Override
+		public void onSuccess(Vector<Kontaktliste> result) {
+			kList = result;
+			
+		}
+		
+	}
 	/**
 	 * Diese KeyDownHandler Klasse überprüft ob die Enter-Taste gedrückt wurde
 	 * und stößt den Callback, um einen neuen Kontakt zu erstellen, an.
@@ -256,14 +270,17 @@ public class NewKontaktForm extends VerticalPanel {
 
 		@Override
 		public void onKeyDown(KeyDownEvent event) {
-			// TODO Auto-generated method stub
+
 			if (event.getNativeKeyCode() == KeyCodes.KEY_ENTER) {
 
 				verwaltung.insertKontakt(tbName.getValue(), new Date(), new Date(), 0, nutzer.getID(),
 						new KontaktErstellenCallback());
 
 				html2.setVisible(true);
-				cancel.setVisible(false);
+
+				RootPanel.get("Buttonbar").clear();
+				RootPanel.get("Buttonbar").add(addToList);
+				RootPanel.get("Buttonbar").add(getBack);
 
 			}
 		}
@@ -282,7 +299,7 @@ public class NewKontaktForm extends VerticalPanel {
 
 		@Override
 		public void onClick(ClickEvent event) {
-			// TODO Auto-generated method stub
+
 			MainForm getBack = new MainForm();
 			RootPanel.get("Buttonbar").clear();
 			RootPanel.get("Details").clear();
@@ -327,10 +344,14 @@ public class NewKontaktForm extends VerticalPanel {
 
 		@Override
 		public void onClick(ClickEvent event) {
-			// TODO Auto-generated method stub
+
+			if(kList.size()<1){
+				Window.alert("Momentan sind noch keine eigenen Kontaktlisten vorhanden");
+			}else{
 			DialogBoxAddContactToList dbkl = new DialogBoxAddContactToList(kontakt1);
 			dbkl.center();
 			verwaltung.findHybrid(kontakt1, new ReloadCallback());
+			}
 		}
 
 	}
@@ -346,7 +367,6 @@ public class NewKontaktForm extends VerticalPanel {
 
 		@Override
 		public void onClick(ClickEvent event) {
-			// TODO Auto-generated method stub
 
 			ctf.addRow(eigenschaftSugBox.getValue(), txt_Auspraegung.getValue());
 			verwaltung.insertEigenschaft(eigenschaftSugBox.getText(), 0, new EigenschaftHinzufuegenCallback());
@@ -407,7 +427,6 @@ public class NewKontaktForm extends VerticalPanel {
 			txt_Auspraegung.setVisible(true);
 			addRow.setVisible(true);
 
-			
 			tableAndButtons.add(ctf);
 			tableAndButtons.add(backSafeButton);
 			add(vpanel2);
@@ -454,13 +473,12 @@ public class NewKontaktForm extends VerticalPanel {
 
 		@Override
 		public void onFailure(Throwable caught) {
-			// TODO Auto-generated method stub
 
 		}
 
 		@Override
 		public void onSuccess(Vector<Eigenschaft> result) {
-			// TODO Auto-generated method stub
+
 			for (Eigenschaft eigenschaft : result) {
 				eigenschaftOracle.add(eigenschaft.getBezeichnung());
 
@@ -540,13 +558,12 @@ public class NewKontaktForm extends VerticalPanel {
 
 		@Override
 		public void onFailure(Throwable caught) {
-			// TODO Auto-generated method stub
 
 		}
 
 		@Override
 		public void onSuccess(Eigenschaft result) {
-			// TODO Auto-generated method stub
+
 			verwaltung.insertAuspraegung(txt_Auspraegung.getText(), 0, result.getID(), kontakt1.getID(),
 					new AuspraegungHinzufuegenCallback());
 		}
@@ -565,7 +582,6 @@ public class NewKontaktForm extends VerticalPanel {
 
 		@Override
 		public void onFailure(Throwable caught) {
-			// TODO Auto-generated method stub
 
 		}
 
@@ -582,7 +598,7 @@ public class NewKontaktForm extends VerticalPanel {
 
 		@Override
 		public void update(int index, EigenschaftAuspraegungWrapper object, String value) {
-			// TODO Auto-generated method stub
+
 			ea.setAuspraegung(object.getAuspraegung());
 			ea.setEigenschaft(object.getEigenschaft());
 			verwaltung.deleteEigenschaftUndAuspraegung(ea, new EigAusDeleteCallback());
@@ -600,13 +616,13 @@ public class NewKontaktForm extends VerticalPanel {
 
 		@Override
 		public void onFailure(Throwable caught) {
-			// TODO Auto-generated method stub
+
 			Window.alert("Die Ausprägung konnte nicht gelöscht werden");
 		}
 
 		@Override
 		public void onSuccess(Void result) {
-			// TODO Auto-generated method stub
+
 			ctf.deleteRow(ea);
 			verwaltung.findHybrid(kontakt1, new ReloadCallback());
 		}

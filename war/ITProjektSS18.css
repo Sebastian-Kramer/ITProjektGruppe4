@@ -47,15 +47,20 @@ table.hpanelLinks {
 	width: 800px;
 }
 
+table.nutzerSuchenPanel {
+	width: 800px;
+	margin-top: 35px;
+}
+
 td.middleLeft {
 	width: 1%;
 }
 
 div.SuchenText {
-    margin-top: 2%;
-    margin-bottom: 5%;
-    font-size: 17px;
-    margin-left: 5px;
+	margin-top: 2%;
+	margin-bottom: 5%;
+	font-size: 17px;
+	margin-left: 5px;
 }
 
 div.SuchenBeschreibenKontakt {
@@ -72,11 +77,10 @@ div.SuchenBeschreibenAuspraegung {
 	margin-left: 5px;
 }
 
-input.DialogboxBackground{
-    height: 30px;
-    width: 150px;
+input.DialogboxBackground {
+	height: 30px;
+	width: 150px;
 }
-
 
 a.Logout {
 	right: 0;
@@ -302,11 +306,27 @@ div.KlistBezeichnung {
 }
 
 .HtmlText {
-	margin-bottom: 10px;
+	margin-bottom: 20px;
+	width: 400px;
+	font-size: 16px;
+	margin-left: 20px;
 }
 
 .HtmlText1 {
-	
+	margin-top: 40px;
+}
+
+.HtmlText2 {
+	width: 800px;
+	font-size: large;
+	margin-top: 10px;
+	margin-left: 20px;
+}
+
+img.teilLogo{
+    width: 160px;
+    margin-left: 68px;
+    margin-top: 7px;
 }
 
 table.HPanel {
@@ -317,6 +337,29 @@ table.HpanelTop {
 	width: 800px;
 	border-bottom-style: dashed;
 	border-bottom-color: black;
+	height: 120px;
+}
+
+table.CellTableTeilhaberschaft {
+	width: 800px;
+}
+
+table.CellTableKontakt {
+	width: 700px;
+	margin-top: 20px;
+}
+
+table.CellTableBearbeiten {
+	width: 700px;
+}
+
+div.KontaktUeberschrift {
+	margin-top: 40px;
+}
+
+table.KontaktDaten {
+	margin-top: 35px;
+	margin-left: 45px;
 }
 
 input.KontaktName {
@@ -340,7 +383,7 @@ img.LogoStartseite {
 	margin-left: 30%;
 }
 
-table.PanelButton {
+table.PanelBottom {
 	width: 600px;
 }
 
@@ -379,7 +422,6 @@ td {
 
 table {
 	width: 100%;
-	height: 15px;
 }
 
 .MainFormButtonbar {
@@ -395,14 +437,15 @@ table.TableButton {
 	width: 62%;
 }
 
-table.hpanelRechts{
+table.hpanelRechts {
 	width: 800px;
 }
 
 table.CellTableHyprid {
-    margin-bottom: 35px;
-    width: 525px;
-    max-height: 400px;
+	margin-bottom: 35px;
+	width: 525px;
+	max-height: 400px;
+	margin-top: 20px;
 }
 
 table.CellTableAuspraegung {
