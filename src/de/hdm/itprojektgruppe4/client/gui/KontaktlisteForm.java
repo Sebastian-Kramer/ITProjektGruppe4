@@ -77,6 +77,7 @@ public class KontaktlisteForm extends VerticalPanel {
 	private Button kontaktlisteLoeschen = new Button("Kontaktliste löschen");
 	private Button kontaktEntfernen = new Button("Kontakt entfernen");
 	private Button zurueck = new Button("Bearbeitung beenden");
+	private Image kontaktlisteIcon = new Image("Image/Kontaktliste.png");
 	private Image listShared = new Image();
 	private Image bearbeitenPic = new Image("Image/Bearbeiten.png");
 	private Image kontaktAnzeigenPic = new Image("Image/Kontakt.png");
@@ -131,6 +132,7 @@ public class KontaktlisteForm extends VerticalPanel {
 		zurueckPic.setStyleName("ButtonICON");
 		deletePic.setStyleName("ButtonICON");
 		konZuListPic.setStyleName("ButtonICON");
+		kontaktlisteIcon.setPixelSize(200, 120);
 
 		kontaktCellList.setSelectionModel(selectionModel);
 		scrollPanel.setStyleName("scrollPanel");
@@ -147,13 +149,11 @@ public class KontaktlisteForm extends VerticalPanel {
 		// hinzugefuegt, wenn der angemeldete Nutzer Eigentuemer der
 		// Kontaktliste ist
 		if (kl.getNutzerID() == nutzer.getID()) {
-			fpanel.add(kontaktlisteBearbeiten);
 			listShared.addMouseMoveHandler(new SharedListeMouseHandler());
-		} else {
-			fpanel.add(kontaktHinzufuegen);
+		} 
 
-		}
-
+		
+		fpanel.add(kontaktlisteBearbeiten);
 		fpanel.add(kontaktAnzeigen);
 		fpanel.add(kontaktlisteTeilen);
 		fpanel.add(teilhaberschaften);
@@ -161,8 +161,9 @@ public class KontaktlisteForm extends VerticalPanel {
 		RootPanel.get("Buttonbar").add(fpanel);
 
 		/*
-		 * Hinzufuegen der Ueberschrift und der CellList zum Vertical Panel
+		 * Hinzufuegen des Icons, der Überschrift und der CellList zum Vertical Panel
 		 */
+		hpanel.add(kontaktlisteIcon);
 		hpanel.add(html1);
 
 		/*
@@ -211,7 +212,7 @@ public class KontaktlisteForm extends VerticalPanel {
 	 * entfernt und dafür Buttons in das RootPanel <code>Buttonbar</code>
 	 * geladen, die das Bearbeiten einer Kontaktliste möglich machen.
 	 */
-	private void setEditable() {
+	protected void setEditable() {
 		RootPanel.get("Buttonbar").clear();
 		fpanelEdit.add(kontaktHinzufuegen);
 		fpanelEdit.add(kontaktEntfernen);
@@ -395,7 +396,7 @@ public class KontaktlisteForm extends VerticalPanel {
 		@Override
 		public void onClick(ClickEvent event) {
 
-			deleteListAlert = Window.confirm("Möchten Sie die Kontaktliste endgültig löschen ?");
+			deleteListAlert = Window.confirm("Möchten Sie die Kontaktliste löschen?");
 			// Wenn die ausgewaehlte Kontaktliste vom Nutzer erstellt wurde,
 			// wird diese geloescht
 			if (deleteListAlert == true) {

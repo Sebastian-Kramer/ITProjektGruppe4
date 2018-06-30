@@ -485,7 +485,7 @@ public class KontaktAdministrationImpl extends RemoteServiceServlet implements K
 	}
 
 	/**
-	 * �berschreiben eines Nutzer-Objekts.
+	 * Überschreiben eines Nutzer-Objekts.
 	 * 
 	 * @param n
 	 *            das zu bearbeitende Nutzer-Objekt
@@ -1032,7 +1032,6 @@ public class KontaktAdministrationImpl extends RemoteServiceServlet implements K
 	
 	@Override
 	public Eigenschaftauspraegung getAuspraegungByEigID(int eigID, int kontaktID) throws IllegalArgumentException {
-		// TODO Auto-generated method stub
 		return this.eigenschaftauspraegungMapper.getAuspraegungByEigID(eigID, kontaktID);
 	}
 
@@ -1275,7 +1274,6 @@ public class KontaktAdministrationImpl extends RemoteServiceServlet implements K
 
 	@Override
 	public Vector<Kontaktliste> findKontaktlisteByNutzerID(int nutzerID) throws IllegalArgumentException {
-		// TODO Auto-generated method stub
 		return this.konlistMapper.findKontaktlisteByNutzerID(nutzerID);
 	}
 
@@ -2349,32 +2347,26 @@ public class KontaktAdministrationImpl extends RemoteServiceServlet implements K
 		return listenVonNutzer;
 		
 	}
-
-
 	
+	/**
+	 * Hinzufügen eines oder mehrerer Kontakte zu einer Kontaktliste.
+	 * Es werden KontaktKontaktliste-Objekte erstellt die die Zugehörigkeit von Kontakten zu einer Kontaktlsite
+	 * repräsentieren
+	 * 
+	 * @param kontakt Vector der die ausgewählten Kontakt-Objekte enthält
+	 * @param kontaktlisteID die ID der Kontaktliste, zu der die Kontakte hinzugefügt werden sollen
+	 * @return KontaktKontaktliste-Objekt
+	 * @throws IllegalArgumentException
+	 */
+	@Override
+	public KontaktKontaktliste addKontakteToKontaktliste(Vector<Kontakt> kontakt, int kontaktlisteID)
+			throws IllegalArgumentException {
+		for(Kontakt k : kontakt){
+			this.insertKontaktKontaktliste(k.getID(), kontaktlisteID);
+		}
+		return null;
+	}
 
-
-
-
-	
-
-
-		
-		
-		
-//		
-//		Vector<Eigenschaftauspraegung> auspraegungen = findAllEigenschaftsauspraegungByWertAndEigenschaft(auspraegung,
-//				e);
-//		Vector<Kontakt> allContact = new Vector<Kontakt>();
-//
-//		for (Eigenschaftauspraegung eigenschaftsauspraegung : auspraegungen) {
-//			allContact.add(findKontaktByID(eigenschaftsauspraegung.getID()));
-//		}
-//
-//		return allContact;
-//
-//	}
-//	
 
 
 
