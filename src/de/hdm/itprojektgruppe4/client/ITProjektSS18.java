@@ -36,7 +36,7 @@ public class ITProjektSS18 implements EntryPoint {
 	private Anchor loggedNutzer;
 	private boolean sureDelete;
 
-	Nutzer n1 = new Nutzer();
+	
 	Nutzer n = new Nutzer();
 
 	LoginServiceAsync loginService = GWT.create(LoginService.class);
@@ -123,6 +123,7 @@ public class ITProjektSS18 implements EntryPoint {
 					loggedNutzer = new Anchor(result.getEmail());
 					Cookies.setCookie("email", result.getEmail());
 					Cookies.setCookie("id", result.getID() + "");
+					Cookies.setCookie("signout", loginInfo.getLogoutUrl());
 					loadStartseite();
 
 				} else {
@@ -257,12 +258,14 @@ public class ITProjektSS18 implements EntryPoint {
 		public void onClick(ClickEvent event) {
 			// TODO Auto-generated method stub
 
-			n1.setID(Integer.parseInt(Cookies.getCookie("id")));
-			n1.setEmail(Cookies.getCookie("email"));
+		
 
-			Window.alert(n1 + "   <---- NUTZER LÖSCHEN ");
+			
 			sureDelete = Window.confirm("Möchten Sie Ihr Nutzerprofil vollständig löschen?");
 			if (sureDelete == true) {
+				Nutzer n1 = new Nutzer();
+				n1.setID(Integer.parseInt(Cookies.getCookie("id")));
+				n1.setEmail(Cookies.getCookie("email"));
 
 				verwaltung.deleteNutzer(n1, new DeleteNutzerCallBack());
 			}
@@ -280,17 +283,11 @@ public class ITProjektSS18 implements EntryPoint {
 
 		@Override
 		public void onSuccess(Void result) {
-			Window.alert("hallo");
-			RootPanel.get("Buttonbar").clear();
-			RootPanel.get("Navigator").clear();
-			RootPanel.get("Details").clear();
-			RootPanel.get("Header").clear();
-
-			Cookies.removeCookie("id");
-			Cookies.removeCookie("email");
-
-			onModuleLoad();
-
+			
+			Anchor signOutLink = new Anchor();
+			Window.alert("Nutzer wurde gelöscht");
+			signOutLink.setHref(Cookies.getCookie("signout"));
+			Window.open(signOutLink.getHref(), "_self", "");
 		}
 
 	}
