@@ -151,6 +151,7 @@ public class DialogBoxKontaktlisteTeilen extends DialogBox {
 			} else {
 				Window.alert("Die Liste wurde erfolgreich geteilt");
 				DialogBoxKontaktlisteTeilen.this.hide();
+				kl.setStatus(1);
 				KontaktlisteForm kontaktlisteForm = new KontaktlisteForm(kl);
 				NavigationTree updatedTree = new NavigationTree();
 				RootPanel.get("Navigator").clear();

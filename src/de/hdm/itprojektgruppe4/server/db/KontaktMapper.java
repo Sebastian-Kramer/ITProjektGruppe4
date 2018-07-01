@@ -187,8 +187,8 @@ public class KontaktMapper extends PersonMapper {
 	}
 	
 	/**
-	 *  Einf�gen eines neuen Objktes vom Typ Kontakt in die DB
-	 *  der PK wird �berpr�ft und korrigiert -> maxID +1 
+	 *  Einfügen eines neuen Objktes vom Typ Kontakt in die DB
+	 *  der PK wird überpr�ft und korrigiert -> maxID +1 
 	 * @param k 
 	 * der zu speichernde Kontakt 
 	 * @return
