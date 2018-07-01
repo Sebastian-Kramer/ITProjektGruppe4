@@ -60,6 +60,11 @@ public class TeilhaberschaftForm extends VerticalPanel {
 	private CellTableForm ctf = null;
 	private Image kontaktbild = new Image("Image/Visitenkarte_2.png");
 	private Image teilen = new Image("Image/Teilen2.png");
+	private Image teilen2 = new Image("Image/Teilen2.png");
+	private Image teilen3 = new Image("Image/Teilen2.png");
+	private Image getBackPic = new Image("Image/Startseite.png");
+	private Image deletePic = new Image("Image/Löschen.png");
+	
 
 	private ScrollPanel scrollPanel = new ScrollPanel();
 	private HTML html1 = null;
@@ -146,9 +151,13 @@ public class TeilhaberschaftForm extends VerticalPanel {
 		selectionModelWrapper.addSelectionChangeHandler(new Handler());
 		html1 = new HTML("<h2>Kontakt " + kon.getName() + " teilen</h2>");
 		zurueck.addClickHandler(new ZurueckClickHandler());
+		zurueck.getElement().appendChild(getBackPic.getElement());
 		allTeilen.addClickHandler(new AllAuspraegungenTeilenClickHandler());
+		allTeilen.getElement().appendChild(teilen2.getElement());
 		einzTeilen.addClickHandler(new AusgewaehlteAuspraegungenTeilenClickHandler());
-		allLoeschen.addClickHandler(new AllAuspraegungenLoeschenClickHandler()); 
+		einzTeilen.getElement().appendChild(teilen3.getElement());
+		allLoeschen.addClickHandler(new AllAuspraegungenLoeschenClickHandler());
+		allLoeschen.getElement().appendChild(deletePic.getElement());
 
 		/*
 		 * Hier wird der CellTable eine Selection Model für die Auswahl von
@@ -172,10 +181,14 @@ public class TeilhaberschaftForm extends VerticalPanel {
 		nutzerSugBox.setStyleName("DropDown");
 		nutzerSugBox.setHeight("20px");
 		kontaktbild.setStyleName("Kontaktbild");
-
+		teilen2.setStyleName("ButtonICON");
+		teilen3.setStyleName("ButtonICON");
+		getBackPic.setStyleName("ButtonICON");
+		deletePic.setStyleName("ButtonICON");
 		html1.setStyleName("HtmlText1");
 		html2.setStyleName("HtmlText2");
 		html3.setStyleName("HtmlText");
+		
 
 		/*
 		 * Hier werden die zuvor angelegten Widgets dem VerticalPanel und dem

@@ -85,7 +85,9 @@ public class KontaktlisteForm extends VerticalPanel {
 	private Image teilVerwaltPic = new Image("Image/Teilen.png");
 	private Image zurueckPic = new Image("Image/Startseite.png");
 	private Image deletePic = new Image("Image/Löschen.png");
+	private Image removePic = new Image("Image/Löschen.png");
 	private Image konZuListPic = new Image("Image/Kontakt_zu_Liste.png");
+	private Image zurueckPic2 = new Image("Image/Startseite.png");
 
 	private boolean deleteListAlert;
 
@@ -136,7 +138,9 @@ public class KontaktlisteForm extends VerticalPanel {
 		teilVerwaltPic.setStyleName("ButtonICON");
 		zurueckPic.setStyleName("ButtonICON");
 		deletePic.setStyleName("ButtonICON");
+		removePic.setStyleName("ButtonICON");
 		konZuListPic.setStyleName("ButtonICON");
+		zurueckPic2.setStyleName("ButtonICON");
 		kontaktlisteIcon.setPixelSize(200, 120);
 		kontaktCellList.setSelectionModel(selectionModel);
 		scrollPanel.setStyleName("scrollPanel1");
@@ -199,11 +203,11 @@ public class KontaktlisteForm extends VerticalPanel {
 		teilhaberschaften.addClickHandler(new TeilhaberschaftenVerwaltenClickhandler());
 		kontaktlisteBearbeiten.getElement().appendChild(bearbeitenPic.getElement());
 		kontaktlisteBearbeiten.addClickHandler(new KontaktlisteBearbeitenClickhandler());
-		zurStartseite.getElement().appendChild(zurueckPic.getElement());
+		zurStartseite.getElement().appendChild(zurueckPic2.getElement());
 		zurStartseite.addClickHandler(new ZurueckZurStartseiteClickhandler());
 		kontaktHinzufuegen.getElement().appendChild(konZuListPic.getElement());
 		kontaktHinzufuegen.addClickHandler(new KontaktHinzufuegenClickhandler());
-		kontaktEntfernen.getElement().appendChild(deletePic.getElement());
+		kontaktEntfernen.getElement().appendChild(removePic.getElement());
 		kontaktEntfernen.addClickHandler(new KontaktEntfernenClickhandler());
 		kontaktlisteLoeschen.getElement().appendChild(deletePic.getElement());
 		kontaktlisteLoeschen.addClickHandler(new KontaktlisteloeschenClickhandler());

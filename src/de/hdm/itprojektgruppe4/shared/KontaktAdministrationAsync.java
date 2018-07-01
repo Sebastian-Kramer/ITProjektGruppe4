@@ -53,8 +53,6 @@ public interface KontaktAdministrationAsync {
 
 	void findNutzerByEmail(String email, AsyncCallback<Nutzer> callback);
 
-	void findNutzerByID(String string, AsyncCallback<Nutzer> callback);
-
 	void findAllNutzer(AsyncCallback<Vector<Nutzer>> callback);
 
 	void findKontaktlisteByID(int id, AsyncCallback<Kontaktliste> callback);
