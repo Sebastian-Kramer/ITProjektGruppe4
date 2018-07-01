@@ -1981,6 +1981,7 @@ public class KontaktAdministrationImpl extends RemoteServiceServlet implements K
 			updateKontaktliste(kl);
 		}
 		
+		
 	}
 
 	/**

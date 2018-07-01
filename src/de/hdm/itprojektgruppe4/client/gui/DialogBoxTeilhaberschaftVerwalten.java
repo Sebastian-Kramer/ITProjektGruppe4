@@ -102,6 +102,14 @@ public class DialogBoxTeilhaberschaftVerwalten extends DialogBox {
 		// anschließendes Hinzufuegen der Flextable zum VerticalPanel
 
 	}
+	
+	/*
+	 * Diese Methode dient der Überprüfung der Teilhaber an einer Kontaktliste.
+	 * Gibt es keine Teilhaber an einer Kontaktliste, so wird der Status auf 0 gesetzt.
+	 */
+	private void prüfeStatus(){
+		kontaktVerwaltung.findAllTeilhaberFromKontaktliste(k.getID(), new TeilhaberVonKontaktliste());
+	}
 
 	/**
 	 * Dieser Konstruktor wird verwendet, wenn der angemeldete Nutzer im System
@@ -358,8 +366,9 @@ public class DialogBoxTeilhaberschaftVerwalten extends DialogBox {
 				if (nutzer.getID() == n.getID()) {
 					dataProvider.getList().remove(n);
 				}
-
-			}
+				
+				}
+	
 
 		}
 
