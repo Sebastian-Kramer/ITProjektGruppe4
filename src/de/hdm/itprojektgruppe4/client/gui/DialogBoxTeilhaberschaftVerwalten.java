@@ -93,23 +93,17 @@ public class DialogBoxTeilhaberschaftVerwalten extends DialogBox {
 			kontaktVerwaltung.findSharedWithNutzer(nutzer.getID(), k.getID(), new SharedWithNutzerCallback());
 			dataProvider.addDataDisplay(nutzerList);
 		}
-
+		
+		
 		// Hinzufuegen der Clickhandler zu den Buttons
 		abbrechen.addClickHandler(new AbbrechenClickhandler());
 		teilhaberschaftAufloesen.addClickHandler(new TeilhaberschaftAufloesenClickhandler());
 
 		// Anordnen der Buttons und der Celllist mithilfe einer Flextable und
 		// anschließendes Hinzufuegen der Flextable zum VerticalPanel
-
+	
 	}
 	
-	/*
-	 * Diese Methode dient der Überprüfung der Teilhaber an einer Kontaktliste.
-	 * Gibt es keine Teilhaber an einer Kontaktliste, so wird der Status auf 0 gesetzt.
-	 */
-	private void prüfeStatus(){
-		kontaktVerwaltung.findAllTeilhaberFromKontaktliste(k.getID(), new TeilhaberVonKontaktliste());
-	}
 
 	/**
 	 * Dieser Konstruktor wird verwendet, wenn der angemeldete Nutzer im System
@@ -244,7 +238,7 @@ public class DialogBoxTeilhaberschaftVerwalten extends DialogBox {
 	}
 
 	/**
-	 * Callback fuer die Loeschung der Teilhaberschaft. Nach erfolgreicher
+	 * Callback fuer die Loeschung der Teilhaberschaft an einer Kontaktliste. Nach erfolgreicher
 	 * Loeschung wird die Dialogbox geschlossen.
 	 *
 	 */
@@ -260,6 +254,7 @@ public class DialogBoxTeilhaberschaftVerwalten extends DialogBox {
 		public void onSuccess(Void result) {
 			if (k.getNutzerID() == nutzer.getID()) {
 				Window.alert("Die Teilhaberschaft wurde erfolgreich geloescht");
+				kontaktVerwaltung.findAllTeilhaberFromKontaktliste(k.getID(), new TeilhaberVonKontaktliste());
 				KontaktlisteForm kf = new KontaktlisteForm(k);
 				NavigationTree nt = new NavigationTree();
 				RootPanel.get("Details").clear();
@@ -344,7 +339,7 @@ public class DialogBoxTeilhaberschaftVerwalten extends DialogBox {
 	 * lassen. Bei erfolgreicher Abfrage werden die Objekte aus dem
 	 * Ergebnis-Vector zur Celllist hinzugefuegt.
 	 * 
-	 * Diese Klasse wird nur ben�tigt, wenn der angemeldete Nutzer auch
+	 * Diese Klasse wird nur benötigt, wenn der angemeldete Nutzer auch
 	 * gleichzeitig der Eigentuemer der Kontaktliste ist, da der Eigentuemer
 	 * Zugriff auf saemtliche Teilhaberschaften haben soll.
 	 * 
@@ -361,14 +356,16 @@ public class DialogBoxTeilhaberschaftVerwalten extends DialogBox {
 
 		@Override
 		public void onSuccess(Vector<Nutzer> result) {
+		
 			for (Nutzer n : result) {
 				dataProvider.getList().add(n);
 				if (nutzer.getID() == n.getID()) {
 					dataProvider.getList().remove(n);
 				}
 				
-				}
-	
+				
+			
+			}
 
 		}
 

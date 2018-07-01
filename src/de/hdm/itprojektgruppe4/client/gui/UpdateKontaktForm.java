@@ -124,7 +124,7 @@ public class UpdateKontaktForm extends VerticalPanel {
 
 	DateTimeFormat fmt = DateTimeFormat.getFormat("dd.MM.yyyy");
 	private Button cancelBtn = new Button("Zurück");
-	private Image zurueckZuHomePic = new Image("Image/Startseite.png");
+	private Image zurueckZuHomePic = new Image("Image/Back.png");
 	private Image deletePic = new Image("Image/Löschen.png");
 	private EigenschaftAuspraegungWrapper ea = new EigenschaftAuspraegungWrapper();
 

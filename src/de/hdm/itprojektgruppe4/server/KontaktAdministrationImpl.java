@@ -1978,7 +1978,7 @@ public class KontaktAdministrationImpl extends RemoteServiceServlet implements K
 		if (teilhaben.isEmpty()) {
 			Kontaktliste kl = findKontaktlisteByID(kontaktlisteID);
 			kl.setStatus(0);
-			updateKontaktliste(kl);
+			this.updateKontaktliste(kl);
 		}
 		
 		

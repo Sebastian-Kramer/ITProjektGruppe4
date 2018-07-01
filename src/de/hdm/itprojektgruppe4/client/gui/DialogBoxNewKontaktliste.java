@@ -33,7 +33,7 @@ public class DialogBoxNewKontaktliste extends DialogBox {
 	private VerticalPanel vpanel = new VerticalPanel();
 
 	private Button anlegen = new Button("Kontaktliste anlegen");
-	private Button cancel = new Button("Cancel");
+	private Button cancel = new Button("Abbrechen");
 
 	private HTML labelListe = new HTML("<h3>Neue Kontaktliste anlegen</h3>");
 	private Label infolabel = new Label("Bitte beachten Sie, dass Sie keine Kontaktliste mit dem gleichen Namen einer anderen Liste anlegen können");
@@ -98,7 +98,6 @@ public class DialogBoxNewKontaktliste extends DialogBox {
 
 		@Override
 		public void onClick(ClickEvent event) {
-			// TODO Auto-generated method stub
 			hide();
 		}
 		
@@ -152,9 +151,6 @@ public class DialogBoxNewKontaktliste extends DialogBox {
 
 	}
 	
-	void setKktvw(KontaktlisteKontaktTreeViewModel kktvm) {
-		this.kktvm = kktvm;
-	}
 	
 
 }

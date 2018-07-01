@@ -81,11 +81,11 @@ public class KontaktlisteForm extends VerticalPanel {
 	private Image listShared = new Image();
 	private Image bearbeitenPic = new Image("Image/Bearbeiten.png");
 	private Image kontaktAnzeigenPic = new Image("Image/Kontakt.png");
-	private Image teilPic = new Image("Image/contactShared.png");
+	private Image teilPic = new Image("Image/Teilen1.png");
 	private Image teilVerwaltPic = new Image("Image/Teilen.png");
-	private Image zurueckPic = new Image("Image/Startseite.png");
+	private Image zurueckPic = new Image("Image/Back.png");
 	private Image deletePic = new Image("Image/Löschen.png");
-	private Image removePic = new Image("Image/Löschen.png");
+	private Image removePic = new Image("Image/KontaktEntfernen.png");
 	private Image konZuListPic = new Image("Image/Kontakt_zu_Liste.png");
 	private Image zurueckPic2 = new Image("Image/Startseite.png");
 
@@ -107,6 +107,7 @@ public class KontaktlisteForm extends VerticalPanel {
 		kontaktVerwaltung.getAllKontakteFromKontaktliste(kl.getID(), new KontakteVonKontaktlisteCallback());
 		listShared.setUrl("Image/contactShared.png");
 
+
 	}
 
 	/*
@@ -114,7 +115,6 @@ public class KontaktlisteForm extends VerticalPanel {
 	 * an einer Kontaktliste ist
 	 */
 	public KontaktlisteForm(Kontaktliste kontaktliste, String teilhaberschaft) {
-
 		this.kl = kontaktliste;
 		kontaktVerwaltung.getAllKontakteFromKontaktliste(kl.getID(), new KontakteVonKontaktlisteCallback());
 		listShared.setUrl("Image/contactShared.png");
@@ -130,7 +130,7 @@ public class KontaktlisteForm extends VerticalPanel {
 		// Instantiieren des DataProviders, der die Daten fuer die Liste haelt
 		kontaktCellList.setSelectionModel(selectionModel);
 		dataProvider.addDataDisplay(kontaktCellList);
-
+		
 		// Stylen der Buttons und Widgets
 		bearbeitenPic.setStyleName("ButtonICON");
 		kontaktAnzeigenPic.setStyleName("ButtonICON");
@@ -375,7 +375,7 @@ public class KontaktlisteForm extends VerticalPanel {
 
 		@Override
 		public void onClick(ClickEvent event) {
-			if (kl.getBez().equals("Meine Kontakte") || kl.getBez().equals("Meine geteilten Kontakte")) {
+			if (kl.getBez().equals("Meine Kontakte") || kl.getBez().equals("Mit mir geteilte Kontakte")) {
 				Window.alert("Dies ist eine Standardkontaktliste und kann nicht bearbeitet werden");
 			} else {
 				setEditable();
