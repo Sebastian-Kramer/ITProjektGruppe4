@@ -266,5 +266,7 @@ public interface KontaktAdministrationAsync {
 	
 	void deleteAllTeilhaberschaftenKontakt(Kontakt k, Nutzer n, AsyncCallback<Void> callback);
 
+	void findGesuchteKontakte(Kontakt k, AsyncCallback<Vector<Kontakt>> callback);
+
 
 }

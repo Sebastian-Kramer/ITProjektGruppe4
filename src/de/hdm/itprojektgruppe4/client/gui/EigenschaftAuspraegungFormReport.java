@@ -1,7 +1,5 @@
 package de.hdm.itprojektgruppe4.client.gui;
 
-import java.util.Vector;
-
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.Cookies;
@@ -11,16 +9,12 @@ import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Label;
-import com.google.gwt.user.client.ui.ListBox;
 import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.client.ui.VerticalPanel;
 
 import de.hdm.itprojektgruppe4.client.ClientsideSettings;
 import de.hdm.itprojektgruppe4.shared.ReportGeneratorAsync;
-import de.hdm.itprojektgruppe4.shared.bo.Eigenschaft;
-import de.hdm.itprojektgruppe4.shared.bo.Eigenschaftauspraegung;
-import de.hdm.itprojektgruppe4.shared.bo.Kontakt;
 import de.hdm.itprojektgruppe4.shared.bo.Nutzer;
 import de.hdm.itprojektgruppe4.shared.report.HTMLReportWriter;
 import de.hdm.itprojektgruppe4.shared.report.KontakteMitBestimmtenAuspraegungen;
@@ -28,6 +22,10 @@ import de.hdm.itprojektgruppe4.shared.report.KontakteMitBestimmtenEigenschaften;
 import de.hdm.itprojektgruppe4.shared.report.KontakteMitBestimmtenEigenschaftsAuspraegungen;
 
 public class EigenschaftAuspraegungFormReport extends VerticalPanel {
+
+	/*
+	 * Widgets, werden als Attribute angelegt
+	 */
 
 	private static ReportGeneratorAsync reportverwaltung = ClientsideSettings.getReportVerwaltung();
 
@@ -45,12 +43,17 @@ public class EigenschaftAuspraegungFormReport extends VerticalPanel {
 
 	Nutzer nutzer = new Nutzer();
 
+	/*
+	 * Beim Anzeigen werden die Widgets erzeugt.
+	 */
 	public void onLoad() {
 		super.onLoad();
-
 		nutzer.setID(Integer.parseInt(Cookies.getCookie("id")));
 		nutzer.setEmail(Cookies.getCookie("email"));
 
+		/*
+		 * Widgets werden den Panel hinzugefügt
+		 */
 		RootPanel.get("Buttonbar").clear();
 		RootPanel.get("Details").clear();
 		hPanel.add(eigenschaftLabel);
@@ -60,14 +63,41 @@ public class EigenschaftAuspraegungFormReport extends VerticalPanel {
 		hPanel.add(sendButton);
 		RootPanel.get("Buttonbar").add(hPanel);
 
+		/**
+		 * Die Funktion des Clickhandler ist:
+		 * 
+		 * falls nur die Eigenschaftsbox werte aufweist, so werden lediglich die
+		 * eigenenKontakte mit bestimmten Eigenschaften in form eines Report
+		 * angezeigt.
+		 * 
+		 * Falls nur die Ausprägungsbox werte aufweist, so werden lediglich die
+		 * Eigenen Kontakte mit bestimmten Ausprägungen in form eines Report
+		 * angezeigt
+		 * 
+		 * Sollten beide Textboxe werte aufweisen, so werden die eigenen
+		 * Kontakte mit bestimmten Eigenschafts- Ausprägungen in form eines
+		 * Report angezeigt
+		 * 
+		 * Sollten beide Textboxen keine werte beinhalten, so wird eine fehler
+		 * meldung folgen
+		 * 
+		 */
 		sendButton.addClickHandler(new ClickHandler() {
 
+			/*
+			 * If abfrage ob die ausprägungsbox werte beinhaltet sollte dies der
+			 * Fall sein, so werden die eigenen KOntakte die die selbem
+			 * Ausprägungen aufweisen in form eines Reports angezeigt
+			 */
 			@Override
 			public void onClick(ClickEvent event) {
 				if (auspraegungBox.getText() != null && eigenschafBox.getText().isEmpty()) {
-					
-					reportverwaltung.kontakteMitBestimmtenAuspraegungen(nutzer.getID(), auspraegungBox.getText(), new AsyncCallback<KontakteMitBestimmtenAuspraegungen>() {
-				
+
+					/*
+					 * Aufruf des reports
+					 */
+					reportverwaltung.kontakteMitBestimmtenAuspraegungen(nutzer.getID(), auspraegungBox.getText(),
+							new AsyncCallback<KontakteMitBestimmtenAuspraegungen>() {
 
 								@Override
 								public void onSuccess(KontakteMitBestimmtenAuspraegungen result) {
@@ -84,24 +114,32 @@ public class EigenschaftAuspraegungFormReport extends VerticalPanel {
 
 								@Override
 								public void onFailure(Throwable caught) {
-									RootPanel.get("Details").clear();   
+									RootPanel.get("Details").clear();
 									Window.alert("Fehler Auspraegung");
 								}
 
-		
 							});
 
+					/*
+					 * If abfrage ob die eigenschaftsbox werte beinhaltet sollte
+					 * dies der Fall sein, so werden die eigenen Kontakte die
+					 * die selbem Eigenschaften aufweisen in form eines Reports
+					 * angezeigt
+					 */
 				} else if (eigenschafBox.getValue() != null && auspraegungBox.getText().isEmpty()) {
 
-					
-					reportverwaltung.kontakteMitBestimmtenEigenschaften(nutzer.getID(), eigenschafBox.getText() , new AsyncCallback<KontakteMitBestimmtenEigenschaften>() {
+					/*
+					 * Aufruf des reports
+					 */
+					reportverwaltung.kontakteMitBestimmtenEigenschaften(nutzer.getID(), eigenschafBox.getText(),
+							new AsyncCallback<KontakteMitBestimmtenEigenschaften>() {
 
 								@Override
 								public void onFailure(Throwable caught) {
 									RootPanel.get("Details").clear();
 									Window.alert("Fehler Eigenschaft");
 								}
-  
+
 								@Override
 								public void onSuccess(KontakteMitBestimmtenEigenschaften result) {
 									Window.alert("Alle Kontakte mit der eingegebenen Eigenschaft wurden geladen");
@@ -111,9 +149,16 @@ public class EigenschaftAuspraegungFormReport extends VerticalPanel {
 										writer.process(result);
 										RootPanel.get("Details").clear();
 										RootPanel.get("Details").add(new HTML(writer.getReportText()));
-									}   
+									}
 								}
 							});
+
+					/*
+					 * If abfrage ob die eigenschaftsbox & die ausprägungsbox
+					 * werte beinhaltet sollte dies der Fall sein, so werden die
+					 * eigenen Kontakte die die selbe Eigenschaftsausprägungen
+					 * aufweisen in form eines Reports angezeigt
+					 */
 				} else if (eigenschafBox.getValue() != null && auspraegungBox != null) {
 
 					reportverwaltung.kontakteMitBestimmtenEigenschaftsAuspraegungen(nutzer.getID(),
@@ -128,7 +173,8 @@ public class EigenschaftAuspraegungFormReport extends VerticalPanel {
 								@Override
 								public void onSuccess(KontakteMitBestimmtenEigenschaftsAuspraegungen result) {
 
-									Window.alert("Alle Kontakte mit der eingegebenen Eigenschaft und AusprÃ¤gung wurden geladen");
+									Window.alert(
+											"Alle Kontakte mit der eingegebenen Eigenschaft und AusprÃ¤gung wurden geladen");
 
 									if (result != null) {
 
@@ -141,8 +187,12 @@ public class EigenschaftAuspraegungFormReport extends VerticalPanel {
 								}
 
 							});
-
-				}else if (auspraegungBox.getText().isEmpty() && eigenschafBox.getText().isEmpty()){
+					/*
+					 * Sollten die Textboxen keine Werte beinhalten, so wird
+					 * eine Fehlermeldung ausgegeben, sodass der Nutzer Werte in
+					 * die Textboxen eingibt
+					 */
+				} else {
 					Window.alert("Bitte Daten eingeben");
 				}
 

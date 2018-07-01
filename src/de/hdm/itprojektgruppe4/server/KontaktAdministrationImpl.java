@@ -204,6 +204,20 @@ public class KontaktAdministrationImpl extends RemoteServiceServlet implements K
 		kontakte.addAll(empfangeneKontakte);
 		return kontakte;
 	}
+	
+	/**
+	 * Auslesen aller eigenen erstellten Kontakte 
+	 * 
+	 * @param nutzerid
+	 * @return vector aller eigenen kontakte
+	 * @throws IllegalArgumentException
+	 */
+	public Vector<Kontakt> findAllEigeneKontaktFromNutzer(int nutzerID) throws IllegalArgumentException {
+		Vector<Kontakt> kontakte = findKontaktByNutzerID(nutzerID);
+		
+		
+		return kontakte;
+	}
 
 	/**
 	 * Ueberschreiben eines <code>Kontakt</code>-Objekts.
@@ -332,7 +346,7 @@ public class KontaktAdministrationImpl extends RemoteServiceServlet implements K
 	public Vector<Kontakt> findAllSharedKontakteVonNutzer(int nutzerID) throws IllegalArgumentException {
 		Vector<Teilhaberschaft> teilhaben = teilhaberschaftMapper.findTeilhaberschaftByTeilhaberID(nutzerID);
 		Vector<Kontakt> kontakte = new Vector<Kontakt>();
-
+		
 		for (Teilhaberschaft t : teilhaben) {
 			if(t.getKontaktID() != 0){
 			kontakte.add(findKontaktByID(t.getKontaktID()));
@@ -2195,14 +2209,51 @@ public class KontaktAdministrationImpl extends RemoteServiceServlet implements K
 		return alleListen;
 
 	}
-
+	
 
 	@Override
 	public Vector<Kontakt> findKontaktByNameAndNutzerID(Kontakt kontakt) throws IllegalArgumentException {
-		return this.konMapper.findKontaktByNameUndNutzerID(kontakt);
+		Vector<Kontakt> result = new Vector<Kontakt>();
+		this.konMapper.findKontaktByNameUndNutzerID(kontakt);
+		
+		
+		return result;
 
 	}
 	
+
+	/**
+	 * Auslesen aller eigenen und geteilten Kontakte durch name und nutzerid
+	 * 
+	 * @param kontaktobjekt
+	 * @return vector aller eigenen und geteilten kontakten mit dem gesuchten name
+	 * @throws IllegalArgumentException
+	 */
+	public Vector<Kontakt> findGesuchteKontakte(Kontakt kontakt) throws IllegalArgumentException{
+		Vector<Kontakt> ergebnis = this.konMapper.findKontaktByNameUndNutzerID(kontakt);
+		Vector<Kontakt> empfangeneKontakte = findAllSharedKontakteVonNutzer(kontakt.getNutzerID());
+		Vector<Kontakt> eigeneKontakte = findAllEigeneKontaktFromNutzer(kontakt.getNutzerID());
+		Vector<Kontakt> kontaktErgebnis = new Vector<Kontakt>();
+		
+		for (Kontakt alle : ergebnis) {
+			for (Kontakt empfangene : empfangeneKontakte) {
+				if(alle.getID() == empfangene.getID()){
+					kontaktErgebnis.add(empfangene);
+				}
+			}
+		}
+		for (Kontakt alle : ergebnis) {
+			for (Kontakt eigene : eigeneKontakte) {
+				if(alle.getID() == eigene.getID()){
+					kontaktErgebnis.add(eigene);
+				}
+			}
+		}
+	
+		return kontaktErgebnis;
+	}
+
+
 	
 	/**
 	 * Einen Kontakt anhand seiner KontaktID in der Auspraegung anzeigen lassen.
@@ -2212,7 +2263,7 @@ public class KontaktAdministrationImpl extends RemoteServiceServlet implements K
 	 * @return Kontakt-Objekt mit der übergebenen kontaktID
 	 * @throws IllegalArgumentException
 	 * */
-	
+
 	public Kontakt findKontaktByAuspraegungID(int id) throws IllegalArgumentException{
 		
 		

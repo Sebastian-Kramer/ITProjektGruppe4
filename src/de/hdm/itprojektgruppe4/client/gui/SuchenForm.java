@@ -121,7 +121,7 @@ public class SuchenForm extends VerticalPanel {
 
 		/**
 		 * Die Column (Spalte) "kontaktname" wird bei der Suche nach Kontakten
-		 * befüllt mit Kontaktobjekten, welche durch das Selectionmodel
+		 * mit Kontaktobjekten befüllt, welche durch das Selectionmodel
 		 * anwählbar sind.
 		 * 
 		 * @author Clirim
@@ -198,6 +198,7 @@ public class SuchenForm extends VerticalPanel {
 
 		this.add(vpanel1);
 		this.add(vpanel2);
+		this.add(vpanel3);
 		this.add(hpanelRechts);
 
 		kontaktKontaktAnzeigenButton.addClickHandler(new KontaktKontaktAnzeigenHandler());
@@ -287,7 +288,7 @@ public class SuchenForm extends VerticalPanel {
 			auspraegungKontaktAnzeigenButton.setVisible(false);
 			kontaktKontaktAnzeigenButton.setVisible(true);
 
-			verwaltung.findKontaktByNameAndNutzerID(k, new FindKontaktCallback());
+			verwaltung.findGesuchteKontakte(k, new FindKontaktCallback());
 
 		}
 	}

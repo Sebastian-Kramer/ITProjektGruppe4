@@ -1118,6 +1118,10 @@ public interface KontaktAdministration extends RemoteService {
 	 */
 	public void deleteAllTeilhaberschaftenKontakt(Kontakt k, Nutzer n) throws IllegalArgumentException;
 
+	public Vector<Kontakt> findGesuchteKontakte(Kontakt k) throws IllegalArgumentException;
+
+	
+
 
 
 	

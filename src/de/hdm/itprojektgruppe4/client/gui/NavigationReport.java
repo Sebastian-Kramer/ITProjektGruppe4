@@ -2,27 +2,22 @@ package de.hdm.itprojektgruppe4.client.gui;
 
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
-import com.google.gwt.user.client.Window;
-import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Button;
-import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
 
 import de.hdm.itprojektgruppe4.client.ClientsideSettings;
 import de.hdm.itprojektgruppe4.shared.KontaktAdministrationAsync;
-import de.hdm.itprojektgruppe4.shared.ReportGeneratorAsync;
-import de.hdm.itprojektgruppe4.shared.report.AllEigeneKontakteReport;
-import de.hdm.itprojektgruppe4.shared.report.HTMLReportWriter;
-import de.hdm.itprojektgruppe4.shared.report.KontakteMitBestimmterTeilhaberschaftReport;
 
 public class NavigationReport extends VerticalPanel {
 
-	private static KontaktAdministrationAsync verwaltung = ClientsideSettings.getKontaktVerwaltung();
-	private static ReportGeneratorAsync reportverwaltung = ClientsideSettings.getReportVerwaltung();
+	static KontaktAdministrationAsync verwaltung = ClientsideSettings.getKontaktVerwaltung();
 
 	private VerticalPanel vPanel = new VerticalPanel();
 
+	/*
+	 * Widgets werden angelegt
+	 */
 	private Button allKontakte = new Button("Alle Kontakte");
 	private Button teilhaberschaft = new Button("Kontakte die mit bestimmten Nutzer geteilt worden sind");
 	private Button eigenschaftsauspraegung = new Button("Kontakte mit bestimmten Eigenschaftsauspreagungen");
@@ -32,6 +27,9 @@ public class NavigationReport extends VerticalPanel {
 
 		allKontakte.setPixelSize(245, 40);
 
+		/*
+		 * Widgets werden den Panel hinzugefügt
+		 */
 		RootPanel.get("Navigator").clear();
 		vPanel.add(allKontakte);
 		vPanel.add(eigenschaftsauspraegung);
@@ -39,6 +37,10 @@ public class NavigationReport extends VerticalPanel {
 
 		RootPanel.get("Navigator").add(vPanel);
 
+		/**
+		 * Bei aufruf dieses Clickhandlers, wird auf die Klasse
+		 * KontaktformReport verwiesen/ aufgerufen
+		 */
 		allKontakte.addClickHandler(new ClickHandler() {
 
 			@Override
@@ -50,22 +52,30 @@ public class NavigationReport extends VerticalPanel {
 			}
 		});
 
+		/**
+		 * Bei aufruf dieses Clickhandlers, wird auf die Klasse
+		 * TeilhaberschaftFormReport verwiesen/ aufgerufen
+		 */
 		teilhaberschaft.addClickHandler(new ClickHandler() {
 
 			@Override
 			public void onClick(ClickEvent event) {
 				RootPanel.get("Details").clear();
-				TeilhaberschaftFormReport kontaktFormReport = new TeilhaberschaftFormReport();
-				RootPanel.get("Details").add(kontaktFormReport);
+				TeilhaberschaftFormReport teilhaberschaftReport = new TeilhaberschaftFormReport();
+				RootPanel.get("Details").add(teilhaberschaftReport);
 
 			}
 		});
 
+		/**
+		 * Bei aufruf dieses Clickhandlers, wird auf die Klasse
+		 * EigenschaftAuspraegungFormReport verwiesen/ aufgerufen
+		 */
 		eigenschaftsauspraegung.addClickHandler(new ClickHandler() {
 
 			@Override
 			public void onClick(ClickEvent event) {
-				
+
 				RootPanel.get("Details").clear();
 				EigenschaftAuspraegungFormReport eigenschaftAuspraegungForm = new EigenschaftAuspraegungFormReport();
 				RootPanel.get("Details").add(eigenschaftAuspraegungForm);
@@ -75,5 +85,5 @@ public class NavigationReport extends VerticalPanel {
 		});
 
 	}
-	
+
 }

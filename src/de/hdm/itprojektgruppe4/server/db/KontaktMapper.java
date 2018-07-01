@@ -350,11 +350,11 @@ public class KontaktMapper extends PersonMapper {
 			Statement stmt = con.createStatement();
 			
 			ResultSet rs = stmt.executeQuery(
-		
-	
-			"SELECT * FROM `kontakt` WHERE `name` LIKE " + "'" + kontakt.getName()  +"%'" + " AND `nutzerID` = " + kontakt.getNutzerID()   + " ORDER by ID");
-
-					
+			
+			
+			"SELECT * FROM `kontakt` WHERE `name` LIKE " + "'" + kontakt.getName()  +"%'" + " ORDER by ID");
+			
+			
 		while (rs.next()){
 			Kontakt k = new Kontakt();
 			k.setID(rs.getInt("ID"));

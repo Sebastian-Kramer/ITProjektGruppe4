@@ -19,9 +19,19 @@ import de.hdm.itprojektgruppe4.shared.bo.Nutzer;
 import de.hdm.itprojektgruppe4.shared.report.HTMLReportWriter;
 import de.hdm.itprojektgruppe4.shared.report.KontakteMitBestimmterTeilhaberschaftReport;
 
+/**
+ * Klasse für die Erstellung des Reports,
+ * welche sämtliche Kontakte des Nutzes die mit bestimmten Nutzern 
+ * geteilt worden sind ausgibt
+ * @author Georg
+ *
+ */
 public class TeilhaberschaftFormReport extends VerticalPanel {
 
 	private static ReportGeneratorAsync reportverwaltung = ClientsideSettings.getReportVerwaltung();
+	/*
+	 * Widgets werden angelegt
+	 */
 	private MultiWordSuggestOracle nutzerOracle = new MultiWordSuggestOracle();
 	private SuggestBox nutzerBox = new SuggestBox(nutzerOracle);
 
@@ -31,6 +41,7 @@ public class TeilhaberschaftFormReport extends VerticalPanel {
 
 	private Nutzer nutzer1 = new Nutzer();
 
+	
 	public void onLoad() {
 		super.onLoad();
 
@@ -50,6 +61,7 @@ public class TeilhaberschaftFormReport extends VerticalPanel {
 
 	}
 
+	
 	class NutzerlisteClickHandler implements ClickHandler {
 
 		@Override
@@ -84,7 +96,16 @@ public class TeilhaberschaftFormReport extends VerticalPanel {
 
 	}
 
-	// in Bearbeitung
+	/**
+	 *  Aufruf des Report Callback
+	 *  hierbei wird die ID und Email des Nutzer gesetzt 
+	 *  dannach wird der Report aufgerufen
+	 *  und anschließen erfolgt die Procces methode der Klasse HTMLReportWrtitter
+	 *  und Sämtliche Kontakte die mit bestimmten Nutzern geteilt worden sind,
+	 *  werden in Form eines Reports ausgebgeben 
+	 * @author Georg
+	 *
+	 */
 
 	class FindNutzerCallBack implements AsyncCallback<Nutzer> {
 
@@ -93,6 +114,7 @@ public class TeilhaberschaftFormReport extends VerticalPanel {
 
 		}
 
+	
 		@Override
 		public void onSuccess(Nutzer result) {
 

@@ -38,7 +38,7 @@ public class DialogBoxKontaktlisteTeilen extends DialogBox {
 	private VerticalPanel vpanel = new VerticalPanel();
 	private HorizontalPanel hpanel = new HorizontalPanel();
 	private HTML html = null;
-	private HTML überschrift = null;
+	private HTML ueberschrift = null;
 	private Button teilen = new Button("Kontaktliste teilen");
 	private Button abbrechen = new Button("abbrechen");
 	private Image klTeilen = new Image();
@@ -61,7 +61,7 @@ public class DialogBoxKontaktlisteTeilen extends DialogBox {
 		nutzer.setEmail(Cookies.getCookie("email"));
 		dataProvider.addDataDisplay(nutzerList);
 		nutzerList.setSelectionModel(nutzerSelection);
-		überschrift = new HTML("<h3> Kontaktliste teilen</h3>");
+		ueberschrift = new HTML("<h3> Kontaktliste teilen</h3>");
 		html = new HTML("Geben Sie die Mail-Adresse des Nutzers ein, mit dem Sie die Kontaktliste teilen möchten:");
 		klTeilen.setUrl("Image/Teilen_Kontaktliste.png");
 	}
@@ -82,7 +82,7 @@ public class DialogBoxKontaktlisteTeilen extends DialogBox {
 
 		// Hinzufügen der Widgets und Buttons zum VerticalPanel
 		vpanel.add(klTeilen);
-		vpanel.add(überschrift);
+		vpanel.add(ueberschrift);
 		vpanel.add(html);
 		vpanel.add(nutzerSugBox);
 		hpanel.add(teilen);
