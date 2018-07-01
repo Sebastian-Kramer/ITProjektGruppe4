@@ -1,3 +1,4 @@
+
 package de.hdm.itprojektgruppe4.client.gui;
 
 import com.google.gwt.user.client.Cookies;
@@ -14,6 +15,13 @@ import de.hdm.itprojektgruppe4.shared.bo.Nutzer;
 import de.hdm.itprojektgruppe4.shared.report.AllEigeneKontakteReport;
 import de.hdm.itprojektgruppe4.shared.report.HTMLReportWriter;
 
+/**
+ * Klasse für den Report welche die Eigenen Kontakte in Form eines Reports
+ * ausgibt
+ * 
+ * @author Georg
+ *
+ */
 public class KontaktFormReport extends VerticalPanel {
 
 	private static ReportGeneratorAsync reportverwaltung = ClientsideSettings.getReportVerwaltung();
@@ -22,9 +30,15 @@ public class KontaktFormReport extends VerticalPanel {
 
 	Nutzer nutzer = new Nutzer();
 
+	/*
+	 * Methode zu Anzeigen des Reports
+	 */
 	public void onLoad() {
-		
+
 		super.onLoad();
+		/*
+		 * Eingeloggter Nutzer wird anhand Cookies identifiziert
+		 */
 		nutzer.setID(Integer.parseInt(Cookies.getCookie("id")));
 		nutzer.setEmail(Cookies.getCookie("email"));
 
@@ -32,6 +46,10 @@ public class KontaktFormReport extends VerticalPanel {
 		RootPanel.get("Buttonbar").clear();
 		RootPanel.get("Buttonbar").add(hPanel);
 
+		/**
+		 * Report wird aufgerufen, welcher die eigenen Kontakte wiedergibt
+		 * 
+		 */
 		reportverwaltung.AllEigeneKontakteReport(nutzer.getID(), new AsyncCallback<AllEigeneKontakteReport>() {
 			@Override
 			public void onFailure(Throwable caught) {
@@ -40,7 +58,10 @@ public class KontaktFormReport extends VerticalPanel {
 
 			}
 
-			@Override
+			/**
+			 * Bei Aufruf des Reports wird die methode process vom
+			 * HTMLReportWritter aufgerufen
+			 */
 			public void onSuccess(AllEigeneKontakteReport result) {
 
 				if (result != null) {
