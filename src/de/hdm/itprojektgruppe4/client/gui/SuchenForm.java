@@ -46,7 +46,7 @@ import de.hdm.itprojektgruppe4.shared.bo.Nutzer;
 public class SuchenForm extends VerticalPanel {
 
 	private static KontaktAdministrationAsync verwaltung = ClientsideSettings.getKontaktVerwaltung();
-
+	private Nutzer nutzer = new Nutzer();
 	private Label beschreibungKontakt = new Label("Bitte Geben sie den Kontatknamen ein");
 	private Label beschreibungAuspraegung = new Label("Bitte Geben sie eine Ausprägung ein");
 	private HTML HTMLForm = new HTML("Sie können auf dieser Seite nach Kontakten anhand von ihrem Namen suchen, "
@@ -115,7 +115,7 @@ public class SuchenForm extends VerticalPanel {
 
 		super.onLoad();
 
-		Nutzer nutzer = new Nutzer();
+	
 		nutzer.setID(Integer.parseInt(Cookies.getCookie("id")));
 		nutzer.setEmail(Cookies.getCookie("mail"));
 
@@ -226,7 +226,7 @@ public class SuchenForm extends VerticalPanel {
 
 		@Override
 		public void onClick(ClickEvent event) {
-
+			
 			auspraegungKontaktAnzeigenButton.setText("");
 			kontaktKontaktAnzeigenButton.setVisible(false);
 			EigenschaftAuspraegungWrapper eigaus = new EigenschaftAuspraegungWrapper();
@@ -363,10 +363,16 @@ public class SuchenForm extends VerticalPanel {
 
 		@Override
 		public void onSuccess(Kontakt result) {
-
-			KontaktForm kf = new KontaktForm(result);
-			RootPanel.get("Details").clear();
-			RootPanel.get("Details").add(kf);
+			if(nutzer.getID() == result.getNutzerID()){
+				KontaktForm kf = new KontaktForm(result);
+				RootPanel.get("Details").clear();
+				RootPanel.get("Details").add(kf);
+			}else{
+				KontaktForm kf = new KontaktForm(result, "teilhaberschaft");
+				RootPanel.get("Details").clear();
+				RootPanel.get("Details").add(kf);
+			}
+			
 		}
 
 	}

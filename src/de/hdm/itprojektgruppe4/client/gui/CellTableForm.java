@@ -79,6 +79,12 @@ public class CellTableForm extends CellTable<EigenschaftAuspraegungWrapper> {
 
 	}
 
+	/**
+	 * Die onLoad() Methode wird bei Aufruf von CellTableForm ausgeführt.
+	 * Cookies werden überprüft und die Größe der Tabelle gesetzt.
+	 * @author Clirim
+	 *
+	 */
 	public void onLoad() {
 
 		super.onLoad();
@@ -92,23 +98,13 @@ public class CellTableForm extends CellTable<EigenschaftAuspraegungWrapper> {
 
 	}
 
-	class AllSharedAuspraegungen implements AsyncCallback<Vector<EigenschaftAuspraegungWrapper>> {
-
-		@Override
-		public void onFailure(Throwable caught) {
-
-		}
-
-		@Override
-		public void onSuccess(Vector<EigenschaftAuspraegungWrapper> result) {
-			eList.addAll(result);
-			setRowData(0, eList);
-			setRowCount(eList.size(), true);
-
-		}
-
-	}
-
+	/**
+	 * Es wird eine unabhängige Spalte für eine CellTable erstellt, 
+	 * die die Bezeichnung einer Eigenschaft zurückgibt.
+	 * Die Spalte kann in CellTables anderer Klsen hinzugefügt werden.
+	 * @author Clirim
+	 *
+	 */
 	Column<EigenschaftAuspraegungWrapper, String> bezEigenschaft = new Column<EigenschaftAuspraegungWrapper, String>(
 
 			new ClickableTextCell()) {
@@ -118,7 +114,13 @@ public class CellTableForm extends CellTable<EigenschaftAuspraegungWrapper> {
 			return object.getEigenschaftValue();
 		}
 	};
-
+	/**
+	 * Es wird eine unabhängige Spalte für eine CellTable erstellt, 
+	 * die den Wert einer Ausprägung zurückgibt.
+	 * Die Spalte kann in CellTables anderer Klsen hinzugefügt werden.
+	 * @author Clirim
+	 *
+	 */
 	Column<EigenschaftAuspraegungWrapper, String> wertAuspraegung = new Column<EigenschaftAuspraegungWrapper, String>(
 
 			new ClickableTextCell()) {
@@ -128,7 +130,13 @@ public class CellTableForm extends CellTable<EigenschaftAuspraegungWrapper> {
 			return object.getAuspraegungValue();
 		}
 	};
-
+	/**
+	 * Es wird eine unabhängige Spalte für eine CellTable erstellt, 
+	 * die den Status einer Ausprägung zurückgibt.
+	 * Die Spalte kann in CellTables anderer Klsen hinzugefügt werden.
+	 * @author Clirim
+	 *
+	 */
 	Column<EigenschaftAuspraegungWrapper, String> status = new Column<EigenschaftAuspraegungWrapper, String>(
 			imageCell) {
 
@@ -145,7 +153,13 @@ public class CellTableForm extends CellTable<EigenschaftAuspraegungWrapper> {
 		}
 
 	};
-
+	/**
+	 * Es wird eine unabhängige Spalte für eine CellTable erstellt, 
+	 * die eine Lösch-Zelle zurückgibt.
+	 * Die Spalte kann in CellTables anderer Klsen hinzugefügt werden.
+	 * @author Clirim
+	 *
+	 */
 	Column<EigenschaftAuspraegungWrapper, String> deleteCell = new Column<EigenschaftAuspraegungWrapper, String>(
 			imageCellDelete) {
 
@@ -156,7 +170,13 @@ public class CellTableForm extends CellTable<EigenschaftAuspraegungWrapper> {
 		}
 
 	};
-
+	/**
+	 * Es wird eine unabhängige Spalte für eine CellTable erstellt, 
+	 * die eine CheckBox zurückgibt.
+	 * Die Spalte kann in CellTables anderer Klsen hinzugefügt werden.
+	 * @author Clirim
+	 *
+	 */
 	Column<EigenschaftAuspraegungWrapper, Boolean> checkBox = new Column<EigenschaftAuspraegungWrapper, Boolean>(
 			new CheckboxCell(true, false)) {
 
@@ -166,7 +186,13 @@ public class CellTableForm extends CellTable<EigenschaftAuspraegungWrapper> {
 			return selectionModelWrapper.isSelected(object);
 		}
 	};
-
+	/**
+	 * Es wird eine unabhängige Spalte für eine CellTable erstellt, 
+	 * die einen Lösch-Button zurückgibt.
+	 * Die Spalte kann in CellTables anderer Klsen hinzugefügt werden.
+	 * @author Clirim
+	 *
+	 */
 	Column<EigenschaftAuspraegungWrapper, String> deleteBtn = new Column<EigenschaftAuspraegungWrapper, String>(
 			new ButtonCell()) {
 
@@ -177,55 +203,107 @@ public class CellTableForm extends CellTable<EigenschaftAuspraegungWrapper> {
 
 		}
 	};
-
+	/**
+	 * Get-Methode für die Spalte WertAusprägung
+	 * @author Clirim
+	 *
+	 */
 	public Column<EigenschaftAuspraegungWrapper, String> getWertAuspraegung() {
 		return wertAuspraegung;
 	}
-
+	/**
+	 * Set-Methode für die Spalte WertAusprägung
+	 * @author Clirim
+	 *
+	 */
 	public void setWertAuspraegung(Column<EigenschaftAuspraegungWrapper, String> wertAuspraegung) {
 		this.wertAuspraegung = wertAuspraegung;
 	}
-
+	/**
+	 * Get-Methode für die Spalte BezEigenschaft
+	 * @author Clirim
+	 *
+	 */
 	public Column<EigenschaftAuspraegungWrapper, String> getBezEigenschaft() {
 		return bezEigenschaft;
 	}
-
+	/**
+	 * Set-Methode für die Spalte BezEigenschaft
+	 * @author Clirim
+	 *
+	 */
 	public void setBezEigenschaft(Column<EigenschaftAuspraegungWrapper, String> bezEigenschaft) {
 		this.bezEigenschaft = bezEigenschaft;
 	}
-
+	/**
+	 * Get-Methode für die Spalte Status
+	 * @author Clirim
+	 *
+	 */
 	public Column<EigenschaftAuspraegungWrapper, String> getStatus() {
 		return status;
 	}
-
+	/**
+	 * Set-Methode für die Spalte Status
+	 * @author Clirim
+	 *
+	 */
 	public void setStatus(Column<EigenschaftAuspraegungWrapper, String> status) {
 		this.status = status;
 	}
-
+	/**
+	 * Get-Methode für die Spalte DeleteCell
+	 * @author Clirim
+	 *
+	 */
 	public Column<EigenschaftAuspraegungWrapper, String> getDeleteCell() {
 		return deleteCell;
 	}
-
+	/**
+	 * Set-Methode für die Spalte DeleteCell
+	 * @author Clirim
+	 *
+	 */
 	public void getDeleteCell(Column<EigenschaftAuspraegungWrapper, String> deleteCell) {
 		this.deleteCell = deleteCell;
 	}
-
+	/**
+	 * Get-Methode für die Spalte CheckBox
+	 * @author Clirim
+	 *
+	 */
 	public Column<EigenschaftAuspraegungWrapper, Boolean> getCheckBox() {
 		return checkBox;
 	}
-
+	/**
+	 * Set-Methode für die Spalte CheckBox
+	 * @author Clirim
+	 *
+	 */
 	public void setCheckBox(Column<EigenschaftAuspraegungWrapper, Boolean> checkBox) {
 		this.checkBox = checkBox;
 	}
-
+	/**
+	 * Get-Methode für die Spalte DeleteBtn
+	 * @author Clirim
+	 *
+	 */
 	public Column<EigenschaftAuspraegungWrapper, String> getDeleteBtn() {
 		return deleteBtn;
 	}
-
+	/**
+	 * Set-Methode für die Spalte DeleteBtn
+	 * @author Clirim
+	 *
+	 */
 	public void setDeleteBtn(Column<EigenschaftAuspraegungWrapper, String> deleteBtn) {
 		this.deleteBtn = deleteBtn;
 	}
-
+	/**
+	 * Methode die eine Tabelle um eine neue Zeile ergänzt
+	 * @author Clirim
+	 *
+	 */
 	public void addRow(String a, String b) {
 		EigenschaftAuspraegungWrapper wrapper = new EigenschaftAuspraegungWrapper();
 
@@ -236,14 +314,24 @@ public class CellTableForm extends CellTable<EigenschaftAuspraegungWrapper> {
 		this.setRowCount(eList.size(), true);
 		this.redraw();
 	}
-
+	/**
+	 * Methode die die letzte Zeile einer Tabelle entfernt
+	 * @author Clirim
+	 *
+	 */
 	public void deleteRow(EigenschaftAuspraegungWrapper object) {
 		model.getList().remove(object);
 		eList.remove(object);
 		model.refresh();
 		this.redraw();
 	}
-
+	/**
+	 * Es wird eine unabhängige Spalte für eine CellTable erstellt, 
+	 * die den Wert einer Ausprägung zurückgibt.
+	 * Die Spalte kann in CellTables anderer Klsen hinzugefügt werden.
+	 * @author Clirim
+	 *
+	 */
 	class ColumnAuspraegung extends Column<EigenschaftAuspraegungWrapper, String> {
 
 		public ColumnAuspraegung(Cell<String> cell) {
@@ -256,7 +344,13 @@ public class CellTableForm extends CellTable<EigenschaftAuspraegungWrapper> {
 		}
 
 	}
-
+	/**
+	 * Es wird eine unabhängige Spalte für eine CellTable erstellt, 
+	 * die eine CheckBox zurückgibt.
+	 * Die Spalte kann in CellTables anderer Klsen hinzugefügt werden.
+	 * @author Clirim
+	 *
+	 */
 	class ColumnCeckBox extends Column<EigenschaftAuspraegungWrapper, Boolean> {
 
 		public ColumnCeckBox(Cell<Boolean> cell) {
@@ -271,7 +365,13 @@ public class CellTableForm extends CellTable<EigenschaftAuspraegungWrapper> {
 		}
 
 	}
-
+	/**
+	 * Es wird eine unabhängige Spalte für eine CellTable erstellt, 
+	 * die einen Lösch-Button zurückgibt.
+	 * Die Spalte kann in CellTables anderer Klsen hinzugefügt werden.
+	 * @author Clirim
+	 *
+	 */
 	class ColumnDeleteBtn extends Column<EigenschaftAuspraegungWrapper, String> {
 
 		public ColumnDeleteBtn(Cell<String> cell) {
@@ -286,7 +386,13 @@ public class CellTableForm extends CellTable<EigenschaftAuspraegungWrapper> {
 		}
 
 	}
-
+	/**
+	 * Es wird eine unabhängige Spalte für eine CellTable erstellt, 
+	 * die die Bezeichnung einer Eigenschaft zurückgibt.
+	 * Die Spalte kann in CellTables anderer Klsen hinzugefügt werden.
+	 * @author Clirim
+	 *
+	 */
 	class ColumnEigenschaft extends Column<EigenschaftAuspraegungWrapper, String> {
 
 		public ColumnEigenschaft(Cell<String> cell) {
@@ -301,7 +407,14 @@ public class CellTableForm extends CellTable<EigenschaftAuspraegungWrapper> {
 		}
 
 	}
-
+	/**
+	 * Es wird eine unabhängige Spalte für eine CellTable erstellt, 
+	 * die den Kontaktnamen eines Kontaktes angibt welcher zu der jeweiligen
+	 * Ausprägung gehört.
+	 * Die Spalte kann in CellTables anderer Klsen hinzugefügt werden.
+	 * @author Clirim
+	 *
+	 */
 	class ColumnKontaktName extends Column<EigenschaftAuspraegungWrapper, String> {
 
 		public ColumnKontaktName(Cell<String> cell) {
@@ -316,7 +429,13 @@ public class CellTableForm extends CellTable<EigenschaftAuspraegungWrapper> {
 		}
 
 	}
-
+	/**
+	 * Es wird eine unabhängige Spalte für eine CellTable erstellt, 
+	 * die den Status einer Ausprägung zurückgibt.
+	 * Die Spalte kann in CellTables anderer Klsen hinzugefügt werden.
+	 * @author Clirim
+	 *
+	 */
 	class ColumnStatus extends Column<EigenschaftAuspraegungWrapper, String> {
 
 		public ColumnStatus(Cell<String> cell) {
@@ -336,7 +455,33 @@ public class CellTableForm extends CellTable<EigenschaftAuspraegungWrapper> {
 		}
 
 	}
+	/**
+	 * Callback welcher alle geteilten Ausprägungen zurückgibt.
+	 * @author Clirim
+	 *
+	 */
+	class AllSharedAuspraegungen implements AsyncCallback<Vector<EigenschaftAuspraegungWrapper>> {
 
+		@Override
+		public void onFailure(Throwable caught) {
+
+		}
+
+		@Override
+		public void onSuccess(Vector<EigenschaftAuspraegungWrapper> result) {
+			eList.addAll(result);
+			setRowData(0, eList);
+			setRowCount(eList.size(), true);
+
+		}
+
+	}
+	/**
+	 * Callback welcher alle geteilten Ausprägungen und Eigenschaften zurückgibt,
+	 * und die Tabelle neu lädt.
+	 * @author Clirim
+	 *
+	 */
 	class AllAuspraegungToEigenschaftCallback implements AsyncCallback<Vector<EigenschaftAuspraegungWrapper>> {
 
 		@Override
