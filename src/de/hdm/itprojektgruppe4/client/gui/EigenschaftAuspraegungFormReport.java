@@ -52,7 +52,7 @@ public class EigenschaftAuspraegungFormReport extends VerticalPanel {
 		nutzer.setEmail(Cookies.getCookie("email"));
 
 		/*
-		 * Widgets werden den Panel hinzugefügt
+		 * Widgets werden den Panel hinzugefï¿½gt
 		 */
 		RootPanel.get("Buttonbar").clear();
 		RootPanel.get("Details").clear();
@@ -62,32 +62,37 @@ public class EigenschaftAuspraegungFormReport extends VerticalPanel {
 		hPanel.add(auspraegungBox);
 		hPanel.add(sendButton);
 		RootPanel.get("Buttonbar").add(hPanel);
+		
+		sendButton.addClickHandler(new sendButtonClick());
 
+	}
 		/**
-		 * Die Funktion des Clickhandler ist:
+		 * Die Funktion des der Klasse namens SendButton die vom ClickHandler implementiert ist:
 		 * 
 		 * falls nur die Eigenschaftsbox werte aufweist, so werden lediglich die
 		 * eigenenKontakte mit bestimmten Eigenschaften in form eines Report
 		 * angezeigt.
 		 * 
-		 * Falls nur die Ausprägungsbox werte aufweist, so werden lediglich die
-		 * Eigenen Kontakte mit bestimmten Ausprägungen in form eines Report
+		 * Falls nur die Ausprï¿½gungsbox werte aufweist, so werden lediglich die
+		 * Eigenen Kontakte mit bestimmten Ausprï¿½gungen in form eines Report
 		 * angezeigt
 		 * 
 		 * Sollten beide Textboxe werte aufweisen, so werden die eigenen
-		 * Kontakte mit bestimmten Eigenschafts- Ausprägungen in form eines
+		 * Kontakte mit bestimmten Eigenschafts- Ausprï¿½gungen in form eines
 		 * Report angezeigt
 		 * 
 		 * Sollten beide Textboxen keine werte beinhalten, so wird eine fehler
 		 * meldung folgen
 		 * 
 		 */
-		sendButton.addClickHandler(new ClickHandler() {
+		
+		class sendButtonClick implements ClickHandler {
+		//sendButton.addClickHandler(new ClickHandler() {
 
 			/*
-			 * If abfrage ob die ausprägungsbox werte beinhaltet sollte dies der
+			 * If abfrage ob die ausprï¿½gungsbox werte beinhaltet sollte dies der
 			 * Fall sein, so werden die eigenen KOntakte die die selbem
-			 * Ausprägungen aufweisen in form eines Reports angezeigt
+			 * Ausprï¿½gungen aufweisen in form eines Reports angezeigt
 			 */
 			@Override
 			public void onClick(ClickEvent event) {
@@ -101,7 +106,6 @@ public class EigenschaftAuspraegungFormReport extends VerticalPanel {
 
 								@Override
 								public void onSuccess(KontakteMitBestimmtenAuspraegungen result) {
-									Window.alert("Alle Kontakte mit der eingegebenen AusprÃ¤gung wurden geladen");
 
 									if (result != null) {
 
@@ -115,7 +119,6 @@ public class EigenschaftAuspraegungFormReport extends VerticalPanel {
 								@Override
 								public void onFailure(Throwable caught) {
 									RootPanel.get("Details").clear();
-									Window.alert("Fehler Auspraegung");
 								}
 
 							});
@@ -137,12 +140,10 @@ public class EigenschaftAuspraegungFormReport extends VerticalPanel {
 								@Override
 								public void onFailure(Throwable caught) {
 									RootPanel.get("Details").clear();
-									Window.alert("Fehler Eigenschaft");
 								}
 
 								@Override
 								public void onSuccess(KontakteMitBestimmtenEigenschaften result) {
-									Window.alert("Alle Kontakte mit der eingegebenen Eigenschaft wurden geladen");
 									if (result != null) {
 
 										HTMLReportWriter writer = new HTMLReportWriter();
@@ -154,9 +155,9 @@ public class EigenschaftAuspraegungFormReport extends VerticalPanel {
 							});
 
 					/*
-					 * If abfrage ob die eigenschaftsbox & die ausprägungsbox
+					 * If abfrage ob die eigenschaftsbox & die ausprï¿½gungsbox
 					 * werte beinhaltet sollte dies der Fall sein, so werden die
-					 * eigenen Kontakte die die selbe Eigenschaftsausprägungen
+					 * eigenen Kontakte die die selbe Eigenschaftsausprï¿½gungen
 					 * aufweisen in form eines Reports angezeigt
 					 */
 				} else if (eigenschafBox.getValue() != null && auspraegungBox != null) {
@@ -167,14 +168,11 @@ public class EigenschaftAuspraegungFormReport extends VerticalPanel {
 								@Override
 								public void onFailure(Throwable caught) {
 									RootPanel.get("Details").clear();
-									Window.alert("Fehler");
 								}
 
 								@Override
 								public void onSuccess(KontakteMitBestimmtenEigenschaftsAuspraegungen result) {
 
-									Window.alert(
-											"Alle Kontakte mit der eingegebenen Eigenschaft und AusprÃ¤gung wurden geladen");
 
 									if (result != null) {
 
@@ -192,14 +190,14 @@ public class EigenschaftAuspraegungFormReport extends VerticalPanel {
 					 * eine Fehlermeldung ausgegeben, sodass der Nutzer Werte in
 					 * die Textboxen eingibt
 					 */
-				} else {
+				} else if (eigenschafBox.equals("") && auspraegungBox.equals("")) {
 					Window.alert("Bitte Daten eingeben");
 				}
 
 			}
 
-		});
+		}
 
-	}
+	
 
 }

@@ -2,6 +2,8 @@ package de.hdm.itprojektgruppe4.client;
 
 import com.google.gwt.core.client.EntryPoint;
 import com.google.gwt.core.client.GWT;
+import com.google.gwt.event.dom.client.ClickEvent;
+import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.Cookies;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
@@ -26,6 +28,7 @@ public class ITProjektSS18Report implements EntryPoint {
 	private Label eingeloggt = new Label("Momentan in WYNWYN angemeldet: ");
 	private Anchor signOutLink = new Anchor("Logout");
 	private Anchor loggedNutzer;
+	private boolean sureLogOut;
 
 	LoginServiceAsync loginService = GWT.create(LoginService.class);
 
@@ -39,6 +42,18 @@ public class ITProjektSS18Report implements EntryPoint {
 	public void onModuleLoad() {
 
 		signOutLink.setStyleName("Logout");
+		
+		signOutLink.addClickHandler(new ClickHandler() {
+
+			public void onClick(ClickEvent event) {
+				sureLogOut= Window.confirm("Möchten Sie sich wirklich ausloggen?");
+				if (sureLogOut == true) {
+					signOutLink.setHref(loginInfo.getLogoutUrl());
+					
+				}
+				
+			}
+		});
 
 		eingeloggt.setStyleName("AktiverUser");
 
@@ -94,16 +109,13 @@ public class ITProjektSS18Report implements EntryPoint {
 
 			@Override
 			public void onFailure(Throwable caught) {
-				Window.alert("Nutzer konnte nicht aus der Datenbank gelsesen werden." + " Daher wird "
-						+ finalLog.getEmailAddress() + "angelegt");
+
 
 			}
 
 			@Override
 			public void onSuccess(Nutzer result) {
 				if (!result.getEmail().equals(null)) {
-					Window.alert(
-							"Hallo " + result.getEmail() + " wir konnten dich erfolgreich aus der Datenbank lesen.");
 					ClientsideSettings.setAktuellerNutzer(result);
 					loggedNutzer = new Anchor(result.getEmail());
 					Cookies.setCookie("email", result.getEmail());
@@ -135,7 +147,6 @@ public class ITProjektSS18Report implements EntryPoint {
 	private void loadStartseite() {
 		NavigationReport navigationReport = new NavigationReport();
 		MainFormReport mfReport = new MainFormReport();
-		signOutLink.setHref(loginInfo.getLogoutUrl());
 		RootPanel.get("Header").add(eingeloggt);
 		RootPanel.get("Header").add(loggedNutzer);
 		RootPanel.get("Header").add(signOutLink);

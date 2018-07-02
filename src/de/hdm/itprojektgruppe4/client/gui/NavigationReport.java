@@ -28,7 +28,7 @@ public class NavigationReport extends VerticalPanel {
 		allKontakte.setPixelSize(245, 40);
 
 		/*
-		 * Widgets werden den Panel hinzugefügt
+		 * Widgets werden den Panel hinzugefï¿½gt
 		 */
 		RootPanel.get("Navigator").clear();
 		vPanel.add(allKontakte);
@@ -36,7 +36,7 @@ public class NavigationReport extends VerticalPanel {
 		vPanel.add(teilhaberschaft);
 
 		RootPanel.get("Navigator").add(vPanel);
-
+	
 		/**
 		 * Bei aufruf dieses Clickhandlers, wird auf die Klasse
 		 * KontaktformReport verwiesen/ aufgerufen
@@ -83,7 +83,5 @@ public class NavigationReport extends VerticalPanel {
 			}
 
 		});
-
-	}
-
-}
+	
+}}
