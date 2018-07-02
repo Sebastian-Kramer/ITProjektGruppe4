@@ -13,9 +13,17 @@ import de.hdm.itprojektgruppe4.shared.bo.Kontaktliste;
  */
 
 public class KontaktlisteMapper {
+	
+	/**
+     * Der Mapper ist ein Singelton.
+     * Variable ist "static" und speichert die einzige Instanz dieser Klasse.
+     */
 
 	private static KontaktlisteMapper kontaktlisteMapper = null;
 
+	/**
+	 * geschützter Konstruktor, der verhindert, dass Klasse mit "new" instanziert wird.
+	 */
 	protected KontaktlisteMapper() {
 
 	};
@@ -305,6 +313,13 @@ public class KontaktlisteMapper {
 		return null;
 
 	}
+	
+	/**
+	 * Suchen einer Kontaktliste nach Nutzer und Bezeichnung
+	 * @param nutzerID
+	 * @param bez
+	 * @return result
+	 */
 
 	public Kontaktliste findKontaktliste(int nutzerID, String bez) {
 

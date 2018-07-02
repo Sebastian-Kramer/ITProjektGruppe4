@@ -15,12 +15,20 @@ import de.hdm.itprojektgruppe4.shared.bo.Eigenschaftauspraegung;
  */
 
 public class EigenschaftauspraegungMapper {
-
+	/**
+     * Der Mapper ist ein Singelton.
+     * Variable ist "static" und speichert die einzige Instanz dieser Klasse.
+     */
 	private static EigenschaftauspraegungMapper eigenschaftauspraegungMapper = null;
-
+/**
+ * geschützter Konstruktor, der verhindert, dass Klasse mit "new" instanziert wird.
+ */
 	protected EigenschaftauspraegungMapper() {
 	};
-
+/**
+ * Methode zum sicherstellen der Singleton Eigenschaft
+ * @return EigenschaftsauspraegungMapper Objekt
+ */
 	public static EigenschaftauspraegungMapper eigenschaftauspraegungMapper() {
 		if (eigenschaftauspraegungMapper == null) {
 			eigenschaftauspraegungMapper = new EigenschaftauspraegungMapper();
@@ -101,6 +109,11 @@ public class EigenschaftauspraegungMapper {
 
 	}
 
+	/**
+	 * aufrufen der Ausprägungen anhand der Kontakt ID
+	 * @param id
+	 * @return result
+	 */
 	public Vector<Eigenschaftauspraegung> getAuspraegungByKontaktID(int id) {
 		Vector<Eigenschaftauspraegung> result = new Vector<Eigenschaftauspraegung>();
 
@@ -278,6 +291,12 @@ public class EigenschaftauspraegungMapper {
 		return result;
 
 	}
+	
+	/**
+	 * Suchen der Ausprägungen
+	 * @param kontaktID
+	 * @return
+	 */
 
 	public Vector<Eigenschaftauspraegung> findAuspraegungByKontaktID(int kontaktID) {
 
@@ -309,7 +328,7 @@ public class EigenschaftauspraegungMapper {
 	}
 
 	/**
-	 * 
+	 * aufrufen aller Ausprägungen
 	 * @return
 	 */
 	public Vector<Eigenschaftauspraegung> findAllAuspraegungn() {

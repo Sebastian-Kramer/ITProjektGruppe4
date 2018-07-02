@@ -16,9 +16,19 @@ import java.util.Date;
 public class NutzerMapper extends PersonMapper {
 
 	SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+	
+	/**
+     * Der Mapper ist ein Singelton.
+     * Variable ist "static" und speichert die einzige Instanz dieser Klasse.
+     */
 
 	private static NutzerMapper nutzerMapper = null;
 
+	
+	/**
+	 * geschützter Konstruktor, der verhindert, dass Klasse mit "new" instanziert wird.
+	 */
+	
 	protected NutzerMapper() {
 	};
 
@@ -203,6 +213,12 @@ public class NutzerMapper extends PersonMapper {
 			e.printStackTrace();
 		}
 	}
+	
+	/**
+	 * Suchen eines Nutzers per Emailadresse
+	 * @param email
+	 * @return nutzer
+	 */
 
 	public Nutzer findNutzerByEmail(String email) {
 

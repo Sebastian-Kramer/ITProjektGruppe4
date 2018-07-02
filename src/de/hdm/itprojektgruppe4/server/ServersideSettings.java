@@ -6,7 +6,7 @@ import de.hdm.itprojektgruppe4.shared.CommonSettings;
 
 
 /**
- * Klasse mit Eigenschaften und Diensten, die für alle serverseitigen Klassen relavant sind
+ * Klasse mit Eigenschaften und Diensten, die für alle serverseitigen Klassen relevant sind
  * 
  */
 public class ServersideSettings extends CommonSettings{
