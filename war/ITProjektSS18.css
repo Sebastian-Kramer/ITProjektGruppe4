@@ -366,6 +366,7 @@ table.CellTableTeilhaberschaft {
 table.CellTableKontakt {
 	width: 700px;
 	margin-top: 20px;
+	margin-bottom: 20px;
 }
 
 table.CellTableBearbeiten {

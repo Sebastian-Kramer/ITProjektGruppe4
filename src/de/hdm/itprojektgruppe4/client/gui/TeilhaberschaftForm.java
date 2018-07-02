@@ -382,7 +382,7 @@ public class TeilhaberschaftForm extends VerticalPanel {
 			}else{
 			verwaltung.insertTeilhaberschaftAuspraegungenKontakt(kon, nutzerSugBox.getValue(), nutzer.getID(),
 					new TeilhaberschaftCallback());
-			}
+			} 
 		}
 
 	}

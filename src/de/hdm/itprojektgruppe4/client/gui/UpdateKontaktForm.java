@@ -75,7 +75,7 @@ public class UpdateKontaktForm extends VerticalPanel {
 	private KeyDownHandler changeNameHandler = new ChangeNameHandler();
 
 	private ScrollPanel scrollPanel = new ScrollPanel();
-
+	private Image kontaktbild = new Image("Image/Visitenkarte_2.png");
 	private CellTableForm ctf = null;
 	private ButtonCell deletebtn = new ButtonCell();
 	private ClickableTextCell bezeigenschaft = new ClickableTextCell();
@@ -189,10 +189,13 @@ public class UpdateKontaktForm extends VerticalPanel {
 
 		fmt.format(date);
 		RootPanel.get("Buttonbar").clear();
-
+		kontaktbild.setStyleName("Kontaktbild");
 		txt_KontaktName.setText(kon.getName());
-
-		hpanelDetails.setHeight("35px");
+		txt_KontaktName.setStyleName("klistBox");
+		lbl_KontaktName.setStyleName("KlistBezeichnung");
+		hpanelDetails.setStyleName("HpanelTop");
+		hpanelDetails.setWidth("700px");
+		hpanelDetails.add(kontaktbild);
 		hpanelDetails.add(lbl_KontaktName);
 		hpanelDetails.add(txt_KontaktName);
 		eigenschaftSugBox.getElement().setAttribute("placeholder", "Eigenschaft");
@@ -201,18 +204,15 @@ public class UpdateKontaktForm extends VerticalPanel {
 		vpanelDetails.add(hpanelDetails);
 		vpanelDetails.add(scrollPanel);
 		vpanelDetails.add(hpanelAdd);
-
+		hpanelAdd.setStyleName("hpanelRechts");
 		hpanelAdd.add(eigenschaftSugBox);
-
 		hpanelAdd.add(txt_Auspraegung);
 		hpanelAdd.add(addRow);
 		wertAuspraegung.setSortable(true);
 		ctf.setSelectionModel(ctf.getSm());
-		ctf.setStyleName("CellTableBearbeiten");
+		ctf.setStyleName("CellTableKontakt");
 		zurueckZuHomePic.setStyleName("ButtonICON");
 		deletePic.setStyleName("ButtonICON");
-
-		scrollPanel.setHeight("400px");
 
 		RootPanel.get("Buttonbar").add(cancelBtn);
 
