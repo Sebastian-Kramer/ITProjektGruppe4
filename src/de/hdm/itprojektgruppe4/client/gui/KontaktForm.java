@@ -72,9 +72,9 @@ public class KontaktForm extends VerticalPanel {
 	private CellTableForm.ColumnEigenschaft bezEigenschaft = ctf.new ColumnEigenschaft(bezeigenschaft);
 	private CellTableForm.ColumnAuspraegung wertAuspraegung = ctf.new ColumnAuspraegung(wertauspraegung);
 	private Image sharedPic = new Image("Image/contactShared.png");
-	private Image loeschenPic = new Image("Image/Löschen.png");
+	private Image loeschenPic = new Image("Image/Loeschen.png");
 	private Image bearbeitenPic = new Image("Image/Bearbeiten.png");
-	private Image konZuListPic = new Image("Image/Kontakt_Zu_Liste.png");
+	private Image konZuListPic = new Image("Image/KontaktZuListe.png");
 	private Image zurueckZuHome = new Image("Image/Back.png");
 	private Image teilVerwaltenPic = new Image("Image/Teilen.png");
 	/**
