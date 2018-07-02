@@ -347,7 +347,12 @@ public class KontaktMapper extends PersonMapper {
 		return result;
 	
 	}
-	
+	/**
+     * Auslesen von Kontakten anhand des namens des Kontaktes.
+     * 
+     * @param nutzerID
+     * @return Vector mit saemtlichen Kontakten mit der uebergebenen NutzerID
+     */
 	
 	public Vector<Kontakt> findKontaktByNameUndNutzerID(Kontakt kontakt){
 		Vector<Kontakt> result = new Vector<Kontakt>();
