@@ -13,6 +13,8 @@ import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.DialogBox;
+import com.google.gwt.user.client.ui.HTML;
+import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.view.client.MultiSelectionModel;
 import com.google.gwt.user.client.ui.RootPanel;
@@ -41,13 +43,16 @@ public class DialogBoxKontaktZuKontaktliste extends DialogBox {
 	private Kontaktliste kl = null;
 	
 	private VerticalPanel vpanel = new VerticalPanel();
+	private HorizontalPanel hpanel = new HorizontalPanel();
 	private MultiSelectionModel<Kontakt> kontaktSelection = new MultiSelectionModel<Kontakt>();
 	
 	private CellTable<Kontakt> kontaktTable = new CellTable<Kontakt>();
 	
 	private Button abbrechen = new Button("Abbrechen");
-	private Button kontakteHinzufuegen = new Button("Hinzufuegen");
+	private Button kontakteHinzufuegen = new Button("Hinzufügen");
 	private ScrollPanel scrollPanel = new ScrollPanel();
+	private HTML txt = new HTML("Folgende Kontakte können Sie der Kontaktliste hinzufügen:");
+	private HTML ueberschrift = new HTML ("<h3>Kontakte zur Kontaktliste hinzufügen");
 	
 	/*
 	 * Konstruktor der beim Aufrufen der DialogBox zum Einsatz kommt
@@ -110,10 +115,12 @@ public class DialogBoxKontaktZuKontaktliste extends DialogBox {
 		/*
 		 * Widgets dem Panel hinzufuegen
 		 */
+		vpanel.add(ueberschrift);
+		vpanel.add(txt);
 		vpanel.add(scrollPanel);
-		vpanel.add(kontakteHinzufuegen);
-		vpanel.add(abbrechen);
-		
+		hpanel.add(kontakteHinzufuegen);
+		hpanel.add(abbrechen);
+		vpanel.add(hpanel);
 		this.add(vpanel);
 	}
 	
@@ -174,7 +181,6 @@ public class DialogBoxKontaktZuKontaktliste extends DialogBox {
 
 		@Override
 		public void onFailure(Throwable caught) {
-			// TODO Auto-generated method stub
 			
 		}
 
@@ -182,14 +188,7 @@ public class DialogBoxKontaktZuKontaktliste extends DialogBox {
 		public void onSuccess(Vector<Kontakt> result) {
 			kontaktTable.setRowCount(result.size());
 			kontaktTable.setRowData(0, result);
-			if (kl.getNutzerID() != nutzer.getID()) {
-			
 		
-				
-			}else{
-				
-				
-			}
 			
 		}
 		
