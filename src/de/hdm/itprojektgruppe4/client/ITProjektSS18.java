@@ -119,7 +119,7 @@ public class ITProjektSS18 implements EntryPoint {
 		Nutzer nutzer = null;
 		verwaltung.findNutzerByEmail(result.getEmailAddress(), new AsyncCallback<Nutzer>() {
 
-			@Override
+			@Override	
 			public void onFailure(Throwable caught) {
 
 			}

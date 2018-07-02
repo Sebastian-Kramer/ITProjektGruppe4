@@ -50,30 +50,41 @@ public class KontaktFormReport extends VerticalPanel {
 		 * Report wird aufgerufen, welcher die eigenen Kontakte wiedergibt
 		 * 
 		 */
-		reportverwaltung.AllEigeneKontakteReport(nutzer.getID(), new AsyncCallback<AllEigeneKontakteReport>() {
-			@Override
-			public void onFailure(Throwable caught) {
-				RootPanel.get("Details").clear();
-				Window.alert("Fehler");
-
-			}
-
-			/**
-			 * Bei Aufruf des Reports wird die methode process vom
-			 * HTMLReportWritter aufgerufen
-			 */
-			public void onSuccess(AllEigeneKontakteReport result) {
-
-				if (result != null) {
-					HTMLReportWriter writer = new HTMLReportWriter();
-					writer.process(result);
-					RootPanel.get("Details").clear();
-					RootPanel.get("Details").add(new HTML(writer.getReportText()));
-				}
-
-			}
-		});
+		reportverwaltung.AllEigeneKontakteReport(nutzer.getID(), new AllEigeneKontakteReportCallback());
+				
+				
 
 	}
 
-}
+	/**
+	 * Aufruf des Callback, welche die Eigenen Kontakte
+	 * in Form eines Reports ausgibt
+	 * @author Georg
+	 *
+	 */
+	class AllEigeneKontakteReportCallback implements AsyncCallback<AllEigeneKontakteReport> {
+
+
+		@Override
+		public void onFailure(Throwable caught) {
+			// TODO Auto-generated method stub
+			RootPanel.get("Details").clear();
+			Window.alert("Fehler");
+		}
+
+
+		@Override
+		public void onSuccess(AllEigeneKontakteReport result) {
+			// TODO Auto-generated method stub
+			if (result != null) {
+				HTMLReportWriter writer = new HTMLReportWriter();
+				writer.process(result);
+				RootPanel.get("Details").clear();
+				RootPanel.get("Details").add(new HTML(writer.getReportText()));
+			}
+
+		}
+		}
+		
+	}
+
