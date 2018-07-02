@@ -19,6 +19,8 @@ h2 {
 h3 {
 	text-align: center;
 	font-size: 18px;
+	text-align: left;
+	
 }
 
 h2#Kontakt {
@@ -613,6 +615,10 @@ button.edit-Button {
 	  background: #000 repeating-linear-gradient(-45deg, SeaGreen, LimeGreen, Gainsboro);
 }
 
+.gwt-SuggestBoxPopup .item-selected {
+  background: #caeab4;
+}
+
 .gwt-SuggestBoxPopup .suggestPopupTopLeft {
-	background: url(images/SuggestBoxBackground.png) no-repeat 0px -6px; !important
+	background: url(images/SuggestBoxBackground.PNG) no-repeat 0px -6px; !important
 }

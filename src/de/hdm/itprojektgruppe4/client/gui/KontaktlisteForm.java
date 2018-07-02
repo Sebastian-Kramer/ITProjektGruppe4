@@ -84,9 +84,9 @@ public class KontaktlisteForm extends VerticalPanel {
 	private Image teilPic = new Image("Image/Teilen1.png");
 	private Image teilVerwaltPic = new Image("Image/Teilen.png");
 	private Image zurueckPic = new Image("Image/Back.png");
-	private Image deletePic = new Image("Image/Löschen.png");
+	private Image deletePic = new Image("Image/Loeschen.png");
 	private Image removePic = new Image("Image/KontaktEntfernen.png");
-	private Image konZuListPic = new Image("Image/Kontakt_zu_Liste.png");
+	private Image konZuListPic = new Image("Image/KontaktZuListe.png");
 	private Image zurueckPic2 = new Image("Image/Startseite.png");
 
 	private boolean deleteListAlert;
@@ -282,18 +282,18 @@ public class KontaktlisteForm extends VerticalPanel {
 				Window.alert("Sie muessen einen Kontakt auswählen");
 
 			} else {
-				if (kl.getNutzerID() == nutzer.getID()) {
+				//if (kl.getNutzerID() == nutzer.getID()) {
 					if (selectionModel.getSelectedObject().getNutzerID() == nutzer.getID()) {
 						KontaktForm kf = new KontaktForm(selectionModel.getSelectedObject());
 						RootPanel.get("Details").clear();
 						RootPanel.get("Details").add(kf);
-					} else {
+					}/** else {
 						KontaktForm kf = new KontaktForm(selectionModel.getSelectedObject(), "Teilhaberschaft");
 						RootPanel.get("Details").clear();
 						RootPanel.get("Details").add(kf);
 					}
 
-				} else {
+				}*/ else {
 					kontaktVerwaltung.findTeilhaberschaftByKontaktIDAndTeilhaberID(
 							selectionModel.getSelectedObject().getID(), nutzer.getID(),
 							new TeilhaberschaftKontaktCallback());
@@ -324,7 +324,8 @@ public class KontaktlisteForm extends VerticalPanel {
 				KontaktForm kf = new KontaktForm(selectionModel.getSelectedObject(), 1);
 				RootPanel.get("Details").clear();
 				RootPanel.get("Details").add(kf);
-			} else {
+			} 
+			else  {
 				KontaktForm kf = new KontaktForm(selectionModel.getSelectedObject(), "Teilhaberschaft");
 				RootPanel.get("Details").clear();
 				RootPanel.get("Details").add(kf);
@@ -586,10 +587,11 @@ public class KontaktlisteForm extends VerticalPanel {
 
 		@Override
 		public void onSuccess(Void result) {
-			if (kl.getBez().equals("Meine Kontakte") || kl.getBez().equals("Meine geteilten Kontakte")) {
-				Window.alert("Dies ist eine Standardkontaktliste und kann nicht gelöscht werden.");
-			} else {
-				Window.alert("Die Kontaktliste wurde erfolgreich gelöscht");
+		if(kl.getNutzerID() == nutzer.getID()){
+			Window.alert("Die Kontaktliste wurde erfolgreich gelöscht");
+		}else{
+			Window.alert("Die Teilhaberschaft an der Kontaktliste wurde entfernt.");
+		}
 				MainForm main = new MainForm();
 				NavigationTree updatedTree = new NavigationTree();
 				RootPanel.get("Navigator").clear();
@@ -597,7 +599,7 @@ public class KontaktlisteForm extends VerticalPanel {
 				RootPanel.get("Buttonbar").clear();
 				RootPanel.get("Details").add(main);
 				RootPanel.get("Navigator").add(updatedTree);
-			}
+			
 		}
 
 	}
