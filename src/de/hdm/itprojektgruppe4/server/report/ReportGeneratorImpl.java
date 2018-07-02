@@ -112,6 +112,8 @@ public class ReportGeneratorImpl extends RemoteServiceServlet implements ReportG
 		headline.addColumn(new Column("Geteilt mit"));
 		headline.addColumn(new Column("Erstellt von"));
 		headline.addColumn(new Column("Eigenschaften"));
+		headline.addColumn(new Column("Erzeugungsdatum"));
+		headline.addColumn(new Column("Modifikationsdatum"));
 
 		result.addRow(headline);
 		/*
@@ -151,6 +153,10 @@ public class ReportGeneratorImpl extends RemoteServiceServlet implements ReportG
 					.addColumn(new Column(String.valueOf(this.verwaltung.findNutzerByID(k.getNutzerID()).getEmail())));
 
 			kontaktRow.addColumn(new Column(auspraegung.toString().replace("[", "").replace("]", "").replace(",", "")));
+
+			kontaktRow.addColumn(new Column(String.valueOf(k.getErzeugungsdatum())));
+
+			kontaktRow.addColumn(new Column(String.valueOf(k.getModifikationsdatum())));
 
 			/*
 			 * Zeile wird dem Report hinzugefpgt
@@ -215,7 +221,8 @@ public class ReportGeneratorImpl extends RemoteServiceServlet implements ReportG
 		headline.addColumn(new Column("Erstellt von"));
 		headline.addColumn(new Column("Teilhaber"));
 		headline.addColumn(new Column("Eigenschaft"));
-
+		headline.addColumn(new Column("Erzeugungsdatum"));
+		headline.addColumn(new Column("Modifikationsdatum"));
 		/*
 		 * Hinzuf�gen der Kopfzeile
 		 */
@@ -245,6 +252,10 @@ public class ReportGeneratorImpl extends RemoteServiceServlet implements ReportG
 			kontaktRow.addColumn(new Column(String.valueOf(teilhaber.getEmail())));
 
 			kontaktRow.addColumn(new Column(auspraegung.toString().replace("[", "").replace("]", "").replace(",", "")));
+
+			kontaktRow.addColumn(new Column(String.valueOf(k.getErzeugungsdatum())));
+
+			kontaktRow.addColumn(new Column(String.valueOf(k.getModifikationsdatum())));
 
 			result.addRow(kontaktRow);
 		}
@@ -305,8 +316,7 @@ public class ReportGeneratorImpl extends RemoteServiceServlet implements ReportG
 		 */
 		headline.addColumn(new Column("Kontakt"));
 		headline.addColumn(new Column("Status"));
-		headline.addColumn(new Column("Nutzer"));
-		headline.addColumn(new Column("Modifikationsdatum"));
+		headline.addColumn(new Column("Erstellt von"));
 		headline.addColumn(new Column("Eigenschaft"));
 		headline.addColumn(new Column("Auspraegung"));
 		headline.addColumn(new Column("Erzeugungsdatum"));
@@ -407,12 +417,14 @@ public class ReportGeneratorImpl extends RemoteServiceServlet implements ReportG
 		/*
 		 * �berschriften der jeweiligen Spalten in der Kopfzeile
 		 */
+
 		headline.addColumn(new Column("Kontakt"));
 		headline.addColumn(new Column("Status"));
 		headline.addColumn(new Column("Erstellt von"));
 		headline.addColumn(new Column("Eigenschaft"));
 		headline.addColumn(new Column("Auspraegung"));
-
+		headline.addColumn(new Column("Erzeugungsdatum"));
+		headline.addColumn(new Column("Modifikationsdatum"));
 		result.addRow(headline);
 
 		/*
@@ -444,6 +456,10 @@ public class ReportGeneratorImpl extends RemoteServiceServlet implements ReportG
 					kontaktRow.addColumn(new Column(String.valueOf(e.getBezeichnung())));
 
 					kontaktRow.addColumn(new Column(String.valueOf(ea.getWert())));
+
+					kontaktRow.addColumn(new Column(String.valueOf(t.getErzeugungsdatum())));
+
+					kontaktRow.addColumn(new Column(String.valueOf(t.getModifikationsdatum())));
 
 					// Hinzuf�gen der Kopfzeile
 					result.addRow(kontaktRow);
@@ -502,11 +518,14 @@ public class ReportGeneratorImpl extends RemoteServiceServlet implements ReportG
 		/*
 		 * �berschriften der jeweiligen Spalten in der Kopfzeile
 		 */
+
 		headline.addColumn(new Column("Kontakt"));
-		headline.addColumn(new Column("Erzeugungsdatum"));
-		headline.addColumn(new Column("Modifikationsdatum"));
+		headline.addColumn(new Column("Status"));
+		headline.addColumn(new Column("Erstellt von"));
 		headline.addColumn(new Column("Eigenschaft"));
 		headline.addColumn(new Column("Auspraegung"));
+		headline.addColumn(new Column("Erzeugungsdatum"));
+		headline.addColumn(new Column("Modifikationsdatum"));
 		result.addRow(headline);
 
 		/*
@@ -538,6 +557,10 @@ public class ReportGeneratorImpl extends RemoteServiceServlet implements ReportG
 					kontaktRow.addColumn(new Column(String.valueOf(e.getBezeichnung())));
 
 					kontaktRow.addColumn(new Column(String.valueOf(ea.getWert())));
+
+					kontaktRow.addColumn(new Column(String.valueOf(t.getErzeugungsdatum())));
+
+					kontaktRow.addColumn(new Column(String.valueOf(t.getModifikationsdatum())));
 
 					result.addRow(kontaktRow);
 				}
