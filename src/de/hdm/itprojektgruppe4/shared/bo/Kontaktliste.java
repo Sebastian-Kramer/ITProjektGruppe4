@@ -3,7 +3,7 @@ package de.hdm.itprojektgruppe4.shared.bo;
 /**
  * Realisierung einer exemplarischen Kontaktliste
  */
-import java.util.*;
+
 
 
 public class Kontaktliste extends BusinessObject {

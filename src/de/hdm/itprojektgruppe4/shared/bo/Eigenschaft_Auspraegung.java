@@ -6,6 +6,8 @@ package de.hdm.itprojektgruppe4.shared.bo;
  */
 public class Eigenschaft_Auspraegung extends BusinessObject{
 	
+	private static final long serialVersionUID = 1L;
+	
 	/**
 	 * Eindeutige Id der Eigenschaft
 	 */

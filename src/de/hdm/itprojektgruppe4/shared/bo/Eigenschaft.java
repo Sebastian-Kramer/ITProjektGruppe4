@@ -4,7 +4,6 @@ package de.hdm.itprojektgruppe4.shared.bo;
  * Realisierung einer exemplarischen Eigenschaft
  */
 
-import java.util.*;
 
 
 public class Eigenschaft extends BusinessObject {

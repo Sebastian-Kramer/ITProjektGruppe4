@@ -50,7 +50,7 @@ public class TeilhaberschaftForm extends VerticalPanel {
 	private HorizontalPanel nutzerSuchenPanel = new HorizontalPanel();
 
 	private Button zurueck = new Button("Zurück");
-	private Button allTeilen = new Button("Alle Eigenschaftsausprägung teilen");
+	private Button allTeilen = new Button("Alle Eigenschaftsausprägungen teilen");
 	private Button einzTeilen = new Button("Ausgewählte Eigenschaftsausprägungen teilen");
 	private Button allLoeschen = new Button("Alle Teilhaberschaften löschen");
 
@@ -62,8 +62,10 @@ public class TeilhaberschaftForm extends VerticalPanel {
 	private Image teilen = new Image("Image/Teilen2.png");
 	private Image teilen2 = new Image("Image/Teilen1.png");
 	private Image teilen3 = new Image("Image/Teilen1.png");
+
 	private Image getBackPic = new Image("Image/Startseite.png");
-	private Image deletePic = new Image("Image/Löschen.png");
+	private Image deletePic = new Image("Image/Loeschen.png");
+
 	
 
 	private ScrollPanel scrollPanel = new ScrollPanel();
@@ -440,7 +442,7 @@ public class TeilhaberschaftForm extends VerticalPanel {
 		public void onSuccess(Integer result) {
 
 			if (result == 1) {
-				Window.alert("Die Teilhaberschaft wurden erfolgreich mit dem Nutzer " + nutzerSugBox.getValue()
+				Window.alert("Die Teilhaberschaft wurde erfolgreich bei dem Nutzer: " + nutzerSugBox.getValue()
 						+ " angelegt");
 				if (kon.getNutzerID() == nutzer.getID()) {
 					kon.setStatus(1);
@@ -453,7 +455,7 @@ public class TeilhaberschaftForm extends VerticalPanel {
 					RootPanel.get("Details").add(tf);
 				}
 			} else {
-				Window.alert("Mit dem Nutzer " + nutzerSugBox.getValue() + " besteht bereits eine Teilhaberschaft");
+				Window.alert("Mit dem Nutzer " + nutzerSugBox.getValue() + " besteht bereits eine Teilhaberschaft.");
 				if (kon.getNutzerID() == nutzer.getID()) {
 					TeilhaberschaftForm tf = new TeilhaberschaftForm(kon);
 					RootPanel.get("Details").clear();
