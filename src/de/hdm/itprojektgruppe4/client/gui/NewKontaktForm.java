@@ -148,7 +148,6 @@ public class NewKontaktForm extends VerticalPanel {
 
 	};
 
-	KontaktlisteKontaktTreeViewModel kktvw = null;
 
 	/**
 	 * Die onLoad()-Methode wird beim Starten der NewKontaktForm geladen. Es
@@ -239,7 +238,7 @@ public class NewKontaktForm extends VerticalPanel {
 
 	}
 
-	/*
+	/**
 	 * Nasted AsyncCallback - Classes, Click/Selection - Handler und
 	 * FieldUpdater - Classes.
 	 */

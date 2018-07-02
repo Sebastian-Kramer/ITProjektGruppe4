@@ -56,7 +56,7 @@ public class KontaktForm extends VerticalPanel {
 	private ScrollPanel scrollPanel = new ScrollPanel();
 	private Button bearbeitenButton = new Button("Kontakt bearbeiten");
 	private Button loeschenButton = new Button("Kontakt löschen");
-	private Button zurueckBtn = new Button("Zurück");
+	private Button zurueckBtn = new Button("Zurück zur Startseite");
 	private Button kontaktListehinzufuegen = new Button("Kontakt einer Liste hinzufügen");
 	private Button kontaktTeilen = new Button("Teilhaberschaft verwalten");
 	private boolean deleteKonAlert;
@@ -75,7 +75,7 @@ public class KontaktForm extends VerticalPanel {
 	private Image loeschenPic = new Image("Image/Löschen.png");
 	private Image bearbeitenPic = new Image("Image/Bearbeiten.png");
 	private Image konZuListPic = new Image("Image/Kontakt_Zu_Liste.png");
-	private Image zurueckZuHome = new Image("Image/Back.png");
+	private Image zurueckZuHome = new Image("Image/Startseite.png");
 	private Image teilVerwaltenPic = new Image("Image/Teilen.png");
 
 	public KontaktForm(Kontakt k) {
