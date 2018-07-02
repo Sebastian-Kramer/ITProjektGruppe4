@@ -606,3 +606,13 @@ button.edit-Button {
 	text-align: -webkit-center;
 	font-size: 15px;
 }
+
+
+.gwt-SuggestBoxPopup { 
+	 
+	  background: #000 repeating-linear-gradient(-45deg, SeaGreen, LimeGreen, Gainsboro);
+}
+
+.gwt-SuggestBoxPopup .suggestPopupTopLeft {
+	background: url(images/SuggestBoxBackground.png) no-repeat 0px -6px; !important
+}
