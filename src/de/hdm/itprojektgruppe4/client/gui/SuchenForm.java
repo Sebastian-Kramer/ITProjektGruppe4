@@ -2,6 +2,7 @@ package de.hdm.itprojektgruppe4.client.gui;
 
 import java.util.Vector;
 
+import com.google.gwt.aria.client.SelectedValue;
 import com.google.gwt.cell.client.ClickableTextCell;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
@@ -162,8 +163,8 @@ public class SuchenForm extends VerticalPanel {
 		tboxAuspraegung.setStyleName("DialogboxBackground");
 
 		ctAus.setSelectionModel(ssm);
-		ctAus.addColumn(bezEigenschaft, "Eig");
-		ctAus.addColumn(wertAuspraegung, "Aus");
+		ctAus.addColumn(bezEigenschaft, "Eigenschaft");
+		ctAus.addColumn(wertAuspraegung, "Ausprägung");
 		ctAus.addColumn(kontaktName, "Zugehöriger Kontakt");
 		ctAus.setStyleName("TableAuspraegung");
 		suchenKonPic.setStyleName("ButtonICON");
@@ -177,12 +178,9 @@ public class SuchenForm extends VerticalPanel {
 		vpanel2.add(ctAus);
 		vpanel1.add(ctkontakt);
 		hpanelRechts.add(ctAus);
-
-		hpanelRechts.add(auspraegungKontaktAnzeigenButton);
+		vpanel3.add(auspraegungKontaktAnzeigenButton);
 		vpanel3.add(kontaktKontaktAnzeigenButton);
 
-		hpanelRechts.add(auspraegungKontaktAnzeigenButton);
-		vpanel3.add(kontaktKontaktAnzeigenButton);
 
 		this.add(vpanelTop);
 		this.add(HTMLForm);
@@ -198,9 +196,10 @@ public class SuchenForm extends VerticalPanel {
 
 		this.add(vpanel1);
 		this.add(vpanel2);
-		this.add(vpanel3);
 		this.add(hpanelRechts);
-
+		this.add(vpanel3);
+		
+		
 		kontaktKontaktAnzeigenButton.addClickHandler(new KontaktKontaktAnzeigenHandler());
 		auspraegungKontaktAnzeigenButton.addClickHandler(new AuspraegungKontaktAnzeigenHandler());
 		verwaltung.findAllKontaktFromNutzer(nutzer.getID(), new AllKontakteCallBack());
@@ -252,10 +251,17 @@ public class SuchenForm extends VerticalPanel {
 		public void onClick(ClickEvent event) {
 
 			kontaktKontaktAnzeigenButton.setText("");
+			
 			Kontakt selected = sm.getSelectedObject();
+			if(selected.getNutzerID() == nutzer.getID()){
 			KontaktForm kf = new KontaktForm(selected);
 			RootPanel.get("Details").clear();
 			RootPanel.get("Details").add(kf);
+			}else{
+			KontaktForm kf = new KontaktForm(selected, "teilhaberschaft");
+			RootPanel.get("Details").clear();
+			RootPanel.get("Details").add(kf);
+			}
 		}
 
 	}
@@ -289,7 +295,7 @@ public class SuchenForm extends VerticalPanel {
 			kontaktKontaktAnzeigenButton.setVisible(true);
 
 			verwaltung.findGesuchteKontakte(k, new FindKontaktCallback());
-
+			suggestionKontaktBox.setText("");
 		}
 	}
 
@@ -317,7 +323,7 @@ public class SuchenForm extends VerticalPanel {
 			kontaktKontaktAnzeigenButton.setVisible(false);
 			auspraegungKontaktAnzeigenButton.setVisible(true);
 			verwaltung.getAuspraegungByWert(tboxAuspraegung.getValue(), new FindAuspraegungCallback());
-
+			tboxAuspraegung.setText("");
 		}
 
 	}

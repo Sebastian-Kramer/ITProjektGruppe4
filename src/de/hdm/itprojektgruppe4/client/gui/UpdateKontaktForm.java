@@ -259,7 +259,7 @@ public class UpdateKontaktForm extends VerticalPanel {
 						"Diese Ausprägung ist mit jemand geteilt, möchten Sie diese Ausprägung dennoch löschen ?");
 				if (deleteAuspraegung == true) {
 					verwaltung.deleteEigenschaftUndAuspraegung(ea, new AuspraegungHybridLoeschenCallback());
-
+					verwaltung.updateKontakt(kon, new KontaktModifikationsdatumCallback());
 				}
 				// Window.alert("Sie müssen als erstes alle Teilhaberschaften an
 				// dieser Ausprägung löschen");
@@ -277,7 +277,7 @@ public class UpdateKontaktForm extends VerticalPanel {
 
 		@Override
 		public void onClick(ClickEvent event) {
-
+			
 			if (kon.getNutzerID() == nutzer.getID()) {
 				KontaktForm kf = new KontaktForm(kon);
 				RootPanel.get("Details").clear();
@@ -326,6 +326,7 @@ public class UpdateKontaktForm extends VerticalPanel {
 			if (event.getNativeKeyCode() == KeyCodes.KEY_ENTER) {
 				kon.setName(txt_KontaktName.getValue());
 				verwaltung.updateKontakt(kon, new KontaktModifikationsdatumCallback());
+				Window.alert("Sie haben den Namen des Kontaktes in " + kon.getName() + " geändert!");
 			}
 		}
 
@@ -347,6 +348,8 @@ public class UpdateKontaktForm extends VerticalPanel {
 
 		@Override
 		public void onSuccess(Kontakt result) {
+			kon = result;
+			kon.setModifikationsdatum(new Date());
 			if (kon.getNutzerID() == nutzer.getID()) {
 				verwaltung.findHybrid(kon, new ReloadCallback());
 			} else {
