@@ -115,7 +115,6 @@ public class ITProjektSS18 implements EntryPoint {
 	 * @return
 	 */
 	private Nutzer checkNewNutzer(LoginInfo result) {
-		final LoginInfo finalLog = result;
 
 		Nutzer nutzer = null;
 		verwaltung.findNutzerByEmail(result.getEmailAddress(), new AsyncCallback<Nutzer>() {
@@ -123,16 +122,12 @@ public class ITProjektSS18 implements EntryPoint {
 			@Override
 			public void onFailure(Throwable caught) {
 
-				Window.alert("Nutzer konnte nicht aus der Datenbank gelsesen werden." + " Daher wird "
-						+ finalLog.getEmailAddress() + "angelegt");
-
 			}
 
 			@Override
 			public void onSuccess(Nutzer result) {
 				if (!result.getEmail().equals(null)) {
-					Window.alert(
-							"Hallo " + result.getEmail() + " wir konnten dich erfolgreich aus der Datenbank lesen.");
+
 					ClientsideSettings.setAktuellerNutzer(result);
 					loggedNutzer = new Anchor(result.getEmail());
 					Cookies.setCookie("email", result.getEmail());
@@ -151,7 +146,6 @@ public class ITProjektSS18 implements EntryPoint {
 
 						@Override
 						public void onSuccess(Nutzer result) {
-							Window.alert("Nutzer " + finalLog.getEmailAddress() + " wurde erfolgreich angelegt.");
 							Cookies.setCookie("email", result.getEmail());
 							Cookies.setCookie("id", result.getID() + "");
 							loggedNutzer = new Anchor(result.getEmail());

@@ -16,7 +16,8 @@ import de.hdm.itprojektgruppe4.shared.report.AllEigeneKontakteReport;
 import de.hdm.itprojektgruppe4.shared.report.HTMLReportWriter;
 
 /**
- * Klasse f�r den Report welche die Eigenen Kontakte in Form eines Reports
+
+ * Klasse für den Report welche die Eigenen Kontakte in Form eines Reports
  * ausgibt
  * 
  * @author Georg

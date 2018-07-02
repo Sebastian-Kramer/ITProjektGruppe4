@@ -56,7 +56,7 @@ public class KontaktForm extends VerticalPanel {
 	private ScrollPanel scrollPanel = new ScrollPanel();
 	private Button bearbeitenButton = new Button("Kontakt bearbeiten");
 	private Button loeschenButton = new Button("Kontakt löschen");
-	private Button zurueckBtn = new Button("Zurück");
+	private Button zurueckBtn = new Button("Zurück zur Startseite");
 	private Button kontaktListehinzufuegen = new Button("Kontakt einer Liste hinzufügen");
 	private Button kontaktTeilen = new Button("Teilhaberschaft verwalten");
 	private boolean deleteKonAlert;
@@ -74,8 +74,10 @@ public class KontaktForm extends VerticalPanel {
 	private Image sharedPic = new Image("Image/contactShared.png");
 	private Image loeschenPic = new Image("Image/Loeschen.png");
 	private Image bearbeitenPic = new Image("Image/Bearbeiten.png");
+
 	private Image konZuListPic = new Image("Image/KontaktZuListe.png");
 	private Image zurueckZuHome = new Image("Image/Back.png");
+
 	private Image teilVerwaltenPic = new Image("Image/Teilen.png");
 	/**
 	 * Einfacher Konstruktor in dem nur ein Kontaktobjekt übergeben wird.

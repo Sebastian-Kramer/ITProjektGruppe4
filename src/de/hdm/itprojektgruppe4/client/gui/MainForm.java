@@ -17,7 +17,7 @@ import de.hdm.itprojektgruppe4.shared.bo.Kontaktliste;
 import de.hdm.itprojektgruppe4.shared.bo.Nutzer;
 
 /**
- * 
+ * Diese Klasse stellt die Startseite der Kontaktverwaltung dar
  * @author Sebi_
  *
  */

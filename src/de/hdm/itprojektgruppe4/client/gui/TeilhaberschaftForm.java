@@ -62,8 +62,10 @@ public class TeilhaberschaftForm extends VerticalPanel {
 	private Image teilen = new Image("Image/Teilen2.png");
 	private Image teilen2 = new Image("Image/Teilen1.png");
 	private Image teilen3 = new Image("Image/Teilen1.png");
+
 	private Image getBackPic = new Image("Image/Startseite.png");
 	private Image deletePic = new Image("Image/Loeschen.png");
+
 	
 
 	private ScrollPanel scrollPanel = new ScrollPanel();
