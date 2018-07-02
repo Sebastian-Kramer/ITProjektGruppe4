@@ -20,8 +20,8 @@ import de.hdm.itprojektgruppe4.shared.report.HTMLReportWriter;
 import de.hdm.itprojektgruppe4.shared.report.KontakteMitBestimmterTeilhaberschaftReport;
 
 /**
- * Klasse für die Erstellung des Reports,
- * welche sämtliche Kontakte des Nutzes die mit bestimmten Nutzern 
+ * Klasse fï¿½r die Erstellung des Reports,
+ * welche sï¿½mtliche Kontakte des Nutzes die mit bestimmten Nutzern 
  * geteilt worden sind ausgibt
  * @author Georg
  *
@@ -61,7 +61,9 @@ public class TeilhaberschaftFormReport extends VerticalPanel {
 
 	}
 
-	
+	/*
+	 * Aufruf des Callbacks, welcher den Nutzer ausliest
+	 */
 	class NutzerlisteClickHandler implements ClickHandler {
 
 		@Override
@@ -72,6 +74,12 @@ public class TeilhaberschaftFormReport extends VerticalPanel {
 
 	}
 
+	/**
+	 * Aufruf des Callback fÃ¼r die SuggestBox, welcher
+	 * Nutzer wiedergibt
+	 * @author Georg
+	 *
+	 */
 	class AllNutzerCallback implements AsyncCallback<Vector<Nutzer>> {
 
 		@Override
@@ -100,13 +108,21 @@ public class TeilhaberschaftFormReport extends VerticalPanel {
 	 *  Aufruf des Report Callback
 	 *  hierbei wird die ID und Email des Nutzer gesetzt 
 	 *  dannach wird der Report aufgerufen
-	 *  und anschließen erfolgt die Procces methode der Klasse HTMLReportWrtitter
-	 *  und Sämtliche Kontakte die mit bestimmten Nutzern geteilt worden sind,
+	 *  und anschlieï¿½en erfolgt die Procces methode der Klasse HTMLReportWrtitter
+	 *  und Sï¿½mtliche Kontakte die mit bestimmten Nutzern geteilt worden sind,
 	 *  werden in Form eines Reports ausgebgeben 
 	 * @author Georg
 	 *
 	 */
 
+	/**
+	 * Aufruf des Callback, welcher Kontakte 
+	 * mit bestimmter Teilhaberschaft
+	 * in Form eines Reports
+	 * wiedergibt
+	 * @author Georg
+	 *
+	 */
 	class FindNutzerCallBack implements AsyncCallback<Nutzer> {
 
 		@Override
