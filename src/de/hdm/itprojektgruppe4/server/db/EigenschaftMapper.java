@@ -18,9 +18,18 @@ import de.hdm.itprojektgruppe4.shared.bo.Kontakt;
  */
 
 public class EigenschaftMapper {
+	
+	/**
+     * Der Mapper ist ein Singelton.
+     * Variable ist "static" und speichert die einzige Instanz dieser Klasse.
+     */
 
 	private static EigenschaftMapper eigenschaftMapper = null;
 
+	/**
+	 * geschützter Konstruktor, der verhindert, dass Klasse mit "new" instanziert wird.
+	 */
+	
 	protected EigenschaftMapper() {
 	};
 
@@ -31,6 +40,11 @@ public class EigenschaftMapper {
 		return eigenschaftMapper;
 	}
 
+	/**
+	 * Suchen von Eigenschaften nach Bezeichnung
+	 * @param bez
+	 * @return result
+	 */
 	public Vector<Eigenschaft> getEigenschaftByBezeichnung(String bez) {
 
 		// Verbindung zur Datenbank aufbauen
@@ -250,7 +264,13 @@ public class EigenschaftMapper {
 		return result;
 
 	}
-
+/**
+ * suchen einer EIgenschaftsausprägung anhand der ID
+ * 
+ * @param id
+ * @return result
+ */
+	
 	public Vector<Eigenschaft> findAllEigenschaftFromAuspraegungID(int id) {
 
 		Vector<Eigenschaft> result = new Vector<Eigenschaft>();

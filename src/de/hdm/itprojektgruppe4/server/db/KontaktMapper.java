@@ -20,8 +20,16 @@ public class KontaktMapper extends PersonMapper {
 
 	SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
 	
+	/**
+     * Der Mapper ist ein Singelton.
+     * Variable ist "static" und speichert die einzige Instanz dieser Klasse.
+     */
+	
 	private static KontaktMapper kontaktMapper = null;
 	
+	/**
+	 * geschützter Konstruktor, der verhindert, dass Klasse mit "new" instanziert wird.
+	 */
 	
 	protected KontaktMapper() {
 	};

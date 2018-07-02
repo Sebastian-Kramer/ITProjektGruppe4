@@ -17,9 +17,18 @@ import de.hdm.itprojektgruppe4.shared.bo.Teilhaberschaft;
  */
 
 public class TeilhaberschaftMapper {
+	
+	/**
+     * Der Mapper ist ein Singelton.
+     * Variable ist "static" und speichert die einzige Instanz dieser Klasse.
+     */
 
 	private static TeilhaberschaftMapper teilhaberschaftMapper = null;
 
+	/**
+	 * geschützter Konstruktor, der verhindert, dass Klasse mit "new" instanziert wird.
+	 */
+	
 	protected TeilhaberschaftMapper() {
 
 	};
@@ -78,6 +87,11 @@ public class TeilhaberschaftMapper {
 		return null;
 	}
 
+	/**
+	 * Suchen einer Teilhaberschaft anhand einer Kontaktlisten ID
+	 * @param kontaktlisteID
+	 * @return result
+	 */
 	public Vector<Teilhaberschaft> findTeilhaberschaftByKontaktlisteID(int kontaktlisteID) {
 
 		Vector<Teilhaberschaft> result = new Vector<Teilhaberschaft>();
@@ -109,6 +123,13 @@ public class TeilhaberschaftMapper {
 
 		return result;
 	}
+	
+	/**
+	 * Suchen einer Teilhaberschaft anhand der Kontakt Id
+	 * @param kontaktID
+	 * @return result
+	 * 
+	 */
 
 	public Vector<Teilhaberschaft> findTeilhaberschaftByKontaktID(int kontaktID) {
 
@@ -140,6 +161,14 @@ public class TeilhaberschaftMapper {
 
 		return result;
 	}
+	
+	/**
+	 * SUchen einer Teilhaberschaft anhand von Kontakt und Nutzer
+	 * @param kontaktID
+	 * @param nutzerID
+	 * @return result
+	 */
+	
 	
 	public Vector<Teilhaberschaft> findTeilhaberschaftByKontaktIDAndNutzerID(int kontaktID, int nutzerID) {
 
@@ -175,10 +204,10 @@ public class TeilhaberschaftMapper {
 	
 
 	/**
-	 * 
+	 * Suchern einer Teilhaberschaft anhand von Kontakt Id und Teilhaber ID
 	 * @param kontaktID
 	 * @param teilhaberID
-	 * @return
+	 * @return result
 	 */
 	public Vector<Teilhaberschaft> findTeilhaberschaftByKontaktIDAndTeilhaberID(int kontaktID, int teilhaberID) {
 
@@ -210,6 +239,13 @@ public class TeilhaberschaftMapper {
 
 		return result;
 	}
+	
+	/**
+	 * Suchen einer Teilhaberscahft anhand der Kontaktlisten ID und der Teilhaber ID
+	 * @param kontaktlisteID
+	 * @param teilhaberID
+	 * @return result
+	 */
 
 	public Vector<Teilhaberschaft> findTeilhaberschaftByKontaktlisteIDAndTeilhaberID(int kontaktlisteID,
 			int teilhaberID) {
@@ -243,6 +279,12 @@ public class TeilhaberschaftMapper {
 		return result;
 	}
 
+	/**
+	 * Suchen einer Teilhaberschaft anhand von Teilhaber ID und nutzer Id
+	 * @param teilhaberID
+	 * @param nutzerID
+	 * @return result
+	 */
 	public Vector<Teilhaberschaft> findTeilhaberschaftByTeilhaberIDAndNutzerID(int teilhaberID, int nutzerID) {
 
 		Vector<Teilhaberschaft> result = new Vector<Teilhaberschaft>();
@@ -319,10 +361,10 @@ public class TeilhaberschaftMapper {
 	}
 
 	/**
-	 * 
+	 * Suchen einer Teilhaberschaft anhand von Kontaktlisten ID und Teilhaber ID
 	 * @param kontaktID
 	 * @param kontaktlisteID
-	 * @return
+	 * @return th
 	 */
 	public Teilhaberschaft findByTeilhaberschaftByKontaktlistIDAndTeilhaberID(int kontaktlisteID, int teilhaberID) {
 
@@ -405,10 +447,10 @@ public class TeilhaberschaftMapper {
 	}
 
 	/**
-	 * 
+	 *  Suchen einer Teilhaberschaft anhand von Ausprägungs ID und Teilhaber ID
 	 * @param nutzerID
 	 * @param kontaktlisteID
-	 * @return
+	 * @return 
 	 */
 	public Teilhaberschaft findTeilhaberschaftByAuspraegungIdAndTeilhaberId(int auspraegungID, int teilhaberID) {
 
@@ -528,6 +570,12 @@ public class TeilhaberschaftMapper {
 
 		return result;
 	}
+	
+	/**
+	 *  ein Objekt vom Typ Person wird aus der DB gel�scht 
+	 * @param kontaktID
+	 * 	die zu l�schende Person
+	 */
 
 	public void deleteTeilhaberschaftByKontaktID(int kontaktID) {
 		Connection con = DBConnection.connection();
@@ -544,6 +592,10 @@ public class TeilhaberschaftMapper {
 		}
 	}
 	
+	/**
+	 * Löschen einer Teilhaberscahft anhand der AUspraegungs ID
+	 * @param auspraegungID
+	 */
 	public void deleteTeilhaberschaftByAuspraegungID(int auspraegungID) {
 		Connection con = DBConnection.connection();
 
@@ -560,7 +612,7 @@ public class TeilhaberschaftMapper {
 	}
 
 	/**
-	 * 
+	 * Löschen einer Teilhaberscahft anhand einer Kontakt ID und der Teilhaber ID
 	 * @param kontaktID
 	 * @param teilNutzerID
 	 */
@@ -581,7 +633,7 @@ public class TeilhaberschaftMapper {
 	}
 	
 	/**
-	 * 
+	 * Löschen einer Teilhaberschaft anhand von AusprägungsID und Teilhaber ID
 	 * @param kontaktID
 	 * @param teilNutzerID
 	 */
@@ -602,7 +654,7 @@ public class TeilhaberschaftMapper {
 	}
 
 	/**
-	 * 
+	 *  Löschen einer Teilhaberschaft anhand von Kontakt ID und Teilhaber ID
 	 * @param kontaktID
 	 * @param teilNutzerID
 	 */
@@ -768,6 +820,11 @@ public class TeilhaberschaftMapper {
 
 	}
 
+	/**
+	 * Finden einer Teilhaberschaft anhand einer Kontaktlisten ID
+	 * @param kontaktlisteID
+	 * @return
+	 */
 	public Vector<Teilhaberschaft> findTeilhaberschaftenByKontaktlisteID(int kontaktlisteID) {
 		Vector<Teilhaberschaft> result = new Vector<Teilhaberschaft>();
 
@@ -1164,6 +1221,13 @@ public class TeilhaberschaftMapper {
 		}
 
 	}
+	
+	/**
+	 * 
+	 * @param teilhaberID
+	 * @param nutzerID
+	 * @return
+	 */
 
 	public Vector<Teilhaberschaft> findGeteilteKontakteFromNutzerAndTeilhaber(int teilhaberID, int nutzerID) {
 		Vector<Teilhaberschaft> result = new Vector<Teilhaberschaft>();

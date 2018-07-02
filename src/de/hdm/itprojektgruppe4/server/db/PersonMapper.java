@@ -15,10 +15,15 @@ import de.hdm.itprojektgruppe4.shared.bo.Person;
 
 public class PersonMapper {
 
-	
+	/**
+     * Der Mapper ist ein Singelton.
+     * Variable ist "static" und speichert die einzige Instanz dieser Klasse.
+     */
 	
 	private static PersonMapper personMapper = null;
-	
+	/**
+	 * geschützter Konstruktor, der verhindert, dass Klasse mit "new" instanziert wird.
+	 */
 	
 	protected PersonMapper() {
 	};

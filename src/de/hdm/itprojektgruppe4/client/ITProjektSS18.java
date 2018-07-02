@@ -35,8 +35,8 @@ public class ITProjektSS18 implements EntryPoint {
 	private Anchor deleteNutzer = new Anchor("Konto löschen");
 	private Anchor loggedNutzer;
 	private boolean sureDelete;
+	private boolean sureLogOut;
 
-	
 	Nutzer n = new Nutzer();
 
 	LoginServiceAsync loginService = GWT.create(LoginService.class);
@@ -55,7 +55,21 @@ public class ITProjektSS18 implements EntryPoint {
 	public void onModuleLoad() {
 
 		impressum.setStyleName("Impressum");
+
 		signOutLink.setStyleName("Logout");
+		signOutLink.addClickHandler(new ClickHandler() {
+
+			@Override
+			public void onClick(ClickEvent event) {
+				sureLogOut= Window.confirm("Möchten Sie sich wirklich ausloggen?");
+				if (sureLogOut == true) {
+					signOutLink.setHref(loginInfo.getLogoutUrl());
+					
+				}
+				
+			}
+		});
+
 		startseite.setStyleName("Startseite");
 		eingeloggt.setStyleName("AktiverUser");
 		deleteNutzer.setStyleName("KontoLoeschen");
@@ -174,7 +188,7 @@ public class ITProjektSS18 implements EntryPoint {
 	private void loadStartseite() {
 		MainForm mainForm = new MainForm();
 		NavigationTree navigationTree = new NavigationTree();
-		signOutLink.setHref(loginInfo.getLogoutUrl());
+		//signOutLink.setHref(loginInfo.getLogoutUrl());
 		RootPanel.get("Header").add(eingeloggt);
 		RootPanel.get("Header").add(loggedNutzer);
 		RootPanel.get("Header").add(deleteNutzer);
@@ -258,9 +272,6 @@ public class ITProjektSS18 implements EntryPoint {
 		public void onClick(ClickEvent event) {
 			// TODO Auto-generated method stub
 
-		
-
-			
 			sureDelete = Window.confirm("Möchten Sie Ihr Nutzerprofil vollständig löschen?");
 			if (sureDelete == true) {
 				Nutzer n1 = new Nutzer();
@@ -283,7 +294,7 @@ public class ITProjektSS18 implements EntryPoint {
 
 		@Override
 		public void onSuccess(Void result) {
-			
+
 			Anchor signOutLink = new Anchor();
 			Window.alert("Nutzer wurde gelöscht");
 			signOutLink.setHref(Cookies.getCookie("signout"));
