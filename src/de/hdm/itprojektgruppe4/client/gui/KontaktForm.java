@@ -77,7 +77,11 @@ public class KontaktForm extends VerticalPanel {
 	private Image konZuListPic = new Image("Image/Kontakt_Zu_Liste.png");
 	private Image zurueckZuHome = new Image("Image/Back.png");
 	private Image teilVerwaltenPic = new Image("Image/Teilen.png");
-
+	/**
+	 * Einfacher Konstruktor in dem nur ein Kontaktobjekt übergeben wird.
+	 * 
+	 * @param k
+	 */
 	public KontaktForm(Kontakt k) {
 		this.k = k;
 		ctf = new CellTableForm(k);
@@ -89,7 +93,12 @@ public class KontaktForm extends VerticalPanel {
 		}
 
 	}
-
+	/**
+	 * Konstruktor für geteilte Kontakte
+	 * 
+	 * @param k
+	 * @param teilhaberschaft
+	 */
 	public KontaktForm(Kontakt k, String teilhaberschaft) {
 
 		this.k = k;
@@ -104,7 +113,7 @@ public class KontaktForm extends VerticalPanel {
 	}
 
 	/**
-	 * Konsturktor für Kontakte die in einer geteilten Liste sind -> Read ONLY
+	 * Konstruktor für Kontakte die in einer geteilten Liste sind -> Read ONLY
 	 * 
 	 * @param k
 	 * @param shared
@@ -118,7 +127,12 @@ public class KontaktForm extends VerticalPanel {
 		kontaktListehinzufuegen.setVisible(false);
 		sharedPic.setVisible(false);
 	}
-
+	/**
+	 * Die onLoad() Methode wird bei Aufruf von KontaktForm ausgeführt.
+	 * Cookies werden überprüft und Widgets und Panels gesetzt.
+	 * @author Clirim
+	 *
+	 */
 	public void onLoad() {
 
 		super.onLoad();
@@ -176,17 +190,28 @@ public class KontaktForm extends VerticalPanel {
 		kontaktTeilen.getElement().appendChild(teilVerwaltenPic.getElement());
 		loeschenButton.addClickHandler(new ClickLoeschenHandler());
 		zurueckBtn.addClickHandler(new ClickZurueckHandler());
-		bearbeitenButton.addClickHandler(new ClickearbeitenHandler());
+		bearbeitenButton.addClickHandler(new ClickBearbeitenHandler());
 		kontaktTeilen.addClickHandler(new ClickTeilenHandler());
 		kontaktListehinzufuegen.addClickHandler(new ClickHinzufuegenHandler());
-
+		/**
+		 * Abfrage des Status - wenn der Status nicht 0 ist wird das 
+		 * Geteilt-Icon gesetzt.
+		 * @author Clirim
+		 *
+		 */
 		if (k.getStatus() == 0) {
 			sharedPic.setVisible(false);
 		} else if (k.getStatus() == 1) {
 			sharedPic.setVisible(true);
 
 		}
-
+		/**
+		 * Methode die mit einem MouseOverHandler dafür sorgt, 
+		 * dass eine Informative Anzeige erscheint wenn mit die Maus auf dem 
+		 * Geteilt-Icon liegt. 
+		 * @author Clirim
+		 *
+		 */
 		if (k.getNutzerID() == nutzer.getID()) {
 
 			sharedPic.addMouseOverHandler(new MouseOverHandler() {
@@ -201,7 +226,12 @@ public class KontaktForm extends VerticalPanel {
 		}
 
 	}
-
+	/**
+	 * In dieser abstrakten Klasse wird die informative Anzeige in Form einer PopUpInfo
+	 * erzeugt. Diese Zeigt alle Nutzer an an die ein Objekt geteilt ist.
+	 * @author Clirim
+	 *
+	 */
 	private class PopUpInfo extends PopupPanel {
 
 		public PopUpInfo() {
@@ -222,7 +252,12 @@ public class KontaktForm extends VerticalPanel {
 		}
 
 	}
-
+	/**
+	 * In dem ClickHandler ClickLoeschenHandler wird nach einer Nutzerüberprüfung,
+	 * entweder der ganze Kontakt gelöscht oder die Teilhaberschaft entfernt. 
+	 * @author Clirim
+	 *
+	 */
 	private class ClickLoeschenHandler implements ClickHandler {
 		@Override
 		public void onClick(ClickEvent event) {
@@ -241,7 +276,12 @@ public class KontaktForm extends VerticalPanel {
 			}
 		}
 	}
-
+	/**
+	 * Der ClickHandler ClickZurueckHandler wird aufgerufen durch den Button zurueckBtn,
+	 * welcher eine neue MainForm und einen neuen NavigationTree öffnet. 
+	 * @author Clirim
+	 *
+	 */
 	class ClickZurueckHandler implements ClickHandler {
 		@Override
 		public void onClick(ClickEvent event) {
@@ -256,8 +296,14 @@ public class KontaktForm extends VerticalPanel {
 
 		}
 	}
-
-	class ClickearbeitenHandler implements ClickHandler {
+	/**
+	 * In dem ClickHandler ClickBearbeitenHandler, der sich auf den bearbeitenButton
+	 * bezieht, wird nach einer Nutzerüberprüfung eine UpdateKontaktForm erstellt, in
+	 * der man einen Kontakt bearbeiten kann.
+	 * @author Clirim
+	 *
+	 */
+	class ClickBearbeitenHandler implements ClickHandler {
 		@Override
 
 		public void onClick(ClickEvent event) {
@@ -277,7 +323,14 @@ public class KontaktForm extends VerticalPanel {
 			}
 		}
 	}
-
+	/**
+	 * In dem ClickHandler ClickTeilen, der sich auf den teilenButton
+	 * bezieht, wird nach einer Nutzerüberprüfung eine TeilhaberschaftForm erstellt, in
+	 * der man einen Kontakt und/oder einzelne Ausprägungen an andere
+	 * Nutzer teilen kann.
+	 * @author Clirim
+	 *
+	 */
 	class ClickTeilenHandler implements ClickHandler {
 
 		@Override
@@ -293,7 +346,13 @@ public class KontaktForm extends VerticalPanel {
 			}
 		}
 	}
-
+	/**
+	 * Der ClickHandler ClickHinzufuegenHandler wird aufgerufen durch den Button 
+	 * kontaktListehinzufuegen. Eine Dialogbox wird angezeigt, in der man einen Kontakt einer 
+	 * Liste hinzufügen kann.
+	 * @author Clirim
+	 *
+	 */
 	class ClickHinzufuegenHandler implements ClickHandler {
 
 		@Override
@@ -304,7 +363,12 @@ public class KontaktForm extends VerticalPanel {
 		}
 
 	}
-
+	/**
+	 * Dieser Callback wird verwendet um herauszulesen, an welche Nutzer ein Objekt 
+	 * geteilt ist. Die Nutzer werden in einer CellList dargestellt.
+	 * @author Clirim
+	 *
+	 */
 	private class TeilhaberFromKontaktCallback implements AsyncCallback<Vector<Nutzer>> {
 
 		@Override
@@ -326,7 +390,12 @@ public class KontaktForm extends VerticalPanel {
 		}
 
 	}
-
+	/**
+	 * Der Callback wird aufgerufen nachdem ein Kontakt aus dem System gelöscht wurde.
+	 * Es wird eine neue MainForm generiert. 
+	 * @author Clirim
+	 *
+	 */
 	private class DeleteKontaktCallback implements AsyncCallback<Void> {
 
 		@Override
@@ -349,7 +418,12 @@ public class KontaktForm extends VerticalPanel {
 		}
 
 	}
-
+	/**
+	 * Der Callback wird aufgerufen nachdem eine Teilhaberschaft aus dem System entfernt wurde.
+	 * Es wird eine neue MainForm generiert. 
+	 * @author Clirim
+	 *
+	 */
 	class DeleteKontaktTeilhaberschaftCallback implements AsyncCallback<Void> {
 
 		@Override
