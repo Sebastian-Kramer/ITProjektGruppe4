@@ -18,6 +18,38 @@ import de.hdm.itprojektgruppe4.shared.bo.Person;
 import de.hdm.itprojektgruppe4.shared.bo.Teilhaberschaft;
 import de.hdm.itprojektgruppe4.shared.bo.KontaktKontaktliste;
 
+
+/**
+ * <p>
+ * Synchrone Schnittstelle für eine RPC-fähige Klasse zur Verwaltung von Banken.
+ * </p>
+ * <p>
+ * <b>Frage:</b> Warum werden diese Methoden nicht als Teil der Klassen
+ * {@link Bank}, {@link Customer}, {@link Account} oder {@link Transaction}
+ * implementiert?<br>
+ * <b>Antwort:</b> Z.B. das Löschen eines Kunden erfordert Kenntnisse über die
+ * Verflechtung eines Kunden mit Konto-Objekten. Um die Klasse <code>Bank</code>
+ * bzw. <code>Customer</code> nicht zu stark an andere Klassen zu koppeln, wird
+ * das Wissen darüber, wie einzelne "Daten"-Objekte koexistieren, in der
+ * vorliegenden Klasse gekapselt.
+ * </p>
+ * <p>
+ * Natürlich existieren Frameworks wie etwa Hibernate, die dies auf eine andere
+ * Weise realisieren. Wir haben jedoch ganz bewusst auf deren Nutzung
+ * verzichtet, um in diesem kleinen Demoprojekt den Blick auf das Wesentliche
+ * nicht unnötig zu verstellen.
+ * </p>
+ * <p>
+ * <code>@RemoteServiceRelativePath("bankadministration")</code> ist bei der
+ * Adressierung des aus der zugehörigen Impl-Klasse entstehenden
+ * Servlet-Kompilats behilflich. Es gibt im Wesentlichen einen Teil der URL des
+ * Servlets an.
+ * </p>
+ * 
+ * @author Thies
+ */
+
+
 @RemoteServiceRelativePath("kontaktmanager")
 public interface KontaktAdministration extends RemoteService {
 
@@ -38,11 +70,11 @@ public interface KontaktAdministration extends RemoteService {
 	 *            das Erzeugungsdatum des Kontakts
 	 * @param modifikationsdatum,
 	 *            das Datum an dem Eigenschaften oder Auspraegungen des
-	 *            Kontaktes ge�ndert wurden
+	 *            Kontaktes geändert wurden
 	 * @param status,
 	 *            der Status ob der Kontakt geteilt wurde oder nicht
 	 * @param nutzerID,
-	 *            Fremdschl�sselbeziehung zum Ersteller des Kontakes
+	 *            Fremdschlüsselbeziehung zum Ersteller des Kontakes
 	 * @return Kontakt-Objekt
 	 * @throws IllegalArgumentException
 	 */
@@ -117,10 +149,13 @@ public interface KontaktAdministration extends RemoteService {
 	 */
 	public Vector<Kontakt> findAllKontakte() throws IllegalArgumentException;
 
+	
 	/**
-	 * 
+	 *  Einen Kontakt anhand des Namens und des Nutzers finden.
+	 * @param kontakt
+	 * @return
+	 * @throws IllegalArgumentException
 	 */
-
 	public Vector<Kontakt> findKontaktByNameAndNutzerID(Kontakt kontakt) throws IllegalArgumentException;
 
 	/**
@@ -137,7 +172,7 @@ public interface KontaktAdministration extends RemoteService {
 	 * L�schen einer Person.
 	 * 
 	 * @param p
-	 *            das zu l�schende Personen-Objekt
+	 *            das zu löschende Personen-Objekt
 	 * @throws IllegalArgumentException
 	 */
 	public void deletePerson(Person p) throws IllegalArgumentException;
@@ -146,16 +181,16 @@ public interface KontaktAdministration extends RemoteService {
 	 * Eine Person anhand der ID auslesen.
 	 * 
 	 * @param ID,
-	 *            der Prim�rschl�ssel
+	 *            der Primärschlüssel
 	 * @throws IllegalArgumentException
 	 */
 	public Person findPersonByID(int ID) throws IllegalArgumentException;
 
 	/**
-	 * L�schen eines Nutzers.
+	 * Löschen eines Nutzers.
 	 * 
 	 * @param n
-	 *            das zu l�schende Nutzer-Objekt
+	 *            das zu löschende Nutzer-Objekt
 	 * @throws IllegalArgumentException
 	 */
 	public void deleteNutzer(Nutzer n) throws IllegalArgumentException;
@@ -402,7 +437,7 @@ public interface KontaktAdministration extends RemoteService {
 			throws IllegalArgumentException;
 
 	/**
-	 *  
+	 *  Es werden Ausprägungen eines bestimmten Kontaktes selektiert.
 	 * @param id
 	 * @return
 	 * @throws IllegalArgumentException
@@ -463,18 +498,31 @@ public interface KontaktAdministration extends RemoteService {
 	 */
 	public Teilhaberschaft insertTeilhaberschaftKontakt(int kontaktID, int teilhaberID, int nutzerID);
 	/**
-	 * 
+	 * Es werden allen Ausprägungen des übergebenen Kontaktes an den Nutzer, der anahnd seiner Email
+	 * gesucht wird, geteilt. 
+	 * Dazu werden alle Ausprägungen des Kontaktes gesucht und der Status wird auf 1 (geteilt) gesetzt.
+	 * Danach wird die Kontaktliste "Mit mir geteitlte Kontakte" des entsprechenden Teilhabers gesucht und 
+	 * der geteitle Kontakt wird dieser Liste hinzugefügt.
+	 * Es wird der Status des Kontaktes ebenfalls auf 1 gesetzt.
+	 * Im letzten Schritt werden in der Tabelle Teilhaberschaft mehrere Tupel für alle Ausprägungen und den Kontakt angelegt.
 	 * @param kon
 	 * @param selectedValue
 	 * @param id
 	 * @return
 	 * @throws IllegalArgumentException
 	 */
+	
 	public int insertTeilhaberschaftAuspraegungenKontakt(Kontakt kon, String selectedValue, int id)
 			throws IllegalArgumentException;
 
 	/**
-	 *  Objekte vom Typ Teilhaberschaft für bestimmte Ausprägungen anlegen.
+	 *  * Es werden allen ausgewählten Ausprägungen des übergebenen Kontaktes an den Nutzer, der anahnd seiner Email
+	 * gesucht wird, geteilt. 
+	 * Dazu werden alle ausgewählten Ausprägungen des Kontaktes gesucht und der Status wird auf 1 (geteilt) gesetzt.
+	 * Danach wird die Kontaktliste "Mit mir geteitlte Kontakte" des entsprechenden Teilhabers gesucht und 
+	 * der geteitle Kontakt wird dieser Liste hinzugefügt.
+	 * Es wird der Status des Kontaktes ebenfalls auf 1 gesetzt.
+	 * Im letzten Schritt werden in der Tabelle Teilhaberschaft mehrere Tupel für alle ausgewählten Ausprägungen und den Kontakt angelegt.
 	 * @param kon
 	 * @param eaw
 	 * @param selectedValue
@@ -820,7 +868,17 @@ public interface KontaktAdministration extends RemoteService {
 			throws IllegalArgumentException;
 
 	
-	
+	/**
+	 * Es werden alle Objekte vom Typ Teilhaberschaft für gewählte Ausprägungen mit einem bestimmten Teilhaber gelöscht.
+	 * Nachfolgend wird, sofern mit keinem weiteren Nutzer für diese Ausprägungen Teilhaberschaften bestehen, der Status auf 0 gesetzt.
+	 * Es wird ebenfalls überprüft ob weitere Teilhaberschaften an diesem Kontakt vorhanden sind.
+	 * Gegebenenfalls, Statusänderung.
+	 * @param ea
+	 * @param teilhaber
+	 * @param n
+	 * @param k
+	 * @throws IllegalArgumentException
+	 */
 	public void deleteUpdateTeilhaberschaft(Eigenschaftauspraegung ea, Nutzer teilhaber, Nutzer n, Kontakt k) throws IllegalArgumentException;
 
 	/**
@@ -1118,6 +1176,13 @@ public interface KontaktAdministration extends RemoteService {
 	 */
 	public void deleteAllTeilhaberschaftenKontakt(Kontakt k, Nutzer n) throws IllegalArgumentException;
 
+	/**
+	 * Auslesen aller eigenen und geteilten Kontakte durch name und nutzerid
+	 * 
+	 * @param kontaktobjekt
+	 * @return vector aller eigenen und geteilten kontakten mit dem gesuchten name
+	 * @throws IllegalArgumentException
+	 */
 	public Vector<Kontakt> findGesuchteKontakte(Kontakt k) throws IllegalArgumentException;
 
 	

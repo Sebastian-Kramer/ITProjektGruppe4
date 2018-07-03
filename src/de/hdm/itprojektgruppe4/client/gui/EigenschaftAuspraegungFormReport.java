@@ -43,7 +43,7 @@ public class EigenschaftAuspraegungFormReport extends VerticalPanel {
 	private MultiWordSuggestOracle eigenschaftOracle = new MultiWordSuggestOracle();
 	private MultiWordSuggestOracle auspraegungOracle = new MultiWordSuggestOracle();
 	private SuggestBox eigenschafBox = new SuggestBox(eigenschaftOracle);
-	
+	private Vector<Eigenschaftauspraegung> vecAlleAuspr = new Vector<Eigenschaftauspraegung>();
 
 	private SuggestBox auspraegungBox = new SuggestBox(auspraegungOracle);
 
@@ -70,52 +70,62 @@ public class EigenschaftAuspraegungFormReport extends VerticalPanel {
 		hPanel.add(auspraegungBox);
 		hPanel.add(sendButton);
 		RootPanel.get("Buttonbar").add(hPanel);
-		
+
 		sendButton.addClickHandler(new sendButtonClick());
 		reportverwaltung.findAllEigenschaft(new AlleEigCallback());
 		reportverwaltung.findAllAuspraegungen(nutzer.getID(), new AlleAusCallback());
 
 	}
-		/**
-		 * Die Funktion des der Klasse namens SendButton die vom ClickHandler implementiert ist:
-		 * 
-		 * falls nur die Eigenschaftsbox werte aufweist, so werden lediglich die
-		 * eigenenKontakte mit bestimmten Eigenschaften in form eines Report
-		 * angezeigt.
-		 * 
-		 * Falls nur die Auspr�gungsbox werte aufweist, so werden lediglich die
-		 * Eigenen Kontakte mit bestimmten Auspr�gungen in form eines Report
-		 * angezeigt
-		 * 
-		 * Sollten beide Textboxe werte aufweisen, so werden die eigenen
-		 * Kontakte mit bestimmten Eigenschafts- Auspr�gungen in form eines
-		 * Report angezeigt
-		 * 
-		 * Sollten beide Textboxen keine werte beinhalten, so wird eine fehler
-		 * meldung folgen
-		 * 
-		 */
-		
-		class sendButtonClick implements ClickHandler {
-		//sendButton.addClickHandler(new ClickHandler() {
 
-			/*
-			 * If abfrage ob die auspr�gungsbox werte beinhaltet sollte dies der
-			 * Fall sein, so werden die eigenen KOntakte die die selbem
-			 * Auspr�gungen aufweisen in form eines Reports angezeigt
-			 */
-			@Override
-			public void onClick(ClickEvent event) {
-			if(eigenschafBox.getText().isEmpty() && auspraegungBox.getText().isEmpty()){
-					Window.alert("Bitte Daten eingeben");
-				}
-				
+	/**
+	 * Die Funktion des der Klasse namens SendButton die vom ClickHandler
+	 * implementiert ist:
+	 * 
+	 * falls nur die Eigenschaftsbox werte aufweist, so werden lediglich die
+	 * eigenenKontakte mit bestimmten Eigenschaften in form eines Report
+	 * angezeigt.
+	 * 
+	 * Falls nur die Auspr�gungsbox werte aufweist, so werden lediglich die
+	 * Eigenen Kontakte mit bestimmten Auspr�gungen in form eines Report
+	 * angezeigt
+	 * 
+	 * Sollten beide Textboxe werte aufweisen, so werden die eigenen Kontakte
+	 * mit bestimmten Eigenschafts- Auspr�gungen in form eines Report angezeigt
+	 * 
+	 * Sollten beide Textboxen keine werte beinhalten, so wird eine fehler
+	 * meldung folgen
+	 * 
+	 */
+
+	class sendButtonClick implements ClickHandler {
+		boolean abfrage = false;
+		// sendButton.addClickHandler(new ClickHandler() {
+
+		/*
+		 * If abfrage ob die auspr�gungsbox werte beinhaltet sollte dies der
+		 * Fall sein, so werden die eigenen KOntakte die die selbem Auspr�gungen
+		 * aufweisen in form eines Reports angezeigt
+		 */
+		@Override
+		public void onClick(ClickEvent event) {
+
+			if (eigenschafBox.getText().isEmpty() && auspraegungBox.getText().isEmpty()) {
+				Window.alert("Bitte Daten eingeben");
+			}
+
 			else if (auspraegungBox.getText() != null && eigenschafBox.getText().isEmpty()) {
+				
+				for (Eigenschaftauspraegung auspraegung : vecAlleAuspr) {
+					if (auspraegung.getWert().equals(auspraegungBox.getText())) {
+						abfrage = true;
+					}
+				}
+				if (abfrage == true) {
 
 					/*
 					 * Aufruf des reports
 					 */
-					Window.alert("nur ausprägung");
+
 					reportverwaltung.kontakteMitBestimmtenAuspraegungen(nutzer.getID(), auspraegungBox.getText(),
 							new AsyncCallback<KontakteMitBestimmtenAuspraegungen>() {
 
@@ -123,11 +133,14 @@ public class EigenschaftAuspraegungFormReport extends VerticalPanel {
 								public void onSuccess(KontakteMitBestimmtenAuspraegungen result) {
 
 									if (result != null) {
-
-										HTMLReportWriter writer = new HTMLReportWriter();
-										writer.process(result);
-										RootPanel.get("Details").clear();
-										RootPanel.get("Details").add(new HTML(writer.getReportText()));
+										if (result.getRows().size() == 1) {
+											Window.alert("Kein Report für diese Abfrage vorhanden.");
+										} else {
+											HTMLReportWriter writer = new HTMLReportWriter();
+											writer.process(result);
+											RootPanel.get("Details").clear();
+											RootPanel.get("Details").add(new HTML(writer.getReportText()));
+										}
 									}
 								}
 
@@ -144,88 +157,102 @@ public class EigenschaftAuspraegungFormReport extends VerticalPanel {
 					 * die selbem Eigenschaften aufweisen in form eines Reports
 					 * angezeigt
 					 */
-				} 
-				else if (eigenschafBox.getValue() != null && auspraegungBox.getText().isEmpty()) {
+				}
+			} else if (eigenschafBox.getText() != null && auspraegungBox.getText().isEmpty()) {
 
-					/*
-					 * Aufruf des reports
-					 */
-					Window.alert("nur eigenschaft");
-					reportverwaltung.kontakteMitBestimmtenEigenschaften(nutzer.getID(), eigenschafBox.getText(),
-							new AsyncCallback<KontakteMitBestimmtenEigenschaften>() {
+				/*
+				 * Aufruf des reports
+				 */
 
-								@Override
-								public void onFailure(Throwable caught) {
-									RootPanel.get("Details").clear();
-								}
+				reportverwaltung.kontakteMitBestimmtenEigenschaften(nutzer.getID(), eigenschafBox.getText(),
+						new AsyncCallback<KontakteMitBestimmtenEigenschaften>() {
 
-								@Override
-								public void onSuccess(KontakteMitBestimmtenEigenschaften result) {
-									if (result != null) {
+							@Override
+							public void onFailure(Throwable caught) {
+								RootPanel.get("Details").clear();
+							}
 
+							@Override
+							public void onSuccess(KontakteMitBestimmtenEigenschaften result) {
+								if (result != null) {
+									if (result.getRows().size() == 1) {
+										Window.alert("Kein Report für diese Abfrage vorhanden.");
+									} else {
 										HTMLReportWriter writer = new HTMLReportWriter();
 										writer.process(result);
 										RootPanel.get("Details").clear();
 										RootPanel.get("Details").add(new HTML(writer.getReportText()));
 									}
 								}
-							});
+							}
+						});
 
-					/*
-					 * If abfrage ob die eigenschaftsbox & die auspr�gungsbox
-					 * werte beinhaltet sollte dies der Fall sein, so werden die
-					 * eigenen Kontakte die die selbe Eigenschaftsauspr�gungen
-					 * aufweisen in form eines Reports angezeigt
-					 */
-				} else if (eigenschafBox.getValue() != null && auspraegungBox != null) {
+				/*
+				 * If abfrage ob die eigenschaftsbox & die auspr�gungsbox werte
+				 * beinhaltet sollte dies der Fall sein, so werden die eigenen
+				 * Kontakte die die selbe Eigenschaftsauspr�gungen aufweisen in
+				 * form eines Reports angezeigt
+				 */
+			} else if (eigenschafBox.getText() != null && auspraegungBox.getText() != null) {
+				for (Eigenschaftauspraegung auspraegung : vecAlleAuspr) {
+					if (auspraegung.getWert().equals(auspraegungBox.getText())) {
+						abfrage = true;
+						
+					}
+				}
+				if (abfrage == true) {
+				
+				reportverwaltung.kontakteMitBestimmtenEigenschaftsAuspraegungen(nutzer.getID(),
+						eigenschafBox.getText(), auspraegungBox.getText(),
+						new AsyncCallback<KontakteMitBestimmtenEigenschaftsAuspraegungen>() {
+							@Override
+							public void onFailure(Throwable caught) {
+								RootPanel.get("Details").clear();
+							}
 
-					Window.alert("beides");
-					reportverwaltung.kontakteMitBestimmtenEigenschaftsAuspraegungen(nutzer.getID(),
-							eigenschafBox.getValue(), auspraegungBox.getValue(),
-							new AsyncCallback<KontakteMitBestimmtenEigenschaftsAuspraegungen>() {
-								@Override
-								public void onFailure(Throwable caught) {
-									RootPanel.get("Details").clear();
-								}
+							@Override
+							public void onSuccess(KontakteMitBestimmtenEigenschaftsAuspraegungen result) {
 
-								@Override
-								public void onSuccess(KontakteMitBestimmtenEigenschaftsAuspraegungen result) {
-
-
-									if (result != null) {
-
+								if (result != null) {
+									if (result.getRows().size() == 1) {
+										Window.alert("Kein Report für diese Abfrage vorhanden.");
+									} else {
 										HTMLReportWriter writer = new HTMLReportWriter();
 										writer.process(result);
 										RootPanel.get("Details").clear();
 										RootPanel.get("Details").add(new HTML(writer.getReportText()));
 									}
-
 								}
 
-							});
-					/*
-					 * Sollten die Textboxen keine Werte beinhalten, so wird
-					 * eine Fehlermeldung ausgegeben, sodass der Nutzer Werte in
-					 * die Textboxen eingibt
-					 */
-				} 
+							}
 
+						});
+				/*
+				 * Sollten die Textboxen keine Werte beinhalten, so wird eine
+				 * Fehlermeldung ausgegeben, sodass der Nutzer Werte in die
+				 * Textboxen eingibt
+				 */
+				}
 			}
 
 		}
 
+	}
+
 	/**
-	 *  Callback Klasse um alle Eigenschaften zu selektieren und in dem MultiWordSuggestOracle zu speichern.
+	 * Callback Klasse um alle Eigenschaften zu selektieren und in dem
+	 * MultiWordSuggestOracle zu speichern.
+	 * 
 	 * @author Marcus
 	 *
 	 */
-		
-	private class AlleEigCallback implements AsyncCallback<Vector<Eigenschaft>>{
+
+	private class AlleEigCallback implements AsyncCallback<Vector<Eigenschaft>> {
 
 		@Override
 		public void onFailure(Throwable caught) {
 			// TODO Auto-generated method stub
-			
+
 		}
 
 		@Override
@@ -235,13 +262,15 @@ public class EigenschaftAuspraegungFormReport extends VerticalPanel {
 				eigenschaftOracle.add(eigenschaft.getBezeichnung());
 			}
 		}
-		
+
 	}
-	
+
 	/**
-	 * Callback Klasse um alle EIgenschaftsausprägungen in einem MultiWordSuggestOracle zu speichern.
-	 * Es werden nur Ausprägungen von eigenen Kontakten oder Ausprägungen zu denen eine Teilhaberschaft 
-	 * besteht selektiert.
+	 * Callback Klasse um alle EIgenschaftsausprägungen in einem
+	 * MultiWordSuggestOracle zu speichern. Es werden nur Ausprägungen von
+	 * eigenen Kontakten oder Ausprägungen zu denen eine Teilhaberschaft besteht
+	 * selektiert.
+	 * 
 	 * @author Marcus
 	 *
 	 */
@@ -250,17 +279,18 @@ public class EigenschaftAuspraegungFormReport extends VerticalPanel {
 		@Override
 		public void onFailure(Throwable caught) {
 			// TODO Auto-generated method stub
-			
+
 		}
 
 		@Override
 		public void onSuccess(Vector<Eigenschaftauspraegung> result) {
 			// TODO Auto-generated method stub
+			vecAlleAuspr = result;
 			for (Eigenschaftauspraegung eigenschaftauspraegung : result) {
 				auspraegungOracle.add(eigenschaftauspraegung.getWert());
 			}
 		}
-		
+
 	}
 
 }

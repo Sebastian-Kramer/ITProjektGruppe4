@@ -5,6 +5,7 @@ import java.util.Vector;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.Cookies;
+import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.HTML;
@@ -68,8 +69,13 @@ public class TeilhaberschaftFormReport extends VerticalPanel {
 
 		@Override
 		public void onClick(ClickEvent event) {
-			reportverwaltung.findNutzerByEmail(nutzerBox.getValue(), new FindNutzerCallBack());
+			if (nutzerBox.getText().isEmpty()) {
+				Window.alert("Bitte wählen Sie einen Nutzer aus. ");
+			} else {
+				reportverwaltung.findNutzerByEmail(nutzerBox.getValue(), new FindNutzerCallBack());
 
+			}
+			
 		}
 
 	}
@@ -149,12 +155,14 @@ public class TeilhaberschaftFormReport extends VerticalPanel {
 						public void onSuccess(KontakteMitBestimmterTeilhaberschaftReport result) {
 
 							if (result != null) {
-
+								if (result.getRows().size() == 1 ) {
+									Window.alert("Kein Report für diese Abfrage vorhanden.");
+								}else{
 								HTMLReportWriter writer = new HTMLReportWriter();
 								writer.process(result);
 								RootPanel.get("Details").clear();
 								RootPanel.get("Details").add(new HTML(writer.getReportText()));
-
+								}
 							}
 						}
 					});

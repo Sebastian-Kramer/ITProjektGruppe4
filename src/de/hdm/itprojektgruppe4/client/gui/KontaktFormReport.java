@@ -78,11 +78,14 @@ public class KontaktFormReport extends VerticalPanel {
 		public void onSuccess(AllEigeneKontakteReport result) {
 			// TODO Auto-generated method stub
 			if (result != null) {
+				if (result.getRows().size() == 1 ) {
+					Window.alert("Kein Report für diese Abfrage vorhanden.");
+				}else{
 				HTMLReportWriter writer = new HTMLReportWriter();
 				writer.process(result);
 				RootPanel.get("Details").clear();
 				RootPanel.get("Details").add(new HTML(writer.getReportText()));
-			}
+			}}
 
 		}
 		}

@@ -100,8 +100,8 @@ public class KontaktAdministrationImpl extends RemoteServiceServlet implements K
 	
 
 	/*
-	 * ########################################################## START Methoden
-	 * f�r Kontakt-Objekte
+	 * ########################################################## 
+	 * START Methoden für Kontakt-Objekte
 	 * #########################################################
 	 */
 
@@ -1183,9 +1183,15 @@ public class KontaktAdministrationImpl extends RemoteServiceServlet implements K
 
 	}
 	
-	
+	/**
+	 *  Diese Methode wird aufgerufen wenn sich der Nutzer vom System löscht. 
+	 *  Diese Methode löscht auch die Basis-Kontaktlisten "Meine Kontakte", "Mir geteilte Kontakte", welches 
+	 *  bei der deleteKontaktliste nicht möglich ist.
+	 * @param kliste
+	 * @throws IllegalArgumentException
+	 */
 	public void deleteKontaktlisteWhenUserDelte(Kontaktliste kliste) throws IllegalArgumentException {
-		// this.konlistMapper.deleteKontaktliste(k);
+		
 
 		List<KontaktKontaktliste> kkliste = kontaktKontaktlisteMapper
 				.findKontaktKontaktlisteByKontaktlisteID(kliste.getID());
@@ -1534,7 +1540,18 @@ public class KontaktAdministrationImpl extends RemoteServiceServlet implements K
 	}
 
 	/**
-	 * 
+	 * Es werden allen Ausprägungen des übergebenen Kontaktes an den Nutzer, der anahnd seiner Email
+	 * gesucht wird, geteilt. 
+	 * Dazu werden alle Ausprägungen des Kontaktes gesucht und der Status wird auf 1 (geteitl) gesetzt.
+	 * Danach wird die Kontaktliste "Mit mir geteitlte Kontakte" des entsprechenden Teilhabers gesucht und 
+	 * der geteitle Kontakt wird dieser Liste hinzugefügt.
+	 * Es wird der Status des Kontaktes ebenfalls auf 1 gesetzt.
+	 * Im letzten Schritt werden in der Tabelle Teilhaberschaft mehrere Tupel für alle Ausprägungen und den Kontakt angelegt.
+	 * @param kon
+	 * @param selectedValue
+	 * @param id
+	 * @return
+	 * @throws IllegalArgumentException
 	 */
 	@Override
 	public int insertTeilhaberschaftAuspraegungenKontakt(Kontakt kon, String selectedValue, int id)
@@ -1584,7 +1601,18 @@ public class KontaktAdministrationImpl extends RemoteServiceServlet implements K
 	}
 
 	/**
-	 * 
+	 *  * Es werden allen ausgewählten Ausprägungen des übergebenen Kontaktes an den Nutzer, der anahnd seiner Email
+	 * gesucht wird, geteilt. 
+	 * Dazu werden alle ausgewählten Ausprägungen des Kontaktes gesucht und der Status wird auf 1 (geteilt) gesetzt.
+	 * Danach wird die Kontaktliste "Mit mir geteitlte Kontakte" des entsprechenden Teilhabers gesucht und 
+	 * der geteitle Kontakt wird dieser Liste hinzugefügt.
+	 * Es wird der Status des Kontaktes ebenfalls auf 1 gesetzt.
+	 * Im letzten Schritt werden in der Tabelle Teilhaberschaft mehrere Tupel für alle ausgewählten Ausprägungen und den Kontakt angelegt.
+	 * @param kon
+	 * @param eaw
+	 * @param selectedValue
+	 * @param id
+	 * @return
 	 */
 	@Override
 	public int insertTeilhaberschaftAusgewaehlteAuspraegungenKontakt(Kontakt kon,
@@ -1636,7 +1664,11 @@ public class KontaktAdministrationImpl extends RemoteServiceServlet implements K
 	}
 
 	/**
-	 * 
+	 *  Anlegen eines Objektes vom Typ Teilhaberschaft für bestimmte Ausprägungen an einen bestimmten Nutzer.
+	 * @param eigenschaftauspraegungID
+	 * @param teilhaberID
+	 * @param nutzerID
+	 * @return
 	 */
 	@Override
 	public Teilhaberschaft insertTeilhaberschaftAuspraegung(int eigenschaftauspraegungID, int teilhaberID,
@@ -1663,7 +1695,12 @@ public class KontaktAdministrationImpl extends RemoteServiceServlet implements K
 	}
 	
 	/**
-	 * 
+	 *  Ein Objekt vom Typ Teilhaberschaft anahnd der Kontaktliste und des Teilhabers finden.
+	 *  Es wird das Objekt gesucht welches die Teilhaberschaft einer bestimmten Liste mit einem bestimmten Nutzer darstellt.
+	 * @param kontaktlisteID
+	 * @param teilhaberID
+	 * @return  Das Objekt vom Typ Teilhaberschaft
+	 * @throws IllegalArgumentException
 	 */
 	@Override
 	public Teilhaberschaft findByTeilhaberschaftByKontaktlistIDAndTeilhaberID(int kontaktlisteID, int teilhaberID)
@@ -1687,7 +1724,11 @@ public class KontaktAdministrationImpl extends RemoteServiceServlet implements K
 	}
 
 	/**
-	 * 
+	 *  Objekte vom Typ Teilhaberschaft anhand des Teilhabers  und des Eigentümers finden.
+	 * @param auspraegungID
+	 * @param teilhaberID
+	 * @return Das Objekt vom Typ Teilhaberschaft
+	 * @throws IllegalArgumentException
 	 */
 	@Override
 	public Vector<Teilhaberschaft> findTeilhaberschaftByTeilhaberIDAndNutzerID(int teilhaberID, int nutzerID)
@@ -1695,8 +1736,13 @@ public class KontaktAdministrationImpl extends RemoteServiceServlet implements K
 		return this.teilhaberschaftMapper.findTeilhaberschaftByTeilhaberIDAndNutzerID(teilhaberID, nutzerID);
 	}
 
-	/**
-	 * 
+	/**  Ein Objekt vom Typ Teilhaberschaft anahnd der Ausprägung und des Teilhabers finden.
+	 *  Es wird das Objekt gesucht welches die Teilhaberschaft einer bestimmten Ausprägung mit einem bestimmten Nutzer darstellt.
+	 *  
+	 * @param auspraegungID
+	 * @param nutzerID
+	 * @return Das Objekt vom Typ Teilhaberschaft
+	 * @throws IllegalArgumentException
 	 */
 	@Override
 	public Vector<Teilhaberschaft> findTeilhaberschaftByAuspraegungIDAndTeilhaberID(int auspraegungID, int teilhaberID)
@@ -1744,7 +1790,7 @@ public class KontaktAdministrationImpl extends RemoteServiceServlet implements K
 	}
 
 	/**
-	 * L�schen einer Teilhaberschaft anhand der TeilhaberID
+	 * Löschen einer Teilhaberschaft anhand der TeilhaberID
 	 * 
 	 * @param teilhaberID
 	 *            die ID des Teilhabers dessen ID gel�scht werden soll
@@ -1771,7 +1817,15 @@ public class KontaktAdministrationImpl extends RemoteServiceServlet implements K
 	}
 
 	/**
-	 * 
+	 * Es werden alle Objekte vom Typ Teilhaberschaft für gewählte Ausprägungen mit einem bestimmten Teilhaber gelöscht.
+	 * Nachfolgend wird, sofern mit keinem weiteren Nutzer für diese Ausprägungen Teilhaberschaften bestehen, der Status auf 0 gesetzt.
+	 * Es wird ebenfalls überprüft ob weitere Teilhaberschaften an diesem Kontakt vorhanden sind.
+	 * Gegebenenfalls, Statusänderung.
+	 * @param ea
+	 * @param teilhaber
+	 * @param n
+	 * @param k
+	 * @throws IllegalArgumentException
 	 */
 	@Override
 	public void deleteUpdateTeilhaberschaft(Eigenschaftauspraegung ea, Nutzer teilhaber, Nutzer n, Kontakt k)
@@ -1806,7 +1860,10 @@ public class KontaktAdministrationImpl extends RemoteServiceServlet implements K
 	}
 
 	/**
-	 * 
+	 *  Ein Objekt vom Typ Teilhaberschaft anhand des Kontaktes und des Teilhaber löschen.
+	 * @param kontaktID
+	 * @param teilNutzerID
+	 * @throws IllegalArgumentException
 	 */
 	@Override
 	public void deleteTeilhaberschaftByKontaktIDAndNutzerID(int kontaktID, int teilNutzerID)
@@ -1816,7 +1873,11 @@ public class KontaktAdministrationImpl extends RemoteServiceServlet implements K
 	}
 	
 	/**
+	 * Methode zum Löschen einer Teilhaberschaft eines Kontakts und aller vorhandenen Teilhaberschaften 
+	 * an den Ausprägungen des Kontaktes
 	 * 
+	 * @param kontaktID
+	 * @param teilhaberID
 	 */
 	@Override
 	public void deleteTeilhaberschaftAllByKontaktIDAndTeilhaberID(int kontaktID, int teilhaberID)
@@ -2012,12 +2073,24 @@ public class KontaktAdministrationImpl extends RemoteServiceServlet implements K
 	 * #########################################################
 	 */
 
+	/**
+	 *  Es werden Ausprägungen eines bestimmten Kontaktes selektiert.
+	 * @param id
+	 * @return
+	 * @throws IllegalArgumentException
+	 */
 	@Override
 	public Vector<Eigenschaftauspraegung> getAuspraegungByKontaktID(int id) throws IllegalArgumentException {
 
 		return this.eigenschaftauspraegungMapper.getAuspraegungByKontaktID(id);
 	}
 
+	/**
+	 *   Ein Objekt vom Typ Ausprägung löschen.
+	 * @param ea
+	 * @throws IllegalArgumentException
+	 */
+	
 	public void deleteEigenschaftUndAuspraegung(EigenschaftAuspraegungWrapper ea) throws IllegalArgumentException {
 		Eigenschaftauspraegung eaa = new Eigenschaftauspraegung();
 		eaa.setID(ea.getAuspraegungID());
@@ -2035,8 +2108,14 @@ public class KontaktAdministrationImpl extends RemoteServiceServlet implements K
 	}
 	
 
-	@Override
 
+	/**
+	 *  Ein Objekt vom Typ Eigenschaft-Ausprägung Wrapper anahnd von einem Perosn Objekt, der Elternklasse von Kontakt, finden.
+	 * @param pers
+	 * @return Objekt vom Typ  Eigenschaft-Ausprägung Wrapper
+	 * @throws IllegalArgumentException
+	 */
+	
 	public Vector<EigenschaftAuspraegungWrapper> findHybrid(Person pers) throws IllegalArgumentException {
 
 		Vector<Eigenschaftauspraegung> eigaus = getAuspraegungByKontaktID(pers.getID());
@@ -2211,7 +2290,13 @@ public class KontaktAdministrationImpl extends RemoteServiceServlet implements K
 
 	}
 	
-
+	/**
+	 *  Einen Kontakt anhand des Namens und des Nutzers finden.
+	 * @param kontakt
+	 * @return
+	 * @throws IllegalArgumentException
+	 */
+	
 	@Override
 	public Vector<Kontakt> findKontaktByNameAndNutzerID(Kontakt kontakt) throws IllegalArgumentException {
 		Vector<Kontakt> result = new Vector<Kontakt>();

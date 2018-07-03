@@ -296,6 +296,8 @@ public class ReportGeneratorImpl extends RemoteServiceServlet implements ReportG
 		 * Eigenschaft und dem Wert der Auspr�gung
 		 */
 		Vector<Kontakt> kontakt = this.verwaltung.findKontakteByEigAus(NutzerID, bez, wert);
+				
+				
 
 		/*
 		 * Titel des Reports
@@ -665,7 +667,18 @@ public class ReportGeneratorImpl extends RemoteServiceServlet implements ReportG
 		return eaAllShared;
 	}
 
-	
-	
+	public Vector<Kontakt> findAlleEigenenKontakte(String wert, int nutzerID) throws IllegalArgumentException{
+		Vector<Eigenschaftauspraegung> alleEigenenAuspraegungen = this.findAllAuspraegungen(nutzerID);
+		Vector<Eigenschaftauspraegung> alleEigAus = new Vector<Eigenschaftauspraegung>();
+		Vector<Kontakt> alleKontakte = new Vector<Kontakt>();
+		for (Eigenschaftauspraegung eigenschaftauspraegung : alleEigenenAuspraegungen) {
+			alleKontakte.add(this.verwaltung.findKontaktByAuspraegungID(eigenschaftauspraegung.getID()));
+		}
+		
+		return alleKontakte;
+		
+	}
+
+
 	
 }

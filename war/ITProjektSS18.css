@@ -609,10 +609,15 @@ button.edit-Button {
 	font-size: 15px;
 }
 
+table.TableKontakte {
+	width: 800px;
+}
 
 .gwt-SuggestBoxPopup { 
 	 
 	  background: #000 repeating-linear-gradient(-45deg, SeaGreen, LimeGreen, Gainsboro);
+		width: 40%;
+    	height: auto;
 }
 
 .gwt-SuggestBoxPopup .item-selected {

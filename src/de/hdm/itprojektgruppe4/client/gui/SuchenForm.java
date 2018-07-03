@@ -167,6 +167,7 @@ public class SuchenForm extends VerticalPanel {
 		ctAus.addColumn(wertAuspraegung, "Ausprägung");
 		ctAus.addColumn(kontaktName, "Zugehöriger Kontakt");
 		ctAus.setStyleName("TableAuspraegung");
+		
 		suchenKonPic.setStyleName("ButtonICON");
 		suchenAusPic.setStyleName("ButtonICON");
 		

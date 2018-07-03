@@ -19,6 +19,8 @@ import de.hdm.itprojektgruppe4.shared.bo.Teilhaberschaft;
 /**
  * Das asynchrone Gegenstück des Interface. Es wird teilautomatisiert durch das
  * Google-Plugin erstellt.
+ * Weitere Informationen zu den Methoden befinden sich im synchronen Interface.
+ *  {@link KontaktAdministration}
  *
  */
 
