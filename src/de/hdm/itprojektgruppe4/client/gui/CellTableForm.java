@@ -178,7 +178,7 @@ public class CellTableForm extends CellTable<EigenschaftAuspraegungWrapper> {
 	 *
 	 */
 	Column<EigenschaftAuspraegungWrapper, Boolean> checkBox = new Column<EigenschaftAuspraegungWrapper, Boolean>(
-			new CheckboxCell(true, false)) {
+			new CheckboxCell()) {
 
 		@Override
 		public Boolean getValue(EigenschaftAuspraegungWrapper object) {
@@ -347,7 +347,7 @@ public class CellTableForm extends CellTable<EigenschaftAuspraegungWrapper> {
 	/**
 	 * Es wird eine unabhängige Spalte für eine CellTable erstellt, 
 	 * die eine CheckBox zurückgibt.
-	 * Die Spalte kann in CellTables anderer Klsen hinzugefügt werden.
+	 * Die Spalte kann in CellTables anderer Klassen hinzugefügt werden.
 	 * @author Clirim
 	 *
 	 */
