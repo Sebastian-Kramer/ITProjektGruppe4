@@ -178,29 +178,6 @@ public class NutzerMapper extends PersonMapper {
 	 * 	der zu l�schende Nutzer
 	 * 
 	 */
-	
-	
-	
-	
-	/**
-     * Einen Nutzer anhand seiner E-Mail auslesen.
-     * 
-     * @param email
-     * @return n
-     */
-	
-
-		
-
-
-	
-
-	
-
-
-
-	
-
 	public void deleteNutzer(Nutzer n) {
 		Connection con = DBConnection.connection();
 

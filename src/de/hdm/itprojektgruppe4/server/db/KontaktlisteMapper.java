@@ -13,16 +13,17 @@ import de.hdm.itprojektgruppe4.shared.bo.Kontaktliste;
  */
 
 public class KontaktlisteMapper {
-	
+
 	/**
-     * Der Mapper ist ein Singelton.
-     * Variable ist "static" und speichert die einzige Instanz dieser Klasse.
-     */
+	 * Der Mapper ist ein Singelton. Variable ist "static" und speichert die
+	 * einzige Instanz dieser Klasse.
+	 */
 
 	private static KontaktlisteMapper kontaktlisteMapper = null;
 
 	/**
-	 * geschützter Konstruktor, der verhindert, dass Klasse mit "new" instanziert wird.
+	 * geschützter Konstruktor, der verhindert, dass Klasse mit "new"
+	 * instanziert wird.
 	 */
 	protected KontaktlisteMapper() {
 
@@ -102,7 +103,8 @@ public class KontaktlisteMapper {
 	 * Auslesen der Standardkontaktliste "Meine geteilten Kontakte"
 	 * 
 	 * @param bezeichnung
-	 * @param nutzerID die ID des Nutzers, dessen Standardkontaktliste gesucht ist
+	 * @param nutzerID
+	 *            die ID des Nutzers, dessen Standardkontaktliste gesucht ist
 	 * @return Kontaktliste-Objekt mit den übergebenen Parametern
 	 */
 	public Kontaktliste findKontaktlisteMeineGeteiltenKontakte(String bezeichnung, int nutzerID) {
@@ -167,7 +169,8 @@ public class KontaktlisteMapper {
 	/**
 	 * Ein Objekt vom Typ Kontaktliste wird in der Datenbank ueberschrieben
 	 * 
-	 * @param k die zu überschreibende Kontaktliste
+	 * @param k
+	 *            die zu überschreibende Kontaktliste
 	 * @return K das überschriebene Kontaktliste-Objekt
 	 */
 
@@ -190,7 +193,8 @@ public class KontaktlisteMapper {
 	/**
 	 * Ein Objekt vom Typ Kontaktliste wird aus der Datenbank geloescht
 	 * 
-	 * @param k das zu löschende Kontaktliste-Objekt
+	 * @param k
+	 *            das zu löschende Kontaktliste-Objekt
 	 * 
 	 */
 
@@ -243,7 +247,9 @@ public class KontaktlisteMapper {
 	/**
 	 * Alle erstellten Kontaktlisten eines Nutzers auslesen
 	 * 
-	 * @param int nutzerID die ID des Nutzers, desse Kontaktlisten ausgelesen werden sollen
+	 * @param int
+	 *            nutzerID die ID des Nutzers, desse Kontaktlisten ausgelesen
+	 *            werden sollen
 	 * @return Vector mit allen erstellten Kontaktlisten eines Nutzers
 	 */
 
@@ -313,9 +319,10 @@ public class KontaktlisteMapper {
 		return null;
 
 	}
-	
+
 	/**
 	 * Suchen einer Kontaktliste nach Nutzer und Bezeichnung
+	 * 
 	 * @param nutzerID
 	 * @param bez
 	 * @return result

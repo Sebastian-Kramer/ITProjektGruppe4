@@ -11,19 +11,19 @@ import java.util.Vector;
 
 import de.hdm.itprojektgruppe4.shared.bo.KontaktKontaktliste;
 
-
 public class KontaktKontaktlisteMapper {
 	/**
-     * Der Mapper ist ein Singelton.
-     * Variable ist "static" und speichert die einzige Instanz dieser Klasse.
-     */
+	 * Der Mapper ist ein Singelton. Variable ist "static" und speichert die
+	 * einzige Instanz dieser Klasse.
+	 */
 
 	private static KontaktKontaktlisteMapper kontaktkontaktlisteMapper = null;
 
 	/**
-	 * geschützter Konstruktor, der verhindert, dass Klasse mit "new" instanziert wird.
+	 * geschützter Konstruktor, der verhindert, dass Klasse mit "new"
+	 * instanziert wird.
 	 */
-	
+
 	protected KontaktKontaktlisteMapper() {
 
 	};
@@ -67,11 +67,13 @@ public class KontaktKontaktlisteMapper {
 		}
 		return k;
 	}
-/**
- * Suchen eines Kontakts einer Liste per Id
- * @param i
- * @return result
- */
+
+	/**
+	 * Suchen eines Kontakts einer Liste per Id
+	 * 
+	 * @param i
+	 * @return result
+	 */
 
 	public Vector<KontaktKontaktliste> findKontaktKontaktlisteByKontaktlisteID(int i) {
 

@@ -4,36 +4,32 @@ package de.hdm.itprojektgruppe4.shared.bo;
  * Realisierung einer exemplarischen Kontaktliste
  */
 
-
-
 public class Kontaktliste extends BusinessObject {
-	
-	
 
-	
 	private static final long serialVersionUID = 1L;
 
 	/**
-	 * Bezeichnung der Kontaktliste 
+	 * Bezeichnung der Kontaktliste
 	 */
-    private String bez;
-    
-    /**
-     * Status der Kontaktliste
-     */
-    
-    private int status;
-    
-    /**
-     * Eindeutige Nutzer Id
-     */
-    
-    private int nutzerID;
-    
-    /**
-     * Auslesen der Nutzer Id
-     * @return nutzer Id
-     */
+	private String bez;
+
+	/**
+	 * Status der Kontaktliste
+	 */
+
+	private int status;
+
+	/**
+	 * Eindeutige Nutzer Id
+	 */
+
+	private int nutzerID;
+
+	/**
+	 * Auslesen der Nutzer Id
+	 * 
+	 * @return nutzer Id
+	 */
 
 	public int getNutzerID() {
 		return nutzerID;
@@ -41,15 +37,16 @@ public class Kontaktliste extends BusinessObject {
 
 	/**
 	 * Setzen der Nutzer Id
+	 * 
 	 * @param nutzerID
 	 */
 	public void setNutzerID(int nutzerID) {
 		this.nutzerID = nutzerID;
 	}
 
-	
 	/**
 	 * Auslesen der Bezeichnung
+	 * 
 	 * @return bez
 	 */
 	public String getBez() {
@@ -58,6 +55,7 @@ public class Kontaktliste extends BusinessObject {
 
 	/**
 	 * Setzen der Bezeichnung
+	 * 
 	 * @param bez
 	 */
 	public void setBez(String bez) {
@@ -65,15 +63,17 @@ public class Kontaktliste extends BusinessObject {
 	}
 
 	/**
-	 * Auslesen des Statuses 
+	 * Auslesen des Statuses
+	 * 
 	 * @return status
 	 */
 	public int getStatus() {
 		return status;
 	}
-	
+
 	/**
 	 * Setzen des Statuses
+	 * 
 	 * @param status
 	 */
 
@@ -81,14 +81,13 @@ public class Kontaktliste extends BusinessObject {
 		this.status = status;
 	}
 
-	 /**
-	   * Es wird eine einfache textuelle Darstellung der Kontaktliste erzeugt.
-	   */
-	
-	 @Override
+	/**
+	 * Es wird eine einfache textuelle Darstellung der Kontaktliste erzeugt.
+	 */
+
+	@Override
 	public String toString() {
 		return "Kontaktliste [bez=" + bez + ", status=" + status + ", nutzerID=" + nutzerID + "]";
 	}
-    
-    
+
 }
