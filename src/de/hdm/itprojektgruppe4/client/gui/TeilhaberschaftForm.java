@@ -273,7 +273,12 @@ public class TeilhaberschaftForm extends VerticalPanel {
 		@Override
 		public void onClick(ClickEvent event) {
 			
+			boolean sureDeleteAllTeil = Window.confirm("Möchten Sie alle Teilhaberschaften an " + kon.getName() + " auflösen ?");
+			
+			if (sureDeleteAllTeil) {
 				verwaltung.deleteAllTeilhaberschaftenKontakt(kon, nutzer, new AlleTeilhaberschaftenEntferntCallback());
+			}
+				
 			
 		}
 		
@@ -455,7 +460,7 @@ public class TeilhaberschaftForm extends VerticalPanel {
 					RootPanel.get("Details").add(tf);
 				}
 			} else {
-				Window.alert("Mit dem Nutzer " + nutzerSugBox.getValue() + " besteht bereits eine Teilhaberschaft.");
+				Window.alert("Mit dem Nutzer " + nutzerSugBox.getValue() + " besteht bereits eine Teilhaberschaft für den Kontakt " +kon.getName() +" .");
 				if (kon.getNutzerID() == nutzer.getID()) {
 					TeilhaberschaftForm tf = new TeilhaberschaftForm(kon);
 					RootPanel.get("Details").clear();

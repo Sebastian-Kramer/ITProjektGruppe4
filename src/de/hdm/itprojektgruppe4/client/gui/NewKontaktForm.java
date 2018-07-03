@@ -69,7 +69,7 @@ public class NewKontaktForm extends VerticalPanel {
 	private VerticalPanel vpanel2 = new VerticalPanel();
 
 	private TextBox tbName = new TextBox();
-	private Image addKonToListPic = new Image("Image/Kontakt_zu_Liste.png");
+	private Image addKonToListPic = new Image("Image/KontaktZuListe.png");
 	private Image homePic = new Image("Image/Startseite.png");
 
 	private Image kontaktVisit = new Image("Image/Visitenkarte_2.png");
@@ -81,8 +81,8 @@ public class NewKontaktForm extends VerticalPanel {
 					+ " <b>Kontakt</b>  an und bestätigen Sie mit Enter." + "<span style='font-family:fixed'></span>",
 			true);
 
-	private HTML html2 = new HTML("Bitte geben Sie hier die <b> Eigenschaften </b> und die dazugehörigen"
-			+ " <b>Ausprägungen</b>  zu Ihrem Kontakt an." + "<span style='font-family:fixed'></span>", true);
+	private HTML html2 = new HTML("Bitte geben Sie hier die <b> Ausprägungen </b> zu Ihrem Kontakt an <br>"
+			+ " und fügen Sie gegebenenfalls neue Eigenschaften hinzu." + "<span style='font-family:fixed'></span>", true);
 
 	private Button addRow = new Button("Eigenschaft hinzufügen");
 
@@ -274,7 +274,8 @@ public class NewKontaktForm extends VerticalPanel {
 
 				verwaltung.insertKontakt(tbName.getValue(), new Date(), new Date(), 0, nutzer.getID(),
 						new KontaktErstellenCallback());
-
+				html1.setVisible(false);
+				tbName.setEnabled(false);
 				html2.setVisible(true);
 
 				RootPanel.get("Buttonbar").clear();

@@ -123,9 +123,9 @@ public class UpdateKontaktForm extends VerticalPanel {
 	private SuggestBox eigenschaftSugBox = new SuggestBox(eigenschaftOracle);
 
 	DateTimeFormat fmt = DateTimeFormat.getFormat("dd.MM.yyyy");
-	private Button cancelBtn = new Button("Zurück");
+	private Button cancelBtn = new Button("Bearbeitung beenden");
 	private Image zurueckZuHomePic = new Image("Image/Back.png");
-	private Image deletePic = new Image("Image/Löschen.png");
+	private Image deletePic = new Image("Image/Loeschen.png");
 	private EigenschaftAuspraegungWrapper ea = new EigenschaftAuspraegungWrapper();
 
 	private Eigenschaft eig1 = new Eigenschaft();

@@ -132,7 +132,7 @@ public class ITProjektSS18 implements EntryPoint {
 					loggedNutzer = new Anchor(result.getEmail());
 					Cookies.setCookie("email", result.getEmail());
 					Cookies.setCookie("id", result.getID() + "");
-					Cookies.setCookie("signout", loginInfo.getLogoutUrl());
+//					Cookies.setCookie("signout", loginInfo.getLogoutUrl());
 					loadStartseite();
 
 				} else {
@@ -289,10 +289,10 @@ public class ITProjektSS18 implements EntryPoint {
 		@Override
 		public void onSuccess(Void result) {
 
-			Anchor signOutLink = new Anchor();
+//			Anchor signOutLink = new Anchor();
 			Window.alert("Nutzer wurde gelöscht");
-			signOutLink.setHref(Cookies.getCookie("signout"));
-			Window.open(signOutLink.getHref(), "_self", "");
+//			signOutLink.setHref(Cookies.getCookie("signout"));
+			Window.open(loginInfo.getLogoutUrl(), "_self", "");
 		}
 
 	}
