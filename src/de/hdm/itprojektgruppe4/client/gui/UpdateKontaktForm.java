@@ -190,9 +190,9 @@ public class UpdateKontaktForm extends VerticalPanel {
 		
 		fmt.format(date);
 		RootPanel.get("Buttonbar").clear();
-		ctf.setSelectionModel(selectionModelWrapper,
-				DefaultSelectionEventManager.<EigenschaftAuspraegungWrapper>createCheckboxManager());
-		ctf.addColumn(ctf.getCheckBox());
+//		ctf.setSelectionModel(selectionModelWrapper,
+//				DefaultSelectionEventManager.<EigenschaftAuspraegungWrapper>createCheckboxManager());
+//		ctf.addColumn(ctf.getCheckBox());
 		ctf.addColumn(ctf.getBezEigenschaft(), "Kontakteigenschaften: ");
 		ctf.addColumn(wertAuspraegung);
 		ctf.addColumn(ctf.getDeleteBtn());
@@ -253,6 +253,13 @@ public class UpdateKontaktForm extends VerticalPanel {
 	 *
 	 */
 
+	/**
+	 * In diesem FieldUpdater wird die Eigenschaftausprägung aus dem System entfernt.
+	 * Es wird überprüft ob die Ausprägung geteilt ist. Falls ja, muss das löschen über
+	 * einen Window confirm bestätigt werden.
+	 * @author Clirim
+	 *
+	 */
 	private class DeleteFieldUpdater implements FieldUpdater<EigenschaftAuspraegungWrapper, String> {
 		
 		@Override
