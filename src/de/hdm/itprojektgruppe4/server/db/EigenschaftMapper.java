@@ -298,6 +298,11 @@ public class EigenschaftMapper {
 
 	}
 
+	/**
+	 * Methode zum Auslesen der Basiseigenschaften
+	 * (Vorname, Nachname, Email, Telefonnummer)
+	 * @return
+	 */
 	public Vector<Eigenschaft> findGivenEigenschaft() {
 
 		Vector<Eigenschaft> result = new Vector<Eigenschaft>();
@@ -316,14 +321,6 @@ public class EigenschaftMapper {
 
 							"SELECT ID, bez, status FROM eigenschaft  WHERE ID= ('4')");
 
-			// SELECT * FROM `eigenschaft` WHERE ID = 1 UNION SELECT * FROM
-			// `eigenschaft` WHERE ID = 2
-			//
-			//
-			// UNION SELECT * FROM `eigenschaft` WHERE ID = 3 UNION
-			// SELECT * FROM `eigenschaft` WHERE ID = 4
-			//
-			// "SELECT ID, bez FROM eigenschaft " + " WHERE ID= " + id );
 
 			while (rs.next()) {
 				Eigenschaft e = new Eigenschaft();

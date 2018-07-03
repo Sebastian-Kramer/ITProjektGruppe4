@@ -16,19 +16,23 @@ import de.hdm.itprojektgruppe4.shared.bo.Eigenschaftauspraegung;
 
 public class EigenschaftauspraegungMapper {
 	/**
-     * Der Mapper ist ein Singelton.
-     * Variable ist "static" und speichert die einzige Instanz dieser Klasse.
-     */
+	 * Der Mapper ist ein Singelton. Variable ist "static" und speichert die
+	 * einzige Instanz dieser Klasse.
+	 */
 	private static EigenschaftauspraegungMapper eigenschaftauspraegungMapper = null;
-/**
- * geschützter Konstruktor, der verhindert, dass Klasse mit "new" instanziert wird.
- */
+
+	/**
+	 * geschützter Konstruktor, der verhindert, dass Klasse mit "new"
+	 * instanziert wird.
+	 */
 	protected EigenschaftauspraegungMapper() {
 	};
-/**
- * Methode zum sicherstellen der Singleton Eigenschaft
- * @return EigenschaftsauspraegungMapper Objekt
- */
+
+	/**
+	 * Methode zum sicherstellen der Singleton Eigenschaft
+	 * 
+	 * @return EigenschaftsauspraegungMapper Objekt
+	 */
 	public static EigenschaftauspraegungMapper eigenschaftauspraegungMapper() {
 		if (eigenschaftauspraegungMapper == null) {
 			eigenschaftauspraegungMapper = new EigenschaftauspraegungMapper();
@@ -39,7 +43,8 @@ public class EigenschaftauspraegungMapper {
 	/**
 	 * Suchen einer Eigenschaftauspraegung mit vorgegebener ID.
 	 * 
-	 * @param id der Eigenschaftauspraegung
+	 * @param id
+	 *            der Eigenschaftauspraegung
 	 * @return die gesuchte Eigenschaftauspraegung
 	 */
 
@@ -73,10 +78,13 @@ public class EigenschaftauspraegungMapper {
 	}
 
 	/**
-	 * Eine Eigenschaftsausprägung anhand der Fremdschlüssel eigenschaftID und kontaktID auslesen
+	 * Eine Eigenschaftsausprägung anhand der Fremdschlüssel eigenschaftID und
+	 * kontaktID auslesen
 	 * 
-	 * @param eigID Fremdschlüssel zur Tabelle Eigenschaft
-	 * @param kontaktID Fremdschlüssel zur Tabelle Kontakt
+	 * @param eigID
+	 *            Fremdschlüssel zur Tabelle Eigenschaft
+	 * @param kontaktID
+	 *            Fremdschlüssel zur Tabelle Kontakt
 	 * @return Eigenschaftauspraegung Objekt
 	 */
 	public Eigenschaftauspraegung getAuspraegungByEigID(int eigID, int kontaktID) {
@@ -111,6 +119,7 @@ public class EigenschaftauspraegungMapper {
 
 	/**
 	 * aufrufen der Ausprägungen anhand der Kontakt ID
+	 * 
 	 * @param id
 	 * @return result
 	 */
@@ -151,8 +160,9 @@ public class EigenschaftauspraegungMapper {
 	 * Einfuegen eines neuen Objktes vom Typ Eigenschaftauspraegung in die DB
 	 * der PK wird ueberprueft und korrigiert -> maxID +1
 	 * 
-	 * @param ea die zu speichernde Eigenschaftauspraegung
-	 * @return die bereits  übergebene Eigenschaftauspraegung
+	 * @param ea
+	 *            die zu speichernde Eigenschaftauspraegung
+	 * @return die bereits übergebene Eigenschaftauspraegung
 	 */
 
 	public Eigenschaftauspraegung insertAuspraegung(Eigenschaftauspraegung ea) {
@@ -291,9 +301,10 @@ public class EigenschaftauspraegungMapper {
 		return result;
 
 	}
-	
+
 	/**
 	 * Suchen der Ausprägungen
+	 * 
 	 * @param kontaktID
 	 * @return
 	 */
@@ -329,6 +340,7 @@ public class EigenschaftauspraegungMapper {
 
 	/**
 	 * aufrufen aller Ausprägungen
+	 * 
 	 * @return
 	 */
 	public Vector<Eigenschaftauspraegung> findAllAuspraegungn() {
@@ -361,15 +373,13 @@ public class EigenschaftauspraegungMapper {
 	}
 
 	/**
-<<<<<<< HEAD
 	 * Auslesen aller geteilten Eigenschaftsausprägungen eines bestimmten
 	 * Kontakts
-=======
-	* Auslesen aller geteilten Eigenschaftsausprägungen eines bestimmten Kontakts
->>>>>>> refs/heads/Raphael
 	 * 
-	 * @param kontaktID die ID des Kontaktes
-	 * @return Vector mit sämtlichen geteilten Eigenschaftsausprägungen des Kontaktes
+	 * @param kontaktID
+	 *            die ID des Kontaktes
+	 * @return Vector mit sämtlichen geteilten Eigenschaftsausprägungen des
+	 *         Kontaktes
 	 */
 	public Vector<Eigenschaftauspraegung> findAllSharedAuspraegungenFromKontaktID(int kontaktID) {
 
