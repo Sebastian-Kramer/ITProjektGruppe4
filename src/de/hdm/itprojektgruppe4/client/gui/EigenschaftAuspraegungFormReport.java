@@ -1,5 +1,7 @@
 package de.hdm.itprojektgruppe4.client.gui;
 
+import java.util.Vector;
+
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.Cookies;
@@ -9,12 +11,16 @@ import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Label;
+import com.google.gwt.user.client.ui.MultiWordSuggestOracle;
 import com.google.gwt.user.client.ui.RootPanel;
+import com.google.gwt.user.client.ui.SuggestBox;
 import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.client.ui.VerticalPanel;
 
 import de.hdm.itprojektgruppe4.client.ClientsideSettings;
 import de.hdm.itprojektgruppe4.shared.ReportGeneratorAsync;
+import de.hdm.itprojektgruppe4.shared.bo.Eigenschaft;
+import de.hdm.itprojektgruppe4.shared.bo.Eigenschaftauspraegung;
 import de.hdm.itprojektgruppe4.shared.bo.Nutzer;
 import de.hdm.itprojektgruppe4.shared.report.HTMLReportWriter;
 import de.hdm.itprojektgruppe4.shared.report.KontakteMitBestimmtenAuspraegungen;
@@ -34,10 +40,12 @@ public class EigenschaftAuspraegungFormReport extends VerticalPanel {
 	private Label eigenschaftLabel = new Label("Eigenschaft");
 
 	private Label auspraegungLabel = new Label("Auspraegung");
+	private MultiWordSuggestOracle eigenschaftOracle = new MultiWordSuggestOracle();
+	private MultiWordSuggestOracle auspraegungOracle = new MultiWordSuggestOracle();
+	private SuggestBox eigenschafBox = new SuggestBox(eigenschaftOracle);
+	
 
-	private TextBox eigenschafBox = new TextBox();
-
-	private TextBox auspraegungBox = new TextBox();
+	private SuggestBox auspraegungBox = new SuggestBox(auspraegungOracle);
 
 	private Button sendButton = new Button("Absenden");
 
@@ -64,6 +72,8 @@ public class EigenschaftAuspraegungFormReport extends VerticalPanel {
 		RootPanel.get("Buttonbar").add(hPanel);
 		
 		sendButton.addClickHandler(new sendButtonClick());
+		reportverwaltung.findAllEigenschaft(new AlleEigCallback());
+		reportverwaltung.findAllAuspraegungen(nutzer.getID(), new AlleAusCallback());
 
 	}
 		/**
@@ -96,11 +106,16 @@ public class EigenschaftAuspraegungFormReport extends VerticalPanel {
 			 */
 			@Override
 			public void onClick(ClickEvent event) {
-				if (auspraegungBox.getText() != null && eigenschafBox.getText().isEmpty()) {
+			if(eigenschafBox.getText().isEmpty() && auspraegungBox.getText().isEmpty()){
+					Window.alert("Bitte Daten eingeben");
+				}
+				
+			else if (auspraegungBox.getText() != null && eigenschafBox.getText().isEmpty()) {
 
 					/*
 					 * Aufruf des reports
 					 */
+					Window.alert("nur ausprägung");
 					reportverwaltung.kontakteMitBestimmtenAuspraegungen(nutzer.getID(), auspraegungBox.getText(),
 							new AsyncCallback<KontakteMitBestimmtenAuspraegungen>() {
 
@@ -129,11 +144,13 @@ public class EigenschaftAuspraegungFormReport extends VerticalPanel {
 					 * die selbem Eigenschaften aufweisen in form eines Reports
 					 * angezeigt
 					 */
-				} else if (eigenschafBox.getValue() != null && auspraegungBox.getText().isEmpty()) {
+				} 
+				else if (eigenschafBox.getValue() != null && auspraegungBox.getText().isEmpty()) {
 
 					/*
 					 * Aufruf des reports
 					 */
+					Window.alert("nur eigenschaft");
 					reportverwaltung.kontakteMitBestimmtenEigenschaften(nutzer.getID(), eigenschafBox.getText(),
 							new AsyncCallback<KontakteMitBestimmtenEigenschaften>() {
 
@@ -162,6 +179,7 @@ public class EigenschaftAuspraegungFormReport extends VerticalPanel {
 					 */
 				} else if (eigenschafBox.getValue() != null && auspraegungBox != null) {
 
+					Window.alert("beides");
 					reportverwaltung.kontakteMitBestimmtenEigenschaftsAuspraegungen(nutzer.getID(),
 							eigenschafBox.getValue(), auspraegungBox.getValue(),
 							new AsyncCallback<KontakteMitBestimmtenEigenschaftsAuspraegungen>() {
@@ -190,14 +208,59 @@ public class EigenschaftAuspraegungFormReport extends VerticalPanel {
 					 * eine Fehlermeldung ausgegeben, sodass der Nutzer Werte in
 					 * die Textboxen eingibt
 					 */
-				} else if (eigenschafBox.equals("") && auspraegungBox.equals("")) {
-					Window.alert("Bitte Daten eingeben");
-				}
+				} 
 
 			}
 
 		}
 
+	/**
+	 *  Callback Klasse um alle Eigenschaften zu selektieren und in dem MultiWordSuggestOracle zu speichern.
+	 * @author Marcus
+	 *
+	 */
+		
+	private class AlleEigCallback implements AsyncCallback<Vector<Eigenschaft>>{
+
+		@Override
+		public void onFailure(Throwable caught) {
+			// TODO Auto-generated method stub
+			
+		}
+
+		@Override
+		public void onSuccess(Vector<Eigenschaft> result) {
+			// TODO Auto-generated method stub
+			for (Eigenschaft eigenschaft : result) {
+				eigenschaftOracle.add(eigenschaft.getBezeichnung());
+			}
+		}
+		
+	}
 	
+	/**
+	 * Callback Klasse um alle EIgenschaftsausprägungen in einem MultiWordSuggestOracle zu speichern.
+	 * Es werden nur Ausprägungen von eigenen Kontakten oder Ausprägungen zu denen eine Teilhaberschaft 
+	 * besteht selektiert.
+	 * @author Marcus
+	 *
+	 */
+	private class AlleAusCallback implements AsyncCallback<Vector<Eigenschaftauspraegung>> {
+
+		@Override
+		public void onFailure(Throwable caught) {
+			// TODO Auto-generated method stub
+			
+		}
+
+		@Override
+		public void onSuccess(Vector<Eigenschaftauspraegung> result) {
+			// TODO Auto-generated method stub
+			for (Eigenschaftauspraegung eigenschaftauspraegung : result) {
+				auspraegungOracle.add(eigenschaftauspraegung.getWert());
+			}
+		}
+		
+	}
 
 }

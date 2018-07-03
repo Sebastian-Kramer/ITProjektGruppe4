@@ -134,9 +134,11 @@ public class ReportGeneratorImpl extends RemoteServiceServlet implements ReportG
 			}
 
 			Row kontaktRow = new Row();
-
+			if(k.getNutzerID() == nutzerID){
 			auspraegung = this.verwaltung.findHybrid(k);
-
+			}else{
+			auspraegung	= this.verwaltung.findSharedAuspraegung(k.getID(), nutzerID);
+			}
 			kontaktRow.addColumn(new Column(String.valueOf(k.getName())));
 			/*
 			 * Abfrage des Teilhaberstatus
@@ -598,4 +600,72 @@ public class ReportGeneratorImpl extends RemoteServiceServlet implements ReportG
 
 	}
 
+	/**
+	 * Alle Objekte vom Typ Eigenschaftselektieren.
+	 * @return EIn Vektor mit allen Objekten vom Typ Eigenschaft.
+	 * @throws IllegalArgumentException
+	 */
+	
+	public Vector<Eigenschaft> findAllEigenschaft() throws IllegalArgumentException {
+		return this.verwaltung.findAllEigenschaft();
+		
+		
+	}
+	
+	/**
+	 *  Alle Ausprägungen von eigenen Kontakten und Kontakten die dem Nutzer geteilt wurden werden selektiert.
+	 *  
+	 * @param nutzerID
+	 * @return Ein Vektor mit Objekten vom Datentyp Eigenschaftauspraegung
+	 * @throws IllegalArgumentException
+	 */
+	
+	public Vector<Eigenschaftauspraegung> findAllAuspraegungen(int nutzerID) throws IllegalArgumentException {
+		
+		Vector<Kontakt>  alleKonVonNutzer = new Vector<Kontakt>();
+		
+		/*
+		 * Hier werden dem Gesamt-  Vector werden die eigenen Kontakte hinzugefügt.
+		 */
+		Vector<EigenschaftAuspraegungWrapper> alleEigenenAus = new Vector<EigenschaftAuspraegungWrapper>();
+		Vector<Eigenschaftauspraegung> eaAllShared = new Vector<Eigenschaftauspraegung>();
+		Vector <Kontakt> vectorEigene = this.verwaltung.findAllKontaktFromNutzer(nutzerID);
+		for (Kontakt kontakt : vectorEigene) {
+			alleKonVonNutzer.add(kontakt);
+		}
+		
+		/*
+		 * Hier werden dem Gesamt- Vector werden die geteilten Kontakte hinzugefügt.
+		 * 
+		 */
+		Vector<Kontakt> vectorGeteilt = this.verwaltung.findAllSharedKontakteVonNutzer(nutzerID);
+		for (Kontakt kontakt : vectorGeteilt) {
+			alleEigenenAus = this.verwaltung.findSharedAuspraegung(kontakt.getID(), nutzerID);
+			for (EigenschaftAuspraegungWrapper ea : alleEigenenAus) {
+				// alleKonVonNutzer.add(this.verwaltung.findKontaktByAuspraegungID(ea.getAuspraegungID()));
+				Eigenschaftauspraegung e = this.verwaltung.getAuspraegungByID(ea.getAuspraegungID());
+				eaAllShared.add(e);
+			}
+		}
+
+		for (Kontakt k : alleKonVonNutzer) {
+			if (k.getNutzerID() == nutzerID) {
+				Vector<Eigenschaftauspraegung> eaAll = this.verwaltung.findEigenschaftauspraegungByKontaktID(k.getID());
+				for (Eigenschaftauspraegung eap : eaAll) {
+					eaAllShared.add(eap);
+				}
+			}
+		}
+
+		/*
+		 * Für jeden Kontakt aus dem Gesamt-Vector wird jede Ausprägung
+		 * selektiert und einem Vector hinzugefügt.
+		 */
+		
+		return eaAllShared;
+	}
+
+	
+	
+	
 }

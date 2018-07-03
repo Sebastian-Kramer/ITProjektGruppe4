@@ -5,6 +5,8 @@ import java.util.Vector;
 import com.google.gwt.user.client.rpc.RemoteService;
 import com.google.gwt.user.client.rpc.RemoteServiceRelativePath;
 
+import de.hdm.itprojektgruppe4.shared.bo.Eigenschaft;
+import de.hdm.itprojektgruppe4.shared.bo.Eigenschaftauspraegung;
 import de.hdm.itprojektgruppe4.shared.bo.Nutzer;
 import de.hdm.itprojektgruppe4.shared.report.AllEigeneKontakteReport;
 import de.hdm.itprojektgruppe4.shared.report.KontakteMitBestimmtenAuspraegungen;
@@ -13,7 +15,7 @@ import de.hdm.itprojektgruppe4.shared.report.KontakteMitBestimmtenEigenschaftsAu
 import de.hdm.itprojektgruppe4.shared.report.KontakteMitBestimmterTeilhaberschaftReport;
 
 /**
- * Synchrone Schnittstelle für eine RPC-fähige Klasse zur Erstellung von
+ * Synchrone Schnittstelle fï¿½r eine RPC-fï¿½hige Klasse zur Erstellung von
  * Reports
  * @author Georg
  *
@@ -30,7 +32,7 @@ public interface ReportGenerator extends RemoteService {
 
 	/**
 	 * Erstellen eines <code>AllEigeneKontakteReport</code>-Reports.
-     * Dieser Report-Typ stellt sämtliche Kontakte des Nutzers dar.
+     * Dieser Report-Typ stellt sï¿½mtliche Kontakte des Nutzers dar.
 	 * 
 	 * @param nutzerID
 	 * @return
@@ -50,6 +52,24 @@ public interface ReportGenerator extends RemoteService {
 	public Nutzer findNutzerByEmail(String email) throws IllegalArgumentException;
 
 	/**
+	 * Alle Objekte vom Typ Eigenschaftselektieren.
+	 * @return EIn Vektor mit allen Objekten vom Typ Eigenschaft.
+	 * @throws IllegalArgumentException
+	 */
+	public Vector<Eigenschaft> findAllEigenschaft() throws IllegalArgumentException;
+	
+	
+	/**
+	 *  Alle AusprÃ¤gungen von eigenen Kontakten und Kontakten die dem Nutzer geteilt wurden werden selektiert.
+	 *  
+	 * @param nutzerID
+	 * @return Ein Vektor mit Objekten vom Datentyp Eigenschaftauspraegung
+	 * @throws IllegalArgumentException
+	 */
+	public Vector<Eigenschaftauspraegung> findAllAuspraegungen(int nutzerID) throws IllegalArgumentException;
+		
+	
+	/**
 	 * Erstellen eines <code>KontakteMitBestimmterTeilhaberschaftReport</code>-Reports.
      * Dieser Report-Typ liest die alle Kontakte aus die mit bestimmten Nutzer geteilt wirden sind.
 	 * 
@@ -65,7 +85,7 @@ public interface ReportGenerator extends RemoteService {
 	/**
 	 * Erstellen eines <code>KontakteMitBestimmtenEigenschaftsAuspraegungen</code>-Reports.
      * Dieser Report-Typ liest die alle eigenen Kontakte des NUtzers aus 
-     * die bestimmte Eigenschaften & Ausprägungen aufweisen
+     * die bestimmte Eigenschaften & Ausprï¿½gungen aufweisen
 	 * 
 	 * 
 	 * @param NutzerID
@@ -79,7 +99,7 @@ public interface ReportGenerator extends RemoteService {
 	/**	 
 	 * Erstellen eines <code>KontakteMitBestimmtenAuspraegungen</code>-Reports.
      * Dieser Report-Typ liest die alle eigenen Kontakte des Nutzers aus 
-     * die bestimmte Ausprägungen aufweisen
+     * die bestimmte Ausprï¿½gungen aufweisen
 	 * 
 	 * 
 	 * @param NutzerID

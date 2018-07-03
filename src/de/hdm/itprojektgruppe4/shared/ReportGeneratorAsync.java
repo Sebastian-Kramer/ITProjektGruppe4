@@ -4,6 +4,8 @@ import java.util.Vector;
 
 import com.google.gwt.user.client.rpc.AsyncCallback;
 
+import de.hdm.itprojektgruppe4.shared.bo.Eigenschaft;
+import de.hdm.itprojektgruppe4.shared.bo.Eigenschaftauspraegung;
 import de.hdm.itprojektgruppe4.shared.bo.Nutzer;
 import de.hdm.itprojektgruppe4.shared.report.AllEigeneKontakteReport;
 import de.hdm.itprojektgruppe4.shared.report.KontakteMitBestimmtenAuspraegungen;
@@ -38,5 +40,9 @@ public interface ReportGeneratorAsync {
 			AsyncCallback<KontakteMitBestimmtenEigenschaften> callback);
 
 	void AllEigeneKontakteReport(int nutzerID, AsyncCallback<AllEigeneKontakteReport> callback);
+
+	void findAllEigenschaft(AsyncCallback<Vector<Eigenschaft>> callback);
+
+	void findAllAuspraegungen(int nutzerID, AsyncCallback<Vector<Eigenschaftauspraegung>> callback);
 
 }
