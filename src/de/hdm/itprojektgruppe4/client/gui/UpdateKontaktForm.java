@@ -31,6 +31,9 @@ import com.google.gwt.user.client.ui.ScrollPanel;
 import com.google.gwt.user.client.ui.SuggestBox;
 import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.client.ui.VerticalPanel;
+import com.google.gwt.view.client.DefaultSelectionEventManager;
+import com.google.gwt.view.client.MultiSelectionModel;
+import com.google.gwt.view.client.SelectionChangeEvent;
 
 import de.hdm.itprojektgruppe4.client.ClientsideSettings;
 import de.hdm.itprojektgruppe4.client.EigenschaftAuspraegungWrapper;
@@ -68,6 +71,7 @@ public class UpdateKontaktForm extends VerticalPanel {
 	private Label lbl_KontaktName = new Label("Kontaktname: ");
 	private TextBox txt_KontaktName = new TextBox();
 	private Button addRow = new Button("Hinzufügen");
+	private Button deleteAuspraegungButton = new Button("Ausprägungen löschen");
 
 	private TextBox txt_Auspraegung = new TextBox();
 	private Date date = new Date();
@@ -77,10 +81,10 @@ public class UpdateKontaktForm extends VerticalPanel {
 	private ScrollPanel scrollPanel = new ScrollPanel();
 	private Image kontaktbild = new Image("Image/Visitenkarte_2.png");
 	private CellTableForm ctf = null;
-	private ButtonCell deletebtn = new ButtonCell();
-	private ClickableTextCell bezeigenschaft = new ClickableTextCell();
+//	private ButtonCell deletebtn = new ButtonCell();
+//	private ClickableTextCell bezeigenschaft = new ClickableTextCell();
 	private EditTextCell wertauspraegung = new EditTextCell();
-	private CellTableForm.ColumnEigenschaft bezEigenschaft = ctf.new ColumnEigenschaft(bezeigenschaft);
+//	private CellTableForm.ColumnEigenschaft bezEigenschaft = ctf.new ColumnEigenschaft(bezeigenschaft);
 	private CellTableForm.ColumnAuspraegung wertAuspraegung = ctf.new ColumnAuspraegung(wertauspraegung) {
 
 		public void onBrowserEvent(Context context, Element elem, EigenschaftAuspraegungWrapper object,
@@ -130,8 +134,9 @@ public class UpdateKontaktForm extends VerticalPanel {
 
 	private Eigenschaft eig1 = new Eigenschaft();
 	private Eigenschaftauspraegung eigaus = new Eigenschaftauspraegung();
-
-	private CellTableForm.ColumnDeleteBtn deleteBtn = ctf.new ColumnDeleteBtn(deletebtn);
+	final MultiSelectionModel<EigenschaftAuspraegungWrapper> selectionModelWrapper = new MultiSelectionModel<EigenschaftAuspraegungWrapper>();
+	
+//	private CellTableForm.ColumnDeleteBtn deleteBtn = ctf.new ColumnDeleteBtn(deletebtn);
 	
 
 	/**
@@ -143,15 +148,11 @@ public class UpdateKontaktForm extends VerticalPanel {
 	 * @param kon
 	 */
 
-	public UpdateKontaktForm(Kontakt kon) {
+	public UpdateKontaktForm(Kontakt k) {
 
-		this.kon = kon;
+		this.kon = k;
 		ctf = new CellTableForm(kon);
-		ctf.addColumn(bezEigenschaft, "Kontakteigenschaften: ");
-		ctf.addColumn(wertAuspraegung);
-		ctf.addColumn(ctf.deleteCell);
-		ctf.addColumn(deleteBtn);
-		ctf.setStyleName("CellTableHyprid");
+	
 
 	}
 
@@ -163,13 +164,11 @@ public class UpdateKontaktForm extends VerticalPanel {
 	 * @param kon
 	 * @param teilhaberschaft
 	 */
-	public UpdateKontaktForm(Kontakt kon, String teilhaberschaft) {
+	public UpdateKontaktForm(Kontakt k, String teilhaberschaft) {
 
-		this.kon = kon;
+		this.kon = k;
 		ctf = new CellTableForm(kon, teilhaberschaft);
-		ctf.addColumn(bezEigenschaft, "Kontakteigenschaften: ");
-		ctf.addColumn(wertAuspraegung);
-		ctf.setStyleName("CellTableHyprid");
+		
 	}
 
 	/**
@@ -183,12 +182,22 @@ public class UpdateKontaktForm extends VerticalPanel {
 	public void onLoad() {
 
 		super.onLoad();
-
 		nutzer.setID(Integer.parseInt(Cookies.getCookie("id")));
 		nutzer.setEmail(Cookies.getCookie("email"));
-
+		
+		deleteAuspraegungButton.setVisible(false);
+		selectionModelWrapper.addSelectionChangeHandler(new SelectionHandler());
+		
 		fmt.format(date);
 		RootPanel.get("Buttonbar").clear();
+		ctf.setSelectionModel(selectionModelWrapper,
+				DefaultSelectionEventManager.<EigenschaftAuspraegungWrapper>createCheckboxManager());
+		ctf.addColumn(ctf.getCheckBox());
+		ctf.addColumn(ctf.getBezEigenschaft(), "Kontakteigenschaften: ");
+		ctf.addColumn(wertAuspraegung);
+		ctf.addColumn(ctf.getDeleteBtn());
+		ctf.getDeleteBtn().setFieldUpdater(new DeleteFieldUpdater());
+		ctf.setStyleName("CellTableAuspraegung");
 		kontaktbild.setStyleName("Kontaktbild");
 		txt_KontaktName.setText(kon.getName());
 		txt_KontaktName.setStyleName("klistBox");
@@ -208,6 +217,7 @@ public class UpdateKontaktForm extends VerticalPanel {
 		hpanelAdd.add(eigenschaftSugBox);
 		hpanelAdd.add(txt_Auspraegung);
 		hpanelAdd.add(addRow);
+		hpanelAdd.add(deleteAuspraegungButton);
 		wertAuspraegung.setSortable(true);
 		ctf.setSelectionModel(ctf.getSm());
 		ctf.setStyleName("CellTableKontakt");
@@ -219,8 +229,8 @@ public class UpdateKontaktForm extends VerticalPanel {
 		this.add(vpanelDetails);
 
 		verwaltung.findAllEigenschaft(new AlleEigenschaftCallback());
-
-		deleteBtn.setFieldUpdater(new DeleteFieldUpdater());
+//
+//		deleteBtn.setFieldUpdater(new DeleteFieldUpdater());
 		cancelBtn.getElement().appendChild(zurueckZuHomePic.getElement());
 		cancelBtn.addClickHandler(new CancelClick());
 		
@@ -602,5 +612,18 @@ public class UpdateKontaktForm extends VerticalPanel {
 			}
 		}
 
+	}
+	
+	class SelectionHandler implements SelectionChangeEvent.Handler{
+
+		@Override
+		public void onSelectionChange(SelectionChangeEvent event) {
+			if (selectionModelWrapper.getSelectedSet().isEmpty()) {
+				deleteAuspraegungButton.setVisible(false);
+			}else{
+				deleteAuspraegungButton.setVisible(true);
+			}
+		}
+		
 	}
 }
