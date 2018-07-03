@@ -14,7 +14,6 @@ import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.MultiWordSuggestOracle;
 import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwt.user.client.ui.SuggestBox;
-import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.client.ui.VerticalPanel;
 
 import de.hdm.itprojektgruppe4.client.ClientsideSettings;
@@ -34,22 +33,16 @@ public class EigenschaftAuspraegungFormReport extends VerticalPanel {
 	 */
 
 	private static ReportGeneratorAsync reportverwaltung = ClientsideSettings.getReportVerwaltung();
-
 	private HorizontalPanel hPanel = new HorizontalPanel();
-
 	private Label eigenschaftLabel = new Label("Eigenschaft");
-
 	private Label auspraegungLabel = new Label("Auspraegung");
 	private MultiWordSuggestOracle eigenschaftOracle = new MultiWordSuggestOracle();
 	private MultiWordSuggestOracle auspraegungOracle = new MultiWordSuggestOracle();
 	private SuggestBox eigenschafBox = new SuggestBox(eigenschaftOracle);
 	private Vector<Eigenschaftauspraegung> vecAlleAuspr = new Vector<Eigenschaftauspraegung>();
-
 	private SuggestBox auspraegungBox = new SuggestBox(auspraegungOracle);
-
 	private Button sendButton = new Button("Absenden");
-
-	Nutzer nutzer = new Nutzer();
+	private Nutzer nutzer = new Nutzer();
 
 	/*
 	 * Beim Anzeigen werden die Widgets erzeugt.
@@ -114,7 +107,7 @@ public class EigenschaftAuspraegungFormReport extends VerticalPanel {
 			}
 
 			else if (auspraegungBox.getText() != null && eigenschafBox.getText().isEmpty()) {
-				
+				RootPanel.get("Details").clear();
 				for (Eigenschaftauspraegung auspraegung : vecAlleAuspr) {
 					if (auspraegung.getWert().equals(auspraegungBox.getText())) {
 						abfrage = true;
@@ -163,7 +156,7 @@ public class EigenschaftAuspraegungFormReport extends VerticalPanel {
 				/*
 				 * Aufruf des reports
 				 */
-
+				RootPanel.get("Details").clear();
 				reportverwaltung.kontakteMitBestimmtenEigenschaften(nutzer.getID(), eigenschafBox.getText(),
 						new AsyncCallback<KontakteMitBestimmtenEigenschaften>() {
 
@@ -194,44 +187,45 @@ public class EigenschaftAuspraegungFormReport extends VerticalPanel {
 				 * form eines Reports angezeigt
 				 */
 			} else if (eigenschafBox.getText() != null && auspraegungBox.getText() != null) {
+				RootPanel.get("Details").clear();
 				for (Eigenschaftauspraegung auspraegung : vecAlleAuspr) {
 					if (auspraegung.getWert().equals(auspraegungBox.getText())) {
 						abfrage = true;
-						
+
 					}
 				}
 				if (abfrage == true) {
-				
-				reportverwaltung.kontakteMitBestimmtenEigenschaftsAuspraegungen(nutzer.getID(),
-						eigenschafBox.getText(), auspraegungBox.getText(),
-						new AsyncCallback<KontakteMitBestimmtenEigenschaftsAuspraegungen>() {
-							@Override
-							public void onFailure(Throwable caught) {
-								RootPanel.get("Details").clear();
-							}
 
-							@Override
-							public void onSuccess(KontakteMitBestimmtenEigenschaftsAuspraegungen result) {
-
-								if (result != null) {
-									if (result.getRows().size() == 1) {
-										Window.alert("Kein Report für diese Abfrage vorhanden.");
-									} else {
-										HTMLReportWriter writer = new HTMLReportWriter();
-										writer.process(result);
-										RootPanel.get("Details").clear();
-										RootPanel.get("Details").add(new HTML(writer.getReportText()));
-									}
+					reportverwaltung.kontakteMitBestimmtenEigenschaftsAuspraegungen(nutzer.getID(),
+							eigenschafBox.getText(), auspraegungBox.getText(),
+							new AsyncCallback<KontakteMitBestimmtenEigenschaftsAuspraegungen>() {
+								@Override
+								public void onFailure(Throwable caught) {
+									RootPanel.get("Details").clear();
 								}
 
-							}
+								@Override
+								public void onSuccess(KontakteMitBestimmtenEigenschaftsAuspraegungen result) {
 
-						});
-				/*
-				 * Sollten die Textboxen keine Werte beinhalten, so wird eine
-				 * Fehlermeldung ausgegeben, sodass der Nutzer Werte in die
-				 * Textboxen eingibt
-				 */
+									if (result != null) {
+										if (result.getRows().size() == 1) {
+											Window.alert("Kein Report für diese Abfrage vorhanden.");
+										} else {
+											HTMLReportWriter writer = new HTMLReportWriter();
+											writer.process(result);
+											RootPanel.get("Details").clear();
+											RootPanel.get("Details").add(new HTML(writer.getReportText()));
+										}
+									}
+
+								}
+
+							});
+					/*
+					 * Sollten die Textboxen keine Werte beinhalten, so wird
+					 * eine Fehlermeldung ausgegeben, sodass der Nutzer Werte in
+					 * die Textboxen eingibt
+					 */
 				}
 			}
 
@@ -251,13 +245,13 @@ public class EigenschaftAuspraegungFormReport extends VerticalPanel {
 
 		@Override
 		public void onFailure(Throwable caught) {
-			// TODO Auto-generated method stub
+	
 
 		}
 
 		@Override
 		public void onSuccess(Vector<Eigenschaft> result) {
-			// TODO Auto-generated method stub
+			
 			for (Eigenschaft eigenschaft : result) {
 				eigenschaftOracle.add(eigenschaft.getBezeichnung());
 			}
@@ -278,13 +272,13 @@ public class EigenschaftAuspraegungFormReport extends VerticalPanel {
 
 		@Override
 		public void onFailure(Throwable caught) {
-			// TODO Auto-generated method stub
+		
 
 		}
 
 		@Override
 		public void onSuccess(Vector<Eigenschaftauspraegung> result) {
-			// TODO Auto-generated method stub
+			
 			vecAlleAuspr = result;
 			for (Eigenschaftauspraegung eigenschaftauspraegung : result) {
 				auspraegungOracle.add(eigenschaftauspraegung.getWert());
