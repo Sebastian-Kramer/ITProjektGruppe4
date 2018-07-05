@@ -76,7 +76,7 @@ public class KontaktForm extends VerticalPanel {
 	private Image bearbeitenPic = new Image("Image/Bearbeiten.png");
 
 	private Image konZuListPic = new Image("Image/KontaktZuListe.png");
-	private Image zurueckZuHome = new Image("Image/Back.png");
+	private Image zurueckZuHome = new Image("Image/Startseite.png");
 
 	private Image teilVerwaltenPic = new Image("Image/Teilen.png");
 	/**
