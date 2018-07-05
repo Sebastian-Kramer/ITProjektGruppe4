@@ -2,7 +2,6 @@ package de.hdm.itprojektgruppe4.client.gui;
 
 import java.util.Vector;
 
-import com.google.gwt.aria.client.SelectedValue;
 import com.google.gwt.cell.client.ClickableTextCell;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
@@ -61,7 +60,7 @@ public class SuchenForm extends VerticalPanel {
 	private Button kontaktKontaktAnzeigenButton = new Button("Kontakt anzeigen");
 	private Button auspraegungKontaktAnzeigenButton = new Button("Zugehörigen Kontakt anzeigen");
 	private VerticalPanel vpanel = new VerticalPanel();
-	private VerticalPanel vpanelTop = new VerticalPanel(); 
+	private VerticalPanel vpanelTop = new VerticalPanel();
 	private HorizontalPanel hpanelRechts = new HorizontalPanel();
 	private HorizontalPanel hpanelLinks = new HorizontalPanel();
 	private HorizontalPanel hpanel = new HorizontalPanel();
@@ -76,7 +75,7 @@ public class SuchenForm extends VerticalPanel {
 	private SuggestBox suggestionKontaktBox = new SuggestBox(KontaktOracle);
 	private Image suchenKonPic = new Image("Image/Suchen.png");
 	private Image suchenAusPic = new Image("Image/Suchen.png");
-	
+
 	final SingleSelectionModel<Kontakt> sm = new SingleSelectionModel<Kontakt>();
 	final SingleSelectionModel<EigenschaftAuspraegungWrapper> ssm = new SingleSelectionModel<EigenschaftAuspraegungWrapper>();
 	private CellTable<Kontakt> ctkontakt = new CellTable<Kontakt>();
@@ -101,7 +100,7 @@ public class SuchenForm extends VerticalPanel {
 		tboxKontaktname.setStyleName("SuchenBoxKontakt");
 		tboxAuspraegung.setStyleName("SuchenBoxAuspraegung");
 		kontaktSuchen.setHeight("60px");
-		
+
 	}
 
 	/**
@@ -116,7 +115,6 @@ public class SuchenForm extends VerticalPanel {
 
 		super.onLoad();
 
-	
 		nutzer.setID(Integer.parseInt(Cookies.getCookie("id")));
 		nutzer.setEmail(Cookies.getCookie("mail"));
 
@@ -132,7 +130,7 @@ public class SuchenForm extends VerticalPanel {
 
 			@Override
 			public String getValue(Kontakt object) {
-		
+
 				return object.getName();
 			}
 
@@ -141,7 +139,7 @@ public class SuchenForm extends VerticalPanel {
 		ctAus = new CellTableForm();
 		ctkontakt.addColumn(kontaktname, "Gefundene Kontakte");
 		ctkontakt.setSelectionModel(sm);
-		ctkontakt.setStyleName("TableKontakte"); 
+		ctkontakt.setStyleName("TableKontakte");
 		ctkontakt.setVisible(false);
 		ctAus.setVisible(false);
 		kontaktKontaktAnzeigenButton.setVisible(false);
@@ -167,13 +165,13 @@ public class SuchenForm extends VerticalPanel {
 		ctAus.addColumn(wertAuspraegung, "Ausprägung");
 		ctAus.addColumn(kontaktName, "Zugehöriger Kontakt");
 		ctAus.setStyleName("TableAuspraegung");
-		
+
 		suchenKonPic.setStyleName("ButtonICON");
 		suchenAusPic.setStyleName("ButtonICON");
-		
+
 		hpanel.add(suchenIcon);
 		hpanel.add(ueberschrift);
-		vpanelTop.add(hpanel);	
+		vpanelTop.add(hpanel);
 		hpanelLinks.add(KontaktSuchenPanel);
 		hpanelLinks.add(AuspraegungSuchenPanel);
 		vpanel2.add(ctAus);
@@ -181,7 +179,6 @@ public class SuchenForm extends VerticalPanel {
 		hpanelRechts.add(ctAus);
 		vpanel3.add(auspraegungKontaktAnzeigenButton);
 		vpanel3.add(kontaktKontaktAnzeigenButton);
-
 
 		this.add(vpanelTop);
 		this.add(HTMLForm);
@@ -199,8 +196,7 @@ public class SuchenForm extends VerticalPanel {
 		this.add(vpanel2);
 		this.add(hpanelRechts);
 		this.add(vpanel3);
-		
-		
+
 		kontaktKontaktAnzeigenButton.addClickHandler(new KontaktKontaktAnzeigenHandler());
 		auspraegungKontaktAnzeigenButton.addClickHandler(new AuspraegungKontaktAnzeigenHandler());
 		verwaltung.findAllKontaktFromNutzer(nutzer.getID(), new AllKontakteCallBack());
@@ -226,7 +222,7 @@ public class SuchenForm extends VerticalPanel {
 
 		@Override
 		public void onClick(ClickEvent event) {
-			
+
 			auspraegungKontaktAnzeigenButton.setText("");
 			kontaktKontaktAnzeigenButton.setVisible(false);
 			EigenschaftAuspraegungWrapper eigaus = new EigenschaftAuspraegungWrapper();
@@ -252,16 +248,16 @@ public class SuchenForm extends VerticalPanel {
 		public void onClick(ClickEvent event) {
 
 			kontaktKontaktAnzeigenButton.setText("");
-			
+
 			Kontakt selected = sm.getSelectedObject();
-			if(selected.getNutzerID() == nutzer.getID()){
-			KontaktForm kf = new KontaktForm(selected);
-			RootPanel.get("Details").clear();
-			RootPanel.get("Details").add(kf);
-			}else{
-			KontaktForm kf = new KontaktForm(selected, "teilhaberschaft");
-			RootPanel.get("Details").clear();
-			RootPanel.get("Details").add(kf);
+			if (selected.getNutzerID() == nutzer.getID()) {
+				KontaktForm kf = new KontaktForm(selected);
+				RootPanel.get("Details").clear();
+				RootPanel.get("Details").add(kf);
+			} else {
+				KontaktForm kf = new KontaktForm(selected, "teilhaberschaft");
+				RootPanel.get("Details").clear();
+				RootPanel.get("Details").add(kf);
 			}
 		}
 
@@ -370,16 +366,16 @@ public class SuchenForm extends VerticalPanel {
 
 		@Override
 		public void onSuccess(Kontakt result) {
-			if(nutzer.getID() == result.getNutzerID()){
+			if (nutzer.getID() == result.getNutzerID()) {
 				KontaktForm kf = new KontaktForm(result);
 				RootPanel.get("Details").clear();
 				RootPanel.get("Details").add(kf);
-			}else{
+			} else {
 				KontaktForm kf = new KontaktForm(result, "teilhaberschaft");
 				RootPanel.get("Details").clear();
 				RootPanel.get("Details").add(kf);
 			}
-			
+
 		}
 
 	}
@@ -402,7 +398,6 @@ public class SuchenForm extends VerticalPanel {
 
 		@Override
 		public void onSuccess(Vector<EigenschaftAuspraegungWrapper> result) {
-
 
 			ctAus.setRowData(0, result);
 			ctAus.setRowCount(result.size(), true);

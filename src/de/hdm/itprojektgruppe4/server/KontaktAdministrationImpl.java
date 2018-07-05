@@ -104,8 +104,8 @@ public class KontaktAdministrationImpl extends RemoteServiceServlet implements K
 	}
 
 	/*
-	 * ########################################################## 
-	 * START Methoden für Kontakt-Objekte
+	 * ########################################################## START Methoden
+	 * für Kontakt-Objekte
 	 * #########################################################
 	 */
 
@@ -399,14 +399,14 @@ public class KontaktAdministrationImpl extends RemoteServiceServlet implements K
 	}
 
 	/*
-	 * ########################################################## 
-	 * ENDE Methoden fuer Kontakt-Objekte
+	 * ########################################################## ENDE Methoden
+	 * fuer Kontakt-Objekte
 	 * #########################################################
 	 */
 
 	/*
-	 * ########################################################## 
-	 * START Methoden fuer Nutzer-Objekte
+	 * ########################################################## START Methoden
+	 * fuer Nutzer-Objekte
 	 * #########################################################
 	 */
 	/**
@@ -677,14 +677,14 @@ public class KontaktAdministrationImpl extends RemoteServiceServlet implements K
 	}
 
 	/*
-	 * ########################################################## 
-	 * ENDE Methoden für Nutzer-Objekte
+	 * ########################################################## ENDE Methoden
+	 * für Nutzer-Objekte
 	 * #########################################################
 	 */
 
 	/*
-	 * ########################################################## 
-	 * START Methoden für Person-Objekte
+	 * ########################################################## START Methoden
+	 * für Person-Objekte
 	 * #########################################################
 	 */
 
@@ -829,14 +829,14 @@ public class KontaktAdministrationImpl extends RemoteServiceServlet implements K
 	}
 
 	/*
-	 * ########################################################## 
-	 * ENDE Methoden für Eigenschaft-Objekte
+	 * ########################################################## ENDE Methoden
+	 * für Eigenschaft-Objekte
 	 * #########################################################
 	 */
 
 	/*
-	 * ########################################################## 
-	 * START Methoden für Eigenschaftauspragung-Objekte
+	 * ########################################################## START Methoden
+	 * für Eigenschaftauspragung-Objekte
 	 * #########################################################
 	 */
 
@@ -1027,14 +1027,14 @@ public class KontaktAdministrationImpl extends RemoteServiceServlet implements K
 	}
 
 	/*
-	 * ########################################################## 
-	 * ENDE Methoden für Eigenschaftauspragung-Objekte
+	 * ########################################################## ENDE Methoden
+	 * für Eigenschaftauspragung-Objekte
 	 * #########################################################
 	 */
 
 	/*
-	 * ########################################################## 
-	 * START Methoden für Kontaktliste-Objekte
+	 * ########################################################## START Methoden
+	 * für Kontaktliste-Objekte
 	 * #########################################################
 	 */
 
@@ -1386,14 +1386,14 @@ public class KontaktAdministrationImpl extends RemoteServiceServlet implements K
 	}
 
 	/*
-	 * ########################################################## 
-	 * ENDE Methoden für Kontaktliste-Objekte
+	 * ########################################################## ENDE Methoden
+	 * für Kontaktliste-Objekte
 	 * #########################################################
 	 */
 
 	/*
-	 * ########################################################## 
-	 * START Methoden für KontaktKontaktliste-Objekte
+	 * ########################################################## START Methoden
+	 * für KontaktKontaktliste-Objekte
 	 * #########################################################
 	 */
 
@@ -1519,14 +1519,14 @@ public class KontaktAdministrationImpl extends RemoteServiceServlet implements K
 	}
 
 	/*
-	 * ########################################################## 
-	 * ENDE Methoden für KontaktKontaktliste-Objekte
+	 * ########################################################## ENDE Methoden
+	 * für KontaktKontaktliste-Objekte
 	 * #########################################################
 	 */
 
 	/*
-	 * ########################################################## 
-	 * START Methoden fuer Teilhaberschaft-Objekte
+	 * ########################################################## START Methoden
+	 * fuer Teilhaberschaft-Objekte
 	 * #########################################################
 	 */
 
@@ -2162,14 +2162,14 @@ public class KontaktAdministrationImpl extends RemoteServiceServlet implements K
 	}
 
 	/*
-	 * ########################################################## 
-	 * ENDE Methoden fuer Teilhaberschaft-Objekte
+	 * ########################################################## ENDE Methoden
+	 * fuer Teilhaberschaft-Objekte
 	 * ##########################################################
 	 */
 
 	/*
-	 * ########################################################## 
-	 * START Methoden fuer Kontakt-Objekte
+	 * ########################################################## START Methoden
+	 * fuer Kontakt-Objekte
 	 * #########################################################
 	 */
 

@@ -4,7 +4,6 @@ import java.util.Date;
 import java.util.List;
 import java.util.Vector;
 
-import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.rpc.RemoteService;
 import com.google.gwt.user.client.rpc.RemoteServiceRelativePath;
 
@@ -17,7 +16,6 @@ import de.hdm.itprojektgruppe4.shared.bo.Nutzer;
 import de.hdm.itprojektgruppe4.shared.bo.Person;
 import de.hdm.itprojektgruppe4.shared.bo.Teilhaberschaft;
 import de.hdm.itprojektgruppe4.shared.bo.KontaktKontaktliste;
-
 
 /**
  * <p>
@@ -48,7 +46,6 @@ import de.hdm.itprojektgruppe4.shared.bo.KontaktKontaktliste;
  * 
  * @author Thies
  */
-
 
 @RemoteServiceRelativePath("kontaktmanager")
 public interface KontaktAdministration extends RemoteService {
@@ -118,29 +115,28 @@ public interface KontaktAdministration extends RemoteService {
 	 * @throws IllegalArgumentException
 	 */
 	public Kontakt findKontaktByName(String name) throws IllegalArgumentException;
-	
-	
+
 	/**
 	 * Einen Kontakt anhand seiner KontaktID in der Auspraegung anzeigen lassen.
 	 * 
 	 * @param id,
-	 *            
+	 * 
 	 * @return Kontakt-Objekt mit der übergebenen kontaktID
 	 * @throws IllegalArgumentException
-	 * */
+	 */
 	public Kontakt findKontaktByAuspraegungID(int id) throws IllegalArgumentException;
-	
+
 	/**
-	 * Einen Kontaktnamen anhand seiner KontaktID in der Auspraegung anzeigen lassen.
+	 * Einen Kontaktnamen anhand seiner KontaktID in der Auspraegung anzeigen
+	 * lassen.
 	 * 
 	 * @param id,
-	 *            
+	 * 
 	 * @return Kontakt-Objekt mit der übergebenen kontaktID
 	 * @throws IllegalArgumentException
-	 * */
+	 */
 	public String findEinenKontaktByAuspraegungID(int id) throws IllegalArgumentException;
-	
-	
+
 	/**
 	 * Alle Kontakte auslesen und in einem Vector ausgeben lassen.
 	 * 
@@ -149,9 +145,9 @@ public interface KontaktAdministration extends RemoteService {
 	 */
 	public Vector<Kontakt> findAllKontakte() throws IllegalArgumentException;
 
-	
 	/**
-	 *  Einen Kontakt anhand des Namens und des Nutzers finden.
+	 * Einen Kontakt anhand des Namens und des Nutzers finden.
+	 * 
 	 * @param kontakt
 	 * @return
 	 * @throws IllegalArgumentException
@@ -224,7 +220,6 @@ public interface KontaktAdministration extends RemoteService {
 	 */
 	public Nutzer findNutzerByID(int id) throws IllegalArgumentException;
 
-	
 	/**
 	 * Alle Nutzer auslesen.
 	 * 
@@ -293,11 +288,12 @@ public interface KontaktAdministration extends RemoteService {
 	 * @throws IllegalArgumentException
 	 */
 	public Vector<Kontaktliste> findKontaktlisteAll() throws IllegalArgumentException;
-	
-	
+
 	/**
-	 *  Eine Eigenschaft anhand der Bezeichnung auslesen.
-	 * @param bez Bezeichnung der Eigenschaft
+	 * Eine Eigenschaft anhand der Bezeichnung auslesen.
+	 * 
+	 * @param bez
+	 *            Bezeichnung der Eigenschaft
 	 * @return Eigenschaft-Objekt
 	 * @throws IllegalArgumentException
 	 */
@@ -354,7 +350,7 @@ public interface KontaktAdministration extends RemoteService {
 	 */
 
 	public Vector<Eigenschaft> findAllEigenschaft() throws IllegalArgumentException;
-	
+
 	/**
 	 * Auslesen aller Eigenschaftausprägung-Objekte
 	 * 
@@ -362,11 +358,13 @@ public interface KontaktAdministration extends RemoteService {
 	 * @throws IllegalArgumentException
 	 */
 	public Vector<Eigenschaftauspraegung> findAllEigenschaftauspraegung() throws IllegalArgumentException;
-	
+
 	/**
 	 * Alle Eigenschaften die zu einem bestimmten Kontakt gehören auslesen
 	 * 
-	 * @param id die ID des Kontaktes, dessen Eigenschaften ausgelesen werden sollen
+	 * @param id
+	 *            die ID des Kontaktes, dessen Eigenschaften ausgelesen werden
+	 *            sollen
 	 * @return Vector mit sämtlichen Eigenschaften eines Kontaktes
 	 */
 	public Vector<Eigenschaft> getEigenschaftbyKontaktID(int id);
@@ -430,42 +428,48 @@ public interface KontaktAdministration extends RemoteService {
 	 * Alle Eigenschaftsauspraegungen eines Kontaktes auslesen
 	 * 
 	 * @param kontaktID
-	 * @return Vector mit sämtlichen Eigenschaftsauspraegungen mit der uebergebenen KontaktID
+	 * @return Vector mit sämtlichen Eigenschaftsauspraegungen mit der
+	 *         uebergebenen KontaktID
 	 * @throws IllegalArgumentException
 	 */
 	public Vector<Eigenschaftauspraegung> findEigenschaftauspraegungByKontaktID(int kontaktID)
 			throws IllegalArgumentException;
 
 	/**
-	 *  Es werden Ausprägungen eines bestimmten Kontaktes selektiert.
+	 * Es werden Ausprägungen eines bestimmten Kontaktes selektiert.
+	 * 
 	 * @param id
 	 * @return
 	 * @throws IllegalArgumentException
 	 */
-	
+
 	public Vector<Eigenschaftauspraegung> getAuspraegungByKontaktID(int id) throws IllegalArgumentException;
 
 	/**
-	 *  Ein Objekt vom Typ Eigenschaft-Ausprägung Wrapper anahnd von einem Perosn Objekt, der Elternklasse von Kontakt, finden.
+	 * Ein Objekt vom Typ Eigenschaft-Ausprägung Wrapper anahnd von einem Perosn
+	 * Objekt, der Elternklasse von Kontakt, finden.
+	 * 
 	 * @param pers
-	 * @return Objekt vom Typ  Eigenschaft-Ausprägung Wrapper
+	 * @return Objekt vom Typ Eigenschaft-Ausprägung Wrapper
 	 * @throws IllegalArgumentException
 	 */
-	
+
 	public Vector<EigenschaftAuspraegungWrapper> findHybrid(Person pers) throws IllegalArgumentException;
 
 	/**
-	 *   Ein Objekt vom Typ Ausprägung löschen.
+	 * Ein Objekt vom Typ Ausprägung löschen.
+	 * 
 	 * @param ea
 	 * @throws IllegalArgumentException
 	 */
-	
+
 	public void deleteEigenschaftUndAuspraegung(EigenschaftAuspraegungWrapper ea) throws IllegalArgumentException;
 
 	/**
 	 * Eine Teilhaberschaft anhand der ID auslesen.
 	 * 
-	 * @param id der Primärschlüssel der Teilhaberschaft
+	 * @param id
+	 *            der Primärschlüssel der Teilhaberschaft
 	 * @return Teilhaberschaft-Objekt
 	 * @throws IllegalArgumentException
 	 */
@@ -497,39 +501,45 @@ public interface KontaktAdministration extends RemoteService {
 	 * @return
 	 */
 	public Teilhaberschaft insertTeilhaberschaftKontakt(int kontaktID, int teilhaberID, int nutzerID);
+
 	/**
-	 * Es werden allen Ausprägungen des übergebenen Kontaktes an den Nutzer, der anahnd seiner Email
-	 * gesucht wird, geteilt. 
-	 * Dazu werden alle Ausprägungen des Kontaktes gesucht und der Status wird auf 1 (geteilt) gesetzt.
-	 * Danach wird die Kontaktliste "Mit mir geteitlte Kontakte" des entsprechenden Teilhabers gesucht und 
-	 * der geteitle Kontakt wird dieser Liste hinzugefügt.
-	 * Es wird der Status des Kontaktes ebenfalls auf 1 gesetzt.
-	 * Im letzten Schritt werden in der Tabelle Teilhaberschaft mehrere Tupel für alle Ausprägungen und den Kontakt angelegt.
+	 * Es werden allen Ausprägungen des übergebenen Kontaktes an den Nutzer, der
+	 * anahnd seiner Email gesucht wird, geteilt. Dazu werden alle Ausprägungen
+	 * des Kontaktes gesucht und der Status wird auf 1 (geteilt) gesetzt. Danach
+	 * wird die Kontaktliste "Mit mir geteitlte Kontakte" des entsprechenden
+	 * Teilhabers gesucht und der geteitle Kontakt wird dieser Liste
+	 * hinzugefügt. Es wird der Status des Kontaktes ebenfalls auf 1 gesetzt. Im
+	 * letzten Schritt werden in der Tabelle Teilhaberschaft mehrere Tupel für
+	 * alle Ausprägungen und den Kontakt angelegt.
+	 * 
 	 * @param kon
 	 * @param selectedValue
 	 * @param id
 	 * @return
 	 * @throws IllegalArgumentException
 	 */
-	
+
 	public int insertTeilhaberschaftAuspraegungenKontakt(Kontakt kon, String selectedValue, int id)
 			throws IllegalArgumentException;
 
 	/**
-	 *  * Es werden allen ausgewählten Ausprägungen des übergebenen Kontaktes an den Nutzer, der anahnd seiner Email
-	 * gesucht wird, geteilt. 
-	 * Dazu werden alle ausgewählten Ausprägungen des Kontaktes gesucht und der Status wird auf 1 (geteilt) gesetzt.
-	 * Danach wird die Kontaktliste "Mit mir geteitlte Kontakte" des entsprechenden Teilhabers gesucht und 
-	 * der geteitle Kontakt wird dieser Liste hinzugefügt.
-	 * Es wird der Status des Kontaktes ebenfalls auf 1 gesetzt.
-	 * Im letzten Schritt werden in der Tabelle Teilhaberschaft mehrere Tupel für alle ausgewählten Ausprägungen und den Kontakt angelegt.
+	 * * Es werden allen ausgewählten Ausprägungen des übergebenen Kontaktes an
+	 * den Nutzer, der anahnd seiner Email gesucht wird, geteilt. Dazu werden
+	 * alle ausgewählten Ausprägungen des Kontaktes gesucht und der Status wird
+	 * auf 1 (geteilt) gesetzt. Danach wird die Kontaktliste "Mit mir geteitlte
+	 * Kontakte" des entsprechenden Teilhabers gesucht und der geteitle Kontakt
+	 * wird dieser Liste hinzugefügt. Es wird der Status des Kontaktes ebenfalls
+	 * auf 1 gesetzt. Im letzten Schritt werden in der Tabelle Teilhaberschaft
+	 * mehrere Tupel für alle ausgewählten Ausprägungen und den Kontakt
+	 * angelegt.
+	 * 
 	 * @param kon
 	 * @param eaw
 	 * @param selectedValue
 	 * @param id
 	 * @return
 	 */
-	
+
 	public int insertTeilhaberschaftAusgewaehlteAuspraegungenKontakt(Kontakt kon,
 			Vector<EigenschaftAuspraegungWrapper> eaw, String selectedValue, int id);
 
@@ -561,19 +571,23 @@ public interface KontaktAdministration extends RemoteService {
 	public void deleteKontaktlisteFromTeilhaberschaft(Teilhaberschaft t) throws IllegalArgumentException;
 
 	/**
-	 *  Objekte vom Typ Teilhaberschaft anhand bestimmter Ausprägungen und Teilhaber löschen. 
+	 * Objekte vom Typ Teilhaberschaft anhand bestimmter Ausprägungen und
+	 * Teilhaber löschen.
+	 * 
 	 * @param ea
 	 * @param n
 	 * @throws IllegalArgumentException
 	 */
-	
+
 	public void deleteEigenschaftsauspraegungFromTeilhaberschaft(Eigenschaftauspraegung ea, Nutzer n)
 			throws IllegalArgumentException;
 
 	/**
-	 * Auslesen eines Vectors mit sämtlichen Teilhabern an einer Eigenschaftsausprägung
+	 * Auslesen eines Vectors mit sämtlichen Teilhabern an einer
+	 * Eigenschaftsausprägung
 	 * 
-	 * @param auspraegungID die ID der Eigenschaftsausprägung
+	 * @param auspraegungID
+	 *            die ID der Eigenschaftsausprägung
 	 * @return Vector mit Nutzern, die Teilhaber an Ausprägung sind
 	 * @throws IllegalArgumentException
 	 */
@@ -582,13 +596,12 @@ public interface KontaktAdministration extends RemoteService {
 	/**
 	 * Auslesen aller Teilhaber an einem Kontakt
 	 * 
-	 * @param kontaktID die ID des Kontaktes
+	 * @param kontaktID
+	 *            die ID des Kontaktes
 	 * @return Vector mit sämtlichen Nutzer, die Teilhaber an einem Kontakt sind
 	 * @throws IllegalArgumentException
 	 */
-	public Vector<Nutzer> getAllTeilhaberFromKontakt (int kontaktID) throws IllegalArgumentException;
-	
-
+	public Vector<Nutzer> getAllTeilhaberFromKontakt(int kontaktID) throws IllegalArgumentException;
 
 	/**
 	 * Anlegen eines Objekts der Klasse KontaktKontaktliste um eine Beziehung
@@ -608,9 +621,10 @@ public interface KontaktAdministration extends RemoteService {
 	 * @throws IllegalArgumentException
 	 */
 	public void deleteKontaktKontaktliste(KontaktKontaktliste k) throws IllegalArgumentException;
-	
+
 	/**
-	 *  Ein Objekt vom Typ Kontakt anhand der NutzerID selektieren.
+	 * Ein Objekt vom Typ Kontakt anhand der NutzerID selektieren.
+	 * 
 	 * @param nutzerID
 	 * @return Kontakt Objekt
 	 */
@@ -626,20 +640,24 @@ public interface KontaktAdministration extends RemoteService {
 	 */
 	public Vector<Kontaktliste> findKontaktlisteByNutzerID(int nutzerID) throws IllegalArgumentException;
 
-
 	/**
-	 * @param kontaktlisteID die ID der Kontaktliste
+	 * @param kontaktlisteID
+	 *            die ID der Kontaktliste
 	 * @return Vector mit sämtlichen Kontakten einer Kontaktliste
 	 * @throws IllegalArgumentException
 	 */
 	public Vector<Kontakt> getAllKontakteFromKontaktliste(int kontaktlisteID) throws IllegalArgumentException;
-	
+
 	/**
-	 * Erstellung der Eigenschaftauspraegungen, die standardmäßig bei Kontakterstellung angelegt werden
+	 * Erstellung der Eigenschaftauspraegungen, die standardmäßig bei
+	 * Kontakterstellung angelegt werden
 	 * 
-	 * @param wert der Wert der Ausprägung
-	 * @param status Status, der anzeigt ob die Ausprägung geteilt wurde
-	 * @param kontaktID die ID des Kontakts zu der die Ausprägung gehört
+	 * @param wert
+	 *            der Wert der Ausprägung
+	 * @param status
+	 *            Status, der anzeigt ob die Ausprägung geteilt wurde
+	 * @param kontaktID
+	 *            die ID des Kontakts zu der die Ausprägung gehört
 	 * @return das erstellte Eigenschaftausprägung-Objekt
 	 * @throws IllegalArgumentException
 	 */
@@ -709,21 +727,23 @@ public interface KontaktAdministration extends RemoteService {
 
 	/**
 	 * Die Basis-Kontaktliste "Meine Kontakte" anhand der NutzerID finden.
+	 * 
 	 * @param nutzerID
 	 * @return Objekt vom Typ Kontaktliste
 	 * @throws IllegalArgumentException
 	 */
-	
+
 	public Kontaktliste findBasicKontaktliste(int nutzerID) throws IllegalArgumentException;
 
 	/**
-	 *  Eine Kontaktliste anhand der Bezeichnung und der NutzerID selektieren.
+	 * Eine Kontaktliste anhand der Bezeichnung und der NutzerID selektieren.
+	 * 
 	 * @param nutzerID
 	 * @param bez
 	 * @return Objekt vom Typ Kontaktliste
 	 * @throws IllegalArgumentException
 	 */
-	
+
 	public Kontaktliste findKontaktliste(int nutzerID, String bez) throws IllegalArgumentException;
 
 	/**
@@ -739,12 +759,13 @@ public interface KontaktAdministration extends RemoteService {
 
 	/**
 	 * Ein Objekt vom Typ Teilhaberschaft für eine Kontaktliste anlegen.
+	 * 
 	 * @param kontaktlisteID
 	 * @param email
 	 * @param nutzerID
 	 * @return
 	 */
-	
+
 	public Teilhaberschaft insertTeilhaberschaftKontaktliste(int kontaktlisteID, String email, int nutzerID);
 
 	/**
@@ -786,12 +807,13 @@ public interface KontaktAdministration extends RemoteService {
 	 * @throws IllegalArgumentException
 	 */
 	public void deleteTeilhaberschaftByTeilhaberID(int teilhaberID) throws IllegalArgumentException;
-	
+
 	/**
-	 *   Objekte vom Typ Kontaktliste mit Ausnamhe der Basis Listen "Meine Kontakte" und
-	 *    "Meine geteilten Kontakte" anahnd eines Nutzer finden.
+	 * Objekte vom Typ Kontaktliste mit Ausnamhe der Basis Listen "Meine
+	 * Kontakte" und "Meine geteilten Kontakte" anahnd eines Nutzer finden.
+	 * 
 	 * @param nutzerID
-	 * @return  Objekte vom Typ Kontaktliste
+	 * @return Objekte vom Typ Kontaktliste
 	 * @throws IllegalArgumentException
 	 */
 
@@ -810,12 +832,13 @@ public interface KontaktAdministration extends RemoteService {
 			throws IllegalArgumentException;
 
 	/**
-	 *  Auslesen eines Objektes vom Typ Eigenschaft anhand der Bezeichnung 
+	 * Auslesen eines Objektes vom Typ Eigenschaft anhand der Bezeichnung
+	 * 
 	 * @param bez
 	 * @return ein Objekt vom Typ Eigenschaft
 	 * @throws IllegalArgumentException
 	 */
-	
+
 	public Eigenschaft findEigByBezeichnung(String bez) throws IllegalArgumentException;
 
 	/**
@@ -849,176 +872,211 @@ public interface KontaktAdministration extends RemoteService {
 			throws IllegalArgumentException;
 
 	/**
-	 *  Alle Objekte vom Typ Teilhaberschaft anhand der auspraegungID finden 
+	 * Alle Objekte vom Typ Teilhaberschaft anhand der auspraegungID finden
+	 * 
 	 * @param auspraegungID
 	 * @return Vector mit allen Teilhaberschaften zu dieser Ausprägung
 	 */
-	
+
 	public Vector<Teilhaberschaft> findTeilhaberschaftByAuspraegungID(int auspraegungID);
 
 	/**
-	 *  Alle Objekte vom Typ Ausprägungen anhand der Kontakt und der Nutzer ID selektieren.
-	 *  Es werden die Ausprägungen gefunden welche mit diesem Nutzer von diesem Kontatk geteitl wurden.
+	 * Alle Objekte vom Typ Ausprägungen anhand der Kontakt und der Nutzer ID
+	 * selektieren. Es werden die Ausprägungen gefunden welche mit diesem Nutzer
+	 * von diesem Kontatk geteitl wurden.
+	 * 
 	 * @param kontaktID
 	 * @param nutzerID
-	 * @return Vector mit allen Ausprägungen zu dem bestimmten Kontakt und Nutzer.
+	 * @return Vector mit allen Ausprägungen zu dem bestimmten Kontakt und
+	 *         Nutzer.
 	 * @throws IllegalArgumentException
 	 */
 	public Vector<EigenschaftAuspraegungWrapper> findSharedAuspraegung(int kontaktID, int nutzerID)
 			throws IllegalArgumentException;
 
-	
 	/**
-	 * Es werden alle Objekte vom Typ Teilhaberschaft für gewählte Ausprägungen mit einem bestimmten Teilhaber gelöscht.
-	 * Nachfolgend wird, sofern mit keinem weiteren Nutzer für diese Ausprägungen Teilhaberschaften bestehen, der Status auf 0 gesetzt.
-	 * Es wird ebenfalls überprüft ob weitere Teilhaberschaften an diesem Kontakt vorhanden sind.
-	 * Gegebenenfalls, Statusänderung.
+	 * Es werden alle Objekte vom Typ Teilhaberschaft für gewählte Ausprägungen
+	 * mit einem bestimmten Teilhaber gelöscht. Nachfolgend wird, sofern mit
+	 * keinem weiteren Nutzer für diese Ausprägungen Teilhaberschaften bestehen,
+	 * der Status auf 0 gesetzt. Es wird ebenfalls überprüft ob weitere
+	 * Teilhaberschaften an diesem Kontakt vorhanden sind. Gegebenenfalls,
+	 * Statusänderung.
+	 * 
 	 * @param ea
 	 * @param teilhaber
 	 * @param n
 	 * @param k
 	 * @throws IllegalArgumentException
 	 */
-	public void deleteUpdateTeilhaberschaft(Eigenschaftauspraegung ea, Nutzer teilhaber, Nutzer n, Kontakt k) throws IllegalArgumentException;
+	public void deleteUpdateTeilhaberschaft(Eigenschaftauspraegung ea, Nutzer teilhaber, Nutzer n, Kontakt k)
+			throws IllegalArgumentException;
 
 	/**
-	 *  Alle Objekte vom Typ Teilhaberschaft anhand der KontaktID finden. 
-	 *  
+	 * Alle Objekte vom Typ Teilhaberschaft anhand der KontaktID finden.
+	 * 
 	 * @param kontaktID
 	 * @return Vector mit allen Teilhaberschaften an diesem Kontakt.
 	 * @throws IllegalArgumentException
 	 */
-	
+
 	public Vector<Teilhaberschaft> findTeilhaberschaftByKontaktID(int kontaktID) throws IllegalArgumentException;
 
-	
 	/**
-	 *  Anlegen eines Objektes vom Typ Teilhaberschaft für bestimmte Ausprägungen an einen bestimmten Nutzer.
+	 * Anlegen eines Objektes vom Typ Teilhaberschaft für bestimmte Ausprägungen
+	 * an einen bestimmten Nutzer.
+	 * 
 	 * @param eigenschaftauspraegungID
 	 * @param teilhaberID
 	 * @param nutzerID
 	 * @return
 	 */
-	public Teilhaberschaft insertTeilhaberschaftAuspraegung(int eigenschaftauspraegungID, int teilhaberID, int nutzerID);
-	
+	public Teilhaberschaft insertTeilhaberschaftAuspraegung(int eigenschaftauspraegungID, int teilhaberID,
+			int nutzerID);
+
 	/**
 	 * Löschen eines KontaktKontaktliste-Objekts
 	 * 
-	 * @param kontaktID 
+	 * @param kontaktID
 	 * @param kontaktlisteID
 	 * @throws IllegalArgumentException
 	 */
-	public void deleteKontaktKontaktlisteByKontaktIDAndByKListID(int kontaktID, int kontaktlisteID) throws IllegalArgumentException;
+	public void deleteKontaktKontaktlisteByKontaktIDAndByKListID(int kontaktID, int kontaktlisteID)
+			throws IllegalArgumentException;
 
 	/**
-	 *  Selektieren der Basis Kontaktliste - "Mir geteitelte Kontakte" eines Nutzers
+	 * Selektieren der Basis Kontaktliste - "Mir geteitelte Kontakte" eines
+	 * Nutzers
+	 * 
 	 * @param kList
 	 * @param nutzerID
-	 * @return  Basis Kontaktliste - "Mir geteitelte Kontakte" 
+	 * @return Basis Kontaktliste - "Mir geteitelte Kontakte"
 	 * @throws IllegalArgumentException
 	 */
-	
-	public Kontaktliste findKontaktlisteMeineGeteiltenKontakte(String kList, int nutzerID) throws IllegalArgumentException;
+
+	public Kontaktliste findKontaktlisteMeineGeteiltenKontakte(String kList, int nutzerID)
+			throws IllegalArgumentException;
 
 	/**
-	 *  Ein Objekt vom Typ Teilhaberschaft anhand des Kontaktes und des Teilhaber löschen.
+	 * Ein Objekt vom Typ Teilhaberschaft anhand des Kontaktes und des Teilhaber
+	 * löschen.
+	 * 
 	 * @param kontaktID
 	 * @param teilNutzerID
 	 * @throws IllegalArgumentException
 	 */
-	
-	public void deleteTeilhaberschaftByKontaktIDAndNutzerID(int kontaktID, int teilNutzerID) throws IllegalArgumentException;
+
+	public void deleteTeilhaberschaftByKontaktIDAndNutzerID(int kontaktID, int teilNutzerID)
+			throws IllegalArgumentException;
 
 	/**
-	 *  Bearbeiten des Statutes eines Kontaktes
+	 * Bearbeiten des Statutes eines Kontaktes
+	 * 
 	 * @param k
 	 * @param n
 	 * @throws IllegalArgumentException
 	 */
-	
+
 	public void updateKontaktStatus(Kontakt k, Nutzer n) throws IllegalArgumentException;
 
 	/**
-	 *  Objekte vom Typ Teilhaberschaft anhand der Auspägung und des Teilhabers finden.
-	 * @param auspraegungID
-	 * @param teilhaberID
-	 * @return Das Objekt vom Typ Teilhaberschaft
-	 * @throws IllegalArgumentException
-	 */
-	
-	public Vector<Teilhaberschaft> findTeilhaberschaftByAuspraegungIDAndTeilhaberID(int auspraegungID, int teilhaberID) throws IllegalArgumentException;
-
-	/**
-	 *  Objekte vom Typ Teilhaberschaft anhand des Kontaktes und des Teilhabers finden.
-	 * @param auspraegungID
-	 * @param teilhaberID
-	 * @return Das Objekt vom Typ Teilhaberschaft
-	 * @throws IllegalArgumentException
-	 */
-	
-	public Vector<Teilhaberschaft> findTeilhaberschaftByKontaktIDAndTeilhaberID(int kontaktID, int teilhaberID) throws IllegalArgumentException;
-
-	/**
-	 *  Objekte vom Typ Teilhaberschaft anhand des Teilhabers  und des Eigentümers finden.
-	 * @param auspraegungID
-	 * @param teilhaberID
-	 * @return Das Objekt vom Typ Teilhaberschaft
-	 * @throws IllegalArgumentException
-	 */
-	
-	public Vector<Teilhaberschaft> findTeilhaberschaftByTeilhaberIDAndNutzerID(int teilhaberID, int nutzerID) throws IllegalArgumentException;
-	
-	/**
-	 * Auslesen eines KontaktKontaktliste-Objekts anhand der Fremdschlüssel kontaktID und kontaktlisteID
+	 * Objekte vom Typ Teilhaberschaft anhand der Auspägung und des Teilhabers
+	 * finden.
 	 * 
-	 * @param kontaktID der Fremdschlüssel kontaktID
-	 * @param kListID der Fremdschlüssel kontaktlisteID
+	 * @param auspraegungID
+	 * @param teilhaberID
+	 * @return Das Objekt vom Typ Teilhaberschaft
+	 * @throws IllegalArgumentException
+	 */
+
+	public Vector<Teilhaberschaft> findTeilhaberschaftByAuspraegungIDAndTeilhaberID(int auspraegungID, int teilhaberID)
+			throws IllegalArgumentException;
+
+	/**
+	 * Objekte vom Typ Teilhaberschaft anhand des Kontaktes und des Teilhabers
+	 * finden.
+	 * 
+	 * @param auspraegungID
+	 * @param teilhaberID
+	 * @return Das Objekt vom Typ Teilhaberschaft
+	 * @throws IllegalArgumentException
+	 */
+
+	public Vector<Teilhaberschaft> findTeilhaberschaftByKontaktIDAndTeilhaberID(int kontaktID, int teilhaberID)
+			throws IllegalArgumentException;
+
+	/**
+	 * Objekte vom Typ Teilhaberschaft anhand des Teilhabers und des Eigentümers
+	 * finden.
+	 * 
+	 * @param auspraegungID
+	 * @param teilhaberID
+	 * @return Das Objekt vom Typ Teilhaberschaft
+	 * @throws IllegalArgumentException
+	 */
+
+	public Vector<Teilhaberschaft> findTeilhaberschaftByTeilhaberIDAndNutzerID(int teilhaberID, int nutzerID)
+			throws IllegalArgumentException;
+
+	/**
+	 * Auslesen eines KontaktKontaktliste-Objekts anhand der Fremdschlüssel
+	 * kontaktID und kontaktlisteID
+	 * 
+	 * @param kontaktID
+	 *            der Fremdschlüssel kontaktID
+	 * @param kListID
+	 *            der Fremdschlüssel kontaktlisteID
 	 * @return KontaktKontaktliste-Objekt
 	 * @throws IllegalArgumentException
 	 */
-	public KontaktKontaktliste findKontaktKontaktlisteByKontaktIDAndKlisteID(int kontaktID, int kListID) throws IllegalArgumentException;
-	
-	
-	/**
-	 *   Objekte vom Typ Kontakt anhand des Eigentümers und des Teilhabers selektieren. 
-	 * @param nutzerID
-	 * @param teilhaberID
-	 * @return Ein Vektor mit den Kontakt-Objekten
-	 * @throws IllegalArgumentException
-	 */
-	public Vector <Kontakt> findGeteilteKontakteFromNutzerAndTeilhaber ( int nutzerID, int teilhaberID) throws IllegalArgumentException;
+	public KontaktKontaktliste findKontaktKontaktlisteByKontaktIDAndKlisteID(int kontaktID, int kListID)
+			throws IllegalArgumentException;
 
 	/**
-	 *   Objekte vom Typ Kontakt anhand des Eigentümers, der Eigenschaft und der Ausprägung finden. 
+	 * Objekte vom Typ Kontakt anhand des Eigentümers und des Teilhabers
+	 * selektieren.
+	 * 
 	 * @param nutzerID
 	 * @param teilhaberID
 	 * @return Ein Vektor mit den Kontakt-Objekten
 	 * @throws IllegalArgumentException
 	 */
-	
-	public Vector<Kontakt> findKontakteByEigAus(int NutzerID ,	String bez , String wert) throws IllegalArgumentException ;
-	
+	public Vector<Kontakt> findGeteilteKontakteFromNutzerAndTeilhaber(int nutzerID, int teilhaberID)
+			throws IllegalArgumentException;
+
 	/**
-	 *   Objekte vom Typ Kontakt anhand des Eigentümers und der Eigenschaft finden. 
+	 * Objekte vom Typ Kontakt anhand des Eigentümers, der Eigenschaft und der
+	 * Ausprägung finden.
+	 * 
 	 * @param nutzerID
 	 * @param teilhaberID
 	 * @return Ein Vektor mit den Kontakt-Objekten
 	 * @throws IllegalArgumentException
 	 */
-	
-	
+
+	public Vector<Kontakt> findKontakteByEigAus(int NutzerID, String bez, String wert) throws IllegalArgumentException;
+
+	/**
+	 * Objekte vom Typ Kontakt anhand des Eigentümers und der Eigenschaft
+	 * finden.
+	 * 
+	 * @param nutzerID
+	 * @param teilhaberID
+	 * @return Ein Vektor mit den Kontakt-Objekten
+	 * @throws IllegalArgumentException
+	 */
+
 	public Vector<Kontakt> findKontakeByEig(int NutzerID, String bez) throws IllegalArgumentException;
 
 	/**
-	 *   Objekte vom Typ Kontakt anhand des Eigentümers und der Ausprägung finden. 
+	 * Objekte vom Typ Kontakt anhand des Eigentümers und der Ausprägung finden.
+	 * 
 	 * @param nutzerID
 	 * @param teilhaberID
 	 * @return Ein Vektor mit den Kontakt-Objekten
 	 * @throws IllegalArgumentException
 	 */
-	
-	public Vector<Kontakt> findKontakteByAus(int NutzerID, String wert) throws IllegalArgumentException;
 
+	public Vector<Kontakt> findKontakteByAus(int NutzerID, String wert) throws IllegalArgumentException;
 
 	/**
 	 * 
@@ -1027,149 +1085,193 @@ public interface KontaktAdministration extends RemoteService {
 	 * @return Kontaktliste-Objekt mit geändertem Status
 	 * @throws IllegalArgumentException
 	 */
-	public Kontaktliste updateKontaktlisteStatus (int kontaktlisteID) throws IllegalArgumentException;
-	
+	public Kontaktliste updateKontaktlisteStatus(int kontaktlisteID) throws IllegalArgumentException;
+
 	/**
-	 * Auslesen eines Vectors mit allen Nutzern, mit denen eine Kontaktliste noch nicht geteilt wurde.
+	 * Auslesen eines Vectors mit allen Nutzern, mit denen eine Kontaktliste
+	 * noch nicht geteilt wurde.
 	 * 
-	 * @param kontaktlisteID die ID der Kontaktliste, die geteilt werden soll
+	 * @param kontaktlisteID
+	 *            die ID der Kontaktliste, die geteilt werden soll
 	 * @return Vector mit Nutzer-Objekten
 	 * @throws IllegalArgumentException
 	 */
-	public Vector<Nutzer> findNutzerToShareListWith (int kontaktlisteID, int nutzerID) throws IllegalArgumentException;
-	
+	public Vector<Nutzer> findNutzerToShareListWith(int kontaktlisteID, int nutzerID) throws IllegalArgumentException;
+
 	/**
-	 * Löschen einer Teilhaberschaft an einer Kontaktliste.
-	 * Gleichzeitig wird überprüft, ob noch Teilhaberschaften an der Kontaktliste bestehen, ansonsten wird der Status der Kontaktliste
-	 * auf 0 (= nicht geteilt) gesetzt und die Kontaktliste geupdated.
+	 * Löschen einer Teilhaberschaft an einer Kontaktliste. Gleichzeitig wird
+	 * überprüft, ob noch Teilhaberschaften an der Kontaktliste bestehen,
+	 * ansonsten wird der Status der Kontaktliste auf 0 (= nicht geteilt)
+	 * gesetzt und die Kontaktliste geupdated.
 	 * 
-	 * @param teilhaberID, die ID des Teilhabers, dessen Teilhaberschaft aufgelöst werden muss
-	 * @param kontaktlisteID, die ID der Liste, an der die Teilhaberschaft gelöscht werden soll
+	 * @param teilhaberID,
+	 *            die ID des Teilhabers, dessen Teilhaberschaft aufgelöst werden
+	 *            muss
+	 * @param kontaktlisteID,
+	 *            die ID der Liste, an der die Teilhaberschaft gelöscht werden
+	 *            soll
 	 * @throws IllegalArgumentException
 	 */
-	public void deleteTeilhaberschaftAnKontaktliste (int teilhaberID, int kontaktlisteID) throws IllegalArgumentException;
-	
+	public void deleteTeilhaberschaftAnKontaktliste(int teilhaberID, int kontaktlisteID)
+			throws IllegalArgumentException;
+
 	/**
-	 *  Ein Objekt vom Typ Teilhaberschaft anahnd der Kontaktliste und des Teilhabers finden.
-	 *  Es wird das Objekt gesucht welches die Teilhaberschaft einer bestimmten Liste mit einem bestimmten Nutzer darstellt.
+	 * Ein Objekt vom Typ Teilhaberschaft anahnd der Kontaktliste und des
+	 * Teilhabers finden. Es wird das Objekt gesucht welches die Teilhaberschaft
+	 * einer bestimmten Liste mit einem bestimmten Nutzer darstellt.
+	 * 
 	 * @param kontaktlisteID
 	 * @param teilhaberID
-	 * @return  Das Objekt vom Typ Teilhaberschaft
+	 * @return Das Objekt vom Typ Teilhaberschaft
 	 * @throws IllegalArgumentException
 	 */
-	
-	public Teilhaberschaft findByTeilhaberschaftByKontaktlistIDAndTeilhaberID(int kontaktlisteID, int teilhaberID) throws IllegalArgumentException;
-	
-	/**
-	 * Auslesen aller geteilten Eigenschaftsausprägungen eines bestimmten Kontakts
-	 * 
-	 * @param kontaktID die ID des Kontaktes
-	 * @return Vector mit sämtlichen geteilten Eigenschaftsausprägungen des Kontaktes
-	 */
-	public Vector<Eigenschaftauspraegung> findAllSharedAuspraegungenFromKontaktID(int kontaktID) throws IllegalArgumentException;
-	
-	/**
-	 * Vector mit allen Kontakten, die zu einer Kontaktliste hinzugefügt werden können.
-	 * Dabei sollen nur Kontakte angezeigt werden, die der Nutzer erstellt oder empfangen hat und die noch nicht Teil der Kontaktliste sind
-	 * 
-	 * @param nutzerID die ID des angemeldeten Nutzers
-	 * @param kontaktlisteID die ID der Kontaktliste, zu der Kontakte hinzugefügt werden sollen
-	 * @return Vector mit allen Kontakten, die zu einer Kontaktliste hinzugefuegt werden können.
-	 * @throws IllegalArgumentException
-	 */
-	public Vector<Kontakt> hinzuzufuegendeKontakte (int nutzerID, int kontaktlisteID) throws IllegalArgumentException;
 
-	/**  Ein Objekt vom Typ Teilhaberschaft anahnd der Ausprägung und des Teilhabers finden.
-	 *  Es wird das Objekt gesucht welches die Teilhaberschaft einer bestimmten Ausprägung mit einem bestimmten Nutzer darstellt.
-	 *  
+	public Teilhaberschaft findByTeilhaberschaftByKontaktlistIDAndTeilhaberID(int kontaktlisteID, int teilhaberID)
+			throws IllegalArgumentException;
+
+	/**
+	 * Auslesen aller geteilten Eigenschaftsausprägungen eines bestimmten
+	 * Kontakts
+	 * 
+	 * @param kontaktID
+	 *            die ID des Kontaktes
+	 * @return Vector mit sämtlichen geteilten Eigenschaftsausprägungen des
+	 *         Kontaktes
+	 */
+	public Vector<Eigenschaftauspraegung> findAllSharedAuspraegungenFromKontaktID(int kontaktID)
+			throws IllegalArgumentException;
+
+	/**
+	 * Vector mit allen Kontakten, die zu einer Kontaktliste hinzugefügt werden
+	 * können. Dabei sollen nur Kontakte angezeigt werden, die der Nutzer
+	 * erstellt oder empfangen hat und die noch nicht Teil der Kontaktliste sind
+	 * 
+	 * @param nutzerID
+	 *            die ID des angemeldeten Nutzers
+	 * @param kontaktlisteID
+	 *            die ID der Kontaktliste, zu der Kontakte hinzugefügt werden
+	 *            sollen
+	 * @return Vector mit allen Kontakten, die zu einer Kontaktliste
+	 *         hinzugefuegt werden können.
+	 * @throws IllegalArgumentException
+	 */
+	public Vector<Kontakt> hinzuzufuegendeKontakte(int nutzerID, int kontaktlisteID) throws IllegalArgumentException;
+
+	/**
+	 * Ein Objekt vom Typ Teilhaberschaft anahnd der Ausprägung und des
+	 * Teilhabers finden. Es wird das Objekt gesucht welches die Teilhaberschaft
+	 * einer bestimmten Ausprägung mit einem bestimmten Nutzer darstellt.
+	 * 
 	 * @param auspraegungID
 	 * @param nutzerID
 	 * @return Das Objekt vom Typ Teilhaberschaft
 	 * @throws IllegalArgumentException
 	 */
-	
-	public Teilhaberschaft findTeilhaberschaftByAuspraegungIdAndTeilhaberId(int auspraegungID, int nutzerID) throws IllegalArgumentException;
+
+	public Teilhaberschaft findTeilhaberschaftByAuspraegungIdAndTeilhaberId(int auspraegungID, int nutzerID)
+			throws IllegalArgumentException;
 
 	/**
-	 * Eine Eigenschaftsausprägung anhand der Fremdschlüssel eigenschaftID und kontaktID auslesen
+	 * Eine Eigenschaftsausprägung anhand der Fremdschlüssel eigenschaftID und
+	 * kontaktID auslesen
 	 * 
-	 * @param eigID Fremdschlüssel eigenschaftID
-	 * @param kontaktID	Fremdschlüssel kontaktID
-	 * @return Eigenschaftausprägung Objekt mit übergebenen Parametern als Fremdschlüssel
+	 * @param eigID
+	 *            Fremdschlüssel eigenschaftID
+	 * @param kontaktID
+	 *            Fremdschlüssel kontaktID
+	 * @return Eigenschaftausprägung Objekt mit übergebenen Parametern als
+	 *         Fremdschlüssel
 	 * @throws IllegalArgumentException
 	 */
 	public Eigenschaftauspraegung getAuspraegungByEigID(int eigID, int kontaktID) throws IllegalArgumentException;
 
-
-	
 	/**
-	 * Auslesen eines Vectors mit KontaktKontaktliste-Objekten, die die übergebene kontaktID als Fremdschlüssel besitzen
+	 * Auslesen eines Vectors mit KontaktKontaktliste-Objekten, die die
+	 * übergebene kontaktID als Fremdschlüssel besitzen
 	 * 
-	 * @param kontaktID die ID eines Kontaktes, dessen Zugehörigkeiten an Kontaktlisten ausgelesen werden sollen
-	 * @return Vector mit KontaktKontaktliste-Objekten, die die übergebene kontaktID als Fremdschlüssel besitzen
+	 * @param kontaktID
+	 *            die ID eines Kontaktes, dessen Zugehörigkeiten an
+	 *            Kontaktlisten ausgelesen werden sollen
+	 * @return Vector mit KontaktKontaktliste-Objekten, die die übergebene
+	 *         kontaktID als Fremdschlüssel besitzen
 	 * @throws IllegalArgumentException
 	 */
-	public Vector<KontaktKontaktliste> findKontaktKontaktlisteByKontaktID(int kontaktID) throws IllegalArgumentException;
-	
-	
+	public Vector<KontaktKontaktliste> findKontaktKontaktlisteByKontaktID(int kontaktID)
+			throws IllegalArgumentException;
+
 	/**
-	 * Auslesen eines Vectors mit allen Kontaktlisten, zu denen ein Kontakt hinzugefügt werden kann.
+	 * Auslesen eines Vectors mit allen Kontaktlisten, zu denen ein Kontakt
+	 * hinzugefügt werden kann.
 	 * 
-	 * @param kontaktID die ID des Kontaktes der zu einer Kontaktliste hinzugefügt werden soll
-	 * @param nutzerID die ID des angemeldeten Nutzers
-	 * @return	Vector mit allen Kontaktlisten-Objekten, zu denen der Kontakt noch nicht hinzugefügt wurde
+	 * @param kontaktID
+	 *            die ID des Kontaktes der zu einer Kontaktliste hinzugefügt
+	 *            werden soll
+	 * @param nutzerID
+	 *            die ID des angemeldeten Nutzers
+	 * @return Vector mit allen Kontaktlisten-Objekten, zu denen der Kontakt
+	 *         noch nicht hinzugefügt wurde
 	 * @throws IllegalArgumentException
 	 */
-	public Vector<Kontaktliste> findKontaktlistenToAddKontakt (int kontaktID, int nutzerID) throws IllegalArgumentException;
+	public Vector<Kontaktliste> findKontaktlistenToAddKontakt(int kontaktID, int nutzerID)
+			throws IllegalArgumentException;
 
-	
 	/**
-	 * Auslesen aller Nutzer, die eine Berechtigung haben eine Teilhaberschaft zu verwalten
+	 * Auslesen aller Nutzer, die eine Berechtigung haben eine Teilhaberschaft
+	 * zu verwalten
 	 * 
 	 * @param auspraegung
 	 * @param telhaberID
 	 * @return
 	 * @throws IllegalArgumentException
 	 */
-	public Vector<Nutzer> getAllTeilhaberfromAuspraegungBerechtigung(int auspraegung, int teilhaberID) throws IllegalArgumentException;
+	public Vector<Nutzer> getAllTeilhaberfromAuspraegungBerechtigung(int auspraegung, int teilhaberID)
+			throws IllegalArgumentException;
 
 	/**
-	 * Methode zum Löschen einer Teilhaberschaft eines Kontakts und aller vorhandenen Teilhaberschaften an den Ausprägungen 
+	 * Methode zum Löschen einer Teilhaberschaft eines Kontakts und aller
+	 * vorhandenen Teilhaberschaften an den Ausprägungen
 	 * 
 	 * @param kontaktID
 	 * @param teilhaberID
 	 */
-	public void deleteTeilhaberschaftAllByKontaktIDAndTeilhaberID(int kontaktID, int teilhaberID) throws IllegalArgumentException;
+	public void deleteTeilhaberschaftAllByKontaktIDAndTeilhaberID(int kontaktID, int teilhaberID)
+			throws IllegalArgumentException;
 
 	/**
-	 *  Objekte vom Typ Teilhaberschaft anahnd des Kontaktes und des Teilhabers finden.
-	 *  Es werden Objekte gesucht welche die Teilhaberschaft eines bestimmten Kontaktes mit einem bestimmten Nutzer darstellen.
-	 *  
+	 * Objekte vom Typ Teilhaberschaft anahnd des Kontaktes und des Teilhabers
+	 * finden. Es werden Objekte gesucht welche die Teilhaberschaft eines
+	 * bestimmten Kontaktes mit einem bestimmten Nutzer darstellen.
+	 * 
 	 * @param kontaktID
 	 * @param nutzerID
 	 * @return Vektor mit Teilhaberschaftsobjekten
 	 * @throws IllegalArgumentException
 	 */
-	
-	public Vector<Teilhaberschaft> findTeilhaberschaftByKontaktIDAndNutzerID(int kontaktID, int nutzerID) throws IllegalArgumentException;
 
-	
+	public Vector<Teilhaberschaft> findTeilhaberschaftByKontaktIDAndNutzerID(int kontaktID, int nutzerID)
+			throws IllegalArgumentException;
+
 	/**
-	 * Hinzufügen eines oder mehrerer Kontakte zu einer Kontaktliste.
-	 * Es werden KontaktKontaktliste-Objekte erstellt die die Zugehörigkeit von Kontakten zu einer Kontaktlsite
-	 * repräsentieren
+	 * Hinzufügen eines oder mehrerer Kontakte zu einer Kontaktliste. Es werden
+	 * KontaktKontaktliste-Objekte erstellt die die Zugehörigkeit von Kontakten
+	 * zu einer Kontaktlsite repräsentieren
 	 * 
-	 * @param kontakt Vector der die ausgewählten Kontakt-Objekte enthält
-	 * @param kontaktlisteID die ID der Kontaktliste, zu der die Kontakte hinzugefügt werden sollen
+	 * @param kontakt
+	 *            Vector der die ausgewählten Kontakt-Objekte enthält
+	 * @param kontaktlisteID
+	 *            die ID der Kontaktliste, zu der die Kontakte hinzugefügt
+	 *            werden sollen
 	 * @return KontaktKontaktliste-Objekt
 	 * @throws IllegalArgumentException
 	 */
-	public KontaktKontaktliste addKontakteToKontaktliste (Vector<Kontakt> kontakt, int kontaktlisteID) throws IllegalArgumentException;
+	public KontaktKontaktliste addKontakteToKontaktliste(Vector<Kontakt> kontakt, int kontaktlisteID)
+			throws IllegalArgumentException;
 
 	/**
-	 *  Es werden alle Teilhaberschaften an einem Kontakt gelöscht. 
-	 *  Der Kontakt ist daraufhin mti keinem Nutzer mehr geteilt. 
-	 *  Jegliche Teilhaberschaften an dem Kontakt und den dazugehörigen Ausprägungen wurden entfernt.
+	 * Es werden alle Teilhaberschaften an einem Kontakt gelöscht. Der Kontakt
+	 * ist daraufhin mti keinem Nutzer mehr geteilt. Jegliche Teilhaberschaften
+	 * an dem Kontakt und den dazugehörigen Ausprägungen wurden entfernt.
+	 * 
 	 * @param k
 	 * @param n
 	 * @throws IllegalArgumentException
@@ -1180,15 +1282,10 @@ public interface KontaktAdministration extends RemoteService {
 	 * Auslesen aller eigenen und geteilten Kontakte durch name und nutzerid
 	 * 
 	 * @param kontaktobjekt
-	 * @return vector aller eigenen und geteilten kontakten mit dem gesuchten name
+	 * @return vector aller eigenen und geteilten kontakten mit dem gesuchten
+	 *         name
 	 * @throws IllegalArgumentException
 	 */
 	public Vector<Kontakt> findGesuchteKontakte(Kontakt k) throws IllegalArgumentException;
-
-	
-
-
-
-	
 
 }

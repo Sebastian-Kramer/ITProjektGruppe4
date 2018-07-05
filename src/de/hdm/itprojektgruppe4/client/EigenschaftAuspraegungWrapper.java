@@ -1,7 +1,6 @@
 package de.hdm.itprojektgruppe4.client;
 
 import java.io.Serializable;
-import java.util.Vector;
 
 import de.hdm.itprojektgruppe4.shared.bo.Eigenschaft;
 import de.hdm.itprojektgruppe4.shared.bo.Eigenschaftauspraegung;
@@ -16,16 +15,15 @@ public class EigenschaftAuspraegungWrapper implements Serializable {
 	private Eigenschaftauspraegung auspraegung = new Eigenschaftauspraegung();
 
 	private Kontakt kontakt = new Kontakt();
-	
+
 	public EigenschaftAuspraegungWrapper(Eigenschaft eigenschaft, Eigenschaftauspraegung auspraegung) {
 
 		this.auspraegung = auspraegung;
 		this.eigenschaft = eigenschaft;
-		
 
 	}
-	
-	public EigenschaftAuspraegungWrapper(Eigenschaft eigenschaft, Eigenschaftauspraegung auspraegung, Kontakt kontakt){
+
+	public EigenschaftAuspraegungWrapper(Eigenschaft eigenschaft, Eigenschaftauspraegung auspraegung, Kontakt kontakt) {
 		this.auspraegung = auspraegung;
 		this.eigenschaft = eigenschaft;
 		this.kontakt = kontakt;
@@ -114,14 +112,16 @@ public class EigenschaftAuspraegungWrapper implements Serializable {
 	public String getImageUrl2Contacts(EigenschaftAuspraegungWrapper object) {
 		return "Image/contactShared.png";
 	}
-	
+
 	public String getDelete(EigenschaftAuspraegungWrapper object) {
 		return "Image/DeleteSmall.png";
 	}
-	
-	public String toString(){
-		return "<table id =" + "'tableReport'" + "><tr><td id = 'tdEigenschaftReport'>" + this.eigenschaft.getBezeichnung() + ": " + "</td><td id = 'tdAuspraegungReport'>" + this.auspraegung.getWert() +"</td></tr></table>";
-				
+
+	public String toString() {
+		return "<table id =" + "'tableReport'" + "><tr><td id = 'tdEigenschaftReport'>"
+				+ this.eigenschaft.getBezeichnung() + ": " + "</td><td id = 'tdAuspraegungReport'>"
+				+ this.auspraegung.getWert() + "</td></tr></table>";
+
 	}
 
 }

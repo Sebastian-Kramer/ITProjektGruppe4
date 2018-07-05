@@ -42,16 +42,16 @@ public class ITProjektSS18Report implements EntryPoint {
 	public void onModuleLoad() {
 
 		signOutLink.setStyleName("Logout");
-		
+
 		signOutLink.addClickHandler(new ClickHandler() {
 
 			public void onClick(ClickEvent event) {
-				sureLogOut= Window.confirm("Möchten Sie sich wirklich ausloggen?");
+				sureLogOut = Window.confirm("Möchten Sie sich wirklich ausloggen?");
 				if (sureLogOut == true) {
 					signOutLink.setHref(loginInfo.getLogoutUrl());
-					
+
 				}
-				
+
 			}
 		});
 
@@ -87,11 +87,10 @@ public class ITProjektSS18Report implements EntryPoint {
 		});
 	}
 
-	
 	/*
-	 * Die checkNewNutzer Methode �berpr�ft ob der Nutzer in der Datenbank vorhanden ist
+	 * Die checkNewNutzer Methode �berpr�ft ob der Nutzer in der Datenbank
+	 * vorhanden ist
 	 */
-
 
 	/**
 	 * Die CheckNewNutzer Methode hat den Zweck, zu Pr�fen: Den Aktuellen Nutzer
@@ -109,7 +108,6 @@ public class ITProjektSS18Report implements EntryPoint {
 
 			@Override
 			public void onFailure(Throwable caught) {
-
 
 			}
 

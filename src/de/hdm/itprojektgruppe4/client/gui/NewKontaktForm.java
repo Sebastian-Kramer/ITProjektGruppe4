@@ -32,7 +32,6 @@ import com.google.gwt.user.client.ui.VerticalPanel;
 import de.hdm.itprojektgruppe4.client.ClientsideSettings;
 import de.hdm.itprojektgruppe4.client.EigenschaftAuspraegungWrapper;
 import de.hdm.itprojektgruppe4.client.NavigationTree;
-import de.hdm.itprojektgruppe4.client.gui.DialogBoxAddContactToList.AllKontaktlisteByNutzerCallback;
 import de.hdm.itprojektgruppe4.shared.KontaktAdministrationAsync;
 import de.hdm.itprojektgruppe4.shared.bo.Eigenschaft;
 import de.hdm.itprojektgruppe4.shared.bo.Eigenschaftauspraegung;
@@ -82,7 +81,8 @@ public class NewKontaktForm extends VerticalPanel {
 			true);
 
 	private HTML html2 = new HTML("Bitte geben Sie hier die <b> Ausprägungen </b> zu Ihrem Kontakt an <br>"
-			+ " und fügen Sie gegebenenfalls neue Eigenschaften hinzu." + "<span style='font-family:fixed'></span>", true);
+			+ " und fügen Sie gegebenenfalls neue Eigenschaften hinzu." + "<span style='font-family:fixed'></span>",
+			true);
 
 	private Button addRow = new Button("Eigenschaft hinzufügen");
 
@@ -147,7 +147,6 @@ public class NewKontaktForm extends VerticalPanel {
 		};
 
 	};
-
 
 	/**
 	 * Die onLoad()-Methode wird beim Starten der NewKontaktForm geladen. Es
@@ -220,7 +219,8 @@ public class NewKontaktForm extends VerticalPanel {
 		this.add(vpanel);
 
 		verwaltung.findAllEigenschaft(new AlleEigenschaftCallback());
-		verwaltung.findKontaktlistenToAddKontakt(kontakt1.getID(), nutzer.getID(), new AllKontaktlisteByNutzerCallback());
+		verwaltung.findKontaktlistenToAddKontakt(kontakt1.getID(), nutzer.getID(),
+				new AllKontaktlisteByNutzerCallback());
 
 		/**
 		 * Den erstellten Button werden die entsprechenden Clickhandler
@@ -247,16 +247,17 @@ public class NewKontaktForm extends VerticalPanel {
 
 		@Override
 		public void onFailure(Throwable caught) {
-			
+
 		}
 
 		@Override
 		public void onSuccess(Vector<Kontaktliste> result) {
 			kList = result;
-			
+
 		}
-		
+
 	}
+
 	/**
 	 * Diese KeyDownHandler Klasse überprüft ob die Enter-Taste gedrückt wurde
 	 * und stößt den Callback, um einen neuen Kontakt zu erstellen, an.
@@ -345,12 +346,12 @@ public class NewKontaktForm extends VerticalPanel {
 		@Override
 		public void onClick(ClickEvent event) {
 
-			if(kList.size()<1){
+			if (kList.size() < 1) {
 				Window.alert("Momentan sind noch keine eigenen Kontaktlisten vorhanden");
-			}else{
-			DialogBoxAddContactToList dbkl = new DialogBoxAddContactToList(kontakt1);
-			dbkl.center();
-			verwaltung.findHybrid(kontakt1, new ReloadCallback());
+			} else {
+				DialogBoxAddContactToList dbkl = new DialogBoxAddContactToList(kontakt1);
+				dbkl.center();
+				verwaltung.findHybrid(kontakt1, new ReloadCallback());
 			}
 		}
 
