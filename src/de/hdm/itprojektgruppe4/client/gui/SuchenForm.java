@@ -293,11 +293,13 @@ public class SuchenForm extends VerticalPanel {
 			kontaktKontaktAnzeigenButton.setVisible(true);
 
 			verwaltung.findGesuchteKontakte(k, new FindKontaktCallback());
-			suggestionKontaktBox.setText("");
+			
 			
 			if(suggestionKontaktBox.getValue() == ""){
 				Window.alert("Sie haben keinen zu suchenden Wert eingegeben. Ihnen werden alle eigenen und geteilten Kontakte angezeigt!");
-		}}
+		}
+			suggestionKontaktBox.setText("");	
+		}
 	}
 
 	/**
