@@ -405,6 +405,16 @@ public interface KontaktAdministration extends RemoteService {
 	public void deleteAuspraegung(Eigenschaftauspraegung ea) throws IllegalArgumentException;
 
 	/**
+	 * Alle Eigenschaftausürägungen die ein nutzer erstellt und an den nutzer geteilt wurden werden angezeigt.
+	 * 
+	 * @param id eines nutzers
+	 * @return Alle eigenen und an den nutzer geteilten Ausprägungen
+	 * @throws IllegalArgumentException
+	 */
+	
+	public Vector<EigenschaftAuspraegungWrapper> getAuspraegungenLeer(int id) throws IllegalArgumentException;
+	
+	/**
 	 * Eine Eigenschaftsauspraegung anhand des Wertes auslesen.
 	 * 
 	 * @param wert,
@@ -412,7 +422,7 @@ public interface KontaktAdministration extends RemoteService {
 	 * @return Eigenschafts-Objekt mit gesuchtem Wert
 	 * @throws IllegalArgumentException
 	 */
-	public Vector<EigenschaftAuspraegungWrapper> getAuspraegungByWert(String wert) throws IllegalArgumentException;
+	public Vector<EigenschaftAuspraegungWrapper> getAuspraegungByWert(String wert, int id) throws IllegalArgumentException;
 
 	/**
 	 * Eine Eigenschaftsauspraegung anhand der ID auslesen.

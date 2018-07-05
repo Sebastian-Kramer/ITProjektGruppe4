@@ -86,8 +86,10 @@ public interface KontaktAdministrationAsync {
 
 	void deleteAuspraegung(Eigenschaftauspraegung ea, AsyncCallback<Void> callback);
 
-	void getAuspraegungByWert(String wert, AsyncCallback<Vector<EigenschaftAuspraegungWrapper>> callback);
+	void getAuspraegungByWert(String wert, int id,  AsyncCallback<Vector<EigenschaftAuspraegungWrapper>> callback);
 
+	void getAuspraegungenLeer(int id, AsyncCallback<Vector<EigenschaftAuspraegungWrapper>> callback);
+	
 	void getAuspraegungByEigID(int eigID, int kontaktID, AsyncCallback<Eigenschaftauspraegung> callback);
 
 	void getAuspraegungByID(int id, AsyncCallback<Eigenschaftauspraegung> callback);

@@ -2490,6 +2490,56 @@ public class KontaktAdministrationImpl extends RemoteServiceServlet implements K
 		return this.eigMapper.findEigByBezeichnung(bez);
 	}
 
+	
+	
+	public Vector<EigenschaftAuspraegungWrapper> getAuspraegungenLeer(int id) throws IllegalArgumentException{
+
+		Vector<EigenschaftAuspraegungWrapper> ergebnis = new Vector<EigenschaftAuspraegungWrapper>();
+
+		Vector<Kontakt>  alleKonVonNutzer = new Vector<Kontakt>();
+
+		Vector<EigenschaftAuspraegungWrapper> alleEigenenAus = new Vector<EigenschaftAuspraegungWrapper>();
+		Vector<Eigenschaftauspraegung> eaAllShared = new Vector<Eigenschaftauspraegung>();
+		Vector <Kontakt> vectorEigene = this.findAllKontaktFromNutzer(id);
+		for (Kontakt kontakt : vectorEigene) {
+			alleKonVonNutzer.add(kontakt);
+		}
+
+		Vector<Kontakt> vectorGeteilt = this.findAllSharedKontakteVonNutzer(id);
+		for (Kontakt kontakt : vectorGeteilt) {
+			alleEigenenAus = this.findSharedAuspraegung(kontakt.getID(), id);
+			for (EigenschaftAuspraegungWrapper ea : alleEigenenAus) {
+				// alleKonVonNutzer.add(this.verwaltung.findKontaktByAuspraegungID(ea.getAuspraegungID()));
+				Eigenschaftauspraegung e = this.getAuspraegungByID(ea.getAuspraegungID());
+				eaAllShared.add(e);
+			}
+		}
+
+		for (Kontakt k : alleKonVonNutzer) {
+			if (k.getNutzerID() == id) {
+				Vector<Eigenschaftauspraegung> eaAll = this.findEigenschaftauspraegungByKontaktID(k.getID());
+				for (Eigenschaftauspraegung eap : eaAll) {
+					eaAllShared.add(eap);
+				}
+			}
+		}
+
+
+		for (Eigenschaftauspraegung eigenschaftauspraegung : eaAllShared) {
+			ergebnis.add(
+					new EigenschaftAuspraegungWrapper(getEigenschaftByID(eigenschaftauspraegung.getEigenschaftsID()),
+							eigenschaftauspraegung, findKontaktByID(eigenschaftauspraegung.getKontaktID())));
+		}
+		
+		
+		
+		return ergebnis;
+		
+	}
+	
+	
+	
+	
 	/**
 	 * Eine Eigenschaftsauspraegung anhand des Wertes auslesen.
 	 * 
@@ -2500,18 +2550,64 @@ public class KontaktAdministrationImpl extends RemoteServiceServlet implements K
 	 */
 
 	@Override
-	public Vector<EigenschaftAuspraegungWrapper> getAuspraegungByWert(String wert) throws IllegalArgumentException {
+	public Vector<EigenschaftAuspraegungWrapper> getAuspraegungByWert(String wert, int id) throws IllegalArgumentException {
+		Vector<EigenschaftAuspraegungWrapper> rueckgabe = new Vector<EigenschaftAuspraegungWrapper>();
+		Vector<Eigenschaftauspraegung> alle = this.eigenschaftauspraegungMapper.getAuspraegungByWert(wert);
+		Vector<EigenschaftAuspraegungWrapper> neue = new Vector<EigenschaftAuspraegungWrapper>();
+		Vector<EigenschaftAuspraegungWrapper> alleumgewandelt = new Vector<EigenschaftAuspraegungWrapper>();
 
-		Vector<Eigenschaftauspraegung> liste = eigenschaftauspraegungMapper.getAuspraegungByWert(wert);
-		Vector<EigenschaftAuspraegungWrapper> wrapper = new Vector<EigenschaftAuspraegungWrapper>();
-
-		for (Eigenschaftauspraegung eigenschaftauspraegung : liste) {
-			wrapper.add(
+		for (Eigenschaftauspraegung eigenschaftauspraegung : alle) {
+			neue.add(
 					new EigenschaftAuspraegungWrapper(getEigenschaftByID(eigenschaftauspraegung.getEigenschaftsID()),
 							eigenschaftauspraegung, findKontaktByID(eigenschaftauspraegung.getKontaktID())));
 		}
 
-		return wrapper;
+		Vector<Kontakt>  alleKonVonNutzer = new Vector<Kontakt>();
+
+		Vector<EigenschaftAuspraegungWrapper> alleEigenenAus = new Vector<EigenschaftAuspraegungWrapper>();
+		Vector<Eigenschaftauspraegung> eaAllShared = new Vector<Eigenschaftauspraegung>();
+		Vector <Kontakt> vectorEigene = this.findAllKontaktFromNutzer(id);
+		for (Kontakt kontakt : vectorEigene) {
+			alleKonVonNutzer.add(kontakt);
+		}
+
+		Vector<Kontakt> vectorGeteilt = this.findAllSharedKontakteVonNutzer(id);
+		for (Kontakt kontakt : vectorGeteilt) {
+			alleEigenenAus = this.findSharedAuspraegung(kontakt.getID(), id);
+			for (EigenschaftAuspraegungWrapper ea : alleEigenenAus) {
+				// alleKonVonNutzer.add(this.verwaltung.findKontaktByAuspraegungID(ea.getAuspraegungID()));
+				Eigenschaftauspraegung e = this.getAuspraegungByID(ea.getAuspraegungID());
+				eaAllShared.add(e);
+			}
+		}
+
+		for (Kontakt k : alleKonVonNutzer) {
+			if (k.getNutzerID() == id) {
+				Vector<Eigenschaftauspraegung> eaAll = this.findEigenschaftauspraegungByKontaktID(k.getID());
+				for (Eigenschaftauspraegung eap : eaAll) {
+					eaAllShared.add(eap);
+				}
+			}
+		}
+
+
+		for (Eigenschaftauspraegung eigenschaftauspraegung : eaAllShared) {
+			alleumgewandelt.add(
+					new EigenschaftAuspraegungWrapper(getEigenschaftByID(eigenschaftauspraegung.getEigenschaftsID()),
+							eigenschaftauspraegung, findKontaktByID(eigenschaftauspraegung.getKontaktID())));
+		}
+		
+		for (EigenschaftAuspraegungWrapper wrapper : neue) {
+			for (EigenschaftAuspraegungWrapper ergebnis : alleumgewandelt) {
+				if(wrapper.getAuspraegungID() == ergebnis.getAuspraegungID()){
+					rueckgabe.add(ergebnis);
+				}
+			}
+		}
+		
+		
+		
+		return rueckgabe;
 	}
 
 	/**

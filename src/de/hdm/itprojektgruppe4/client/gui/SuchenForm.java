@@ -8,6 +8,7 @@ import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.cellview.client.CellTable;
 import com.google.gwt.user.cellview.client.Column;
 import com.google.gwt.user.client.Cookies;
+import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.DecoratorPanel;
@@ -293,7 +294,10 @@ public class SuchenForm extends VerticalPanel {
 
 			verwaltung.findGesuchteKontakte(k, new FindKontaktCallback());
 			suggestionKontaktBox.setText("");
-		}
+			
+			if(suggestionKontaktBox.getValue() == ""){
+				Window.alert("Sie haben keinen zu suchenden Wert eingegeben. Ihnen werden alle eigenen und geteilten Kontakte angezeigt!");
+		}}
 	}
 
 	/**
@@ -319,8 +323,14 @@ public class SuchenForm extends VerticalPanel {
 
 			kontaktKontaktAnzeigenButton.setVisible(false);
 			auspraegungKontaktAnzeigenButton.setVisible(true);
-			verwaltung.getAuspraegungByWert(tboxAuspraegung.getValue(), new FindAuspraegungCallback());
-			tboxAuspraegung.setText("");
+			if (tboxAuspraegung.getText() == "") {
+				
+				verwaltung.getAuspraegungenLeer(nutzer.getID(), new FindAuspraegungLeeresFeldCallback());
+
+					
+			}else{
+			verwaltung.getAuspraegungByWert(tboxAuspraegung.getValue(), nutzer.getID(), new FindAuspraegungCallback());
+			}
 		}
 
 	}
@@ -347,6 +357,33 @@ public class SuchenForm extends VerticalPanel {
 
 		}
 
+	}
+	/**
+	 * Der Callback befüllt die CellTable mit allen eigenen und geteilten 
+	 * Eigenschaftsausprägungen wenn die Eingabe in der textbox leer bleibt.
+	 * 
+	 * @author Clirim
+	 *
+	 */
+	
+	class FindAuspraegungLeeresFeldCallback implements AsyncCallback<Vector<EigenschaftAuspraegungWrapper>>{
+
+		@Override
+		public void onFailure(Throwable caught) {
+			// TODO Auto-generated method stub
+			
+		}
+
+		@Override
+		public void onSuccess(Vector<EigenschaftAuspraegungWrapper> result) {
+			// TODO Auto-generated method stub
+			Window.alert("Sie haben keinen zu suchenden Wert eingegeben. Ihnen werden alle eigenen und geteilten Ausprägungen angezeigt!");
+			ctAus.setRowData(0, result);
+			ctAus.setRowCount(result.size(), true);
+			ctkontakt.setVisible(false);
+			ctAus.setVisible(true);
+		}
+		
 	}
 
 	/**
