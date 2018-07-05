@@ -24,7 +24,16 @@ import de.hdm.itprojektgruppe4.shared.bo.Kontaktliste;
 import de.hdm.itprojektgruppe4.shared.bo.Nutzer;
 
 public class DialogBoxAddContactToList extends DialogBox {
-
+	/**
+	 * In der Klasse DialogBoxAddContactToList kann man einen Kontakt 
+	 * einer Kontaktliste hinzufügen. 
+	 * Es wird eine Dialogbox geöffnet die durch einen Klick auf einen Button ausgelöst wird.
+	 * Daraufhin wird eine Drop-Liste mit Kontaktlisten erzeugt, aus der man eine auswählen kann.
+	 * Durch einen Klick auf den Button "Hinzufügen" wird der Kontakt der Liste hinzugefügt.
+	 * 
+	 * @author Clirim
+	 *
+	 */
 	private static KontaktAdministrationAsync verwaltung = ClientsideSettings.getKontaktVerwaltung();
 
 	private VerticalPanel vpanel = new VerticalPanel();
@@ -45,7 +54,12 @@ public class DialogBoxAddContactToList extends DialogBox {
 		nutzer.setEmail(Cookies.getCookie("email"));
 		verwaltung.findKontaktlistenToAddKontakt(kon.getID(), nutzer.getID(), new AllKontaktlisteByNutzerCallback());
 	}
-
+	
+	/**
+	 * Die onLoad()-Methode wird beim Starten der DialogBoxAddContactToList geladen. 
+	 * Es werden den Buttons die zugehörigen Clickhandler hinzugefügt und die verschiedenen Widgets den
+	 * Panel hinzugefügt.
+	 */
 	public void onLoad() {
 		super.onLoad();
 
@@ -65,6 +79,13 @@ public class DialogBoxAddContactToList extends DialogBox {
 
 	}
 
+	/**
+	 * Der ClickHandler addKontaktClick wird durch den Button "addKontakt" ausgelöst.
+	 * Dieser führt einen Callback aus, welcher den jeweiligen Kontakt in eine Liste hinzufügt.
+	 * 
+	 * @author Clirim
+	 *
+	 */
 	class addKontaktClick implements ClickHandler {
 
 		@Override
@@ -75,7 +96,13 @@ public class DialogBoxAddContactToList extends DialogBox {
 		}
 
 	}
-
+	/**
+	 * Der ClickHandler CancelClick wird durch den Button "CancelClick" ausgelöst.
+	 * Dieser schließt die DialogBox. 
+	 * 
+	 * @author Clirim
+	 *
+	 */
 	class CancelClick implements ClickHandler {
 
 		@Override
@@ -85,7 +112,13 @@ public class DialogBoxAddContactToList extends DialogBox {
 		}
 
 	}
-
+	/**
+	 * Der AsyncCallback AllKontaktlisteByNutzerCallback findet Kontaktlisten aus dem System,
+	 * und gibt diese in einem Vector zurück. Diese werden einer dropdownListe hinzugefügt.
+	 * 
+	 * @author Clirim
+	 *
+	 */
 	class AllKontaktlisteByNutzerCallback implements AsyncCallback<Vector<Kontaktliste>> {
 
 		@Override
@@ -110,13 +143,20 @@ public class DialogBoxAddContactToList extends DialogBox {
 
 		}
 	}
-
+	
+	/**
+	 * Der AsyncCallback InsertKontaktKontaktlisteBeziehung fügt den jeweiligen Kontakt 
+	 * der ausgewählten Kontaktliste hinzu.
+	 * 
+	 * @author Clirim
+	 *
+	 */
 	class InsertKontaktKontaktlisteBeziehung implements AsyncCallback<KontaktKontaktliste> {
 
 		@Override
 		public void onFailure(Throwable caught) {
 
-			Window.alert("Der Kontakt wurde NICHT der Liste hinzugefügt");
+			Window.alert("Der Kontakt wurde nicht der Liste hinzugefügt");
 		}
 
 		@Override

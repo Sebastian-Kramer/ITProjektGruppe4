@@ -4,7 +4,7 @@ import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.VerticalPanel;
 
 /**
- * Begrüßungsklasse für den Report
+ * BegrÃ¼ÃŸungsklasse fÃ¼r den Report
  * @author Georg
  *
  */

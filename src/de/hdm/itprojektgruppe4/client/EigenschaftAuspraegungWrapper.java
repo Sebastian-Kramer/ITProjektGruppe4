@@ -5,7 +5,15 @@ import java.io.Serializable;
 import de.hdm.itprojektgruppe4.shared.bo.Eigenschaft;
 import de.hdm.itprojektgruppe4.shared.bo.Eigenschaftauspraegung;
 import de.hdm.itprojektgruppe4.shared.bo.Kontakt;
-
+/**
+ * Die Klasse EigenschaftAuspraegungWrapper ist eine Wrapperklasse zwischen Eigenschaft, 
+ * Eigenschaftausprägung und Kontakt. 
+ * Durch die Klasse können EigenschaftAuspraegungWrapper-Objekte erzeugt werden, die meistens 
+ * für das anzeigen von CellTables genutzt werden.
+ * 
+ * @author Clirim
+ *
+ */
 public class EigenschaftAuspraegungWrapper implements Serializable {
 
 	private static final long serialVersionUID = 1L;
@@ -28,7 +36,14 @@ public class EigenschaftAuspraegungWrapper implements Serializable {
 		this.eigenschaft = eigenschaft;
 		this.kontakt = kontakt;
 	}
-
+	
+	/**
+	 * Get- und Set Methoden für EigenschaftAuspraegungWrapper-Objekte
+	 * 
+	 * @author Clirim
+	 *
+	 */
+	
 	public Kontakt getKontakt() {
 		return kontakt;
 	}
@@ -108,7 +123,13 @@ public class EigenschaftAuspraegungWrapper implements Serializable {
 	public int getAuspraegungKontaktID() {
 		return this.auspraegung.getKontaktID();
 	}
-
+	/**
+	 * Die folgenden Methoden werden dazu verwendet, Icons in die Celltable´s
+	 * zu laden.
+	 * 
+	 * @author Clirim
+	 *
+	 */
 	public String getImageUrl2Contacts(EigenschaftAuspraegungWrapper object) {
 		return "Image/contactShared.png";
 	}
@@ -116,7 +137,12 @@ public class EigenschaftAuspraegungWrapper implements Serializable {
 	public String getDelete(EigenschaftAuspraegungWrapper object) {
 		return "Image/DeleteSmall.png";
 	}
-
+	/**
+	 * To-String Methode für die Klasse.
+	 * 
+	 * @author Clirim
+	 *
+	 */
 	public String toString() {
 		return "<table id =" + "'tableReport'" + "><tr><td id = 'tdEigenschaftReport'>"
 				+ this.eigenschaft.getBezeichnung() + ": " + "</td><td id = 'tdAuspraegungReport'>"

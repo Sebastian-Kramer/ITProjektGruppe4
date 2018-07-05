@@ -83,6 +83,15 @@ public class UpdateKontaktForm extends VerticalPanel {
 	private EditTextCell wertauspraegung = new EditTextCell();
 	// private CellTableForm.ColumnEigenschaft bezEigenschaft = ctf.new
 	// ColumnEigenschaft(bezeigenschaft);
+	/**
+	 * In der importierten Column ColumnAuspraegung wird die bearbeitungsfunktion 
+	 * direkt deklariert. Diese wird durch den onBrowserEvent "ENTER" ausgelöst. 
+	 * Es folgt ein FieldUpdater der die bearbeitung durchführt.
+	 * 
+	 * @author Nino
+	 *
+	 */
+	
 	private CellTableForm.ColumnAuspraegung wertAuspraegung = ctf.new ColumnAuspraegung(wertauspraegung) {
 
 		public void onBrowserEvent(Context context, Element elem, EigenschaftAuspraegungWrapper object,
