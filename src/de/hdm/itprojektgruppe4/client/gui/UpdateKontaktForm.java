@@ -34,6 +34,7 @@ import com.google.gwt.view.client.SelectionChangeEvent;
 
 import de.hdm.itprojektgruppe4.client.ClientsideSettings;
 import de.hdm.itprojektgruppe4.client.EigenschaftAuspraegungWrapper;
+import de.hdm.itprojektgruppe4.client.NavigationTree;
 import de.hdm.itprojektgruppe4.shared.KontaktAdministrationAsync;
 import de.hdm.itprojektgruppe4.shared.bo.Eigenschaft;
 import de.hdm.itprojektgruppe4.shared.bo.Eigenschaftauspraegung;
@@ -303,13 +304,19 @@ public class UpdateKontaktForm extends VerticalPanel {
 		public void onClick(ClickEvent event) {
 
 			if (kon.getNutzerID() == nutzer.getID()) {
+				NavigationTree updatedNavigation = new NavigationTree();
 				KontaktForm kf = new KontaktForm(kon);
+				RootPanel.get("Navigator").clear();
 				RootPanel.get("Details").clear();
+				RootPanel.get("Navigator").add(updatedNavigation);
 				RootPanel.get("Details").add(kf);
 			} else {
+				NavigationTree updatedNavigation = new NavigationTree();
 				KontaktForm kf = new KontaktForm(kon, "Teilhaberschaft");
+				RootPanel.get("Navigator").clear();
 				RootPanel.get("Details").clear();
 				RootPanel.get("Details").add(kf);
+				RootPanel.get("Navigator").add(updatedNavigation);
 			}
 
 		}

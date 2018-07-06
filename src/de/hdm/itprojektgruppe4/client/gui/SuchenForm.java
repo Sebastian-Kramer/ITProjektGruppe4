@@ -57,9 +57,9 @@ public class SuchenForm extends VerticalPanel {
 	private TextBox tboxKontaktname = new TextBox();
 	private TextBox tboxAuspraegung = new TextBox();
 	private Button kontaktSuchen = new Button("Kontakt suchen");
-	private Button auspraegungSuchen = new Button("Auspraegung suchen");
+	private Button auspraegungSuchen = new Button("Ausprägung suchen");
 	private Button kontaktKontaktAnzeigenButton = new Button("Kontakt anzeigen");
-	private Button auspraegungKontaktAnzeigenButton = new Button("Zugehörigen Kontakt anzeigen");
+	private Button auspraegungKontaktAnzeigenButton = new Button("Kontakt anzeigen");
 	private VerticalPanel vpanel = new VerticalPanel();
 	private VerticalPanel vpanelTop = new VerticalPanel();
 	private HorizontalPanel hpanelRechts = new HorizontalPanel();
