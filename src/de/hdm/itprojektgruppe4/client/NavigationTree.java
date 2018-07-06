@@ -6,6 +6,16 @@ import com.google.gwt.user.client.ui.VerticalPanel;
 
 import de.hdm.itprojektgruppe4.client.gui.KontaktlisteKontaktTreeViewModel;
 
+/**
+ * Die Klasse NavigationTree dient zur Darstellung der Navigation.
+ * Es wird ein Objkt vom Typ <code>KontaktlisteKontaktTreeViewModel </code> instanziiert 
+ * und einem Vertical Pnale hinzugefügt.
+ * 
+ * Hinzu wird die Überschrift "Meine Kontaktlisten" hinzugefügt.
+ * @author Nino
+ *
+ */
+
 public class NavigationTree extends VerticalPanel {
 
 	public void onLoad() {
