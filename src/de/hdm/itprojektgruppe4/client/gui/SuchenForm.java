@@ -106,7 +106,6 @@ public class SuchenForm extends VerticalPanel {
 		kontaktSuchen.setHeight("60px");
 		zurueckZuHome.setStyleName("ButtonICON");
 		RootPanel.get("Buttonbar").clear();
-		
 
 	}
 
@@ -175,7 +174,7 @@ public class SuchenForm extends VerticalPanel {
 
 		suchenKonPic.setStyleName("ButtonICON");
 		suchenAusPic.setStyleName("ButtonICON");
-		
+
 		hpanel.add(suchenIcon);
 		hpanel.add(ueberschrift);
 		vpanelTop.add(hpanel);
@@ -205,7 +204,7 @@ public class SuchenForm extends VerticalPanel {
 		this.add(vpanel2);
 		this.add(hpanelRechts);
 		this.add(vpanel3);
-		
+
 		RootPanel.get("Buttonbar").add(zurueckBtn);
 
 		kontaktKontaktAnzeigenButton.addClickHandler(new KontaktKontaktAnzeigenHandler());
@@ -244,9 +243,12 @@ public class SuchenForm extends VerticalPanel {
 		}
 
 	}
+
 	/**
-	 * Der ClickHandler ClickZurueckHandler wird aufgerufen durch den Button zurueckBtn,
-	 * welcher eine neue MainForm und einen neuen NavigationTree öffnet. 
+	 * Der ClickHandler ClickZurueckHandler wird aufgerufen durch den Button
+	 * zurueckBtn, welcher eine neue MainForm und einen neuen NavigationTree
+	 * öffnet.
+	 * 
 	 * @author Clirim
 	 *
 	 */
@@ -355,10 +357,10 @@ public class SuchenForm extends VerticalPanel {
 
 				eigaus.setAuspraegungValue(tboxAuspraegung.getValue());
 
-
 				kontaktKontaktAnzeigenButton.setVisible(false);
 				auspraegungKontaktAnzeigenButton.setVisible(true);
-				verwaltung.getAuspraegungByWert(tboxAuspraegung.getValue(), nutzer.getID(), new FindAuspraegungCallback());
+				verwaltung.getAuspraegungByWert(tboxAuspraegung.getValue(), nutzer.getID(),
+						new FindAuspraegungCallback());
 				tboxAuspraegung.setText("");
 
 			}
@@ -389,31 +391,33 @@ public class SuchenForm extends VerticalPanel {
 		}
 
 	}
+
 	/**
-	 * Der Callback befüllt die CellTable mit allen eigenen und geteilten 
+	 * Der Callback befüllt die CellTable mit allen eigenen und geteilten
 	 * Eigenschaftsausprägungen wenn die Eingabe in der textbox leer bleibt.
 	 * 
 	 * @author Clirim
 	 *
 	 */
-	
-	class FindAuspraegungLeeresFeldCallback implements AsyncCallback<Vector<EigenschaftAuspraegungWrapper>>{
+
+	class FindAuspraegungLeeresFeldCallback implements AsyncCallback<Vector<EigenschaftAuspraegungWrapper>> {
 
 		@Override
 		public void onFailure(Throwable caught) {
-			
+
 		}
 
 		@Override
 		public void onSuccess(Vector<EigenschaftAuspraegungWrapper> result) {
 
-			Window.alert("Sie haben keinen zu suchenden Wert eingegeben. Ihnen werden alle eigenen und geteilten Ausprägungen angezeigt!");
+			Window.alert(
+					"Sie haben keinen zu suchenden Wert eingegeben. Ihnen werden alle eigenen und geteilten Ausprägungen angezeigt!");
 			ctAus.setRowData(0, result);
 			ctAus.setRowCount(result.size(), true);
 			ctkontakt.setVisible(false);
 			ctAus.setVisible(true);
 		}
-		
+
 	}
 
 	/**
@@ -466,10 +470,16 @@ public class SuchenForm extends VerticalPanel {
 		@Override
 		public void onSuccess(Vector<EigenschaftAuspraegungWrapper> result) {
 
-			ctAus.setRowData(0, result);
-			ctAus.setRowCount(result.size(), true);
-			ctkontakt.setVisible(false);
-			ctAus.setVisible(true);
+			if (result.size() < 1) {
+				Window.alert("Die Ausprägung gibt es leider nicht");
+				auspraegungKontaktAnzeigenButton.setVisible(false);
+	
+			} else {
+				ctAus.setRowData(0, result);
+				ctAus.setRowCount(result.size(), true);
+				ctkontakt.setVisible(false);
+				ctAus.setVisible(true);
+			}
 
 		}
 	}

@@ -72,7 +72,6 @@ public class KontaktlisteForm extends VerticalPanel {
 	private Button kontaktlisteTeilen = new Button("Kontaktliste teilen");
 	private Button teilhaberschaften = new Button("Teilhaberschaften verwalten");
 	private Button kontaktlisteBearbeiten = new Button("Kontaktliste bearbeiten");
-	private Button zurStartseite = new Button("Zurück zur Startseite");
 	private Button kontaktHinzufuegen = new Button("Kontakt hinzufügen");
 	private Button kontaktlisteLoeschen = new Button("Kontaktliste löschen");
 	private Button kontaktEntfernen = new Button("Kontakt entfernen");
@@ -169,7 +168,6 @@ public class KontaktlisteForm extends VerticalPanel {
 		fpanel.add(kontaktAnzeigen);
 		fpanel.add(kontaktlisteTeilen);
 		fpanel.add(teilhaberschaften);
-		fpanel.add(zurStartseite);
 		RootPanel.get("Buttonbar").add(fpanel);
 
 		/*
@@ -204,8 +202,6 @@ public class KontaktlisteForm extends VerticalPanel {
 		teilhaberschaften.addClickHandler(new TeilhaberschaftenVerwaltenClickhandler());
 		kontaktlisteBearbeiten.getElement().appendChild(bearbeitenPic.getElement());
 		kontaktlisteBearbeiten.addClickHandler(new KontaktlisteBearbeitenClickhandler());
-		zurStartseite.getElement().appendChild(zurueckPic2.getElement());
-		zurStartseite.addClickHandler(new ZurueckZurStartseiteClickhandler());
 		kontaktHinzufuegen.getElement().appendChild(konZuListPic.getElement());
 		kontaktHinzufuegen.addClickHandler(new KontaktHinzufuegenClickhandler());
 		kontaktEntfernen.getElement().appendChild(removePic.getElement());
@@ -382,22 +378,6 @@ public class KontaktlisteForm extends VerticalPanel {
 			} else {
 				setEditable();
 			}
-		}
-
-	}
-
-	/**
-	 * ClickHandler um auf die Startseite zurückzugelangen.
-	 */
-	private class ZurueckZurStartseiteClickhandler implements ClickHandler {
-
-		@Override
-		public void onClick(ClickEvent event) {
-			MainForm mf = new MainForm();
-			RootPanel.get("Buttonbar").clear();
-			RootPanel.get("Details").clear();
-			RootPanel.get("Details").add(mf);
-
 		}
 
 	}
