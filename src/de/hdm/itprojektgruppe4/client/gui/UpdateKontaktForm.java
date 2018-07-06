@@ -78,11 +78,8 @@ public class UpdateKontaktForm extends VerticalPanel {
 	private ScrollPanel scrollPanel = new ScrollPanel();
 	private Image kontaktbild = new Image("Image/Visitenkarte_2.png");
 	private CellTableForm ctf = null;
-	// private ButtonCell deletebtn = new ButtonCell();
-	// private ClickableTextCell bezeigenschaft = new ClickableTextCell();
 	private EditTextCell wertauspraegung = new EditTextCell();
-	// private CellTableForm.ColumnEigenschaft bezEigenschaft = ctf.new
-	// ColumnEigenschaft(bezeigenschaft);
+
 	private CellTableForm.ColumnAuspraegung wertAuspraegung = ctf.new ColumnAuspraegung(wertauspraegung) {
 
 		public void onBrowserEvent(Context context, Element elem, EigenschaftAuspraegungWrapper object,
@@ -134,9 +131,6 @@ public class UpdateKontaktForm extends VerticalPanel {
 	private Eigenschaftauspraegung eigaus = new Eigenschaftauspraegung();
 	final MultiSelectionModel<EigenschaftAuspraegungWrapper> selectionModelWrapper = new MultiSelectionModel<EigenschaftAuspraegungWrapper>();
 
-	// private CellTableForm.ColumnDeleteBtn deleteBtn = ctf.new
-	// ColumnDeleteBtn(deletebtn);
-
 	/**
 	 * Konstruktor: Beim Laden der UpdateKontaktForm wirde ein Kontakt-Objekt
 	 * übergeben. Wenn der Nutzer der Eigentümer des Kontaktes ist, werden alle
@@ -187,9 +181,6 @@ public class UpdateKontaktForm extends VerticalPanel {
 
 		fmt.format(date);
 		RootPanel.get("Buttonbar").clear();
-		// ctf.setSelectionModel(selectionModelWrapper,
-		// DefaultSelectionEventManager.<EigenschaftAuspraegungWrapper>createCheckboxManager());
-		// ctf.addColumn(ctf.getCheckBox());
 		ctf.addColumn(ctf.getBezEigenschaft(), "Kontakteigenschaften: ");
 		ctf.addColumn(wertAuspraegung);
 		ctf.addColumn(ctf.getDeleteBtn());
@@ -226,14 +217,9 @@ public class UpdateKontaktForm extends VerticalPanel {
 		this.add(vpanelDetails);
 
 		verwaltung.findAllEigenschaft(new AlleEigenschaftCallback());
-		//
-		// deleteBtn.setFieldUpdater(new DeleteFieldUpdater());
+
 		cancelBtn.getElement().appendChild(zurueckZuHomePic.getElement());
 		cancelBtn.addClickHandler(new CancelClick());
-
-		// ##### nachschauen
-		// ctf.deleteCell.setFieldUpdater(new DeleteFieldUpdater());
-
 		addRow.addClickHandler(new ClickAddRowHandler());
 		txt_KontaktName.addKeyDownHandler(changeNameHandler);
 
@@ -276,8 +262,6 @@ public class UpdateKontaktForm extends VerticalPanel {
 					verwaltung.deleteEigenschaftUndAuspraegung(ea, new AuspraegungHybridLoeschenCallback());
 					verwaltung.updateKontakt(kon, new KontaktModifikationsdatumCallback());
 				}
-				// Window.alert("Sie müssen als erstes alle Teilhaberschaften an
-				// dieser Ausprägung löschen");
 			}
 		}
 	}
@@ -317,11 +301,16 @@ public class UpdateKontaktForm extends VerticalPanel {
 		@Override
 		public void onClick(ClickEvent event) {
 
-			ctf.addRow(eigenschaftSugBox.getValue(), txt_Auspraegung.getValue());
-
-			verwaltung.insertEigenschaft(eigenschaftSugBox.getText(), 0, new EigenschaftEinfuegenCallback());
-			verwaltung.updateKontakt(kon, new KontaktModifikationsdatumCallback());
-
+			if (eigenschaftSugBox.getValue().equals("") && txt_Auspraegung.getValue().equals("")) {
+				Window.alert("Sie haben keine Werte für Eigenschaft und Ausprägung angegeben");
+			}else if(eigenschaftSugBox.getValue().equals("")){
+				Window.alert("Sie haben keinen Wert für Eigenschaft angegeben");
+			} 
+			else {
+				ctf.addRow(eigenschaftSugBox.getValue(), txt_Auspraegung.getValue());
+				verwaltung.insertEigenschaft(eigenschaftSugBox.getText(), 0, new EigenschaftEinfuegenCallback());
+				verwaltung.updateKontakt(kon, new KontaktModifikationsdatumCallback());
+			}
 		}
 	}
 

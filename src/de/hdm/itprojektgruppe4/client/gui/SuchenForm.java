@@ -8,6 +8,7 @@ import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.cellview.client.CellTable;
 import com.google.gwt.user.cellview.client.Column;
 import com.google.gwt.user.client.Cookies;
+import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.DecoratorPanel;
@@ -25,6 +26,7 @@ import com.google.gwt.view.client.SingleSelectionModel;
 
 import de.hdm.itprojektgruppe4.client.ClientsideSettings;
 import de.hdm.itprojektgruppe4.client.EigenschaftAuspraegungWrapper;
+import de.hdm.itprojektgruppe4.client.NavigationTree;
 import de.hdm.itprojektgruppe4.shared.KontaktAdministrationAsync;
 import de.hdm.itprojektgruppe4.shared.bo.Kontakt;
 import de.hdm.itprojektgruppe4.shared.bo.Nutzer;
@@ -59,6 +61,7 @@ public class SuchenForm extends VerticalPanel {
 	private Button auspraegungSuchen = new Button("Auspraegung suchen");
 	private Button kontaktKontaktAnzeigenButton = new Button("Kontakt anzeigen");
 	private Button auspraegungKontaktAnzeigenButton = new Button("Zugehörigen Kontakt anzeigen");
+	private Button zurueckBtn = new Button("Zurück zur Startseite");
 	private VerticalPanel vpanel = new VerticalPanel();
 	private VerticalPanel vpanelTop = new VerticalPanel();
 	private HorizontalPanel hpanelRechts = new HorizontalPanel();
@@ -75,6 +78,7 @@ public class SuchenForm extends VerticalPanel {
 	private SuggestBox suggestionKontaktBox = new SuggestBox(KontaktOracle);
 	private Image suchenKonPic = new Image("Image/Suchen.png");
 	private Image suchenAusPic = new Image("Image/Suchen.png");
+	private Image zurueckZuHome = new Image("Image/Back.png");
 
 	final SingleSelectionModel<Kontakt> sm = new SingleSelectionModel<Kontakt>();
 	final SingleSelectionModel<EigenschaftAuspraegungWrapper> ssm = new SingleSelectionModel<EigenschaftAuspraegungWrapper>();
@@ -100,6 +104,9 @@ public class SuchenForm extends VerticalPanel {
 		tboxKontaktname.setStyleName("SuchenBoxKontakt");
 		tboxAuspraegung.setStyleName("SuchenBoxAuspraegung");
 		kontaktSuchen.setHeight("60px");
+		zurueckZuHome.setStyleName("ButtonICON");
+		RootPanel.get("Buttonbar").clear();
+		
 
 	}
 
@@ -168,7 +175,7 @@ public class SuchenForm extends VerticalPanel {
 
 		suchenKonPic.setStyleName("ButtonICON");
 		suchenAusPic.setStyleName("ButtonICON");
-
+		
 		hpanel.add(suchenIcon);
 		hpanel.add(ueberschrift);
 		vpanelTop.add(hpanel);
@@ -191,11 +198,15 @@ public class SuchenForm extends VerticalPanel {
 		kontaktSuchen.getElement().appendChild(suchenKonPic.getElement());
 		auspraegungSuchen.addClickHandler(new AuspraegungSuchenButton());
 		auspraegungSuchen.getElement().appendChild(suchenAusPic.getElement());
+		zurueckBtn.getElement().appendChild(zurueckZuHome.getElement());
+		zurueckBtn.addClickHandler(new ClickZurueckHandler());
 
 		this.add(vpanel1);
 		this.add(vpanel2);
 		this.add(hpanelRechts);
 		this.add(vpanel3);
+		
+		RootPanel.get("Buttonbar").add(zurueckBtn);
 
 		kontaktKontaktAnzeigenButton.addClickHandler(new KontaktKontaktAnzeigenHandler());
 		auspraegungKontaktAnzeigenButton.addClickHandler(new AuspraegungKontaktAnzeigenHandler());
@@ -232,6 +243,25 @@ public class SuchenForm extends VerticalPanel {
 			verwaltung.findKontaktByAuspraegungID(eigaus.getAuspraegungID(), new AuspraegungKontaktAnzeigenCallback());
 		}
 
+	}
+	/**
+	 * Der ClickHandler ClickZurueckHandler wird aufgerufen durch den Button zurueckBtn,
+	 * welcher eine neue MainForm und einen neuen NavigationTree öffnet. 
+	 * @author Clirim
+	 *
+	 */
+	class ClickZurueckHandler implements ClickHandler {
+		@Override
+		public void onClick(ClickEvent event) {
+			MainForm mf = new MainForm();
+			NavigationTree nf = new NavigationTree();
+			RootPanel.get("Navigator").clear();
+			RootPanel.get("Buttonbar").clear();
+			RootPanel.get("Details").clear();
+			RootPanel.get("Details").add(mf);
+			RootPanel.get("Navigator").add(nf);
+
+		}
 	}
 
 	/**
@@ -276,23 +306,27 @@ public class SuchenForm extends VerticalPanel {
 		@Override
 		public void onClick(ClickEvent event) {
 
-			Nutzer nutzer = new Nutzer();
-			nutzer.setID(Integer.parseInt(Cookies.getCookie("id")));
-			nutzer.setEmail(Cookies.getCookie("mail"));
+			if (suggestionKontaktBox.getValue().equals("")) {
+				Window.alert("Bitte geben Sie einen Kontaktnamen ein, den Sie suchen möchten");
+			} else {
+				Nutzer nutzer = new Nutzer();
+				nutzer.setID(Integer.parseInt(Cookies.getCookie("id")));
+				nutzer.setEmail(Cookies.getCookie("mail"));
 
-			Kontakt k = new Kontakt();
+				Kontakt k = new Kontakt();
 
-			k.setName(tboxKontaktname.getValue());
-			k.setNutzerID(nutzer.getID());
+				k.setName(tboxKontaktname.getValue());
+				k.setNutzerID(nutzer.getID());
 
-			k.setName(suggestionKontaktBox.getValue());
-			k.setNutzerID(nutzer.getID());
+				k.setName(suggestionKontaktBox.getValue());
+				k.setNutzerID(nutzer.getID());
 
-			auspraegungKontaktAnzeigenButton.setVisible(false);
-			kontaktKontaktAnzeigenButton.setVisible(true);
+				auspraegungKontaktAnzeigenButton.setVisible(false);
+				kontaktKontaktAnzeigenButton.setVisible(true);
 
-			verwaltung.findGesuchteKontakte(k, new FindKontaktCallback());
-			suggestionKontaktBox.setText("");
+				verwaltung.findGesuchteKontakte(k, new FindKontaktCallback());
+				suggestionKontaktBox.setText("");
+			}
 		}
 	}
 
@@ -309,18 +343,22 @@ public class SuchenForm extends VerticalPanel {
 		@Override
 		public void onClick(ClickEvent event) {
 
-			Nutzer nutzer = new Nutzer();
-			nutzer.setID(Integer.parseInt(Cookies.getCookie("id")));
-			nutzer.setEmail(Cookies.getCookie("mail"));
+			if (tboxAuspraegung.getValue().equals("")) {
+				Window.alert("Bitte geben Sie einen Wert ein, den Sie suchen möchten");
+			} else {
+				Nutzer nutzer = new Nutzer();
+				nutzer.setID(Integer.parseInt(Cookies.getCookie("id")));
+				nutzer.setEmail(Cookies.getCookie("mail"));
 
-			EigenschaftAuspraegungWrapper eigaus = new EigenschaftAuspraegungWrapper();
+				EigenschaftAuspraegungWrapper eigaus = new EigenschaftAuspraegungWrapper();
 
-			eigaus.setAuspraegungValue(tboxAuspraegung.getValue());
+				eigaus.setAuspraegungValue(tboxAuspraegung.getValue());
 
-			kontaktKontaktAnzeigenButton.setVisible(false);
-			auspraegungKontaktAnzeigenButton.setVisible(true);
-			verwaltung.getAuspraegungByWert(tboxAuspraegung.getValue(), new FindAuspraegungCallback());
-			tboxAuspraegung.setText("");
+				kontaktKontaktAnzeigenButton.setVisible(false);
+				auspraegungKontaktAnzeigenButton.setVisible(true);
+				verwaltung.getAuspraegungByWert(tboxAuspraegung.getValue(), new FindAuspraegungCallback());
+				tboxAuspraegung.setText("");
+			}
 		}
 
 	}

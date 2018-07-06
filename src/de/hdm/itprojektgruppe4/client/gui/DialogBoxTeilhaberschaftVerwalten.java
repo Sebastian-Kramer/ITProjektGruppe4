@@ -93,17 +93,15 @@ public class DialogBoxTeilhaberschaftVerwalten extends DialogBox {
 			kontaktVerwaltung.findSharedWithNutzer(nutzer.getID(), k.getID(), new SharedWithNutzerCallback());
 			dataProvider.addDataDisplay(nutzerList);
 		}
-		
-		
+
 		// Hinzufuegen der Clickhandler zu den Buttons
 		abbrechen.addClickHandler(new AbbrechenClickhandler());
 		teilhaberschaftAufloesen.addClickHandler(new TeilhaberschaftAufloesenClickhandler());
 
 		// Anordnen der Buttons und der Celllist mithilfe einer Flextable und
 		// anschließendes Hinzufuegen der Flextable zum VerticalPanel
-	
+
 	}
-	
 
 	/**
 	 * Dieser Konstruktor wird verwendet, wenn der angemeldete Nutzer im System
@@ -218,12 +216,13 @@ public class DialogBoxTeilhaberschaftVerwalten extends DialogBox {
 
 	/**
 	 * 
-	 * ClickHandler, um das Löschen einer Teilhaberschaft an einer Ausprägung zu ermöglichen.
-	 * Die asynchrone Callback-Methode
+	 * ClickHandler, um das Löschen einer Teilhaberschaft an einer Ausprägung zu
+	 * ermöglichen. Die asynchrone Callback-Methode
 	 * <code>deleteUpdateTeilhaberschaft</code> wird aufgerufen, um die
-	 * Teilhaberschaft anhand der entsprechenden Eigenschaftausprägung, des Teilhabers und des Kontakts zu entfernen.
-	 * Anschließend wird die DialogBox geschlossen.
-	 *  
+	 * Teilhaberschaft anhand der entsprechenden Eigenschaftausprägung, des
+	 * Teilhabers und des Kontakts zu entfernen. Anschließend wird die DialogBox
+	 * geschlossen.
+	 * 
 	 *
 	 */
 	private class LoeschenClickHandler implements ClickHandler {
@@ -238,8 +237,8 @@ public class DialogBoxTeilhaberschaftVerwalten extends DialogBox {
 	}
 
 	/**
-	 * Callback fuer die Loeschung der Teilhaberschaft an einer Kontaktliste. Nach erfolgreicher
-	 * Loeschung wird die Dialogbox geschlossen.
+	 * Callback fuer die Loeschung der Teilhaberschaft an einer Kontaktliste.
+	 * Nach erfolgreicher Loeschung wird die Dialogbox geschlossen.
 	 *
 	 */
 	private class TeilhaberschaftLoeschenCallback implements AsyncCallback<Void> {
@@ -252,14 +251,28 @@ public class DialogBoxTeilhaberschaftVerwalten extends DialogBox {
 
 		@Override
 		public void onSuccess(Void result) {
-			if (k.getNutzerID() == nutzer.getID()) {
+			kontaktVerwaltung.findKontaktlisteByID(k.getID(), new SeiteNeuLanden());
+		}
+
+	}
+
+	class SeiteNeuLanden implements AsyncCallback<Kontaktliste> {
+
+		@Override
+		public void onFailure(Throwable caught) {
+
+		}
+
+		@Override
+		public void onSuccess(Kontaktliste result) {
+			if (result.getNutzerID() == nutzer.getID()) {
 				Window.alert("Die Teilhaberschaft wurde erfolgreich geloescht");
-				kontaktVerwaltung.findAllTeilhaberFromKontaktliste(k.getID(), new TeilhaberVonKontaktliste());
-				KontaktlisteForm kf = new KontaktlisteForm(k);
+				kontaktVerwaltung.findAllTeilhaberFromKontaktliste(result.getID(), new TeilhaberVonKontaktliste());
+				KontaktlisteForm kf = new KontaktlisteForm(result);
 				NavigationTree nt = new NavigationTree();
-				RootPanel.get("Details").clear();
 				RootPanel.get("Navigator").clear();
 				RootPanel.get("Navigator").add(nt);
+				RootPanel.get("Details").clear();
 				RootPanel.get("Details").add(kf);
 			} else {
 				Window.alert("Die Teilhaberschaft wurde erfolgreich geloescht");
@@ -278,8 +291,9 @@ public class DialogBoxTeilhaberschaftVerwalten extends DialogBox {
 
 	/**
 	 * 
-	 * Callback fuer die Loeschung der Teilhaberschaft an eine Eigenschaftsausprägung. Nach erfolgreicher
-	 * Loeschung wird die Dialogbox geschlossen und die TeilhaberschaftForm wird wieder geladen.
+	 * Callback fuer die Loeschung der Teilhaberschaft an eine
+	 * Eigenschaftsausprägung. Nach erfolgreicher Loeschung wird die Dialogbox
+	 * geschlossen und die TeilhaberschaftForm wird wieder geladen.
 	 *
 	 */
 	private class TeilhaberschaftAuspraegungLoeschenCallback implements AsyncCallback<Void> {
@@ -356,15 +370,13 @@ public class DialogBoxTeilhaberschaftVerwalten extends DialogBox {
 
 		@Override
 		public void onSuccess(Vector<Nutzer> result) {
-		
+
 			for (Nutzer n : result) {
 				dataProvider.getList().add(n);
 				if (nutzer.getID() == n.getID()) {
 					dataProvider.getList().remove(n);
 				}
-				
-				
-			
+
 			}
 
 		}

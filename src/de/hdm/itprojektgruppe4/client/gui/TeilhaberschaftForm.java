@@ -66,8 +66,6 @@ public class TeilhaberschaftForm extends VerticalPanel {
 	private Image getBackPic = new Image("Image/Startseite.png");
 	private Image deletePic = new Image("Image/Loeschen.png");
 
-	
-
 	private ScrollPanel scrollPanel = new ScrollPanel();
 	private HTML html1 = null;
 	private HTML html2 = new HTML(
@@ -103,7 +101,6 @@ public class TeilhaberschaftForm extends VerticalPanel {
 		RootPanel.get("Buttonbar").add(allLoeschen);
 		RootPanel.get("Buttonbar").add(allTeilen);
 		RootPanel.get("Buttonbar").add(einzTeilen);
-		
 
 	}
 
@@ -190,7 +187,6 @@ public class TeilhaberschaftForm extends VerticalPanel {
 		html1.setStyleName("HtmlText1");
 		html2.setStyleName("HtmlText2");
 		html3.setStyleName("HtmlText");
-		
 
 		/*
 		 * Hier werden die zuvor angelegten Widgets dem VerticalPanel und dem
@@ -261,40 +257,42 @@ public class TeilhaberschaftForm extends VerticalPanel {
 		}
 
 	}
-	
+
 	/**
 	 * 
-	 * ClickHandler Klasse mit der alle Teilhaberschaften von allen Ausprägungen eines Kontakts entfernt werden.
-	 * Dafür werden das Kontakt-Objekt und das Nutzer-Objekt übergeben.
+	 * ClickHandler Klasse mit der alle Teilhaberschaften von allen Ausprägungen
+	 * eines Kontakts entfernt werden. Dafür werden das Kontakt-Objekt und das
+	 * Nutzer-Objekt übergeben.
 	 *
 	 */
 	class AllAuspraegungenLoeschenClickHandler implements ClickHandler {
 
 		@Override
 		public void onClick(ClickEvent event) {
-			
-			boolean sureDeleteAllTeil = Window.confirm("Möchten Sie alle Teilhaberschaften an " + kon.getName() + " auflösen ?");
-			
+
+			boolean sureDeleteAllTeil = Window
+					.confirm("Möchten Sie alle Teilhaberschaften an " + kon.getName() + " auflösen ?");
+
 			if (sureDeleteAllTeil) {
 				verwaltung.deleteAllTeilhaberschaftenKontakt(kon, nutzer, new AlleTeilhaberschaftenEntferntCallback());
 			}
-				
-			
+
 		}
-		
+
 	}
-	
+
 	/**
 	 * Callback - Klasse
+	 * 
 	 * @author Sebi_0107
 	 *
 	 */
-	class AlleTeilhaberschaftenEntferntCallback implements AsyncCallback<Void>{
+	class AlleTeilhaberschaftenEntferntCallback implements AsyncCallback<Void> {
 
 		@Override
 		public void onFailure(Throwable caught) {
 			Window.alert("Die Teilhaberschaften an diesem Kontakt konnten nicht gelöscht werden!");
-			
+
 		}
 
 		@Override
@@ -304,9 +302,9 @@ public class TeilhaberschaftForm extends VerticalPanel {
 			TeilhaberschaftForm tf = new TeilhaberschaftForm(kon);
 			RootPanel.get("Details").clear();
 			RootPanel.get("Details").add(tf);
-			
+
 		}
-		
+
 	}
 
 	/**
@@ -384,12 +382,12 @@ public class TeilhaberschaftForm extends VerticalPanel {
 		@Override
 		public void onClick(ClickEvent event) {
 
-			if(nutzerSugBox.getText().isEmpty()){
-				Window.alert("Sie haben keinen Nutzer ausgewählt"); 
-			}else{
-			verwaltung.insertTeilhaberschaftAuspraegungenKontakt(kon, nutzerSugBox.getValue(), nutzer.getID(),
-					new TeilhaberschaftCallback());
-			} 
+			if (nutzerSugBox.getText().isEmpty()) {
+				Window.alert("Sie haben keinen Nutzer ausgewählt");
+			} else {
+				verwaltung.insertTeilhaberschaftAuspraegungenKontakt(kon, nutzerSugBox.getValue(), nutzer.getID(),
+						new TeilhaberschaftCallback());
+			}
 		}
 
 	}
@@ -414,11 +412,11 @@ public class TeilhaberschaftForm extends VerticalPanel {
 				ea.add(eaw);
 			}
 
-			if(nutzerSugBox.getText().isEmpty()){
-				Window.alert("Sie haben keinen Nutzer ausgewählt"); 
-			}else{
-			verwaltung.insertTeilhaberschaftAusgewaehlteAuspraegungenKontakt(kon, ea, nutzerSugBox.getValue(),
-					nutzer.getID(), new TeilhaberschaftCallback());
+			if (nutzerSugBox.getText().isEmpty()) {
+				Window.alert("Sie haben keinen Nutzer ausgewählt");
+			} else {
+				verwaltung.insertTeilhaberschaftAusgewaehlteAuspraegungenKontakt(kon, ea, nutzerSugBox.getValue(),
+						nutzer.getID(), new TeilhaberschaftCallback());
 			}
 
 		}
@@ -460,7 +458,8 @@ public class TeilhaberschaftForm extends VerticalPanel {
 					RootPanel.get("Details").add(tf);
 				}
 			} else {
-				Window.alert("Mit dem Nutzer " + nutzerSugBox.getValue() + " besteht bereits eine Teilhaberschaft für den Kontakt " +kon.getName() +" .");
+				Window.alert("Mit dem Nutzer " + nutzerSugBox.getValue()
+						+ " besteht bereits eine Teilhaberschaft für den Kontakt " + kon.getName() + " .");
 				if (kon.getNutzerID() == nutzer.getID()) {
 					TeilhaberschaftForm tf = new TeilhaberschaftForm(kon);
 					RootPanel.get("Details").clear();

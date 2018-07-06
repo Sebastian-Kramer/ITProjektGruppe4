@@ -117,6 +117,7 @@ public class KontaktlisteForm extends VerticalPanel {
 	public KontaktlisteForm(Kontaktliste kontaktliste, String teilhaberschaft) {
 		this.kl = kontaktliste;
 		kontaktVerwaltung.getAllKontakteFromKontaktliste(kl.getID(), new KontakteVonKontaktlisteCallback());
+		
 		listShared.setUrl("Image/contactShared.png");
 
 	}
@@ -147,6 +148,7 @@ public class KontaktlisteForm extends VerticalPanel {
 		kontaktCellList.setStyleName("cellListKontakte");
 		hpanel.setStyleName("HpanelTop");
 		scrollPanel.add(kontaktCellList);
+		vpanelPopUp.setStyleName("popupPanel");
 		HTML html1 = new HTML(kl.getBez());
 		html1.setStyleName("headlineKontaktliste");
 		listShared.setStyleName("klStatus");
@@ -184,7 +186,6 @@ public class KontaktlisteForm extends VerticalPanel {
 		 */
 		if (kl.getStatus() == 1) {
 			hpanel.add(listShared);
-
 		}
 
 		vpanel.add(hpanel);
