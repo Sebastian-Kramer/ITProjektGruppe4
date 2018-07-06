@@ -369,9 +369,14 @@ public class NewKontaktForm extends VerticalPanel {
 		@Override
 		public void onClick(ClickEvent event) {
 
-			ctf.addRow(eigenschaftSugBox.getValue(), txt_Auspraegung.getValue());
-			verwaltung.insertEigenschaft(eigenschaftSugBox.getText(), 0, new EigenschaftHinzufuegenCallback());
-
+			if (eigenschaftSugBox.getValue().equals("") && txt_Auspraegung.getValue().equals("")) {
+				Window.alert("Sie haben keine Werte für Eigenschaft und Ausprägung angegeben");
+			} else if (eigenschaftSugBox.getValue().equals("")) {
+				Window.alert("Sie haben keinen Wert für Eigenschaft angegeben");
+			} else {
+				ctf.addRow(eigenschaftSugBox.getValue(), txt_Auspraegung.getValue());
+				verwaltung.insertEigenschaft(eigenschaftSugBox.getText(), 0, new EigenschaftHinzufuegenCallback());
+			}
 		}
 
 	}
@@ -396,7 +401,6 @@ public class NewKontaktForm extends VerticalPanel {
 		public void onSuccess(Kontakt result) {
 			kontakt1.setID(result.getID());
 			kontakt1.setName(result.getName());
-			// Window.alert("Kontakt " + result.getName() + " wurde erstellt");
 			verwaltung.insertBasicAuspraegung("", 0, result.getID(), new BasicAuspraegungenCallback());
 
 		}
@@ -421,7 +425,7 @@ public class NewKontaktForm extends VerticalPanel {
 
 		@Override
 		public void onSuccess(Vector<Eigenschaftauspraegung> result) {
-			// Window.alert("die leeren ausprägungen wurden erstellt ");
+
 			html2.setVisible(true);
 
 			eigenschaftSugBox.setVisible(true);

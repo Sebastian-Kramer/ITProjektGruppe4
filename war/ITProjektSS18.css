@@ -20,7 +20,6 @@ h3 {
 	text-align: center;
 	font-size: 18px;
 	text-align: left;
-	
 }
 
 h2#Kontakt {
@@ -87,27 +86,30 @@ input.DialogboxBackground {
 a.Logout {
 	right: 0;
 	position: absolute;
-	margin-right: 110px;
+	margin-right: 7%;
 }
 
 a.KontoLoeschen {
 	right: 0;
 	position: absolute;
-	margin-right: 20px;
-	 color: red;
+	color: red;
 }
 
 a.Impressum {
 	right: 0;
 	position: absolute;
-	margin-right: 160px;
+	margin-right: 11%;
 }
 
 a.Startseite {
-	
-    right: 0;
-    position: absolute;
-    margin-right: 230px;
+	right: 0;
+	position: absolute;
+	margin-right: 17%;
+}
+
+td.suggestPopupMiddleCenter {
+	border-style: groove;
+	background: white;
 }
 
 .ButtonICON {
@@ -163,9 +165,9 @@ a.Startseite {
 }
 
 img.sharedPic {
-    width: 45px;
-    margin-top: 36px;
-    margin-left: 50px;
+	width: 45px;
+	margin-top: 36px;
+	margin-left: 50px;
 }
 
 div.AktiverUser {
@@ -247,9 +249,14 @@ div#Details {
 div#Buttonbar {
 	width: 100%;
 	height: 5%;
-	min-height: 45px;
+	min-height: 50px;
 	max-height: 45px;
 	border-bottom: 1px solid black;
+}
+
+.popupPanel{
+	background-color: white;
+	border-style: ridge;
 }
 
 div.DialogboxBackground {
@@ -291,11 +298,11 @@ div.DialogboxBackground1 {
 }
 
 div.scrollPanel1 {
-    border-style: groove;
-    background: white;
-    width: 800px;
-    margin-top: 15px;
-    font-size: 20px;
+	border-style: groove;
+	background: white;
+	width: 800px;
+	margin-top: 15px;
+	font-size: 20px;
 }
 
 div.cellListKontakte {
@@ -310,17 +317,17 @@ img.Startbild {
 table.HpanelKlist {
 	margin-top: 3%;
 	width: 23%;
-    margin-left: 4px;
+	margin-left: 4px;
 }
 
 div.KlistBezeichnung {
 	font-size: 17px;
 	margin-top: 47px;
-    text-align: right;
-    margin-right: 30px;
+	text-align: right;
+	margin-right: 30px;
 }
 
-input.klistBox{
+input.klistBox {
 	margin-top: 45px;
 	height: 25px;
 	font-size: 15px;
@@ -344,10 +351,10 @@ input.klistBox{
 	margin-left: 20px;
 }
 
-img.teilLogo{
-    width: 160px;
-    margin-left: 68px;
-    margin-top: 7px;
+img.teilLogo {
+	width: 160px;
+	margin-left: 68px;
+	margin-top: 7px;
 }
 
 table.HPanel {
@@ -417,8 +424,8 @@ table.PanelBottom {
 	margin-right: 35px;
 }
 
-.kontaktlisteTeilenIcon{
-	    margin-left: 63px;
+.kontaktlisteTeilenIcon {
+	margin-left: 63px;
 }
 
 .DropDown {
@@ -526,7 +533,6 @@ footer {
 	border-radius: 20px;
 	background: url(Image/HdM.png) no-repeat right, #000
 		repeating-linear-gradient(-45deg, Gainsboro, LimeGreen, SeaGreen);
-		
 }
 
 footer>* {
@@ -578,30 +584,29 @@ button.edit-Button {
 }
 
 .nutzerSuggestBox {
-	    margin-left: 24px;
-    margin-top: 7px;
-    margin-bottom: 10px;
+	margin-left: 24px;
+	margin-top: 7px;
+	margin-bottom: 10px;
 }
 
-
-.headlineKontaktliste{
+.headlineKontaktliste {
 	margin-left: -40px;
-    margin-top: 50px;
-    font-size: 30px;
+	margin-top: 50px;
+	font-size: 30px;
 }
 
-.klStatus{
+.klStatus {
 	width: 50px;
-    height: 40px;
-    margin-top: 44px;
-    margin-left: 139px;
+	height: 40px;
+	margin-top: 44px;
+	margin-left: 139px;
 }
 
-.scrollPanelTeilhaber{
-    border-style: groove;
-    background: white;
-    font-size: 15px;
-    min-height: 30px;
+.scrollPanelTeilhaber {
+	border-style: groove;
+	background: white;
+	font-size: 15px;
+	min-height: 30px;
 }
 
 .TeilhaberschaftText {
@@ -613,17 +618,20 @@ table.TableKontakte {
 	width: 800px;
 }
 
-.gwt-SuggestBoxPopup { 
-	 
-	  background: #000 repeating-linear-gradient(-45deg, SeaGreen, LimeGreen, Gainsboro);
-		width: 40%;
-    	height: auto;
+.gwt-SuggestBoxPopup {
+	background: #000
+		repeating-linear-gradient(-45deg, SeaGreen, LimeGreen, Gainsboro);
+	width: 22%;
+	height: 9%;
+	border-style: ridge;
 }
 
 .gwt-SuggestBoxPopup .item-selected {
-  background: #caeab4;
+	background: #caeab4;
 }
 
 .gwt-SuggestBoxPopup .suggestPopupTopLeft {
-	background: url(images/SuggestBoxBackground.PNG) no-repeat 0px -6px; !important
+	background: url(images/SuggestBoxBackground.PNG) no-repeat 0px -6px;
+	!
+	important
 }
