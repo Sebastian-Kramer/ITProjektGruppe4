@@ -3,7 +3,7 @@ package de.hdm.itprojektgruppe4.server.db;
 import java.sql.*;
 import java.util.Vector;
 
-import de.hdm.itprojektgruppe4.shared.bo.Kontakt;
+
 import de.hdm.itprojektgruppe4.shared.bo.Kontaktliste;
 
 /**

@@ -4,8 +4,7 @@ import java.sql.*;
 import java.text.SimpleDateFormat;
 import java.util.Vector;
 import de.hdm.itprojektgruppe4.shared.bo.*;
-import java.text.SimpleDateFormat;
-import java.util.Date;
+
 
 
 /**

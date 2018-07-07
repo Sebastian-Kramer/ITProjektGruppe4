@@ -7,7 +7,7 @@ import java.sql.Statement;
 import java.util.Vector;
 
 import de.hdm.itprojektgruppe4.shared.bo.Eigenschaft;
-import de.hdm.itprojektgruppe4.shared.bo.Kontakt;
+
 
 /**
  * Mapper Klassen, die <code>Eigenschaft</code>-Objekte auf einer relationalen
