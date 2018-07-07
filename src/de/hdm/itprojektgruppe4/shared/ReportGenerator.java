@@ -94,7 +94,7 @@ public interface ReportGenerator extends RemoteService {
 	 * @return
 	 * @throws IllegalArgumentException
 	 */
-	KontakteMitBestimmtenEigenschaftsAuspraegungen kontakteMitBestimmtenEigenschaftsAuspraegungen(int NutzerID,
+	public KontakteMitBestimmtenEigenschaftsAuspraegungen kontakteMitBestimmtenEigenschaftsAuspraegungen(int NutzerID,
 			String bez, String wert) throws IllegalArgumentException;
 	/**	 
 	 * Erstellen eines <code>KontakteMitBestimmtenAuspraegungen</code>-Reports.
@@ -127,6 +127,6 @@ public interface ReportGenerator extends RemoteService {
 	 * Gibt dem Nutzer alle Nutzer des System aus
 	 * @return
 	 */
-	Vector<Nutzer> allNutzerReport();
+	public Vector<Nutzer> allNutzerReport();
 
 }

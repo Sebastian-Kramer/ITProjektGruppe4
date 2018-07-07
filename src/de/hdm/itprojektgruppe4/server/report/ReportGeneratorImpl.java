@@ -34,7 +34,7 @@ public class ReportGeneratorImpl extends RemoteServiceServlet implements ReportG
 	private static final long serialVersionUID = 1L;
 
 	/**
-	 * Der Report ben�tigt den Zugriff auf die Administration
+	 * Der Report benötigt den Zugriff auf die Administration
 	 */
 	private KontaktAdministration verwaltung = null;
 
@@ -48,7 +48,7 @@ public class ReportGeneratorImpl extends RemoteServiceServlet implements ReportG
 
 	/**
 	 * Initialisierung des Objekts. Diese Methode ist vor dem Hintergrund von
-	 * GWT RPC zus�tzlich zum No Argument Constructor notwendig.
+	 * GWT RPC zusützlich zum No Argument Constructor notwendig.
 	 */
 	public void init() throws IllegalArgumentException {
 
@@ -93,7 +93,7 @@ public class ReportGeneratorImpl extends RemoteServiceServlet implements ReportG
 		Vector<EigenschaftAuspraegungWrapper> auspraegung = new Vector<EigenschaftAuspraegungWrapper>();
 
 		/*
-		 * Hinzuf�gen der Kopfzeile
+		 * Hinzufügen der Kopfzeile
 		 */
 		result.setTitle("Meine Kontakte und mir geteilte Kontakte");
 
@@ -117,7 +117,7 @@ public class ReportGeneratorImpl extends RemoteServiceServlet implements ReportG
 
 		result.addRow(headline);
 		/*
-		 * for each Schleife wird aufgerufen um die Daten f�r den Report
+		 * for each Schleife wird aufgerufen um die Daten für den Report
 		 * auszulesen
 		 */
 		for (Kontakt k : kontakt) {
@@ -126,7 +126,7 @@ public class ReportGeneratorImpl extends RemoteServiceServlet implements ReportG
 
 			Vector<Nutzer> n = new Vector<Nutzer>();
 			/*
-			 * for each Schleife wird aufgerufen um die Daten f�r den Report
+			 * for each Schleife wird aufgerufen um die Daten für den Report
 			 * auszulesen
 			 */
 			for (Teilhaberschaft th : t) {
@@ -149,7 +149,7 @@ public class ReportGeneratorImpl extends RemoteServiceServlet implements ReportG
 				kontaktRow.addColumn(new Column(n.toString().replace("[", "").replace("]", "").replace(",", "")));
 			}
 			/*
-			 * Emailadresser wird hinzugef�gt
+			 * Emailadresser wird hinzugefügt
 			 */
 			kontaktRow
 					.addColumn(new Column(String.valueOf(this.verwaltung.findNutzerByID(k.getNutzerID()).getEmail())));
@@ -166,7 +166,7 @@ public class ReportGeneratorImpl extends RemoteServiceServlet implements ReportG
 			result.addRow(kontaktRow);
 		}
 		/*
-		 * R�ckgabe des fertigen Report
+		 * Rückgabe des fertigen Report
 		 */
 		return result;
 
@@ -216,7 +216,7 @@ public class ReportGeneratorImpl extends RemoteServiceServlet implements ReportG
 		Row headline = new Row();
 
 		/*
-		 * �berschriften der jeweiligen Spalten in der Kopfzeile
+		 * Überschriften der jeweiligen Spalten in der Kopfzeile
 		 */
 		headline.addColumn(new Column("Kontakt"));
 		headline.addColumn(new Column("Status"));
@@ -226,13 +226,13 @@ public class ReportGeneratorImpl extends RemoteServiceServlet implements ReportG
 		headline.addColumn(new Column("Erzeugungsdatum"));
 		headline.addColumn(new Column("Modifikationsdatum"));
 		/*
-		 * Hinzuf�gen der Kopfzeile
+		 * Hinzufügen der Kopfzeile
 		 */
 		result.addRow(headline);
 
 		/*
-		 * Es werden s�mtliche Kontakte die dem Nutzer geteilt wurden ausgelsen
-		 * und anschlie�end in die Tabelle eingetragen
+		 * Es werden sämtliche Kontakte die dem Nutzer geteilt wurden ausgelsen
+		 * und anschließend in die Tabelle eingetragen
 		 */
 		for (Kontakt k : teilhaben) {
 
@@ -263,7 +263,7 @@ public class ReportGeneratorImpl extends RemoteServiceServlet implements ReportG
 		}
 
 		/*
-		 * Der fertige Report wird zur�ckgegeben
+		 * Der fertige Report wird zurückgegeben
 		 */
 		return result;
 
@@ -273,7 +273,7 @@ public class ReportGeneratorImpl extends RemoteServiceServlet implements ReportG
 	 * Dritter Report
 	 * 
 	 * Der Report Namens KontakteMitBestimmtenEigenschaftsAuspraegungen gibt dem
-	 * Nutzer Alle seine ihm Kontakte anhand der Eigenschaft & Auspr�gung in
+	 * Nutzer Alle seine ihm Kontakte anhand der Eigenschaft & Ausprägung in
 	 * Form eines Report aus
 	 * 
 	 * @param String
@@ -293,7 +293,7 @@ public class ReportGeneratorImpl extends RemoteServiceServlet implements ReportG
 
 		/*
 		 * Auslesen der Eigenen Kontakte anhand der NutzerID, bezeichnung der
-		 * Eigenschaft und dem Wert der Auspr�gung
+		 * Eigenschaft und dem Wert der Ausprägung
 		 */
 		Vector<Kontakt> kontakt = this.verwaltung.findKontakteByEigAus(NutzerID, bez, wert);
 				
@@ -316,7 +316,7 @@ public class ReportGeneratorImpl extends RemoteServiceServlet implements ReportG
 		Row headline = new Row();
 
 		/*
-		 * �berschriften der jeweiligen Spalten in der Kopfzeile
+		 * Überschriften der jeweiligen Spalten in der Kopfzeile
 		 */
 		headline.addColumn(new Column("Kontakt"));
 		headline.addColumn(new Column("Status"));
@@ -329,8 +329,8 @@ public class ReportGeneratorImpl extends RemoteServiceServlet implements ReportG
 		result.addRow(headline);
 
 		/*
-		 * Es werden s�mtliche Kontakte des Nutzer mit bestimmten Eigenschaften
-		 * & Auspr�gungen ausgelesen und anschlie�end in die Tabelle eingetragen
+		 * Es werden sämtliche Kontakte des Nutzer mit bestimmten Eigenschaften
+		 * & Ausprägungen ausgelesen und anschließend in die Tabelle eingetragen
 		 */
 		for (Kontakt t : kontakt) {
 
@@ -369,7 +369,7 @@ public class ReportGeneratorImpl extends RemoteServiceServlet implements ReportG
 		}
 
 		/*
-		 * Der fertige Report wird zur�ckgegeben
+		 * Der fertige Report wird zurückgegeben
 		 */
 		return result;
 
@@ -419,7 +419,7 @@ public class ReportGeneratorImpl extends RemoteServiceServlet implements ReportG
 		Row headline = new Row();
 
 		/*
-		 * �berschriften der jeweiligen Spalten in der Kopfzeile
+		 * Überschriften der jeweiligen Spalten in der Kopfzeile
 		 */
 
 		headline.addColumn(new Column("Kontakt"));
@@ -432,8 +432,8 @@ public class ReportGeneratorImpl extends RemoteServiceServlet implements ReportG
 		result.addRow(headline);
 
 		/*
-		 * Es werden s�mtliche Kontakte des Nutzer mit bestimmten Eigenschaften
-		 * & Auspr�gungen ausgelesen und anschlie�end in die Tabelle eingetragen
+		 * Es werden sämtliche Kontakte des Nutzer mit bestimmten Eigenschaften
+		 * & Ausprägungen ausgelesen und anschließend in die Tabelle eingetragen
 		 */
 		for (Kontakt t : kontakt) {
 
@@ -465,7 +465,7 @@ public class ReportGeneratorImpl extends RemoteServiceServlet implements ReportG
 
 					kontaktRow.addColumn(new Column(String.valueOf(t.getModifikationsdatum())));
 
-					// Hinzuf�gen der Kopfzeile
+					// Hinzufügen der Kopfzeile
 					result.addRow(kontaktRow);
 				}
 			}
@@ -473,16 +473,16 @@ public class ReportGeneratorImpl extends RemoteServiceServlet implements ReportG
 		}
 
 		/*
-		 * Der fertige Report wird zur�ckgegeben
+		 * Der fertige Report wird zurückgegeben
 		 */
 		return result;
 	}
 
 	/**
-	 * F�nfter Report
+	 * Fünfter Report
 	 * 
-	 * Der Report Namens KontakteMitBestimmtenAuspr�gungen gibt dem Nutzer Alle
-	 * seine ihm Kontakte anhand der Auspr�gung in Form eines Report aus
+	 * Der Report Namens KontakteMitBestimmtenAusprägungen gibt dem Nutzer Alle
+	 * seine ihm Kontakte anhand der Ausprägung in Form eines Report aus
 	 * 
 	 * @param NutzerID,
 	 *            wert
@@ -499,7 +499,7 @@ public class ReportGeneratorImpl extends RemoteServiceServlet implements ReportG
 		KontakteMitBestimmtenAuspraegungen result = new KontakteMitBestimmtenAuspraegungen();
 
 		/*
-		 * Auslesen aller eigenen Kontakte anhand der Auspr�gung
+		 * Auslesen aller eigenen Kontakte anhand der Ausprügung
 		 */
 		Vector<Kontakt> kontakt = this.verwaltung.findKontakteByAus(NutzerID, wert);
 
@@ -520,7 +520,7 @@ public class ReportGeneratorImpl extends RemoteServiceServlet implements ReportG
 		Row headline = new Row();
 
 		/*
-		 * �berschriften der jeweiligen Spalten in der Kopfzeile
+		 * Überschriften der jeweiligen Spalten in der Kopfzeile
 		 */
 
 		headline.addColumn(new Column("Kontakt"));
@@ -533,8 +533,8 @@ public class ReportGeneratorImpl extends RemoteServiceServlet implements ReportG
 		result.addRow(headline);
 
 		/*
-		 * Es werden s�mtliche Kontakte des Nutzer mit bestimmten Auspr�gungen
-		 * ausgelesen und anschlie�end in die Tabelle eingetragen
+		 * Es werden sämtliche Kontakte des Nutzer mit bestimmten Ausprägungen
+		 * ausgelesen und anschließend in die Tabelle eingetragen
 		 */
 		for (Kontakt t : kontakt) {
 
@@ -572,7 +572,7 @@ public class ReportGeneratorImpl extends RemoteServiceServlet implements ReportG
 		}
 
 		/*
-		 * Der fertige Report wird zur�ckgegeben
+		 * Der fertige Report wird zurückgegeben
 		 */
 		return result;
 
@@ -644,7 +644,6 @@ public class ReportGeneratorImpl extends RemoteServiceServlet implements ReportG
 		for (Kontakt kontakt : vectorGeteilt) {
 			alleEigenenAus = this.verwaltung.findSharedAuspraegung(kontakt.getID(), nutzerID);
 			for (EigenschaftAuspraegungWrapper ea : alleEigenenAus) {
-				// alleKonVonNutzer.add(this.verwaltung.findKontaktByAuspraegungID(ea.getAuspraegungID()));
 				Eigenschaftauspraegung e = this.verwaltung.getAuspraegungByID(ea.getAuspraegungID());
 				eaAllShared.add(e);
 			}
@@ -669,7 +668,7 @@ public class ReportGeneratorImpl extends RemoteServiceServlet implements ReportG
 
 	public Vector<Kontakt> findAlleEigenenKontakte(String wert, int nutzerID) throws IllegalArgumentException{
 		Vector<Eigenschaftauspraegung> alleEigenenAuspraegungen = this.findAllAuspraegungen(nutzerID);
-		Vector<Eigenschaftauspraegung> alleEigAus = new Vector<Eigenschaftauspraegung>();
+
 		Vector<Kontakt> alleKontakte = new Vector<Kontakt>();
 		for (Eigenschaftauspraegung eigenschaftauspraegung : alleEigenenAuspraegungen) {
 			alleKontakte.add(this.verwaltung.findKontaktByAuspraegungID(eigenschaftauspraegung.getID()));
