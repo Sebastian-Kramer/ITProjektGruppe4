@@ -11,54 +11,51 @@ import java.io.Serializable;
  * Code in Anlehnung an bankProjekt von Prof. Thies
  */
 
+public class SimpleParagraph extends Paragraph implements Serializable {
 
-	public class SimpleParagraph extends Paragraph implements Serializable {
-		
-		
-		private static final long serialVersionUID = 1L;
-		
-		
-		 private String text = "";
-		
-		
-		 
-		 public SimpleParagraph() {
-		  }
-		 
-		 /**
-		  * 
-		  * @param value Inhalt des Absatzes
-		  */
-		 
-		 public SimpleParagraph(String value) {
-			    this.text = value;
-			  }
-		 
-		 /**
-		  * 
-		  * @return inhalt als String
-		  */
-		 
-		 public String getText() {
-			    return this.text;
-			  }
-		 
-		 /**
-		  * Überschreibt den Inhalt
-		  * @param text der neue Inhalt
-		  */
-		 
-		 public void setText(String text) {
-			    this.text = text;
-			  }
-		 
-		 /**
-		  * wandelt das Objekt SimpleParagraph in einen String um
-		  */
-		 
-		 public String toString() {
-			    return this.text;
-			  }
+	private static final long serialVersionUID = 1L;
 
+	private String text = "";
+
+	public SimpleParagraph() {
 	}
 
+	/**
+	 * 
+	 * @param value
+	 *            Inhalt des Absatzes
+	 */
+
+	public SimpleParagraph(String value) {
+		this.text = value;
+	}
+
+	/**
+	 * 
+	 * @return inhalt als String
+	 */
+
+	public String getText() {
+		return this.text;
+	}
+
+	/**
+	 * Überschreibt den Inhalt
+	 * 
+	 * @param text
+	 *            der neue Inhalt
+	 */
+
+	public void setText(String text) {
+		this.text = text;
+	}
+
+	/**
+	 * wandelt das Objekt SimpleParagraph in einen String um
+	 */
+
+	public String toString() {
+		return this.text;
+	}
+
+}

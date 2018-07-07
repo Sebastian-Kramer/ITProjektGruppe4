@@ -61,12 +61,12 @@ public class ITProjektSS18 implements EntryPoint {
 
 			@Override
 			public void onClick(ClickEvent event) {
-				sureLogOut= Window.confirm("Möchten Sie sich wirklich ausloggen?");
+				sureLogOut = Window.confirm("Möchten Sie sich wirklich ausloggen?");
 				if (sureLogOut == true) {
 					signOutLink.setHref(loginInfo.getLogoutUrl());
-					
+
 				}
-				
+
 			}
 		});
 
@@ -119,7 +119,7 @@ public class ITProjektSS18 implements EntryPoint {
 		Nutzer nutzer = null;
 		verwaltung.findNutzerByEmail(result.getEmailAddress(), new AsyncCallback<Nutzer>() {
 
-			@Override	
+			@Override
 			public void onFailure(Throwable caught) {
 
 			}
@@ -132,7 +132,6 @@ public class ITProjektSS18 implements EntryPoint {
 					loggedNutzer = new Anchor(result.getEmail());
 					Cookies.setCookie("email", result.getEmail());
 					Cookies.setCookie("id", result.getID() + "");
-//					Cookies.setCookie("signout", loginInfo.getLogoutUrl());
 					loadStartseite();
 
 				} else {
@@ -182,7 +181,6 @@ public class ITProjektSS18 implements EntryPoint {
 	private void loadStartseite() {
 		MainForm mainForm = new MainForm();
 		NavigationTree navigationTree = new NavigationTree();
-		//signOutLink.setHref(loginInfo.getLogoutUrl());
 		RootPanel.get("Header").add(eingeloggt);
 		RootPanel.get("Header").add(loggedNutzer);
 		RootPanel.get("Header").add(deleteNutzer);
@@ -211,7 +209,7 @@ public class ITProjektSS18 implements EntryPoint {
 
 		@Override
 		public void onFailure(Throwable caught) {
-
+			Window.alert("Es ist ein Fehler aufgetreten: " + caught.getMessage());
 		}
 
 		@Override
@@ -264,7 +262,6 @@ public class ITProjektSS18 implements EntryPoint {
 
 		@Override
 		public void onClick(ClickEvent event) {
-			// TODO Auto-generated method stub
 
 			sureDelete = Window.confirm("Möchten Sie Ihr Nutzerprofil vollständig löschen?");
 			if (sureDelete == true) {
@@ -282,16 +279,13 @@ public class ITProjektSS18 implements EntryPoint {
 
 		@Override
 		public void onFailure(Throwable caught) {
-			// TODO Auto-generated method stub
-			Window.alert("Beim Löschen Ihrers Profils ist etwas schief gegangen" + caught);
+			Window.alert("Es ist ein Fehler aufgetreten: " + caught.getMessage());
 		}
 
 		@Override
 		public void onSuccess(Void result) {
 
-//			Anchor signOutLink = new Anchor();
 			Window.alert("Nutzer wurde gelöscht");
-//			signOutLink.setHref(Cookies.getCookie("signout"));
 			Window.open(loginInfo.getLogoutUrl(), "_self", "");
 		}
 
@@ -307,7 +301,7 @@ public class ITProjektSS18 implements EntryPoint {
 
 		@Override
 		public void onFailure(Throwable caught) {
-
+			Window.alert("Es ist ein Fehler aufgetreten: " + caught.getMessage());
 		}
 
 		@Override
