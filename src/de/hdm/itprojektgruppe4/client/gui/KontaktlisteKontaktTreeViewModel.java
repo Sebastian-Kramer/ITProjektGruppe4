@@ -5,6 +5,7 @@ import java.util.Map;
 import java.util.Vector;
 
 import com.google.gwt.user.client.Cookies;
+import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwt.view.client.ListDataProvider;
@@ -126,7 +127,7 @@ public class KontaktlisteKontaktTreeViewModel implements TreeViewModel {
 
 		@Override
 		public void onFailure(Throwable caught) {
-
+			Window.alert("Es ist ein Fehler aufgetreten: " + caught.getMessage());
 		}
 
 		@Override
@@ -219,7 +220,7 @@ public class KontaktlisteKontaktTreeViewModel implements TreeViewModel {
 
 						@Override
 						public void onFailure(Throwable caught) {
-
+							Window.alert("Es ist ein Fehler aufgetreten: " + caught.getMessage());
 						}
 
 						@Override
@@ -245,7 +246,7 @@ public class KontaktlisteKontaktTreeViewModel implements TreeViewModel {
 
 				@Override
 				public void onFailure(Throwable caught) {
-
+					Window.alert("Es ist ein Fehler aufgetreten: " + caught.getMessage());
 				}
 
 				@Override

@@ -247,7 +247,7 @@ public class NewKontaktForm extends VerticalPanel {
 
 		@Override
 		public void onFailure(Throwable caught) {
-
+			Window.alert("Es ist ein Fehler aufgetreten: " + caught.getMessage());
 		}
 
 		@Override
@@ -394,7 +394,7 @@ public class NewKontaktForm extends VerticalPanel {
 
 		@Override
 		public void onFailure(Throwable caught) {
-			Window.alert("Kontakt wurde nicht erstellt");
+			Window.alert("Es ist ein Fehler aufgetreten: " + caught.getMessage());
 		}
 
 		@Override
@@ -420,7 +420,7 @@ public class NewKontaktForm extends VerticalPanel {
 
 		@Override
 		public void onFailure(Throwable caught) {
-			Window.alert("die leeren ausprägungen wurden NICHT erstellt ");
+			Window.alert("Es ist ein Fehler aufgetreten: " + caught.getMessage());
 		}
 
 		@Override
@@ -453,7 +453,7 @@ public class NewKontaktForm extends VerticalPanel {
 
 		@Override
 		public void onFailure(Throwable caught) {
-			Window.alert(" Hat nicht funktioniert ");
+			Window.alert("Es ist ein Fehler aufgetreten: " + caught.getMessage());
 		}
 
 		@Override
@@ -478,7 +478,7 @@ public class NewKontaktForm extends VerticalPanel {
 
 		@Override
 		public void onFailure(Throwable caught) {
-
+			Window.alert("Es ist ein Fehler aufgetreten: " + caught.getMessage());
 		}
 
 		@Override
@@ -505,7 +505,7 @@ public class NewKontaktForm extends VerticalPanel {
 
 		@Override
 		public void onFailure(Throwable caught) {
-			Window.alert("Die Neue Eigenschaft wurde nicht hinzugefügt");
+			Window.alert("Es ist ein Fehler aufgetreten: " + caught.getMessage());
 		}
 
 		@Override
@@ -539,7 +539,7 @@ public class NewKontaktForm extends VerticalPanel {
 
 		@Override
 		public void onFailure(Throwable caught) {
-			Window.alert("Die Neue Ausprägung wurde  nicht hinzugefügt");
+			Window.alert("Es ist ein Fehler aufgetreten: " + caught.getMessage());
 		}
 
 		@Override
@@ -563,7 +563,7 @@ public class NewKontaktForm extends VerticalPanel {
 
 		@Override
 		public void onFailure(Throwable caught) {
-
+			Window.alert("Es ist ein Fehler aufgetreten: " + caught.getMessage());
 		}
 
 		@Override
@@ -587,7 +587,7 @@ public class NewKontaktForm extends VerticalPanel {
 
 		@Override
 		public void onFailure(Throwable caught) {
-
+			Window.alert("Es ist ein Fehler aufgetreten: " + caught.getMessage());
 		}
 
 		@Override
@@ -621,8 +621,7 @@ public class NewKontaktForm extends VerticalPanel {
 
 		@Override
 		public void onFailure(Throwable caught) {
-
-			Window.alert("Die Ausprägung konnte nicht gelöscht werden");
+			Window.alert("Es ist ein Fehler aufgetreten: " + caught.getMessage());
 		}
 
 		@Override

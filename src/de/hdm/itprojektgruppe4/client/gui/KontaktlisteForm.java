@@ -238,7 +238,8 @@ public class KontaktlisteForm extends VerticalPanel {
 
 		txt_kontaktliste.setText(kl.getBez());
 	}
-
+	
+	
 	private class PopUpInfo extends PopupPanel {
 
 		public PopUpInfo() {
@@ -279,18 +280,11 @@ public class KontaktlisteForm extends VerticalPanel {
 				Window.alert("Sie muessen einen Kontakt auswählen");
 
 			} else {
-				//if (kl.getNutzerID() == nutzer.getID()) {
 					if (selectionModel.getSelectedObject().getNutzerID() == nutzer.getID()) {
 						KontaktForm kf = new KontaktForm(selectionModel.getSelectedObject());
 						RootPanel.get("Details").clear();
 						RootPanel.get("Details").add(kf);
-					}/** else {
-						KontaktForm kf = new KontaktForm(selectionModel.getSelectedObject(), "Teilhaberschaft");
-						RootPanel.get("Details").clear();
-						RootPanel.get("Details").add(kf);
-					}
-
-				}*/ else {
+					}else {
 					kontaktVerwaltung.findTeilhaberschaftByKontaktIDAndTeilhaberID(
 							selectionModel.getSelectedObject().getID(), nutzer.getID(),
 							new TeilhaberschaftKontaktCallback());
@@ -312,7 +306,7 @@ public class KontaktlisteForm extends VerticalPanel {
 
 		@Override
 		public void onFailure(Throwable caught) {
-
+			Window.alert("Es ist ein Fehler aufgetreten: " + caught.getMessage());
 		}
 
 		@Override
@@ -486,7 +480,7 @@ public class KontaktlisteForm extends VerticalPanel {
 
 		@Override
 		public void onFailure(Throwable caught) {
-
+			Window.alert("Es ist ein Fehler aufgetreten: " + caught.getMessage());
 		}
 
 		@Override
@@ -540,7 +534,7 @@ public class KontaktlisteForm extends VerticalPanel {
 
 		@Override
 		public void onFailure(Throwable caught) {
-			//
+			Window.alert("Es ist ein Fehler aufgetreten: " + caught.getMessage());
 
 		}
 
@@ -562,8 +556,7 @@ public class KontaktlisteForm extends VerticalPanel {
 
 		@Override
 		public void onFailure(Throwable caught) {
-
-			Window.alert("Die Kontaktliste konnte nicht gelöscht werden");
+			Window.alert("Es ist ein Fehler aufgetreten: " + caught.getMessage());
 		}
 
 		@Override
@@ -593,7 +586,7 @@ public class KontaktlisteForm extends VerticalPanel {
 
 		@Override
 		public void onFailure(Throwable caught) {
-
+			Window.alert("Es ist ein Fehler aufgetreten: " + caught.getMessage());
 		}
 
 		@Override
@@ -610,7 +603,7 @@ public class KontaktlisteForm extends VerticalPanel {
 
 		@Override
 		public void onFailure(Throwable caught) {
-
+			Window.alert("Es ist ein Fehler aufgetreten: " + caught.getMessage());
 		}
 
 		@Override

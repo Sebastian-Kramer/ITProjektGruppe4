@@ -291,8 +291,7 @@ public class TeilhaberschaftForm extends VerticalPanel {
 
 		@Override
 		public void onFailure(Throwable caught) {
-			Window.alert("Die Teilhaberschaften an diesem Kontakt konnten nicht gelöscht werden!");
-
+			Window.alert("Es ist ein Fehler aufgetreten: " + caught.getMessage());
 		}
 
 		@Override
@@ -319,7 +318,7 @@ public class TeilhaberschaftForm extends VerticalPanel {
 
 		@Override
 		public void onFailure(Throwable caught) {
-			Window.alert("Die Nutzer konnten leider nicht geladen werden");
+			Window.alert("Es ist ein Fehler aufgetreten: " + caught.getMessage());
 
 		}
 
@@ -437,7 +436,7 @@ public class TeilhaberschaftForm extends VerticalPanel {
 
 		@Override
 		public void onFailure(Throwable caught) {
-			Window.alert("Die Teilhaberschaft konnte nicht angelegt werden");
+			Window.alert("Es ist ein Fehler aufgetreten: " + caught.getMessage());
 
 		}
 
