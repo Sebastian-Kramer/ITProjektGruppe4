@@ -120,7 +120,7 @@ public class DialogBoxNewKontaktliste extends DialogBox {
 
 		@Override
 		public void onFailure(Throwable caught) {
-			Window.alert("Die Kontaktliste konnte leider nicht angelegt werden");
+			Window.alert("Es ist ein Fehler aufgetreten: " + caught.getMessage());
 
 		}
 

@@ -35,9 +35,11 @@ import de.hdm.itprojektgruppe4.shared.bo.Nutzer;
 
 /**
  * * Die Klasse <code>KontaktFrom</code> dient zur Darstellung des selektierten
- * Kontaktes
+ * Kontaktes. In der Buttonbar werden die Buttons Kontakt bearbeiten, Kontakt löschen, 
+ * Teilhaberschaft verwalten und Kontakt einer Liste hinzufügen aufgeführt. Mit diesen Buttons
+ * werden die entsprechenden Aktion ausgeführt.
  * 
- * @author Sebi_0107
+ * @author Sebastian Kramer
  *
  */
 public class KontaktForm extends VerticalPanel {
@@ -397,7 +399,7 @@ public class KontaktForm extends VerticalPanel {
 
 		@Override
 		public void onFailure(Throwable caught) {
-
+			Window.alert("Es ist ein Fehler aufgetreten: " + caught.getMessage());
 		}
 
 		@Override
@@ -426,7 +428,7 @@ public class KontaktForm extends VerticalPanel {
 
 		@Override
 		public void onFailure(Throwable caught) {
-
+			Window.alert("Es ist ein Fehler aufgetreten: " + caught.getMessage());
 		}
 
 		@Override
@@ -456,7 +458,7 @@ public class KontaktForm extends VerticalPanel {
 
 		@Override
 		public void onFailure(Throwable caught) {
-
+			Window.alert("Es ist ein Fehler aufgetreten: " + caught.getMessage());
 		}
 
 		@Override

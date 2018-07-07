@@ -16,6 +16,7 @@ import com.google.gwt.event.shared.HandlerRegistration;
 import com.google.gwt.user.cellview.client.CellTable;
 import com.google.gwt.user.cellview.client.Column;
 import com.google.gwt.user.client.Cookies;
+import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.view.client.ListDataProvider;
 import com.google.gwt.view.client.MultiSelectionModel;
@@ -464,7 +465,7 @@ public class CellTableForm extends CellTable<EigenschaftAuspraegungWrapper> {
 
 		@Override
 		public void onFailure(Throwable caught) {
-
+			Window.alert("Es ist ein Fehler aufgetreten: " + caught.getMessage());
 		}
 
 		@Override
@@ -486,7 +487,7 @@ public class CellTableForm extends CellTable<EigenschaftAuspraegungWrapper> {
 
 		@Override
 		public void onFailure(Throwable caught) {
-
+			Window.alert("Es ist ein Fehler aufgetreten: " + caught.getMessage());
 		}
 
 		@Override

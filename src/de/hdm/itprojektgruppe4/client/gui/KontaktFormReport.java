@@ -16,7 +16,7 @@ import de.hdm.itprojektgruppe4.shared.report.AllEigeneKontakteReport;
 import de.hdm.itprojektgruppe4.shared.report.HTMLReportWriter;
 
 /**
-
+ * 
  * Klasse für den Report welche die Eigenen Kontakte in Form eines Reports
  * ausgibt
  * 
@@ -52,43 +52,39 @@ public class KontaktFormReport extends VerticalPanel {
 		 * 
 		 */
 		reportverwaltung.AllEigeneKontakteReport(nutzer.getID(), new AllEigeneKontakteReportCallback());
-				
-				
 
 	}
 
 	/**
-	 * Aufruf des Callback, welche die Eigenen Kontakte
-	 * in Form eines Reports ausgibt
+	 * Aufruf des Callback, welche die Eigenen Kontakte in Form eines Reports
+	 * ausgibt
+	 * 
 	 * @author Georg
 	 *
 	 */
 	class AllEigeneKontakteReportCallback implements AsyncCallback<AllEigeneKontakteReport> {
 
-
 		@Override
 		public void onFailure(Throwable caught) {
-			// TODO Auto-generated method stub
+			Window.alert("Es ist ein Fehler aufgetreten: " + caught.getMessage());
 			RootPanel.get("Details").clear();
-			Window.alert("Fehler");
 		}
-
 
 		@Override
 		public void onSuccess(AllEigeneKontakteReport result) {
-			// TODO Auto-generated method stub
+
 			if (result != null) {
-				if (result.getRows().size() == 1 ) {
+				if (result.getRows().size() == 1) {
 					Window.alert("Kein Report für diese Abfrage vorhanden.");
-				}else{
-				HTMLReportWriter writer = new HTMLReportWriter();
-				writer.process(result);
-				RootPanel.get("Details").clear();
-				RootPanel.get("Details").add(new HTML(writer.getReportText()));
-			}}
+				} else {
+					HTMLReportWriter writer = new HTMLReportWriter();
+					writer.process(result);
+					RootPanel.get("Details").clear();
+					RootPanel.get("Details").add(new HTML(writer.getReportText()));
+				}
+			}
 
 		}
-		}
-		
 	}
 
+}

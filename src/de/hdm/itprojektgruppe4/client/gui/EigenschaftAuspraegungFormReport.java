@@ -92,7 +92,6 @@ public class EigenschaftAuspraegungFormReport extends VerticalPanel {
 
 	class sendButtonClick implements ClickHandler {
 		boolean abfrage = false;
-		// sendButton.addClickHandler(new ClickHandler() {
 
 		/*
 		 * If abfrage ob die auspr�gungsbox werte beinhaltet sollte dies der
@@ -139,6 +138,7 @@ public class EigenschaftAuspraegungFormReport extends VerticalPanel {
 
 								@Override
 								public void onFailure(Throwable caught) {
+									Window.alert("Es ist ein Fehler aufgetreten: " + caught.getMessage());
 									RootPanel.get("Details").clear();
 								}
 
@@ -162,6 +162,7 @@ public class EigenschaftAuspraegungFormReport extends VerticalPanel {
 
 							@Override
 							public void onFailure(Throwable caught) {
+								Window.alert("Es ist ein Fehler aufgetreten: " + caught.getMessage());
 								RootPanel.get("Details").clear();
 							}
 
@@ -201,6 +202,7 @@ public class EigenschaftAuspraegungFormReport extends VerticalPanel {
 							new AsyncCallback<KontakteMitBestimmtenEigenschaftsAuspraegungen>() {
 								@Override
 								public void onFailure(Throwable caught) {
+									Window.alert("Es ist ein Fehler aufgetreten: " + caught.getMessage());
 									RootPanel.get("Details").clear();
 								}
 
@@ -245,13 +247,12 @@ public class EigenschaftAuspraegungFormReport extends VerticalPanel {
 
 		@Override
 		public void onFailure(Throwable caught) {
-	
-
+			Window.alert("Es ist ein Fehler aufgetreten: " + caught.getMessage());
 		}
 
 		@Override
 		public void onSuccess(Vector<Eigenschaft> result) {
-			
+
 			for (Eigenschaft eigenschaft : result) {
 				eigenschaftOracle.add(eigenschaft.getBezeichnung());
 			}
@@ -272,13 +273,12 @@ public class EigenschaftAuspraegungFormReport extends VerticalPanel {
 
 		@Override
 		public void onFailure(Throwable caught) {
-		
-
+			Window.alert("Es ist ein Fehler aufgetreten: " + caught.getMessage());
 		}
 
 		@Override
 		public void onSuccess(Vector<Eigenschaftauspraegung> result) {
-			
+
 			vecAlleAuspr = result;
 			for (Eigenschaftauspraegung eigenschaftauspraegung : result) {
 				auspraegungOracle.add(eigenschaftauspraegung.getWert());

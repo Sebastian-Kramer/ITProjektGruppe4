@@ -168,7 +168,7 @@ public class DialogBoxTeilhaberschaftVerwalten extends DialogBox {
 
 		@Override
 		public void onFailure(Throwable caught) {
-			Window.alert("Die Teilhaber der gewählten Ausprägung konnten nicht geladen werden");
+			Window.alert("Es ist ein Fehler aufgetreten: " + caught.getMessage());
 
 		}
 
@@ -245,7 +245,7 @@ public class DialogBoxTeilhaberschaftVerwalten extends DialogBox {
 
 		@Override
 		public void onFailure(Throwable caught) {
-			Window.alert("Die Teilhaberschaft konnte nicht gelöscht werden");
+			Window.alert("Es ist ein Fehler aufgetreten: " + caught.getMessage());
 
 		}
 
@@ -260,7 +260,7 @@ public class DialogBoxTeilhaberschaftVerwalten extends DialogBox {
 
 		@Override
 		public void onFailure(Throwable caught) {
-
+			Window.alert("Es ist ein Fehler aufgetreten: " + caught.getMessage());
 		}
 
 		@Override
@@ -300,7 +300,7 @@ public class DialogBoxTeilhaberschaftVerwalten extends DialogBox {
 
 		@Override
 		public void onFailure(Throwable caught) {
-			Window.alert("Die Teilhaberschaft konnte nicht gelöscht werden");
+			Window.alert("Es ist ein Fehler aufgetreten: " + caught.getMessage());
 
 		}
 
@@ -332,7 +332,7 @@ public class DialogBoxTeilhaberschaftVerwalten extends DialogBox {
 
 		@Override
 		public void onFailure(Throwable caught) {
-
+			Window.alert("Es ist ein Fehler aufgetreten: " + caught.getMessage());
 		}
 
 		@Override
@@ -365,7 +365,7 @@ public class DialogBoxTeilhaberschaftVerwalten extends DialogBox {
 
 		@Override
 		public void onFailure(Throwable caught) {
-
+			Window.alert("Es ist ein Fehler aufgetreten: " + caught.getMessage());
 		}
 
 		@Override
