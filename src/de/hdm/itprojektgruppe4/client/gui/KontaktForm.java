@@ -72,13 +72,12 @@ public class KontaktForm extends VerticalPanel {
 	private ClickableTextCell wertauspraegung = new ClickableTextCell();
 	private CellTableForm.ColumnEigenschaft bezEigenschaft = ctf.new ColumnEigenschaft(bezeigenschaft);
 	private CellTableForm.ColumnAuspraegung wertAuspraegung = ctf.new ColumnAuspraegung(wertauspraegung);
+	
 	private Image sharedPic = new Image("Image/contactShared.png");
 	private Image loeschenPic = new Image("Image/Loeschen.png");
 	private Image bearbeitenPic = new Image("Image/Bearbeiten.png");
-
 	private Image konZuListPic = new Image("Image/KontaktZuListe.png");
 	private Image zurueckZuHome = new Image("Image/Startseite.png");
-
 	private Image teilVerwaltenPic = new Image("Image/Teilen.png");
 
 	/**
@@ -131,6 +130,7 @@ public class KontaktForm extends VerticalPanel {
 		kontaktTeilen.setVisible(false);
 		kontaktListehinzufuegen.setVisible(false);
 		sharedPic.setVisible(false);
+		
 	}
 
 	/**
@@ -154,6 +154,7 @@ public class KontaktForm extends VerticalPanel {
 		konZuListPic.setStyleName("ButtonICON");
 		zurueckZuHome.setStyleName("ButtonICON");
 		teilVerwaltenPic.setStyleName("ButtonICON");
+		vpanelPopUp.setStyleName("popupPanel");
 
 		HTML html1 = new HTML("<h2>" + k.getName() + "</h2>");
 		html1.setStyleName("KontaktUeberschrift");
